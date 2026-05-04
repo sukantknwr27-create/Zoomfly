@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"/>
+  <link rel="shortcut icon" href="/assets/favicon.svg"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Partner With Us — ZoomFly</title>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--primary:#0057FF;--primary-dark:#0041CC;--primary-light:#EEF3FF;--accent:#FF6B35;--text:#111827;--muted:#6B7280;--light:#9CA3AF;--bg:#fff;--bg2:#F9FAFB;--border:#E5E7EB;--success:#059669;--success-bg:#ECFDF5;--error:#DC2626;--shadow:0 4px 16px rgba(0,0,0,.08);--shadow-lg:0 12px 36px rgba(0,0,0,.12);--r:14px;--r2:8px;--font:'Segoe UI',system-ui,sans-serif}
+    body{font-family:var(--font);color:var(--text);background:var(--bg)}
+    a{text-decoration:none;color:inherit}
+    nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px}
+    .logo{font-size:1.5rem;font-weight:800;color:var(--primary)}.logo span{color:var(--accent)}
+    .nav-links{display:flex;gap:2rem;align-items:center}
+    .nav-links a{font-size:.875rem;color:var(--muted);font-weight:500}
+    .nav-links a:hover{color:var(--primary)}
+    .nav-cta{background:var(--primary);color:white!important;padding:.5rem 1.25rem;border-radius:50px;font-weight:600}
+    .hero{background:linear-gradient(145deg,#0f172a,#1e3a5f);color:white;padding:5rem 2rem;text-align:center;position:relative;overflow:hidden}
+    .hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:50px;padding:.35rem 1rem;font-size:.8rem;font-weight:600;margin-bottom:1.5rem}
+    .hero h1{font-size:3rem;font-weight:900;line-height:1.15;letter-spacing:-1.5px;margin-bottom:1rem}.hero h1 em{font-style:normal;color:#60a5fa}
+    .hero p{font-size:1.1rem;opacity:.8;max-width:560px;margin:0 auto 2.5rem;line-height:1.7}
+    .hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+    .btn-hp{padding:.85rem 2rem;background:var(--accent);color:white;border-radius:50px;font-weight:700;font-size:1rem;transition:all .2s}
+    .btn-hp:hover{background:#e55a25;transform:translateY(-2px);color:white}
+    .btn-hs{padding:.85rem 2rem;background:rgba(255,255,255,.12);color:white;border:1px solid rgba(255,255,255,.25);border-radius:50px;font-weight:600;font-size:1rem}
+    .btn-hs:hover{background:rgba(255,255,255,.2);color:white}
+    .hero-stats{display:flex;justify-content:center;gap:3rem;margin-top:3.5rem;padding-top:2.5rem;border-top:1px solid rgba(255,255,255,.12);flex-wrap:wrap}
+    .hs strong{display:block;font-size:1.75rem;font-weight:800}.hs span{font-size:.8rem;opacity:.65}
+    .section{max-width:1100px;margin:0 auto;padding:4rem 2rem;text-align:center}
+    .slbl{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--primary);margin-bottom:.75rem}
+    .stitle{font-size:2rem;font-weight:800;letter-spacing:-.5px;margin-bottom:.75rem}.stitle em{font-style:normal;color:var(--primary)}
+    .ssub{font-size:1rem;color:var(--muted);max-width:520px;margin:0 auto 3rem}
+    .partner-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem}
+    .pc{background:var(--bg2);border:1.5px solid var(--border);border-radius:var(--r);padding:1.75rem 1.25rem;text-align:center;transition:all .2s}
+    .pc:hover{border-color:var(--primary);background:var(--primary-light);box-shadow:var(--shadow)}
+    .pc .icon{font-size:2.5rem;margin-bottom:.75rem}
+    .pc h3{font-size:1rem;font-weight:700;margin-bottom:.4rem}
+    .pc p{font-size:.78rem;color:var(--muted);line-height:1.5}
+    .pc .comm{margin-top:.75rem;font-size:.78rem;font-weight:700;color:var(--primary);background:var(--primary-light);padding:.25rem .65rem;border-radius:50px;display:inline-block}
+    .how-section{background:var(--bg2);padding:4rem 2rem}
+    .steps-wrap{max-width:1100px;margin:0 auto}
+    .steps-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-top:3rem;position:relative}
+    .steps-row::before{content:'';position:absolute;top:2rem;left:calc(12.5% + 1rem);right:calc(12.5% + 1rem);height:2px;background:linear-gradient(90deg,var(--primary),var(--accent));z-index:0}
+    .step{text-align:center;position:relative;z-index:1}
+    .snum{width:48px;height:48px;border-radius:50%;background:white;border:2px solid var(--primary);display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:800;color:var(--primary);margin:0 auto 1rem;box-shadow:0 0 0 6px white}
+    .step h4{font-size:.95rem;font-weight:700;margin-bottom:.4rem}
+    .step p{font-size:.8rem;color:var(--muted);line-height:1.5}
+    .comm-section{max-width:900px;margin:0 auto;padding:4rem 2rem}
+    .comm-table{width:100%;border-collapse:collapse;background:white;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.07)}
+    .comm-table th{background:#0f172a;color:white;padding:.85rem 1.25rem;text-align:left;font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+    .comm-table td{padding:.85rem 1.25rem;border-bottom:1px solid var(--border);font-size:.875rem}
+    .comm-table tr:last-child td{border-bottom:none}
+    .comm-table tr:nth-child(even) td{background:var(--bg2)}
+    .pb{display:inline-block;padding:.2rem .6rem;border-radius:50px;font-size:.72rem;font-weight:700;background:var(--success-bg);color:var(--success)}
+    .benefits-section{background:var(--bg2);padding:4rem 2rem}
+    .bg-wrap{max-width:1100px;margin:0 auto}
+    .bg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem}
+    .bc-card{background:white;border:1px solid var(--border);border-radius:var(--r);padding:1.5rem;box-shadow:0 1px 3px rgba(0,0,0,.07)}
+    .bc-card .bi{font-size:1.75rem;margin-bottom:.75rem}
+    .bc-card h4{font-size:.95rem;font-weight:700;margin-bottom:.4rem}
+    .bc-card p{font-size:.825rem;color:var(--muted);line-height:1.6}
+    .form-section{max-width:700px;margin:0 auto;padding:4rem 2rem}
+    .form-card{background:white;border:1px solid var(--border);border-radius:var(--r);padding:2.5rem;box-shadow:var(--shadow-lg)}
+    .form-card h2{font-size:1.5rem;font-weight:800;margin-bottom:.5rem}
+    .form-card .sub{font-size:.875rem;color:var(--muted);margin-bottom:2rem}
+    .fg{margin-bottom:1.1rem}
+    .fg label{display:block;font-size:.8rem;font-weight:600;margin-bottom:.4rem}
+    .fg label span{color:var(--error)}
+    .fc{width:100%;padding:.7rem .9rem;border:1.5px solid var(--border);border-radius:var(--r2);font-size:.9rem;font-family:var(--font);color:var(--text);background:white;transition:border-color .2s}
+    .fc:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(0,87,255,.1)}
+    .fc.err{border-color:var(--error)}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:.85rem}
+    .type-sel{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;margin-bottom:1.1rem}
+    .to{border:1.5px solid var(--border);border-radius:var(--r2);padding:.65rem .5rem;text-align:center;cursor:pointer;transition:all .15s;font-size:.78rem;font-weight:600;color:var(--muted)}
+    .to:hover{border-color:var(--primary);color:var(--primary)}
+    .to.sel{border-color:var(--primary);background:var(--primary-light);color:var(--primary)}
+    .to .ti{display:block;font-size:1.4rem;margin-bottom:.25rem}
+    .ferr{font-size:.75rem;color:var(--error);margin-top:.3rem;display:none}.ferr.v{display:block}
+    .check-row{display:flex;align-items:flex-start;gap:.6rem;margin-bottom:1.1rem}
+    .check-row input{accent-color:var(--primary);margin-top:3px;flex-shrink:0;cursor:pointer}
+    .check-row label{font-size:.8rem;color:var(--muted);cursor:pointer;line-height:1.5}
+    .check-row label a{color:var(--primary);font-weight:600}
+    .btn-sub{width:100%;padding:.9rem;background:var(--primary);color:white;border:none;border-radius:var(--r2);font-size:1rem;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:.5rem}
+    .btn-sub:hover{background:var(--primary-dark);transform:translateY(-1px)}
+    .btn-sub:disabled{background:#93AEFF;cursor:not-allowed;transform:none}
+    .spin{width:18px;height:18px;border:2.5px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;animation:sp .7s linear infinite}
+    @keyframes sp{to{transform:rotate(360deg)}}
+    .success{display:none;text-align:center;padding:1rem;animation:fi .4s ease}
+    .success.show{display:block}
+    @keyframes fi{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+    .err-msg{background:#FEF2F2;border:1px solid #FECACA;border-radius:var(--r2);padding:.75rem 1rem;margin-bottom:1rem;font-size:.85rem;color:var(--error);display:none}
+    .err-msg.v{display:block}
+    .faq-section{max-width:760px;margin:0 auto;padding:4rem 2rem}
+    .faq-item{border:1px solid var(--border);border-radius:var(--r2);margin-bottom:.75rem;overflow:hidden;background:white}
+    .faq-q{padding:1rem 1.25rem;font-size:.9rem;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+    .faq-q:hover{background:var(--bg2)}
+    .faq-a{padding:0 1.25rem;max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s;font-size:.85rem;color:var(--muted);line-height:1.7;background:var(--bg2)}
+    .faq-item.open .faq-a{max-height:200px;padding:1rem 1.25rem}
+    .faq-chv{transition:transform .3s;color:var(--light)}
+    .faq-item.open .faq-chv{transform:rotate(180deg)}
+    footer{background:#0f172a;color:#94a3b8;padding:2.5rem 2rem;text-align:center;font-size:.825rem}
+    footer strong{color:white}
+    @media(max-width:900px){.partner-grid{grid-template-columns:repeat(2,1fr)}.steps-row{grid-template-columns:repeat(2,1fr)}.steps-row::before{display:none}.bg-grid{grid-template-columns:1fr}.nav-links{display:none}}
+    @media(max-width:600px){.hero h1{font-size:2rem}.type-sel{grid-template-columns:repeat(2,1fr)}.form-row{grid-template-columns:1fr}.hero-stats{gap:1.5rem}}
+  </style>
+</head>
+<body>
+<nav>
+  <a href="../index.html" class="logo">Zoom<span>Fly</span> ✈</a>
+  <div class="nav-links">
+    <a href="packages.html">Packages</a><a href="hotels.html">Hotels</a><a href="contact.html">Contact</a>
+    <a href="#register-form" class="nav-cta">Register as Partner</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-badge">🤝 Partner Programme — Now Open</div>
+  <h1>Grow Your Business<br>with <em>ZoomFly</em></h1>
+  <p>List your hotel, transport, tour, or activity and reach 50,000+ active travellers every month.</p>
+  <div class="hero-btns">
+    <a href="#register-form" class="btn-hp">Register Free →</a>
+    <a href="#how-it-works" class="btn-hs">How It Works</a>
+  </div>
+  <div class="hero-stats">
+    <div class="hs"><strong>50K+</strong><span>Monthly Travellers</span></div>
+    <div class="hs"><strong>200+</strong><span>Active Partners</span></div>
+    <div class="hs"><strong>₹2Cr+</strong><span>Partner Payouts/Month</span></div>
+    <div class="hs"><strong>7 Days</strong><span>Onboarding Time</span></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="slbl">Who Can Partner</div>
+  <h2 class="stitle">Built for <em>Every Travel Business</em></h2>
+  <p class="ssub">Whether you run a small guesthouse or a fleet of buses.</p>
+  <div class="partner-grid">
+    <div class="pc"><div class="icon">🏨</div><h3>Hotels & Resorts</h3><p>List rooms, set pricing and manage availability.</p><span class="comm">12–15% commission</span></div>
+    <div class="pc"><div class="icon">🚌</div><h3>Bus Operators</h3><p>Fill seats on popular routes with ZoomFly's demand network.</p><span class="comm">8–10% commission</span></div>
+    <div class="pc"><div class="icon">🗺</div><h3>Tour Operators</h3><p>List your itineraries and day tours on our marketplace.</p><span class="comm">15–20% commission</span></div>
+    <div class="pc"><div class="icon">🚗</div><h3>Cab & Transfer</h3><p>Airport transfers, outstation cabs and local sightseeing.</p><span class="comm">10–12% commission</span></div>
+  </div>
+</section>
+
+<section class="how-section" id="how-it-works">
+  <div class="steps-wrap">
+    <div style="text-align:center"><div class="slbl">Process</div><h2 class="stitle">Onboarding in <em>4 Steps</em></h2></div>
+    <div class="steps-row">
+      <div class="step"><div class="snum">1</div><h4>Register Free</h4><p>Fill the partner form with your business details.</p></div>
+      <div class="step"><div class="snum">2</div><h4>Verification</h4><p>Our team reviews within 48 hours.</p></div>
+      <div class="step"><div class="snum">3</div><h4>Go Live</h4><p>Your listing goes live and receives bookings.</p></div>
+      <div class="step"><div class="snum">4</div><h4>Get Paid</h4><p>Weekly payouts directly to your bank.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="comm-section">
+  <div style="text-align:center;margin-bottom:2.5rem"><div class="slbl">Earnings</div><h2 class="stitle">Transparent <em>Commission Structure</em></h2></div>
+  <table class="comm-table">
+    <thead><tr><th>Partner Type</th><th>Commission</th><th>Payout</th><th>Method</th><th>Min Payout</th></tr></thead>
+    <tbody>
+      <tr><td>🏨 Hotels & Resorts</td><td><strong>12–15%</strong></td><td><span class="pb">Weekly</span></td><td>NEFT / UPI</td><td>₹1,000</td></tr>
+      <tr><td>🚌 Bus Operators</td><td><strong>8–10%</strong></td><td><span class="pb">Weekly</span></td><td>NEFT / UPI</td><td>₹500</td></tr>
+      <tr><td>🗺 Tour Operators</td><td><strong>15–20%</strong></td><td><span class="pb">Weekly</span></td><td>NEFT / UPI</td><td>₹1,500</td></tr>
+      <tr><td>🚗 Cab & Transfers</td><td><strong>10–12%</strong></td><td><span class="pb">Weekly</span></td><td>NEFT / UPI</td><td>₹500</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="benefits-section">
+  <div class="bg-wrap">
+    <div style="text-align:center"><div class="slbl">Why ZoomFly</div><h2 class="stitle">What You Get as a <em>Partner</em></h2></div>
+    <div class="bg-grid">
+      <div class="bc-card"><div class="bi">📈</div><h4>Massive Reach</h4><p>50,000+ monthly travellers actively searching for accommodation, transport, and tours.</p></div>
+      <div class="bc-card"><div class="bi">💸</div><h4>Weekly Payouts</h4><p>Receive earnings every week directly to your bank via NEFT/UPI.</p></div>
+      <div class="bc-card"><div class="bi">📊</div><h4>Partner Dashboard</h4><p>Track bookings, revenue, reviews, and occupancy in real-time.</p></div>
+      <div class="bc-card"><div class="bi">🛡</div><h4>Verified Badge</h4><p>ZoomFly Verified badge increases customer trust and conversion rates.</p></div>
+      <div class="bc-card"><div class="bi">📞</div><h4>Dedicated Manager</h4><p>Personal account manager reachable via WhatsApp, Mon–Sat.</p></div>
+      <div class="bc-card"><div class="bi">⭐</div><h4>Review System</h4><p>Build reputation with verified reviews from real ZoomFly customers.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="form-section" id="register-form">
+  <div class="form-card">
+    <div id="form-wrap">
+      <h2>Register as a Partner 🤝</h2>
+      <p class="sub">Free to join. Our team reviews within 48 hours.</p>
+      <div class="err-msg" id="form-err"></div>
+
+      <div class="fg">
+        <label>Business Type <span>*</span></label>
+        <div class="type-sel" id="type-sel">
+          <div class="to" data-v="Hotel" onclick="selType(this)"><span class="ti">🏨</span>Hotel / Resort</div>
+          <div class="to" data-v="Bus" onclick="selType(this)"><span class="ti">🚌</span>Bus Operator</div>
+          <div class="to" data-v="Tour" onclick="selType(this)"><span class="ti">🗺</span>Tour Operator</div>
+          <div class="to" data-v="Cab" onclick="selType(this)"><span class="ti">🚗</span>Cab / Transfer</div>
+        </div>
+        <div class="ferr" id="e-type">Please select business type</div>
+      </div>
+
+      <div class="form-row">
+        <div class="fg"><label>Business Name <span>*</span></label><input type="text" id="biz-name" class="fc" placeholder="Sunshine Hotel"/><div class="ferr" id="e-biz">Required</div></div>
+        <div class="fg"><label>City / Location <span>*</span></label><input type="text" id="city" class="fc" placeholder="Manali, HP"/><div class="ferr" id="e-city">Required</div></div>
+      </div>
+      <div class="form-row">
+        <div class="fg"><label>Owner Name <span>*</span></label><input type="text" id="owner" class="fc" placeholder="Rajesh Kumar"/><div class="ferr" id="e-owner">Required</div></div>
+        <div class="fg"><label>Mobile <span>*</span></label><input type="tel" id="vphone" class="fc" placeholder="+91 8076136300"/><div class="ferr" id="e-vphone">Valid 10-digit number</div></div>
+      </div>
+      <div class="fg"><label>Business Email <span>*</span></label><input type="email" id="vemail" class="fc" placeholder="info@yourbusiness.com"/><div class="ferr" id="e-vemail">Valid email required</div></div>
+      <div class="form-row">
+        <div class="fg"><label>GSTIN (optional)</label><input type="text" id="gstin" class="fc" placeholder="22AAAAA0000A1Z5" maxlength="15"/></div>
+        <div class="fg"><label>Capacity / Scale</label>
+          <select id="capacity" class="fc"><option value="">Select...</option><option>1–10 rooms/seats</option><option>11–50 rooms/seats</option><option>51–100 rooms/seats</option><option>100+ rooms/seats</option></select>
+        </div>
+      </div>
+
+      <!-- Hotel-specific fields -->
+      <div id="fields-hotel" style="display:none;padding:1rem;background:#f8fafc;border-radius:8px;margin-bottom:1rem">
+        <div style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#64748b;margin-bottom:.75rem">🏨 Hotel Details</div>
+        <div class="form-row">
+          <div class="fg"><label>Star Category</label>
+            <select id="h-stars" class="fc"><option>1 Star</option><option>2 Star</option><option>3 Star</option><option selected>4 Star</option><option>5 Star</option><option>Heritage</option><option>Boutique</option></select>
+          </div>
+          <div class="fg"><label>Total Rooms</label><input type="number" id="h-rooms" class="fc" placeholder="e.g. 45" min="1"/></div>
+        </div>
+        <div class="fg"><label>Property Type</label>
+          <select id="h-ptype" class="fc"><option>Hotel</option><option>Resort</option><option>Villa</option><option>Homestay</option><option>Heritage Property</option><option>Boutique Stay</option></select>
+        </div>
+        <div class="fg"><label>Amenities</label>
+          <div style="display:flex;gap:.65rem;flex-wrap:wrap;margin-top:.4rem">
+            <label style="display:flex;align-items:center;gap:.35rem;font-size:.82rem"><input type="checkbox" value="Pool"/> Pool</label>
+            <label style="display:flex;align-items:center;gap:.35rem;font-size:.82rem"><input type="checkbox" value="Spa"/> Spa</label>
+            <label style="display:flex;align-items:center;gap:.35rem;font-size:.82rem"><input type="checkbox" value="Restaurant"/> Restaurant</label>
+            <label style="display:flex;align-items:center;gap:.35rem;font-size:.82rem"><input type="checkbox" value="Gym"/> Gym</label>
+            <label style="display:flex;align-items:center;gap:.35rem;font-size:.82rem"><input type="checkbox" value="WiFi"/> Free WiFi</label>
+            <label style="display:flex;align-items:center;gap:.35rem;font-size:.82rem"><input type="checkbox" value="Parking"/> Parking</label>
+          </div>
+        </div>
+        <div class="fg"><label>Base Price per Night (₹)</label><input type="number" id="h-price" class="fc" placeholder="e.g. 3500" min="0"/></div>
+      </div>
+
+      <!-- Bus-specific fields -->
+      <div id="fields-bus" style="display:none;padding:1rem;background:#f8fafc;border-radius:8px;margin-bottom:1rem">
+        <div style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#64748b;margin-bottom:.75rem">🚌 Bus Operator Details</div>
+        <div class="form-row">
+          <div class="fg"><label>Number of Buses</label><input type="number" id="b-count" class="fc" placeholder="e.g. 8" min="1"/></div>
+          <div class="fg"><label>Bus Types</label>
+            <select id="b-bustype" class="fc"><option>AC Sleeper</option><option>AC Seater</option><option>Non-AC Sleeper</option><option>Volvo / Luxury</option><option>Mixed Fleet</option></select>
+          </div>
+        </div>
+        <div class="fg"><label>Main Operated Routes</label>
+          <input type="text" id="b-routes" class="fc" placeholder="e.g. Delhi–Manali, Delhi–Jaipur, Mumbai–Goa"/>
+        </div>
+        <div class="form-row">
+          <div class="fg"><label>Seats per Bus</label>
+            <select id="b-seats" class="fc"><option>20–25</option><option>30–36</option><option>40–48</option><option>Semi-sleeper 36+</option></select>
+          </div>
+          <div class="fg"><label>Years Operating</label>
+            <select id="b-years" class="fc"><option>Less than 1 year</option><option>1–3 years</option><option>3–5 years</option><option>5+ years</option></select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tour Operator-specific fields -->
+      <div id="fields-tour" style="display:none;padding:1rem;background:#f8fafc;border-radius:8px;margin-bottom:1rem">
+        <div style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#64748b;margin-bottom:.75rem">🗺 Tour Operator Details</div>
+        <div class="form-row">
+          <div class="fg"><label>Specialisation</label>
+            <select id="t-spec" class="fc"><option>Domestic Tours</option><option>International Tours</option><option>Both</option><option>Adventure Tours</option><option>Honeymoon Packages</option><option>Pilgrimage Tours</option><option>Wildlife Safaris</option></select>
+          </div>
+          <div class="fg"><label>No. of Packages</label>
+            <select id="t-pkgs" class="fc"><option>1–5</option><option>6–15</option><option>16–30</option><option>30+</option></select>
+          </div>
+        </div>
+        <div class="fg"><label>Top Destinations You Cover</label>
+          <input type="text" id="t-dests" class="fc" placeholder="e.g. Manali, Goa, Kerala, Thailand, Bali"/>
+        </div>
+        <div class="fg"><label>License / IATA Number (optional)</label>
+          <input type="text" id="t-license" class="fc" placeholder="State Tourism License / IATA Code"/>
+        </div>
+      </div>
+
+      <!-- Cab-specific fields -->
+      <div id="fields-cab" style="display:none;padding:1rem;background:#f8fafc;border-radius:8px;margin-bottom:1rem">
+        <div style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#64748b;margin-bottom:.75rem">🚗 Cab / Transfer Details</div>
+        <div class="form-row">
+          <div class="fg"><label>Number of Vehicles</label><input type="number" id="c-count" class="fc" placeholder="e.g. 5" min="1"/></div>
+          <div class="fg"><label>Primary Vehicle Type</label>
+            <select id="c-vtype" class="fc"><option>Hatchback</option><option>Sedan</option><option>SUV</option><option>Tempo Traveller</option><option>Mixed Fleet</option></select>
+          </div>
+        </div>
+        <div class="fg"><label>Services Offered</label>
+          <div style="display:flex;gap:.65rem;flex-wrap:wrap;margin-top:.4rem">
+            <label style="display:flex;align-items:center;gap:.35rem;font-size:.82rem"><input type="checkbox" value="Airport Transfer"/> Airport Transfers</label>
+            <label style="display:flex;align-items:center;gap:.35rem;font-size:.82rem"><input type="checkbox" value="Outstation"/> Outstation</label>
+            <label style="display:flex;align-items:center;gap:.35rem;font-size:.82rem"><input type="checkbox" value="Local"/> Local/City</label>
+            <label style="display:flex;align-items:center;gap:.35rem;font-size:.82rem"><input type="checkbox" value="Hill Station"/> Hill Station</label>
+          </div>
+        </div>
+        <div class="fg"><label>Primary Region of Operation</label>
+          <input type="text" id="c-region" class="fc" placeholder="e.g. Delhi NCR, Mumbai & Pune, Manali region"/>
+        </div>
+      </div>
+      <div class="fg"><label>About Your Business</label><textarea id="vdesc" class="fc" rows="3" placeholder="Describe your property, routes, or services..."></textarea></div>
+      <div class="check-row"><input type="checkbox" id="vterms"/><label for="vterms">I agree to ZoomFly's <a href="#">Partner Terms</a> and <a href="#">Commission Policy</a></label></div>
+      <div class="ferr" id="e-vterms" style="margin-top:-.75rem;margin-bottom:.75rem">Please accept terms</div>
+      <button class="btn-sub" id="vendor-btn">Submit Application →</button>
+      <p style="text-align:center;font-size:.78rem;color:var(--light);margin-top:.75rem">🔒 Your data is secure and used only for onboarding.</p>
+    </div>
+
+    <div class="success" id="vendor-success">
+      <div style="font-size:3.5rem;margin-bottom:1rem">🎉</div>
+      <h3 style="font-size:1.5rem;font-weight:800;margin-bottom:.5rem">Application Received!</h3>
+      <p style="color:var(--muted);font-size:.9rem;max-width:380px;margin:0 auto 1.5rem;line-height:1.6">Our team will review your application within <strong>48 hours</strong> and contact you to proceed.</p>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:1rem 1.25rem;max-width:340px;margin:0 auto 1.5rem;text-align:left">
+        <div style="font-size:.82rem;color:var(--muted);line-height:2">
+          <div>✅ Application submitted</div>
+          <div>⏳ Team review (48 hrs)</div>
+          <div>📞 Verification call</div>
+          <div>🚀 Account activated & live</div>
+        </div>
+      </div>
+      <p style="font-size:.82rem;color:var(--muted)">Questions? <strong>+91 8076136300</strong> or <a href="mailto:partners@zoomfly.in" style="color:var(--primary)">partners@zoomfly.in</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="faq-section">
+  <div style="text-align:center;margin-bottom:2.5rem"><div class="slbl">FAQ</div><h2 class="stitle">Frequently Asked <em>Questions</em></h2></div>
+  <div id="faq-list"></div>
+</section>
+
+<footer>
+  <p><strong>ZoomFly</strong> — India's Trusted Travel Platform Since 2018</p>
+  <p style="margin-top:.5rem">Partners: <a href="mailto:partners@zoomfly.in" style="color:#60a5fa">partners@zoomfly.in</a> · +91 8076136300</p>
+  <p style="margin-top:.5rem">© 2025 ZoomFly. All rights reserved.</p>
+</footer>
+
+<script type="module">
+import { registerVendor } from '../assets/js/supabase.js';
+
+let selBizType = '';
+window.selType = (el) => {
+  document.querySelectorAll('.to').forEach(o=>o.classList.remove('sel'));
+  el.classList.add('sel'); selBizType = el.dataset.v;
+  // Show/hide type-specific fields
+  ['hotel','bus','tour','cab'].forEach(t => {
+    const el2 = document.getElementById('fields-'+t);
+    if (el2) el2.style.display = selBizType.toLowerCase() === t ? 'block' : 'none';
+  });
+};
+
+const ge = id => document.getElementById(id);
+const showErr = (id, show) => ge(id)?.classList.toggle('v', show);
+const setErr = (fid, eid, cond) => { ge(fid)?.classList.toggle('err', cond); showErr(eid, cond); return !cond; };
+
+ge('vendor-btn').addEventListener('click', async () => {
+  const bizName = ge('biz-name').value.trim();
+  const city = ge('city').value.trim();
+  const owner = ge('owner').value.trim();
+  const phone = ge('vphone').value.replace(/\s/g,'');
+  const email = ge('vemail').value.trim();
+  const terms = ge('vterms').checked;
+
+  let ok = true;
+  const noType = !selBizType; showErr('e-type', noType); ok &= !noType;
+  ok &= setErr('biz-name','e-biz', bizName.length < 2);
+  ok &= setErr('city','e-city', city.length < 2);
+  ok &= setErr('owner','e-owner', owner.length < 2);
+  ok &= setErr('vphone','e-vphone', !/^\+?\d{10,13}$/.test(phone));
+  ok &= setErr('vemail','e-vemail', !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
+  showErr('e-vterms', !terms); ok &= terms;
+  if (!ok) return;
+
+  const btn = ge('vendor-btn');
+  const errEl = ge('form-err');
+  btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Submitting...';
+  errEl.classList.remove('v');
+
+  try {
+    // Collect type-specific extra data
+    let extraData = {};
+    if (selBizType === 'Hotel') {
+      extraData = { stars: ge('h-stars')?.value, total_rooms: ge('h-rooms')?.value, property_type: ge('h-ptype')?.value, base_price: ge('h-price')?.value };
+    } else if (selBizType === 'Bus') {
+      extraData = { num_buses: ge('b-count')?.value, bus_type: ge('b-bustype')?.value, routes: ge('b-routes')?.value, years_operating: ge('b-years')?.value };
+    } else if (selBizType === 'Tour') {
+      extraData = { specialisation: ge('t-spec')?.value, num_packages: ge('t-pkgs')?.value, destinations: ge('t-dests')?.value, license: ge('t-license')?.value };
+    } else if (selBizType === 'Cab') {
+      extraData = { num_vehicles: ge('c-count')?.value, vehicle_type: ge('c-vtype')?.value, region: ge('c-region')?.value };
+    }
+    await registerVendor({
+      business_name: bizName,
+      business_type: selBizType,
+      owner_name: owner,
+      email,
+      phone,
+      city,
+      gstin: ge('gstin').value.trim() || null,
+      capacity: ge('capacity').value || null,
+      description: ge('vdesc').value.trim() || null,
+      extra_data: extraData,
+    });
+    ge('form-wrap').style.display = 'none';
+    ge('vendor-success').classList.add('show');
+  } catch(e) {
+    errEl.textContent = '⚠️ ' + (e.message || 'Failed to submit. Please try again.');
+    errEl.classList.add('v');
+  } finally {
+    btn.disabled = false; btn.innerHTML = 'Submit Application →';
+  }
+});
+
+// FAQ
+const faqs = [
+  { q:'Is registration free?', a:'Yes, completely free. ZoomFly earns only when you earn, through a commission on completed bookings.' },
+  { q:'How long does onboarding take?', a:'Our team reviews within 48 hours. After a quick verification call, your listing goes live within 5–7 business days.' },
+  { q:'How and when do I get paid?', a:'Payouts happen every week via NEFT or UPI directly to your bank account.' },
+  { q:'Can I set my own prices?', a:'Yes! You have full control over pricing, availability, and offers through your partner dashboard.' },
+  { q:'What documents are required?', a:'Basic KYC (Aadhaar/PAN), business registration proof (if applicable), and bank account details.' },
+];
+document.getElementById('faq-list').innerHTML = faqs.map((f,i)=>`
+  <div class="faq-item" id="faq-${i}">
+    <div class="faq-q" onclick="toggleFaq(${i})">${f.q}<span class="faq-chv">▾</span></div>
+    <div class="faq-a">${f.a}</div>
+  </div>`).join('');
+
+window.toggleFaq = (i) => {
+  document.querySelectorAll('.faq-item').forEach((el,j)=>{ if(j!==i) el.classList.remove('open'); });
+  document.getElementById('faq-'+i).classList.toggle('open');
+};
+</script>
+</body>
+</html>
