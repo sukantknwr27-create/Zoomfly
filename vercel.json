@@ -1,0 +1,30 @@
+{
+  "version": 2,
+  "routes": [
+    { "src": "^/$", "dest": "/index.html" },
+    { "src": "^/packages$", "dest": "/pages/packages.html" },
+    { "src": "^/package-detail$", "dest": "/pages/package-detail.html" },
+    { "src": "^/destinations$", "dest": "/pages/destinations.html" },
+    { "src": "^/flights$", "dest": "/pages/flights.html" },
+    { "src": "^/hotels$", "dest": "/pages/hotels.html" },
+    { "src": "^/bus$", "dest": "/pages/bus.html" },
+    { "src": "^/cabs$", "dest": "/pages/cabs.html" },
+    { "src": "^/about$", "dest": "/pages/about.html" },
+    { "src": "^/contact$", "dest": "/pages/contact.html" },
+    { "src": "^/faq$", "dest": "/pages/faq.html" },
+    { "src": "^/blog$", "dest": "/pages/blog.html" },
+    { "src": "^/blog-post$", "dest": "/pages/blog-post.html" },
+    { "src": "^/privacy$", "dest": "/pages/privacy.html" },
+    { "src": "^/terms$", "dest": "/pages/terms.html" },
+    { "src": "^/thank-you$", "dest": "/pages/thank-you.html" },
+    { "src": "^/payment$", "dest": "/pages/payment.html" },
+    { "src": "^/login$", "dest": "/pages/login.html" },
+    { "src": "^/dashboard$", "dest": "/pages/dashboard.html" },
+    { "src": "^/admin$", "dest": "/pages/admin.html" },
+    { "src": "^/vendor$", "dest": "/pages/vendor.html" },
+    { "src": "^/pages/(.*)", "dest": "/pages/$1" },
+    { "src": "^/assets/(.*)", "dest": "/assets/$1" },
+    { "handle": "filesystem" },
+    { "src": "/(.*)", "dest": "/pages/404.html", "status": 404 }
+  ]
+}
