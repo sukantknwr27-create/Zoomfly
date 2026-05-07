@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"/>
+  <link rel="shortcut icon" href="/assets/favicon.svg"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Page Not Found — ZoomFly</title>
+  <link rel="stylesheet" href="/assets/css/main.css"/>
+  <style>
+    .notfound{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:100px 24px;}
+    .notfound-inner{max-width:560px;}
+    .notfound-emoji{font-size:6rem;margin-bottom:24px;animation:bounce 2s ease-in-out infinite;}
+    @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)}}
+    .notfound h1{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,6vw,4rem);font-weight:700;color:var(--blue);margin-bottom:8px;}
+    .notfound h2{font-size:1.3rem;font-weight:600;margin-bottom:16px;}
+    .notfound p{color:var(--text-muted);margin-bottom:36px;line-height:1.7;}
+    .notfound-links{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+  </style>
+</head>
+<body>
+<header class="nav nav-dark scrolled" id="mainNav"></header>
+<div class="notfound">
+  <div class="notfound-inner">
+    <div class="notfound-emoji">✈️</div>
+    <h1>404</h1>
+    <h2>Oops! Looks like this page flew away.</h2>
+    <p>The page you're looking for doesn't exist or may have been moved. Let's get you back on track to your next adventure!</p>
+    <div class="notfound-links">
+      <a href="/index.html" class="btn btn-primary btn-lg">🏠 Back to Home</a>
+      <a href="/pages/packages.html" class="btn btn-outline btn-lg">🗺 Browse Packages</a>
+      <a href="/pages/contact.html" class="btn btn-outline btn-lg">📞 Contact Us</a>
+    </div>
+  </div>
+</div>
+<footer class="footer" id="mainFooter"></footer>
+<script src="/assets/js/main.js"></script>
+</body>
+</html>

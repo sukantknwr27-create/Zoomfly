@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"/>
+  <link rel="shortcut icon" href="/assets/favicon.svg"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Secure Payment — ZoomFly</title>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--primary:#0057FF;--primary-dark:#0041CC;--accent:#FF6B35;--text:#1e293b;--muted:#64748b;--bg:#F1F5F9;--white:#fff;--border:#e2e8f0;--success:#059669;--error:#DC2626;--r:14px;--r2:8px;--font:'Segoe UI',system-ui,sans-serif}
+    body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh}
+    a{text-decoration:none;color:inherit}
+    nav{background:var(--white);border-bottom:1px solid var(--border);padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+    .logo{font-size:1.4rem;font-weight:800;color:var(--primary)}.logo span{color:var(--accent)}
+    .secure-badge{display:flex;align-items:center;gap:.5rem;font-size:.8rem;color:var(--muted)}
+    .secure-badge span{color:var(--success);font-weight:700}
+    .wrap{max-width:960px;margin:2rem auto;padding:0 1.5rem;display:grid;grid-template-columns:1fr 380px;gap:2rem;align-items:start}
+    .left-col,.right-col{background:var(--white);border:1px solid var(--border);border-radius:var(--r);box-shadow:0 2px 10px rgba(0,0,0,.06)}
+    .col-head{padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);font-size:1rem;font-weight:700}
+    .col-body{padding:1.5rem}
+    /* Order summary */
+    .order-item{display:flex;align-items:center;gap:1rem;margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+    .order-item:last-of-type{border-bottom:none}
+    .oi-thumb{width:56px;height:56px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:2rem;flex-shrink:0}
+    .oi-info{flex:1}
+    .oi-info strong{display:block;font-size:.925rem;font-weight:700}
+    .oi-info span{font-size:.78rem;color:var(--muted)}
+    .oi-price{font-size:1rem;font-weight:800;color:var(--primary)}
+    .price-row{display:flex;justify-content:space-between;font-size:.875rem;margin-bottom:.6rem;color:var(--muted)}
+    .price-row.total{font-size:1.1rem;font-weight:800;color:var(--text);border-top:1px solid var(--border);padding-top:.75rem;margin-top:.75rem}
+    .price-row .discount{color:var(--success);font-weight:700}
+    /* Payment methods */
+    .methods{display:flex;flex-direction:column;gap:.75rem;margin-bottom:1.5rem}
+    .method-opt{border:1.5px solid var(--border);border-radius:var(--r2);overflow:hidden;transition:border-color .2s;cursor:pointer}
+    .method-opt.selected{border-color:var(--primary);box-shadow:0 0 0 3px rgba(0,87,255,.1)}
+    .method-head{display:flex;align-items:center;gap:.85rem;padding:1rem 1.25rem;background:none;border:none;width:100%;cursor:pointer}
+    .method-radio{width:18px;height:18px;border:2px solid var(--border);border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s}
+    .method-opt.selected .method-radio{border-color:var(--primary);background:var(--primary)}
+    .method-opt.selected .method-radio::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff}
+    .method-icon{font-size:1.3rem}
+    .method-label{flex:1;text-align:left}
+    .method-label strong{display:block;font-size:.9rem;font-weight:700}
+    .method-label span{font-size:.75rem;color:var(--muted)}
+    .method-badges{display:flex;gap:.4rem;margin-left:auto}
+    .mbadge{font-size:.62rem;font-weight:700;padding:.2rem .5rem;border-radius:50px;background:var(--bg);color:var(--muted)}
+    .method-body{display:none;padding:0 1.25rem 1.25rem;border-top:1px solid var(--border)}
+    .method-opt.selected .method-body{display:block}
+    .fg{margin-bottom:1rem}
+    .fg label{display:block;font-size:.78rem;font-weight:700;margin-bottom:.4rem;color:var(--muted)}
+    .fc{width:100%;padding:.7rem .9rem;border:1.5px solid var(--border);border-radius:var(--r2);font-size:.9rem;font-family:var(--font);color:var(--text);background:var(--white)}
+    .fc:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(0,87,255,.1)}
+    .card-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+    .upi-note{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:var(--r2);padding:.85rem 1rem;font-size:.82rem;color:#166534;line-height:1.6}
+    .bank-details{background:#f8fafc;border:1px solid var(--border);border-radius:var(--r2);padding:1rem}
+    .bd-row{display:flex;justify-content:space-between;margin-bottom:.5rem;font-size:.85rem}
+    .bd-row:last-child{margin-bottom:0}
+    .bd-row strong{color:var(--text)}
+    .bd-row span{color:var(--muted)}
+    .promo-row{display:flex;gap:.75rem;margin-bottom:1.25rem}
+    .promo-row .fc{flex:1}
+    .btn-apply{padding:.7rem 1.25rem;background:var(--bg);border:1.5px solid var(--border);border-radius:var(--r2);font-size:.875rem;font-weight:700;cursor:pointer;white-space:nowrap;transition:all .2s}
+    .btn-apply:hover{border-color:var(--primary);color:var(--primary)}
+    .btn-pay{width:100%;padding:1rem;background:var(--primary);color:#fff;border:none;border-radius:var(--r2);font-size:1.05rem;font-weight:800;cursor:pointer;transition:background .2s;display:flex;align-items:center;justify-content:center;gap:.5rem}
+    .btn-pay:hover{background:var(--primary-dark)}
+    .btn-pay:disabled{background:#93AEFF;cursor:not-allowed}
+    .spin{width:18px;height:18px;border:2.5px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite}
+    @keyframes sp{to{transform:rotate(360deg)}}
+    .trust-row{display:flex;justify-content:center;gap:1.5rem;margin-top:1.25rem;flex-wrap:wrap}
+    .tbadge{display:flex;align-items:center;gap:.35rem;font-size:.72rem;color:var(--muted)}
+    .guest-section{margin-bottom:1.5rem}
+    .guest-section h3{font-size:.9rem;font-weight:700;margin-bottom:1rem}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+    .section-divider{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:.75rem 0 1rem;padding-top:.75rem;border-top:1px solid var(--border)}
+    /* Success overlay */
+    .success-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:999;display:none;align-items:center;justify-content:center}
+    .success-overlay.show{display:flex}
+    .success-card{background:#fff;border-radius:var(--r);padding:3rem 2.5rem;text-align:center;max-width:440px;width:90%}
+    .success-icon{width:80px;height:80px;border-radius:50%;background:#ECFDF5;display:flex;align-items:center;justify-content:center;font-size:2.5rem;margin:0 auto 1.5rem}
+    .success-card h2{font-size:1.5rem;font-weight:800;margin-bottom:.5rem}
+    .success-card p{color:var(--muted);font-size:.9rem;line-height:1.6;margin-bottom:1.5rem}
+    .booking-ref{background:#EEF3FF;border-radius:var(--r2);padding:.75rem 1rem;font-size:.9rem;font-weight:700;color:var(--primary);margin-bottom:1.5rem}
+    .btn-dash{padding:.85rem 2rem;background:var(--primary);color:#fff;border-radius:50px;font-weight:700;font-size:.95rem}
+    @media(max-width:768px){.wrap{grid-template-columns:1fr}.right-col{order:-1}}
+    @media(max-width:480px){.form-row,.card-row{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<nav>
+  <a href="/index.html" class="logo">Zoom<span>Fly</span> ✈</a>
+  <div class="secure-badge">🔒 <span>100% Secure</span> Checkout</div>
+</nav>
+
+<div class="wrap">
+  <!-- Left: Checkout form -->
+  <div class="left-col">
+    <div class="col-head">🧾 Guest & Booking Details</div>
+    <div class="col-body">
+      <div class="guest-section">
+        <h3>Lead Passenger</h3>
+        <div class="form-row">
+          <div class="fg"><label>Full Name *</label><input class="fc" id="g-name" placeholder="As on ID"/></div>
+          <div class="fg"><label>Email *</label><input class="fc" id="g-email" type="email" placeholder="you@example.com"/></div>
+        </div>
+        <div class="form-row">
+          <div class="fg"><label>Mobile *</label><input class="fc" id="g-phone" type="tel" placeholder="+91 80761 36300"/></div>
+          <div class="fg"><label>No. of Travellers</label>
+            <select class="fc" id="g-pax">
+              <option>1 Person</option><option selected>2 Persons</option><option>3 Persons</option>
+              <option>4 Persons</option><option>5 Persons</option><option>6+ Persons</option>
+            </select>
+          </div>
+        </div>
+        <div class="fg"><label>Special Requests (optional)</label><input class="fc" id="g-note" placeholder="Dietary needs, room preferences, anniversary, etc."/></div>
+      </div>
+
+      <div class="section-divider">Payment Method</div>
+
+      <div class="methods" id="methods">
+        <!-- Razorpay -->
+        <div class="method-opt selected" onclick="selectMethod(this,'razorpay')">
+          <div class="method-head">
+            <div class="method-radio"></div>
+            <div class="method-icon">💳</div>
+            <div class="method-label"><strong>Credit / Debit Card</strong><span>Visa, Mastercard, Rupay, Amex</span></div>
+            <div class="method-badges"><span class="mbadge">Visa</span><span class="mbadge">MC</span></div>
+          </div>
+          <div class="method-body">
+            <div class="fg"><label>Card Number</label><input class="fc" id="card-num" placeholder="1234 5678 9012 3456" maxlength="19" oninput="fmtCard(this)"/></div>
+            <div class="card-row">
+              <div class="fg"><label>Expiry</label><input class="fc" id="card-exp" placeholder="MM / YY" maxlength="7" oninput="fmtExp(this)"/></div>
+              <div class="fg"><label>CVV</label><input class="fc" id="card-cvv" placeholder="123" maxlength="4" type="password"/></div>
+            </div>
+            <div class="fg"><label>Name on Card</label><input class="fc" id="card-name" placeholder="John Doe"/></div>
+          </div>
+        </div>
+
+        <!-- UPI -->
+        <div class="method-opt" onclick="selectMethod(this,'upi')">
+          <div class="method-head">
+            <div class="method-radio"></div>
+            <div class="method-icon">📱</div>
+            <div class="method-label"><strong>UPI</strong><span>GPay, PhonePe, Paytm, BHIM</span></div>
+            <div class="method-badges"><span class="mbadge">Instant</span></div>
+          </div>
+          <div class="method-body">
+            <div class="fg"><label>UPI ID</label><input class="fc" id="upi-id" placeholder="yourname@upi or phone@paytm"/></div>
+            <div class="upi-note">💡 After clicking Pay, a collect request will be sent to your UPI app. Open the app to approve within 5 minutes.</div>
+          </div>
+        </div>
+
+        <!-- Net Banking -->
+        <div class="method-opt" onclick="selectMethod(this,'netbanking')">
+          <div class="method-head">
+            <div class="method-radio"></div>
+            <div class="method-icon">🏦</div>
+            <div class="method-label"><strong>Net Banking</strong><span>All major Indian banks</span></div>
+          </div>
+          <div class="method-body">
+            <div class="fg"><label>Select Bank</label>
+              <select class="fc" id="bank-sel">
+                <option value="">-- Choose your bank --</option>
+                <option>State Bank of India</option><option>HDFC Bank</option><option>ICICI Bank</option>
+                <option>Axis Bank</option><option>Kotak Mahindra Bank</option><option>Punjab National Bank</option>
+                <option>Bank of Baroda</option><option>Canara Bank</option><option>Yes Bank</option><option>Other</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bank Transfer / NEFT -->
+        <div class="method-opt" onclick="selectMethod(this,'neft')">
+          <div class="method-head">
+            <div class="method-radio"></div>
+            <div class="method-icon">🔁</div>
+            <div class="method-label"><strong>NEFT / RTGS / Bank Transfer</strong><span>Transfer directly to our account</span></div>
+          </div>
+          <div class="method-body">
+            <div class="bank-details">
+              <div class="bd-row"><span>Account Name</span><strong>ZoomFly Travel Pvt Ltd</strong></div>
+              <div class="bd-row"><span>Bank</span><strong>HDFC Bank</strong></div>
+              <div class="bd-row"><span>Account No.</span><strong>50200012345678</strong></div>
+              <div class="bd-row"><span>IFSC Code</span><strong>HDFC0001234</strong></div>
+              <div class="bd-row"><span>Branch</span><strong>Connaught Place, New Delhi</strong></div>
+            </div>
+            <p style="font-size:.78rem;color:var(--muted);margin-top:.75rem">After transfer, WhatsApp the UTR number to <strong>+91 80761 36300</strong> to confirm your booking instantly.</p>
+          </div>
+        </div>
+
+        <!-- EMI -->
+        <div class="method-opt" onclick="selectMethod(this,'emi')">
+          <div class="method-head">
+            <div class="method-radio"></div>
+            <div class="method-icon">📅</div>
+            <div class="method-label"><strong>EMI (No Cost)</strong><span>3, 6 or 12-month 0% EMI on orders ₹10,000+</span></div>
+            <div class="method-badges"><span class="mbadge">0% Interest</span></div>
+          </div>
+          <div class="method-body">
+            <div class="fg"><label>Select EMI Plan</label>
+              <select class="fc" id="emi-plan">
+                <option>3 Months (0% interest)</option>
+                <option>6 Months (0% interest)</option>
+                <option>9 Months (1.5% interest)</option>
+                <option>12 Months (2% interest)</option>
+              </select>
+            </div>
+            <p style="font-size:.78rem;color:var(--muted)">EMI available on HDFC, ICICI, Axis, Kotak credit cards. Final plan confirmed at checkout.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Promo -->
+      <div>
+        <div class="section-divider">Promo Code</div>
+        <div class="promo-row">
+          <input class="fc" id="promo-inp" placeholder="Enter promo code (e.g. ZOOMFLY10)"/>
+          <button class="btn-apply" onclick="applyPromo()">Apply</button>
+        </div>
+        <div id="promo-msg" style="font-size:.8rem;margin-bottom:.75rem;display:none"></div>
+      </div>
+
+      <button class="btn-pay" id="pay-btn" onclick="processPayment()">
+        🔒 Pay Securely Now — <span id="pay-amount">₹0</span>
+      </button>
+      <div class="trust-row">
+        <div class="tbadge">🔒 SSL Encrypted</div>
+        <div class="tbadge">✅ PCI DSS Compliant</div>
+        <div class="tbadge">🛡️ 100% Money-back Guarantee</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right: Order summary -->
+  <div class="right-col">
+    <div class="col-head">🛒 Order Summary</div>
+    <div class="col-body">
+      <div id="order-items">
+        <!-- Populated by JS from URL params -->
+      </div>
+      <div id="price-breakdown"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Success overlay -->
+<div class="success-overlay" id="success-overlay">
+  <div class="success-card">
+    <div class="success-icon">✅</div>
+    <h2>Booking Confirmed!</h2>
+    <p>Your booking has been received. Our team will contact you within 2 hours to confirm all details.</p>
+    <div class="booking-ref" id="booking-ref">Booking Ref: ZF-XXXXXX</div>
+    <p style="font-size:.8rem;color:var(--muted);margin-bottom:1.5rem">A confirmation has been sent to your email. You can also track your booking in <strong>My Dashboard</strong>.</p>
+    <a href="/pages/dashboard.html" class="btn-dash">Go to My Dashboard →</a>
+  </div>
+</div>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script type="module">
+import { createBooking, getUser } from '../assets/js/supabase.js';
+
+// Read booking params from URL
+const params = new URLSearchParams(window.location.search);
+const bookingType = params.get('type') || 'package';
+const itemName = params.get('name') || 'Tour Package';
+const itemEmoji = params.get('emoji') || '🗺️';
+const itemBg = params.get('bg') || 'linear-gradient(135deg,#667eea,#764ba2)';
+// Pre-fill user data if logged in
+(async () => {
+  const user = await getUser();
+  if (user) {
+    document.getElementById('g-email').value = user.email || '';
+    document.getElementById('g-name').value = user.user_metadata?.full_name || '';
+    document.getElementById('g-phone').value = user.user_metadata?.phone || '';
+  }
+})();
+const nights = params.get('nights') || '5N';
+
+const basePerPerson = parseInt(params.get('amount') || '12499');
+const bookingUnit = params.get('unit') || 'person'; // 'person' or 'room'
+let numPersons = 1;
+let discount = 0;
+let tax = 0;
+let total = 0;
+
+function calcAmounts() {
+  const rawBase = bookingUnit === 'room' ? basePerPerson : basePerPerson * numPersons;
+  tax = Math.round(rawBase * 0.05);
+  return { rawBase, finalTotal: rawBase - discount + tax };
+}
+
+function renderSummary() {
+  const { rawBase, finalTotal } = calcAmounts();
+  const unitLabel = bookingUnit === 'room'
+    ? `Hotel Stay · ${numPersons} Guest${numPersons > 1 ? 's' : ''}`
+    : `Tour · ${nights} · ${numPersons} Person${numPersons > 1 ? 's' : ''}`;
+
+  document.getElementById('order-items').innerHTML = `
+    <div class="order-item">
+      <div class="oi-thumb" style="background:${itemBg}">${itemEmoji}</div>
+      <div class="oi-info"><strong>${itemName}</strong><span>${unitLabel}</span></div>
+      <div class="oi-price">₹${rawBase.toLocaleString('en-IN')}</div>
+    </div>`;
+
+  document.getElementById('price-breakdown').innerHTML = `
+    <div class="price-row"><span>${bookingUnit === 'room' ? 'Room per Night' : `₹${basePerPerson.toLocaleString('en-IN')} × ${numPersons} person${numPersons > 1 ? 's' : ''}`}</span><span>₹${rawBase.toLocaleString('en-IN')}</span></div>
+    ${discount ? `<div class="price-row"><span>Promo Discount</span><span class="discount">−₹${discount.toLocaleString('en-IN')}</span></div>` : ''}
+    <div class="price-row"><span>GST (5%)</span><span>₹${tax.toLocaleString('en-IN')}</span></div>
+    <div class="price-row total"><span>Total Payable</span><span>₹${finalTotal.toLocaleString('en-IN')}</span></div>`;
+
+  document.getElementById('pay-amount').textContent = `₹${finalTotal.toLocaleString('en-IN')}`;
+  total = finalTotal;
+}
+
+// Update on person count change
+document.getElementById('g-pax').addEventListener('change', function() {
+  numPersons = parseInt(this.value) || 1;
+  discount = 0; // reset promo if persons change
+  document.getElementById('promo-msg').style.display = 'none';
+  document.getElementById('promo-inp').value = '';
+  renderSummary();
+});
+
+renderSummary();
+
+window.applyPromo = () => {
+  const code = document.getElementById('promo-inp').value.trim().toUpperCase();
+  const msg = document.getElementById('promo-msg');
+  msg.style.display = 'block';
+  const { rawBase } = calcAmounts();
+  if (code === 'ZOOMFLY10') {
+    discount = Math.round(rawBase * 0.10);
+    msg.style.color = '#059669';
+    msg.textContent = `✅ Code applied! You save ₹${discount.toLocaleString('en-IN')}`;
+  } else if (code === 'FIRST15') {
+    discount = Math.round(rawBase * 0.15);
+    msg.style.color = '#059669';
+    msg.textContent = `✅ 15% off applied — You save ₹${discount.toLocaleString('en-IN')}`;
+  } else if (code === 'SUMMER500') {
+    discount = 500;
+    msg.style.color = '#059669';
+    msg.textContent = `✅ Flat ₹500 off applied!`;
+  } else {
+    discount = 0;
+    msg.style.color = '#DC2626';
+    msg.textContent = '❌ Invalid or expired promo code.';
+  }
+  renderSummary();
+};
+
+window.selectMethod = (el, method) => {
+  document.querySelectorAll('.method-opt').forEach(m => m.classList.remove('selected'));
+  el.classList.add('selected');
+  el.dataset.method = method;
+};
+
+window.fmtCard = (el) => {
+  let v = el.value.replace(/\D/g,'').substring(0,16);
+  el.value = v.replace(/(.{4})/g,'$1 ').trim();
+};
+window.fmtExp = (el) => {
+  let v = el.value.replace(/\D/g,'').substring(0,4);
+  if (v.length > 2) v = v.slice(0,2) + ' / ' + v.slice(2);
+  el.value = v;
+};
+
+window.processPayment = async () => {
+  const name = document.getElementById('g-name').value.trim();
+  const email = document.getElementById('g-email').value.trim();
+  const phone = document.getElementById('g-phone').value.trim();
+  if (!name || !email || !phone) { alert('Please fill in all guest details (name, email, phone).'); return; }
+
+  const btn = document.getElementById('pay-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<div class="spin"></div> Processing…';
+
+  const selectedMethod = document.querySelector('.method-opt.selected')?.dataset?.method || 'razorpay';
+
+  // For card / UPI / net banking → try Razorpay
+  if (['razorpay','upi','netbanking','emi'].includes(selectedMethod)) {
+    try {
+      const { RAZORPAY_KEY_ID } = await import('../assets/js/supabase.js');
+      const razorKey = RAZORPAY_KEY_ID || 'rzp_test_YOUR_KEY_HERE';
+
+      if (razorKey && razorKey !== 'rzp_test_YOUR_KEY_HERE' && window.Razorpay) {
+        const options = {
+          key: razorKey,
+          amount: total * 100, // in paise
+          currency: 'INR',
+          name: 'ZoomFly',
+          description: itemName,
+          prefill: { name, email, contact: phone.replace(/\D/g,'') },
+          theme: { color: '#0057FF' },
+          handler: async (response) => {
+            try {
+              const { createBooking } = await import('../assets/js/supabase.js');
+              const booking = await createBooking({
+                booking_type: bookingType, guest_name: name, guest_email: email,
+                guest_phone: phone.replace(/\D/g,''), num_guests: parseInt(document.getElementById('g-pax').value) || 2,
+                special_requests: document.getElementById('g-note').value,
+                base_amount: basePerPerson * numPersons, discount, taxes: tax, total_amount: total,
+                currency: 'INR', payment_method: 'razorpay', status: 'confirmed',
+                payment_status: 'paid', razorpay_payment_id: response.razorpay_payment_id,
+              });
+              document.getElementById('booking-ref').textContent = `Booking Ref: ${booking.booking_ref || 'ZF-' + response.razorpay_payment_id.substring(4,10).toUpperCase()}`;
+            } catch(e) {
+              document.getElementById('booking-ref').textContent = `Payment ID: ${response.razorpay_payment_id}`;
+            }
+            document.getElementById('success-overlay').classList.add('show');
+          },
+          modal: { ondismiss: () => { btn.disabled = false; btn.innerHTML = `🔒 Pay Securely Now — ₹${total.toLocaleString('en-IN')}`; } }
+        };
+        new window.Razorpay(options).open();
+        return;
+      }
+    } catch(e) { /* fall through to manual booking */ }
+  }
+
+  // For NEFT/bank transfer or fallback
+  try {
+    const { createBooking } = await import('../assets/js/supabase.js');
+    const booking = await createBooking({
+      booking_type: bookingType, guest_name: name, guest_email: email,
+      guest_phone: phone.replace(/\D/g,''), num_guests: parseInt(document.getElementById('g-pax').value) || 2,
+      special_requests: document.getElementById('g-note').value,
+      base_amount: basePerPerson * numPersons, discount, taxes: tax, total_amount: total,
+      currency: 'INR', payment_method: selectedMethod, status: 'pending', payment_status: 'pending',
+    });
+    document.getElementById('booking-ref').textContent = `Booking Ref: ${booking.booking_ref || 'ZF-' + Math.random().toString(36).substr(2,6).toUpperCase()}`;
+  } catch(e) {
+    document.getElementById('booking-ref').textContent = `Booking Ref: ZF-${Math.random().toString(36).substr(2,6).toUpperCase()}`;
+  }
+  document.getElementById('success-overlay').classList.add('show');
+  btn.disabled = false;
+  btn.innerHTML = `🔒 Pay Securely Now — ₹${total.toLocaleString('en-IN')}`;
+};
+</script>
+</body>
+</html>

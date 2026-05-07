@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"/>
+  <link rel="shortcut icon" href="/assets/favicon.svg"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Flight Booking — ZoomFly</title>
+  <link rel="stylesheet" href="/assets/css/main.css"/>
+  <style>
+    .flight-hero{background:linear-gradient(145deg,#1b4f8a,#0f2d4e);color:#fff;padding:3.5rem 2rem 5rem;text-align:center}
+    .flight-hero h1{font-size:2.4rem;font-weight:900;margin-bottom:.5rem}.flight-hero h1 em{font-style:normal;color:#FFD700}
+    .flight-hero p{opacity:.82;max-width:500px;margin:0 auto}
+    .search-wrap{max-width:1100px;margin:-3rem auto 3rem;padding:0 1.5rem;position:relative;z-index:20}
+    .search-card{background:#fff;border-radius:16px;box-shadow:0 12px 48px rgba(0,0,0,.15);overflow:visible}
+    .trip-tabs{display:flex;gap:.25rem;border-bottom:1px solid #e2e8f0;padding:.75rem 1.5rem .5rem}
+    .ttab{padding:.45rem 1.2rem;border-radius:50px;font-size:.85rem;font-weight:700;cursor:pointer;border:none;background:none;color:#64748b;transition:all .2s}
+    .ttab.active{background:#1b4f8a;color:#fff}
+    .search-body{padding:1.5rem}
+    .fields-row{display:grid;gap:1rem;align-items:end}
+    .fg{position:relative}
+    .fg label{display:block;font-size:.72rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.4rem}
+    .fc{width:100%;padding:.75rem 1rem;border:2px solid #e2e8f0;border-radius:8px;font-size:.88rem;font-family:inherit;color:#1e293b;background:#fafafa;transition:border-color .2s;box-sizing:border-box}
+    .fc:focus{outline:none;border-color:#1b4f8a;background:#fff}
+    .swap-btn{width:44px;height:44px;border-radius:50%;border:2px solid #e2e8f0;background:#f8fafc;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:all .2s;align-self:flex-end;flex-shrink:0}
+    .swap-btn:hover{background:#1b4f8a;color:#fff;border-color:#1b4f8a}
+    .btn-search{padding:.8rem 2rem;background:#1b4f8a;color:#fff;border:none;border-radius:8px;font-size:.95rem;font-weight:800;cursor:pointer;white-space:nowrap;transition:background .2s;align-self:flex-end}
+    .btn-search:hover{background:#0f2d4e}
+    .ac-dropdown{position:absolute;top:calc(100% + 4px);left:0;right:0;background:#fff;border:1.5px solid #e2e8f0;border-radius:10px;box-shadow:0 8px 32px rgba(0,0,0,.14);z-index:200;max-height:280px;overflow-y:auto;display:none}
+    .ac-item{padding:.65rem 1rem;cursor:pointer;font-size:.84rem;border-bottom:1px solid #f1f5f9;display:flex;align-items:baseline;gap:.5rem}
+    .ac-item:hover{background:#EEF3FF}.ac-item:last-child{border-bottom:none}
+    .ac-code{font-weight:800;color:#1b4f8a;font-size:.78rem;min-width:36px}
+    .ac-city{font-weight:600;color:#1e293b}
+    .ac-name{color:#94a3b8;font-size:.72rem;margin-left:.25rem}
+    .mc-rows{display:flex;flex-direction:column;gap:.75rem;margin-bottom:1rem}
+    .mc-row{display:grid;grid-template-columns:1fr 44px 1fr 1fr 32px;gap:.75rem;align-items:end}
+    .btn-add-city{padding:.4rem .9rem;background:#f1f5f9;border:1.5px solid #e2e8f0;border-radius:8px;font-size:.8rem;font-weight:600;cursor:pointer;color:#475569;margin-bottom:1rem}
+    .btn-remove-mc{width:32px;height:32px;border-radius:50%;border:1.5px solid #fecaca;background:#fff5f5;cursor:pointer;font-size:.85rem;color:#DC2626;display:flex;align-items:center;justify-content:center;align-self:flex-end;flex-shrink:0}
+    .container{max-width:1100px;margin:0 auto;padding:0 1.5rem}
+    .section-pad{padding:3rem 0}
+    .section-label{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#1b4f8a;margin-bottom:.5rem}
+    .section-title{font-size:1.9rem;font-weight:800;letter-spacing:-.5px;margin-bottom:2rem}.section-title em{font-style:normal;color:#1b4f8a}
+    .route-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem}
+    .route-card{background:#fff;border:1.5px solid #e2e8f0;border-radius:12px;padding:1.25rem;cursor:pointer;transition:all .25s;text-align:center}
+    .route-card:hover{border-color:#1b4f8a;transform:translateY(-3px);box-shadow:0 8px 24px rgba(27,79,138,.12)}
+    .route-icon{font-size:1.6rem;margin-bottom:.4rem}
+    .route-from,.route-to{font-weight:700;font-size:.85rem}
+    .route-arrow{color:#94a3b8;font-size:.75rem;margin:2px 0}
+    .route-price{color:#1b4f8a;font-weight:800;font-size:.92rem;margin-top:.4rem}
+    .route-airline{font-size:.68rem;color:#94a3b8}
+    .tips-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+    .tip-card{background:#f8fafc;border-radius:12px;padding:1.5rem}
+    .tip-icon{font-size:1.6rem;margin-bottom:.6rem}
+    .tip-card h4{font-weight:700;margin-bottom:.35rem;font-size:.88rem}
+    .tip-card p{font-size:.81rem;color:#64748b;line-height:1.6}
+    .airline-logos{display:flex;gap:.75rem;flex-wrap:wrap;align-items:center;justify-content:center;padding:2rem;background:#f8fafc;border-radius:14px}
+    .airline-pill{background:#fff;padding:.5rem 1.25rem;border-radius:50px;font-weight:700;font-size:.8rem;border:1.5px solid #e2e8f0;color:#475569}
+    .cta-strip{background:linear-gradient(135deg,#1b4f8a,#0f2d4e);padding:4rem 2rem;text-align:center;color:#fff}
+    .cta-strip h2{font-size:1.9rem;font-weight:800;margin-bottom:.75rem}
+    .cta-strip p{opacity:.8;max-width:480px;margin:0 auto 1.75rem}
+    .cta-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+    .btn-wa-lg{padding:.8rem 2rem;background:#25D366;color:#fff;border-radius:50px;font-weight:700;font-size:.95rem;text-decoration:none}
+    .btn-call-lg{padding:.8rem 2rem;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:50px;font-weight:600;font-size:.95rem;text-decoration:none}
+    @media(max-width:900px){.route-cards{grid-template-columns:repeat(2,1fr)}.tips-grid{grid-template-columns:1fr 1fr}}
+    @media(max-width:540px){.route-cards{grid-template-columns:1fr 1fr}.tips-grid{grid-template-columns:1fr}.mc-row{grid-template-columns:1fr 1fr}}
+  </style>
+</head>
+<body data-page="flights">
+<header class="nav" id="mainNav"></header>
+
+<section class="flight-hero">
+  <div class="breadcrumb" style="justify-content:center;margin-bottom:1rem"><a href="/index.html" style="color:rgba(255,255,255,.7)">Home</a><span style="color:rgba(255,255,255,.5)">›</span><span style="color:#fff">Flights</span></div>
+  <h1>Book <em>Flights</em> Instantly</h1>
+  <p>Best fares on 500+ routes — domestic & international, with instant e-ticket confirmation</p>
+</section>
+
+<div class="search-wrap">
+  <div class="search-card">
+    <div class="trip-tabs">
+      <button class="ttab active" id="tab-one-way" onclick="setTripType('one-way',this)">✈ One Way</button>
+      <button class="ttab" id="tab-round" onclick="setTripType('round',this)">🔄 Round Trip</button>
+      <button class="ttab" id="tab-multi" onclick="setTripType('multi',this)">🗺 Multi City</button>
+    </div>
+    <div class="search-body">
+      <!-- One Way & Round Trip -->
+      <div id="form-single">
+        <div class="fields-row" id="single-fields" style="grid-template-columns:1fr 44px 1fr 1fr 1fr auto">
+          <div class="fg">
+            <label>From</label>
+            <input type="text" class="fc" id="fromCity" placeholder="City or Airport" autocomplete="off"
+              oninput="showAC('fromCity','ac-from')" onfocus="showAC('fromCity','ac-from')" onblur="hideAC('ac-from')" value="Delhi (DEL)"/>
+            <div class="ac-dropdown" id="ac-from"></div>
+          </div>
+          <button class="swap-btn" onclick="swapCities()" title="Swap cities">⇄</button>
+          <div class="fg">
+            <label>To</label>
+            <input type="text" class="fc" id="toCity" placeholder="City or Airport" autocomplete="off"
+              oninput="showAC('toCity','ac-to')" onfocus="showAC('toCity','ac-to')" onblur="hideAC('ac-to')"/>
+            <div class="ac-dropdown" id="ac-to"></div>
+          </div>
+          <div class="fg"><label>Departure</label><input type="date" class="fc" id="depDate"/></div>
+          <div class="fg" id="ret-field" style="display:none"><label>Return Date</label><input type="date" class="fc" id="retDate"/></div>
+          <div class="fg"><label>Travellers & Class</label>
+            <select class="fc" id="classSelect">
+              <option>1 Adult · Economy</option><option>2 Adults · Economy</option><option>3 Adults · Economy</option>
+              <option>4 Adults · Economy</option><option>1 Adult · Business</option><option>2 Adults · Business</option>
+              <option>1 Adult · First Class</option><option>Family (2+2) · Economy</option>
+            </select>
+          </div>
+          <button class="btn-search" onclick="searchFlights()">🔍 Search</button>
+        </div>
+      </div>
+
+      <!-- Multi City -->
+      <div id="form-multi" style="display:none">
+        <div class="mc-rows" id="mc-rows"></div>
+        <button class="btn-add-city" onclick="addMCRow()">+ Add Another City</button>
+        <div style="display:flex;align-items:flex-end;gap:1rem;flex-wrap:wrap">
+          <div class="fg" style="min-width:200px"><label>Travellers & Class</label>
+            <select class="fc" id="mc-class">
+              <option>1 Adult · Economy</option><option>2 Adults · Economy</option><option>3 Adults · Economy</option>
+              <option>1 Adult · Business</option><option>2 Adults · Business</option>
+            </select>
+          </div>
+          <button class="btn-search" onclick="searchMultiCity()">🔍 Search Multi-City</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container section-pad">
+  <div class="section-label">Popular Routes</div>
+  <h2 class="section-title">Top <em>Flight Routes</em></h2>
+  <div class="route-cards">
+    <div class="route-card reveal" onclick="quickRoute('Delhi (DEL)','Mumbai (BOM)')"><div class="route-icon">✈️</div><div class="route-from">Delhi</div><div class="route-arrow">→</div><div class="route-to">Mumbai</div><div class="route-price">From ₹2,499</div><div class="route-airline">IndiGo · Air India</div></div>
+    <div class="route-card reveal" style="transition-delay:60ms" onclick="quickRoute('Mumbai (BOM)','Goa (GOI)')"><div class="route-icon">✈️</div><div class="route-from">Mumbai</div><div class="route-arrow">→</div><div class="route-to">Goa</div><div class="route-price">From ₹1,899</div><div class="route-airline">SpiceJet · IndiGo</div></div>
+    <div class="route-card reveal" style="transition-delay:120ms" onclick="quickRoute('Delhi (DEL)','Bangkok (BKK)')"><div class="route-icon">✈️</div><div class="route-from">Delhi</div><div class="route-arrow">→</div><div class="route-to">Bangkok</div><div class="route-price">From ₹8,999</div><div class="route-airline">Thai · Air Asia</div></div>
+    <div class="route-card reveal" style="transition-delay:180ms" onclick="quickRoute('Bengaluru (BLR)','Bali (DPS)')"><div class="route-icon">✈️</div><div class="route-from">Bangalore</div><div class="route-arrow">→</div><div class="route-to">Bali</div><div class="route-price">From ₹14,499</div><div class="route-airline">AirAsia · Scoot</div></div>
+    <div class="route-card reveal" style="transition-delay:240ms" onclick="quickRoute('Kolkata (CCU)','Port Blair (IXZ)')"><div class="route-icon">✈️</div><div class="route-from">Kolkata</div><div class="route-arrow">→</div><div class="route-to">Port Blair</div><div class="route-price">From ₹3,299</div><div class="route-airline">IndiGo · Air India</div></div>
+    <div class="route-card reveal" style="transition-delay:300ms" onclick="quickRoute('Chennai (MAA)','Dubai (DXB)')"><div class="route-icon">✈️</div><div class="route-from">Chennai</div><div class="route-arrow">→</div><div class="route-to">Dubai</div><div class="route-price">From ₹11,299</div><div class="route-airline">Emirates · IndiGo</div></div>
+    <div class="route-card reveal" style="transition-delay:360ms" onclick="quickRoute('Delhi (DEL)','Leh / Ladakh (IXL)')"><div class="route-icon">✈️</div><div class="route-from">Delhi</div><div class="route-arrow">→</div><div class="route-to">Leh / Ladakh</div><div class="route-price">From ₹4,499</div><div class="route-airline">Air India · IndiGo</div></div>
+    <div class="route-card reveal" style="transition-delay:420ms" onclick="quickRoute('Hyderabad (HYD)','Singapore (SIN)')"><div class="route-icon">✈️</div><div class="route-from">Hyderabad</div><div class="route-arrow">→</div><div class="route-to">Singapore</div><div class="route-price">From ₹12,799</div><div class="route-airline">Singapore · Scoot</div></div>
+  </div>
+
+  <div style="text-align:center;margin:3rem 0">
+    <div class="section-label" style="margin-bottom:.75rem">Partner Airlines</div>
+    <div class="airline-logos">
+      <div class="airline-pill">✈ IndiGo</div><div class="airline-pill">✈ Air India</div><div class="airline-pill">✈ SpiceJet</div>
+      <div class="airline-pill">✈ Vistara</div><div class="airline-pill">✈ Emirates</div><div class="airline-pill">✈ Thai Airways</div>
+      <div class="airline-pill">✈ Singapore Airlines</div><div class="airline-pill">✈ AirAsia</div><div class="airline-pill">✈ Scoot</div>
+    </div>
+  </div>
+
+  <div class="section-label">Smart Tips</div>
+  <h2 class="section-title">Get the <em>Best Flight Deals</em></h2>
+  <div class="tips-grid" style="margin-bottom:3.5rem">
+    <div class="tip-card reveal"><div class="tip-icon">📅</div><h4>Book 6–8 Weeks Ahead</h4><p>Domestic flights are cheapest 6–8 weeks in advance. International fares dip 2–3 months ahead.</p></div>
+    <div class="tip-card reveal" style="transition-delay:80ms"><div class="tip-icon">🌙</div><h4>Fly on Tuesday / Wednesday</h4><p>Mid-week departures are typically 15–25% cheaper than weekend flights on most routes.</p></div>
+    <div class="tip-card reveal" style="transition-delay:160ms"><div class="tip-icon">🔔</div><h4>Set a Fare Alert</h4><p>WhatsApp our team to set a fare alert — we'll notify you the moment prices drop on your route.</p></div>
+  </div>
+</div>
+
+<section class="cta-strip">
+  <h2>Need Help Booking? ✈️</h2>
+  <p>Our flight experts find you the best fares. Available 9 AM – 10 PM daily.</p>
+  <div class="cta-btns">
+    <a href="https://wa.me/918076136300?text=Hi%20ZoomFly!%20I%20need%20help%20booking%20a%20flight." class="btn-wa-lg" target="_blank">💬 WhatsApp Us</a>
+    <a href="tel:+918076136300" class="btn-call-lg">📞 Call +91 80761 36300</a>
+  </div>
+</section>
+
+<section class="newsletter" id="newsletter"></section>
+<footer class="footer" id="mainFooter"></footer>
+<script src="/assets/js/main.js"></script>
+<script type="module">
+import { AIRPORTS } from '/assets/js/data.js';
+let tripType = 'one-way';
+let mcRowCount = 0;
+const acTimers = {};
+
+// Build initial MC rows
+function initMC() {
+  addMCRow('Delhi (DEL)', '');
+  addMCRow('', '');
+}
+
+window.setTripType = (type, el) => {
+  tripType = type;
+  document.querySelectorAll('.ttab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('form-single').style.display = type === 'multi' ? 'none' : 'block';
+  document.getElementById('form-multi').style.display = type === 'multi' ? 'block' : 'none';
+  const retField = document.getElementById('ret-field');
+  const sf = document.getElementById('single-fields');
+  if (type === 'round') {
+    retField.style.display = 'block';
+    sf.style.gridTemplateColumns = '1fr 44px 1fr 1fr 1fr 1fr auto';
+  } else {
+    retField.style.display = 'none';
+    sf.style.gridTemplateColumns = '1fr 44px 1fr 1fr 1fr auto';
+  }
+};
+
+window.showAC = (inputId, dropId) => {
+  clearTimeout(acTimers[inputId]);
+  const input = document.getElementById(inputId);
+  const drop = document.getElementById(dropId);
+  if (!input || !drop) return;
+  const q = input.value.toLowerCase().trim();
+  const res = q.length === 0
+    ? AIRPORTS.slice(0, 8)
+    : AIRPORTS.filter(a =>
+        a.code.toLowerCase().startsWith(q) ||
+        a.city.toLowerCase().includes(q) ||
+        a.name.toLowerCase().includes(q)
+      ).slice(0, 10);
+  if (!res.length) { drop.style.display = 'none'; return; }
+  drop.innerHTML = res.map(a => `
+    <div class="ac-item" onmousedown="selectAP('${inputId}','${dropId}','${a.city} (${a.code})')">
+      <span class="ac-code">${a.code}</span>
+      <span class="ac-city">${a.city}</span>
+      <span class="ac-name">${a.name}</span>
+    </div>`).join('');
+  drop.style.display = 'block';
+};
+
+window.hideAC = (dropId) => {
+  acTimers[dropId] = setTimeout(() => {
+    const d = document.getElementById(dropId);
+    if (d) d.style.display = 'none';
+  }, 180);
+};
+
+window.selectAP = (inputId, dropId, val) => {
+  const el = document.getElementById(inputId);
+  if (el) el.value = val;
+  const d = document.getElementById(dropId);
+  if (d) d.style.display = 'none';
+};
+
+window.swapCities = () => {
+  const f = document.getElementById('fromCity'), t = document.getElementById('toCity');
+  [f.value, t.value] = [t.value, f.value];
+};
+
+window.swapMC = (i) => {
+  const f = document.getElementById(`mc-from-${i}`), t = document.getElementById(`mc-to-${i}`);
+  if (f && t) [f.value, t.value] = [t.value, f.value];
+};
+
+window.addMCRow = (fromVal = '', toVal = '') => {
+  const i = mcRowCount++;
+  const canRemove = i > 0;
+  const row = document.createElement('div');
+  row.className = 'mc-row'; row.id = `mc-row-${i}`;
+  row.innerHTML = `
+    <div class="fg">
+      <label>From</label>
+      <input type="text" class="fc" id="mc-from-${i}" placeholder="City or Airport" autocomplete="off" value="${fromVal}"
+        oninput="showAC('mc-from-${i}','mc-ac-f${i}')" onfocus="showAC('mc-from-${i}','mc-ac-f${i}')" onblur="hideAC('mc-ac-f${i}')"/>
+      <div class="ac-dropdown" id="mc-ac-f${i}"></div>
+    </div>
+    <button class="swap-btn" onclick="swapMC(${i})" style="align-self:flex-end">⇄</button>
+    <div class="fg">
+      <label>To</label>
+      <input type="text" class="fc" id="mc-to-${i}" placeholder="City or Airport" autocomplete="off" value="${toVal}"
+        oninput="showAC('mc-to-${i}','mc-ac-t${i}')" onfocus="showAC('mc-to-${i}','mc-ac-t${i}')" onblur="hideAC('mc-ac-t${i}')"/>
+      <div class="ac-dropdown" id="mc-ac-t${i}"></div>
+    </div>
+    <div class="fg"><label>Date</label><input type="date" class="fc" id="mc-date-${i}" min="${new Date().toISOString().split('T')[0]}"/></div>
+    ${canRemove ? `<button class="btn-remove-mc" onclick="document.getElementById('mc-row-${i}').remove()" title="Remove">✕</button>` : '<div></div>'}`;
+  document.getElementById('mc-rows').appendChild(row);
+};
+
+window.searchFlights = () => {
+  const from = document.getElementById('fromCity').value.trim();
+  const to = document.getElementById('toCity').value.trim();
+  const dep = document.getElementById('depDate').value;
+  const ret = document.getElementById('retDate').value;
+  const cls = document.getElementById('classSelect').value;
+  if (!to) { alert('Please enter destination city or airport'); return; }
+  let msg = `Hi ZoomFly! ✈️ I want to book a flight.\nTrip: ${tripType === 'round' ? 'Round Trip' : 'One Way'}\nFrom: ${from}\nTo: ${to}`;
+  if (dep) msg += `\nDeparture: ${dep}`;
+  if (ret && tripType === 'round') msg += `\nReturn: ${ret}`;
+  msg += `\nClass: ${cls}\nPlease share best fares.`;
+  window.open('https://wa.me/918076136300?text=' + encodeURIComponent(msg), '_blank');
+};
+
+window.searchMultiCity = () => {
+  const legs = [];
+  document.querySelectorAll('.mc-row').forEach((row, i) => {
+    const from = row.querySelector('input[id^="mc-from"]')?.value.trim();
+    const to = row.querySelector('input[id^="mc-to"]')?.value.trim();
+    const date = row.querySelector('input[type="date"]')?.value;
+    if (from && to) legs.push(`Leg ${legs.length+1}: ${from} → ${to}${date ? ' on ' + date : ''}`);
+  });
+  if (!legs.length) { alert('Please fill in at least one route'); return; }
+  const cls = document.getElementById('mc-class').value;
+  const msg = `Hi ZoomFly! ✈️ Multi-City Flight Request\n${legs.join('\n')}\nClass: ${cls}\nPlease share best fares.`;
+  window.open('https://wa.me/918076136300?text=' + encodeURIComponent(msg), '_blank');
+};
+
+window.quickRoute = (from, to) => {
+  document.getElementById('fromCity').value = from;
+  document.getElementById('toCity').value = to;
+  // Switch to one-way if on multi
+  if (tripType === 'multi') window.setTripType('one-way', document.getElementById('tab-one-way'));
+  document.querySelector('.search-card').scrollIntoView({ behavior: 'smooth', block: 'center' });
+};
+
+document.getElementById('depDate').min = new Date().toISOString().split('T')[0];
+document.getElementById('retDate').min = new Date().toISOString().split('T')[0];
+initMC();
+</script>
+</body>
+</html>
