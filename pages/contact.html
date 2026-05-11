@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"/>
+  <link rel="shortcut icon" href="/assets/favicon.svg"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Get In Touch — ZoomFly</title>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--primary:#0057FF;--primary-dark:#0041CC;--primary-light:#EEF3FF;--accent:#FF6B35;--text:#111827;--text-muted:#6B7280;--text-light:#9CA3AF;--bg:#fff;--bg2:#F9FAFB;--border:#E5E7EB;--success:#059669;--success-bg:#ECFDF5;--error:#DC2626;--shadow-lg:0 10px 25px -5px rgba(0,0,0,.10);--r:12px;--r2:8px;--font:'Segoe UI',system-ui,sans-serif}
+    body{font-family:var(--font);color:var(--text);background:var(--bg2)}
+    a{text-decoration:none;color:inherit}
+    nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px}
+    .logo{font-size:1.5rem;font-weight:800;color:var(--primary)}.logo span{color:var(--accent)}
+    .nav-links{display:flex;gap:1.75rem;align-items:center}
+    .nav-links a{font-size:.875rem;color:var(--text-muted);font-weight:500}
+    .nav-links a:hover,.nav-links a.active{color:var(--primary)}
+    .nav-cta{background:var(--primary);color:white!important;padding:.5rem 1.25rem;border-radius:50px;font-weight:600}
+    .hero{background:linear-gradient(135deg,var(--primary-light),#fff 60%);padding:3rem 2rem 2.5rem;text-align:center;border-bottom:1px solid var(--border)}
+    .hero h1{font-size:2.4rem;font-weight:800;letter-spacing:-1px}.hero h1 em{font-style:normal;color:var(--primary)}
+    .hero p{margin:.75rem auto 0;color:var(--text-muted);max-width:500px}
+    .wrap{max-width:1100px;margin:0 auto;padding:3rem 2rem 5rem;display:grid;grid-template-columns:1fr 1.6fr;gap:3rem;align-items:start}
+    .ci{display:flex;gap:1rem;padding:1.25rem;border:1px solid var(--border);border-radius:var(--r);margin-bottom:1rem;background:var(--bg);transition:box-shadow .2s}
+    .ci:hover{box-shadow:0 4px 12px rgba(0,0,0,.08)}
+    .ci-icon{width:44px;height:44px;border-radius:10px;background:var(--primary-light);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+    .ci-body strong{display:block;font-weight:600;font-size:.9rem}
+    .ci-body span,.ci-body a{font-size:.82rem;color:var(--text-muted)}
+    .ci-body a{color:var(--primary);font-weight:600}
+    .row-btns{display:flex;gap:.75rem;margin-top:1.5rem}
+    .btn-call,.btn-wa{flex:1;display:flex;align-items:center;justify-content:center;gap:.5rem;padding:.75rem 1.25rem;border-radius:50px;font-weight:600;font-size:.875rem;transition:all .2s;min-width:130px}
+    .btn-call{background:var(--primary);color:white}.btn-call:hover{background:var(--primary-dark);color:white}
+    .btn-wa{background:#25D366;color:white}.btn-wa:hover{background:#1db954;color:white}
+    .perks{margin-top:1.75rem}
+    .perks h3{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-light);margin-bottom:.85rem}
+    .perk{display:flex;align-items:center;gap:.6rem;font-size:.85rem;color:var(--text-muted);margin-bottom:.5rem}
+    .perk-check{color:var(--success)}
+    .status-box{margin-top:1.5rem;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:1rem 1.25rem}
+    .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#10B981;margin-right:6px;animation:pulse 2s infinite}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+    .form-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:2rem;box-shadow:var(--shadow-lg)}
+    .steps{display:flex;margin-bottom:2rem}
+    .st{flex:1;text-align:center;position:relative;z-index:1}
+    .sc{width:28px;height:28px;border-radius:50%;border:2px solid var(--border);background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;color:var(--text-light);margin:0 auto .35rem;transition:all .3s}
+    .st.active .sc{border-color:var(--primary);background:var(--primary);color:white}
+    .st.done .sc{border-color:var(--success);background:var(--success);color:white}
+    .sl{position:absolute;top:14px;left:50%;right:-50%;height:2px;background:var(--border);z-index:0}
+    .st:last-child .sl{display:none}
+    .st.done .sl{background:var(--success)}
+    .slabel{font-size:.7rem;color:var(--text-light);font-weight:500}
+    .st.active .slabel{color:var(--primary)}
+    .panel{display:none}.panel.active{display:block;animation:fi .3s ease}
+    @keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    .fg{margin-bottom:1.1rem}
+    .fg label{display:block;font-size:.8rem;font-weight:600;margin-bottom:.4rem}
+    .fg label span{color:var(--error)}
+    .fc{width:100%;padding:.65rem .9rem;font-size:.9rem;border:1.5px solid var(--border);border-radius:var(--r2);background:var(--bg);color:var(--text);font-family:var(--font);transition:border-color .2s}
+    .fc:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(0,87,255,.1)}
+    .fc.err{border-color:var(--error)}
+    textarea.fc{resize:vertical;min-height:90px}
+    select.fc{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236B7280' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .9rem center;padding-right:2.25rem;cursor:pointer}
+    .ferr{font-size:.75rem;color:var(--error);margin-top:.3rem;display:none}.ferr.v{display:block}
+    .int-grid{display:flex;flex-wrap:wrap;gap:.5rem}
+    .int-btn{padding:.4rem .9rem;border:1.5px solid var(--border);border-radius:50px;background:var(--bg);font-size:.8rem;font-weight:500;color:var(--text-muted);cursor:pointer;transition:all .15s}
+    .int-btn:hover{border-color:var(--primary);color:var(--primary)}
+    .int-btn.sel{background:var(--primary-light);border-color:var(--primary);color:var(--primary);font-weight:600}
+    .nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:1.5rem}
+    .btn-next{padding:.65rem 1.5rem;border-radius:var(--r2);font-size:.9rem;font-weight:600;cursor:pointer;background:var(--primary);color:white;border:none;transition:background .2s}
+    .btn-next:hover{background:var(--primary-dark)}
+    .btn-back{padding:.65rem 1.5rem;border-radius:var(--r2);font-size:.9rem;font-weight:600;cursor:pointer;background:transparent;color:var(--text-muted);border:1.5px solid var(--border)}
+    .btn-submit{width:100%;padding:.85rem;background:var(--primary);color:white;border:none;border-radius:var(--r2);font-size:1rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.5rem;transition:background .2s}
+    .btn-submit:hover{background:var(--primary-dark)}
+    .btn-submit:disabled{background:#93AEFF;cursor:not-allowed}
+    .spin{width:18px;height:18px;border:2.5px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;animation:sp .7s linear infinite;display:inline-block}
+    @keyframes sp{to{transform:rotate(360deg)}}
+    .err-banner{display:none;background:#FEF2F2;border:1px solid #FECACA;border-radius:var(--r2);padding:.75rem 1rem;margin-bottom:1rem;font-size:.85rem;color:var(--error)}
+    .err-banner.v{display:block}
+    .success{display:none;text-align:center;padding:2rem 1rem;animation:fi .5s ease}
+    .success.v{display:block}
+    .success-icon{width:72px;height:72px;border-radius:50%;background:var(--success-bg);margin:0 auto 1.5rem;display:flex;align-items:center;justify-content:center;font-size:2rem}
+    .rev-box{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:1.25rem;margin-bottom:1.5rem;font-size:.875rem;line-height:2}
+    .sec-note{text-align:center;font-size:.775rem;color:var(--text-light);margin-top:.75rem}
+    footer{background:#111827;color:#9CA3AF;padding:2rem;text-align:center;font-size:.825rem;margin-top:2rem}
+    footer strong{color:white}
+    @media(max-width:768px){.wrap{grid-template-columns:1fr}.hero h1{font-size:1.8rem}.form-row{grid-template-columns:1fr}.nav-links{display:none}}
+  </style>
+  <script>
+    window.SUPABASE_URL="https://ndaurluolurdljrjbxii.supabase.co";
+    window.SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kYXVybHVvbHVyZGxqcmpieGlpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MDY2MzksImV4cCI6MjA5MzQ4MjYzOX0.JsZXOof19JkyX7asJQ7EtoaBKqURJUYzVqXQIenCzjQ";
+    window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/);return m?m[1]:null;};
+  </script>
+</head>
+<body>
+<nav>
+  <a href="../index.html" class="logo">Zoom<span>Fly</span> ✈</a>
+  <div class="nav-links">
+    <a href="packages.html">Packages</a><a href="flights.html">Flights</a>
+    <a href="hotels.html">Hotels</a><a href="bus.html">Bus</a>
+    <a href="contact.html" class="active nav-cta">Get a Quote</a>
+  </div>
+</nav>
+
+<div class="hero"><h1>Get In <em>Touch</em></h1><p>Our travel experts plan your perfect trip — completely free.</p></div>
+
+<div class="wrap">
+  <!-- LEFT -->
+  <div>
+    <h2 style="font-size:1.4rem;font-weight:700;margin-bottom:1.25rem">Let's Plan Your <span style="color:var(--primary)">Dream Trip</span></h2>
+    <div class="ci"><div class="ci-icon">📞</div><div class="ci-body"><strong>Call / WhatsApp</strong><span><a href="tel:+918076136300">+91 8076136300</a></span></div></div>
+    <div class="ci"><div class="ci-icon">📧</div><div class="ci-body"><strong>Email</strong><span><a href="mailto:hello@zoomfly.in">hello@zoomfly.in</a></span></div></div>
+    <div class="ci"><div class="ci-icon">📍</div><div class="ci-body"><strong>Office</strong><span>Connaught Place, New Delhi</span></div></div>
+    <div class="row-btns">
+      <a href="tel:+918076136300" class="btn-call">📞 Call Now</a>
+      <a href="https://wa.me/918076136300" target="_blank" class="btn-wa">💬 WhatsApp</a>
+    </div>
+    <div class="status-box">
+      <p><span class="dot" id="sdot"></span><strong id="stxt">We're currently available</strong></p>
+      <p style="font-size:.82rem;color:var(--text-muted);margin-top:.3rem" id="ssub">Our team is online — reach out anytime!</p>
+    </div>
+    <div class="perks">
+      <h3>Why ZoomFly</h3>
+      <div class="perk"><span class="perk-check">✓</span> Best price guarantee</div>
+      <div class="perk"><span class="perk-check">✓</span> 24/7 WhatsApp support during travel</div>
+      <div class="perk"><span class="perk-check">✓</span> Fully customisable itineraries</div>
+      <div class="perk"><span class="perk-check">✓</span> EMI options on all packages</div>
+      <div class="perk"><span class="perk-check">✓</span> 5,000+ happy travellers — 4.9★</div>
+    </div>
+  </div>
+
+  <!-- RIGHT: FORM -->
+  <div class="form-card">
+    <div class="steps">
+      <div class="st active" id="si1"><div class="sc">1</div><div class="sl"></div><div class="slabel">Details</div></div>
+      <div class="st" id="si2"><div class="sc">2</div><div class="sl"></div><div class="slabel">Trip</div></div>
+      <div class="st" id="si3"><div class="sc">3</div><div class="sl"></div><div class="slabel">Confirm</div></div>
+    </div>
+    <div class="err-banner" id="err-banner"></div>
+
+    <div class="success" id="success">
+      <div class="success-icon">✅</div>
+      <h3 style="font-size:1.4rem;font-weight:700;margin-bottom:.5rem">Enquiry Sent!</h3>
+      <p style="color:var(--text-muted);font-size:.9rem;max-width:340px;margin:.5rem auto 1.5rem">Our expert will contact you within <strong>2 hours</strong>. Check your email for confirmation.</p>
+      <div id="success-meta" style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:1rem;max-width:320px;margin:0 auto 1.5rem;text-align:left;font-size:.82rem;line-height:1.9"></div>
+      <a href="https://wa.me/918076136300" target="_blank" class="btn-wa" style="display:inline-flex;max-width:220px">💬 WhatsApp Us</a>
+    </div>
+
+    <!-- PANEL 1 -->
+    <div class="panel active" id="p1">
+      <h3 style="margin-bottom:.25rem">Your Details</h3><p style="font-size:.875rem;color:var(--text-muted);margin-bottom:1.5rem">Tell us who you are.</p>
+      <div class="form-row">
+        <div class="fg"><label>Full Name <span>*</span></label><input id="name" class="fc" placeholder="Rahul Sharma"/><div class="ferr" id="e-name">Enter your name</div></div>
+        <div class="fg"><label>Phone <span>*</span></label><input id="phone" class="fc" placeholder="+91 8076136300"/><div class="ferr" id="e-phone">Valid 10-digit number</div></div>
+      </div>
+      <div class="fg"><label>Email <span>*</span></label><input id="email" type="email" class="fc" placeholder="rahul@email.com"/><div class="ferr" id="e-email">Enter valid email</div></div>
+      <div class="fg">
+        <label>Interested In <span>*</span></label>
+        <div class="int-grid" id="int-grid">
+          <button type="button" class="int-btn" data-v="Tour Package">🗺 Tour Package</button>
+          <button type="button" class="int-btn" data-v="Flight Booking">✈ Flights</button>
+          <button type="button" class="int-btn" data-v="Hotel Booking">🏨 Hotels</button>
+          <button type="button" class="int-btn" data-v="Bus Booking">🚌 Bus</button>
+          <button type="button" class="int-btn" data-v="Custom Trip">🎯 Custom Trip</button>
+          <button type="button" class="int-btn" data-v="Group Booking">👥 Group (10+)</button>
+        </div>
+        <div class="ferr" id="e-int">Select at least one</div>
+      </div>
+      <div class="nav-row"><div></div><button class="btn-next" id="next1">Continue →</button></div>
+    </div>
+
+    <!-- PANEL 2 -->
+    <div class="panel" id="p2">
+      <h3 style="margin-bottom:.25rem">Trip Info</h3><p style="font-size:.875rem;color:var(--text-muted);margin-bottom:1.5rem">Help us understand your plans.</p>
+      <div class="form-row">
+        <div class="fg"><label>Travel Date</label><input id="tdate" type="date" class="fc"/></div>
+        <div class="fg"><label>Travellers <span>*</span></label>
+          <select id="trav" class="fc"><option value="">Select</option><option>1 Person</option><option>2 People</option><option>3–5 People</option><option>6–10 People</option><option>10+ People</option></select>
+          <div class="ferr" id="e-trav">Please select</div>
+        </div>
+      </div>
+      <div class="fg"><label>Budget (per person)</label>
+        <select id="budget" class="fc"><option value="">Select range</option><option>Under ₹10,000</option><option>₹10,000–₹25,000</option><option>₹25,000–₹50,000</option><option>₹50,000+</option><option>Flexible</option></select>
+      </div>
+      <div class="fg"><label>Destination / Message <span>*</span></label><textarea id="dest" class="fc" placeholder="e.g. Manali 5 nights, honeymoon package..."></textarea><div class="ferr" id="e-dest">Please enter your destination</div></div>
+      <div class="nav-row"><button class="btn-back" id="back2">← Back</button><button class="btn-next" id="next2">Review →</button></div>
+    </div>
+
+    <!-- PANEL 3 -->
+    <div class="panel" id="p3">
+      <h3 style="margin-bottom:.25rem">Confirm</h3><p style="font-size:.875rem;color:var(--text-muted);margin-bottom:1.5rem">Review your details.</p>
+      <div class="rev-box" id="rev-box"></div>
+      <button class="btn-submit" id="sub-btn">Send Enquiry ✈</button>
+      <p class="sec-note">🔒 Your info is secure and never shared.</p>
+      <div class="nav-row" style="margin-top:1rem"><button class="btn-back" id="back3">← Edit</button></div>
+    </div>
+  </div>
+</div>
+
+<footer><p><strong>ZoomFly</strong> — India's Trusted Travel Partner</p><p style="margin-top:.5rem">© 2025 ZoomFly · hello@zoomfly.in · +91 8076136300</p></footer>
+
+<script type="module">
+import { submitEnquiry, supabase } from '../assets/js/supabase.js';
+
+let step = 1, interests = [];
+
+// Interest buttons
+document.querySelectorAll('.int-btn').forEach(b => {
+  b.addEventListener('click', () => {
+    b.classList.toggle('sel');
+    interests = [...document.querySelectorAll('.int-btn.sel')].map(x => x.dataset.v);
+  });
+});
+
+// Helpers
+const ge = id => document.getElementById(id);
+const showErr = (id, show) => ge(id)?.classList.toggle('v', show);
+const setErr = (fid, eid, cond) => { ge(fid)?.classList.toggle('err', cond); showErr(eid, cond); return !cond; };
+
+function validate(s) {
+  let ok = true;
+  if (s === 1) {
+    ok &= setErr('name','e-name', ge('name').value.trim().length < 2);
+    ok &= setErr('phone','e-phone', !/^\d{10}$/.test(ge('phone').value.replace(/[\s\+\-]/g,'')));
+    ok &= setErr('email','e-email', !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(ge('email').value.trim()));
+    const ni = interests.length === 0; showErr('e-int', ni); ok &= !ni;
+  }
+  if (s === 2) {
+    ok &= setErr('trav','e-trav', !ge('trav').value);
+    ok &= setErr('dest','e-dest', ge('dest').value.trim().length < 3);
+  }
+  return !!ok;
+}
+
+function goTo(n) {
+  if (n > step && !validate(step)) return;
+  ge(`p${step}`).classList.remove('active');
+  ge(`si${step}`).classList.remove('active');
+  ge(`si${step}`).classList.add('done');
+  step = n;
+  ge(`p${step}`).classList.add('active');
+  ge(`si${step}`).classList.add('active');
+  ge(`si${step}`).classList.remove('done');
+  if (n === 3) buildReview();
+}
+
+function buildReview() {
+  ge('rev-box').innerHTML = [
+    ['Name', ge('name').value], ['Phone', ge('phone').value], ['Email', ge('email').value],
+    ['Interested In', interests.join(', ')],
+    ['Travel Date', ge('tdate').value || 'Not specified'],
+    ['Travellers', ge('trav').value], ['Budget', ge('budget').value || 'Not specified'],
+    ['Destination', ge('dest').value]
+  ].map(([k,v]) => `<div style="display:flex;gap:.5rem"><span style="min-width:110px;color:var(--text-muted);font-size:.8rem">${k}</span><strong>${v||'—'}</strong></div>`).join('');
+}
+
+ge('next1').addEventListener('click', () => goTo(2));
+ge('next2').addEventListener('click', () => goTo(3));
+ge('back2').addEventListener('click', () => goTo(1));
+ge('back3').addEventListener('click', () => goTo(2));
+
+ge('sub-btn').addEventListener('click', async () => {
+  const btn = ge('sub-btn');
+  const errEl = ge('err-banner');
+  btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Sending...';
+  errEl.classList.remove('v');
+
+  const payload = {
+    name: ge('name').value.trim(),
+    email: ge('email').value.trim(),
+    phone: ge('phone').value.trim(),
+    interest: interests,
+    travel_date: ge('tdate').value || null,
+    travellers: ge('trav').value,
+    budget: ge('budget').value || null,
+    destination: ge('dest').value.trim(),
+    message: ge('dest').value.trim(),
+  };
+
+  try {
+    await submitEnquiry(payload);
+    await supabase.functions.invoke('send-booking-email', {
+      body: { type: 'enquiry', enquiry: payload }
+    });
+    // Show success
+    ge(`p${step}`).classList.remove('active');
+    ge('success').classList.add('v');
+    ge('success-meta').innerHTML = `
+      <div><span style="color:var(--text-muted)">Name: </span><strong>${payload.name}</strong></div>
+      <div><span style="color:var(--text-muted)">Email: </span><strong>${payload.email}</strong></div>
+      <div><span style="color:var(--text-muted)">Interest: </span><strong>${payload.interest.join(', ')}</strong></div>
+      <div><span style="color:var(--text-muted)">Destination: </span><strong>${payload.destination}</strong></div>`;
+  } catch(err) {
+    errEl.textContent = '⚠️ ' + (err.message || 'Failed to send. Please WhatsApp us directly.');
+    errEl.classList.add('v');
+    btn.disabled = false; btn.innerHTML = 'Send Enquiry ✈';
+  }
+});
+
+// Date min
+ge('tdate').min = new Date().toISOString().split('T')[0];
+
+// Status
+const h = new Date().getHours(), d = new Date().getDay();
+if (d === 0 || h < 9 || h >= 20) {
+  ge('sdot').style.background = '#F59E0B';
+  ge('stxt').textContent = 'Currently offline';
+  ge('ssub').textContent = "Leave your enquiry — we'll respond first thing tomorrow!";
+}
+</script>
+</body>
+</html>

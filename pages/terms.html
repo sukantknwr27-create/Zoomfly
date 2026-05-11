@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Terms & Conditions — ZoomFly</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✈️</text></svg>"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --primary: #1a73e8;
+      --primary-dark: #1557b0;
+      --accent: #ff6b35;
+      --dark: #0f1923;
+      --dark2: #1a2535;
+      --text: #2d3748;
+      --text-light: #64748b;
+      --border: #e2e8f0;
+      --bg: #f8fafc;
+      --white: #ffffff;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.8; }
+
+    nav {
+      background: var(--dark); padding: 0 5%;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 68px; position: sticky; top: 0; z-index: 100;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+    }
+    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .logo-icon { width: 38px; height: 38px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+    .logo-text { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--white); font-weight: 700; }
+    .logo-text span { color: var(--accent); }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a { color: rgba(255,255,255,0.75); text-decoration: none; font-size: 0.88rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--white); }
+    .nav-cta { background: var(--accent); color: var(--white) !important; padding: 8px 20px; border-radius: 8px; font-weight: 600 !important; }
+
+    .page-hero {
+      background: linear-gradient(135deg, #0f1923 0%, #1a2535 60%, #1c2e1a 100%);
+      padding: 72px 5% 60px; position: relative; overflow: hidden;
+    }
+    .page-hero::before { content: ''; position: absolute; top: -60px; right: -60px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(26,115,232,0.15) 0%, transparent 70%); border-radius: 50%; }
+    .page-hero::after { content: ''; position: absolute; bottom: -40px; left: 10%; width: 200px; height: 200px; background: radial-gradient(circle, rgba(34,197,94,0.1) 0%, transparent 70%); border-radius: 50%; }
+    .breadcrumb { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; font-size: 0.82rem; color: rgba(255,255,255,0.5); }
+    .breadcrumb a { color: rgba(255,255,255,0.5); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--accent); }
+    .breadcrumb span { color: rgba(255,255,255,0.8); }
+    .page-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3rem); color: var(--white); font-weight: 700; line-height: 1.2; margin-bottom: 16px; }
+    .page-hero h1 span { background: linear-gradient(90deg, #22c55e, #1a73e8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero-meta { display: flex; gap: 24px; flex-wrap: wrap; }
+    .hero-meta-item { display: flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.6); font-size: 0.85rem; }
+    .hero-meta-item .dot { width: 6px; height: 6px; background: #22c55e; border-radius: 50%; }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 60px 5%; display: grid; grid-template-columns: 260px 1fr; gap: 48px; align-items: start; }
+
+    .toc { position: sticky; top: 88px; background: var(--white); border-radius: 16px; border: 1px solid var(--border); padding: 28px; box-shadow: 0 4px 24px rgba(0,0,0,0.06); }
+    .toc-title { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-light); margin-bottom: 16px; }
+    .toc ul { list-style: none; }
+    .toc ul li { margin-bottom: 4px; }
+    .toc ul li a { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 8px; color: var(--text-light); text-decoration: none; font-size: 0.83rem; transition: all 0.2s; line-height: 1.4; }
+    .toc ul li a:hover, .toc ul li a.active { background: rgba(26,115,232,0.08); color: var(--primary); font-weight: 500; }
+    .toc ul li a::before { content: ''; width: 4px; height: 4px; background: var(--border); border-radius: 50%; flex-shrink: 0; transition: background 0.2s; }
+    .toc ul li a:hover::before, .toc ul li a.active::before { background: var(--primary); }
+    .toc-note { margin-top: 20px; padding: 14px; background: rgba(34,197,94,0.08); border-left: 3px solid #22c55e; border-radius: 0 8px 8px 0; font-size: 0.78rem; color: var(--text-light); line-height: 1.5; }
+
+    .content { min-width: 0; }
+    .section { background: var(--white); border-radius: 16px; border: 1px solid var(--border); padding: 40px; margin-bottom: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.04); animation: fadeUp 0.5s ease both; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+    .section:nth-child(1) { animation-delay:.05s } .section:nth-child(2) { animation-delay:.1s } .section:nth-child(3) { animation-delay:.15s } .section:nth-child(4) { animation-delay:.2s } .section:nth-child(5) { animation-delay:.25s } .section:nth-child(6) { animation-delay:.3s } .section:nth-child(7) { animation-delay:.35s } .section:nth-child(8) { animation-delay:.4s } .section:nth-child(9) { animation-delay:.45s } .section:nth-child(10) { animation-delay:.5s } .section:nth-child(11) { animation-delay:.55s } .section:nth-child(12) { animation-delay:.6s } .section:nth-child(13) { animation-delay:.65s }
+
+    .section-header { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 22px; padding-bottom: 18px; border-bottom: 1px solid var(--border); }
+    .section-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+    .icon-blue   { background: rgba(26,115,232,0.1); }
+    .icon-orange { background: rgba(255,107,53,0.1); }
+    .icon-green  { background: rgba(34,197,94,0.1); }
+    .icon-purple { background: rgba(139,92,246,0.1); }
+    .icon-red    { background: rgba(239,68,68,0.1); }
+    .icon-teal   { background: rgba(20,184,166,0.1); }
+    .icon-yellow { background: rgba(234,179,8,0.1); }
+    .section-title-wrap h2 { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 600; color: var(--dark); line-height: 1.3; }
+    .section-title-wrap .section-num { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--primary); margin-bottom: 4px; }
+
+    .section p { color: var(--text-light); font-size: 0.93rem; margin-bottom: 14px; line-height: 1.8; }
+    .section p:last-child { margin-bottom: 0; }
+    .section ul, .section ol { padding-left: 20px; margin-bottom: 14px; }
+    .section li { color: var(--text-light); font-size: 0.93rem; margin-bottom: 8px; line-height: 1.7; }
+    .section li strong { color: var(--text); }
+
+    .highlight-box { background: rgba(26,115,232,0.05); border: 1px solid rgba(26,115,232,0.15); border-radius: 10px; padding: 18px 20px; margin: 18px 0; }
+    .highlight-box p { margin: 0 !important; color: var(--primary-dark) !important; font-size: 0.88rem !important; }
+    .green-box { background: rgba(34,197,94,0.06); border: 1px solid rgba(34,197,94,0.2); border-radius: 10px; padding: 18px 20px; margin: 18px 0; }
+    .green-box p { margin: 0 !important; color: #166534 !important; font-size: 0.88rem !important; }
+    .warn-box { background: rgba(255,107,53,0.06); border: 1px solid rgba(255,107,53,0.2); border-radius: 10px; padding: 18px 20px; margin: 18px 0; display: flex; gap: 12px; }
+    .warn-box .warn-icon { font-size: 18px; flex-shrink: 0; }
+    .warn-box p { margin: 0 !important; color: #9a3412 !important; font-size: 0.88rem !important; }
+    .red-box { background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.2); border-radius: 10px; padding: 18px 20px; margin: 18px 0; display: flex; gap: 12px; }
+    .red-box p { margin: 0 !important; color: #991b1b !important; font-size: 0.88rem !important; }
+
+    .fee-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.88rem; }
+    .fee-table th { background: var(--bg); padding: 10px 14px; text-align: left; font-weight: 600; color: var(--text); border: 1px solid var(--border); font-size: 0.82rem; }
+    .fee-table td { padding: 10px 14px; border: 1px solid var(--border); color: var(--text-light); vertical-align: top; }
+    .fee-table tr:hover td { background: rgba(26,115,232,0.02); }
+    .badge { display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
+    .badge-green { background: rgba(34,197,94,0.1); color: #166534; }
+    .badge-red { background: rgba(239,68,68,0.1); color: #991b1b; }
+    .badge-yellow { background: rgba(234,179,8,0.1); color: #854d0e; }
+
+    .contact-card { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-top: 20px; }
+    .contact-item { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+    .contact-item .ci-label { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text-light); margin-bottom: 6px; }
+    .contact-item .ci-value { font-size: 0.92rem; font-weight: 500; color: var(--primary); }
+    .contact-item .ci-value a { color: var(--primary); text-decoration: none; }
+    .contact-item .ci-value a:hover { text-decoration: underline; }
+
+    footer { background: var(--dark); color: rgba(255,255,255,0.6); text-align: center; padding: 40px 5%; }
+    .footer-top { display: flex; justify-content: center; align-items: center; gap: 32px; flex-wrap: wrap; margin-bottom: 24px; }
+    .footer-top a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+    .footer-top a:hover { color: var(--accent); }
+    .footer-divider { width: 40px; height: 1px; background: rgba(255,255,255,0.15); }
+    .footer-bottom { font-size: 0.8rem; color: rgba(255,255,255,0.35); }
+
+    @media (max-width: 900px) { .container { grid-template-columns: 1fr; } .toc { display: none; } .nav-links { display: none; } }
+    @media (max-width: 600px) { .section { padding: 24px 20px; } .page-hero { padding: 48px 5% 40px; } }
+  </style>
+  <script>
+    window.SUPABASE_URL="https://ndaurluolurdljrjbxii.supabase.co";
+    window.SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kYXVybHVvbHVyZGxqcmpieGlpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MDY2MzksImV4cCI6MjA5MzQ4MjYzOX0.JsZXOof19JkyX7asJQ7EtoaBKqURJUYzVqXQIenCzjQ";
+    window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/);return m?m[1]:null;};
+  </script>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">
+    <div class="logo-icon">✈️</div>
+    <div class="logo-text">Zoom<span>Fly</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="flights.html">Flights</a></li>
+    <li><a href="hotels.html">Hotels</a></li>
+    <li><a href="packages.html">Packages</a></li>
+    <li><a href="buses.html">Buses</a></li>
+    <li><a href="cabs.html">Cabs</a></li>
+    <li><a href="contact.html" class="nav-cta">Contact Us</a></li>
+  </ul>
+</nav>
+
+<div class="page-hero">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a>
+    <span>›</span>
+    <span>Terms & Conditions</span>
+  </div>
+  <h1>Terms &<br/><span>Conditions</span></h1>
+  <div class="hero-meta">
+    <div class="hero-meta-item"><div class="dot"></div>Last Updated: May 8, 2026</div>
+    <div class="hero-meta-item"><div class="dot"></div>Effective Date: January 1, 2025</div>
+    <div class="hero-meta-item"><div class="dot"></div>Jurisdiction: New Delhi, India</div>
+  </div>
+</div>
+
+<div class="container">
+
+  <aside class="toc">
+    <div class="toc-title">Table of Contents</div>
+    <ul>
+      <li><a href="#acceptance">Acceptance of Terms</a></li>
+      <li><a href="#services">Our Services</a></li>
+      <li><a href="#eligibility">Eligibility & Accounts</a></li>
+      <li><a href="#bookings">Booking Terms</a></li>
+      <li><a href="#payments">Payments & Pricing</a></li>
+      <li><a href="#cancellations">Cancellations</a></li>
+      <li><a href="#vendor-terms">Vendor Terms</a></li>
+      <li><a href="#conduct">User Conduct</a></li>
+      <li><a href="#liability">Liability & Disclaimers</a></li>
+      <li><a href="#ip">Intellectual Property</a></li>
+      <li><a href="#governing-law">Governing Law</a></li>
+      <li><a href="#contact">Contact Us</a></li>
+    </ul>
+    <div class="toc-note">
+      ⚖️ By using ZoomFly, you agree to be legally bound by these Terms & Conditions.
+    </div>
+  </aside>
+
+  <main class="content">
+
+    <!-- 1. ACCEPTANCE -->
+    <div class="section" id="acceptance">
+      <div class="section-header">
+        <div class="section-icon icon-blue">📜</div>
+        <div class="section-title-wrap">
+          <div class="section-num">Section 01</div>
+          <h2>Acceptance of Terms</h2>
+        </div>
+      </div>
+      <p>These Terms and Conditions ("Terms") constitute a legally binding agreement between you ("User", "Customer", "Vendor") and <strong>ZoomFly Travel Services</strong> ("ZoomFly", "we", "us") governing your access to and use of the ZoomFly platform at <strong>zoomfly.in</strong>.</p>
+      <p>By accessing our website, creating an account, making a booking, or using any ZoomFly service, you confirm that you have read, understood, and agree to be bound by these Terms and our Privacy Policy.</p>
+      <div class="warn-box">
+        <div class="warn-icon">⚠️</div>
+        <p>If you do not agree to these Terms, you must immediately stop using ZoomFly's services. Continued use constitutes acceptance of any updates to these Terms.</p>
+      </div>
+      <p>ZoomFly reserves the right to modify these Terms at any time. Material changes will be notified via email to registered users and prominently displayed on the platform for 30 days.</p>
+    </div>
+
+    <!-- 2. SERVICES -->
+    <div class="section" id="services">
+      <div class="section-header">
+        <div class="section-icon icon-green">✈️</div>
+        <div class="section-title-wrap">
+          <div class="section-num">Section 02</div>
+          <h2>Our Services</h2>
+        </div>
+      </div>
+      <p>ZoomFly is an online travel aggregator and booking platform that facilitates the following services:</p>
+      <ul>
+        <li><strong>Flight Bookings:</strong> Search and enquiry for domestic and international flights via WhatsApp-assisted booking.</li>
+        <li><strong>Hotel Bookings:</strong> Discovery, comparison, and reservation of hotel rooms across India and select international destinations.</li>
+        <li><strong>Holiday Packages:</strong> Pre-designed and customisable travel packages including accommodation, transport, and activities.</li>
+        <li><strong>Bus Bookings:</strong> Inter-city and long-distance bus reservations through partner operators.</li>
+        <li><strong>Cab & Transfer Services:</strong> Airport transfers, local city cabs, and outstation cab bookings through partner providers.</li>
+        <li><strong>Destination Guides:</strong> Travel information, tips, and discovery content for popular destinations.</li>
+      </ul>
+      <div class="highlight-box">
+        <p>ℹ️ ZoomFly acts as an <strong>intermediary platform</strong>. The actual travel services (flights, hotel stays, cab rides, bus journeys) are provided by independent third-party operators. ZoomFly facilitates the booking but is not the airline, hotel, bus operator, or cab provider.</p>
+      </div>
+    </div>
+
+    <!-- 3. ELIGIBILITY -->
+    <div class="section" id="eligibility">
+      <div class="section-header">
+        <div class="section-icon icon-purple">👤</div>
+        <div class="section-title-wrap">
+          <div class="section-num">Section 03</div>
+          <h2>Eligibility & User Accounts</h2>
+        </div>
+      </div>
+      <p>To use ZoomFly's services and create an account, you must:</p>
+      <ul>
+        <li>Be at least <strong>18 years of age</strong> or the legal age of majority in your jurisdiction.</li>
+        <li>Have the legal capacity to enter into binding contracts under Indian law.</li>
+        <li>Provide accurate, complete, and current registration information.</li>
+        <li>Maintain the confidentiality of your login credentials and not share them with others.</li>
+        <li>Promptly notify us at <strong>s.admin@zoomfly.in</strong> of any unauthorized access to your account.</li>
+      </ul>
+      <p>You are fully responsible for all activities that occur under your account. ZoomFly shall not be liable for any loss arising from unauthorized use of your account due to your failure to maintain security of your credentials.</p>
+      <p>ZoomFly reserves the right to suspend or terminate accounts that provide false information, violate these Terms, or engage in fraudulent activity.</p>
+    </div>
+
+    <!-- 4. BOOKINGS -->
+    <div class="section" id="bookings">
+      <div class="section-header">
+        <div class="section-icon icon-teal">🎫</div>
+        <div class="section-title-wrap">
+          <div class="section-num">Section 04</div>
+          <h2>Booking Terms</h2>
+        </div>
+      </div>
+      <p>When you make a booking through ZoomFly, the following terms apply:</p>
+      <ul>
+        <li><strong>Booking Confirmation:</strong> A booking is confirmed only upon receipt of full payment and issuance of a booking reference number via email or WhatsApp.</li>
+        <li><strong>Accuracy of Information:</strong> You are responsible for ensuring all traveller details (names, dates of birth, ID numbers, travel dates) are accurate at the time of booking. Errors may result in additional charges or booking invalidation.</li>
+        <li><strong>Document Responsibility:</strong> Travellers must carry valid government-issued ID proof and any travel documents (passport, visa) required for their journey. ZoomFly is not responsible for denied boarding or entry due to invalid documents.</li>
+        <li><strong>Price Confirmation:</strong> Prices displayed are subject to availability and may change until final payment is processed. ZoomFly will notify you of price changes before confirming your booking.</li>
+        <li><strong>Third-Party Terms:</strong> Bookings with airlines, hotels, and operators are subject to those service providers' own terms and conditions in addition to ZoomFly's terms.</li>
+        <li><strong>Group Bookings:</strong> Bookings for 10 or more passengers may be subject to special pricing and separate group booking terms. Contact us at s.admin@zoomfly.in for group enquiries.</li>
+      </ul>
+      <div class="green-box">
+        <p>✅ Upon successful booking, you will receive a WhatsApp confirmation message and email to your registered contact details within 30 minutes of payment.</p>
+      </div>
+    </div>
+
+    <!-- 5. PAYMENTS -->
+    <div class="section" id="payments">
+      <div class="section-header">
+        <div class="section-icon icon-orange">💳</div>
+        <div class="section-title-wrap">
+          <div class="section-num">Section 05</div>
+          <h2>Payments & Pricing</h2>
+        </div>
+      </div>
+      <p>All payments on ZoomFly are processed securely through <strong>Razorpay</strong>. The following payment methods are accepted:</p>
+      <ul>
+        <li>UPI (Google Pay, PhonePe, Paytm, BHIM, and others)</li>
+        <li>Credit & Debit Cards (Visa, Mastercard, RuPay)</li>
+        <li>Net Banking (all major Indian banks)</li>
+        <li>NEFT / RTGS Bank Transfer</li>
+        <li>EMI (select cards and NBFCs, subject to eligibility)</li>
+      </ul>
+
+      <table class="fee-table">
+        <thead>
+          <tr>
+            <th>Payment Method</th>
+            <th>Processing Time</th>
+            <th>Transaction Fee</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>UPI</td><td>Instant</td><td><span class="badge badge-green">Nil</span></td></tr>
+          <tr><td>Credit / Debit Card</td><td>Instant</td><td><span class="badge badge-yellow">Up to 2%</span></td></tr>
+          <tr><td>Net Banking</td><td>Instant</td><td><span class="badge badge-yellow">Up to 1.5%</span></td></tr>
+          <tr><td>NEFT / RTGS</td><td>2–4 Hours</td><td><span class="badge badge-green">Nil</span></td></tr>
+          <tr><td>EMI</td><td>Instant</td><td><span class="badge badge-yellow">Interest as applicable</span></td></tr>
+        </tbody>
+      </table>
+
+      <p>All prices displayed are in <strong>Indian Rupees (INR)</strong> and are inclusive of applicable GST unless stated otherwise. ZoomFly reserves the right to correct pricing errors prior to booking confirmation.</p>
+      <div class="warn-box">
+        <div class="warn-icon">⚠️</div>
+        <p>Failed payment amounts will be refunded within <strong>5–7 business days</strong> to the original payment source. ZoomFly is not responsible for delays caused by your bank or payment provider.</p>
+      </div>
+    </div>
+
+    <!-- 6. CANCELLATIONS -->
+    <div class="section" id="cancellations">
+      <div class="section-header">
+        <div class="section-icon icon-red">❌</div>
+        <div class="section-title-wrap">
+          <div class="section-num">Section 06</div>
+          <h2>Cancellations & Modifications</h2>
+        </div>
+      </div>
+      <p>Cancellation and modification policies vary by service type and booking. Please refer to our dedicated <a href="refund-policy.html" style="color: var(--primary);">Refund & Cancellation Policy</a> page for complete details. Key terms are summarised below:</p>
+
+      <table class="fee-table">
+        <thead>
+          <tr>
+            <th>Service</th>
+            <th>Free Cancellation</th>
+            <th>Cancellation Fee</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Holiday Packages</td><td>Within 24 hrs of booking</td><td>10–50% of package cost</td></tr>
+          <tr><td>Hotel Bookings</td><td>48 hrs before check-in</td><td>1 night charge</td></tr>
+          <tr><td>Cab / Transfer</td><td>4 hrs before pickup</td><td>₹200–500 flat fee</td></tr>
+          <tr><td>Bus Bookings</td><td>6 hrs before departure</td><td>15–25% of fare</td></tr>
+          <tr><td>Flights</td><td>Per airline policy</td><td>As per airline + ₹350 ZoomFly fee</td></tr>
+        </tbody>
+      </table>
+
+      <p>To request a cancellation, contact us on WhatsApp at <strong>+91 8076136300</strong> or email <strong>s.admin@zoomfly.in</strong> with your booking reference number.</p>
+      <div class="red-box">
+        <p>🚫 Non-refundable bookings are clearly marked at the time of booking. These cannot be cancelled or modified for any refund once confirmed.</p>
+      </div>
+    </div>
+
+    <!-- 7. VENDOR TERMS -->
+    <div class="section" id="vendor-terms">
+      <div class="section-header">
+        <div class="section-icon icon-yellow">🏨</div>
+        <div class="section-title-wrap">
+          <div class="section-num">Section 07</div>
+          <h2>Vendor Terms & Obligations</h2>
+        </div>
+      </div>
+      <p>These terms apply to all vendors (hotels, bus operators, cab providers, tour operators) registered on the ZoomFly platform:</p>
+      <ul>
+        <li><strong>Accurate Listings:</strong> Vendors must ensure all information (pricing, availability, amenities, photos) is accurate and updated. Misleading listings may result in immediate removal and account suspension.</li>
+        <li><strong>Service Delivery:</strong> Vendors are obligated to fulfil all confirmed bookings. Failure to do so without valid reason may result in penalties and removal from the platform.</li>
+        <li><strong>Compliance:</strong> Vendors must hold all required licences, permits, and insurance under applicable Indian law. ZoomFly may request documentation at any time.</li>
+        <li><strong>Commission:</strong> Vendors agree to ZoomFly's commission structure as communicated at the time of registration. This may be revised with 30 days' notice.</li>
+        <li><strong>Dispute Resolution:</strong> In the event of a customer dispute, vendors must cooperate with ZoomFly's resolution process within 48 hours.</li>
+        <li><strong>Data Protection:</strong> Vendors may not use customer data obtained through ZoomFly for any purpose outside of fulfilling the specific booking.</li>
+        <li><strong>Termination:</strong> ZoomFly may terminate a vendor's listing at any time for breach of these terms, with or without prior notice in cases of serious violations.</li>
+      </ul>
+      <div class="highlight-box">
+        <p>📋 Vendors are responsible for their own GST compliance and invoicing to end customers. ZoomFly will provide monthly transaction reports to support vendor reconciliation.</p>
+      </div>
+    </div>
+
+    <!-- 8. USER CONDUCT -->
+    <div class="section" id="conduct">
+      <div class="section-header">
+        <div class="section-icon icon-purple">🛡️</div>
+        <div class="section-title-wrap">
+          <div class="section-num">Section 08</div>
+          <h2>User Conduct & Prohibited Activities</h2>
+        </div>
+      </div>
+      <p>When using ZoomFly, you agree not to engage in the following prohibited activities:</p>
+      <ul>
+        <li>Providing false, inaccurate, or misleading information during registration or booking.</li>
+        <li>Making fraudulent bookings, chargebacks, or payment disputes without valid cause.</li>
+        <li>Attempting to access other users' accounts or ZoomFly's administrative systems without authorization.</li>
+        <li>Using automated tools, bots, or scrapers to extract content or data from ZoomFly's platform.</li>
+        <li>Reproducing, distributing, or commercially exploiting ZoomFly content without written permission.</li>
+        <li>Harassing, threatening, or abusing ZoomFly staff, vendors, or other users.</li>
+        <li>Circumventing ZoomFly's platform to book directly with vendors discovered through our platform to avoid platform fees.</li>
+        <li>Violating any applicable Indian or international laws while using our services.</li>
+      </ul>
+      <p>ZoomFly reserves the right to immediately suspend or permanently ban users who violate these conduct standards, with or without prior notice.</p>
+    </div>
+
+    <!-- 9. LIABILITY -->
+    <div class="section" id="liability">
+      <div class="section-header">
+        <div class="section-icon icon-red">⚖️</div>
+        <div class="section-title-wrap">
+          <div class="section-num">Section 09</div>
+          <h2>Limitation of Liability & Disclaimers</h2>
+        </div>
+      </div>
+      <p>ZoomFly operates as a technology platform and travel intermediary. The following limitations apply:</p>
+      <ul>
+        <li><strong>Third-Party Services:</strong> ZoomFly is not liable for the quality, safety, legality, or reliability of services provided by airlines, hotels, cab operators, or bus companies listed on our platform.</li>
+        <li><strong>Force Majeure:</strong> ZoomFly is not responsible for cancellations, delays, or disruptions caused by natural disasters, strikes, civil unrest, government orders, pandemics, or other events beyond our control.</li>
+        <li><strong>Service Interruption:</strong> We do not guarantee uninterrupted access to our platform. Scheduled maintenance or technical issues may temporarily affect availability.</li>
+        <li><strong>Pricing Errors:</strong> While we strive for accuracy, ZoomFly is not bound by obviously incorrect prices resulting from system errors. We will notify you and offer a full refund in such cases.</li>
+        <li><strong>Maximum Liability:</strong> ZoomFly's total liability to you in connection with any booking shall not exceed the amount paid by you for that specific booking.</li>
+        <li><strong>Indirect Losses:</strong> ZoomFly is not liable for any indirect, consequential, or special damages arising from use of our platform or travel services, including missed flights, lost luggage, or medical expenses.</li>
+      </ul>
+      <div class="warn-box">
+        <div class="warn-icon">💡</div>
+        <p>We strongly recommend all travellers purchase comprehensive travel insurance for their journeys. ZoomFly can assist with travel insurance options — contact us for details.</p>
+      </div>
+    </div>
+
+    <!-- 10. IP -->
+    <div class="section" id="ip">
+      <div class="section-header">
+        <div class="section-icon icon-teal">©️</div>
+        <div class="section-title-wrap">
+          <div class="section-num">Section 10</div>
+          <h2>Intellectual Property</h2>
+        </div>
+      </div>
+      <p>All content on the ZoomFly platform — including but not limited to the logo, brand name, website design, graphics, text, photographs, destination guides, and software code — is the exclusive intellectual property of ZoomFly Travel Services and is protected under Indian copyright, trademark, and design laws.</p>
+      <ul>
+        <li>You may not reproduce, copy, republish, upload, post, transmit, or distribute any ZoomFly content without our prior written consent.</li>
+        <li>The ZoomFly name and logo are registered trademarks. Unauthorized use is strictly prohibited.</li>
+        <li>User-generated content (reviews, ratings, photos) submitted to ZoomFly grants us a non-exclusive, royalty-free licence to use, display, and modify such content on our platform.</li>
+      </ul>
+      <p>For content licensing enquiries, contact us at <strong>s.admin@zoomfly.in</strong>.</p>
+    </div>
+
+    <!-- 11. GOVERNING LAW -->
+    <div class="section" id="governing-law">
+      <div class="section-header">
+        <div class="section-icon icon-blue">🏛️</div>
+        <div class="section-title-wrap">
+          <div class="section-num">Section 11</div>
+          <h2>Governing Law & Dispute Resolution</h2>
+        </div>
+      </div>
+      <p>These Terms and Conditions are governed by and construed in accordance with the laws of the <strong>Republic of India</strong>, including but not limited to:</p>
+      <ul>
+        <li>The Indian Contract Act, 1872</li>
+        <li>The Consumer Protection Act, 2019</li>
+        <li>The Information Technology Act, 2000 and its amendments</li>
+        <li>The Goods and Services Tax laws applicable to travel services</li>
+      </ul>
+      <p><strong>Dispute Resolution Process:</strong></p>
+      <ol>
+        <li><strong>Step 1 — Direct Resolution:</strong> Contact ZoomFly's Grievance Officer at s.admin@zoomfly.in. We will endeavour to resolve your concern within 30 days.</li>
+        <li><strong>Step 2 — Consumer Forum:</strong> If unresolved, you may approach the appropriate Consumer Disputes Redressal Forum under the Consumer Protection Act, 2019.</li>
+        <li><strong>Step 3 — Arbitration:</strong> For commercial disputes, the parties agree to resolve matters through arbitration under the Arbitration and Conciliation Act, 1996, with New Delhi as the seat of arbitration.</li>
+      </ol>
+      <div class="highlight-box">
+        <p>🏛️ All disputes shall be subject to the exclusive jurisdiction of the courts of <strong>New Delhi, India</strong>.</p>
+      </div>
+    </div>
+
+    <!-- 12. CONTACT -->
+    <div class="section" id="contact">
+      <div class="section-header">
+        <div class="section-icon icon-orange">📬</div>
+        <div class="section-title-wrap">
+          <div class="section-num">Section 12</div>
+          <h2>Contact & Grievance Officer</h2>
+        </div>
+      </div>
+      <p>For any questions, complaints, or legal notices regarding these Terms, please contact our Grievance Officer:</p>
+      <div class="contact-card">
+        <div class="contact-item">
+          <div class="ci-label">Grievance Officer</div>
+          <div class="ci-value">ZoomFly Admin</div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-label">Email</div>
+          <div class="ci-value"><a href="mailto:s.admin@zoomfly.in">s.admin@zoomfly.in</a></div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-label">WhatsApp</div>
+          <div class="ci-value"><a href="https://wa.me/918076136300">+91 8076136300</a></div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-label">Response Time</div>
+          <div class="ci-value">Within 30 days</div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-label">Operating Hours</div>
+          <div class="ci-value">Mon–Sat, 9 AM – 6 PM IST</div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-label">Jurisdiction</div>
+          <div class="ci-value">New Delhi, India</div>
+        </div>
+      </div>
+      <div class="green-box" style="margin-top:24px;">
+        <p>✅ These Terms were last reviewed and updated on <strong>May 8, 2026</strong>. The current version supersedes all previous versions of ZoomFly's Terms & Conditions.</p>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<footer>
+  <div class="footer-top">
+    <a href="index.html">Home</a>
+    <div class="footer-divider"></div>
+    <a href="privacy-policy.html">Privacy Policy</a>
+    <div class="footer-divider"></div>
+    <a href="terms.html">Terms & Conditions</a>
+    <div class="footer-divider"></div>
+    <a href="refund-policy.html">Refund Policy</a>
+    <div class="footer-divider"></div>
+    <a href="about.html">About Us</a>
+    <div class="footer-divider"></div>
+    <a href="contact.html">Contact</a>
+  </div>
+  <div class="footer-bottom">© 2026 ZoomFly Travel Services. All rights reserved. | Built with ❤️ for Indian travellers.</div>
+</footer>
+
+<script>
+  const sections = document.querySelectorAll('.section[id]');
+  const tocLinks = document.querySelectorAll('.toc ul li a');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        tocLinks.forEach(l => l.classList.remove('active'));
+        const a = document.querySelector(`.toc a[href="#${entry.target.id}"]`);
+        if (a) a.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>

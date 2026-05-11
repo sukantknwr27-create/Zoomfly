@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ZoomFly Rewards — Loyalty Points</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✈️</text></svg>"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{
+      --primary:#1a73e8; --accent:#ff6b35; --dark:#0f1923; --dark2:#1a2535;
+      --text:#2d3748; --light:#64748b; --border:#e2e8f0; --bg:#f8fafc; --white:#fff;
+      --gold:#f59e0b; --silver:#94a3b8; --bronze:#cd7c35; --platinum:#8b5cf6;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);}
+
+    nav{background:var(--dark);padding:0 5%;display:flex;align-items:center;
+      justify-content:space-between;height:68px;position:sticky;top:0;z-index:100;
+      box-shadow:0 2px 20px rgba(0,0,0,0.3);}
+    .logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+    .logo-icon{width:38px;height:38px;background:linear-gradient(135deg,var(--primary),var(--accent));
+      border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;}
+    .logo-text{font-family:'Playfair Display',serif;font-size:1.5rem;color:#fff;font-weight:700;}
+    .logo-text span{color:var(--accent);}
+    .nav-links{display:flex;gap:24px;list-style:none;}
+    .nav-links a{color:rgba(255,255,255,0.7);text-decoration:none;font-size:0.88rem;}
+    .nav-links a:hover{color:#fff;}
+    .nav-cta{background:var(--gold)!important;color:#000!important;padding:7px 18px;border-radius:8px;font-weight:700!important;}
+
+    /* HERO */
+    .hero{background:linear-gradient(135deg,#0f1923 0%,#1a2535 50%,#1a1a0f 100%);
+      padding:80px 5% 72px;position:relative;overflow:hidden;}
+    .hero::before{content:'✦';position:absolute;font-size:400px;right:-60px;top:-60px;
+      color:rgba(245,158,11,0.04);line-height:1;}
+    .hero-inner{max-width:1100px;margin:0 auto;display:grid;
+      grid-template-columns:1fr 380px;gap:48px;align-items:center;}
+    .hero-badge{display:inline-flex;align-items:center;gap:8px;
+      background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.3);
+      border-radius:20px;padding:6px 16px;font-size:0.78rem;font-weight:700;
+      color:#fde68a;text-transform:uppercase;letter-spacing:1px;margin-bottom:22px;}
+    .hero h1{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3rem);
+      color:#fff;font-weight:800;line-height:1.2;margin-bottom:16px;}
+    .hero h1 span{background:linear-gradient(90deg,var(--gold),var(--accent));
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+    .hero p{color:rgba(255,255,255,0.6);font-size:0.95rem;line-height:1.8;margin-bottom:28px;}
+    .hero-actions{display:flex;gap:12px;}
+    .btn-gold{background:linear-gradient(135deg,var(--gold),#d97706);color:#000;
+      padding:13px 26px;border-radius:10px;text-decoration:none;font-weight:700;
+      font-size:0.92rem;box-shadow:0 4px 20px rgba(245,158,11,0.4);transition:all 0.2s;}
+    .btn-gold:hover{transform:translateY(-2px);}
+    .btn-outline{background:transparent;color:#fff;padding:13px 26px;border-radius:10px;
+      text-decoration:none;font-weight:600;font-size:0.92rem;
+      border:1.5px solid rgba(255,255,255,0.3);transition:all 0.2s;}
+    .btn-outline:hover{background:rgba(255,255,255,0.08);}
+
+    /* Points card */
+    .points-card{background:linear-gradient(135deg,#1a1a0f,#2d2500);
+      border-radius:20px;border:1px solid rgba(245,158,11,0.2);padding:32px;
+      box-shadow:0 16px 48px rgba(0,0,0,0.4);}
+    .pc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;}
+    .pc-logo{font-family:'Playfair Display',serif;font-size:1rem;color:rgba(245,158,11,0.8);font-weight:700;}
+    .pc-tier{padding:4px 12px;border-radius:20px;font-size:0.72rem;font-weight:700;}
+    .tier-bronze  {background:rgba(205,124,53,0.2);color:#cd7c35;}
+    .tier-silver  {background:rgba(148,163,184,0.2);color:#94a3b8;}
+    .tier-gold    {background:rgba(245,158,11,0.2);color:#f59e0b;}
+    .tier-platinum{background:rgba(139,92,246,0.2);color:#8b5cf6;}
+    .pc-points{font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:800;
+      color:#fff;line-height:1;margin-bottom:4px;}
+    .pc-points span{font-size:1rem;color:rgba(245,158,11,0.7);}
+    .pc-sub{font-size:0.78rem;color:rgba(255,255,255,0.4);margin-bottom:20px;}
+    .pc-bar-wrap{background:rgba(255,255,255,0.08);border-radius:6px;height:6px;margin-bottom:8px;}
+    .pc-bar{height:6px;border-radius:6px;background:linear-gradient(90deg,var(--gold),var(--accent));transition:width 0.8s ease;}
+    .pc-bar-label{display:flex;justify-content:space-between;font-size:0.72rem;color:rgba(255,255,255,0.35);}
+    .pc-divider{height:1px;background:rgba(255,255,255,0.08);margin:20px 0;}
+    .pc-ref{font-size:0.72rem;color:rgba(255,255,255,0.35);margin-bottom:6px;}
+    .pc-ref-code{font-family:'JetBrains Mono',monospace;font-size:1rem;
+      font-weight:600;color:var(--gold);letter-spacing:2px;}
+
+    /* TIERS */
+    .section{padding:72px 5%;}
+    .section-inner{max-width:1100px;margin:0 auto;}
+    .section-label{font-size:0.72rem;font-weight:700;text-transform:uppercase;
+      letter-spacing:2px;color:var(--gold);margin-bottom:10px;}
+    .section-heading{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,3vw,2.2rem);
+      font-weight:700;color:var(--dark);line-height:1.3;margin-bottom:14px;}
+    .section-heading span{color:var(--primary);}
+    .section-sub{color:var(--light);font-size:0.95rem;line-height:1.8;max-width:560px;}
+
+    .tiers-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:48px;}
+    .tier-card{background:var(--white);border-radius:16px;border:2px solid var(--border);
+      padding:28px;text-align:center;transition:all 0.3s;position:relative;overflow:hidden;}
+    .tier-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;}
+    .tier-card.bronze::before{background:linear-gradient(90deg,#cd7c35,#a05a20);}
+    .tier-card.silver::before{background:linear-gradient(90deg,#94a3b8,#64748b);}
+    .tier-card.gold::before{background:linear-gradient(90deg,var(--gold),#d97706);}
+    .tier-card.platinum::before{background:linear-gradient(90deg,var(--platinum),#6d28d9);}
+    .tier-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,0.12);}
+    .tc-icon{font-size:36px;margin-bottom:12px;}
+    .tc-name{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;
+      color:var(--dark);margin-bottom:4px;}
+    .tc-range{font-size:0.75rem;color:var(--light);margin-bottom:16px;padding-bottom:16px;
+      border-bottom:1px solid var(--border);}
+    .tc-perk{font-size:0.82rem;color:var(--text);margin-bottom:8px;display:flex;align-items:flex-start;gap:8px;text-align:left;}
+    .tc-perk-icon{flex-shrink:0;color:var(--gold);}
+    .tc-earn{margin-top:16px;padding:10px;background:var(--bg);border-radius:8px;
+      font-size:0.78rem;font-weight:700;color:var(--dark);}
+
+    /* HOW TO EARN */
+    .earn-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px;}
+    .earn-card{background:var(--white);border-radius:16px;border:1px solid var(--border);
+      padding:24px;box-shadow:0 2px 12px rgba(0,0,0,0.04);transition:all 0.2s;}
+    .earn-card:hover{box-shadow:0 8px 28px rgba(0,0,0,0.08);border-color:var(--gold);}
+    .ec-icon{font-size:28px;margin-bottom:12px;}
+    .ec-title{font-weight:700;font-size:0.95rem;color:var(--dark);margin-bottom:6px;}
+    .ec-desc{font-size:0.83rem;color:var(--light);line-height:1.6;margin-bottom:10px;}
+    .ec-pts{font-size:0.78rem;font-weight:700;padding:4px 12px;border-radius:20px;
+      display:inline-block;background:rgba(245,158,11,0.1);color:#92400e;}
+
+    /* REDEEM SECTION */
+    .redeem-bg{background:linear-gradient(135deg,#1a1a0f,#2d2500);}
+    .redeem-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px;}
+    .redeem-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);
+      border-radius:16px;padding:24px;transition:all 0.3s;}
+    .redeem-card:hover{background:rgba(255,255,255,0.08);transform:translateY(-3px);}
+    .rc-icon{font-size:28px;margin-bottom:12px;}
+    .rc-title{font-weight:700;font-size:0.95rem;color:#fff;margin-bottom:6px;}
+    .rc-desc{font-size:0.83rem;color:rgba(255,255,255,0.5);line-height:1.6;margin-bottom:10px;}
+    .rc-rate{font-size:0.78rem;font-weight:700;color:var(--gold);}
+
+    /* MY ACCOUNT SECTION */
+    .account-section{background:var(--white);border-radius:20px;border:1px solid var(--border);
+      box-shadow:0 4px 24px rgba(0,0,0,0.06);overflow:hidden;margin-top:32px;}
+    .as-head{background:linear-gradient(135deg,var(--dark),var(--dark2));
+      padding:24px 28px;display:flex;align-items:center;justify-content:space-between;}
+    .as-head h3{font-family:'Playfair Display',serif;font-size:1.1rem;color:#fff;}
+    .as-head p{font-size:0.8rem;color:rgba(255,255,255,0.45);margin-top:2px;}
+    .as-body{padding:24px 28px;}
+
+    .txn-list{display:flex;flex-direction:column;gap:0;}
+    .txn-item{display:flex;align-items:center;justify-content:space-between;
+      padding:12px 0;border-bottom:1px solid var(--border);gap:12px;}
+    .txn-item:last-child{border-bottom:none;}
+    .txn-left{display:flex;align-items:center;gap:12px;}
+    .txn-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;
+      justify-content:center;font-size:16px;flex-shrink:0;}
+    .ti-earn  {background:rgba(34,197,94,0.1);}
+    .ti-redeem{background:rgba(239,68,68,0.1);}
+    .ti-expire{background:rgba(100,116,139,0.1);}
+    .txn-desc{font-size:0.85rem;font-weight:500;color:var(--dark);}
+    .txn-date{font-size:0.72rem;color:var(--light);margin-top:2px;}
+    .txn-pts{font-weight:700;font-size:0.95rem;}
+    .pts-earn  {color:var(--green);}
+    .pts-redeem{color:var(--red,#ef4444);}
+
+    .login-prompt{text-align:center;padding:48px 20px;
+      background:linear-gradient(135deg,rgba(245,158,11,0.05),rgba(255,107,53,0.03));
+      border-radius:12px;}
+    .lp-icon{font-size:48px;margin-bottom:14px;}
+    .lp-title{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--dark);margin-bottom:8px;}
+    .lp-sub{font-size:0.85rem;color:var(--light);margin-bottom:20px;}
+    .lp-btn{display:inline-block;padding:12px 28px;background:linear-gradient(135deg,var(--gold),#d97706);
+      color:#000;border-radius:10px;text-decoration:none;font-weight:700;font-size:0.9rem;}
+
+    /* REFERRAL */
+    .referral-box{background:linear-gradient(135deg,rgba(245,158,11,0.08),rgba(255,107,53,0.05));
+      border:1px solid rgba(245,158,11,0.2);border-radius:16px;padding:28px;margin-top:24px;}
+    .rb-title{font-weight:700;font-size:1rem;color:var(--dark);margin-bottom:6px;}
+    .rb-sub{font-size:0.85rem;color:var(--light);margin-bottom:16px;}
+    .rb-code-wrap{display:flex;gap:10px;align-items:center;}
+    .rb-code{font-family:'JetBrains Mono',monospace;font-size:1.1rem;font-weight:700;
+      color:var(--gold);padding:10px 20px;background:var(--white);border-radius:10px;
+      border:1.5px solid rgba(245,158,11,0.3);flex:1;letter-spacing:2px;}
+    .rb-copy{padding:10px 20px;background:var(--gold);color:#000;border:none;
+      border-radius:10px;cursor:pointer;font-weight:700;font-size:0.88rem;transition:all 0.2s;}
+    .rb-copy:hover{background:#d97706;}
+    .rb-share{display:flex;gap:8px;margin-top:12px;}
+    .rb-share-btn{padding:8px 16px;border-radius:8px;text-decoration:none;
+      font-size:0.8rem;font-weight:600;transition:all 0.2s;}
+    .rb-wa{background:#25d366;color:#fff;}
+    .rb-wa:hover{background:#20b858;}
+
+    /* Calculator */
+    .calc-section{background:var(--white);border-radius:16px;border:1px solid var(--border);
+      padding:28px;margin-top:24px;box-shadow:0 2px 12px rgba(0,0,0,0.04);}
+    .calc-title{font-weight:700;font-size:0.95rem;color:var(--dark);margin-bottom:4px;}
+    .calc-sub{font-size:0.82rem;color:var(--light);margin-bottom:18px;}
+    .calc-row{display:flex;gap:12px;align-items:center;margin-bottom:12px;flex-wrap:wrap;}
+    .calc-input{padding:10px 14px;border:1.5px solid var(--border);border-radius:9px;
+      font-family:inherit;font-size:0.9rem;width:160px;outline:none;}
+    .calc-input:focus{border-color:var(--gold);}
+    .calc-result{padding:12px 16px;background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);
+      border-radius:9px;font-size:0.88rem;color:var(--dark);}
+    .calc-result strong{color:var(--gold);}
+
+    footer{background:var(--dark);color:rgba(255,255,255,0.5);text-align:center;padding:36px 5%;}
+    .footer-links{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;margin-bottom:14px;}
+    .footer-links a{color:rgba(255,255,255,0.5);text-decoration:none;font-size:0.82rem;}
+    .footer-links a:hover{color:var(--accent);}
+    .footer-copy{font-size:0.78rem;color:rgba(255,255,255,0.3);}
+
+    .toast{position:fixed;bottom:24px;right:24px;background:var(--dark);color:#fff;
+      padding:12px 20px;border-radius:10px;font-size:0.88rem;font-weight:600;
+      z-index:9999;opacity:0;transform:translateY(8px);transition:all 0.3s;pointer-events:none;}
+    .toast.show{opacity:1;transform:translateY(0);}
+
+    @media(max-width:900px){.hero-inner{grid-template-columns:1fr;}.tiers-grid{grid-template-columns:1fr 1fr;}
+      .earn-grid,.redeem-grid{grid-template-columns:1fr 1fr;}.nav-links{display:none;}}
+    @media(max-width:600px){.tiers-grid,.earn-grid,.redeem-grid{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">
+    <div class="logo-icon">✈️</div>
+    <div class="logo-text">Zoom<span>Fly</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="flights.html">Flights</a></li>
+    <li><a href="packages.html">Packages</a></li>
+    <li><a href="my-bookings.html">My Bookings</a></li>
+    <li><a href="my-bookings.html" class="nav-cta">⭐ My Rewards</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge">⭐ ZoomFly Rewards</div>
+      <h1>Every Journey<br/>Earns You <span>Points.</span></h1>
+      <p>Book flights, hotels, packages, buses, and cabs — and earn ZoomFly Points on every rupee spent. Redeem for discounts on your next trip.</p>
+      <div class="hero-actions">
+        <a href="my-bookings.html" class="btn-gold">⭐ View My Points</a>
+        <a href="#earn-section"   class="btn-outline">How It Works</a>
+      </div>
+    </div>
+    <!-- Live points card -->
+    <div class="points-card" id="points-display">
+      <div class="pc-top">
+        <span class="pc-logo">✈️ ZoomFly Rewards</span>
+        <span class="pc-tier tier-bronze" id="pc-tier-badge">🥉 Bronze</span>
+      </div>
+      <div class="pc-points"><span id="pc-points">0</span> <span>pts</span></div>
+      <div class="pc-sub" id="pc-balance-sub">≈ ₹0 redeemable value</div>
+      <div class="pc-bar-wrap">
+        <div class="pc-bar" id="pc-bar" style="width:0%"></div>
+      </div>
+      <div class="pc-bar-label">
+        <span id="pc-bar-label-left">0 pts</span>
+        <span id="pc-bar-label-right">Silver: 5,000 pts</span>
+      </div>
+      <div class="pc-divider"></div>
+      <div class="pc-ref">Your referral code</div>
+      <div class="pc-ref-code" id="pc-ref-code">ZF——</div>
+    </div>
+  </div>
+</section>
+
+<!-- TIERS -->
+<section class="section">
+  <div class="section-inner">
+    <div class="section-label">Membership Tiers</div>
+    <h2 class="section-heading">The More You Travel,<br/><span>The More You Earn</span></h2>
+    <p class="section-sub">Earn points with every booking. Reach higher tiers for better earn rates and exclusive perks.</p>
+
+    <div class="tiers-grid">
+      <div class="tier-card bronze">
+        <div class="tc-icon">🥉</div>
+        <div class="tc-name">Bronze</div>
+        <div class="tc-range">0 – 4,999 lifetime points</div>
+        <div class="tc-perk"><span class="tc-perk-icon">✓</span> 5 points per ₹100 spent</div>
+        <div class="tc-perk"><span class="tc-perk-icon">✓</span> 250 welcome bonus points</div>
+        <div class="tc-perk"><span class="tc-perk-icon">✓</span> Redeem from 100 points</div>
+        <div class="tc-perk"><span class="tc-perk-icon">✓</span> Referral bonus (500 pts)</div>
+        <div class="tc-earn">5 pts / ₹100</div>
+      </div>
+      <div class="tier-card silver">
+        <div class="tc-icon">🥈</div>
+        <div class="tc-name">Silver</div>
+        <div class="tc-range">5,000 – 19,999 lifetime points</div>
+        <div class="tc-perk"><span class="tc-perk-icon">✓</span> 7 points per ₹100 spent</div>
+        <div class="tc-perk"><span class="tc-perk-icon">✓</span> Priority customer support</div>
+        <div class="tc-perk"><span class="tc-perk-icon">✓</span> Early access to deals</div>
+        <div class="tc-perk"><span class="tc-perk-icon">✓</span> Birthday bonus 500 pts</div>
+        <div class="tc-earn">7 pts / ₹100</div>
+      </div>
+      <div class="tier-card gold">
+        <div class="tc-icon">🥇</div>
+        <div class="tc-name">Gold</div>
+        <div class="tc-range">20,000 – 49,999 lifetime points</div>
+        <div class="tc-perk"><span class="tc-perk-icon">✓</span> 10 points per ₹100 spent</div>
+        <div class="tc-perk"><span class="tc-perk-icon">✓</span> Free cab upgrade once/yr</div>
+        <div class="tc-perk"><span class="tc-perk-icon">✓</span> Dedicated booking manager</div>
+        <div class="tc-perk"><span class="tc-perk-icon">✓</span> Birthday bonus 1,000 pts</div>
+        <div class="tc-earn">10 pts / ₹100</div>
+      </div>
+      <div class="tier-card platinum">
+        <div class="tc-icon">💎</div>
+        <div class="tc-name">Platinum</div>
+        <div class="tc-range">50,000+ lifetime points</div>
+        <div class="tc-perk"><span class="tc-perk-icon">✓</span> 15 points per ₹100 spent</div>
+        <div class="tc-perk"><span class="tc-perk-icon">✓</span> Free room upgrade once/yr</div>
+        <div class="tc-perk"><span class="tc-perk-icon">✓</span> Lounge access on request</div>
+        <div class="tc-perk"><span class="tc-perk-icon">✓</span> Birthday bonus 2,000 pts</div>
+        <div class="tc-earn">15 pts / ₹100</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW TO EARN -->
+<section class="section" style="padding-top:0;" id="earn-section">
+  <div class="section-inner">
+    <div class="section-label">Earning Points</div>
+    <h2 class="section-heading">Ways to <span>Earn</span></h2>
+    <div class="earn-grid">
+      <div class="earn-card">
+        <div class="ec-icon">✈️</div>
+        <div class="ec-title">Book Flights</div>
+        <div class="ec-desc">Earn points on every flight booking. International flights earn 2× points.</div>
+        <span class="ec-pts">5–15 pts per ₹100</span>
+      </div>
+      <div class="earn-card">
+        <div class="ec-icon">🏨</div>
+        <div class="ec-title">Hotel Stays</div>
+        <div class="ec-desc">Points on every hotel night booked through ZoomFly across all room types.</div>
+        <span class="ec-pts">5–15 pts per ₹100</span>
+      </div>
+      <div class="earn-card">
+        <div class="ec-icon">🧳</div>
+        <div class="ec-title">Holiday Packages</div>
+        <div class="ec-desc">Packages earn bonus points — the more inclusive the package, the more you earn.</div>
+        <span class="ec-pts">5–15 pts per ₹100</span>
+      </div>
+      <div class="earn-card">
+        <div class="ec-icon">🚌</div>
+        <div class="ec-title">Bus & Cab Bookings</div>
+        <div class="ec-desc">Even short bus and cab rides earn points. Every rupee counts!</div>
+        <span class="ec-pts">5–15 pts per ₹100</span>
+      </div>
+      <div class="earn-card">
+        <div class="ec-icon">👥</div>
+        <div class="ec-title">Refer Friends</div>
+        <div class="ec-desc">Share your referral code. You get 500 pts, your friend gets 250 pts on signup.</div>
+        <span class="ec-pts">500 pts per referral</span>
+      </div>
+      <div class="earn-card">
+        <div class="ec-icon">🎁</div>
+        <div class="ec-title">Welcome Bonus</div>
+        <div class="ec-desc">New members receive 250 bonus points just for creating a ZoomFly account.</div>
+        <span class="ec-pts">250 pts on signup</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW TO REDEEM -->
+<section class="section redeem-bg">
+  <div class="section-inner">
+    <div class="section-label" style="color:rgba(253,230,138,0.8);">Redeeming Points</div>
+    <h2 class="section-heading" style="color:#fff;">Use Points for<br/><span style="color:var(--gold);">Real Discounts</span></h2>
+    <p class="section-sub" style="color:rgba(255,255,255,0.55);">1 ZoomFly Point = ₹0.25. Minimum redemption: 100 points (= ₹25 off).</p>
+
+    <div class="redeem-grid">
+      <div class="redeem-card">
+        <div class="rc-icon">✈️</div>
+        <div class="rc-title">Flight Discounts</div>
+        <div class="rc-desc">Redeem points for instant discount on your next flight booking. No blackout dates.</div>
+        <div class="rc-rate">1 pt = ₹0.25 off</div>
+      </div>
+      <div class="redeem-card">
+        <div class="rc-icon">🏨</div>
+        <div class="rc-title">Hotel Discounts</div>
+        <div class="rc-desc">Apply points at checkout on any hotel booking. Use full or partial points.</div>
+        <div class="rc-rate">1 pt = ₹0.25 off</div>
+      </div>
+      <div class="redeem-card">
+        <div class="rc-icon">🧳</div>
+        <div class="rc-title">Package Upgrades</div>
+        <div class="rc-desc">Use points to upgrade your holiday package — better room, extra meal plan, or add-ons.</div>
+        <div class="rc-rate">1 pt = ₹0.25 off</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MY ACCOUNT + CALCULATOR + REFERRAL -->
+<section class="section">
+  <div class="section-inner">
+    <div class="section-label">My Account</div>
+    <h2 class="section-heading">Your Rewards <span>Dashboard</span></h2>
+
+    <!-- Points calculator -->
+    <div class="calc-section">
+      <div class="calc-title">🧮 Points Calculator</div>
+      <div class="calc-sub">Estimate how many points you'll earn on your next booking.</div>
+      <div class="calc-row">
+        <input class="calc-input" type="number" id="calc-amount" placeholder="₹ Booking amount" oninput="calcPoints()"/>
+        <select class="calc-input" id="calc-tier" onchange="calcPoints()" style="width:140px;">
+          <option value="5">Bronze tier</option>
+          <option value="7">Silver tier</option>
+          <option value="10">Gold tier</option>
+          <option value="15">Platinum tier</option>
+        </select>
+        <div class="calc-result" id="calc-result">Enter an amount to see your points</div>
+      </div>
+    </div>
+
+    <!-- Account section -->
+    <div class="account-section">
+      <div class="as-head">
+        <div>
+          <h3>Transaction History</h3>
+          <p id="as-sub">Sign in to view your points history</p>
+        </div>
+        <span class="pc-tier" id="as-tier-badge" style="font-size:0.75rem;padding:5px 14px;border-radius:20px;">Loading...</span>
+      </div>
+      <div class="as-body" id="account-body">
+        <div class="login-prompt">
+          <div class="lp-icon">⭐</div>
+          <div class="lp-title">Sign in to view your rewards</div>
+          <div class="lp-sub">Create an account or sign in to start earning ZoomFly Points on every booking.</div>
+          <a href="my-bookings.html" class="lp-btn">Sign In / Register →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Referral -->
+    <div class="referral-box" id="referral-box" style="display:none;">
+      <div class="rb-title">🎁 Refer Friends & Earn 500 Points Each</div>
+      <div class="rb-sub">Share your unique referral code. You earn 500 pts for each friend who signs up and books.</div>
+      <div class="rb-code-wrap">
+        <div class="rb-code" id="rb-ref-code">ZF——</div>
+        <button class="rb-copy" onclick="copyReferralCode()">📋 Copy</button>
+      </div>
+      <div class="rb-share">
+        <a id="rb-wa-share" href="#" target="_blank" class="rb-share-btn rb-wa">💬 Share on WhatsApp</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="my-bookings.html">My Bookings</a>
+    <a href="privacy-policy.html">Privacy Policy</a>
+    <a href="terms.html">Terms</a>
+    <a href="contact.html">Contact</a>
+  </div>
+  <div class="footer-copy">© 2026 ZoomFly Travel Services · ZoomFly Rewards</div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+const SUPABASE_URL = window.SUPABASE_URL      || 'https://ndaurluolurdljrjbxii.supabase.co';
+const SUPABASE_KEY = window.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kYXVybHVvbHVyZGxqcmpieGlpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MDY2MzksImV4cCI6MjA5MzQ4MjYzOX0.JsZXOof19JkyX7asJQ7EtoaBKqURJUYzVqXQIenCzjQ';
+const supabase     = createClient(SUPABASE_URL, SUPABASE_KEY);
+const WA_NUMBER    = '918076136300';
+
+const TIER_CONFIG = {
+  bronze:   { threshold:0,     next:5000,  label:'🥉 Bronze',   cls:'tier-bronze',  rate:5  },
+  silver:   { threshold:5000,  next:20000, label:'🥈 Silver',   cls:'tier-silver',  rate:7  },
+  gold:     { threshold:20000, next:50000, label:'🥇 Gold',     cls:'tier-gold',    rate:10 },
+  platinum: { threshold:50000, next:null,  label:'💎 Platinum', cls:'tier-platinum',rate:15 },
+};
+
+// ── Auth ──────────────────────────────────────────────────
+supabase.auth.onAuthStateChange(async (event, session) => {
+  if (session?.user) await loadLoyaltyData(session.user);
+});
+
+async function loadLoyaltyData(user) {
+  const { data: acct } = await supabase
+    .from('loyalty_accounts').select('*').eq('user_id', user.id).single();
+
+  if (!acct) {
+    // Award signup bonus if no account
+    await supabase.rpc('award_signup_bonus', {
+      p_user_id: user.id,
+      p_name:    user.user_metadata?.full_name || user.email,
+      p_email:   user.email,
+      p_phone:   user.user_metadata?.phone || null,
+    });
+    setTimeout(() => loadLoyaltyData(user), 1000);
+    return;
+  }
+
+  updatePointsCard(acct);
+  await loadTransactions(acct);
+  showReferral(acct);
+}
+
+function updatePointsCard(acct) {
+  const tier   = TIER_CONFIG[acct.tier] || TIER_CONFIG.bronze;
+  const points = acct.points_balance;
+  const value  = (points * 0.25).toFixed(0);
+  const pct    = tier.next ? Math.min(100, ((acct.points_earned - tier.threshold) / (tier.next - tier.threshold)) * 100) : 100;
+
+  document.getElementById('pc-points').textContent     = points.toLocaleString('en-IN');
+  document.getElementById('pc-balance-sub').textContent= `≈ ₹${parseFloat(value).toLocaleString('en-IN')} redeemable value`;
+  document.getElementById('pc-tier-badge').textContent = tier.label;
+  document.getElementById('pc-tier-badge').className   = 'pc-tier ' + tier.cls;
+  document.getElementById('pc-bar').style.width        = pct + '%';
+  document.getElementById('pc-bar-label-left').textContent = acct.points_earned.toLocaleString('en-IN') + ' pts earned';
+  document.getElementById('pc-bar-label-right').textContent= tier.next
+    ? `${tier.label.split(' ')[1]}: ${tier.next.toLocaleString('en-IN')} pts` : '💎 Platinum';
+  if (acct.referral_code) {
+    document.getElementById('pc-ref-code').textContent = acct.referral_code;
+  }
+  // Update as-tier-badge
+  const asT = document.getElementById('as-tier-badge');
+  asT.textContent = tier.label;
+  asT.className   = 'pc-tier ' + tier.cls;
+  document.getElementById('as-sub').textContent = `${points.toLocaleString('en-IN')} points · ₹${parseFloat(value).toLocaleString('en-IN')} value`;
+}
+
+async function loadTransactions(acct) {
+  const { data: txns } = await supabase
+    .from('loyalty_transactions')
+    .select('*').eq('account_id', acct.id)
+    .order('created_at', { ascending:false })
+    .limit(20);
+
+  const body = document.getElementById('account-body');
+  if (!txns?.length) {
+    body.innerHTML = `<div style="text-align:center;padding:32px;color:var(--light);">
+      <div style="font-size:36px;margin-bottom:12px;">📋</div>
+      <div style="font-weight:700;color:var(--dark);margin-bottom:6px;">No transactions yet</div>
+      <div style="font-size:0.85rem;">Make your first booking to start earning points!</div>
+    </div>`;
+    return;
+  }
+
+  body.innerHTML = `
+    <div style="display:flex;justify-content:space-between;margin-bottom:16px;font-size:0.78rem;">
+      <span style="color:var(--light);">Showing last ${txns.length} transactions</span>
+      <span style="color:var(--light);">Points expire 1 year from earning</span>
+    </div>
+    <div class="txn-list">
+      ${txns.map(t => {
+        const isEarn = t.points > 0;
+        const icon   = isEarn ? (t.txn_type==='earn_referral'?'👥':'⭐') : (t.txn_type==='expire'?'⏰':'🎟️');
+        const cls    = isEarn ? 'ti-earn' : (t.txn_type==='expire' ? 'ti-expire' : 'ti-redeem');
+        const ptsCls = isEarn ? 'pts-earn' : 'pts-redeem';
+        const ptsStr = (isEarn ? '+' : '') + t.points.toLocaleString('en-IN') + ' pts';
+        return `
+          <div class="txn-item">
+            <div class="txn-left">
+              <div class="txn-icon ${cls}">${icon}</div>
+              <div>
+                <div class="txn-desc">${esc(t.description||t.txn_type)}</div>
+                <div class="txn-date">${fmtDate(t.created_at)}</div>
+              </div>
+            </div>
+            <div class="txn-pts ${ptsCls}">${ptsStr}</div>
+          </div>`;
+      }).join('')}
+    </div>`;
+}
+
+function showReferral(acct) {
+  const box = document.getElementById('referral-box');
+  if (!acct.referral_code) return;
+  box.style.display = 'block';
+  document.getElementById('rb-ref-code').textContent = acct.referral_code;
+  const msg = `✈️ Join ZoomFly and get 250 bonus points on signup!\n\nUse my referral code: *${acct.referral_code}*\n\nBook flights, hotels, packages & more at zoomfly.in 🎉`;
+  document.getElementById('rb-wa-share').href = `https://wa.me/?text=${encodeURIComponent(msg)}`;
+}
+
+// ── Calculator ─────────────────────────────────────────────
+window.calcPoints = () => {
+  const amount = parseFloat(document.getElementById('calc-amount').value)||0;
+  const rate   = parseInt(document.getElementById('calc-tier').value)||5;
+  const pts    = Math.floor((amount/100)*rate);
+  const value  = (pts*0.25).toFixed(0);
+  const el     = document.getElementById('calc-result');
+  if (!amount) { el.innerHTML='Enter an amount to see your points'; return; }
+  el.innerHTML = `You'll earn <strong>${pts.toLocaleString('en-IN')} points</strong> ≈ ₹${parseFloat(value).toLocaleString('en-IN')} redeemable value`;
+};
+
+// ── Copy referral ──────────────────────────────────────────
+window.copyReferralCode = () => {
+  const code = document.getElementById('rb-ref-code').textContent;
+  navigator.clipboard.writeText(code).then(()=>showToast('📋 Referral code copied!'));
+};
+
+// ── Helpers ────────────────────────────────────────────────
+function fmtDate(d){ if(!d)return'—'; try{return new Date(d).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});}catch(_){return d;} }
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function showToast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3000); }
+</script>
+</body>
+</html>

@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Privacy Policy — ZoomFly</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✈️</text></svg>"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --primary: #1a73e8;
+      --primary-dark: #1557b0;
+      --accent: #ff6b35;
+      --dark: #0f1923;
+      --dark2: #1a2535;
+      --text: #2d3748;
+      --text-light: #64748b;
+      --border: #e2e8f0;
+      --bg: #f8fafc;
+      --white: #ffffff;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.8;
+    }
+
+    /* ── NAVBAR ── */
+    nav {
+      background: var(--dark);
+      padding: 0 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 68px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 38px;
+      height: 38px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .logo-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: var(--white);
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    .logo-text span { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: rgba(255,255,255,0.75);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--white); }
+
+    .nav-cta {
+      background: var(--accent);
+      color: var(--white) !important;
+      padding: 8px 20px;
+      border-radius: 8px;
+      font-weight: 600 !important;
+    }
+
+    /* ── HERO BANNER ── */
+    .page-hero {
+      background: linear-gradient(135deg, var(--dark) 0%, var(--dark2) 60%, #1a3a5c 100%);
+      padding: 72px 5% 60px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(26,115,232,0.15) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .page-hero::after {
+      content: '';
+      position: absolute;
+      bottom: -40px; left: 10%;
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(255,107,53,0.1) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 20px;
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.5);
+    }
+
+    .breadcrumb a { color: rgba(255,255,255,0.5); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--accent); }
+    .breadcrumb span { color: rgba(255,255,255,0.8); }
+
+    .page-hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      color: var(--white);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+
+    .page-hero h1 span {
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-meta {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .hero-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,0.6);
+      font-size: 0.85rem;
+    }
+
+    .hero-meta-item .dot {
+      width: 6px; height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+    }
+
+    /* ── LAYOUT ── */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 5%;
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    /* ── SIDEBAR TOC ── */
+    .toc {
+      position: sticky;
+      top: 88px;
+      background: var(--white);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      padding: 28px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+    }
+
+    .toc-title {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-light);
+      margin-bottom: 16px;
+    }
+
+    .toc ul { list-style: none; }
+
+    .toc ul li { margin-bottom: 4px; }
+
+    .toc ul li a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      color: var(--text-light);
+      text-decoration: none;
+      font-size: 0.83rem;
+      font-weight: 400;
+      transition: all 0.2s;
+      line-height: 1.4;
+    }
+
+    .toc ul li a:hover,
+    .toc ul li a.active {
+      background: rgba(26,115,232,0.08);
+      color: var(--primary);
+      font-weight: 500;
+    }
+
+    .toc ul li a::before {
+      content: '';
+      width: 4px; height: 4px;
+      background: var(--border);
+      border-radius: 50%;
+      flex-shrink: 0;
+      transition: background 0.2s;
+    }
+
+    .toc ul li a:hover::before,
+    .toc ul li a.active::before {
+      background: var(--primary);
+    }
+
+    .toc-note {
+      margin-top: 20px;
+      padding: 14px;
+      background: rgba(255,107,53,0.08);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      font-size: 0.78rem;
+      color: var(--text-light);
+      line-height: 1.5;
+    }
+
+    /* ── CONTENT ── */
+    .content { min-width: 0; }
+
+    .section {
+      background: var(--white);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      padding: 40px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+      animation: fadeUp 0.5s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .section:nth-child(1) { animation-delay: 0.05s; }
+    .section:nth-child(2) { animation-delay: 0.1s; }
+    .section:nth-child(3) { animation-delay: 0.15s; }
+    .section:nth-child(4) { animation-delay: 0.2s; }
+    .section:nth-child(5) { animation-delay: 0.25s; }
+    .section:nth-child(6) { animation-delay: 0.3s; }
+    .section:nth-child(7) { animation-delay: 0.35s; }
+    .section:nth-child(8) { animation-delay: 0.4s; }
+    .section:nth-child(9) { animation-delay: 0.45s; }
+    .section:nth-child(10) { animation-delay: 0.5s; }
+    .section:nth-child(11) { animation-delay: 0.55s; }
+
+    .section-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 22px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-icon {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .icon-blue   { background: rgba(26,115,232,0.1); }
+    .icon-orange { background: rgba(255,107,53,0.1); }
+    .icon-green  { background: rgba(16,185,129,0.1); }
+    .icon-purple { background: rgba(139,92,246,0.1); }
+    .icon-red    { background: rgba(239,68,68,0.1); }
+    .icon-teal   { background: rgba(20,184,166,0.1); }
+
+    .section-title-wrap h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--dark);
+      line-height: 1.3;
+    }
+
+    .section-title-wrap .section-num {
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+
+    .section p {
+      color: var(--text-light);
+      font-size: 0.93rem;
+      margin-bottom: 14px;
+      line-height: 1.8;
+    }
+
+    .section p:last-child { margin-bottom: 0; }
+
+    .section ul, .section ol {
+      padding-left: 20px;
+      margin-bottom: 14px;
+    }
+
+    .section li {
+      color: var(--text-light);
+      font-size: 0.93rem;
+      margin-bottom: 8px;
+      line-height: 1.7;
+    }
+
+    .section li strong { color: var(--text); }
+
+    .highlight-box {
+      background: rgba(26,115,232,0.05);
+      border: 1px solid rgba(26,115,232,0.15);
+      border-radius: 10px;
+      padding: 18px 20px;
+      margin: 18px 0;
+    }
+
+    .highlight-box p {
+      margin: 0 !important;
+      color: var(--primary-dark) !important;
+      font-size: 0.88rem !important;
+    }
+
+    .warn-box {
+      background: rgba(255,107,53,0.06);
+      border: 1px solid rgba(255,107,53,0.2);
+      border-radius: 10px;
+      padding: 18px 20px;
+      margin: 18px 0;
+      display: flex;
+      gap: 12px;
+    }
+
+    .warn-box .warn-icon { font-size: 18px; flex-shrink: 0; }
+
+    .warn-box p {
+      margin: 0 !important;
+      color: #9a3412 !important;
+      font-size: 0.88rem !important;
+    }
+
+    /* data table */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 0.88rem;
+    }
+
+    .data-table th {
+      background: var(--bg);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      color: var(--text);
+      border: 1px solid var(--border);
+      font-size: 0.82rem;
+    }
+
+    .data-table td {
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      color: var(--text-light);
+      vertical-align: top;
+    }
+
+    .data-table tr:hover td { background: rgba(26,115,232,0.02); }
+
+    /* contact card */
+    .contact-card {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .contact-item {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .contact-item .ci-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-light);
+      margin-bottom: 6px;
+    }
+
+    .contact-item .ci-value {
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: var(--primary);
+    }
+
+    .contact-item .ci-value a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .contact-item .ci-value a:hover { text-decoration: underline; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--dark);
+      color: rgba(255,255,255,0.6);
+      text-align: center;
+      padding: 40px 5%;
+    }
+
+    .footer-top {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 32px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+
+    .footer-top a {
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: color 0.2s;
+    }
+
+    .footer-top a:hover { color: var(--accent); }
+
+    .footer-divider {
+      width: 40px; height: 1px;
+      background: rgba(255,255,255,0.15);
+    }
+
+    .footer-bottom {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.35);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+      .toc { display: none; }
+      .nav-links { display: none; }
+    }
+
+    @media (max-width: 600px) {
+      .section { padding: 24px 20px; }
+      .page-hero { padding: 48px 5% 40px; }
+    }
+  </style>
+  <script>
+    window.SUPABASE_URL="https://ndaurluolurdljrjbxii.supabase.co";
+    window.SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kYXVybHVvbHVyZGxqcmpieGlpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MDY2MzksImV4cCI6MjA5MzQ4MjYzOX0.JsZXOof19JkyX7asJQ7EtoaBKqURJUYzVqXQIenCzjQ";
+    window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/);return m?m[1]:null;};
+  </script>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <a href="index.html" class="logo">
+    <div class="logo-icon">✈️</div>
+    <div class="logo-text">Zoom<span>Fly</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="flights.html">Flights</a></li>
+    <li><a href="hotels.html">Hotels</a></li>
+    <li><a href="packages.html">Packages</a></li>
+    <li><a href="buses.html">Buses</a></li>
+    <li><a href="cabs.html">Cabs</a></li>
+    <li><a href="contact.html" class="nav-cta">Contact Us</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="page-hero">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a>
+    <span>›</span>
+    <span>Privacy Policy</span>
+  </div>
+  <h1>Your Privacy<br/><span>Matters to Us</span></h1>
+  <div class="hero-meta">
+    <div class="hero-meta-item">
+      <div class="dot"></div>
+      Last Updated: May 8, 2026
+    </div>
+    <div class="hero-meta-item">
+      <div class="dot"></div>
+      Effective Date: January 1, 2025
+    </div>
+    <div class="hero-meta-item">
+      <div class="dot"></div>
+      Governed by Indian Law
+    </div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="container">
+
+  <!-- SIDEBAR TOC -->
+  <aside class="toc">
+    <div class="toc-title">Table of Contents</div>
+    <ul>
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#information-collected">Information We Collect</a></li>
+      <li><a href="#how-we-use">How We Use Your Data</a></li>
+      <li><a href="#sharing">Data Sharing</a></li>
+      <li><a href="#cookies">Cookies & Tracking</a></li>
+      <li><a href="#payments">Payment Security</a></li>
+      <li><a href="#retention">Data Retention</a></li>
+      <li><a href="#rights">Your Rights</a></li>
+      <li><a href="#children">Children's Privacy</a></li>
+      <li><a href="#changes">Policy Changes</a></li>
+      <li><a href="#contact">Contact Us</a></li>
+    </ul>
+    <div class="toc-note">
+      📋 This policy complies with the <strong>Information Technology Act, 2000</strong> and <strong>IT (Amendment) Act, 2008</strong>.
+    </div>
+  </aside>
+
+  <!-- SECTIONS -->
+  <main class="content">
+
+    <!-- 1. OVERVIEW -->
+    <div class="section" id="overview">
+      <div class="section-header">
+        <div class="section-icon icon-blue">🏢</div>
+        <div class="section-title-wrap">
+          <div class="section-num">Section 01</div>
+          <h2>Overview & Who We Are</h2>
+        </div>
+      </div>
+      <p>Welcome to <strong>ZoomFly</strong>. This Privacy Policy explains how <strong>ZoomFly Travel Services</strong> ("ZoomFly", "we", "us", or "our") collects, uses, stores, and protects your personal information when you use our website at <strong>zoomfly.in</strong> and related services.</p>
+      <p>By accessing or using ZoomFly's platform — including booking flights, hotels, packages, buses, or cabs — you agree to the terms of this Privacy Policy. If you do not agree, please refrain from using our services.</p>
+      <div class="highlight-box">
+        <p>📍 <strong>Registered Address:</strong> ZoomFly Travel Services, New Delhi, India &nbsp;|&nbsp; 📧 <strong>Admin:</strong> s.admin@zoomfly.in &nbsp;|&nbsp; 📞 <strong>WhatsApp:</strong> +91 8076136300</p>
+      </div>
+      <p>This policy applies to all users — customers, vendors, and visitors — across all ZoomFly services and platforms.</p>
+    </div>
+
+    <!-- 2. INFORMATION COLLECTED -->
+    <div class="section" id="information-collected">
+      <div class="section-header">
+        <div class="section-icon icon-orange">📋</div>
+        <div class="section-title-wrap">
+          <div class="section-num">Section 02</div>
+          <h2>Information We Collect</h2>
+        </div>
+      </div>
+      <p>We collect information in the following categories:</p>
+
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>Examples</th>
+            <th>When Collected</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Identity Data</strong></td>
+            <td>Full name, date of birth, gender, passport/Aadhaar number</td>
+            <td>Registration, booking, check-in</td>
+          </tr>
+          <tr>
+            <td><strong>Contact Data</strong></td>
+            <td>Email address, phone number, WhatsApp number, postal address</td>
+            <td>Account creation, booking forms</td>
+          </tr>
+          <tr>
+            <td><strong>Booking Data</strong></td>
+            <td>Travel dates, destinations, number of travellers, preferences</td>
+            <td>Every booking transaction</td>
+          </tr>
+          <tr>
+            <td><strong>Payment Data</strong></td>
+            <td>Transaction ID, payment method (UPI/card/net banking), amount</td>
+            <td>Payment processing via Razorpay</td>
+          </tr>
+          <tr>
+            <td><strong>Technical Data</strong></td>
+            <td>IP address, browser type, device ID, pages visited</td>
+            <td>Automatically via cookies</td>
+          </tr>
+          <tr>
+            <td><strong>Vendor Data</strong></td>
+            <td>Business name, GSTIN, bank account details, license numbers</td>
+            <td>Vendor registration</td>
+          </tr>
+          <tr>
+            <td><strong>Communication Data</strong></td>
+            <td>WhatsApp messages, emails, contact form submissions</td>
+            <td>When you contact us</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="warn-box">
+        <div class="warn-icon">⚠️</div>
+        <p>We do <strong>not</strong> collect or store full credit/debit card numbers. All card payments are processed securely via Razorpay's PCI-DSS compliant infrastructure.</p>
+      </div>
+    </div>
+
+    <!-- 3. HOW WE USE -->
+    <div class="section" id="how-we-use">
+      <div class="section-header">
+        <div class="section-icon icon-green">🎯</div>
+        <div class="section-title-wrap">
+          <div class="section-num">Section 03</div>
+          <h2>How We Use Your Information</h2>
+        </div>
+      </div>
+      <p>We use your personal data for the following lawful purposes:</p>
+      <ul>
+        <li><strong>Booking & Service Fulfilment:</strong> Processing flight, hotel, cab, bus and package bookings; sending confirmations via email and WhatsApp.</li>
+        <li><strong>Account Management:</strong> Creating and maintaining your ZoomFly account, authenticating your identity on login.</li>
+        <li><strong>Payment Processing:</strong> Initiating, verifying, and reconciling payments through Razorpay and UPI gateways.</li>
+        <li><strong>Customer Support:</strong> Responding to queries, complaints, and cancellation requests via WhatsApp, phone, or email.</li>
+        <li><strong>Marketing & Promotions:</strong> Sending exclusive deals, promo codes, and newsletters — only if you have opted in or subscribed.</li>
+        <li><strong>Legal & Compliance:</strong> Complying with applicable Indian laws, tax obligations, and government directives.</li>
+        <li><strong>Fraud Prevention:</strong> Detecting suspicious activity, preventing unauthorized access, and protecting our platform.</li>
+        <li><strong>Analytics & Improvement:</strong> Analysing usage patterns to improve our website, content, and booking experience.</li>
+        <li><strong>Vendor Onboarding:</strong> Verifying vendor credentials, communicating listing details, and managing vendor accounts.</li>
+      </ul>
+      <p>We will never use your data for any purpose beyond what is stated here without obtaining your explicit consent first.</p>
+    </div>
+
+    <!-- 4. SHARING -->
+    <div class="section" id="sharing">
+      <div class="section-header">
+        <div class="section-icon icon-purple">🤝</div>
+        <div class="section-title-wrap">
+          <div class="section-num">Section 04</div>
+          <h2>Data Sharing & Disclosure</h2>
+        </div>
+      </div>
+      <p>We do not sell your personal data. We may share your information only in the following limited circumstances:</p>
+      <ul>
+        <li><strong>Service Partners:</strong> Hotels, bus operators, cab providers, tour operators who need your booking details to fulfil your travel service.</li>
+        <li><strong>Payment Processors:</strong> Razorpay and UPI payment infrastructure for processing and validating transactions.</li>
+        <li><strong>Technology Providers:</strong> Supabase (database & authentication), Vercel (hosting), and other platforms necessary to operate ZoomFly.</li>
+        <li><strong>Legal Obligations:</strong> Regulatory authorities, law enforcement, or courts when required by applicable Indian law.</li>
+        <li><strong>Business Transfers:</strong> In the event of a merger, acquisition, or sale of assets, your data may be transferred to the acquiring entity with prior notice.</li>
+      </ul>
+      <div class="highlight-box">
+        <p>🛡️ All third parties we share data with are contractually obligated to handle your information securely and only for the specified purpose.</p>
+      </div>
+    </div>
+
+    <!-- 5. COOKIES -->
+    <div class="section" id="cookies">
+      <div class="section-header">
+        <div class="section-icon icon-teal">🍪</div>
+        <div class="section-title-wrap">
+          <div class="section-num">Section 05</div>
+          <h2>Cookies & Tracking Technologies</h2>
+        </div>
+      </div>
+      <p>ZoomFly uses cookies and similar technologies to enhance your experience on our platform. These include:</p>
+      <ul>
+        <li><strong>Essential Cookies:</strong> Required for the website to function (login sessions, booking cart, security tokens). Cannot be disabled.</li>
+        <li><strong>Functional Cookies:</strong> Remember your preferences such as language, currency, and previously searched destinations.</li>
+        <li><strong>Analytics Cookies:</strong> Help us understand how users interact with our site (page views, session duration, click paths). We use anonymised data only.</li>
+        <li><strong>Marketing Cookies:</strong> Used to deliver relevant promotional content. These are only set if you have consented.</li>
+      </ul>
+      <p>You can manage cookie preferences through your browser settings at any time. Disabling essential cookies may impact core functionality such as bookings and login.</p>
+    </div>
+
+    <!-- 6. PAYMENT SECURITY -->
+    <div class="section" id="payments">
+      <div class="section-header">
+        <div class="section-icon icon-green">🔒</div>
+        <div class="section-title-wrap">
+          <div class="section-num">Section 06</div>
+          <h2>Payment Security</h2>
+        </div>
+      </div>
+      <p>All financial transactions on ZoomFly are processed through <strong>Razorpay</strong>, a PCI-DSS Level 1 certified payment gateway. We support the following payment methods:</p>
+      <ul>
+        <li>UPI (GPay, PhonePe, Paytm, BHIM)</li>
+        <li>Credit & Debit Cards (Visa, Mastercard, RuPay)</li>
+        <li>Net Banking</li>
+        <li>NEFT/RTGS Bank Transfers</li>
+        <li>EMI (select cards and providers)</li>
+      </ul>
+      <p>ZoomFly does not store any card numbers, CVV, or banking passwords on our servers. All sensitive payment data is encrypted and handled exclusively by Razorpay's secure infrastructure.</p>
+      <div class="warn-box">
+        <div class="warn-icon">🚫</div>
+        <p>ZoomFly will <strong>never</strong> ask for your UPI PIN, card CVV, or internet banking password over phone, email, or WhatsApp. If you receive such a request, do not comply and report it to s.admin@zoomfly.in immediately.</p>
+      </div>
+    </div>
+
+    <!-- 7. RETENTION -->
+    <div class="section" id="retention">
+      <div class="section-header">
+        <div class="section-icon icon-blue">🗄️</div>
+        <div class="section-title-wrap">
+          <div class="section-num">Section 07</div>
+          <h2>Data Retention</h2>
+        </div>
+      </div>
+      <p>We retain your personal data only for as long as necessary for the purposes it was collected, or as required by law:</p>
+      <ul>
+        <li><strong>Active accounts:</strong> For the duration of your account plus 3 years after last activity.</li>
+        <li><strong>Booking records:</strong> 7 years from the date of booking (as required under Indian tax laws for GST compliance).</li>
+        <li><strong>Payment records:</strong> 7 years from transaction date as per RBI and GST requirements.</li>
+        <li><strong>Marketing communications:</strong> Until you unsubscribe or withdraw consent.</li>
+        <li><strong>Inactive accounts:</strong> Data deleted after 3 years of inactivity with prior notification.</li>
+      </ul>
+      <p>Upon deletion, data is securely erased from our systems and all third-party processors are notified to remove associated records.</p>
+    </div>
+
+    <!-- 8. RIGHTS -->
+    <div class="section" id="rights">
+      <div class="section-header">
+        <div class="section-icon icon-orange">⚖️</div>
+        <div class="section-title-wrap">
+          <div class="section-num">Section 08</div>
+          <h2>Your Rights & Choices</h2>
+        </div>
+      </div>
+      <p>As a ZoomFly user, you have the following rights over your personal data:</p>
+      <ul>
+        <li><strong>Right to Access:</strong> Request a copy of all personal data we hold about you.</li>
+        <li><strong>Right to Correction:</strong> Request correction of inaccurate or incomplete information.</li>
+        <li><strong>Right to Deletion:</strong> Request deletion of your account and associated personal data, subject to legal retention obligations.</li>
+        <li><strong>Right to Portability:</strong> Request your data in a structured, machine-readable format (JSON/CSV).</li>
+        <li><strong>Right to Withdraw Consent:</strong> Withdraw marketing consent at any time without affecting past processing.</li>
+        <li><strong>Right to Object:</strong> Object to processing of your data for direct marketing purposes.</li>
+        <li><strong>Right to Lodge a Complaint:</strong> File a complaint with ZoomFly's Grievance Officer (details below) or approach appropriate regulatory authorities.</li>
+      </ul>
+      <p>To exercise any of these rights, please contact our Grievance Officer at <strong>s.admin@zoomfly.in</strong> with the subject line "Privacy Request — [Your Name]". We will respond within <strong>30 days</strong>.</p>
+    </div>
+
+    <!-- 9. CHILDREN -->
+    <div class="section" id="children">
+      <div class="section-header">
+        <div class="section-icon icon-purple">👶</div>
+        <div class="section-title-wrap">
+          <div class="section-num">Section 09</div>
+          <h2>Children's Privacy</h2>
+        </div>
+      </div>
+      <p>ZoomFly's services are not directed to children under the age of <strong>18 years</strong>. We do not knowingly collect personal information from minors.</p>
+      <p>If a parent or guardian believes that their child has provided us with personal information without consent, they should contact us immediately at <strong>s.admin@zoomfly.in</strong>. We will promptly delete such information from our records.</p>
+      <p>Minors travelling as part of a family booking may have their details collected as part of the adult's booking. This data is used solely for travel documentation and fulfilment purposes.</p>
+    </div>
+
+    <!-- 10. CHANGES -->
+    <div class="section" id="changes">
+      <div class="section-header">
+        <div class="section-icon icon-teal">🔄</div>
+        <div class="section-title-wrap">
+          <div class="section-num">Section 10</div>
+          <h2>Changes to This Policy</h2>
+        </div>
+      </div>
+      <p>ZoomFly may update this Privacy Policy from time to time to reflect changes in our services, technology, or applicable law. When we make material changes, we will:</p>
+      <ul>
+        <li>Update the "Last Updated" date at the top of this page.</li>
+        <li>Notify registered users via email to the address on their account.</li>
+        <li>Display a prominent notice on our homepage for 30 days following significant updates.</li>
+      </ul>
+      <p>Your continued use of ZoomFly after changes are posted constitutes your acceptance of the revised policy. We encourage you to review this page periodically.</p>
+    </div>
+
+    <!-- 11. CONTACT -->
+    <div class="section" id="contact">
+      <div class="section-header">
+        <div class="section-icon icon-red">📬</div>
+        <div class="section-title-wrap">
+          <div class="section-num">Section 11</div>
+          <h2>Contact & Grievance Officer</h2>
+        </div>
+      </div>
+      <p>For any privacy-related queries, requests, or complaints, please contact our designated Grievance Officer as required under the Information Technology Act, 2000:</p>
+
+      <div class="contact-card">
+        <div class="contact-item">
+          <div class="ci-label">Grievance Officer</div>
+          <div class="ci-value">ZoomFly Admin</div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-label">Email</div>
+          <div class="ci-value"><a href="mailto:s.admin@zoomfly.in">s.admin@zoomfly.in</a></div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-label">WhatsApp</div>
+          <div class="ci-value"><a href="https://wa.me/918076136300">+91 8076136300</a></div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-label">Response Time</div>
+          <div class="ci-value">Within 30 days</div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-label">Operating Hours</div>
+          <div class="ci-value">Mon–Sat, 9 AM – 6 PM IST</div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-label">Jurisdiction</div>
+          <div class="ci-value">New Delhi, India</div>
+        </div>
+      </div>
+
+      <div class="highlight-box" style="margin-top: 24px;">
+        <p>⚖️ This Privacy Policy is governed by the laws of India. Any disputes arising under this policy shall be subject to the exclusive jurisdiction of courts in <strong>New Delhi</strong>.</p>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <a href="index.html">Home</a>
+    <div class="footer-divider"></div>
+    <a href="privacy-policy.html">Privacy Policy</a>
+    <div class="footer-divider"></div>
+    <a href="terms.html">Terms & Conditions</a>
+    <div class="footer-divider"></div>
+    <a href="refund-policy.html">Refund Policy</a>
+    <div class="footer-divider"></div>
+    <a href="about.html">About Us</a>
+    <div class="footer-divider"></div>
+    <a href="contact.html">Contact</a>
+  </div>
+  <div class="footer-bottom">
+    © 2026 ZoomFly Travel Services. All rights reserved. &nbsp;|&nbsp; Built with ❤️ for Indian travellers.
+  </div>
+</footer>
+
+<script>
+  // Highlight active TOC item on scroll
+  const sections = document.querySelectorAll('.section[id]');
+  const tocLinks = document.querySelectorAll('.toc ul li a');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        tocLinks.forEach(link => link.classList.remove('active'));
+        const activeLink = document.querySelector(`.toc a[href="#${entry.target.id}"]`);
+        if (activeLink) activeLink.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>

@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vendor Management — ZoomFly Admin</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✈️</text></svg>"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--primary:#1a73e8;--accent:#ff6b35;--dark:#0f1923;--dark2:#1a2535;
+      --text:#2d3748;--light:#64748b;--border:#e2e8f0;--bg:#f8fafc;--white:#fff;
+      --green:#22c55e;--yellow:#f59e0b;--red:#ef4444;--sidebar:240px;}
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);display:flex;min-height:100vh;}
+
+    /* SIDEBAR */
+    .sidebar{width:var(--sidebar);background:var(--dark);min-height:100vh;position:fixed;
+      left:0;top:0;z-index:200;display:flex;flex-direction:column;box-shadow:4px 0 24px rgba(0,0,0,0.2);}
+    .sb-logo{padding:24px 20px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(255,255,255,0.06);}
+    .sb-logo-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--primary),var(--accent));
+      border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;}
+    .sb-logo-text{font-family:'Playfair Display',serif;font-size:1.2rem;color:#fff;font-weight:700;}
+    .sb-logo-text span{color:var(--accent);}
+    .sb-section{padding:20px 12px 8px;}
+    .sb-section-label{font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;
+      color:rgba(255,255,255,0.25);padding:0 8px;margin-bottom:8px;}
+    .sb-link{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;
+      color:rgba(255,255,255,0.55);text-decoration:none;font-size:0.85rem;font-weight:500;
+      transition:all 0.2s;margin-bottom:2px;}
+    .sb-link:hover{background:rgba(255,255,255,0.07);color:#fff;}
+    .sb-link.active{background:rgba(26,115,232,0.2);color:#fff;}
+    .sb-icon{font-size:16px;width:20px;text-align:center;}
+    .sb-badge{margin-left:auto;background:var(--accent);color:#fff;font-size:0.65rem;
+      font-weight:700;padding:2px 7px;border-radius:10px;}
+    .sb-bottom{margin-top:auto;padding:16px 12px;border-top:1px solid rgba(255,255,255,0.06);}
+
+    /* MAIN */
+    .main{margin-left:var(--sidebar);flex:1;display:flex;flex-direction:column;}
+    .topbar{background:var(--white);border-bottom:1px solid var(--border);padding:0 32px;
+      height:64px;display:flex;align-items:center;justify-content:space-between;
+      position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,0.04);}
+    .topbar-left h1{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--dark);font-weight:700;}
+    .topbar-left p{font-size:0.78rem;color:var(--light);}
+    .tb-actions{display:flex;gap:10px;}
+    .tb-btn{padding:8px 16px;border-radius:9px;border:1.5px solid var(--border);background:var(--white);
+      color:var(--text);font-size:0.82rem;font-weight:600;cursor:pointer;transition:all 0.2s;
+      display:flex;align-items:center;gap:6px;}
+    .tb-btn:hover{border-color:var(--primary);color:var(--primary);}
+
+    .content{padding:28px 32px;}
+
+    /* STAT ROW */
+    .stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px;}
+    .stat-card{background:var(--white);border-radius:14px;border:1px solid var(--border);
+      padding:20px;box-shadow:0 2px 8px rgba(0,0,0,0.04);position:relative;overflow:hidden;}
+    .stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+    .sc-pending::before{background:var(--yellow);}
+    .sc-active::before{background:var(--green);}
+    .sc-revenue::before{background:var(--accent);}
+    .sc-listings::before{background:var(--primary);}
+    .sc-icon{font-size:20px;margin-bottom:10px;}
+    .sc-num{font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:700;color:var(--dark);line-height:1;margin-bottom:4px;}
+    .sc-label{font-size:0.78rem;color:var(--light);}
+
+    /* FILTERS */
+    .filters-bar{background:var(--white);border:1px solid var(--border);border-radius:14px;
+      padding:14px 18px;margin-bottom:20px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+    .f-search{flex:1;min-width:180px;display:flex;align-items:center;gap:8px;
+      background:var(--bg);border:1.5px solid var(--border);border-radius:9px;padding:8px 14px;}
+    .f-search input{border:none;background:none;outline:none;font-family:inherit;font-size:0.85rem;color:var(--text);width:100%;}
+    .f-select{padding:9px 12px;border:1.5px solid var(--border);border-radius:9px;
+      font-family:inherit;font-size:0.82rem;color:var(--text);background:var(--white);cursor:pointer;outline:none;}
+
+    /* TABLE */
+    .table-wrap{background:var(--white);border-radius:14px;border:1px solid var(--border);
+      box-shadow:0 2px 8px rgba(0,0,0,0.04);overflow:hidden;}
+    .table-header{padding:16px 20px;display:flex;align-items:center;justify-content:space-between;
+      border-bottom:1px solid var(--border);}
+    .table-title{font-weight:700;font-size:0.95rem;color:var(--dark);}
+    .table-count{font-size:0.8rem;color:var(--light);background:var(--bg);padding:3px 10px;border-radius:20px;}
+    table{width:100%;border-collapse:collapse;}
+    thead tr{background:var(--bg);}
+    th{padding:10px 16px;text-align:left;font-size:0.72rem;font-weight:700;text-transform:uppercase;
+      letter-spacing:1px;color:var(--light);border-bottom:1px solid var(--border);white-space:nowrap;}
+    td{padding:12px 16px;font-size:0.85rem;border-bottom:1px solid #f8fafc;vertical-align:middle;}
+    tr:last-child td{border-bottom:none;}
+    tr:hover td{background:rgba(26,115,232,0.02);}
+
+    .vendor-cell .vc-name{font-weight:700;font-size:0.9rem;color:var(--dark);}
+    .vendor-cell .vc-email{font-size:0.75rem;color:var(--light);margin-top:1px;}
+    .type-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;
+      border-radius:10px;font-size:0.72rem;font-weight:700;}
+    .t-hotel{background:rgba(139,92,246,0.1);color:#5b21b6;}
+    .t-bus{background:rgba(20,184,166,0.1);color:#0f766e;}
+    .t-cab{background:rgba(34,197,94,0.1);color:#166534;}
+    .t-tour_operator{background:rgba(255,107,53,0.1);color:#9a3412;}
+
+    .status-badge{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;
+      border-radius:20px;font-size:0.72rem;font-weight:700;}
+    .s-pending  {background:rgba(245,158,11,0.1);color:#92400e;}
+    .s-active   {background:rgba(34,197,94,0.1); color:#166534;}
+    .s-suspended{background:rgba(239,68,68,0.1); color:#991b1b;}
+    .s-rejected {background:rgba(100,116,139,0.1);color:#334155;}
+
+    .action-menu{display:flex;gap:5px;}
+    .act-btn{width:30px;height:30px;border-radius:7px;border:none;cursor:pointer;
+      display:flex;align-items:center;justify-content:center;font-size:13px;transition:all 0.2s;}
+    .act-view   {background:rgba(26,115,232,0.08);color:var(--primary);}
+    .act-view:hover{background:var(--primary);color:#fff;}
+    .act-approve{background:rgba(34,197,94,0.1);color:#16a34a;}
+    .act-approve:hover{background:var(--green);color:#fff;}
+    .act-wa     {background:rgba(37,211,102,0.1);color:#16a34a;}
+    .act-wa:hover{background:#25d366;color:#fff;}
+    .act-suspend{background:rgba(245,158,11,0.1);color:#92400e;}
+    .act-suspend:hover{background:var(--yellow);color:#fff;}
+    .act-reject {background:rgba(239,68,68,0.08);color:var(--red);}
+    .act-reject:hover{background:var(--red);color:#fff;}
+
+    /* DRAWER */
+    .drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:400;
+      opacity:0;pointer-events:none;transition:opacity 0.3s;backdrop-filter:blur(2px);}
+    .drawer-overlay.open{opacity:1;pointer-events:all;}
+    .drawer{position:fixed;top:0;right:0;bottom:0;width:480px;max-width:95vw;
+      background:var(--white);z-index:401;transform:translateX(100%);
+      transition:transform 0.35s cubic-bezier(.4,0,.2,1);
+      box-shadow:-8px 0 40px rgba(0,0,0,0.15);display:flex;flex-direction:column;}
+    .drawer.open{transform:translateX(0);}
+    .drawer-head{padding:20px 24px;border-bottom:1px solid var(--border);
+      display:flex;align-items:center;justify-content:space-between;}
+    .drawer-head h2{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--dark);font-weight:700;}
+    .drawer-close{width:32px;height:32px;border-radius:8px;border:1.5px solid var(--border);
+      background:var(--white);cursor:pointer;font-size:18px;display:flex;
+      align-items:center;justify-content:center;transition:all 0.2s;}
+    .drawer-close:hover{background:var(--red);color:#fff;border-color:var(--red);}
+    .drawer-body{flex:1;overflow-y:auto;padding:24px;}
+    .drawer-foot{padding:16px 24px;border-top:1px solid var(--border);
+      display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+
+    .sec-label{font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;
+      color:var(--light);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border);margin-top:20px;}
+    .sec-label:first-child{margin-top:0;}
+    .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:4px;}
+    .info-item .il{font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--light);margin-bottom:3px;}
+    .info-item .iv{font-size:0.88rem;font-weight:600;color:var(--dark);}
+    .info-item .iv a{color:var(--primary);text-decoration:none;}
+
+    .listing-mini{background:var(--bg);border:1px solid var(--border);border-radius:10px;
+      padding:12px 14px;margin-bottom:8px;}
+    .lm-name{font-weight:700;font-size:0.85rem;color:var(--dark);margin-bottom:4px;}
+    .lm-meta{font-size:0.78rem;color:var(--light);}
+
+    .da-btn{padding:11px 16px;border-radius:10px;border:none;cursor:pointer;
+      font-size:0.85rem;font-weight:700;transition:all 0.2s;
+      display:flex;align-items:center;justify-content:center;gap:7px;}
+    .da-approve{background:var(--green);color:#fff;}
+    .da-approve:hover{background:#16a34a;}
+    .da-wa{background:#25d366;color:#fff;}
+    .da-wa:hover{background:#20b858;}
+    .da-suspend{background:rgba(245,158,11,0.1);color:#92400e;border:1.5px solid rgba(245,158,11,0.2);}
+    .da-suspend:hover{background:var(--yellow);color:#fff;}
+    .da-reject{background:rgba(239,68,68,0.08);color:var(--red);border:1.5px solid rgba(239,68,68,0.15);}
+    .da-reject:hover{background:var(--red);color:#fff;}
+
+    .note-input{width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:9px;
+      font-family:inherit;font-size:0.85rem;resize:none;min-height:56px;outline:none;margin-top:16px;}
+    .note-input:focus{border-color:var(--primary);}
+
+    .empty{text-align:center;padding:48px 20px;color:var(--light);}
+    .empty-icon{font-size:40px;margin-bottom:12px;}
+
+    .toast{position:fixed;bottom:24px;right:24px;background:var(--dark);color:#fff;
+      padding:12px 20px;border-radius:10px;font-size:0.88rem;font-weight:600;
+      z-index:9999;opacity:0;transform:translateY(8px);transition:all 0.3s;pointer-events:none;}
+    .toast.show{opacity:1;transform:translateY(0);}
+
+    @media(max-width:1024px){.sidebar{display:none;}.main{margin-left:0;}
+      .stat-row{grid-template-columns:repeat(2,1fr);}}
+  </style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sb-logo">
+    <div class="sb-logo-icon">✈️</div>
+    <div class="sb-logo-text">Zoom<span>Fly</span></div>
+  </div>
+  <div class="sb-section">
+    <div class="sb-section-label">Main</div>
+    <a href="admin.html"           class="sb-link"><span class="sb-icon">📊</span> Dashboard</a>
+    <a href="admin-bookings.html"  class="sb-link"><span class="sb-icon">🎫</span> Bookings</a>
+    <a href="admin-workflow.html"  class="sb-link"><span class="sb-icon">🔄</span> Workflow</a>
+    <a href="admin-customers.html" class="sb-link"><span class="sb-icon">👤</span> Customers</a>
+    <a href="admin-vendors.html"   class="sb-link active"><span class="sb-icon">🏨</span> Vendors <span class="sb-badge" id="sb-pending">0</span></a>
+  </div>
+  <div class="sb-section">
+    <div class="sb-section-label">Content</div>
+    <a href="admin-packages.html" class="sb-link"><span class="sb-icon">🧳</span> Packages</a>
+    <a href="admin-hotels.html"   class="sb-link"><span class="sb-icon">🏩</span> Hotels</a>
+  </div>
+  <div class="sb-section">
+    <div class="sb-section-label">Tools</div>
+    <a href="admin-whatsapp-templates.html" class="sb-link"><span class="sb-icon">💬</span> WA Templates</a>
+  </div>
+  <div class="sb-bottom">
+    <a href="index.html" class="sb-link"><span class="sb-icon">🌐</span> View Site</a>
+    <a href="#" class="sb-link" onclick="doLogout()"><span class="sb-icon">🚪</span> Logout</a>
+  </div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-left">
+      <h1>Vendor Management</h1>
+      <p id="topbar-sub">Loading vendors...</p>
+    </div>
+    <div class="tb-actions">
+      <button class="tb-btn" onclick="exportCSV()">📥 Export CSV</button>
+      <button class="tb-btn" onclick="loadVendors()">🔄 Refresh</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- STATS -->
+    <div class="stat-row">
+      <div class="stat-card sc-pending">
+        <div class="sc-icon">⏳</div>
+        <div class="sc-num" id="s-pending">0</div>
+        <div class="sc-label">Pending Approval</div>
+      </div>
+      <div class="stat-card sc-active">
+        <div class="sc-icon">✅</div>
+        <div class="sc-num" id="s-active">0</div>
+        <div class="sc-label">Active Vendors</div>
+      </div>
+      <div class="stat-card sc-revenue">
+        <div class="sc-icon">💰</div>
+        <div class="sc-num" id="s-revenue">₹0</div>
+        <div class="sc-label">Total Vendor Revenue</div>
+      </div>
+      <div class="stat-card sc-listings">
+        <div class="sc-icon">🏷️</div>
+        <div class="sc-num" id="s-listings">0</div>
+        <div class="sc-label">Total Listings</div>
+      </div>
+    </div>
+
+    <!-- FILTERS -->
+    <div class="filters-bar">
+      <div class="f-search">🔍<input type="text" id="search" placeholder="Search name, email, city..." oninput="renderTable()"/></div>
+      <select class="f-select" id="f-status" onchange="renderTable()">
+        <option value="">All Statuses</option>
+        <option value="pending">⏳ Pending</option>
+        <option value="active">✅ Active</option>
+        <option value="suspended">⛔ Suspended</option>
+        <option value="rejected">❌ Rejected</option>
+      </select>
+      <select class="f-select" id="f-type" onchange="renderTable()">
+        <option value="">All Types</option>
+        <option value="hotel">🏨 Hotel</option>
+        <option value="bus">🚌 Bus</option>
+        <option value="cab">🚖 Cab</option>
+        <option value="tour_operator">🧳 Tour Operator</option>
+      </select>
+    </div>
+
+    <!-- TABLE -->
+    <div class="table-wrap">
+      <div class="table-header">
+        <div class="table-title">All Vendors</div>
+        <div class="table-count" id="table-count">—</div>
+      </div>
+      <div id="table-container">
+        <div class="empty"><div class="empty-icon">⏳</div><h3 style="color:var(--dark);">Loading vendors...</h3></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- DRAWER -->
+<div class="drawer-overlay" id="overlay" onclick="closeDrawer()"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-head">
+    <h2 id="d-title">Vendor Details</h2>
+    <button class="drawer-close" onclick="closeDrawer()">×</button>
+  </div>
+  <div class="drawer-body" id="d-body">Loading...</div>
+  <div class="drawer-foot" id="d-foot"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+const SUPABASE_URL = window.SUPABASE_URL      || 'https://ndaurluolurdljrjbxii.supabase.co';
+const SUPABASE_KEY = window.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kYXVybHVvbHVyZGxqcmpieGlpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MDY2MzksImV4cCI6MjA5MzQ4MjYzOX0.JsZXOof19JkyX7asJQ7EtoaBKqURJUYzVqXQIenCzjQ';
+const supabase     = createClient(SUPABASE_URL, SUPABASE_KEY);
+const WA_ADMIN     = '918076136300';
+
+let allVendors  = [];
+let activeV     = null;
+
+// ── Auth guard ─────────────────────────────────────────────
+async function checkAuth() {
+  const { data:{ session } } = await supabase.auth.getSession();
+  if (!session) { window.location.href='admin-login.html'; return false; }
+  const { data:p } = await supabase.from('profiles').select('role').eq('id',session.user.id).single();
+  if (p?.role!=='admin') { window.location.href='index.html'; return false; }
+  return true;
+}
+
+// ── Load ───────────────────────────────────────────────────
+window.loadVendors = async function() {
+  const { data, error } = await supabase.from('vendors').select('*').order('created_at',{ascending:false});
+  if (error) { showToast('Error: '+error.message,'error'); return; }
+  allVendors = data || [];
+  renderStats();
+  renderTable();
+  document.getElementById('sb-pending').textContent = allVendors.filter(v=>v.status==='pending').length;
+  document.getElementById('topbar-sub').textContent =
+    `${allVendors.length} vendors · ${allVendors.filter(v=>v.status==='pending').length} pending approval`;
+};
+
+function renderStats() {
+  const pending  = allVendors.filter(v=>v.status==='pending').length;
+  const active   = allVendors.filter(v=>v.status==='active').length;
+  const revenue  = allVendors.reduce((s,v)=>s+parseFloat(v.total_revenue||0),0);
+  const listings = allVendors.reduce((s,v)=>s+(v.listings?.length||0),0);
+  document.getElementById('s-pending').textContent  = pending;
+  document.getElementById('s-active').textContent   = active;
+  document.getElementById('s-revenue').textContent  = '₹'+fmtAmt(revenue);
+  document.getElementById('s-listings').textContent = listings;
+}
+
+function renderTable() {
+  const q    = document.getElementById('search').value.toLowerCase();
+  const stat = document.getElementById('f-status').value;
+  const type = document.getElementById('f-type').value;
+
+  const filtered = allVendors.filter(v=>{
+    if (q&&!(v.business_name?.toLowerCase().includes(q)||v.email?.toLowerCase().includes(q)||
+             v.city?.toLowerCase().includes(q)||v.contact_name?.toLowerCase().includes(q))) return false;
+    if (stat&&v.status!==stat) return false;
+    if (type&&v.vendor_type!==type) return false;
+    return true;
+  });
+
+  document.getElementById('table-count').textContent = `${filtered.length} vendor${filtered.length!==1?'s':''}`;
+
+  if (!filtered.length) {
+    document.getElementById('table-container').innerHTML =
+      `<div class="empty"><div class="empty-icon">🔍</div><h3 style="color:var(--dark);">No vendors found</h3></div>`;
+    return;
+  }
+
+  document.getElementById('table-container').innerHTML = `
+    <table>
+      <thead><tr><th>Business</th><th>Type</th><th>City</th><th>Listings</th><th>Revenue</th><th>Status</th><th>Joined</th><th>Actions</th></tr></thead>
+      <tbody>
+        ${filtered.map(v=>`
+          <tr>
+            <td>
+              <div class="vendor-cell">
+                <div class="vc-name">${esc(v.business_name)}</div>
+                <div class="vc-email">${esc(v.email)}</div>
+              </div>
+            </td>
+            <td><span class="type-badge t-${v.vendor_type}">${typeIcon(v.vendor_type)} ${typeLabel(v.vendor_type)}</span></td>
+            <td style="font-size:0.83rem;">📍 ${esc(v.city||'—')}</td>
+            <td style="font-weight:700;">${v.listings?.length||0}</td>
+            <td style="font-weight:700;">₹${fmtAmt(v.total_revenue)}</td>
+            <td><span class="status-badge s-${v.status}">${statusLabel(v.status)}</span></td>
+            <td style="font-size:0.78rem;color:var(--light);">${fmtDate(v.created_at)}</td>
+            <td>
+              <div class="action-menu">
+                <button class="act-btn act-view"    title="View Details"   onclick="openDrawer('${v.id}')">👁️</button>
+                ${v.status==='pending'?`<button class="act-btn act-approve" title="Approve" onclick="approveVendor('${v.id}')">✅</button>`:''}
+                <button class="act-btn act-wa"      title="WhatsApp"       onclick="waVendor('${esc(v.phone)}','${esc(v.business_name)}')">💬</button>
+                ${v.status==='active'?`<button class="act-btn act-suspend" title="Suspend" onclick="suspendVendor('${v.id}')">⛔</button>`:''}
+                ${v.status==='pending'?`<button class="act-btn act-reject" title="Reject"  onclick="rejectVendor('${v.id}')">✕</button>`:''}
+              </div>
+            </td>
+          </tr>`).join('')}
+      </tbody>
+    </table>`;
+}
+
+// ── Drawer ─────────────────────────────────────────────────
+window.openDrawer = function(id) {
+  activeV = allVendors.find(v=>v.id===id);
+  if (!activeV) return;
+  const v = activeV;
+  document.getElementById('d-title').textContent = v.business_name;
+  document.getElementById('overlay').classList.add('open');
+  document.getElementById('drawer').classList.add('open');
+
+  document.getElementById('d-body').innerHTML = `
+    <div style="display:inline-flex;align-items:center;gap:8px;margin-bottom:16px;">
+      <span class="type-badge t-${v.vendor_type}">${typeIcon(v.vendor_type)} ${typeLabel(v.vendor_type)}</span>
+      <span class="status-badge s-${v.status}">${statusLabel(v.status)}</span>
+      ${v.is_featured?'<span style="background:rgba(234,179,8,0.1);color:#854d0e;padding:3px 9px;border-radius:10px;font-size:0.72rem;font-weight:700;">⭐ Featured</span>':''}
+    </div>
+
+    <div class="sec-label">Business Details</div>
+    <div class="info-grid">
+      ${infoItem('Business',v.business_name)} ${infoItem('Type',typeLabel(v.vendor_type))}
+      ${infoItem('Contact', v.contact_name)}  ${infoItem('City', v.city||'—')}
+      ${infoItem('GSTIN',   v.gstin||'—')}    ${infoItem('PAN',  v.pan||'—')}
+    </div>
+
+    <div class="sec-label">Contact</div>
+    <div class="info-grid">
+      ${infoItem('Email',   `<a href="mailto:${esc(v.email)}">${esc(v.email)}</a>`)}
+      ${infoItem('Phone',   `<a href="tel:${esc(v.phone)}">${esc(v.phone)}</a>`)}
+      ${infoItem('WhatsApp',v.whatsapp||v.phone||'—')}
+      ${infoItem('Website', v.website||'—')}
+    </div>
+
+    <div class="sec-label">Performance</div>
+    <div class="info-grid">
+      ${infoItem('Total Bookings',  String(v.total_bookings||0))}
+      ${infoItem('Confirmed',       String(v.confirmed_bookings||0))}
+      ${infoItem('Total Revenue',   '₹'+fmtAmt(v.total_revenue))}
+      ${infoItem('Commission (10%)', '₹'+fmtAmt(parseFloat(v.total_revenue||0)*0.1))}
+    </div>
+
+    <div class="sec-label">Bank Details</div>
+    <div class="info-grid">
+      ${infoItem('Account Name', v.bank_acc_name||'—')}
+      ${infoItem('Account No',   v.bank_acc_num ?'••••'+v.bank_acc_num.slice(-4):'—')}
+      ${infoItem('IFSC',         v.bank_ifsc||'—')}
+      ${infoItem('Bank',         v.bank_name||'—')}
+    </div>
+
+    ${v.listings?.length ? `
+    <div class="sec-label">Listings (${v.listings.length})</div>
+    ${v.listings.map(l=>`
+      <div class="listing-mini">
+        <div class="lm-name">${svcIcon(l.type)} ${esc(l.name)}</div>
+        <div class="lm-meta">📍 ${esc(l.city||'')} · ₹${fmtAmt(l.price)}/${l.per||'night'} · ${esc(l.capacity||'')}</div>
+      </div>`).join('')}` : ''}
+
+    <textarea class="note-input" id="admin-note" placeholder="Add admin note (for approval/rejection reason)..."></textarea>
+  `;
+
+  document.getElementById('d-foot').innerHTML = `
+    ${v.status==='pending'?`
+      <button class="da-btn da-approve" onclick="approveVendor('${v.id}')">✅ Approve Vendor</button>
+      <button class="da-btn da-reject"  onclick="rejectVendor('${v.id}')">❌ Reject</button>`
+    : v.status==='active'?`
+      <button class="da-btn da-wa"      onclick="waVendor('${esc(v.phone)}','${esc(v.business_name)}')">💬 WhatsApp</button>
+      <button class="da-btn da-suspend" onclick="suspendVendor('${v.id}')">⛔ Suspend</button>`
+    :`
+      <button class="da-btn da-approve" onclick="approveVendor('${v.id}')">✅ Re-Activate</button>
+      <button class="da-btn da-wa"      onclick="waVendor('${esc(v.phone)}','${esc(v.business_name)}')">💬 WhatsApp</button>`}
+  `;
+};
+
+window.closeDrawer = () => {
+  document.getElementById('overlay').classList.remove('open');
+  document.getElementById('drawer').classList.remove('open');
+};
+
+function infoItem(label, value) {
+  return `<div class="info-item"><div class="il">${label}</div><div class="iv">${value}</div></div>`;
+}
+
+// ── Actions ────────────────────────────────────────────────
+window.approveVendor = async (id) => {
+  const note = document.getElementById('admin-note')?.value||'Approved by admin';
+  const { error } = await supabase.from('vendors').update({
+    status:'active', approved_at:new Date().toISOString(), status_note:note
+  }).eq('id',id);
+  if (error) { showToast('Error: '+error.message,'error'); return; }
+  const v = allVendors.find(x=>x.id===id);
+  if (v) {
+    v.status='active';
+    // WhatsApp the vendor
+    const ph  = sanitizePhone(v.whatsapp||v.phone);
+    const msg = `✅ *Congratulations!* Your ZoomFly vendor account for *${v.business_name}* has been approved!\n\nYou can now log in to the Vendor Portal at zoomfly.in/vendor-portal.html to manage your listings and view bookings.\n\nWelcome to ZoomFly! 🎉`;
+    if (confirm(`Vendor approved! Send WhatsApp notification to ${v.contact_name}?`))
+      window.open(`https://wa.me/${ph}?text=${encodeURIComponent(msg)}`,'_blank');
+  }
+  closeDrawer(); renderStats(); renderTable();
+  showToast('✅ Vendor approved!');
+};
+
+window.rejectVendor = async (id) => {
+  const note = document.getElementById('admin-note')?.value || prompt('Reason for rejection:');
+  if (!note) return;
+  const { error } = await supabase.from('vendors').update({ status:'rejected', status_note:note }).eq('id',id);
+  if (error) { showToast('Error: '+error.message,'error'); return; }
+  const v = allVendors.find(x=>x.id===id);
+  if (v) {
+    v.status='rejected';
+    const ph  = sanitizePhone(v.whatsapp||v.phone);
+    const msg = `We regret to inform you that your ZoomFly vendor application for *${v.business_name}* has not been approved at this time.\n\nReason: ${note}\n\nFor queries, contact s.admin@zoomfly.in`;
+    if (confirm('Send rejection notice to vendor via WhatsApp?'))
+      window.open(`https://wa.me/${ph}?text=${encodeURIComponent(msg)}`,'_blank');
+  }
+  closeDrawer(); renderStats(); renderTable();
+  showToast('Vendor rejected');
+};
+
+window.suspendVendor = async (id) => {
+  const reason = prompt('Reason for suspension:');
+  if (!reason) return;
+  const { error } = await supabase.from('vendors').update({ status:'suspended', status_note:reason }).eq('id',id);
+  if (error) { showToast('Error: '+error.message,'error'); return; }
+  const idx = allVendors.findIndex(v=>v.id===id);
+  if (idx!==-1) allVendors[idx].status='suspended';
+  closeDrawer(); renderStats(); renderTable();
+  showToast('Vendor suspended');
+};
+
+window.waVendor = (phone, name) => {
+  const ph  = sanitizePhone(phone);
+  const msg = `Hi ${name}! This is the ZoomFly team. We wanted to get in touch regarding your vendor account.`;
+  window.open(`https://wa.me/${ph}?text=${encodeURIComponent(msg)}`,'_blank');
+};
+
+window.exportCSV = () => {
+  const headers = ['Business','Type','Contact','Email','Phone','City','GSTIN','Status','Listings','Revenue','Joined'];
+  const rows = allVendors.map(v=>[
+    v.business_name, v.vendor_type, v.contact_name, v.email, v.phone,
+    v.city||'', v.gstin||'', v.status, v.listings?.length||0,
+    v.total_revenue||0, v.created_at
+  ].map(x=>`"${String(x||'').replace(/"/g,'""')}"`).join(','));
+  const csv  = [headers.join(','),...rows].join('\n');
+  const blob = new Blob([csv],{type:'text/csv'});
+  const a    = Object.assign(document.createElement('a'),{
+    href:URL.createObjectURL(blob), download:`zoomfly-vendors-${new Date().toISOString().slice(0,10)}.csv`
+  });
+  a.click(); URL.revokeObjectURL(a.href);
+  showToast('📥 CSV exported');
+};
+
+window.doLogout = async () => { await supabase.auth.signOut(); window.location.href='admin-login.html'; };
+
+// ── Helpers ────────────────────────────────────────────────
+function fmtAmt(n){ return parseFloat(n||0).toLocaleString('en-IN',{minimumFractionDigits:0,maximumFractionDigits:2}); }
+function fmtDate(d){ if(!d)return'—'; try{return new Date(d).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});}catch(_){return d;} }
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function sanitizePhone(p){ let ph=String(p||'').replace(/\D/g,''); if(ph.length===10)ph='91'+ph; return ph||WA_ADMIN; }
+function typeLabel(t){ return{hotel:'Hotel',bus:'Bus Operator',cab:'Cab Provider',tour_operator:'Tour Operator',airline:'Airline'}[t]||t||'—'; }
+function typeIcon(t){ return{hotel:'🏨',bus:'🚌',cab:'🚖',tour_operator:'🧳',airline:'✈️'}[t]||'📦'; }
+function svcIcon(t){ return{hotel:'🏨',bus:'🚌',cab:'🚖',package:'🧳',flight:'✈️'}[t]||'📦'; }
+function statusLabel(s){ return{pending:'⏳ Pending',active:'✅ Active',suspended:'⛔ Suspended',rejected:'❌ Rejected'}[s]||s||'—'; }
+function showToast(msg,type='success'){ const t=document.getElementById('toast'); t.textContent=msg; t.style.background=type==='error'?'#ef4444':'var(--dark)'; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3000); }
+
+// ── Realtime ───────────────────────────────────────────────
+supabase.channel('vendor-changes')
+  .on('postgres_changes',{event:'*',schema:'public',table:'vendors'},()=>loadVendors())
+  .subscribe();
+
+// ── Init ───────────────────────────────────────────────────
+(async()=>{ const ok=await checkAuth(); if(ok) await loadVendors(); })();
+</script>
+</body>
+</html>

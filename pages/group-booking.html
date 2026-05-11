@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Group Bookings — ZoomFly</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✈️</text></svg>"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --primary:#1a73e8; --primary-dark:#1557b0;
+      --accent:#ff6b35;  --dark:#0f1923; --dark2:#1a2535;
+      --text:#2d3748;    --light:#64748b;
+      --border:#e2e8f0;  --bg:#f8fafc;   --white:#fff;
+      --green:#22c55e;   --yellow:#f59e0b; --purple:#8b5cf6;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);}
+
+    /* NAV */
+    nav{background:var(--dark);padding:0 5%;display:flex;align-items:center;
+      justify-content:space-between;height:68px;position:sticky;top:0;z-index:100;
+      box-shadow:0 2px 20px rgba(0,0,0,0.3);}
+    .logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+    .logo-icon{width:38px;height:38px;background:linear-gradient(135deg,var(--primary),var(--accent));
+      border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;}
+    .logo-text{font-family:'Playfair Display',serif;font-size:1.5rem;color:#fff;font-weight:700;}
+    .logo-text span{color:var(--accent);}
+    .nav-links{display:flex;gap:28px;list-style:none;}
+    .nav-links a{color:rgba(255,255,255,0.75);text-decoration:none;font-size:0.88rem;font-weight:500;}
+    .nav-links a:hover{color:#fff;}
+    .nav-cta{background:var(--accent)!important;color:#fff!important;padding:7px 18px;border-radius:8px;font-weight:600!important;}
+
+    /* HERO */
+    .hero{
+      background:linear-gradient(135deg,#0f1923 0%,#1a2535 50%,#1a1535 100%);
+      padding:80px 5% 72px; position:relative; overflow:hidden;
+    }
+    .hero::before{content:'';position:absolute;top:-80px;right:-80px;width:400px;height:400px;
+      background:radial-gradient(circle,rgba(139,92,246,0.15) 0%,transparent 70%);border-radius:50%;}
+    .hero::after{content:'';position:absolute;bottom:-60px;left:5%;width:300px;height:300px;
+      background:radial-gradient(circle,rgba(255,107,53,0.1) 0%,transparent 70%);border-radius:50%;}
+    .hero-inner{max-width:1100px;margin:0 auto;position:relative;z-index:1;}
+    .hero-badge{display:inline-flex;align-items:center;gap:8px;
+      background:rgba(139,92,246,0.15);border:1px solid rgba(139,92,246,0.3);
+      border-radius:20px;padding:6px 16px;font-size:0.78rem;font-weight:600;
+      color:#c4b5fd;text-transform:uppercase;letter-spacing:1px;margin-bottom:24px;}
+    .hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,5vw,3.5rem);
+      color:#fff;font-weight:800;line-height:1.15;margin-bottom:18px;}
+    .hero h1 span{background:linear-gradient(90deg,var(--purple),var(--accent));
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+    .hero p{color:rgba(255,255,255,0.65);font-size:1rem;line-height:1.8;
+      margin-bottom:32px;max-width:580px;}
+    .hero-stats{display:flex;gap:32px;flex-wrap:wrap;}
+    .hs-item{text-align:center;}
+    .hs-num{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;
+      color:#fff;line-height:1;}
+    .hs-num span{color:var(--accent);}
+    .hs-label{font-size:0.75rem;color:rgba(255,255,255,0.45);margin-top:4px;}
+
+    /* WHY GROUP */
+    .section{padding:72px 5%;}
+    .section-inner{max-width:1100px;margin:0 auto;}
+    .section-label{font-size:0.72rem;font-weight:700;text-transform:uppercase;
+      letter-spacing:2px;color:var(--purple);margin-bottom:10px;}
+    .section-heading{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,3vw,2.2rem);
+      font-weight:700;color:var(--dark);line-height:1.3;margin-bottom:14px;}
+    .section-heading span{color:var(--primary);}
+    .section-sub{color:var(--light);font-size:0.95rem;line-height:1.8;max-width:560px;}
+
+    /* BENEFITS */
+    .benefits-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px;}
+    .benefit-card{background:var(--white);border-radius:16px;border:1px solid var(--border);
+      padding:28px;box-shadow:0 2px 12px rgba(0,0,0,0.04);transition:all 0.3s;}
+    .benefit-card:hover{box-shadow:0 8px 32px rgba(0,0,0,0.1);transform:translateY(-3px);
+      border-color:var(--purple);}
+    .bc-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;
+      justify-content:center;font-size:24px;margin-bottom:16px;}
+    .bc-title{font-weight:700;font-size:1rem;color:var(--dark);margin-bottom:8px;}
+    .bc-desc{font-size:0.85rem;color:var(--light);line-height:1.7;}
+
+    /* SERVICES GRID */
+    .services-section{background:var(--dark);padding:72px 5%;}
+    .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px;}
+    .svc-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);
+      border-radius:16px;padding:28px;transition:all 0.3s;}
+    .svc-card:hover{background:rgba(255,255,255,0.09);transform:translateY(-3px);}
+    .svc-icon{font-size:32px;margin-bottom:16px;}
+    .svc-title{font-weight:700;font-size:1rem;color:#fff;margin-bottom:8px;}
+    .svc-desc{font-size:0.85rem;color:rgba(255,255,255,0.5);line-height:1.7;margin-bottom:14px;}
+    .svc-discount{display:inline-block;background:rgba(139,92,246,0.2);color:#c4b5fd;
+      padding:3px 12px;border-radius:20px;font-size:0.75rem;font-weight:700;}
+
+    /* PROCESS */
+    .process-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:48px;position:relative;}
+    .process-steps::before{content:'';position:absolute;top:28px;left:10%;right:10%;
+      height:2px;background:linear-gradient(90deg,var(--purple),var(--accent));z-index:0;}
+    .ps-item{text-align:center;position:relative;z-index:1;}
+    .ps-dot{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;
+      justify-content:center;font-size:22px;margin:0 auto 16px;
+      box-shadow:0 4px 20px rgba(0,0,0,0.15);}
+    .ps-num{font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;
+      color:var(--purple);margin-bottom:6px;}
+    .ps-title{font-weight:700;font-size:0.9rem;color:var(--dark);margin-bottom:4px;}
+    .ps-desc{font-size:0.78rem;color:var(--light);line-height:1.5;}
+
+    /* FORM SECTION */
+    .form-section{background:linear-gradient(135deg,#0f1923,#1a2535);padding:72px 5%;}
+    .form-grid{display:grid;grid-template-columns:1fr 420px;gap:48px;align-items:start;
+      max-width:1100px;margin:0 auto;}
+    .form-left .fl-title{font-family:'Playfair Display',serif;font-size:1.8rem;
+      color:#fff;margin-bottom:12px;}
+    .form-left p{color:rgba(255,255,255,0.55);font-size:0.9rem;line-height:1.8;margin-bottom:24px;}
+    .fl-feature{display:flex;gap:12px;margin-bottom:14px;}
+    .fl-dot{width:32px;height:32px;border-radius:8px;background:rgba(139,92,246,0.2);
+      display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+    .fl-text .flt-title{font-weight:700;font-size:0.88rem;color:#fff;margin-bottom:2px;}
+    .fl-text .flt-sub{font-size:0.78rem;color:rgba(255,255,255,0.45);}
+
+    .form-card{background:var(--white);border-radius:20px;padding:36px;
+      box-shadow:0 24px 80px rgba(0,0,0,0.3);}
+    .form-card h3{font-family:'Playfair Display',serif;font-size:1.2rem;
+      color:var(--dark);margin-bottom:6px;}
+    .form-card p{font-size:0.82rem;color:var(--light);margin-bottom:24px;}
+
+    .form-group{margin-bottom:16px;}
+    .form-label{font-size:0.78rem;font-weight:600;color:var(--text);
+      margin-bottom:6px;display:block;}
+    .form-input,.form-select,.form-textarea{width:100%;padding:11px 14px;
+      border:1.5px solid var(--border);border-radius:10px;font-family:inherit;
+      font-size:0.9rem;color:var(--text);outline:none;transition:border 0.2s;background:var(--white);}
+    .form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--purple);}
+    .form-textarea{resize:vertical;min-height:80px;}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+
+    /* Traveller counter */
+    .counter-group{display:flex;flex-direction:column;gap:8px;}
+    .counter-row{display:flex;align-items:center;justify-content:space-between;
+      padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;}
+    .counter-label{font-size:0.85rem;font-weight:500;color:var(--text);}
+    .counter-sub{font-size:0.72rem;color:var(--light);}
+    .counter-controls{display:flex;align-items:center;gap:12px;}
+    .counter-btn{width:30px;height:30px;border-radius:8px;border:1.5px solid var(--border);
+      background:var(--white);cursor:pointer;font-size:16px;display:flex;
+      align-items:center;justify-content:center;transition:all 0.2s;font-weight:700;}
+    .counter-btn:hover{border-color:var(--purple);color:var(--purple);}
+    .counter-val{font-weight:700;font-size:1rem;color:var(--dark);min-width:20px;text-align:center;}
+
+    /* Group size indicator */
+    .group-indicator{display:flex;align-items:center;gap:10px;padding:12px 14px;
+      background:rgba(139,92,246,0.06);border:1px solid rgba(139,92,246,0.15);
+      border-radius:10px;margin-bottom:16px;}
+    .gi-icon{font-size:20px;}
+    .gi-text{font-size:0.82rem;color:var(--purple);}
+    .gi-text strong{color:var(--dark);}
+
+    /* Price estimate */
+    .price-estimate{background:var(--bg);border-radius:12px;padding:16px;margin-bottom:16px;}
+    .pe-title{font-size:0.72rem;font-weight:700;text-transform:uppercase;
+      letter-spacing:1px;color:var(--light);margin-bottom:10px;}
+    .pe-row{display:flex;justify-content:space-between;font-size:0.83rem;padding:4px 0;}
+    .pe-total{border-top:1px solid var(--border);margin-top:6px;padding-top:8px;
+      font-weight:700;font-size:1rem;}
+    .pe-total span:last-child{color:var(--accent);}
+    .pe-discount{color:var(--green);font-size:0.78rem;margin-top:4px;}
+
+    .submit-btn{width:100%;padding:14px;border-radius:12px;border:none;cursor:pointer;
+      background:linear-gradient(135deg,var(--purple),#6d28d9);color:#fff;
+      font-size:0.95rem;font-weight:700;font-family:inherit;transition:all 0.2s;
+      box-shadow:0 4px 20px rgba(139,92,246,0.4);}
+    .submit-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(139,92,246,0.5);}
+    .submit-btn:disabled{opacity:0.6;cursor:not-allowed;transform:none;}
+
+    /* TESTIMONIALS */
+    .testimonials{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px;}
+    .tcard{background:var(--white);border-radius:16px;border:1px solid var(--border);
+      padding:24px;box-shadow:0 2px 12px rgba(0,0,0,0.04);}
+    .tc-stars{color:var(--yellow);font-size:14px;margin-bottom:10px;}
+    .tc-text{font-size:0.85rem;color:var(--light);line-height:1.7;margin-bottom:14px;font-style:italic;}
+    .tc-author{font-weight:700;font-size:0.85rem;color:var(--dark);}
+    .tc-group{font-size:0.75rem;color:var(--light);margin-top:2px;}
+
+    /* FAQ */
+    .faq-list{margin-top:40px;max-width:700px;}
+    .faq-item{border-bottom:1px solid var(--border);padding:18px 0;}
+    .faq-q{font-weight:700;font-size:0.95rem;color:var(--dark);cursor:pointer;
+      display:flex;justify-content:space-between;align-items:center;gap:12px;}
+    .faq-q .faq-icon{font-size:18px;color:var(--purple);transition:transform 0.2s;flex-shrink:0;}
+    .faq-a{font-size:0.88rem;color:var(--light);line-height:1.7;margin-top:10px;display:none;}
+    .faq-item.open .faq-a{display:block;}
+    .faq-item.open .faq-icon{transform:rotate(45deg);}
+
+    /* CTA */
+    .cta-section{background:linear-gradient(135deg,var(--purple) 0%,#6d28d9 100%);
+      padding:72px 5%;text-align:center;}
+    .cta-inner{max-width:560px;margin:0 auto;}
+    .cta-section h2{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.4rem);
+      color:#fff;margin-bottom:14px;}
+    .cta-section p{color:rgba(255,255,255,0.7);font-size:0.95rem;margin-bottom:32px;line-height:1.7;}
+    .cta-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+    .cta-btn-white{background:#fff;color:var(--purple);padding:13px 28px;border-radius:10px;
+      text-decoration:none;font-weight:700;font-size:0.92rem;transition:all 0.2s;}
+    .cta-btn-white:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.2);}
+    .cta-btn-outline{background:transparent;color:#fff;padding:13px 28px;border-radius:10px;
+      text-decoration:none;font-weight:600;font-size:0.92rem;
+      border:1.5px solid rgba(255,255,255,0.4);transition:all 0.2s;}
+    .cta-btn-outline:hover{background:rgba(255,255,255,0.1);}
+
+    footer{background:var(--dark);color:rgba(255,255,255,0.5);text-align:center;padding:36px 5%;}
+    .footer-links{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;margin-bottom:16px;}
+    .footer-links a{color:rgba(255,255,255,0.5);text-decoration:none;font-size:0.82rem;}
+    .footer-links a:hover{color:var(--accent);}
+    .footer-copy{font-size:0.78rem;color:rgba(255,255,255,0.3);}
+
+    /* Modal */
+    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:500;
+      display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px);}
+    .modal-overlay.show{display:flex;}
+    .modal{background:#fff;border-radius:20px;padding:40px;max-width:460px;width:100%;
+      text-align:center;box-shadow:0 24px 80px rgba(0,0,0,0.3);animation:slideUp 0.4s ease;}
+    @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    .modal-icon{width:72px;height:72px;background:linear-gradient(135deg,var(--purple),#6d28d9);
+      border-radius:50%;display:flex;align-items:center;justify-content:center;
+      font-size:32px;margin:0 auto 20px;box-shadow:0 8px 24px rgba(139,92,246,0.4);}
+    .modal h3{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--dark);margin-bottom:8px;}
+    .modal p{font-size:0.88rem;color:var(--light);margin-bottom:20px;line-height:1.6;}
+    .modal-ref{background:var(--bg);border-radius:10px;padding:14px;margin-bottom:20px;}
+    .mr-label{font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--light);margin-bottom:4px;}
+    .mr-code{font-size:1.2rem;font-weight:700;color:var(--purple);letter-spacing:2px;font-family:monospace;}
+    .modal-wa{display:block;background:linear-gradient(135deg,#25d366,#128c7e);
+      color:#fff;padding:13px;border-radius:10px;text-decoration:none;
+      font-weight:700;font-size:0.9rem;margin-bottom:10px;}
+    .modal-close-btn{width:100%;padding:11px;border-radius:10px;border:1.5px solid var(--border);
+      background:none;cursor:pointer;font-size:0.88rem;color:var(--light);}
+
+    @media(max-width:900px){
+      .form-grid{grid-template-columns:1fr;}
+      .benefits-grid,.services-grid,.testimonials{grid-template-columns:1fr 1fr;}
+      .process-steps{grid-template-columns:1fr 1fr;}
+      .process-steps::before{display:none;}
+      .nav-links{display:none;}
+    }
+    @media(max-width:600px){
+      .benefits-grid,.services-grid,.testimonials{grid-template-columns:1fr;}
+      .hero-stats{gap:20px;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="logo">
+    <div class="logo-icon">✈️</div>
+    <div class="logo-text">Zoom<span>Fly</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="flights.html">Flights</a></li>
+    <li><a href="hotels.html">Hotels</a></li>
+    <li><a href="packages.html">Packages</a></li>
+    <li><a href="contact.html" class="nav-cta">Contact Us</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">👥 Group Travel Specialists</div>
+    <h1>Travel Together,<br/><span>Save More.</span></h1>
+    <p>ZoomFly specialises in group bookings for families, corporates, schools, and pilgrimage groups. Exclusive rates, dedicated coordinators, and end-to-end planning.</p>
+    <div class="hero-stats">
+      <div class="hs-item">
+        <div class="hs-num">10<span>+</span></div>
+        <div class="hs-label">Min. Group Size</div>
+      </div>
+      <div class="hs-item">
+        <div class="hs-num">30<span>%</span></div>
+        <div class="hs-label">Max Group Discount</div>
+      </div>
+      <div class="hs-item">
+        <div class="hs-num">1</div>
+        <div class="hs-label">Dedicated Coordinator</div>
+      </div>
+      <div class="hs-item">
+        <div class="hs-num">24<span>h</span></div>
+        <div class="hs-label">Quote Turnaround</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY GROUP -->
+<section class="section">
+  <div class="section-inner">
+    <div class="section-label">Why Book as a Group</div>
+    <h2 class="section-heading">Every Group Gets<br/><span>Special Treatment</span></h2>
+    <p class="section-sub">From 10 to 500 travellers, ZoomFly handles everything — flights, hotels, coaches, meals, and sightseeing.</p>
+
+    <div class="benefits-grid">
+      <div class="benefit-card">
+        <div class="bc-icon" style="background:rgba(139,92,246,0.1);">💰</div>
+        <div class="bc-title">Exclusive Group Rates</div>
+        <div class="bc-desc">Get upto 30% off standard rates. The larger your group, the better the pricing. We negotiate directly with airlines and hotels.</div>
+      </div>
+      <div class="benefit-card">
+        <div class="bc-icon" style="background:rgba(26,115,232,0.1);">🤝</div>
+        <div class="bc-title">Dedicated Coordinator</div>
+        <div class="bc-desc">A single point of contact manages your entire booking — confirmations, changes, on-ground support, and emergency assistance.</div>
+      </div>
+      <div class="benefit-card">
+        <div class="bc-icon" style="background:rgba(255,107,53,0.1);">📋</div>
+        <div class="bc-title">Flexible Payment</div>
+        <div class="bc-desc">Pay in instalments. Secure your booking with 25% advance and settle the balance 30 days before departure.</div>
+      </div>
+      <div class="benefit-card">
+        <div class="bc-icon" style="background:rgba(34,197,94,0.1);">✅</div>
+        <div class="bc-title">Block Seat Guarantee</div>
+        <div class="bc-desc">We block seats together so your group travels on the same flight, same bus, or same hotel floor — nobody gets separated.</div>
+      </div>
+      <div class="benefit-card">
+        <div class="bc-icon" style="background:rgba(20,184,166,0.1);">🎯</div>
+        <div class="bc-title">Custom Itineraries</div>
+        <div class="bc-desc">Tailored day-by-day itineraries for your group type — corporate offsite, school trip, family reunion, or pilgrimage tour.</div>
+      </div>
+      <div class="benefit-card">
+        <div class="bc-icon" style="background:rgba(234,179,8,0.1);">🛡️</div>
+        <div class="bc-title">Group Travel Insurance</div>
+        <div class="bc-desc">Optional group travel insurance covering medical emergencies, trip cancellation, and lost baggage for all members.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services-section">
+  <div class="section-inner">
+    <div class="section-label" style="color:rgba(196,181,253,0.8);">What We Cover</div>
+    <h2 class="section-heading" style="color:#fff;">Complete Group Travel<br/><span style="color:var(--purple);">Services</span></h2>
+
+    <div class="services-grid">
+      <div class="svc-card">
+        <div class="svc-icon">✈️</div>
+        <div class="svc-title">Group Flights</div>
+        <div class="svc-desc">Block seating on domestic and international flights. We coordinate with airlines for adjacent seats and special meal requests.</div>
+        <span class="svc-discount">Up to 20% off</span>
+      </div>
+      <div class="svc-card">
+        <div class="svc-icon">🏨</div>
+        <div class="svc-title">Hotel Blocks</div>
+        <div class="svc-desc">Entire floors or wings blocked for groups. Special rates, combined check-in, and dedicated banquet/conference facilities.</div>
+        <span class="svc-discount">Up to 30% off</span>
+      </div>
+      <div class="svc-card">
+        <div class="svc-icon">🚌</div>
+        <div class="svc-title">Group Coaches</div>
+        <div class="svc-desc">Luxury AC coaches for inter-city transfers. Volvo, Mercedes, and Tempo Travellers for groups of any size.</div>
+        <span class="svc-discount">Up to 25% off</span>
+      </div>
+      <div class="svc-card">
+        <div class="svc-icon">🧳</div>
+        <div class="svc-title">MICE Packages</div>
+        <div class="svc-desc">Complete Meetings, Incentives, Conferences &amp; Exhibitions packages including venue, accommodation, transfers, and F&amp;B.</div>
+        <span class="svc-discount">Custom pricing</span>
+      </div>
+      <div class="svc-card">
+        <div class="svc-icon">🕌</div>
+        <div class="svc-title">Pilgrimage Tours</div>
+        <div class="svc-desc">Dedicated packages for Char Dham, Vaishno Devi, Tirupati, Shirdi, Amritsar, and international pilgrimages.</div>
+        <span class="svc-discount">Up to 20% off</span>
+      </div>
+      <div class="svc-card">
+        <div class="svc-icon">🏫</div>
+        <div class="svc-title">School/College Trips</div>
+        <div class="svc-desc">Educational tours with teacher coordination, safety protocols, child-friendly activities, and budget-friendly packages.</div>
+        <span class="svc-discount">Up to 25% off</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section">
+  <div class="section-inner">
+    <div class="section-label">Process</div>
+    <h2 class="section-heading">How Group Booking<br/><span>Works</span></h2>
+
+    <div class="process-steps">
+      <div class="ps-item">
+        <div class="ps-dot" style="background:linear-gradient(135deg,var(--purple),#6d28d9);">📋</div>
+        <div class="ps-num">Step 01</div>
+        <div class="ps-title">Submit Request</div>
+        <div class="ps-desc">Fill the group enquiry form with destination, dates, and group size</div>
+      </div>
+      <div class="ps-item">
+        <div class="ps-dot" style="background:linear-gradient(135deg,var(--primary),#1557b0);">📞</div>
+        <div class="ps-num">Step 02</div>
+        <div class="ps-title">Get Your Quote</div>
+        <div class="ps-desc">Dedicated coordinator contacts you within 24 hours with a custom quote</div>
+      </div>
+      <div class="ps-item">
+        <div class="ps-dot" style="background:linear-gradient(135deg,var(--accent),#e85d04);">✅</div>
+        <div class="ps-num">Step 03</div>
+        <div class="ps-title">Confirm & Pay</div>
+        <div class="ps-desc">Approve the itinerary and pay 25% advance to block all seats and rooms</div>
+      </div>
+      <div class="ps-item">
+        <div class="ps-dot" style="background:linear-gradient(135deg,var(--green),#16a34a);">✈️</div>
+        <div class="ps-num">Step 04</div>
+        <div class="ps-title">Travel Stress-Free</div>
+        <div class="ps-desc">Your coordinator handles everything from check-in to check-out</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING FORM -->
+<section class="form-section" id="group-form">
+  <div class="form-grid">
+
+    <!-- Left -->
+    <div class="form-left">
+      <div class="section-label" style="color:rgba(196,181,253,0.8);">Get Started</div>
+      <div class="fl-title">Request a Group Quote</div>
+      <p>Tell us about your group and we'll send you a custom quote within 24 hours. No commitment required.</p>
+
+      <div class="fl-feature">
+        <div class="fl-dot">💰</div>
+        <div class="fl-text">
+          <div class="flt-title">Best Group Rates Guaranteed</div>
+          <div class="flt-sub">We beat any comparable group quote</div>
+        </div>
+      </div>
+      <div class="fl-feature">
+        <div class="fl-dot">⚡</div>
+        <div class="fl-text">
+          <div class="flt-title">24-Hour Quote Turnaround</div>
+          <div class="flt-sub">Fast response, even on weekends</div>
+        </div>
+      </div>
+      <div class="fl-feature">
+        <div class="fl-dot">🔒</div>
+        <div class="fl-text">
+          <div class="flt-title">No Hidden Charges</div>
+          <div class="flt-sub">What we quote is what you pay</div>
+        </div>
+      </div>
+      <div class="fl-feature">
+        <div class="fl-dot">📞</div>
+        <div class="fl-text">
+          <div class="flt-title">WhatsApp Support Throughout</div>
+          <div class="flt-sub">+91 8076136300 · Available 9AM–9PM</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form card -->
+    <div class="form-card">
+      <h3>Group Enquiry Form</h3>
+      <p>Fill in details below and we'll prepare your custom quote.</p>
+
+      <div class="form-group">
+        <label class="form-label">Group Type *</label>
+        <select class="form-select" id="group-type" onchange="updateGroupContext()">
+          <option value="">Select group type...</option>
+          <option value="family">👨‍👩‍👧‍👦 Family Group</option>
+          <option value="corporate">🏢 Corporate / MICE</option>
+          <option value="school">🏫 School / College Trip</option>
+          <option value="pilgrimage">🕌 Pilgrimage / Religious</option>
+          <option value="friends">👫 Friends Group</option>
+          <option value="wedding">💍 Wedding / Pre-Wedding</option>
+          <option value="other">📦 Other</option>
+        </select>
+      </div>
+
+      <!-- Traveller counters -->
+      <div class="form-group">
+        <label class="form-label">Group Size *</label>
+        <div class="counter-group">
+          <div class="counter-row">
+            <div>
+              <div class="counter-label">Adults</div>
+              <div class="counter-sub">Age 12+</div>
+            </div>
+            <div class="counter-controls">
+              <button class="counter-btn" onclick="changeCount('adults',-1)">−</button>
+              <span class="counter-val" id="adults-val">10</span>
+              <button class="counter-btn" onclick="changeCount('adults',1)">+</button>
+            </div>
+          </div>
+          <div class="counter-row">
+            <div>
+              <div class="counter-label">Children</div>
+              <div class="counter-sub">Age 2–11</div>
+            </div>
+            <div class="counter-controls">
+              <button class="counter-btn" onclick="changeCount('children',-1)">−</button>
+              <span class="counter-val" id="children-val">0</span>
+              <button class="counter-btn" onclick="changeCount('children',1)">+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Group size indicator -->
+      <div class="group-indicator" id="group-indicator">
+        <span class="gi-icon">👥</span>
+        <span class="gi-text">Group of <strong id="gi-total">10</strong> · <span id="gi-discount">10% group discount</span> applies</span>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Destination *</label>
+          <input class="form-input" type="text" id="destination" placeholder="Goa, Manali, Singapore..."/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Departure City *</label>
+          <input class="form-input" type="text" id="departure-city" placeholder="Delhi, Mumbai..."/>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Travel Date *</label>
+          <input class="form-input" type="date" id="travel-date"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Return Date</label>
+          <input class="form-input" type="date" id="return-date"/>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Services Required</label>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <label style="display:flex;align-items:center;gap:8px;font-size:0.85rem;cursor:pointer;">
+            <input type="checkbox" id="need-flights" checked/> ✈️ Flights
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:0.85rem;cursor:pointer;">
+            <input type="checkbox" id="need-hotel" checked/> 🏨 Hotel
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:0.85rem;cursor:pointer;">
+            <input type="checkbox" id="need-transport"/> 🚌 Ground Transport
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:0.85rem;cursor:pointer;">
+            <input type="checkbox" id="need-meals"/> 🍽️ Meals
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:0.85rem;cursor:pointer;">
+            <input type="checkbox" id="need-guide"/> 🗺️ Tour Guide
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:0.85rem;cursor:pointer;">
+            <input type="checkbox" id="need-insurance"/> 🛡️ Insurance
+          </label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Budget Per Person (₹ approx.)</label>
+        <select class="form-select" id="budget">
+          <option value="">Select budget range...</option>
+          <option value="under5k">Under ₹5,000</option>
+          <option value="5k-10k">₹5,000 – ₹10,000</option>
+          <option value="10k-25k">₹10,000 – ₹25,000</option>
+          <option value="25k-50k">₹25,000 – ₹50,000</option>
+          <option value="50k-1L">₹50,000 – ₹1,00,000</option>
+          <option value="above1L">Above ₹1,00,000</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Your Name *</label>
+          <input class="form-input" type="text" id="contact-name" placeholder="Full name"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Phone / WhatsApp *</label>
+          <input class="form-input" type="tel" id="contact-phone" placeholder="9876543210"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email *</label>
+        <input class="form-input" type="email" id="contact-email" placeholder="you@example.com"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Special Requirements</label>
+        <textarea class="form-textarea" id="special-req"
+          placeholder="Vegetarian meals, wheelchair access, specific hotel preferences, visa assistance needed..."></textarea>
+      </div>
+
+      <button class="submit-btn" id="submit-btn" onclick="submitGroupEnquiry()">
+        📋 Submit Group Enquiry
+      </button>
+      <div style="text-align:center;margin-top:10px;font-size:0.75rem;color:var(--light);">
+        We'll respond within 24 hours · No spam · No commitment
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section">
+  <div class="section-inner">
+    <div class="section-label">Group Stories</div>
+    <h2 class="section-heading">Groups That<br/><span>Travelled with Us</span></h2>
+    <div class="testimonials">
+      <div class="tcard">
+        <div class="tc-stars">★★★★★</div>
+        <div class="tc-text">"ZoomFly organised our company offsite for 85 people to Goa. Flights blocked, hotel floors reserved, transfers coordinated — absolutely seamless."</div>
+        <div class="tc-author">Vikram Malhotra</div>
+        <div class="tc-group">HR Director · TechCorp India · 85 pax corporate trip</div>
+      </div>
+      <div class="tcard">
+        <div class="tc-stars">★★★★★</div>
+        <div class="tc-text">"Organised a school trip for 120 students to Rajasthan. ZoomFly handled everything from permissions to safety protocols. Parents were very happy."</div>
+        <div class="tc-author">Mrs. Sunita Sharma</div>
+        <div class="tc-group">Principal · DPS Noida · 120 students educational tour</div>
+      </div>
+      <div class="tcard">
+        <div class="tc-stars">★★★★★</div>
+        <div class="tc-text">"Our family reunion of 45 people to Kerala was perfectly planned. Special rates, same hotel floor, and our own coordinator on WhatsApp throughout."</div>
+        <div class="tc-author">Ramesh Gupta</div>
+        <div class="tc-group">Family of 45 · Kerala Reunion Tour</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section" style="padding-top:0;">
+  <div class="section-inner">
+    <div class="section-label">FAQ</div>
+    <h2 class="section-heading">Common <span>Questions</span></h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">What is the minimum group size? <span class="faq-icon">+</span></div>
+        <div class="faq-a">The minimum group size for group booking rates is 10 travellers. For groups of 5–9, standard individual booking rates apply but we can still coordinate travel together.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">How much advance do I need to pay? <span class="faq-icon">+</span></div>
+        <div class="faq-a">A 25% advance secures your booking and blocks all seats/rooms. The remaining 75% is due 30 days before departure. For last-minute bookings (under 30 days), full payment is required upfront.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Can individual travellers within a group be added or removed? <span class="faq-icon">+</span></div>
+        <div class="faq-a">Yes, subject to availability and the airline/hotel's group policy. Additions are welcomed anytime. Removals after 30 days of departure may incur cancellation charges as per our refund policy.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Do you arrange visas for international groups? <span class="faq-icon">+</span></div>
+        <div class="faq-a">We provide visa guidance and can arrange visa assistance for popular destinations like UAE, Singapore, Thailand, and Schengen countries. Visa fees are charged separately.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">What if the group size increases after booking? <span class="faq-icon">+</span></div>
+        <div class="faq-a">Contact your dedicated coordinator as soon as possible. We'll check availability and add the additional travellers at the same group rate if space permits. This is handled on a best-effort basis.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-inner">
+    <h2>Ready to Plan Your Group Trip?</h2>
+    <p>Submit your enquiry today and get a custom quote within 24 hours. No commitment, no spam — just great group travel.</p>
+    <div class="cta-actions">
+      <a href="#group-form" class="cta-btn-white">📋 Get Group Quote</a>
+      <a href="https://wa.me/918076136300?text=Hi%20ZoomFly!%20I%20need%20a%20group%20booking%20quote." class="cta-btn-outline">💬 WhatsApp Us</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="packages.html">Packages</a>
+    <a href="privacy-policy.html">Privacy Policy</a>
+    <a href="terms.html">Terms</a>
+    <a href="refund-policy.html">Refund Policy</a>
+    <a href="contact.html">Contact</a>
+  </div>
+  <div class="footer-copy">© 2026 ZoomFly Travel Services · All rights reserved</div>
+</footer>
+
+<!-- SUCCESS MODAL -->
+<div class="modal-overlay" id="success-modal">
+  <div class="modal">
+    <div class="modal-icon">🎉</div>
+    <h3>Group Enquiry Received!</h3>
+    <p>Your group travel request has been submitted. A dedicated coordinator will contact you within 24 hours.</p>
+    <div class="modal-ref">
+      <div class="mr-label">Enquiry Reference</div>
+      <div class="mr-code" id="enquiry-ref">ZF-GRP-...</div>
+    </div>
+    <a id="modal-wa" href="#" target="_blank" class="modal-wa">💬 Chat on WhatsApp</a>
+    <button class="modal-close-btn" onclick="closeModal()">Close</button>
+  </div>
+</div>
+
+<script type="module">
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+const SUPABASE_URL = window.SUPABASE_URL      || 'https://ndaurluolurdljrjbxii.supabase.co';
+const SUPABASE_KEY = window.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kYXVybHVvbHVyZGxqcmpieGlpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MDY2MzksImV4cCI6MjA5MzQ4MjYzOX0.JsZXOof19JkyX7asJQ7EtoaBKqURJUYzVqXQIenCzjQ';
+const supabase     = createClient(SUPABASE_URL, SUPABASE_KEY);
+const WA_NUMBER    = '918076136300';
+
+let counts = { adults:10, children:0 };
+
+// ── Counter ────────────────────────────────────────────────
+window.changeCount = (type, delta) => {
+  const min = type==='adults' ? 10 : 0;
+  counts[type] = Math.max(min, counts[type]+delta);
+  document.getElementById(type+'-val').textContent = counts[type];
+  updateGroupIndicator();
+};
+
+function updateGroupIndicator() {
+  const total = counts.adults + counts.children;
+  document.getElementById('gi-total').textContent = total;
+  let disc = '10%';
+  if (total >= 50)  disc = '25%';
+  else if (total >= 30) disc = '20%';
+  else if (total >= 20) disc = '15%';
+  document.getElementById('gi-discount').textContent = disc+' group discount';
+}
+
+window.updateGroupContext = () => {};
+
+// ── Submit ─────────────────────────────────────────────────
+window.submitGroupEnquiry = async () => {
+  const name  = document.getElementById('contact-name').value.trim();
+  const phone = document.getElementById('contact-phone').value.trim();
+  const email = document.getElementById('contact-email').value.trim();
+  const dest  = document.getElementById('destination').value.trim();
+  const dep   = document.getElementById('departure-city').value.trim();
+  const date  = document.getElementById('travel-date').value;
+  const gtype = document.getElementById('group-type').value;
+
+  if (!name||!phone||!email||!dest||!date||!gtype) {
+    alert('Please fill in all required fields (marked with *).'); return;
+  }
+
+  const btn = document.getElementById('submit-btn');
+  btn.disabled=true; btn.textContent='Submitting...';
+
+  const services = [];
+  if (document.getElementById('need-flights').checked)   services.push('Flights');
+  if (document.getElementById('need-hotel').checked)     services.push('Hotel');
+  if (document.getElementById('need-transport').checked) services.push('Ground Transport');
+  if (document.getElementById('need-meals').checked)     services.push('Meals');
+  if (document.getElementById('need-guide').checked)     services.push('Tour Guide');
+  if (document.getElementById('need-insurance').checked) services.push('Insurance');
+
+  const ref = 'ZF-GRP-'+new Date().toISOString().slice(0,10).replace(/-/g,'')+'-'+Math.floor(1000+Math.random()*9000);
+
+  // Save to Supabase bookings table as a group booking
+  const { error } = await supabase.from('bookings').insert([{
+    service_type:    'package',
+    service_name:    `Group Trip — ${dest} (${counts.adults+counts.children} pax)`,
+    booking_ref:     ref,
+    customer_name:   name,
+    customer_email:  email,
+    customer_phone:  phone,
+    customer_whatsapp: phone,
+    num_adults:      counts.adults,
+    num_children:    counts.children,
+    travel_details:  {
+      group_type:    gtype,
+      destination:   dest,
+      departure_city: dep,
+      date:          date,
+      return_date:   document.getElementById('return-date').value||null,
+      services:      services,
+      budget:        document.getElementById('budget').value,
+      special_requests: document.getElementById('special-req').value,
+      total_pax:     counts.adults + counts.children,
+    },
+    status:          'pending',
+    payment_status:  'pending',
+    booking_source:  'website',
+    special_requests: document.getElementById('special-req').value,
+  }]);
+
+  // Build WhatsApp message
+  const msg = [
+    `👥 *ZoomFly Group Booking Enquiry*`,
+    `━━━━━━━━━━━━━━━━━━━━━━`,
+    `📋 Ref: *${ref}*`,
+    ``,
+    `🏷️ Group Type : ${gtype}`,
+    `📍 Destination: ${dest}`,
+    `🛫 From       : ${dep}`,
+    `📅 Date       : ${date}`,
+    `👥 Group Size : ${counts.adults} Adults + ${counts.children} Children = *${counts.adults+counts.children} pax*`,
+    `✅ Services   : ${services.join(', ')||'Not specified'}`,
+    `💰 Budget/pax : ${document.getElementById('budget').value||'Not specified'}`,
+    ``,
+    `👤 *Contact*`,
+    `Name  : ${name}`,
+    `Phone : ${phone}`,
+    `Email : ${email}`,
+    document.getElementById('special-req').value
+      ? `\n📝 Special Req: ${document.getElementById('special-req').value}`
+      : null,
+    ``,
+    `━━━━━━━━━━━━━━━━━━━━━━`,
+    `Please send us a custom group quote. Thank you!`,
+  ].filter(Boolean).join('\n');
+
+  // Show success modal
+  document.getElementById('enquiry-ref').textContent = ref;
+  document.getElementById('modal-wa').href =
+    `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
+  document.getElementById('success-modal').classList.add('show');
+
+  // Open WhatsApp
+  window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
+
+  btn.disabled=false; btn.textContent='📋 Submit Group Enquiry';
+};
+
+window.closeModal = () => document.getElementById('success-modal').classList.remove('show');
+
+window.toggleFaq = (el) => el.closest('.faq-item').classList.toggle('open');
+
+// Init
+updateGroupIndicator();
+// Set min date to today
+const today = new Date().toISOString().split('T')[0];
+document.getElementById('travel-date').min = today;
+document.getElementById('return-date').min = today;
+</script>
+</body>
+</html>

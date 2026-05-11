@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"/>
+  <link rel="shortcut icon" href="/assets/favicon.svg"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Enquiry Received — ZoomFly</title>
+  <link rel="stylesheet" href="/assets/css/main.css"/>
+  <style>
+    .thankyou{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:100px 24px;background:var(--sand);}
+    .ty-card{background:#fff;border-radius:24px;padding:56px 48px;max-width:560px;width:100%;text-align:center;box-shadow:var(--shadow-lg);}
+    .ty-check{width:80px;height:80px;background:#dcfce7;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2.5rem;margin:0 auto 28px;}
+    .ty-card h1{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;margin-bottom:12px;color:var(--text);}
+    .ty-card p{color:var(--text-muted);line-height:1.7;margin-bottom:28px;}
+    .ty-steps{display:flex;flex-direction:column;gap:14px;text-align:left;margin-bottom:36px;}
+    .ty-step{display:flex;align-items:center;gap:14px;background:var(--sand);padding:14px 18px;border-radius:var(--radius-sm);}
+    .ty-step-num{width:32px;height:32px;background:var(--blue);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.78rem;font-weight:700;flex-shrink:0;}
+    .ty-step-text{font-size:0.88rem;font-weight:500;}
+    .ty-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+    .confetti{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;}
+  </style>
+  <script>
+    window.SUPABASE_URL="https://ndaurluolurdljrjbxii.supabase.co";
+    window.SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kYXVybHVvbHVyZGxqcmpieGlpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MDY2MzksImV4cCI6MjA5MzQ4MjYzOX0.JsZXOof19JkyX7asJQ7EtoaBKqURJUYzVqXQIenCzjQ";
+    window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/);return m?m[1]:null;};
+  </script>
+</head>
+<body>
+<canvas class="confetti" id="confetti"></canvas>
+<header class="nav nav-dark scrolled" id="mainNav"></header>
+<div class="thankyou">
+  <div class="ty-card">
+    <div class="ty-check">✅</div>
+    <h1>Enquiry Received!</h1>
+    <p>Thank you for reaching out to ZoomFly. Our travel expert will call you within <strong>2 hours</strong> to discuss your trip and confirm all details.</p>
+    <div class="ty-steps">
+      <div class="ty-step"><div class="ty-step-num">1</div><div class="ty-step-text">We review your enquiry and check availability</div></div>
+      <div class="ty-step"><div class="ty-step-num">2</div><div class="ty-step-text">Our expert calls you to discuss your preferences</div></div>
+      <div class="ty-step"><div class="ty-step-num">3</div><div class="ty-step-text">We send a customised itinerary and quote</div></div>
+      <div class="ty-step"><div class="ty-step-num">4</div><div class="ty-step-text">You confirm with 30% advance — trip secured! 🎉</div></div>
+    </div>
+    <p style="font-size:0.84rem;">In a hurry? Call us now at <a href="tel:+918076136300" style="color:var(--blue);font-weight:700;">+91 8076136300</a> or <a href="https://wa.me/918076136300" style="color:#25D366;font-weight:700;">WhatsApp us</a>.</p>
+    <div class="ty-actions">
+      <a href="/index.html" class="btn btn-primary">Back to Home</a>
+      <a href="/pages/packages.html" class="btn btn-outline">Browse More Packages</a>
+    </div>
+  </div>
+</div>
+<script src="/assets/js/main.js"></script>
+<script>
+// Simple confetti
+const canvas = document.getElementById('confetti');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+const pieces = Array.from({length:120},()=>({
+  x:Math.random()*canvas.width, y:Math.random()*canvas.height-canvas.height,
+  w:Math.random()*10+5, h:Math.random()*14+6,
+  r:Math.random()*Math.PI*2, dr:Math.random()*0.2-0.1,
+  dy:Math.random()*3+2, dx:Math.random()*2-1,
+  color:['#1B4F8A','#C8960C','#f0c040','#16a34a','#e11d48'][Math.floor(Math.random()*5)]
+}));
+let frame=0;
+function draw(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  pieces.forEach(p=>{
+    ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.r);
+    ctx.fillStyle=p.color;ctx.globalAlpha=0.85;
+    ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);
+    ctx.restore();
+    p.y+=p.dy; p.x+=p.dx; p.r+=p.dr;
+    if(p.y>canvas.height+20){p.y=-20;p.x=Math.random()*canvas.width;}
+  });
+  frame++;
+  if(frame<300) requestAnimationFrame(draw);
+  else ctx.clearRect(0,0,canvas.width,canvas.height);
+}
+draw();
+</script>
+</body>
+</html>

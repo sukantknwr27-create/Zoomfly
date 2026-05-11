@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"/>
+  <link rel="shortcut icon" href="/assets/favicon.svg"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Travel Blog — ZoomFly</title>
+  <link rel="stylesheet" href="/assets/css/main.css"/>
+  <style>
+    .blog-layout{display:grid;grid-template-columns:1fr 320px;gap:48px;padding:70px 0 100px;align-items:start;}
+    .blog-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;}
+    .blog-card{background:#fff;border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);transition:all 0.3s;display:block;color:inherit;text-decoration:none;}
+    .blog-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg);}
+    .blog-card-featured{grid-column:span 2;}
+    .blog-img{height:200px;display:flex;align-items:center;justify-content:center;font-size:4rem;position:relative;}
+    .blog-img-featured{height:320px;}
+    .blog-cat{position:absolute;top:14px;left:14px;}
+    .blog-body{padding:22px;}
+    .blog-meta{display:flex;gap:16px;font-size:0.75rem;color:var(--text-muted);margin-bottom:10px;}
+    .blog-title{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;margin-bottom:10px;line-height:1.35;}
+    .blog-title-lg{font-size:1.5rem;}
+    .blog-excerpt{font-size:0.85rem;color:var(--text-muted);line-height:1.65;margin-bottom:16px;}
+    .blog-read-more{font-size:0.82rem;font-weight:600;color:var(--blue);}
+    .sidebar-widget{background:#fff;border-radius:var(--radius);border:1px solid var(--border);padding:24px;margin-bottom:24px;}
+    .sidebar-widget h4{font-weight:700;font-size:0.95rem;margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid var(--border);}
+    .cat-link{display:flex;justify-content:space-between;align-items:center;padding:8px 0;font-size:0.87rem;border-bottom:1px solid var(--border);cursor:pointer;transition:color 0.2s;}
+    .cat-link:last-child{border-bottom:none;}
+    .cat-link:hover{color:var(--blue);}
+    .cat-count{background:var(--sand);padding:2px 8px;border-radius:100px;font-size:0.72rem;font-weight:600;}
+    .recent-post{display:flex;gap:12px;align-items:center;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--border);}
+    .recent-post:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none;}
+    .recent-thumb{width:56px;height:56px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:1.6rem;flex-shrink:0;}
+    .recent-title{font-size:0.82rem;font-weight:600;line-height:1.35;margin-bottom:3px;}
+    .recent-date{font-size:0.73rem;color:var(--text-muted);}
+    .tags-cloud{display:flex;flex-wrap:wrap;gap:8px;}
+    .tag-pill{background:var(--sand);padding:5px 14px;border-radius:100px;font-size:0.78rem;font-weight:500;cursor:pointer;transition:all 0.2s;}
+    .tag-pill:hover{background:var(--blue);color:#fff;}
+    @media(max-width:1024px){.blog-layout{grid-template-columns:1fr;}.blog-card-featured{grid-column:span 1;}.blog-img-featured{height:220px;}}
+    @media(max-width:600px){.blog-grid{grid-template-columns:1fr;}.blog-card-featured{grid-column:span 1;}}
+  </style>
+  <script>
+    window.SUPABASE_URL="https://ndaurluolurdljrjbxii.supabase.co";
+    window.SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kYXVybHVvbHVyZGxqcmpieGlpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MDY2MzksImV4cCI6MjA5MzQ4MjYzOX0.JsZXOof19JkyX7asJQ7EtoaBKqURJUYzVqXQIenCzjQ";
+    window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/);return m?m[1]:null;};
+  </script>
+</head>
+<body data-page="blog">
+<header class="nav" id="mainNav"></header>
+
+<section class="page-hero">
+  <div class="container page-hero-inner">
+    <div class="breadcrumb"><a href="/index.html">Home</a><span>›</span><span>Blog</span></div>
+    <h1>Travel <em>Blog</em></h1>
+    <p>Tips, guides, destination inspiration and travel stories from the ZoomFly team.</p>
+  </div>
+</section>
+
+<div class="container">
+  <div class="blog-layout">
+    <div>
+      <div class="blog-grid" id="blogGrid">
+
+        <!-- Featured -->
+        <a href="/pages/blog-post.html?id=manali-guide" class="blog-card blog-card-featured reveal">
+          <div class="blog-img blog-img-featured" style="background:linear-gradient(135deg,#667eea,#764ba2)">
+            🏔️<div class="blog-cat"><span class="badge badge-gold">Guide</span></div>
+          </div>
+          <div class="blog-body">
+            <div class="blog-meta"><span>📅 March 15, 2025</span><span>✍️ Aakash Kumar</span><span>⏱ 8 min read</span></div>
+            <div class="blog-title blog-title-lg">The Ultimate Manali Travel Guide 2025 — Everything You Need to Know</div>
+            <div class="blog-excerpt">Planning a trip to Manali? We cover the best time to visit, top attractions, where to stay, what to eat, how to get there and everything in between. Your complete Manali handbook.</div>
+            <span class="blog-read-more">Read Full Guide →</span>
+          </div>
+        </a>
+
+        <a href="/pages/blog-post.html?id=goa-off-season" class="blog-card reveal" style="transition-delay:80ms">
+          <div class="blog-img" style="background:linear-gradient(135deg,#f6d365,#fda085)">🏖️<div class="blog-cat"><span class="badge badge-blue">Tips</span></div></div>
+          <div class="blog-body">
+            <div class="blog-meta"><span>📅 Feb 28, 2025</span><span>⏱ 5 min</span></div>
+            <div class="blog-title">Why You Should Visit Goa in the Off-Season (May–Sep)</div>
+            <div class="blog-excerpt">Fewer crowds, lower prices and lush green landscapes make monsoon Goa a hidden gem.</div>
+            <span class="blog-read-more">Read More →</span>
+          </div>
+        </a>
+
+        <a href="/pages/blog-post.html?id=budget-travel" class="blog-card reveal" style="transition-delay:160ms">
+          <div class="blog-img" style="background:linear-gradient(135deg,#43e97b,#38f9d7)">💰<div class="blog-cat"><span class="badge badge-green">Budget</span></div></div>
+          <div class="blog-body">
+            <div class="blog-meta"><span>📅 Feb 10, 2025</span><span>⏱ 6 min</span></div>
+            <div class="blog-title">10 Ways to Travel India on a Budget Without Compromising Fun</div>
+            <div class="blog-excerpt">From train passes to homestays — smart tricks that seasoned travellers swear by.</div>
+            <span class="blog-read-more">Read More →</span>
+          </div>
+        </a>
+
+        <a href="/pages/blog-post.html?id=kerala-honeymoon" class="blog-card reveal" style="transition-delay:80ms">
+          <div class="blog-img" style="background:linear-gradient(135deg,#a18cd1,#fbc2eb)">💕<div class="blog-cat"><span class="badge badge-gold">Honeymoon</span></div></div>
+          <div class="blog-body">
+            <div class="blog-meta"><span>📅 Jan 22, 2025</span><span>⏱ 7 min</span></div>
+            <div class="blog-title">Kerala Honeymoon Guide: Backwaters, Beaches & Bliss</div>
+            <div class="blog-excerpt">Everything you need to plan a romantic Kerala honeymoon — from houseboat bookings to the best resorts.</div>
+            <span class="blog-read-more">Read More →</span>
+          </div>
+        </a>
+
+        <a href="/pages/blog-post.html?id=rajasthan-winter" class="blog-card reveal" style="transition-delay:160ms">
+          <div class="blog-img" style="background:linear-gradient(135deg,#fa709a,#fee140)">🏰<div class="blog-cat"><span class="badge badge-blue">Seasonal</span></div></div>
+          <div class="blog-body">
+            <div class="blog-meta"><span>📅 Jan 5, 2025</span><span>⏱ 5 min</span></div>
+            <div class="blog-title">Best Time to Visit Rajasthan — A Month-by-Month Breakdown</div>
+            <div class="blog-excerpt">Winter, summer or monsoon — when is truly the best time to explore the royal desert state?</div>
+            <span class="blog-read-more">Read More →</span>
+          </div>
+        </a>
+
+        <a href="/pages/blog-post.html?id=bangkok-tips" class="blog-card reveal" style="transition-delay:240ms">
+          <div class="blog-img" style="background:linear-gradient(135deg,#4facfe,#00f2fe)">🗼<div class="blog-cat"><span class="badge badge-gold">International</span></div></div>
+          <div class="blog-body">
+            <div class="blog-meta"><span>📅 Dec 18, 2024</span><span>⏱ 9 min</span></div>
+            <div class="blog-title">Bangkok for First-Timers: The Only Guide You'll Ever Need</div>
+            <div class="blog-excerpt">Temples, street food, islands and shopping — how to experience the best of Bangkok in 5 days.</div>
+            <span class="blog-read-more">Read More →</span>
+          </div>
+        </a>
+
+      </div>
+
+      <div style="text-align:center;margin-top:40px;">
+        <button class="btn btn-outline btn-lg" id="load-more-btn" onclick="loadMoreArticles()">Load More Articles</button>
+      </div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <aside>
+      <div class="sidebar-widget">
+        <h4>🔍 Search</h4>
+        <div style="display:flex;gap:8px;">
+          <input type="text" placeholder="Search articles..." style="flex:1;padding:10px 14px;border:2px solid var(--border);border-radius:var(--radius-sm);outline:none;font-size:0.88rem;"/>
+          <button class="btn btn-primary btn-sm">Go</button>
+        </div>
+      </div>
+
+      <div class="sidebar-widget">
+        <h4>📂 Categories</h4>
+        <div class="cat-link"><span>🗺 Travel Guides</span><span class="cat-count">24</span></div>
+        <div class="cat-link"><span>💡 Travel Tips</span><span class="cat-count">18</span></div>
+        <div class="cat-link"><span>💕 Honeymoon</span><span class="cat-count">9</span></div>
+        <div class="cat-link"><span>🏔 Adventure</span><span class="cat-count">14</span></div>
+        <div class="cat-link"><span>✈ International</span><span class="cat-count">11</span></div>
+        <div class="cat-link"><span>💰 Budget Travel</span><span class="cat-count">8</span></div>
+      </div>
+
+      <div class="sidebar-widget">
+        <h4>🔥 Recent Posts</h4>
+        <div class="recent-post">
+          <div class="recent-thumb" style="background:linear-gradient(135deg,#667eea,#764ba2)">🏔️</div>
+          <div><div class="recent-title">Ultimate Manali Guide 2025</div><div class="recent-date">Mar 15, 2025</div></div>
+        </div>
+        <div class="recent-post">
+          <div class="recent-thumb" style="background:linear-gradient(135deg,#f6d365,#fda085)">🏖️</div>
+          <div><div class="recent-title">Goa Off-Season: Why Go Now</div><div class="recent-date">Feb 28, 2025</div></div>
+        </div>
+        <div class="recent-post">
+          <div class="recent-thumb" style="background:linear-gradient(135deg,#43e97b,#38f9d7)">💰</div>
+          <div><div class="recent-title">Budget Travel Hacks India</div><div class="recent-date">Feb 10, 2025</div></div>
+        </div>
+      </div>
+
+      <div class="sidebar-widget">
+        <h4>🏷 Tags</h4>
+        <div class="tags-cloud">
+          <span class="tag-pill">Manali</span><span class="tag-pill">Goa</span><span class="tag-pill">Kerala</span>
+          <span class="tag-pill">Rajasthan</span><span class="tag-pill">Bangkok</span><span class="tag-pill">Bali</span>
+          <span class="tag-pill">Honeymoon</span><span class="tag-pill">Budget</span><span class="tag-pill">Adventure</span>
+          <span class="tag-pill">Family</span><span class="tag-pill">Solo</span><span class="tag-pill">Beach</span>
+        </div>
+      </div>
+
+      <div style="background:var(--blue);border-radius:var(--radius);padding:28px;text-align:center;">
+        <div style="font-size:2rem;margin-bottom:12px;">✈</div>
+        <h4 style="color:#fff;font-size:1rem;margin-bottom:8px;">Ready to Travel?</h4>
+        <p style="color:rgba(255,255,255,0.78);font-size:0.82rem;margin-bottom:18px;">Browse our 200+ curated packages and book your dream trip today.</p>
+        <a href="/pages/packages.html" class="btn btn-white btn-sm" style="width:100%;text-align:center;">View Packages</a>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<section class="newsletter" id="newsletter"></section>
+<footer class="footer" id="mainFooter"></footer>
+<script src="/assets/js/main.js"></script>
+<script>
+const MORE_ARTICLES = [
+  { id: 'ladakh-guide', img: '⛰️', bg: 'linear-gradient(135deg,#fccb90,#d57eeb)', cat: 'Adventure', title: 'The Ultimate Ladakh Road Trip Guide 2025', desc: 'Everything you need to know about permits, best routes, accommodation and what to pack for Ladakh.', date: 'Apr 15, 2025', read: '9 min read', author: 'Vikram S.' },
+  { id: 'bali-honeymoon', img: '🌸', bg: 'linear-gradient(135deg,#a18cd1,#fbc2eb)', cat: 'Honeymoon', title: 'Bali for Honeymooners: Best Villas & Hidden Spots', desc: 'From Ubud rice terraces to Seminyak sunsets — the perfect Bali honeymoon itinerary for Indian couples.', date: 'Apr 8, 2025', read: '7 min read', author: 'Priya A.' },
+  { id: 'winter-spiti', img: '🏔️', bg: 'linear-gradient(135deg,#89f7fe,#66a6ff)', cat: 'Off-Beat', title: 'Spiti Valley in Winter: A Guide to the Frozen Frontier', desc: 'Most people visit Spiti in summer — but winter reveals a magical, snow-covered world few ever see.', date: 'Mar 22, 2025', read: '8 min read', author: 'Arjun M.' },
+  { id: 'thailand-budget', img: '🗼', bg: 'linear-gradient(135deg,#4facfe,#00f2fe)', cat: 'Budget Travel', title: 'Thailand Under ₹50,000 — The Real Budget Guide', desc: 'Flights, accommodation, food and experiences — how to do an amazing 7-day Thailand trip on a tight budget.', date: 'Mar 10, 2025', read: '11 min read', author: 'Meera K.' },
+  { id: 'coorg-monsoon', img: '☕', bg: 'linear-gradient(135deg,#134e5e,#71b280)', cat: 'Monsoon', title: 'Why Coorg in Monsoon is Actually Magical', desc: 'Contrary to popular advice, the monsoon transforms Coorg\'s coffee estates and waterfalls into something extraordinary.', date: 'Feb 28, 2025', read: '6 min read', author: 'Rahul P.' },
+  { id: 'andaman-dive', img: '🐠', bg: 'linear-gradient(135deg,#a1c4fd,#c2e9fb)', cat: 'Water Sports', title: 'Scuba Diving in Andamans: Beginner\'s Complete Guide', desc: 'Everything from choosing a dive school to the best dive sites — your first underwater adventure awaits.', date: 'Feb 14, 2025', read: '10 min read', author: 'Kavita R.' },
+];
+
+let moreLoaded = false;
+function loadMoreArticles() {
+  if (moreLoaded) {
+    document.getElementById('load-more-btn').textContent = 'No more articles';
+    document.getElementById('load-more-btn').disabled = true;
+    return;
+  }
+  const btn = document.getElementById('load-more-btn');
+  btn.textContent = 'Loading...';
+  btn.disabled = true;
+  setTimeout(() => {
+    const grid = document.querySelector('.blog-grid-secondary') || document.querySelector('.blog-main');
+    const container = grid || document.querySelector('.container');
+    const newHTML = MORE_ARTICLES.map((a, i) => `
+      <a href="/pages/blog-post.html?id=${a.id}" class="blog-card reveal" style="transition-delay:${i*60}ms">
+        <div class="blog-thumb" style="background:${a.bg}"><span style="font-size:3rem">${a.img}</span></div>
+        <div class="blog-body">
+          <div class="blog-cat">${a.cat}</div>
+          <h3 class="blog-title">${a.title}</h3>
+          <p class="blog-desc">${a.desc}</p>
+          <div class="blog-meta"><span>📅 ${a.date}</span><span>⏱ ${a.read}</span><span>✍️ ${a.author}</span></div>
+        </div>
+      </a>`).join('');
+    const wrapper = document.createElement('div');
+    wrapper.style.cssText = 'display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-bottom:2rem';
+    wrapper.innerHTML = newHTML;
+    btn.parentElement.insertBefore(wrapper, btn);
+    // Trigger reveal
+    setTimeout(() => wrapper.querySelectorAll('.reveal').forEach(el => el.classList.add('visible')), 100);
+    moreLoaded = true;
+    btn.textContent = 'All Articles Loaded ✓';
+    btn.style.opacity = '.5';
+    btn.disabled = true;
+  }, 600);
+}
+</script>
+</html>

@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Agent Portal — ZoomFly</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✈️</text></svg>"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{
+      --primary:#1a73e8; --accent:#ff6b35; --dark:#0f1923; --dark2:#1a2535;
+      --text:#2d3748; --light:#64748b; --border:#e2e8f0; --bg:#f8fafc; --white:#fff;
+      --green:#22c55e; --yellow:#f59e0b; --teal:#14b8a6; --sidebar:240px;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+
+    /* ── AUTH ── */
+    #view-auth{display:none;}
+    #view-auth.show{display:flex;align-items:center;justify-content:center;
+      min-height:100vh;padding:20px;
+      background:linear-gradient(135deg,#0f1923 0%,#1a2535 60%,#0f1a2e 100%);}
+    .auth-card{background:var(--white);border-radius:20px;
+      box-shadow:0 24px 80px rgba(0,0,0,0.3);width:100%;max-width:440px;overflow:hidden;}
+    .ac-header{background:linear-gradient(135deg,var(--dark),var(--dark2));padding:32px;text-align:center;}
+    .ac-icon{font-size:44px;margin-bottom:14px;}
+    .ac-header h1{font-family:'Playfair Display',serif;font-size:1.6rem;color:#fff;margin-bottom:6px;}
+    .ac-header p{color:rgba(255,255,255,0.5);font-size:0.85rem;}
+    .ac-tabs{display:flex;border-bottom:1px solid var(--border);}
+    .ac-tab{flex:1;padding:13px;text-align:center;font-size:0.88rem;font-weight:600;
+      color:var(--light);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;}
+    .ac-tab.active{color:var(--teal);border-bottom-color:var(--teal);}
+    .ac-body{padding:28px;}
+    .form-group{margin-bottom:16px;}
+    .form-label{font-size:0.78rem;font-weight:600;color:var(--text);margin-bottom:6px;display:block;}
+    .form-input,.form-select{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;
+      font-family:inherit;font-size:0.9rem;color:var(--text);outline:none;transition:border 0.2s;background:var(--white);}
+    .form-input:focus,.form-select:focus{border-color:var(--teal);}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+    .auth-btn{width:100%;padding:13px;border-radius:10px;border:none;cursor:pointer;
+      background:linear-gradient(135deg,var(--teal),#0f9b8e);color:#fff;
+      font-size:0.92rem;font-weight:700;font-family:inherit;transition:all 0.2s;
+      box-shadow:0 4px 16px rgba(20,184,166,0.3);}
+    .auth-btn:hover{transform:translateY(-1px);}
+    .auth-btn:disabled{opacity:0.6;cursor:not-allowed;transform:none;}
+    .auth-msg{padding:10px 14px;border-radius:8px;font-size:0.83rem;margin-bottom:14px;display:none;}
+    .auth-msg.show{display:block;}
+    .auth-msg.error{background:rgba(239,68,68,0.08);color:#991b1b;border:1px solid rgba(239,68,68,0.2);}
+    .auth-msg.success{background:rgba(34,197,94,0.08);color:#166534;border:1px solid rgba(34,197,94,0.2);}
+
+    /* ── PORTAL ── */
+    #view-portal{display:none;}
+    #view-portal.show{display:flex;min-height:100vh;}
+
+    .sidebar{width:var(--sidebar);background:var(--dark);min-height:100vh;position:fixed;
+      left:0;top:0;z-index:200;display:flex;flex-direction:column;
+      box-shadow:4px 0 24px rgba(0,0,0,0.2);}
+    .sb-logo{padding:22px 20px;display:flex;align-items:center;gap:10px;
+      border-bottom:1px solid rgba(255,255,255,0.06);}
+    .sb-logo-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--teal),var(--green));
+      border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;}
+    .sb-logo-text{font-family:'Playfair Display',serif;font-size:1.1rem;color:#fff;font-weight:700;line-height:1.2;}
+    .sb-logo-sub{font-size:0.65rem;color:rgba(255,255,255,0.35);}
+    .sb-agent-info{padding:16px 20px;border-bottom:1px solid rgba(255,255,255,0.06);}
+    .sai-name{font-weight:700;font-size:0.9rem;color:#fff;margin-bottom:2px;}
+    .sai-code{font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--teal);}
+    .sai-tier{display:inline-block;margin-top:6px;padding:2px 10px;border-radius:10px;
+      font-size:0.68rem;font-weight:700;}
+    .tier-associate{background:rgba(20,184,166,0.2);color:#5eead4;}
+    .tier-senior    {background:rgba(245,158,11,0.2);color:#fde047;}
+    .tier-elite     {background:rgba(139,92,246,0.2);color:#c4b5fd;}
+    .sb-nav{padding:16px 12px;flex:1;}
+    .sb-nav-label{font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;
+      color:rgba(255,255,255,0.25);padding:0 8px;margin-bottom:8px;margin-top:8px;}
+    .sb-link{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;
+      color:rgba(255,255,255,0.55);text-decoration:none;font-size:0.85rem;font-weight:500;
+      transition:all 0.2s;margin-bottom:2px;cursor:pointer;border:none;background:none;width:100%;text-align:left;}
+    .sb-link:hover{background:rgba(255,255,255,0.07);color:#fff;}
+    .sb-link.active{background:rgba(20,184,166,0.2);color:#fff;}
+    .sb-link.active .sb-icon{color:var(--teal);}
+    .sb-icon{font-size:16px;width:20px;text-align:center;}
+    .sb-bottom{padding:16px 12px;border-top:1px solid rgba(255,255,255,0.06);}
+
+    .main{margin-left:var(--sidebar);flex:1;display:flex;flex-direction:column;}
+    .topbar{background:var(--white);border-bottom:1px solid var(--border);padding:0 28px;
+      height:64px;display:flex;align-items:center;justify-content:space-between;
+      position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,0.04);}
+    .topbar-title{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--dark);font-weight:700;}
+    .topbar-sub{font-size:0.78rem;color:var(--light);}
+    .tb-btn{padding:8px 16px;border-radius:9px;border:1.5px solid var(--border);background:var(--white);
+      color:var(--text);font-size:0.82rem;font-weight:600;cursor:pointer;transition:all 0.2s;
+      display:flex;align-items:center;gap:6px;}
+    .tb-btn:hover{border-color:var(--teal);color:var(--teal);}
+    .tb-btn.teal{background:var(--teal);color:#fff;border-color:var(--teal);}
+
+    .section{display:none;padding:28px;}
+    .section.active{display:block;}
+
+    /* STAT GRID */
+    .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px;}
+    .stat-card{background:var(--white);border-radius:14px;border:1px solid var(--border);
+      padding:20px;box-shadow:0 2px 8px rgba(0,0,0,0.04);position:relative;overflow:hidden;}
+    .stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+    .sc-bookings::before{background:var(--teal);}
+    .sc-commission::before{background:var(--green);}
+    .sc-pending::before{background:var(--yellow);}
+    .sc-clients::before{background:var(--primary);}
+    .sc-icon{font-size:20px;margin-bottom:10px;}
+    .sc-num{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:var(--dark);line-height:1;margin-bottom:4px;}
+    .sc-label{font-size:0.78rem;color:var(--light);}
+
+    /* BOOKING FORM */
+    .booking-form-card{background:var(--white);border-radius:14px;border:1px solid var(--border);
+      padding:28px;box-shadow:0 2px 8px rgba(0,0,0,0.04);margin-bottom:20px;}
+    .bf-title{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--dark);margin-bottom:4px;}
+    .bf-sub{font-size:0.83rem;color:var(--light);margin-bottom:24px;}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+    .form-group{margin-bottom:14px;}
+    .form-label{font-size:0.78rem;font-weight:600;color:var(--text);margin-bottom:6px;display:block;}
+    .form-input,.form-select,.form-textarea{width:100%;padding:10px 14px;border:1.5px solid var(--border);
+      border-radius:9px;font-family:inherit;font-size:0.88rem;color:var(--text);
+      outline:none;transition:border 0.2s;background:var(--white);}
+    .form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--teal);}
+    .form-textarea{resize:vertical;min-height:72px;}
+    .submit-btn{padding:12px 24px;border-radius:10px;border:none;cursor:pointer;
+      background:linear-gradient(135deg,var(--teal),#0f9b8e);color:#fff;
+      font-size:0.9rem;font-weight:700;font-family:inherit;transition:all 0.2s;
+      box-shadow:0 4px 16px rgba(20,184,166,0.3);}
+    .submit-btn:hover{transform:translateY(-1px);}
+
+    /* CARD */
+    .card{background:var(--white);border-radius:14px;border:1px solid var(--border);
+      box-shadow:0 2px 8px rgba(0,0,0,0.04);overflow:hidden;margin-bottom:20px;}
+    .card-header{padding:16px 20px;border-bottom:1px solid var(--border);
+      display:flex;align-items:center;justify-content:space-between;}
+    .card-title{font-weight:700;font-size:0.95rem;color:var(--dark);}
+    table{width:100%;border-collapse:collapse;}
+    thead tr{background:var(--bg);}
+    th{padding:10px 16px;text-align:left;font-size:0.72rem;font-weight:700;
+      text-transform:uppercase;letter-spacing:1px;color:var(--light);
+      border-bottom:1px solid var(--border);white-space:nowrap;}
+    td{padding:12px 16px;font-size:0.85rem;border-bottom:1px solid #f8fafc;vertical-align:middle;}
+    tr:last-child td{border-bottom:none;}
+    tr:hover td{background:rgba(20,184,166,0.02);}
+
+    .status-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;
+      border-radius:20px;font-size:0.72rem;font-weight:700;}
+    .s-pending  {background:rgba(245,158,11,0.1);color:#92400e;}
+    .s-confirmed{background:rgba(26,115,232,0.1);color:#1557b0;}
+    .s-completed{background:rgba(34,197,94,0.1); color:#166534;}
+    .s-cancelled{background:rgba(239,68,68,0.1); color:#991b1b;}
+
+    /* COMMISSION */
+    .commission-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px;}
+    .comm-card{background:var(--white);border-radius:14px;border:1px solid var(--border);
+      padding:20px;box-shadow:0 2px 8px rgba(0,0,0,0.04);}
+    .cc-label{font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--light);margin-bottom:8px;}
+    .cc-amount{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;color:var(--dark);}
+    .cc-sub{font-size:0.75rem;color:var(--light);margin-top:4px;}
+
+    /* TIER CARDS */
+    .agent-tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px;}
+    .at-card{background:var(--white);border-radius:14px;border:2px solid var(--border);
+      padding:24px;text-align:center;transition:all 0.2s;}
+    .at-card.active-tier{border-color:var(--teal);background:rgba(20,184,166,0.03);}
+    .at-icon{font-size:32px;margin-bottom:10px;}
+    .at-name{font-family:'Playfair Display',serif;font-size:1rem;color:var(--dark);margin-bottom:4px;font-weight:700;}
+    .at-req{font-size:0.75rem;color:var(--light);margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--border);}
+    .at-perk{font-size:0.8rem;color:var(--text);margin-bottom:6px;text-align:left;}
+
+    /* LINK BUILDER */
+    .link-builder{background:var(--white);border-radius:14px;border:1px solid var(--border);
+      padding:24px;margin-bottom:20px;box-shadow:0 2px 8px rgba(0,0,0,0.04);}
+    .lb-title{font-weight:700;font-size:0.95rem;color:var(--dark);margin-bottom:4px;}
+    .lb-sub{font-size:0.82rem;color:var(--light);margin-bottom:16px;}
+    .lb-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+    .lb-select{padding:10px 14px;border:1.5px solid var(--border);border-radius:9px;
+      font-family:inherit;font-size:0.85rem;flex:1;min-width:160px;
+      background:var(--white);outline:none;}
+    .lb-select:focus{border-color:var(--teal);}
+    .lb-link{flex:2;min-width:200px;padding:10px 14px;background:var(--bg);
+      border:1.5px solid var(--border);border-radius:9px;font-family:'JetBrains Mono',monospace;
+      font-size:0.78rem;color:var(--teal);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+    .lb-copy{padding:10px 16px;background:var(--teal);color:#fff;border:none;
+      border-radius:9px;cursor:pointer;font-weight:700;font-size:0.82rem;white-space:nowrap;}
+
+    /* PROFILE */
+    .profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+    .profile-card{background:var(--white);border-radius:14px;border:1px solid var(--border);
+      padding:24px;box-shadow:0 2px 8px rgba(0,0,0,0.04);}
+    .pc-title{font-weight:700;font-size:0.95rem;color:var(--dark);margin-bottom:16px;
+      padding-bottom:12px;border-bottom:1px solid var(--border);}
+
+    .empty{text-align:center;padding:48px 20px;color:var(--light);}
+    .empty-icon{font-size:40px;margin-bottom:12px;}
+
+    .toast{position:fixed;bottom:24px;right:24px;background:var(--dark);color:#fff;
+      padding:12px 20px;border-radius:10px;font-size:0.88rem;font-weight:600;
+      z-index:9999;opacity:0;transform:translateY(8px);transition:all 0.3s;pointer-events:none;}
+    .toast.show{opacity:1;transform:translateY(0);}
+
+    @media(max-width:1024px){.sidebar{display:none;}.main{margin-left:0;}
+      .stat-grid,.commission-grid,.agent-tiers{grid-template-columns:1fr 1fr;}}
+    @media(max-width:640px){.stat-grid,.commission-grid,.agent-tiers,.profile-grid{grid-template-columns:1fr;}
+      .section{padding:16px;}}
+  </style>
+</head>
+<body>
+
+<!-- AUTH -->
+<div id="view-auth">
+  <div class="auth-card">
+    <div class="ac-header">
+      <div class="ac-icon">🤝</div>
+      <h1>ZoomFly Agent Portal</h1>
+      <p>Earn commissions on every booking you refer</p>
+    </div>
+    <div class="ac-tabs">
+      <div class="ac-tab active" onclick="switchTab('login')">Sign In</div>
+      <div class="ac-tab"        onclick="switchTab('register')">Become an Agent</div>
+    </div>
+    <div id="ac-login" class="ac-body">
+      <div class="auth-msg" id="login-msg"></div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input class="form-input" type="email" id="l-email" placeholder="agent@example.com"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input class="form-input" type="password" id="l-pass" placeholder="••••••••"/>
+      </div>
+      <button class="auth-btn" onclick="doLogin()">Sign In to Agent Portal</button>
+    </div>
+    <div id="ac-register" class="ac-body" style="display:none;">
+      <div class="auth-msg" id="reg-msg"></div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Full Name *</label>
+          <input class="form-input" type="text" id="r-name" placeholder="Rajesh Kumar"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Phone *</label>
+          <input class="form-input" type="tel" id="r-phone" placeholder="9876543210"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email *</label>
+        <input class="form-input" type="email" id="r-email" placeholder="agent@example.com"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">City *</label>
+        <input class="form-input" type="text" id="r-city" placeholder="New Delhi"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Experience</label>
+        <select class="form-select" id="r-exp">
+          <option value="new">New to travel industry</option>
+          <option value="1-3">1–3 years experience</option>
+          <option value="3-5">3–5 years experience</option>
+          <option value="5+">5+ years experience</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password *</label>
+        <input class="form-input" type="password" id="r-pass" placeholder="Min 8 characters"/>
+      </div>
+      <button class="auth-btn" onclick="doRegister()">Register as Agent</button>
+      <div style="font-size:0.75rem;color:var(--light);margin-top:10px;text-align:center;">
+        Free to join · No upfront fee · Start earning immediately
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PORTAL -->
+<div id="view-portal">
+  <aside class="sidebar">
+    <div class="sb-logo">
+      <div class="sb-logo-icon">🤝</div>
+      <div>
+        <div class="sb-logo-text">ZoomFly</div>
+        <div class="sb-logo-sub">Agent Portal</div>
+      </div>
+    </div>
+    <div class="sb-agent-info">
+      <div class="sai-name" id="sb-name">Loading...</div>
+      <div class="sai-code" id="sb-code">Code: —</div>
+      <span class="sai-tier tier-associate" id="sb-tier">Associate</span>
+    </div>
+    <div class="sb-nav">
+      <button class="sb-link active" onclick="showSection('dashboard',this)"><span class="sb-icon">📊</span> Dashboard</button>
+      <button class="sb-link"        onclick="showSection('new-booking',this)"><span class="sb-icon">➕</span> New Booking</button>
+      <button class="sb-link"        onclick="showSection('my-bookings',this)"><span class="sb-icon">🎫</span> My Bookings</button>
+      <button class="sb-link"        onclick="showSection('commissions',this)"><span class="sb-icon">💰</span> Commissions</button>
+      <button class="sb-link"        onclick="showSection('links',this)"><span class="sb-icon">🔗</span> Affiliate Links</button>
+      <button class="sb-link"        onclick="showSection('tiers',this)"><span class="sb-icon">🏆</span> Agent Tiers</button>
+      <button class="sb-link"        onclick="showSection('profile',this)"><span class="sb-icon">👤</span> Profile</button>
+    </div>
+    <div class="sb-bottom">
+      <a href="index.html" class="sb-link"><span class="sb-icon">🌐</span> View ZoomFly</a>
+      <button class="sb-link" onclick="doLogout()"><span class="sb-icon">🚪</span> Sign Out</button>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <div>
+        <div class="topbar-title" id="topbar-title">Dashboard</div>
+        <div class="topbar-sub"   id="topbar-sub">Welcome back</div>
+      </div>
+      <div style="display:flex;gap:10px;">
+        <button class="tb-btn" onclick="loadAll()">🔄 Refresh</button>
+        <button class="tb-btn teal" onclick="showSection('new-booking',null)">+ New Booking</button>
+      </div>
+    </div>
+
+    <!-- ── DASHBOARD ── -->
+    <div class="section active" id="sec-dashboard">
+      <div class="stat-grid">
+        <div class="stat-card sc-bookings">
+          <div class="sc-icon">🎫</div>
+          <div class="sc-num" id="ds-bookings">0</div>
+          <div class="sc-label">Total Bookings</div>
+        </div>
+        <div class="stat-card sc-commission">
+          <div class="sc-icon">💰</div>
+          <div class="sc-num" id="ds-earned">₹0</div>
+          <div class="sc-label">Commission Earned</div>
+        </div>
+        <div class="stat-card sc-pending">
+          <div class="sc-icon">⏳</div>
+          <div class="sc-num" id="ds-pending-comm">₹0</div>
+          <div class="sc-label">Pending Payout</div>
+        </div>
+        <div class="stat-card sc-clients">
+          <div class="sc-icon">👥</div>
+          <div class="sc-num" id="ds-clients">0</div>
+          <div class="sc-label">Clients Referred</div>
+        </div>
+      </div>
+
+      <!-- Affiliate link quick share -->
+      <div class="link-builder" style="margin-bottom:20px;">
+        <div class="lb-title">🔗 Your Quick Share Link</div>
+        <div class="lb-sub">Share this link with clients. When they book, you earn commission automatically.</div>
+        <div class="lb-row">
+          <div class="lb-link" id="quick-link">Loading your affiliate link...</div>
+          <button class="lb-copy" onclick="copyLink('quick-link')">📋 Copy</button>
+          <button class="lb-copy" style="background:#25d366;" onclick="shareWA()">💬 WA</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Recent Bookings</div>
+          <button style="font-size:0.8rem;color:var(--teal);cursor:pointer;background:none;border:none;font-weight:600;"
+            onclick="showSection('my-bookings',null)">View All →</button>
+        </div>
+        <div id="recent-bookings-table">
+          <div class="empty"><div class="empty-icon">⏳</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── NEW BOOKING ── -->
+    <div class="section" id="sec-new-booking">
+      <div class="booking-form-card">
+        <div class="bf-title">Create Booking for Client</div>
+        <div class="bf-sub">Submit a booking on behalf of your client. Commission will be credited once payment is received.</div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Service Type *</label>
+            <select class="form-select" id="bk-service">
+              <option value="flight">✈️ Flight</option>
+              <option value="hotel">🏨 Hotel</option>
+              <option value="package">🧳 Holiday Package</option>
+              <option value="bus">🚌 Bus</option>
+              <option value="cab">🚖 Cab</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Service Description *</label>
+            <input class="form-input" type="text" id="bk-desc" placeholder="e.g. Delhi → Goa, Hotel Grand Palace..."/>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Client Name *</label>
+            <input class="form-input" type="text" id="bk-cname" placeholder="Client full name"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Client Phone *</label>
+            <input class="form-input" type="tel" id="bk-cphone" placeholder="Client WhatsApp number"/>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Client Email</label>
+            <input class="form-input" type="email" id="bk-cemail" placeholder="client@example.com"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Travel Date *</label>
+            <input class="form-input" type="date" id="bk-date"/>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Adults</label>
+            <input class="form-input" type="number" id="bk-adults" value="1" min="1"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Children</label>
+            <input class="form-input" type="number" id="bk-children" value="0" min="0"/>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Estimated Amount (₹) *</label>
+            <input class="form-input" type="number" id="bk-amount" placeholder="10000" oninput="calcCommission()"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Your Commission</label>
+            <input class="form-input" type="text" id="bk-commission" placeholder="—" readonly
+              style="background:rgba(20,184,166,0.05);color:var(--teal);font-weight:700;"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Special Requirements</label>
+          <textarea class="form-textarea" id="bk-special" placeholder="Any special notes for the booking..."></textarea>
+        </div>
+        <button class="submit-btn" onclick="submitAgentBooking()">📋 Submit Booking Request</button>
+      </div>
+    </div>
+
+    <!-- ── MY BOOKINGS ── -->
+    <div class="section" id="sec-my-bookings">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">All My Bookings</div>
+          <button class="tb-btn" onclick="exportBookings()" style="padding:6px 14px;font-size:0.78rem;">📥 Export</button>
+        </div>
+        <div id="all-bookings-table">
+          <div class="empty"><div class="empty-icon">⏳</div><h3 style="color:var(--dark);">Loading...</h3></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── COMMISSIONS ── -->
+    <div class="section" id="sec-commissions">
+      <div class="commission-grid">
+        <div class="comm-card">
+          <div class="cc-label">Total Earned</div>
+          <div class="cc-amount" id="comm-total">₹0</div>
+          <div class="cc-sub">All confirmed bookings</div>
+        </div>
+        <div class="comm-card">
+          <div class="cc-label">This Month</div>
+          <div class="cc-amount" id="comm-month">₹0</div>
+          <div class="cc-sub">Current month earnings</div>
+        </div>
+        <div class="comm-card">
+          <div class="cc-label">Pending Payout</div>
+          <div class="cc-amount" id="comm-pending">₹0</div>
+          <div class="cc-sub">Confirmed but not yet paid</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><div class="card-title">Commission Breakdown</div></div>
+        <div id="commission-table">
+          <div class="empty"><div class="empty-icon">📊</div><h3 style="color:var(--dark);">No commission data yet</h3></div>
+        </div>
+      </div>
+
+      <div style="background:rgba(20,184,166,0.06);border:1px solid rgba(20,184,166,0.2);
+        border-radius:12px;padding:18px 20px;margin-top:16px;">
+        <div style="font-weight:700;color:#0f766e;margin-bottom:6px;">💳 Payout Information</div>
+        <div style="font-size:0.85rem;color:var(--light);line-height:1.7;">
+          Commissions are paid on the <strong>1st and 15th</strong> of every month via NEFT/RTGS to your registered bank account. Minimum payout: <strong>₹500</strong>. For queries: <a href="https://wa.me/918076136300" style="color:var(--teal);">+91 8076136300</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── AFFILIATE LINKS ── -->
+    <div class="section" id="sec-links">
+      <div class="link-builder">
+        <div class="lb-title">🔗 Affiliate Link Builder</div>
+        <div class="lb-sub">Generate tracking links for specific pages. Share with clients — bookings through your link auto-credit your commission.</div>
+        <div class="lb-row" style="margin-bottom:12px;">
+          <select class="lb-select" id="link-page" onchange="buildLink()">
+            <option value="index.html">🏠 Homepage</option>
+            <option value="flights.html">✈️ Flights</option>
+            <option value="hotels.html">🏨 Hotels</option>
+            <option value="packages.html">🧳 Packages</option>
+            <option value="buses.html">🚌 Buses</option>
+            <option value="cabs.html">🚖 Cabs</option>
+            <option value="group-booking.html">👥 Group Bookings</option>
+          </select>
+          <div class="lb-link" id="built-link">Your link will appear here...</div>
+          <button class="lb-copy" onclick="copyLink('built-link')">📋 Copy</button>
+        </div>
+        <div style="font-size:0.78rem;color:var(--light);">
+          All bookings made through your link are automatically attributed to your account for 30 days (cookie tracking).
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><div class="card-title">Marketing Materials</div></div>
+        <div style="padding:20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;">
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center;">
+            <div style="font-size:24px;margin-bottom:8px;">📄</div>
+            <div style="font-weight:700;font-size:0.85rem;margin-bottom:4px;">Agent Brochure</div>
+            <div style="font-size:0.75rem;color:var(--light);margin-bottom:10px;">ZoomFly services overview</div>
+            <a href="https://wa.me/918076136300?text=Hi!%20I%20am%20a%20ZoomFly%20agent.%20Please%20send%20me%20the%20agent%20brochure."
+              target="_blank" style="font-size:0.78rem;color:var(--teal);text-decoration:none;font-weight:600;">Request via WhatsApp →</a>
+          </div>
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center;">
+            <div style="font-size:24px;margin-bottom:8px;">📊</div>
+            <div style="font-weight:700;font-size:0.85rem;margin-bottom:4px;">Rate Card</div>
+            <div style="font-size:0.75rem;color:var(--light);margin-bottom:10px;">Current pricing & packages</div>
+            <a href="https://wa.me/918076136300?text=Hi!%20I%20am%20a%20ZoomFly%20agent.%20Please%20send%20me%20the%20latest%20rate%20card."
+              target="_blank" style="font-size:0.78rem;color:var(--teal);text-decoration:none;font-weight:600;">Request via WhatsApp →</a>
+          </div>
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:16px;text-align:center;">
+            <div style="font-size:24px;margin-bottom:8px;">🖼️</div>
+            <div style="font-weight:700;font-size:0.85rem;margin-bottom:4px;">Social Media Kit</div>
+            <div style="font-size:0.75rem;color:var(--light);margin-bottom:10px;">Ready-to-post graphics</div>
+            <a href="https://wa.me/918076136300?text=Hi!%20I%20am%20a%20ZoomFly%20agent.%20Please%20send%20me%20the%20social%20media%20kit."
+              target="_blank" style="font-size:0.78rem;color:var(--teal);text-decoration:none;font-weight:600;">Request via WhatsApp →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── TIERS ── -->
+    <div class="section" id="sec-tiers">
+      <div style="margin-bottom:24px;">
+        <div style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--dark);margin-bottom:6px;">Agent Tier Program</div>
+        <div style="font-size:0.85rem;color:var(--light);">Earn more commission as you grow. Higher tiers unlock better rates and exclusive perks.</div>
+      </div>
+      <div class="agent-tiers">
+        <div class="at-card" id="tier-associate">
+          <div class="at-icon">🤝</div>
+          <div class="at-name">Associate</div>
+          <div class="at-req">0 – 49 confirmed bookings / ₹0 – ₹4.99L revenue</div>
+          <div class="at-perk">✓ 5% commission on all bookings</div>
+          <div class="at-perk">✓ Affiliate tracking links</div>
+          <div class="at-perk">✓ WhatsApp support</div>
+          <div class="at-perk">✓ Monthly payout</div>
+        </div>
+        <div class="at-card" id="tier-senior">
+          <div class="at-icon">⭐</div>
+          <div class="at-name">Senior Agent</div>
+          <div class="at-req">50–199 bookings / ₹5L – ₹24.99L revenue</div>
+          <div class="at-perk">✓ 7% commission rate</div>
+          <div class="at-perk">✓ Priority booking processing</div>
+          <div class="at-perk">✓ Dedicated agent manager</div>
+          <div class="at-perk">✓ Early access to deals</div>
+        </div>
+        <div class="at-card" id="tier-elite">
+          <div class="at-icon">💎</div>
+          <div class="at-name">Elite Agent</div>
+          <div class="at-req">200+ bookings / ₹25L+ revenue</div>
+          <div class="at-perk">✓ 10% commission rate</div>
+          <div class="at-perk">✓ Sub-agent network allowed</div>
+          <div class="at-perk">✓ Co-branded marketing support</div>
+          <div class="at-perk">✓ Bi-weekly payout</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PROFILE ── -->
+    <div class="section" id="sec-profile">
+      <div class="profile-grid">
+        <div class="profile-card" style="grid-column:1/-1;">
+          <div class="pc-title">Personal Information</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Full Name</label>
+              <input class="form-input" type="text" id="p-name"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Phone / WhatsApp</label>
+              <input class="form-input" type="tel" id="p-phone"/>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">City</label>
+              <input class="form-input" type="text" id="p-city"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">PAN Number</label>
+              <input class="form-input" type="text" id="p-pan" placeholder="ABCDE1234F"/>
+            </div>
+          </div>
+          <button class="submit-btn" onclick="saveProfile()" style="margin-top:4px;">💾 Save Profile</button>
+        </div>
+        <div class="profile-card">
+          <div class="pc-title">Bank Details for Payout</div>
+          <div class="form-group"><label class="form-label">Account Holder</label><input class="form-input" type="text" id="p-accname"/></div>
+          <div class="form-group"><label class="form-label">Account Number</label><input class="form-input" type="text" id="p-accnum"/></div>
+          <div class="form-group"><label class="form-label">IFSC Code</label><input class="form-input" type="text" id="p-ifsc"/></div>
+          <div class="form-group"><label class="form-label">Bank Name</label><input class="form-input" type="text" id="p-bank"/></div>
+          <button class="submit-btn" onclick="saveBankDetails()">💾 Save Bank Details</button>
+        </div>
+        <div class="profile-card">
+          <div class="pc-title">Commission Structure</div>
+          <div style="background:var(--bg);border-radius:10px;padding:16px;font-size:0.85rem;">
+            <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);">
+              <span style="color:var(--light);">Associate Rate</span><span style="font-weight:700;">5%</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);">
+              <span style="color:var(--light);">Senior Rate</span><span style="font-weight:700;">7%</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);">
+              <span style="color:var(--light);">Elite Rate</span><span style="font-weight:700;">10%</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:7px 0;">
+              <span style="color:var(--light);">Payout Day</span><span style="font-weight:700;">1st &amp; 15th</span>
+            </div>
+          </div>
+          <div style="margin-top:14px;font-size:0.8rem;color:var(--light);">
+            Commission is calculated on the net booking amount after GST. Contact <a href="mailto:s.admin@zoomfly.in" style="color:var(--teal);">s.admin@zoomfly.in</a> for custom rates.
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+const SUPABASE_URL = window.SUPABASE_URL      || 'https://ndaurluolurdljrjbxii.supabase.co';
+const SUPABASE_KEY = window.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kYXVybHVvbHVyZGxqcmpieGlpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MDY2MzksImV4cCI6MjA5MzQ4MjYzOX0.JsZXOof19JkyX7asJQ7EtoaBKqURJUYzVqXQIenCzjQ';
+const supabase     = createClient(SUPABASE_URL, SUPABASE_KEY);
+const WA_NUMBER    = '918076136300';
+const SITE_URL     = 'https://zoomfly.in';
+
+// Commission rates by tier
+const COMM_RATES   = { associate:0.05, senior:0.07, elite:0.10 };
+
+let currentUser   = null;
+let agentProfile  = null;
+let agentCode     = null;
+let agentTier     = 'associate';
+let allBookings   = [];
+
+// ── Auth ──────────────────────────────────────────────────
+supabase.auth.onAuthStateChange(async (event, session) => {
+  if (session?.user) {
+    currentUser = session.user;
+    await loadAgentProfile();
+    showPortal();
+    await loadAll();
+  } else {
+    showAuth();
+  }
+});
+
+function showAuth()   { document.getElementById('view-auth').className   = 'show'; document.getElementById('view-portal').className = ''; }
+function showPortal() { document.getElementById('view-auth').className   = '';     document.getElementById('view-portal').className = 'show'; }
+
+window.switchTab = (tab) => {
+  document.querySelectorAll('.ac-tab').forEach((t,i) =>
+    t.classList.toggle('active',(i===0&&tab==='login')||(i===1&&tab==='register')));
+  document.getElementById('ac-login').style.display    = tab==='login'    ?'block':'none';
+  document.getElementById('ac-register').style.display = tab==='register' ?'block':'none';
+};
+
+window.doLogin = async () => {
+  const email=document.getElementById('l-email').value.trim();
+  const pass =document.getElementById('l-pass').value;
+  const msg  =document.getElementById('login-msg');
+  if(!email||!pass){showMsg(msg,'Fill in all fields.','error');return;}
+  const {error}=await supabase.auth.signInWithPassword({email,password:pass});
+  if(error) showMsg(msg,error.message,'error');
+};
+
+window.doRegister = async () => {
+  const name =document.getElementById('r-name').value.trim();
+  const phone=document.getElementById('r-phone').value.trim();
+  const email=document.getElementById('r-email').value.trim();
+  const city =document.getElementById('r-city').value.trim();
+  const exp  =document.getElementById('r-exp').value;
+  const pass =document.getElementById('r-pass').value;
+  const msg  =document.getElementById('reg-msg');
+  if(!name||!phone||!email||!pass){showMsg(msg,'Fill in all required fields.','error');return;}
+  if(pass.length<8){showMsg(msg,'Password min 8 characters.','error');return;}
+  const btn=document.querySelector('#ac-register .auth-btn');
+  btn.disabled=true; btn.textContent='Registering...';
+  const {data,error}=await supabase.auth.signUp({
+    email,password:pass,
+    options:{data:{full_name:name,phone,city,experience:exp,role:'agent'}}
+  });
+  if(error){showMsg(msg,error.message,'error');}
+  else{
+    if(data.user){
+      const code='ZFA'+Math.random().toString(36).slice(2,8).toUpperCase();
+      await supabase.from('agents').insert([{
+        user_id:data.user.id,full_name:name,phone,email,city,
+        experience:exp,agent_code:code,tier:'associate',status:'active'
+      }]);
+    }
+    showMsg(msg,'✅ Account created! Please check your email to verify.','success');
+  }
+  btn.disabled=false; btn.textContent='Register as Agent';
+};
+
+window.doLogout = async () => { await supabase.auth.signOut(); };
+
+// ── Load Profile ───────────────────────────────────────────
+async function loadAgentProfile() {
+  const {data}=await supabase.from('agents').select('*').eq('user_id',currentUser.id).single();
+  agentProfile=data;
+  if(data){
+    agentCode=data.agent_code;
+    agentTier=data.tier||'associate';
+    document.getElementById('sb-name').textContent =data.full_name||'Agent';
+    document.getElementById('sb-code').textContent ='Code: '+agentCode;
+    document.getElementById('sb-tier').textContent =capitalize(agentTier)+' Agent';
+    document.getElementById('sb-tier').className   ='sai-tier tier-'+agentTier;
+    // Prefill profile
+    setVal('p-name',data.full_name); setVal('p-phone',data.phone);
+    setVal('p-city',data.city);      setVal('p-pan',data.pan||'');
+    setVal('p-accname',data.bank_acc_name); setVal('p-accnum',data.bank_acc_num);
+    setVal('p-ifsc',data.bank_ifsc);        setVal('p-bank',data.bank_name);
+    // Highlight current tier
+    document.querySelectorAll('.at-card').forEach(c=>c.classList.remove('active-tier'));
+    document.getElementById('tier-'+agentTier)?.classList.add('active-tier');
+  }
+  buildLink();
+  document.getElementById('quick-link').textContent = `${SITE_URL}/?agent=${agentCode||'LOADING'}`;
+}
+
+// ── Load All ───────────────────────────────────────────────
+window.loadAll = async function() {
+  if(!currentUser)return;
+  const {data}=await supabase.from('bookings').select('*')
+    .eq('booking_source',`agent_${agentCode}`)
+    .order('created_at',{ascending:false});
+  allBookings=data||[];
+  renderDashboard();
+  renderBookingsTable();
+  renderCommissions();
+};
+
+// ── Dashboard ──────────────────────────────────────────────
+function renderDashboard() {
+  const rate=COMM_RATES[agentTier]||0.05;
+  const paid=allBookings.filter(b=>b.payment_status==='paid');
+  const totalComm=paid.reduce((s,b)=>s+parseFloat(b.total_amount||0)*rate,0);
+  const now=new Date(); const month=new Date(now.getFullYear(),now.getMonth(),1);
+  const pendingComm=allBookings
+    .filter(b=>b.status==='confirmed'&&b.payment_status!=='paid')
+    .reduce((s,b)=>s+parseFloat(b.total_amount||0)*rate,0);
+  const clients=new Set(allBookings.map(b=>b.customer_phone)).size;
+
+  document.getElementById('ds-bookings').textContent    =allBookings.length;
+  document.getElementById('ds-earned').textContent      ='₹'+fmtAmt(totalComm);
+  document.getElementById('ds-pending-comm').textContent='₹'+fmtAmt(pendingComm);
+  document.getElementById('ds-clients').textContent     =clients;
+  document.getElementById('topbar-sub').textContent     =`${agentCode} · ${capitalize(agentTier)} Agent · ${(rate*100).toFixed(0)}% commission`;
+
+  const recent=allBookings.slice(0,5);
+  document.getElementById('recent-bookings-table').innerHTML=recent.length?`
+    <table>
+      <thead><tr><th>Ref</th><th>Service</th><th>Client</th><th>Amount</th><th>Commission</th><th>Status</th></tr></thead>
+      <tbody>${recent.map(b=>`
+        <tr>
+          <td style="font-family:'JetBrains Mono',monospace;font-size:0.73rem;color:var(--teal);">${esc(b.booking_ref)}</td>
+          <td style="font-size:0.83rem;">${esc(b.service_name)}</td>
+          <td style="font-size:0.83rem;">${esc(b.customer_name)}</td>
+          <td style="font-weight:700;">₹${fmtAmt(b.total_amount)}</td>
+          <td style="color:var(--green);font-weight:700;">₹${fmtAmt(parseFloat(b.total_amount||0)*rate)}</td>
+          <td><span class="status-badge s-${b.status}">${capitalize(b.status)}</span></td>
+        </tr>`).join('')}
+      </tbody>
+    </table>`
+    :`<div class="empty"><div class="empty-icon">📋</div><h3 style="color:var(--dark);">No bookings yet</h3><p>Submit your first client booking to start earning!</p></div>`;
+}
+
+// ── Bookings Table ─────────────────────────────────────────
+function renderBookingsTable() {
+  const rate=COMM_RATES[agentTier]||0.05;
+  const el=document.getElementById('all-bookings-table');
+  if(!allBookings.length){el.innerHTML=`<div class="empty"><div class="empty-icon">📋</div><h3 style="color:var(--dark);">No bookings yet</h3></div>`;return;}
+  el.innerHTML=`
+    <table>
+      <thead><tr><th>Ref</th><th>Service</th><th>Client</th><th>Date</th><th>Amount</th><th>Commission</th><th>Status</th></tr></thead>
+      <tbody>${allBookings.map(b=>`
+        <tr>
+          <td style="font-family:'JetBrains Mono',monospace;font-size:0.73rem;color:var(--teal);">${esc(b.booking_ref)}</td>
+          <td style="font-size:0.82rem;">${esc(b.service_name)}</td>
+          <td><div style="font-weight:600;font-size:0.85rem;">${esc(b.customer_name)}</div>
+              <div style="font-size:0.73rem;color:var(--light);">${esc(b.customer_phone)}</div></td>
+          <td style="font-size:0.78rem;color:var(--light);">${fmtDate(b.created_at)}</td>
+          <td style="font-weight:700;">₹${fmtAmt(b.total_amount)}</td>
+          <td style="color:var(--green);font-weight:700;">₹${fmtAmt(parseFloat(b.total_amount||0)*rate)}</td>
+          <td><span class="status-badge s-${b.status}">${capitalize(b.status)}</span></td>
+        </tr>`).join('')}
+      </tbody>
+    </table>`;
+}
+
+// ── Commissions ────────────────────────────────────────────
+function renderCommissions() {
+  const rate=COMM_RATES[agentTier]||0.05;
+  const paid=allBookings.filter(b=>b.payment_status==='paid');
+  const total=paid.reduce((s,b)=>s+parseFloat(b.total_amount||0)*rate,0);
+  const now=new Date(); const month=new Date(now.getFullYear(),now.getMonth(),1);
+  const monthComm=paid.filter(b=>new Date(b.created_at)>=month)
+    .reduce((s,b)=>s+parseFloat(b.total_amount||0)*rate,0);
+  const pendingComm=allBookings.filter(b=>b.status==='confirmed'&&b.payment_status!=='paid')
+    .reduce((s,b)=>s+parseFloat(b.total_amount||0)*rate,0);
+
+  document.getElementById('comm-total').textContent  ='₹'+fmtAmt(total);
+  document.getElementById('comm-month').textContent  ='₹'+fmtAmt(monthComm);
+  document.getElementById('comm-pending').textContent='₹'+fmtAmt(pendingComm);
+
+  const el=document.getElementById('commission-table');
+  if(!paid.length){el.innerHTML=`<div class="empty"><div class="empty-icon">💰</div><h3 style="color:var(--dark);">No commissions yet</h3><p>Commissions appear when client bookings are paid.</p></div>`;return;}
+  el.innerHTML=`
+    <table>
+      <thead><tr><th>Ref</th><th>Service</th><th>Date</th><th>Booking Amount</th><th>Rate</th><th>Commission</th></tr></thead>
+      <tbody>${paid.map(b=>`
+        <tr>
+          <td style="font-family:'JetBrains Mono',monospace;font-size:0.73rem;color:var(--teal);">${esc(b.booking_ref)}</td>
+          <td style="font-size:0.82rem;">${esc(b.service_name)}</td>
+          <td style="font-size:0.78rem;color:var(--light);">${fmtDate(b.created_at)}</td>
+          <td style="font-weight:700;">₹${fmtAmt(b.total_amount)}</td>
+          <td>${(rate*100).toFixed(0)}%</td>
+          <td style="font-weight:700;color:var(--green);">₹${fmtAmt(parseFloat(b.total_amount||0)*rate)}</td>
+        </tr>`).join('')}
+      </tbody>
+    </table>`;
+}
+
+// ── Submit Booking ─────────────────────────────────────────
+window.submitAgentBooking = async () => {
+  const service=document.getElementById('bk-service').value;
+  const desc   =document.getElementById('bk-desc').value.trim();
+  const cname  =document.getElementById('bk-cname').value.trim();
+  const cphone =document.getElementById('bk-cphone').value.trim();
+  const cemail =document.getElementById('bk-cemail').value.trim();
+  const date   =document.getElementById('bk-date').value;
+  const adults =parseInt(document.getElementById('bk-adults').value)||1;
+  const children=parseInt(document.getElementById('bk-children').value)||0;
+  const amount =parseFloat(document.getElementById('bk-amount').value)||0;
+  const special=document.getElementById('bk-special').value;
+
+  if(!desc||!cname||!cphone||!date||!amount){showToast('Fill in all required fields','error');return;}
+
+  const btn=document.querySelector('#sec-new-booking .submit-btn');
+  btn.disabled=true; btn.textContent='Submitting...';
+
+  const rate=COMM_RATES[agentTier]||0.05;
+  const tax =amount*0.18;
+  const total=amount+tax;
+
+  const {error}=await supabase.from('bookings').insert([{
+    service_type:   service,
+    service_name:   desc,
+    customer_name:  cname,
+    customer_email: cemail||'',
+    customer_phone: cphone,
+    customer_whatsapp:cphone,
+    num_adults:     adults,
+    num_children:   children,
+    base_amount:    amount,
+    tax_amount:     parseFloat(tax.toFixed(2)),
+    total_amount:   parseFloat(total.toFixed(2)),
+    travel_details: {date,adults,children,agent_commission:(total*rate).toFixed(2)},
+    status:         'pending',
+    payment_status: 'pending',
+    booking_source: `agent_${agentCode}`,
+    special_requests:special,
+  }]);
+
+  if(error){showToast('Error: '+error.message,'error');}
+  else{
+    await loadAll();
+    // WhatsApp admin
+    const msg=[
+      `🤝 *Agent Booking — ZoomFly*`,
+      `Agent: ${agentProfile?.full_name||'—'} (${agentCode})`,
+      `Service: ${desc}`,
+      `Client: ${cname} · ${cphone}`,
+      `Date: ${date}`,
+      `Amount: ₹${fmtAmt(total)}`,
+      `Agent Commission: ₹${fmtAmt(total*rate)} (${(rate*100).toFixed(0)}%)`,
+    ].join('\n');
+    window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`,'_blank');
+    // Reset form
+    ['bk-desc','bk-cname','bk-cphone','bk-cemail','bk-date','bk-special','bk-amount']
+      .forEach(id=>setVal(id,''));
+    showToast('✅ Booking submitted!');
+    showSection('my-bookings',null);
+  }
+  btn.disabled=false; btn.textContent='📋 Submit Booking Request';
+};
+
+// ── Commission calc ────────────────────────────────────────
+window.calcCommission = () => {
+  const amt  = parseFloat(document.getElementById('bk-amount').value)||0;
+  const rate = COMM_RATES[agentTier]||0.05;
+  const total= amt*1.18;
+  const comm = total*rate;
+  document.getElementById('bk-commission').value = amt
+    ? `₹${fmtAmt(comm)} (${(rate*100).toFixed(0)}%)` : '—';
+};
+
+// ── Link Builder ───────────────────────────────────────────
+window.buildLink = () => {
+  const page=document.getElementById('link-page')?.value||'index.html';
+  const link=`${SITE_URL}/${page}?agent=${agentCode||'AGENT'}`;
+  const el=document.getElementById('built-link');
+  if(el) el.textContent=link;
+  el.dataset.link=link;
+};
+
+window.copyLink = (id) => {
+  const el=document.getElementById(id);
+  const text=el.dataset.link||el.textContent;
+  navigator.clipboard.writeText(text).then(()=>showToast('📋 Link copied!'));
+};
+
+window.shareWA = () => {
+  const link=document.getElementById('quick-link').textContent;
+  const msg=`✈️ Book your travel with ZoomFly!\n\nFlights, Hotels, Packages, Buses & Cabs — all in one place.\n\n${link}`;
+  window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`,'_blank');
+};
+
+// ── Profile ────────────────────────────────────────────────
+window.saveProfile = async () => {
+  const {error}=await supabase.from('agents').update({
+    full_name:document.getElementById('p-name').value,
+    phone:    document.getElementById('p-phone').value,
+    city:     document.getElementById('p-city').value,
+    pan:      document.getElementById('p-pan').value,
+  }).eq('user_id',currentUser.id);
+  showToast(error?'Error: '+error.message:'✅ Profile saved!',error?'error':'success');
+};
+
+window.saveBankDetails = async () => {
+  const {error}=await supabase.from('agents').update({
+    bank_acc_name:document.getElementById('p-accname').value,
+    bank_acc_num: document.getElementById('p-accnum').value,
+    bank_ifsc:    document.getElementById('p-ifsc').value,
+    bank_name:    document.getElementById('p-bank').value,
+  }).eq('user_id',currentUser.id);
+  showToast(error?'Error: '+error.message:'✅ Bank details saved!',error?'error':'success');
+};
+
+// ── Export ─────────────────────────────────────────────────
+window.exportBookings = () => {
+  const rate=COMM_RATES[agentTier]||0.05;
+  const hdrs=['Ref','Service','Client','Phone','Date','Amount','Commission','Status'];
+  const rows=allBookings.map(b=>[
+    b.booking_ref,b.service_name,b.customer_name,b.customer_phone,b.created_at,
+    b.total_amount,(parseFloat(b.total_amount||0)*rate).toFixed(2),b.status
+  ].map(v=>`"${String(v||'').replace(/"/g,'""')}"`).join(','));
+  const csv=[hdrs.join(','),...rows].join('\n');
+  const a=Object.assign(document.createElement('a'),{
+    href:URL.createObjectURL(new Blob([csv],{type:'text/csv'})),
+    download:`zoomfly-agent-bookings-${new Date().toISOString().slice(0,10)}.csv`
+  });
+  a.click();showToast('📥 CSV exported');
+};
+
+// ── Section nav ────────────────────────────────────────────
+window.showSection = (id,btn) => {
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById('sec-'+id).classList.add('active');
+  document.querySelectorAll('.sb-link').forEach(l=>l.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  const titles={dashboard:'Dashboard','new-booking':'New Booking','my-bookings':'My Bookings',
+    commissions:'Commissions',links:'Affiliate Links',tiers:'Agent Tiers',profile:'Profile'};
+  document.getElementById('topbar-title').textContent=titles[id]||id;
+};
+
+// ── Helpers ────────────────────────────────────────────────
+function fmtAmt(n){return parseFloat(n||0).toLocaleString('en-IN',{minimumFractionDigits:0,maximumFractionDigits:2});}
+function fmtDate(d){if(!d)return'—';try{return new Date(d).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});}catch(_){return d;}}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function capitalize(s){return s?s.charAt(0).toUpperCase()+s.slice(1):'—';}
+function setVal(id,v){const el=document.getElementById(id);if(el)el.value=v||'';}
+function showMsg(el,msg,type){el.textContent=msg;el.className='auth-msg show '+type;setTimeout(()=>el.className='auth-msg',7000);}
+function showToast(msg,type='success'){const t=document.getElementById('toast');t.textContent=msg;t.style.background=type==='error'?'#ef4444':'var(--dark)';t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
+</script>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"/>
+  <link rel="shortcut icon" href="/assets/favicon.svg"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>FAQs — ZoomFly</title>
+  <link rel="stylesheet" href="/assets/css/main.css"/>
+  <style>
+    .faq-layout{display:grid;grid-template-columns:260px 1fr;gap:48px;padding:70px 0 100px;align-items:start;}
+    .faq-nav{position:sticky;top:100px;}
+    .faq-nav-link{display:block;padding:10px 16px;font-size:0.88rem;font-weight:500;color:var(--text-muted);border-radius:var(--radius-sm);margin-bottom:4px;transition:all 0.2s;border-left:3px solid transparent;}
+    .faq-nav-link:hover,.faq-nav-link.active{color:var(--blue);background:rgba(27,79,138,0.06);border-left-color:var(--blue);}
+    .faq-section{margin-bottom:56px;}
+    .faq-section h2{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;margin-bottom:20px;color:var(--text);}
+    .faq-item{border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:10px;overflow:hidden;}
+    .faq-q{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;cursor:pointer;font-weight:600;font-size:0.92rem;transition:background 0.2s;gap:16px;}
+    .faq-q:hover,.faq-q.open{background:var(--sand);color:var(--blue);}
+    .faq-arrow{font-size:0.9rem;transition:transform 0.3s;flex-shrink:0;}
+    .faq-q.open .faq-arrow{transform:rotate(180deg);}
+    .faq-a{max-height:0;overflow:hidden;transition:max-height 0.35s ease;}
+    .faq-a.open{max-height:300px;}
+    .faq-a p{padding:0 20px 18px;font-size:0.88rem;color:var(--text-muted);line-height:1.75;}
+    @media(max-width:768px){.faq-layout{grid-template-columns:1fr;}.faq-nav{position:static;display:flex;flex-wrap:wrap;gap:8px;}}
+  </style>
+  <script>
+    window.SUPABASE_URL="https://ndaurluolurdljrjbxii.supabase.co";
+    window.SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kYXVybHVvbHVyZGxqcmpieGlpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MDY2MzksImV4cCI6MjA5MzQ4MjYzOX0.JsZXOof19JkyX7asJQ7EtoaBKqURJUYzVqXQIenCzjQ";
+    window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/);return m?m[1]:null;};
+  </script>
+</head>
+<body data-page="">
+<header class="nav" id="mainNav"></header>
+
+<section class="page-hero">
+  <div class="container page-hero-inner">
+    <div class="breadcrumb"><a href="/index.html">Home</a><span>›</span><span>FAQs</span></div>
+    <h1>Frequently Asked <em>Questions</em></h1>
+    <p>Everything you need to know about booking with ZoomFly.</p>
+  </div>
+</section>
+
+<div class="container">
+  <div class="faq-layout">
+    <nav class="faq-nav">
+      <a class="faq-nav-link active" href="#booking">Booking Process</a>
+      <a class="faq-nav-link" href="#payments">Payments & EMI</a>
+      <a class="faq-nav-link" href="#cancellation">Cancellation</a>
+      <a class="faq-nav-link" href="#packages">Tour Packages</a>
+      <a class="faq-nav-link" href="#flights">Flights</a>
+      <a class="faq-nav-link" href="#hotels">Hotels</a>
+      <a class="faq-nav-link" href="#support">Support</a>
+    </nav>
+    <div>
+      <div class="faq-section" id="booking">
+        <h2>📋 Booking Process</h2>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>How do I book a tour package?</span><span class="faq-arrow">▼</span></div><div class="faq-a"><p>Browse our packages, click "View Details" to explore the itinerary and pricing, then click "Book This Package" or submit the enquiry form. Our travel expert will call you within 2 hours to confirm availability and walk you through the booking process.</p></div></div>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>How far in advance should I book?</span><span class="faq-arrow">▼</span></div><div class="faq-a"><p>We recommend booking at least 2–4 weeks in advance for domestic packages and 4–8 weeks for international ones. However, we can often arrange last-minute trips within 48–72 hours depending on availability.</p></div></div>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>Can I customise any package?</span><span class="faq-arrow">▼</span></div><div class="faq-a"><p>Absolutely! Every package can be customised. You can change hotels, extend/shorten duration, add or remove activities, modify the itinerary, and adjust for group size. Just mention your requirements when you contact us.</p></div></div>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>Do you offer group bookings?</span><span class="faq-arrow">▼</span></div><div class="faq-a"><p>Yes! We specialise in group bookings for families, friends, corporate teams, and school trips. Groups of 10+ get special pricing and a dedicated coordinator. Contact us for a group quote.</p></div></div>
+      </div>
+
+      <div class="faq-section" id="payments">
+        <h2>💳 Payments & EMI</h2>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>What payment methods do you accept?</span><span class="faq-arrow">▼</span></div><div class="faq-a"><p>We accept all major credit/debit cards, UPI (GPay, PhonePe, Paytm), net banking, and bank transfers. International payments can be made via bank wire or card.</p></div></div>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>Is EMI available?</span><span class="faq-arrow">▼</span></div><div class="faq-a"><p>Yes! EMI is available through select credit cards (HDFC, ICICI, SBI, Axis) for packages above ₹15,000. 3, 6, and 12-month EMI options are available. Contact us for details on your specific bank and card.</p></div></div>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>How much advance do I need to pay to confirm?</span><span class="faq-arrow">▼</span></div><div class="faq-a"><p>A 30% advance confirms your booking. The balance is due 15 days before your travel date. For bookings made within 15 days of travel, full payment is required at the time of booking.</p></div></div>
+      </div>
+
+      <div class="faq-section" id="cancellation">
+        <h2>🔄 Cancellation & Refund</h2>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>What is your cancellation policy?</span><span class="faq-arrow">▼</span></div><div class="faq-a"><p>Cancellations 30+ days before travel: 90% refund. 15–30 days: 50% refund. Within 15 days: no refund (we recommend travel insurance). Refunds are processed within 7–10 business days.</p></div></div>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>Can I reschedule my trip?</span><span class="faq-arrow">▼</span></div><div class="faq-a"><p>Yes, rescheduling is allowed up to 15 days before travel at no extra charge (subject to availability). Rescheduling within 15 days may incur a fee depending on hotel and transport policies.</p></div></div>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>Is travel insurance included?</span><span class="faq-arrow">▼</span></div><div class="faq-a"><p>Basic travel insurance is included in select packages. We strongly recommend comprehensive insurance for all trips, which we can arrange at a nominal cost. This covers trip cancellation, medical emergencies, and baggage loss.</p></div></div>
+      </div>
+
+      <div class="faq-section" id="packages">
+        <h2>🗺️ Tour Packages</h2>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>Are meals included in tour packages?</span><span class="faq-arrow">▼</span></div><div class="faq-a"><p>Meal inclusions vary by package — each package page clearly lists what's included (breakfast, half-board, or all-inclusive). You can always upgrade meal plans when enquiring.</p></div></div>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>Do you arrange visa for international tours?</span><span class="faq-arrow">▼</span></div><div class="faq-a"><p>We provide visa assistance for all our international tour packages. This includes document checklists, form filling guidance, and application submission support. Visa fees are paid directly by you to the consulate/embassy.</p></div></div>
+      </div>
+
+      <div class="faq-section" id="support">
+        <h2>📞 Support</h2>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>Is support available during the trip?</span><span class="faq-arrow">▼</span></div><div class="faq-a"><p>Yes! Our team is available 24/7 during your trip via WhatsApp and phone. You'll receive a dedicated trip coordinator's number before departure who you can reach any time for assistance.</p></div></div>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>What if something goes wrong during my trip?</span><span class="faq-arrow">▼</span></div><div class="faq-a"><p>We handle all on-trip emergencies — hotel issues, transport breakdowns, medical needs, or itinerary changes. Our local partners and 24/7 support team ensure you're never stranded. Your satisfaction is our responsibility.</p></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section style="background:var(--blue);padding:70px 0;text-align:center;">
+  <div class="container">
+    <h2 style="font-family:'Playfair Display',serif;font-size:2rem;color:#fff;margin-bottom:12px;">Still have questions?</h2>
+    <p style="color:rgba(255,255,255,0.8);margin-bottom:28px;">Our travel experts are happy to help!</p>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+      <a href="/pages/contact.html" class="btn btn-white btn-lg">Contact Us</a>
+      <a href="https://wa.me/918076136300" class="btn btn-whatsapp btn-lg" target="_blank">💬 WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer" id="mainFooter"></footer>
+<script src="/assets/js/main.js"></script>
+<script>
+function toggleFaq(el) { el.classList.toggle('open'); el.nextElementSibling.classList.toggle('open'); }
+</script>
+</body>
+</html>

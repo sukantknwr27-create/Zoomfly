@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Booking Workflow — ZoomFly Admin</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✈️</text></svg>"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --primary: #1a73e8;
+      --accent:  #ff6b35;
+      --dark:    #0f1923;
+      --dark2:   #1a2535;
+      --text:    #2d3748;
+      --light:   #64748b;
+      --border:  #e2e8f0;
+      --bg:      #f1f5f9;
+      --white:   #ffffff;
+      --green:   #22c55e;
+      --yellow:  #f59e0b;
+      --red:     #ef4444;
+      --purple:  #8b5cf6;
+      --teal:    #14b8a6;
+      --sidebar: 240px;
+
+      /* Column colours */
+      --col-pending:    #f59e0b;
+      --col-confirmed:  #1a73e8;
+      --col-processing: #8b5cf6;
+      --col-completed:  #22c55e;
+      --col-cancelled:  #ef4444;
+      --col-refunded:   #64748b;
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family:'DM Sans',sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      display:flex;
+      min-height:100vh;
+      overflow-x:hidden;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width:var(--sidebar); background:var(--dark); min-height:100vh;
+      position:fixed; left:0; top:0; z-index:200;
+      display:flex; flex-direction:column;
+      box-shadow:4px 0 24px rgba(0,0,0,0.2);
+    }
+    .sb-logo { padding:24px 20px; display:flex; align-items:center; gap:10px;
+      border-bottom:1px solid rgba(255,255,255,0.06); }
+    .sb-logo-icon { width:36px; height:36px;
+      background:linear-gradient(135deg,var(--primary),var(--accent));
+      border-radius:9px; display:flex; align-items:center; justify-content:center; font-size:16px; }
+    .sb-logo-text { font-family:'Playfair Display',serif; font-size:1.2rem; color:#fff; font-weight:700; }
+    .sb-logo-text span { color:var(--accent); }
+    .sb-section { padding:20px 12px 8px; }
+    .sb-section-label { font-size:0.65rem; font-weight:700; text-transform:uppercase;
+      letter-spacing:2px; color:rgba(255,255,255,0.25); padding:0 8px; margin-bottom:8px; }
+    .sb-link { display:flex; align-items:center; gap:10px; padding:10px 12px;
+      border-radius:10px; color:rgba(255,255,255,0.55); text-decoration:none;
+      font-size:0.85rem; font-weight:500; transition:all 0.2s; margin-bottom:2px; }
+    .sb-link:hover { background:rgba(255,255,255,0.07); color:#fff; }
+    .sb-link.active { background:rgba(26,115,232,0.2); color:#fff; }
+    .sb-icon { font-size:16px; width:20px; text-align:center; }
+    .sb-badge { margin-left:auto; background:var(--accent); color:#fff;
+      font-size:0.65rem; font-weight:700; padding:2px 7px; border-radius:10px; }
+    .sb-bottom { margin-top:auto; padding:16px 12px;
+      border-top:1px solid rgba(255,255,255,0.06); }
+
+    /* ── MAIN ── */
+    .main { margin-left:var(--sidebar); flex:1; display:flex; flex-direction:column; min-width:0; }
+
+    /* ── TOPBAR ── */
+    .topbar {
+      background:var(--white); border-bottom:1px solid var(--border);
+      padding:0 28px; height:64px; display:flex; align-items:center;
+      justify-content:space-between; position:sticky; top:0; z-index:100;
+      box-shadow:0 2px 8px rgba(0,0,0,0.04);
+    }
+    .topbar-left h1 { font-family:'Playfair Display',serif; font-size:1.2rem;
+      color:var(--dark); font-weight:700; }
+    .topbar-left p  { font-size:0.78rem; color:var(--light); margin-top:1px; }
+    .topbar-right { display:flex; align-items:center; gap:10px; }
+    .tb-btn { padding:8px 16px; border-radius:9px; border:1.5px solid var(--border);
+      background:var(--white); color:var(--text); font-size:0.82rem; font-weight:600;
+      cursor:pointer; transition:all 0.2s; display:flex; align-items:center; gap:6px; }
+    .tb-btn:hover { border-color:var(--primary); color:var(--primary); }
+    .tb-btn.primary { background:var(--primary); color:#fff; border-color:var(--primary); }
+
+    /* ── FILTER BAR ── */
+    .filter-bar {
+      background:var(--white); border-bottom:1px solid var(--border);
+      padding:12px 28px; display:flex; gap:10px; align-items:center; flex-wrap:wrap;
+    }
+    .filter-search {
+      display:flex; align-items:center; gap:8px;
+      background:var(--bg); border:1.5px solid var(--border); border-radius:9px;
+      padding:7px 14px; flex:1; min-width:180px;
+    }
+    .filter-search input { border:none; background:none; outline:none;
+      font-family:inherit; font-size:0.85rem; color:var(--text); width:100%; }
+    .filter-search input::placeholder { color:var(--light); }
+    .filter-sel { padding:8px 12px; border:1.5px solid var(--border); border-radius:9px;
+      font-family:inherit; font-size:0.82rem; color:var(--text);
+      background:var(--white); cursor:pointer; outline:none; }
+    .filter-sel:focus { border-color:var(--primary); }
+
+    /* ── KANBAN BOARD ── */
+    .board-wrap {
+      flex:1; padding:24px 20px;
+      overflow-x:auto;
+    }
+
+    .board {
+      display:flex; gap:16px;
+      min-width:max-content;
+      align-items:flex-start;
+    }
+
+    /* ── COLUMN ── */
+    .col {
+      width:290px; flex-shrink:0;
+      display:flex; flex-direction:column;
+      max-height:calc(100vh - 180px);
+    }
+
+    .col-header {
+      border-radius:14px 14px 0 0;
+      padding:14px 16px;
+      display:flex; align-items:center; justify-content:space-between;
+      position:sticky; top:0;
+    }
+    .col-header-left { display:flex; align-items:center; gap:10px; }
+    .col-dot { width:10px; height:10px; border-radius:50%; }
+    .col-title { font-weight:700; font-size:0.9rem; color:var(--white); }
+    .col-count {
+      background:rgba(255,255,255,0.25); color:var(--white);
+      font-size:0.72rem; font-weight:700; padding:2px 9px; border-radius:12px;
+    }
+    .col-amount {
+      font-size:0.72rem; color:rgba(255,255,255,0.7); font-weight:600;
+    }
+
+    .col-pending    .col-header { background:var(--col-pending); }
+    .col-confirmed  .col-header { background:var(--col-confirmed); }
+    .col-processing .col-header { background:var(--col-processing); }
+    .col-completed  .col-header { background:var(--col-completed); }
+    .col-cancelled  .col-header { background:var(--col-cancelled); }
+    .col-refunded   .col-header { background:var(--col-refunded); }
+
+    .col-body {
+      flex:1; overflow-y:auto; padding:8px;
+      background:rgba(255,255,255,0.5);
+      border:1px solid var(--border);
+      border-top:none; border-radius:0 0 14px 14px;
+      min-height:120px;
+    }
+
+    /* ── CARD ── */
+    .booking-card {
+      background:var(--white); border-radius:12px;
+      border:1px solid var(--border); padding:14px;
+      margin-bottom:8px; cursor:pointer;
+      transition:all 0.2s;
+      box-shadow:0 1px 4px rgba(0,0,0,0.04);
+      position:relative;
+      animation:cardIn 0.3s ease both;
+    }
+    @keyframes cardIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+    .booking-card:hover {
+      box-shadow:0 4px 20px rgba(0,0,0,0.1);
+      transform:translateY(-2px);
+      border-color:var(--primary);
+    }
+
+    .booking-card.urgent {
+      border-left:4px solid var(--red);
+    }
+    .booking-card.high {
+      border-left:4px solid var(--accent);
+    }
+
+    .card-top { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:8px; }
+    .card-ref { font-family:'JetBrains Mono',monospace; font-size:0.72rem;
+      color:var(--primary); font-weight:600; }
+    .card-svc { font-size:0.68rem; font-weight:700; padding:2px 7px;
+      border-radius:10px; }
+    .svc-flight  { background:rgba(26,115,232,0.1);  color:#1557b0; }
+    .svc-hotel   { background:rgba(139,92,246,0.1);  color:#5b21b6; }
+    .svc-package { background:rgba(255,107,53,0.1);  color:#9a3412; }
+    .svc-bus     { background:rgba(20,184,166,0.1);  color:#0f766e; }
+    .svc-cab     { background:rgba(34,197,94,0.1);   color:#166534; }
+
+    .card-name { font-weight:700; font-size:0.88rem; color:var(--dark); margin-bottom:2px; }
+    .card-service { font-size:0.78rem; color:var(--light); margin-bottom:8px;
+      white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+    .card-meta { display:flex; justify-content:space-between; align-items:center; }
+    .card-amount { font-weight:700; font-size:0.9rem; color:var(--dark); }
+    .card-time { font-size:0.72rem; color:var(--light); }
+
+    .card-footer { display:flex; gap:6px; margin-top:10px; padding-top:8px;
+      border-top:1px solid var(--border); }
+    .card-btn { flex:1; padding:5px 8px; border-radius:7px; border:none;
+      cursor:pointer; font-size:0.72rem; font-weight:700; transition:all 0.2s;
+      display:flex; align-items:center; justify-content:center; gap:4px; }
+    .cb-view    { background:rgba(26,115,232,0.08); color:var(--primary); }
+    .cb-view:hover { background:var(--primary); color:#fff; }
+    .cb-wa      { background:rgba(37,211,102,0.1); color:#16a34a; }
+    .cb-wa:hover   { background:#25d366; color:#fff; }
+    .cb-next    { background:rgba(26,115,232,0.08); color:var(--primary); font-size:0.65rem; }
+    .cb-next:hover { background:var(--primary); color:#fff; }
+
+    .urgency-flag {
+      position:absolute; top:10px; right:10px;
+      font-size:10px; font-weight:700; padding:2px 6px;
+      border-radius:8px;
+    }
+    .uf-urgent { background:#fef2f2; color:#991b1b; }
+    .uf-high   { background:#fff7ed; color:#9a3412; }
+
+    .col-empty {
+      text-align:center; padding:32px 16px;
+      color:var(--light); font-size:0.82rem;
+    }
+    .col-empty-icon { font-size:28px; margin-bottom:8px; display:block; }
+
+    /* ── DRAWER ── */
+    .drawer-overlay {
+      position:fixed; inset:0; background:rgba(0,0,0,0.4);
+      z-index:400; opacity:0; pointer-events:none;
+      transition:opacity 0.3s; backdrop-filter:blur(2px);
+    }
+    .drawer-overlay.open { opacity:1; pointer-events:all; }
+    .drawer {
+      position:fixed; top:0; right:0; bottom:0; width:440px; max-width:95vw;
+      background:var(--white); z-index:401;
+      transform:translateX(100%); transition:transform 0.35s cubic-bezier(.4,0,.2,1);
+      box-shadow:-8px 0 40px rgba(0,0,0,0.15);
+      display:flex; flex-direction:column;
+    }
+    .drawer.open { transform:translateX(0); }
+    .drawer-head {
+      padding:20px 24px; border-bottom:1px solid var(--border);
+      display:flex; align-items:center; justify-content:space-between;
+    }
+    .drawer-head h2 { font-family:'Playfair Display',serif; font-size:1.05rem;
+      color:var(--dark); font-weight:700; }
+    .drawer-close { width:32px; height:32px; border-radius:8px;
+      border:1.5px solid var(--border); background:var(--white);
+      cursor:pointer; font-size:18px; display:flex; align-items:center;
+      justify-content:center; transition:all 0.2s; }
+    .drawer-close:hover { background:var(--red); color:#fff; border-color:var(--red); }
+    .drawer-body { flex:1; overflow-y:auto; padding:20px 24px; }
+    .drawer-foot { padding:16px 24px; border-top:1px solid var(--border);
+      display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+
+    /* Workflow steps in drawer */
+    .workflow-steps {
+      display:flex; gap:0; margin-bottom:24px; position:relative;
+    }
+    .workflow-steps::before {
+      content:''; position:absolute; top:16px; left:16px; right:16px;
+      height:2px; background:var(--border); z-index:0;
+    }
+    .ws-step {
+      flex:1; display:flex; flex-direction:column; align-items:center;
+      position:relative; z-index:1; cursor:pointer;
+    }
+    .ws-dot {
+      width:32px; height:32px; border-radius:50%; display:flex;
+      align-items:center; justify-content:center; font-size:13px;
+      border:3px solid var(--white); transition:all 0.2s;
+      box-shadow:0 0 0 2px var(--border);
+    }
+    .ws-dot.done   { background:var(--green); box-shadow:0 0 0 2px var(--green); }
+    .ws-dot.active { background:var(--primary); box-shadow:0 0 0 2px var(--primary); }
+    .ws-dot.idle   { background:var(--white); box-shadow:0 0 0 2px var(--border); }
+    .ws-dot.danger { background:var(--red); box-shadow:0 0 0 2px var(--red); }
+    .ws-label { font-size:0.65rem; font-weight:700; color:var(--light);
+      margin-top:6px; text-align:center; line-height:1.3; }
+    .ws-step.active .ws-label { color:var(--primary); }
+    .ws-step.done   .ws-label { color:var(--green); }
+
+    /* Move buttons */
+    .move-section { margin-bottom:20px; }
+    .move-title { font-size:0.72rem; font-weight:700; text-transform:uppercase;
+      letter-spacing:1px; color:var(--light); margin-bottom:10px; }
+    .move-btns { display:flex; gap:8px; flex-wrap:wrap; }
+    .move-btn {
+      padding:8px 14px; border-radius:9px; border:1.5px solid var(--border);
+      background:var(--bg); font-size:0.8rem; font-weight:700; cursor:pointer;
+      transition:all 0.2s; display:flex; align-items:center; gap:6px;
+    }
+    .move-btn:hover { transform:translateY(-1px); box-shadow:0 4px 12px rgba(0,0,0,0.12); }
+    .mb-confirmed  { border-color:rgba(26,115,232,0.3);  color:var(--primary); }
+    .mb-confirmed:hover  { background:var(--primary); color:#fff; border-color:var(--primary); }
+    .mb-processing { border-color:rgba(139,92,246,0.3);  color:var(--purple); }
+    .mb-processing:hover { background:var(--purple); color:#fff; border-color:var(--purple); }
+    .mb-completed  { border-color:rgba(34,197,94,0.3);   color:var(--green); }
+    .mb-completed:hover  { background:var(--green); color:#fff; border-color:var(--green); }
+    .mb-cancelled  { border-color:rgba(239,68,68,0.3);   color:var(--red); }
+    .mb-cancelled:hover  { background:var(--red); color:#fff; border-color:var(--red); }
+    .mb-refunded   { border-color:rgba(100,116,139,0.3); color:var(--light); }
+    .mb-refunded:hover   { background:var(--light); color:#fff; border-color:var(--light); }
+
+    .ds-row { display:flex; justify-content:space-between; padding:8px 0;
+      font-size:0.85rem; border-bottom:1px solid #f8fafc; }
+    .ds-row:last-child { border-bottom:none; }
+    .ds-key { color:var(--light); }
+    .ds-val { font-weight:600; color:var(--dark); text-align:right; }
+
+    .section-label { font-size:0.7rem; font-weight:700; text-transform:uppercase;
+      letter-spacing:1.5px; color:var(--light); margin-bottom:10px;
+      padding-bottom:6px; border-bottom:1px solid var(--border); }
+
+    .da-btn { padding:11px 16px; border-radius:10px; border:none; cursor:pointer;
+      font-size:0.85rem; font-weight:700; transition:all 0.2s;
+      display:flex; align-items:center; justify-content:center; gap:7px; }
+    .da-wa { background:#25d366; color:#fff; }
+    .da-wa:hover { background:#20b858; }
+    .da-confirm { background:var(--primary); color:#fff; }
+    .da-confirm:hover { background:#1557b0; }
+
+    /* Note input */
+    .note-wrap { margin-bottom:16px; }
+    .note-label { font-size:0.75rem; font-weight:600; color:var(--light); margin-bottom:6px; }
+    .note-input { width:100%; padding:9px 12px; border:1.5px solid var(--border);
+      border-radius:9px; font-family:inherit; font-size:0.85rem; resize:none;
+      min-height:60px; outline:none; transition:border 0.2s; }
+    .note-input:focus { border-color:var(--primary); }
+
+    /* Urgency legend */
+    .legend { display:flex; gap:16px; align-items:center; }
+    .leg-item { display:flex; align-items:center; gap:6px; font-size:0.75rem; color:var(--light); }
+    .leg-dot  { width:8px; height:8px; border-radius:2px; }
+
+    /* Toast */
+    .toast {
+      position:fixed; bottom:24px; right:24px; background:var(--dark); color:#fff;
+      padding:12px 20px; border-radius:10px; font-size:0.88rem; font-weight:600;
+      z-index:9999; opacity:0; transform:translateY(8px);
+      transition:all 0.3s; pointer-events:none;
+    }
+    .toast.show { opacity:1; transform:translateY(0); }
+
+    /* Scroll */
+    .col-body::-webkit-scrollbar { width:4px; }
+    .col-body::-webkit-scrollbar-track { background:transparent; }
+    .col-body::-webkit-scrollbar-thumb { background:var(--border); border-radius:4px; }
+
+    @media(max-width:1024px) { .sidebar{display:none;} .main{margin-left:0;} }
+  </style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sb-logo">
+    <div class="sb-logo-icon">✈️</div>
+    <div class="sb-logo-text">Zoom<span>Fly</span></div>
+  </div>
+  <div class="sb-section">
+    <div class="sb-section-label">Main</div>
+    <a href="admin.html"           class="sb-link"><span class="sb-icon">📊</span> Dashboard</a>
+    <a href="admin-bookings.html"  class="sb-link"><span class="sb-icon">🎫</span> Bookings <span class="sb-badge" id="sb-count">0</span></a>
+    <a href="admin-workflow.html"  class="sb-link active"><span class="sb-icon">🔄</span> Workflow</a>
+    <a href="admin-customers.html" class="sb-link"><span class="sb-icon">👤</span> Customers</a>
+    <a href="admin-vendors.html"   class="sb-link"><span class="sb-icon">🏨</span> Vendors</a>
+  </div>
+  <div class="sb-section">
+    <div class="sb-section-label">Content</div>
+    <a href="admin-packages.html"  class="sb-link"><span class="sb-icon">🧳</span> Packages</a>
+    <a href="admin-hotels.html"    class="sb-link"><span class="sb-icon">🏩</span> Hotels</a>
+  </div>
+  <div class="sb-section">
+    <div class="sb-section-label">Tools</div>
+    <a href="admin-whatsapp-templates.html" class="sb-link"><span class="sb-icon">💬</span> WA Templates</a>
+  </div>
+  <div class="sb-bottom">
+    <a href="index.html" class="sb-link"><span class="sb-icon">🌐</span> View Site</a>
+    <a href="#" class="sb-link" onclick="handleLogout()"><span class="sb-icon">🚪</span> Logout</a>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <h1>Booking Workflow</h1>
+      <p id="topbar-sub">Drag bookings through stages · Live updates</p>
+    </div>
+    <div class="topbar-right">
+      <div class="legend">
+        <div class="leg-item"><div class="leg-dot" style="background:#ef4444"></div> Urgent (today)</div>
+        <div class="leg-item"><div class="leg-dot" style="background:#ff6b35"></div> High (≤3 days)</div>
+      </div>
+      <button class="tb-btn" onclick="loadAll()">🔄 Refresh</button>
+      <a href="admin-bookings.html" class="tb-btn">📋 Table View</a>
+    </div>
+  </div>
+
+  <!-- FILTER BAR -->
+  <div class="filter-bar">
+    <div class="filter-search">
+      🔍
+      <input type="text" id="search-inp" placeholder="Search name, ref, phone..." oninput="applyFilters()"/>
+    </div>
+    <select class="filter-sel" id="svc-filter" onchange="applyFilters()">
+      <option value="">All Services</option>
+      <option value="flight">✈️ Flight</option>
+      <option value="hotel">🏨 Hotel</option>
+      <option value="package">🧳 Package</option>
+      <option value="bus">🚌 Bus</option>
+      <option value="cab">🚖 Cab</option>
+    </select>
+    <select class="filter-sel" id="date-filter" onchange="applyFilters()">
+      <option value="">All Time</option>
+      <option value="today">Today</option>
+      <option value="week">This Week</option>
+      <option value="month">This Month</option>
+    </select>
+    <select class="filter-sel" id="pay-filter" onchange="applyFilters()">
+      <option value="">All Payments</option>
+      <option value="paid">✅ Paid</option>
+      <option value="pending">⏳ Unpaid</option>
+    </select>
+  </div>
+
+  <!-- KANBAN BOARD -->
+  <div class="board-wrap">
+    <div class="board" id="board">
+      <!-- Columns rendered by JS -->
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<!-- DETAIL DRAWER -->
+<div class="drawer-overlay" id="overlay" onclick="closeDrawer()"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-head">
+    <h2 id="d-ref">Booking Details</h2>
+    <button class="drawer-close" onclick="closeDrawer()">×</button>
+  </div>
+  <div class="drawer-body" id="d-body">Loading...</div>
+  <div class="drawer-foot" id="d-foot"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+const SUPABASE_URL = window.SUPABASE_URL     || 'https://ndaurluolurdljrjbxii.supabase.co';
+const SUPABASE_KEY = window.SUPABASE_ANON_KEY|| 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kYXVybHVvbHVyZGxqcmpieGlpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MDY2MzksImV4cCI6MjA5MzQ4MjYzOX0.JsZXOof19JkyX7asJQ7EtoaBKqURJUYzVqXQIenCzjQ';
+const supabase     = createClient(SUPABASE_URL, SUPABASE_KEY);
+const WA_NUMBER    = '918076136300';
+
+// ── State ──────────────────────────────────────────────────
+let allBookings = [];
+let filtered    = [];
+let activeB     = null;
+
+// ── Column config ──────────────────────────────────────────
+const COLUMNS = [
+  { id:'pending',    label:'Pending',    icon:'⏳', next:['confirmed','cancelled'] },
+  { id:'confirmed',  label:'Confirmed',  icon:'✅', next:['processing','cancelled'] },
+  { id:'processing', label:'Processing', icon:'⚙️', next:['completed','cancelled'] },
+  { id:'completed',  label:'Completed',  icon:'🎉', next:[] },
+  { id:'cancelled',  label:'Cancelled',  icon:'❌', next:['refunded'] },
+  { id:'refunded',   label:'Refunded',   icon:'💰', next:[] },
+];
+
+// ── Auth Guard ─────────────────────────────────────────────
+async function checkAuth() {
+  const { data:{ session } } = await supabase.auth.getSession();
+  if (!session) { window.location.href = 'admin-login.html'; return false; }
+  const { data: p } = await supabase.from('profiles').select('role').eq('id', session.user.id).single();
+  if (p?.role !== 'admin') { window.location.href = 'index.html'; return false; }
+  return true;
+}
+
+// ── Load ───────────────────────────────────────────────────
+window.loadAll = async function() {
+  try {
+    const { data, error } = await supabase
+      .from('bookings').select('*')
+      .order('created_at', { ascending:false })
+      .limit(300);
+    if (error) throw error;
+    allBookings = data || [];
+    applyFilters();
+    updateSbCount();
+  } catch(e) { showToast('Error: '+e.message, 'error'); }
+};
+
+function updateSbCount() {
+  document.getElementById('sb-count').textContent =
+    allBookings.filter(b=>b.status==='pending').length;
+}
+
+// ── Filters ────────────────────────────────────────────────
+window.applyFilters = function() {
+  const q    = document.getElementById('search-inp').value.toLowerCase();
+  const svc  = document.getElementById('svc-filter').value;
+  const date = document.getElementById('date-filter').value;
+  const pay  = document.getElementById('pay-filter').value;
+  const now  = new Date();
+  const today= new Date(now.getFullYear(),now.getMonth(),now.getDate());
+  const week = new Date(today); week.setDate(today.getDate()-7);
+  const month= new Date(today.getFullYear(),now.getMonth(),1);
+
+  filtered = allBookings.filter(b => {
+    const cr = new Date(b.created_at);
+    if (q && !(b.booking_ref?.toLowerCase().includes(q)||
+               b.customer_name?.toLowerCase().includes(q)||
+               b.customer_phone?.includes(q))) return false;
+    if (svc  && b.service_type    !== svc)  return false;
+    if (pay  && b.payment_status  !== pay)  return false;
+    if (date==='today' && cr < today) return false;
+    if (date==='week'  && cr < week)  return false;
+    if (date==='month' && cr < month) return false;
+    return true;
+  });
+
+  renderBoard();
+};
+
+// ── Render Board ───────────────────────────────────────────
+function renderBoard() {
+  const board = document.getElementById('board');
+
+  board.innerHTML = COLUMNS.map(col => {
+    const cards = filtered.filter(b => b.status === col.id);
+    const total = cards.reduce((s,b) => s+parseFloat(b.total_amount||0),0);
+
+    return `
+      <div class="col col-${col.id}">
+        <div class="col-header">
+          <div class="col-header-left">
+            <span>${col.icon}</span>
+            <span class="col-title">${col.label}</span>
+            <span class="col-count">${cards.length}</span>
+          </div>
+          <span class="col-amount">₹${fmtAmt(total)}</span>
+        </div>
+        <div class="col-body" id="col-${col.id}">
+          ${cards.length === 0
+            ? `<div class="col-empty"><span class="col-empty-icon">✨</span>No bookings</div>`
+            : cards.map(b => renderCard(b, col)).join('')}
+        </div>
+      </div>`;
+  }).join('');
+
+  // Update topbar subtitle
+  const total = filtered.reduce((s,b)=>s+parseFloat(b.total_amount||0),0);
+  document.getElementById('topbar-sub').textContent =
+    `${filtered.length} bookings · ₹${fmtAmt(total)} total · Last refreshed ${new Date().toLocaleTimeString('en-IN')}`;
+}
+
+function renderCard(b, col) {
+  const urg  = getUrgency(b);
+  const next = col.next[0]; // primary next status
+
+  return `
+    <div class="booking-card ${urg.cls}" onclick="openDrawer('${b.id}')">
+      ${urg.flag ? `<span class="urgency-flag ${urg.flag}">${urg.label}</span>` : ''}
+      <div class="card-top">
+        <span class="card-ref">${esc(b.booking_ref)}</span>
+        <span class="card-svc svc-${b.service_type}">${svcIcon(b.service_type)} ${capitalize(b.service_type)}</span>
+      </div>
+      <div class="card-name">${esc(b.customer_name)}</div>
+      <div class="card-service">${esc(b.service_name)}</div>
+      <div class="card-meta">
+        <span class="card-amount">₹${fmtAmt(b.total_amount)}</span>
+        <span class="card-time">${timeAgo(b.created_at)}</span>
+      </div>
+      <div class="card-footer" onclick="event.stopPropagation()">
+        <button class="card-btn cb-view" onclick="openDrawer('${b.id}')">👁️ View</button>
+        <button class="card-btn cb-wa"   onclick="waCustomer('${esc(b.customer_whatsapp||b.customer_phone)}','${esc(b.booking_ref)}','${esc(b.customer_name)}')">💬</button>
+        ${next ? `<button class="card-btn cb-next" onclick="moveCard('${b.id}','${next}')">→ ${capitalize(next)}</button>` : ''}
+      </div>
+    </div>`;
+}
+
+// ── Urgency ────────────────────────────────────────────────
+function getUrgency(b) {
+  const td = b.travel_details || {};
+  const d  = td.date || td.check_in || td.start_date || td.pickup_date;
+  if (!d) return { cls:'', flag:null, label:'' };
+  const days = Math.round((new Date(d) - new Date()) / 86400000);
+  if (days <= 0) return { cls:'urgent', flag:'uf-urgent', label:'🔴 TODAY' };
+  if (days <= 1) return { cls:'urgent', flag:'uf-urgent', label:'🔴 TMRW'  };
+  if (days <= 3) return { cls:'high',   flag:'uf-high',   label:`🟠 ${days}d` };
+  return { cls:'', flag:null, label:'' };
+}
+
+// ── Move Card (quick status update) ───────────────────────
+window.moveCard = async function(id, newStatus) {
+  try {
+    const updates = { status: newStatus, updated_at: new Date().toISOString() };
+    if (newStatus==='cancelled') updates.cancelled_at = new Date().toISOString();
+    if (newStatus==='completed') updates.completed_at = new Date().toISOString();
+    if (newStatus==='confirmed') updates.payment_status = 'paid';
+
+    const { error } = await supabase.from('bookings').update(updates).eq('id', id);
+    if (error) throw error;
+
+    const idx = allBookings.findIndex(b=>b.id===id);
+    if (idx !== -1) Object.assign(allBookings[idx], updates);
+    applyFilters();
+    showToast(`✅ Moved to ${newStatus}`);
+
+    // WhatsApp prompt
+    const b = allBookings.find(b=>b.id===id);
+    if (b && ['confirmed','cancelled','completed'].includes(newStatus)) {
+      const ph  = sanitizePhone(b.customer_whatsapp||b.customer_phone);
+      const msg = buildStatusMsg(b, newStatus);
+      if (confirm(`Send WhatsApp update to ${b.customer_name}?`)) {
+        window.open(`https://wa.me/${ph}?text=${encodeURIComponent(msg)}`, '_blank');
+      }
+    }
+  } catch(e) { showToast('Error: '+e.message, 'error'); }
+};
+
+// ── Open Drawer ────────────────────────────────────────────
+window.openDrawer = function(id) {
+  activeB = allBookings.find(b=>b.id===id);
+  if (!activeB) return;
+  const b  = activeB;
+  const td = b.travel_details || {};
+  const col= COLUMNS.find(c=>c.id===b.status);
+
+  document.getElementById('d-ref').textContent = b.booking_ref;
+  document.getElementById('overlay').classList.add('open');
+  document.getElementById('drawer').classList.add('open');
+
+  // Workflow visual
+  const FLOW = ['pending','confirmed','processing','completed'];
+  const isCancelled = b.status === 'cancelled' || b.status === 'refunded';
+  const curIdx = FLOW.indexOf(b.status);
+
+  const workflowHtml = `
+    <div class="workflow-steps">
+      ${FLOW.map((s,i) => {
+        let dotCls = 'idle';
+        if (isCancelled) dotCls = i === 0 ? 'done' : 'idle';
+        else if (i < curIdx) dotCls = 'done';
+        else if (i === curIdx) dotCls = 'active';
+        return `
+          <div class="ws-step ${dotCls}">
+            <div class="ws-dot ${dotCls}">${dotCls==='done'?'✓': i===curIdx? (isCancelled?'✓':'◉') :'○'}</div>
+            <div class="ws-label">${capitalize(s)}</div>
+          </div>`;
+      }).join('')}
+      ${isCancelled ? `
+        <div class="ws-step danger">
+          <div class="ws-dot danger">✕</div>
+          <div class="ws-label">${capitalize(b.status)}</div>
+        </div>` : ''}
+    </div>`;
+
+  // Move buttons
+  const moveBtns = (col?.next || []).map(s => `
+    <button class="move-btn mb-${s}" onclick="moveCard('${b.id}','${s}');closeDrawer()">
+      ${statusIcon(s)} Move to ${capitalize(s)}
+    </button>`).join('');
+
+  document.getElementById('d-body').innerHTML = `
+
+    ${workflowHtml}
+
+    <!-- Customer -->
+    <div style="margin-bottom:20px;">
+      <div class="section-label">Customer</div>
+      <div class="ds-row"><span class="ds-key">Name</span><span class="ds-val">${esc(b.customer_name)}</span></div>
+      <div class="ds-row"><span class="ds-key">Phone</span>
+        <span class="ds-val"><a href="tel:${esc(b.customer_phone)}" style="color:var(--primary);text-decoration:none;">${esc(b.customer_phone)}</a></span></div>
+      <div class="ds-row"><span class="ds-key">Email</span>
+        <span class="ds-val" style="font-size:0.8rem;">${esc(b.customer_email)}</span></div>
+      <div class="ds-row"><span class="ds-key">Travellers</span>
+        <span class="ds-val">${b.num_adults}A / ${b.num_children}C / ${b.num_infants}I</span></div>
+    </div>
+
+    <!-- Service -->
+    <div style="margin-bottom:20px;">
+      <div class="section-label">Service Details</div>
+      <div class="ds-row"><span class="ds-key">Type</span>
+        <span class="ds-val">${svcIcon(b.service_type)} ${capitalize(b.service_type)}</span></div>
+      <div class="ds-row"><span class="ds-key">Description</span>
+        <span class="ds-val" style="font-size:0.8rem;">${esc(b.service_name)}</span></div>
+      ${buildTravelRows(b.service_type, td)}
+      ${b.special_requests
+        ? `<div class="ds-row"><span class="ds-key">Special Req.</span>
+            <span class="ds-val" style="font-size:0.8rem;">${esc(b.special_requests)}</span></div>`
+        : ''}
+    </div>
+
+    <!-- Payment -->
+    <div style="margin-bottom:20px;">
+      <div class="section-label">Payment</div>
+      <div class="ds-row"><span class="ds-key">Total</span>
+        <span class="ds-val" style="color:var(--accent);font-size:1rem;">₹${fmtAmt(b.total_amount)}</span></div>
+      <div class="ds-row"><span class="ds-key">Payment</span>
+        <span class="ds-val">${capitalize(b.payment_status||'pending')}</span></div>
+      <div class="ds-row"><span class="ds-key">Method</span>
+        <span class="ds-val">${capitalize(b.payment_method||'—')}</span></div>
+      ${b.promo_code ? `<div class="ds-row"><span class="ds-key">Promo</span>
+        <span class="ds-val">${esc(b.promo_code)}</span></div>` : ''}
+      ${b.refund_amount > 0 ? `<div class="ds-row"><span class="ds-key">Refund</span>
+        <span class="ds-val" style="color:var(--red);">₹${fmtAmt(b.refund_amount)}</span></div>` : ''}
+    </div>
+
+    <!-- Move to -->
+    ${moveBtns ? `
+    <div class="move-section">
+      <div class="move-title">Move to Stage</div>
+      <div class="move-btns">${moveBtns}</div>
+    </div>` : ''}
+
+    <!-- Note -->
+    <div class="note-wrap">
+      <div class="note-label">Add Note / Send to Customer</div>
+      <textarea class="note-input" id="drawer-note"
+        placeholder="e.g. Cab will arrive at 2:30 PM. Call driver on 98XXXXXX"></textarea>
+    </div>
+
+    <!-- Status History -->
+    ${b.status_history?.length ? `
+    <div>
+      <div class="section-label">History</div>
+      ${b.status_history.slice().reverse().map(s=>`
+        <div style="display:flex;gap:8px;margin-bottom:8px;font-size:0.8rem;">
+          <div style="width:6px;height:6px;border-radius:50%;background:var(--primary);margin-top:5px;flex-shrink:0;"></div>
+          <div>
+            <span style="font-weight:700;color:var(--dark);">${capitalize(s.status)}</span>
+            <span style="color:var(--light);"> · ${fmtDateTime(s.changed_at)}</span>
+            ${s.note ? `<div style="color:var(--light);font-size:0.75rem;">${esc(s.note)}</div>` : ''}
+          </div>
+        </div>`).join('')}
+    </div>` : ''}
+  `;
+
+  document.getElementById('d-foot').innerHTML = `
+    <button class="da-btn da-confirm"
+      onclick="sendNoteWA('${b.id}')">
+      💬 Send Note via WA
+    </button>
+    <button class="da-btn da-wa"
+      onclick="waCustomer('${esc(b.customer_whatsapp||b.customer_phone)}','${esc(b.booking_ref)}','${esc(b.customer_name)}')">
+      📞 WhatsApp Customer
+    </button>
+  `;
+};
+
+window.closeDrawer = () => {
+  document.getElementById('overlay').classList.remove('open');
+  document.getElementById('drawer').classList.remove('open');
+};
+
+function buildTravelRows(type, td) {
+  const row = (k,v) => !v ? '' :
+    `<div class="ds-row"><span class="ds-key">${k}</span><span class="ds-val" style="font-size:0.82rem;">${esc(v)}</span></div>`;
+  switch(type) {
+    case 'flight': return row('Route',`${td.from_city||td.from||''}  →  ${td.to_city||td.to||''}`)
+      +row('Date',fmtDate(td.date))+(td.return_date?row('Return',fmtDate(td.return_date)):'')+row('Class',td.class);
+    case 'hotel':  return row('Hotel',td.hotel_name)+row('City',td.city)
+      +row('Check-in',fmtDate(td.check_in))+row('Check-out',fmtDate(td.check_out))+row('Nights',String(td.nights||''));
+    case 'package':return row('Package',td.package_name)+row('Dest',td.destination)
+      +row('Dates',`${fmtDate(td.start_date)} → ${fmtDate(td.end_date)}`);
+    case 'bus':    return row('Route',`${td.from} → ${td.to}`)+row('Date',fmtDate(td.date))
+      +row('Operator',td.operator)+row('Seats',td.seat_numbers?.join(', '));
+    case 'cab':    return row('Pickup',td.from)+row('Drop',td.to)
+      +row('Date/Time',`${fmtDate(td.pickup_date)} @ ${td.pickup_time||'—'}`)+row('Type',td.cab_type);
+    default: return '';
+  }
+}
+
+// ── Send note via WhatsApp ─────────────────────────────────
+window.sendNoteWA = function(bookingId) {
+  const b    = allBookings.find(x=>x.id===bookingId);
+  const note = document.getElementById('drawer-note')?.value?.trim();
+  if (!b || !note) { showToast('Please type a note first', 'error'); return; }
+  const ph  = sanitizePhone(b.customer_whatsapp||b.customer_phone);
+  const msg = `📋 *ZoomFly Update*\nRef: *${b.booking_ref}*\n\n${note}\n\nQuestions? +91 80761 36300`;
+  window.open(`https://wa.me/${ph}?text=${encodeURIComponent(msg)}`, '_blank');
+};
+
+window.waCustomer = function(phone, ref, name) {
+  const ph  = sanitizePhone(phone);
+  const msg = `Hi ${name}! This is ZoomFly regarding your booking *${ref}*. How can we help?`;
+  window.open(`https://wa.me/${ph}?text=${encodeURIComponent(msg)}`, '_blank');
+};
+
+function buildStatusMsg(b, status) {
+  const map = {
+    confirmed:  `✅ Great news! Your ZoomFly booking *${b.booking_ref}* is confirmed!\n\nService: ${b.service_name}\nTotal: ₹${fmtAmt(b.total_amount)}\n\nWe'll send your e-ticket shortly. Questions? +91 80761 36300`,
+    completed:  `🎉 Thank you for travelling with ZoomFly!\n\nBooking *${b.booking_ref}* is now complete.\n\nWe hope you had a wonderful journey. We'd love your feedback! ⭐\n\nZoomFly · +91 80761 36300`,
+    cancelled:  `❌ Your ZoomFly booking *${b.booking_ref}* has been cancelled.\n\nRefund (if applicable) will be processed within 5–7 business days.\n\nQuestions? +91 80761 36300`,
+  };
+  return map[status] || `ZoomFly update for booking ${b.booking_ref}: Status changed to ${status}.`;
+}
+
+// ── Helpers ────────────────────────────────────────────────
+function fmtAmt(n) { return parseFloat(n||0).toLocaleString('en-IN',{minimumFractionDigits:0,maximumFractionDigits:2}); }
+function fmtDate(d) {
+  if (!d) return '—';
+  try { return new Date(d).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}); }
+  catch(_){ return d; }
+}
+function fmtDateTime(d) {
+  if (!d) return '—';
+  try { return new Date(d).toLocaleString('en-IN',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit',hour12:true}); }
+  catch(_){ return d; }
+}
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function capitalize(s) { return s ? s.charAt(0).toUpperCase()+s.slice(1) : '—'; }
+function svcIcon(t) { return {flight:'✈️',hotel:'🏨',package:'🧳',bus:'🚌',cab:'🚖'}[t]||'📦'; }
+function statusIcon(s) { return {confirmed:'✅',processing:'⚙️',completed:'🎉',cancelled:'❌',refunded:'💰',pending:'⏳'}[s]||'🔄'; }
+function sanitizePhone(p) {
+  let ph = String(p||'').replace(/\D/g,'');
+  if (ph.length===10) ph='91'+ph;
+  return ph||WA_NUMBER;
+}
+function timeAgo(d) {
+  if (!d) return '';
+  const mins = Math.round((Date.now()-new Date(d))/60000);
+  if (mins < 1)   return 'just now';
+  if (mins < 60)  return `${mins}m ago`;
+  if (mins < 1440)return `${Math.floor(mins/60)}h ago`;
+  return `${Math.floor(mins/1440)}d ago`;
+}
+function showToast(msg, type='success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.background = type==='error' ? '#ef4444' : 'var(--dark)';
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 3000);
+}
+
+// ── Realtime ───────────────────────────────────────────────
+supabase.channel('workflow-changes')
+  .on('postgres_changes',{event:'*',schema:'public',table:'bookings'}, ()=>loadAll())
+  .subscribe();
+
+// ── Logout ─────────────────────────────────────────────────
+window.handleLogout = async () => { await supabase.auth.signOut(); window.location.href='admin-login.html'; };
+
+// ── Init ───────────────────────────────────────────────────
+(async()=>{ const ok=await checkAuth(); if(ok) await loadAll(); })();
+</script>
+</body>
+</html>

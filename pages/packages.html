@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"/>
+  <link rel="shortcut icon" href="/assets/favicon.svg"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Tour Packages — ZoomFly</title>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--primary:#0057FF;--primary-dark:#0041CC;--primary-light:#EEF3FF;--accent:#FF6B35;--text:#111827;--text-muted:#6B7280;--text-light:#9CA3AF;--bg:#F9FAFB;--bg-white:#fff;--border:#E5E7EB;--success:#059669;--shadow-sm:0 1px 3px rgba(0,0,0,.07);--shadow:0 4px 12px rgba(0,0,0,.08);--shadow-lg:0 12px 32px rgba(0,0,0,.12);--r:14px;--r2:8px;--font:'Segoe UI',system-ui,sans-serif}
+    body{font-family:var(--font);background:var(--bg);color:var(--text)}
+    a{text-decoration:none;color:inherit}
+    nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px}
+    .logo{font-size:1.5rem;font-weight:800;color:var(--primary)}.logo span{color:var(--accent)}
+    .nav-links{display:flex;gap:2rem;align-items:center}
+    .nav-links a{font-size:.875rem;color:var(--text-muted);font-weight:500;transition:color .2s}
+    .nav-links a:hover,.nav-links a.active{color:var(--primary)}
+    .nav-cta{background:var(--primary);color:white!important;padding:.5rem 1.25rem;border-radius:50px;font-weight:600}
+    .breadcrumb{padding:.75rem 2rem;font-size:.8rem;color:var(--text-muted);max-width:1280px;margin:0 auto}
+    .breadcrumb a{color:var(--primary)}
+    .page-hero{background:linear-gradient(135deg,var(--primary-light),#fff 70%);padding:2.5rem 2rem 2rem;text-align:center;border-bottom:1px solid var(--border)}
+    .page-hero h1{font-size:2.4rem;font-weight:800;letter-spacing:-1px}.page-hero h1 em{font-style:normal;color:var(--primary)}
+    .page-hero p{color:var(--text-muted);margin-top:.5rem}
+    .search-wrap{max-width:540px;margin:1.5rem auto 0;position:relative}
+    .search-wrap input{width:100%;padding:.85rem 3rem .85rem 1.2rem;border:1.5px solid var(--border);border-radius:50px;font-size:.95rem;font-family:var(--font);background:white;box-shadow:var(--shadow-sm);transition:border-color .2s}
+    .search-wrap input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(0,87,255,.1)}
+    .search-wrap .si{position:absolute;right:1.1rem;top:50%;transform:translateY(-50%);font-size:1.1rem;pointer-events:none}
+    .layout{max-width:1280px;margin:0 auto;padding:2rem;display:grid;grid-template-columns:260px 1fr;gap:2rem;align-items:start}
+    .sidebar{position:sticky;top:80px}
+    .filter-card{background:white;border:1px solid var(--border);border-radius:var(--r);padding:1.5rem;box-shadow:var(--shadow-sm)}
+    .fhdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem}
+    .fhdr h3{font-size:1rem;font-weight:700}
+    .freset{font-size:.8rem;color:var(--primary);font-weight:600;border:none;background:none;cursor:pointer}
+    .fsec{margin-bottom:1.5rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border)}
+    .fsec:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+    .fsec h4{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text-light);margin-bottom:.85rem}
+    .pill-g{display:flex;flex-wrap:wrap;gap:.45rem}
+    .pill{padding:.3rem .75rem;border:1.5px solid var(--border);border-radius:50px;font-size:.75rem;font-weight:500;color:var(--text-muted);cursor:pointer;transition:all .15s;user-select:none}
+    .pill:hover{border-color:var(--primary);color:var(--primary)}
+    .pill.active{background:var(--primary-light);border-color:var(--primary);color:var(--primary);font-weight:700}
+    .range-labels{display:flex;justify-content:space-between;font-size:.72rem;color:var(--text-muted);margin-bottom:.4rem}
+    input[type=range]{width:100%;accent-color:var(--primary)}
+    .range-val{text-align:center;font-size:.875rem;font-weight:700;color:var(--primary);margin-top:.4rem}
+    .results-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;flex-wrap:wrap;gap:.75rem}
+    .results-count{font-size:.875rem;color:var(--text-muted)}
+    .results-count strong{color:var(--text)}
+    .sort-sel{padding:.5rem 2rem .5rem .85rem;border:1.5px solid var(--border);border-radius:var(--r2);font-size:.85rem;font-family:var(--font);color:var(--text);background:white url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236B7280' d='M6 8L1 3h10z'/%3E%3C/svg%3E") no-repeat right .7rem center;appearance:none;cursor:pointer}
+    .pkg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(285px,1fr));gap:1.25rem}
+    .pkg-card{background:white;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;cursor:pointer;box-shadow:var(--shadow-sm);transition:box-shadow .25s,transform .25s;display:flex;flex-direction:column}
+    .pkg-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-4px)}
+    .pkg-thumb{height:190px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:5rem}
+    .thumb-em{transition:transform .4s}
+    .pkg-card:hover .thumb-em{transform:scale(1.1)}
+    .pkg-badge{position:absolute;top:.75rem;left:.75rem;padding:.25rem .65rem;border-radius:50px;font-size:.7rem;font-weight:700}
+    .badge-bestseller{background:var(--accent);color:white}
+    .badge-trending{background:#7C3AED;color:white}
+    .badge-new{background:var(--success);color:white}
+    .badge-international{background:var(--primary);color:white}
+    .badge-sale{background:#DC2626;color:white}
+    .pkg-wish{position:absolute;top:.75rem;right:.75rem;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.9);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:all .2s}
+    .pkg-wish:hover{background:white;transform:scale(1.1)}
+    .pkg-body{padding:1.1rem;flex:1;display:flex;flex-direction:column}
+    .pkg-tags{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.5rem}
+    .pkg-tag{font-size:.68rem;font-weight:600;padding:.2rem .5rem;background:var(--primary-light);color:var(--primary);border-radius:4px}
+    .pkg-title{font-size:1rem;font-weight:700;margin-bottom:.3rem}
+    .pkg-desc{font-size:.8rem;color:var(--text-muted);line-height:1.55;margin-bottom:.85rem;flex:1}
+    .pkg-footer{border-top:1px solid var(--border);padding-top:.85rem;display:flex;align-items:center;justify-content:space-between}
+    .pkg-price .lbl{font-size:.68rem;color:var(--text-muted)}
+    .pkg-price .amt{font-size:1.3rem;font-weight:800;color:var(--primary)}
+    .pkg-price .old{font-size:.75rem;color:var(--text-light);text-decoration:line-through}
+    .pkg-rating{font-size:.8rem;font-weight:600;display:flex;align-items:center;gap:.3rem}
+    .star{color:#F59E0B}
+    .btn-view{width:100%;margin-top:.75rem;padding:.6rem;border:none;border-radius:var(--r2);background:var(--primary);color:white;font-size:.875rem;font-weight:600;cursor:pointer;transition:background .2s}
+    .btn-view:hover{background:var(--primary-dark)}
+    .no-results{text-align:center;padding:4rem 1rem;color:var(--text-muted)}
+    .no-results .icon{font-size:3rem;margin-bottom:1rem}
+    /* LOADING */
+    .loading{text-align:center;padding:4rem;color:var(--text-muted)}
+    .spinner{display:inline-block;width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--primary);border-radius:50%;animation:spin .7s linear infinite;margin-bottom:1rem}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    /* MODAL */
+    .modal-ov{display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.55);align-items:flex-start;justify-content:center;padding:2rem 1rem;overflow-y:auto}
+    .modal-ov.open{display:flex}
+    .modal{background:white;border-radius:var(--r);width:100%;max-width:700px;box-shadow:var(--shadow-lg);animation:mIn .3s ease;margin:auto}
+    @keyframes mIn{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+    .m-thumb{height:240px;border-radius:var(--r) var(--r) 0 0;display:flex;align-items:center;justify-content:center;font-size:7rem;position:relative}
+    .m-close{position:absolute;top:1rem;right:1rem;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.9);border:none;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center}
+    .m-body{padding:1.75rem}
+    .m-body h2{font-size:1.6rem;font-weight:800;margin-bottom:.5rem}
+    .m-meta{display:flex;gap:1rem;flex-wrap:wrap;font-size:.85rem;color:var(--text-muted);margin-bottom:1.25rem}
+    .sec-title{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text-light);margin:1.25rem 0 .75rem}
+    .itinerary{list-style:none;border-left:2px solid var(--border);padding-left:1.25rem}
+    .itinerary li{position:relative;padding:.5rem 0;font-size:.875rem;color:var(--text-muted)}
+    .itinerary li::before{content:'';position:absolute;left:-1.45rem;top:50%;transform:translateY(-50%);width:10px;height:10px;border-radius:50%;background:var(--primary);border:2px solid white;box-shadow:0 0 0 1.5px var(--primary)}
+    .itinerary li strong{display:block;font-weight:700;color:var(--text);font-size:.875rem}
+    .inc-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+    .inc-item{display:flex;align-items:center;gap:.4rem;font-size:.8rem;color:var(--text-muted)}
+    .m-footer{padding:1.25rem 1.75rem;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+    .m-price .amt{font-size:1.75rem;font-weight:800;color:var(--primary)}
+    .m-price .per{font-size:.78rem;color:var(--text-muted)}
+    .m-cta{display:flex;gap:.75rem}
+    .btn-book{padding:.75rem 2rem;background:var(--accent);color:white;border:none;border-radius:50px;font-size:.95rem;font-weight:700;cursor:pointer;transition:background .2s}
+    .btn-book:hover{background:#e55a25}
+    .btn-wa-m{padding:.75rem 1.25rem;background:#25D366;color:white;border:none;border-radius:50px;font-size:.875rem;font-weight:600;cursor:pointer}
+    .btn-wa-m:hover{background:#1db954}
+    footer{background:#111827;color:#9CA3AF;padding:2rem;text-align:center;font-size:.825rem;margin-top:3rem}
+    footer strong{color:white}
+    @media(max-width:900px){.layout{grid-template-columns:1fr}.sidebar{position:static}.nav-links{display:none}}
+  </style>
+  <script>
+    window.SUPABASE_URL="https://ndaurluolurdljrjbxii.supabase.co";
+    window.SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kYXVybHVvbHVyZGxqcmpieGlpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MDY2MzksImV4cCI6MjA5MzQ4MjYzOX0.JsZXOof19JkyX7asJQ7EtoaBKqURJUYzVqXQIenCzjQ";
+    window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/);return m?m[1]:null;};
+  </script>
+</head>
+<body>
+<nav>
+  <a href="../index.html" class="logo">Zoom<span>Fly</span> ✈</a>
+  <div class="nav-links">
+    <a href="packages.html" class="active">Packages</a><a href="flights.html">Flights</a>
+    <a href="hotels.html">Hotels</a><a href="bus.html">Bus</a><a href="about.html">About</a>
+    <a href="contact.html" class="nav-cta">Get a Quote</a>
+  </div>
+</nav>
+<div class="breadcrumb"><a href="../index.html">Home</a> › Tour Packages</div>
+<div class="page-hero">
+  <h1>Our <em>Tour Packages</em></h1>
+  <p>200+ handcrafted itineraries — from quick weekend escapes to 14-day international holidays</p>
+  <div class="search-wrap"><input type="text" id="search-inp" placeholder="Search destinations, packages..."/><span class="si">🔍</span></div>
+</div>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="filter-card">
+      <div class="fhdr"><h3>🔧 Filters</h3><button class="freset" id="reset-btn">Reset All</button></div>
+      <div class="fsec"><h4>Trip Type</h4><div class="pill-g" id="f-type"><span class="pill active" data-v="all">All</span><span class="pill" data-v="domestic">🇮🇳 Domestic</span><span class="pill" data-v="international">✈ International</span></div></div>
+      <div class="fsec"><h4>Category</h4><div class="pill-g" id="f-cat"><span class="pill active" data-v="all">All</span><span class="pill" data-v="beach">🏖 Beach</span><span class="pill" data-v="adventure">🏔 Adventure</span><span class="pill" data-v="nature">🌿 Nature</span><span class="pill" data-v="heritage">🏰 Heritage</span><span class="pill" data-v="honeymoon">💑 Honeymoon</span><span class="pill" data-v="wildlife">🦁 Wildlife</span><span class="pill" data-v="spiritual">🕌 Spiritual</span></div></div>
+      <div class="fsec"><h4>Duration</h4><div class="pill-g" id="f-dur"><span class="pill active" data-v="all">All</span><span class="pill" data-v="short">Upto 4 Days</span><span class="pill" data-v="medium">5–7 Days</span><span class="pill" data-v="long">8+ Days</span></div></div>
+      <div class="fsec"><h4>Max Budget (per person)</h4><div class="range-labels"><span>₹5,000</span><span>₹75,000+</span></div><input type="range" id="budget-r" min="5000" max="75000" step="1000" value="75000"/><div class="range-val" id="budget-lbl">No limit</div></div>
+      <div class="fsec"><h4>Rating</h4><div class="pill-g" id="f-rating"><span class="pill active" data-v="all">All</span><span class="pill" data-v="4.5">4.5★+</span><span class="pill" data-v="4.8">4.8★+</span></div></div>
+    </div>
+  </aside>
+  <div>
+    <div class="results-hdr">
+      <div class="results-count" id="res-count">Loading packages...</div>
+      <select class="sort-sel" id="sort-sel"><option value="popular">Most Popular</option><option value="price-asc">Price: Low → High</option><option value="price-desc">Price: High → Low</option><option value="rating">Highest Rated</option><option value="duration-asc">Duration: Shortest</option></select>
+    </div>
+    <div id="pkg-grid" class="pkg-grid">
+      <div class="loading" style="grid-column:1/-1"><div class="spinner"></div><p>Loading packages...</p></div>
+    </div>
+    <div class="no-results" id="no-res" style="display:none"><div class="icon">🔍</div><h3>No packages found</h3><p>Try adjusting your filters.</p></div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-ov" id="modal-ov">
+  <div class="modal" id="modal">
+    <div class="m-thumb" id="m-thumb"></div>
+    <div class="m-body" id="m-body"></div>
+    <div class="m-footer" id="m-footer"></div>
+  </div>
+</div>
+
+<footer><p><strong>ZoomFly</strong> — India's Trusted Travel Partner Since 2018</p><p style="margin-top:.5rem">© 2025 ZoomFly · hello@zoomfly.in</p></footer>
+
+<script type="module">
+import { getPackages, addToWishlist, removeFromWishlist, getWishlist, getUser } from '../assets/js/supabase.js';
+
+let allPkgs = [], wishlistIds = new Set();
+let filters = { type:'all', cat:'all', dur:'all', budget:75000, rating:'all' };
+let searchTerm = '';
+
+// Load packages from Supabase
+// Static fallback packages
+const STATIC_PACKAGES = [
+  {id:'manali-snow-escape',title:'Manali Snow Escape',type:'domestic',category:'adventure',emoji:'🏔️',bg_gradient:'linear-gradient(135deg,#667eea,#764ba2)',badge:'bestseller',badge_label:'Best Seller',duration_days:6,nights:5,price:12499,old_price:14999,rating:4.9,review_count:312,is_active:true,tags:['Himachal Pradesh','Adventure','Snow'],description:'Snow, adventure & mountain magic in the lap of the Himalayas.',inclusions:['Hotel Stay','Breakfast & Dinner','Sightseeing','Airport Transfers','Travel Insurance']},
+  {id:'goa-beach-bliss',title:'Goa Beach Bliss',type:'domestic',category:'beach',emoji:'🏖️',bg_gradient:'linear-gradient(135deg,#f6d365,#fda085)',badge:'trending',badge_label:'Trending',duration_days:5,nights:4,price:8999,old_price:10999,rating:4.8,review_count:541,is_active:true,tags:['Goa','Beach','Party'],description:'Sun, sand & sunsets — Goa at its vibrant best.',inclusions:['4-Star Hotel','Breakfast','Airport Transfers','North & South Goa Tour','Water Sports Pass']},
+  {id:'kerala-backwaters',title:'Kerala Backwaters',type:'domestic',category:'nature',emoji:'🌴',bg_gradient:'linear-gradient(135deg,#43e97b,#38f9d7)',badge:'new',badge_label:'New',duration_days:7,nights:6,price:15499,old_price:18999,rating:4.9,review_count:278,is_active:true,tags:['Kerala','Nature','Houseboat'],description:"God's Own Country — backwaters, beaches & wildlife.",inclusions:['Hotels & Houseboat','All Meals on Houseboat','Sightseeing','Airport Transfers','Kathakali Show']},
+  {id:'rajasthan-royal-tour',title:'Rajasthan Royal Tour',type:'domestic',category:'heritage',emoji:'🏰',bg_gradient:'linear-gradient(135deg,#fa709a,#fee140)',badge:'popular',badge_label:'Popular',duration_days:8,nights:7,price:18999,old_price:22999,rating:4.7,review_count:189,is_active:true,tags:['Rajasthan','Heritage','Culture'],description:'Forts, palaces & golden deserts of Royal Rajasthan.',inclusions:['Heritage Hotels','Breakfast & Dinner','AC Vehicle','Camel Safari','Entrance Fees']},
+  {id:'bangkok-explorer',title:'Bangkok Explorer',type:'international',category:'international',emoji:'🗼',bg_gradient:'linear-gradient(135deg,#4facfe,#00f2fe)',badge:'international',badge_label:'International',duration_days:6,nights:5,price:32999,old_price:38999,rating:4.8,review_count:423,is_active:true,tags:['Thailand','International','City'],description:'Temples, street food & islands — Bangkok & beyond.',inclusions:['4-Star Hotel','Breakfast','Return Flights','Visa Assistance','City Tour','Island Hopping']},
+  {id:'bali-romance',title:'Bali Romance Package',type:'international',category:'honeymoon',emoji:'🌸',bg_gradient:'linear-gradient(135deg,#a18cd1,#fbc2eb)',badge:'honeymoon',badge_label:'Honeymoon',duration_days:7,nights:6,price:55999,old_price:64999,rating:5.0,review_count:167,is_active:true,tags:['Bali','Honeymoon','Luxury'],description:'Private pool villas, couples spa & Bali magic.',inclusions:['Private Pool Villa','All Meals','Return Flights','Airport Transfers','Couples Spa','Sunset Dinner']},
+  {id:'andaman-island-escape',title:'Andaman Island Escape',type:'domestic',category:'beach',emoji:'🐠',bg_gradient:'linear-gradient(135deg,#a1c4fd,#c2e9fb)',badge:'popular',badge_label:'Popular',duration_days:6,nights:5,price:19999,old_price:24999,rating:4.8,review_count:203,is_active:true,tags:['Andaman','Beach','Diving'],description:'Crystal-clear waters & coral reefs of the Andamans.',inclusions:['Hotel & Resort','Breakfast','Flights from Chennai','Ferry Tickets','Scuba Diving','Glass Bottom Boat']},
+  {id:'darjeeling-tea-trails',title:'Darjeeling Tea Trails',type:'domestic',category:'nature',emoji:'🍵',bg_gradient:'linear-gradient(135deg,#43e97b,#38f9d7)',badge:'new',badge_label:'New',duration_days:5,nights:4,price:10499,old_price:12999,rating:4.6,review_count:142,is_active:true,tags:['West Bengal','Nature','Tea'],description:'Toy trains, tea gardens & Himalayan sunrises.',inclusions:['Boutique Tea Estate Hotel','All Meals','Toy Train Ride','Tea Tasting','Sightseeing']},
+];
+
+async function loadPackages() {
+  try {
+    allPkgs = await getPackages();
+    if (!allPkgs || !allPkgs.length) allPkgs = STATIC_PACKAGES;
+    const user = await getUser();
+    if (user) {
+      const wl = await getWishlist();
+      wl.forEach(p => wishlistIds.add(p.id));
+    }
+    applyFilters();
+  } catch(e) {
+    allPkgs = STATIC_PACKAGES;
+    applyFilters();
+  }
+}
+
+function applyFilters() {
+  let res = allPkgs.filter(p => {
+    if (filters.type !== 'all' && p.type !== filters.type) return false;
+    if (filters.cat !== 'all' && p.category !== filters.cat) return false;
+    if (filters.dur === 'short' && p.duration_days > 4) return false;
+    if (filters.dur === 'medium' && (p.duration_days < 5 || p.duration_days > 7)) return false;
+    if (filters.dur === 'long' && p.duration_days < 8) return false;
+    if (p.price > filters.budget) return false;
+    if (filters.rating !== 'all' && p.rating < parseFloat(filters.rating)) return false;
+    if (searchTerm && !p.title.toLowerCase().includes(searchTerm) && !p.description?.toLowerCase().includes(searchTerm) && !p.tags?.some(t=>t.toLowerCase().includes(searchTerm))) return false;
+    return true;
+  });
+  const sort = document.getElementById('sort-sel').value;
+  if (sort === 'price-asc') res.sort((a,b) => a.price-b.price);
+  else if (sort === 'price-desc') res.sort((a,b) => b.price-a.price);
+  else if (sort === 'rating') res.sort((a,b) => b.rating-a.rating);
+  else if (sort === 'duration-asc') res.sort((a,b) => a.duration_days-b.duration_days);
+  else res.sort((a,b) => b.review_count-a.review_count);
+  renderCards(res);
+}
+
+function renderCards(data) {
+  const grid = document.getElementById('pkg-grid');
+  const noRes = document.getElementById('no-res');
+  const count = document.getElementById('res-count');
+  if (!data.length) { grid.style.display='none'; noRes.style.display='block'; count.textContent='No packages found'; return; }
+  grid.style.display='grid'; noRes.style.display='none';
+  count.innerHTML = `Showing <strong>${data.length}</strong> package${data.length!==1?'s':''}`;
+  grid.innerHTML = data.map(p => {
+    const liked = wishlistIds.has(p.id);
+    const tags = (p.tags||[]).slice(0,3);
+    const badgeClass = p.badge ? `badge-${p.badge}` : '';
+    return `
+    <div class="pkg-card" onclick="openModal('${p.id}')">
+      <div class="pkg-thumb" style="background:${p.bg_gradient||'linear-gradient(135deg,#667eea,#764ba2)'}">
+        <span class="thumb-em">${p.emoji||'🗺️'}</span>
+        ${p.badge?`<span class="pkg-badge ${badgeClass}">${p.badge_label||p.badge}</span>`:''}
+        <button class="pkg-wish ${liked?'liked':''}" onclick="toggleWish(event,'${p.id}')" title="Save">${liked?'❤️':'🤍'}</button>
+      </div>
+      <div class="pkg-body">
+        <div class="pkg-tags">${tags.map(t=>`<span class="pkg-tag">${t}</span>`).join('')}</div>
+        <div class="pkg-title">${p.title}</div>
+        <div class="pkg-desc">${p.description||''}</div>
+        <div class="pkg-footer">
+          <div class="pkg-price"><div class="lbl">From</div><div class="amt">₹${Number(p.price).toLocaleString('en-IN')}</div><div class="old">₹${Number(p.old_price||p.price).toLocaleString('en-IN')}</div></div>
+          <div class="pkg-rating"><span class="star">★</span>${p.rating} <span style="font-size:.7rem;color:var(--text-light)">(${p.review_count})</span></div>
+        </div>
+        <button class="btn-view" onclick="openModal('${p.id}')">View Details →</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// Wishlist toggle
+window.toggleWish = async (e, id) => {
+  e.stopPropagation();
+  try {
+    const user = await getUser();
+    if (!user) { window.location.href = 'login.html'; return; }
+    if (wishlistIds.has(id)) { await removeFromWishlist(id); wishlistIds.delete(id); }
+    else { await addToWishlist(id); wishlistIds.add(id); }
+    applyFilters();
+  } catch(err) { alert(err.message); }
+};
+
+// Modal
+window.openModal = (id) => {
+  const p = allPkgs.find(x => x.id === id); if(!p) return;
+  const itin = Array.isArray(p.itinerary) ? p.itinerary : (typeof p.itinerary === 'string' ? JSON.parse(p.itinerary) : []);
+  document.getElementById('m-thumb').style.background = p.bg_gradient||'linear-gradient(135deg,#667eea,#764ba2)';
+  document.getElementById('m-thumb').innerHTML = `<button class="m-close" onclick="closeModal()">✕</button><span style="font-size:7rem">${p.emoji||'🗺️'}</span>`;
+  document.getElementById('m-body').innerHTML = `
+    <h2>${p.title}</h2>
+    <div class="m-meta"><span>📅 ${p.duration_days} Days / ${p.nights} Nights</span><span>⭐ ${p.rating} (${p.review_count} reviews)</span><span>🗺 ${p.type==='international'?'International':'Domestic'}</span></div>
+    <p style="font-size:.875rem;color:var(--text-muted);line-height:1.65">${p.description||''}</p>
+    ${itin.length?`<div class="sec-title">Itinerary</div><ul class="itinerary">${itin.map(d=>`<li><strong>${d.day}: ${d.title}</strong>${d.desc}</li>`).join('')}</ul>`:''}
+    ${(p.inclusions||[]).length?`<div class="sec-title">What's Included</div><div class="inc-grid">${p.inclusions.map(i=>`<div class="inc-item"><span style="color:var(--success)">✓</span>${i}</div>`).join('')}</div>`:''}
+    ${(p.exclusions||[]).length?`<div class="sec-title">Not Included</div><div class="inc-grid">${p.exclusions.map(i=>`<div class="inc-item"><span style="color:#DC2626">✗</span>${i}</div>`).join('')}</div>`:''}`;
+  document.getElementById('m-footer').innerHTML = `
+    <div class="m-price"><div class="amt">₹${Number(p.price).toLocaleString('en-IN')}</div><div class="per">/person <s style="color:var(--text-light)">₹${Number(p.old_price||p.price).toLocaleString('en-IN')}</s></div></div>
+    <div class="m-cta">
+      <button class="btn-wa-m" onclick="window.open('https://wa.me/918076136300?text=Hi!+Interested+in+${encodeURIComponent(p.title)}','_blank')">💬 WhatsApp</button>
+      <button class="btn-book" onclick="window.location.href='/pages/payment.html?type=package&name=${encodeURIComponent(p.title)}&emoji=${encodeURIComponent(p.emoji||'🗺️')}&amount=${p.price}&nights=${p.nights||5}N'">Book Now →</button>
+    </div>`;
+  document.getElementById('modal-ov').classList.add('open');
+  document.body.style.overflow='hidden';
+};
+window.closeModal = () => { document.getElementById('modal-ov').classList.remove('open'); document.body.style.overflow=''; };
+document.getElementById('modal-ov').addEventListener('click', e => { if(e.target===document.getElementById('modal-ov')) window.closeModal(); });
+document.addEventListener('keydown', e => { if(e.key==='Escape') window.closeModal(); });
+
+// Pill filters
+const setupPills = (gid, key) => {
+  document.getElementById(gid).querySelectorAll('.pill').forEach(p => {
+    p.addEventListener('click', () => {
+      document.getElementById(gid).querySelectorAll('.pill').forEach(x=>x.classList.remove('active'));
+      p.classList.add('active'); filters[key] = p.dataset.v; applyFilters();
+    });
+  });
+};
+setupPills('f-type','type'); setupPills('f-cat','cat'); setupPills('f-dur','dur'); setupPills('f-rating','rating');
+
+document.getElementById('budget-r').addEventListener('input', e => {
+  filters.budget = parseInt(e.target.value);
+  document.getElementById('budget-lbl').textContent = filters.budget>=75000?'No limit':`Up to ₹${filters.budget.toLocaleString('en-IN')}`;
+  applyFilters();
+});
+
+document.getElementById('sort-sel').addEventListener('change', applyFilters);
+document.getElementById('search-inp').addEventListener('input', e => { searchTerm=e.target.value.toLowerCase(); applyFilters(); });
+
+document.getElementById('reset-btn').addEventListener('click', () => {
+  filters = { type:'all', cat:'all', dur:'all', budget:75000, rating:'all' };
+  searchTerm = '';
+  document.getElementById('search-inp').value='';
+  document.getElementById('budget-r').value=75000;
+  document.getElementById('budget-lbl').textContent='No limit';
+  document.querySelectorAll('.pill').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('#f-type .pill[data-v="all"],#f-cat .pill[data-v="all"],#f-dur .pill[data-v="all"],#f-rating .pill[data-v="all"]').forEach(p=>p.classList.add('active'));
+  document.getElementById('sort-sel').value='popular';
+  applyFilters();
+});
+
+loadPackages();
+</script>
+</body>
+</html>

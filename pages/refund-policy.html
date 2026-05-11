@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Refund & Cancellation Policy — ZoomFly</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✈️</text></svg>"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --primary: #1a73e8;
+      --primary-dark: #1557b0;
+      --accent: #ff6b35;
+      --dark: #0f1923;
+      --dark2: #1a2535;
+      --text: #2d3748;
+      --text-light: #64748b;
+      --border: #e2e8f0;
+      --bg: #f8fafc;
+      --white: #ffffff;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.8; }
+
+    nav { background: var(--dark); padding: 0 5%; display: flex; align-items: center; justify-content: space-between; height: 68px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 20px rgba(0,0,0,0.3); }
+    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .logo-icon { width: 38px; height: 38px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+    .logo-text { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--white); font-weight: 700; }
+    .logo-text span { color: var(--accent); }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a { color: rgba(255,255,255,0.75); text-decoration: none; font-size: 0.88rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--white); }
+    .nav-cta { background: var(--accent); color: var(--white) !important; padding: 8px 20px; border-radius: 8px; font-weight: 600 !important; }
+
+    .page-hero { background: linear-gradient(135deg, #0f1923 0%, #1a2535 60%, #1f1a35 100%); padding: 72px 5% 60px; position: relative; overflow: hidden; }
+    .page-hero::before { content: ''; position: absolute; top: -60px; right: -60px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(255,107,53,0.15) 0%, transparent 70%); border-radius: 50%; }
+    .page-hero::after { content: ''; position: absolute; bottom: -40px; left: 10%; width: 200px; height: 200px; background: radial-gradient(circle, rgba(26,115,232,0.1) 0%, transparent 70%); border-radius: 50%; }
+    .breadcrumb { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; font-size: 0.82rem; color: rgba(255,255,255,0.5); }
+    .breadcrumb a { color: rgba(255,255,255,0.5); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--accent); }
+    .page-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3rem); color: var(--white); font-weight: 700; line-height: 1.2; margin-bottom: 16px; }
+    .page-hero h1 span { background: linear-gradient(90deg, var(--accent), #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero-meta { display: flex; gap: 24px; flex-wrap: wrap; }
+    .hero-meta-item { display: flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.6); font-size: 0.85rem; }
+    .hero-meta-item .dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; }
+
+    /* quick nav pills */
+    .quick-nav { background: var(--white); border-bottom: 1px solid var(--border); padding: 16px 5%; display: flex; gap: 10px; flex-wrap: wrap; position: sticky; top: 68px; z-index: 90; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+    .quick-pill { padding: 6px 16px; background: var(--bg); border: 1px solid var(--border); border-radius: 20px; font-size: 0.8rem; font-weight: 500; color: var(--text-light); text-decoration: none; transition: all 0.2s; white-space: nowrap; }
+    .quick-pill:hover { background: var(--primary); color: var(--white); border-color: var(--primary); }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 60px 5%; display: grid; grid-template-columns: 260px 1fr; gap: 48px; align-items: start; }
+
+    .toc { position: sticky; top: 120px; background: var(--white); border-radius: 16px; border: 1px solid var(--border); padding: 28px; box-shadow: 0 4px 24px rgba(0,0,0,0.06); }
+    .toc-title { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-light); margin-bottom: 16px; }
+    .toc ul { list-style: none; }
+    .toc ul li { margin-bottom: 4px; }
+    .toc ul li a { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 8px; color: var(--text-light); text-decoration: none; font-size: 0.83rem; transition: all 0.2s; line-height: 1.4; }
+    .toc ul li a:hover, .toc ul li a.active { background: rgba(255,107,53,0.08); color: var(--accent); font-weight: 500; }
+    .toc ul li a::before { content: ''; width: 4px; height: 4px; background: var(--border); border-radius: 50%; flex-shrink: 0; transition: background 0.2s; }
+    .toc ul li a:hover::before, .toc ul li a.active::before { background: var(--accent); }
+    .toc-cta { margin-top: 20px; background: linear-gradient(135deg, var(--accent), #f59e0b); border-radius: 10px; padding: 16px; text-align: center; }
+    .toc-cta p { color: var(--white); font-size: 0.82rem; font-weight: 500; margin: 0 0 10px !important; }
+    .toc-cta a { display: inline-block; background: var(--white); color: var(--accent); font-size: 0.8rem; font-weight: 700; padding: 7px 16px; border-radius: 20px; text-decoration: none; }
+
+    .content { min-width: 0; }
+
+    /* refund timeline hero */
+    .timeline-hero { background: var(--white); border-radius: 16px; border: 1px solid var(--border); padding: 36px 40px; margin-bottom: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.04); }
+    .timeline-hero h2 { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--dark); margin-bottom: 8px; }
+    .timeline-hero p { color: var(--text-light); font-size: 0.9rem; margin-bottom: 28px; }
+    .timeline { display: flex; position: relative; gap: 0; }
+    .timeline::before { content: ''; position: absolute; top: 28px; left: 28px; right: 28px; height: 3px; background: linear-gradient(90deg, #22c55e, #f59e0b, var(--accent), #ef4444); border-radius: 2px; z-index: 0; }
+    .timeline-step { flex: 1; display: flex; flex-direction: column; align-items: center; position: relative; z-index: 1; }
+    .timeline-dot { width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; border: 3px solid var(--white); box-shadow: 0 2px 12px rgba(0,0,0,0.15); margin-bottom: 12px; }
+    .dot-green { background: #22c55e; }
+    .dot-yellow { background: #f59e0b; }
+    .dot-orange { background: var(--accent); }
+    .dot-red { background: #ef4444; }
+    .timeline-step .t-label { font-size: 0.78rem; font-weight: 700; color: var(--text); text-align: center; margin-bottom: 4px; }
+    .timeline-step .t-sub { font-size: 0.72rem; color: var(--text-light); text-align: center; line-height: 1.4; }
+
+    .section { background: var(--white); border-radius: 16px; border: 1px solid var(--border); padding: 40px; margin-bottom: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.04); animation: fadeUp 0.5s ease both; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+    .section:nth-child(2){animation-delay:.05s}.section:nth-child(3){animation-delay:.1s}.section:nth-child(4){animation-delay:.15s}.section:nth-child(5){animation-delay:.2s}.section:nth-child(6){animation-delay:.25s}.section:nth-child(7){animation-delay:.3s}.section:nth-child(8){animation-delay:.35s}.section:nth-child(9){animation-delay:.4s}.section:nth-child(10){animation-delay:.45s}
+
+    .section-header { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 22px; padding-bottom: 18px; border-bottom: 1px solid var(--border); }
+    .section-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+    .icon-blue{background:rgba(26,115,232,0.1)} .icon-orange{background:rgba(255,107,53,0.1)} .icon-green{background:rgba(34,197,94,0.1)} .icon-purple{background:rgba(139,92,246,0.1)} .icon-red{background:rgba(239,68,68,0.1)} .icon-teal{background:rgba(20,184,166,0.1)} .icon-yellow{background:rgba(234,179,8,0.1)}
+    .section-title-wrap h2 { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 600; color: var(--dark); line-height: 1.3; }
+    .section-title-wrap .section-num { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); margin-bottom: 4px; }
+
+    .section p { color: var(--text-light); font-size: 0.93rem; margin-bottom: 14px; line-height: 1.8; }
+    .section p:last-child { margin-bottom: 0; }
+    .section ul, .section ol { padding-left: 20px; margin-bottom: 14px; }
+    .section li { color: var(--text-light); font-size: 0.93rem; margin-bottom: 8px; line-height: 1.7; }
+    .section li strong { color: var(--text); }
+
+    /* service refund cards */
+    .service-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin: 20px 0; }
+    .service-card { border-radius: 12px; border: 1px solid var(--border); overflow: hidden; }
+    .sc-header { padding: 16px 20px; display: flex; align-items: center; gap: 12px; }
+    .sc-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; background: rgba(255,255,255,0.3); }
+    .sc-title { font-weight: 700; font-size: 0.95rem; color: var(--white); }
+    .sc-body { padding: 16px 20px; }
+    .sc-row { display: flex; justify-content: space-between; align-items: flex-start; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 0.83rem; gap: 12px; }
+    .sc-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .sc-row .sc-key { color: var(--text-light); flex: 1; }
+    .sc-row .sc-val { font-weight: 600; color: var(--text); text-align: right; }
+    .sc-val.green { color: #16a34a; }
+    .sc-val.orange { color: var(--accent); }
+    .sc-val.red { color: #dc2626; }
+
+    .card-flight .sc-header { background: linear-gradient(135deg, #1a73e8, #1557b0); }
+    .card-hotel .sc-header { background: linear-gradient(135deg, #7c3aed, #5b21b6); }
+    .card-package .sc-header { background: linear-gradient(135deg, #ff6b35, #ea580c); }
+    .card-bus .sc-header { background: linear-gradient(135deg, #0891b2, #0e7490); }
+    .card-cab .sc-header { background: linear-gradient(135deg, #16a34a, #15803d); }
+
+    /* refund table */
+    .ref-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.88rem; }
+    .ref-table th { background: var(--bg); padding: 11px 14px; text-align: left; font-weight: 600; color: var(--text); border: 1px solid var(--border); font-size: 0.82rem; }
+    .ref-table td { padding: 11px 14px; border: 1px solid var(--border); color: var(--text-light); vertical-align: middle; }
+    .ref-table tr:hover td { background: rgba(255,107,53,0.02); }
+    .badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; white-space: nowrap; }
+    .badge-green { background: rgba(34,197,94,0.1); color: #166534; }
+    .badge-yellow { background: rgba(234,179,8,0.1); color: #854d0e; }
+    .badge-orange { background: rgba(255,107,53,0.1); color: #9a3412; }
+    .badge-red { background: rgba(239,68,68,0.1); color: #991b1b; }
+
+    /* process steps */
+    .process-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin: 20px 0; }
+    .process-step { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 20px; position: relative; }
+    .step-num { width: 32px; height: 32px; background: var(--accent); color: var(--white); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 700; margin-bottom: 12px; }
+    .step-title { font-weight: 600; font-size: 0.9rem; color: var(--dark); margin-bottom: 6px; }
+    .step-desc { font-size: 0.82rem; color: var(--text-light); line-height: 1.5; }
+
+    .highlight-box { background: rgba(26,115,232,0.05); border: 1px solid rgba(26,115,232,0.15); border-radius: 10px; padding: 18px 20px; margin: 18px 0; }
+    .highlight-box p { margin: 0 !important; color: var(--primary-dark) !important; font-size: 0.88rem !important; }
+    .green-box { background: rgba(34,197,94,0.06); border: 1px solid rgba(34,197,94,0.2); border-radius: 10px; padding: 18px 20px; margin: 18px 0; }
+    .green-box p { margin: 0 !important; color: #166534 !important; font-size: 0.88rem !important; }
+    .warn-box { background: rgba(255,107,53,0.06); border: 1px solid rgba(255,107,53,0.2); border-radius: 10px; padding: 18px 20px; margin: 18px 0; display: flex; gap: 12px; }
+    .warn-box p { margin: 0 !important; color: #9a3412 !important; font-size: 0.88rem !important; }
+    .red-box { background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.2); border-radius: 10px; padding: 18px 20px; margin: 18px 0; display: flex; gap: 12px; }
+    .red-box p { margin: 0 !important; color: #991b1b !important; font-size: 0.88rem !important; }
+
+    .contact-card { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 20px; }
+    .contact-item { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+    .contact-item .ci-label { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text-light); margin-bottom: 6px; }
+    .contact-item .ci-value { font-size: 0.92rem; font-weight: 500; color: var(--primary); }
+    .contact-item .ci-value a { color: var(--primary); text-decoration: none; }
+
+    footer { background: var(--dark); color: rgba(255,255,255,0.6); text-align: center; padding: 40px 5%; }
+    .footer-top { display: flex; justify-content: center; align-items: center; gap: 32px; flex-wrap: wrap; margin-bottom: 24px; }
+    .footer-top a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+    .footer-top a:hover { color: var(--accent); }
+    .footer-divider { width: 40px; height: 1px; background: rgba(255,255,255,0.15); }
+    .footer-bottom { font-size: 0.8rem; color: rgba(255,255,255,0.35); }
+
+    @media (max-width: 900px) { .container { grid-template-columns: 1fr; } .toc { display: none; } .nav-links { display: none; } .timeline { flex-wrap: wrap; gap: 16px; } .timeline::before { display: none; } }
+    @media (max-width: 600px) { .section { padding: 24px 20px; } .timeline-hero { padding: 24px 20px; } }
+  </style>
+  <script>
+    window.SUPABASE_URL="https://ndaurluolurdljrjbxii.supabase.co";
+    window.SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kYXVybHVvbHVyZGxqcmpieGlpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MDY2MzksImV4cCI6MjA5MzQ4MjYzOX0.JsZXOof19JkyX7asJQ7EtoaBKqURJUYzVqXQIenCzjQ";
+    window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/);return m?m[1]:null;};
+  </script>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">
+    <div class="logo-icon">✈️</div>
+    <div class="logo-text">Zoom<span>Fly</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="flights.html">Flights</a></li>
+    <li><a href="hotels.html">Hotels</a></li>
+    <li><a href="packages.html">Packages</a></li>
+    <li><a href="buses.html">Buses</a></li>
+    <li><a href="cabs.html">Cabs</a></li>
+    <li><a href="contact.html" class="nav-cta">Contact Us</a></li>
+  </ul>
+</nav>
+
+<div class="page-hero">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a>
+    <span>›</span>
+    <span>Refund & Cancellation Policy</span>
+  </div>
+  <h1>Refund &<br/><span>Cancellation Policy</span></h1>
+  <div class="hero-meta">
+    <div class="hero-meta-item"><div class="dot"></div>Last Updated: May 8, 2026</div>
+    <div class="hero-meta-item"><div class="dot"></div>Refunds within 5–7 Business Days</div>
+    <div class="hero-meta-item"><div class="dot"></div>24×7 Cancellation Support</div>
+  </div>
+</div>
+
+<!-- QUICK NAV PILLS -->
+<div class="quick-nav">
+  <a href="#flights" class="quick-pill">✈️ Flights</a>
+  <a href="#hotels" class="quick-pill">🏨 Hotels</a>
+  <a href="#packages" class="quick-pill">🧳 Packages</a>
+  <a href="#buses" class="quick-pill">🚌 Buses</a>
+  <a href="#cabs" class="quick-pill">🚖 Cabs</a>
+  <a href="#how-to-cancel" class="quick-pill">📋 How to Cancel</a>
+  <a href="#refund-timeline" class="quick-pill">⏱️ Refund Timeline</a>
+  <a href="#exceptions" class="quick-pill">🚫 Exceptions</a>
+  <a href="#contact" class="quick-pill">📞 Contact</a>
+</div>
+
+<div class="container">
+
+  <aside class="toc">
+    <div class="toc-title">Table of Contents</div>
+    <ul>
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#flights">Flight Cancellations</a></li>
+      <li><a href="#hotels">Hotel Cancellations</a></li>
+      <li><a href="#packages">Package Cancellations</a></li>
+      <li><a href="#buses">Bus Cancellations</a></li>
+      <li><a href="#cabs">Cab Cancellations</a></li>
+      <li><a href="#how-to-cancel">How to Cancel</a></li>
+      <li><a href="#refund-timeline">Refund Timeline</a></li>
+      <li><a href="#modifications">Modifications</a></li>
+      <li><a href="#exceptions">Exceptions & No-Refund</a></li>
+      <li><a href="#contact">Contact Support</a></li>
+    </ul>
+    <div class="toc-cta">
+      <p>Need to cancel a booking?</p>
+      <a href="https://wa.me/918076136300">WhatsApp Us Now</a>
+    </div>
+  </aside>
+
+  <main class="content">
+
+    <!-- REFUND TIMELINE VISUAL -->
+    <div class="timeline-hero" id="overview">
+      <h2>How Quickly Do You Get Your Refund?</h2>
+      <p>Refund processing time depends on the cancellation timing and payment method used.</p>
+      <div class="timeline">
+        <div class="timeline-step">
+          <div class="timeline-dot dot-green">✅</div>
+          <div class="t-label">Full Refund</div>
+          <div class="t-sub">Cancelled well within free window</div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-dot dot-yellow">⚡</div>
+          <div class="t-label">Partial Refund</div>
+          <div class="t-sub">Cancelled after free window</div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-dot dot-orange">⏳</div>
+          <div class="t-label">Low Refund</div>
+          <div class="t-sub">Cancelled close to travel date</div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-dot dot-red">🚫</div>
+          <div class="t-label">No Refund</div>
+          <div class="t-sub">No-show or non-refundable booking</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SERVICE CARDS OVERVIEW -->
+    <div class="section" style="padding: 32px 40px;" id="service-overview">
+      <div class="section-header">
+        <div class="section-icon icon-orange">📊</div>
+        <div class="section-title-wrap">
+          <div class="section-num">At a Glance</div>
+          <h2>Cancellation Summary by Service</h2>
+        </div>
+      </div>
+      <div class="service-cards">
+
+        <div class="service-card card-flight">
+          <div class="sc-header">
+            <div class="sc-icon">✈️</div>
+            <div class="sc-title">Flights</div>
+          </div>
+          <div class="sc-body">
+            <div class="sc-row"><span class="sc-key">Free Cancellation</span><span class="sc-val green">Per airline policy</span></div>
+            <div class="sc-row"><span class="sc-key">ZoomFly Fee</span><span class="sc-val orange">₹350 per pax</span></div>
+            <div class="sc-row"><span class="sc-key">Airline Charges</span><span class="sc-val orange">As applicable</span></div>
+            <div class="sc-row"><span class="sc-key">No-show</span><span class="sc-val red">No refund</span></div>
+          </div>
+        </div>
+
+        <div class="service-card card-hotel">
+          <div class="sc-header">
+            <div class="sc-icon">🏨</div>
+            <div class="sc-title">Hotels</div>
+          </div>
+          <div class="sc-body">
+            <div class="sc-row"><span class="sc-key">Free Cancellation</span><span class="sc-val green">48 hrs before check-in</span></div>
+            <div class="sc-row"><span class="sc-key">Within 48 hrs</span><span class="sc-val orange">1 night charge</span></div>
+            <div class="sc-row"><span class="sc-key">No-show</span><span class="sc-val red">Full night charge</span></div>
+            <div class="sc-row"><span class="sc-key">Early Check-out</span><span class="sc-val orange">Per hotel policy</span></div>
+          </div>
+        </div>
+
+        <div class="service-card card-package">
+          <div class="sc-header">
+            <div class="sc-icon">🧳</div>
+            <div class="sc-title">Packages</div>
+          </div>
+          <div class="sc-body">
+            <div class="sc-row"><span class="sc-key">Free Cancellation</span><span class="sc-val green">Within 24 hrs of booking</span></div>
+            <div class="sc-row"><span class="sc-key">30+ days before</span><span class="sc-val green">10% fee</span></div>
+            <div class="sc-row"><span class="sc-key">15–29 days before</span><span class="sc-val orange">25% fee</span></div>
+            <div class="sc-row"><span class="sc-key">Under 15 days</span><span class="sc-val red">50% fee</span></div>
+          </div>
+        </div>
+
+        <div class="service-card card-bus">
+          <div class="sc-header">
+            <div class="sc-icon">🚌</div>
+            <div class="sc-title">Buses</div>
+          </div>
+          <div class="sc-body">
+            <div class="sc-row"><span class="sc-key">Free Cancellation</span><span class="sc-val green">6 hrs before departure</span></div>
+            <div class="sc-row"><span class="sc-key">2–6 hrs before</span><span class="sc-val orange">25% of fare</span></div>
+            <div class="sc-row"><span class="sc-key">Under 2 hrs</span><span class="sc-val red">50% of fare</span></div>
+            <div class="sc-row"><span class="sc-key">No-show</span><span class="sc-val red">No refund</span></div>
+          </div>
+        </div>
+
+        <div class="service-card card-cab">
+          <div class="sc-header">
+            <div class="sc-icon">🚖</div>
+            <div class="sc-title">Cabs & Transfers</div>
+          </div>
+          <div class="sc-body">
+            <div class="sc-row"><span class="sc-key">Free Cancellation</span><span class="sc-val green">4 hrs before pickup</span></div>
+            <div class="sc-row"><span class="sc-key">1–4 hrs before</span><span class="sc-val orange">₹300 flat fee</span></div>
+            <div class="sc-row"><span class="sc-key">Under 1 hr</span><span class="sc-val red">₹500 flat fee</span></div>
+            <div class="sc-row"><span class="sc-key">No-show</span><span class="sc-val red">No refund</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- FLIGHTS -->
+    <div class="section" id="flights">
+      <div class="section-header">
+        <div class="section-icon icon-blue">✈️</div>
+        <div class="section-title-wrap">
+          <div class="section-num">Section 01</div>
+          <h2>Flight Cancellations</h2>
+        </div>
+      </div>
+      <p>Flight cancellation and refund terms are governed primarily by the individual airline's fare rules. ZoomFly levies an additional service fee for processing cancellations.</p>
+      <table class="ref-table">
+        <thead>
+          <tr><th>Scenario</th><th>Airline Refund</th><th>ZoomFly Service Fee</th><th>Total Deduction</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Cancelled within 24 hrs of booking (7+ days before departure)</td><td>Full refund per DGCA rules</td><td>Nil</td><td><span class="badge badge-green">Nil</span></td></tr>
+          <tr><td>Cancelled before departure — Refundable fare</td><td>As per airline policy</td><td>₹350 per passenger</td><td><span class="badge badge-yellow">₹350 + airline charges</span></td></tr>
+          <tr><td>Cancelled before departure — Non-refundable fare</td><td>Taxes only (approx.)</td><td>₹350 per passenger</td><td><span class="badge badge-orange">High deduction</span></td></tr>
+          <tr><td>No-show (missed flight without cancellation)</td><td>No refund</td><td>₹350 per passenger</td><td><span class="badge badge-red">Full forfeiture</span></td></tr>
+          <tr><td>Airline cancels flight</td><td>Full refund or rebooking</td><td>Nil</td><td><span class="badge badge-green">Full refund</span></td></tr>
+          <tr><td>Flight delay over 3 hours (your choice to cancel)</td><td>Full refund per DGCA</td><td>Nil</td><td><span class="badge badge-green">Nil</span></td></tr>
+        </tbody>
+      </table>
+      <div class="highlight-box">
+        <p>ℹ️ For international flights, cancellation rules and refund amounts depend on the specific airline, fare class, and departure country. Contact ZoomFly support before cancelling international tickets.</p>
+      </div>
+      <p>Refunds for airline cancellations are processed after ZoomFly receives the refund from the airline, which may take <strong>7–21 business days</strong> depending on the airline.</p>
+    </div>
+
+    <!-- HOTELS -->
+    <div class="section" id="hotels">
+      <div class="section-header">
+        <div class="section-icon icon-purple">🏨</div>
+        <div class="section-title-wrap">
+          <div class="section-num">Section 02</div>
+          <h2>Hotel Cancellations</h2>
+        </div>
+      </div>
+      <p>Hotel cancellation policies depend on the property and room type selected. The following general terms apply to ZoomFly hotel bookings:</p>
+      <table class="ref-table">
+        <thead>
+          <tr><th>Cancellation Timing</th><th>Refund Amount</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>More than 48 hours before check-in</td><td>100% refund</td><td><span class="badge badge-green">Full Refund</span></td></tr>
+          <tr><td>24–48 hours before check-in</td><td>Refund minus 1 night's charge</td><td><span class="badge badge-yellow">Partial</span></td></tr>
+          <tr><td>Less than 24 hours before check-in</td><td>Refund minus 2 nights' charge</td><td><span class="badge badge-orange">Low Refund</span></td></tr>
+          <tr><td>No-show (no check-in, no cancellation)</td><td>No refund for first night; subsequent nights may be refunded</td><td><span class="badge badge-red">Mostly Lost</span></td></tr>
+          <tr><td>Early check-out</td><td>No refund for unused nights unless hotel agrees</td><td><span class="badge badge-red">No Refund</span></td></tr>
+          <tr><td>Non-refundable room type</td><td>No refund under any circumstance</td><td><span class="badge badge-red">No Refund</span></td></tr>
+        </tbody>
+      </table>
+      <div class="warn-box">
+        <p>⚠️ Non-refundable room rates are clearly labelled during the booking process. These rates are typically 15–30% cheaper and are ideal only if your travel plans are confirmed.</p>
+      </div>
+    </div>
+
+    <!-- PACKAGES -->
+    <div class="section" id="packages">
+      <div class="section-header">
+        <div class="section-icon icon-orange">🧳</div>
+        <div class="section-title-wrap">
+          <div class="section-num">Section 03</div>
+          <h2>Holiday Package Cancellations</h2>
+        </div>
+      </div>
+      <p>Holiday packages involve multiple bookings (flights, hotels, activities) and are therefore subject to higher cancellation fees as costs are committed to suppliers in advance.</p>
+      <table class="ref-table">
+        <thead>
+          <tr><th>Days Before Departure</th><th>Cancellation Fee</th><th>Refund %</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Within 24 hours of booking</td><td>Nil (full refund)</td><td><span class="badge badge-green">100%</span></td></tr>
+          <tr><td>30 or more days before departure</td><td>10% of total package cost</td><td><span class="badge badge-green">90%</span></td></tr>
+          <tr><td>22–29 days before departure</td><td>15% of total package cost</td><td><span class="badge badge-yellow">85%</span></td></tr>
+          <tr><td>15–21 days before departure</td><td>25% of total package cost</td><td><span class="badge badge-yellow">75%</span></td></tr>
+          <tr><td>8–14 days before departure</td><td>35% of total package cost</td><td><span class="badge badge-orange">65%</span></td></tr>
+          <tr><td>4–7 days before departure</td><td>50% of total package cost</td><td><span class="badge badge-orange">50%</span></td></tr>
+          <tr><td>Less than 3 days / No-show</td><td>100% of package cost</td><td><span class="badge badge-red">0%</span></td></tr>
+        </tbody>
+      </table>
+      <div class="green-box">
+        <p>✅ <strong>Booking Protection:</strong> If you cancel within 24 hours of making your package booking (provided departure is at least 7 days away), you receive a 100% refund — no questions asked.</p>
+      </div>
+      <p>Custom-built packages may have different cancellation terms. These will be communicated in writing at the time of booking confirmation.</p>
+    </div>
+
+    <!-- BUSES -->
+    <div class="section" id="buses">
+      <div class="section-header">
+        <div class="section-icon icon-teal">🚌</div>
+        <div class="section-title-wrap">
+          <div class="section-num">Section 04</div>
+          <h2>Bus Cancellations</h2>
+        </div>
+      </div>
+      <p>Bus booking cancellations are handled based on time remaining before scheduled departure:</p>
+      <table class="ref-table">
+        <thead>
+          <tr><th>Time Before Departure</th><th>Cancellation Fee</th><th>Refund</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>More than 6 hours</td><td>Nil</td><td><span class="badge badge-green">Full Refund</span></td></tr>
+          <tr><td>2–6 hours before departure</td><td>25% of fare</td><td><span class="badge badge-yellow">75% Refund</span></td></tr>
+          <tr><td>Less than 2 hours before departure</td><td>50% of fare</td><td><span class="badge badge-orange">50% Refund</span></td></tr>
+          <tr><td>No-show / After departure</td><td>100% of fare</td><td><span class="badge badge-red">No Refund</span></td></tr>
+          <tr><td>Operator cancels bus</td><td>Nil</td><td><span class="badge badge-green">Full Refund</span></td></tr>
+        </tbody>
+      </table>
+      <p>In case of bus operator cancellation, ZoomFly will attempt to provide an alternative bus or process a full refund within 3–5 business days.</p>
+    </div>
+
+    <!-- CABS -->
+    <div class="section" id="cabs">
+      <div class="section-header">
+        <div class="section-icon icon-green">🚖</div>
+        <div class="section-title-wrap">
+          <div class="section-num">Section 05</div>
+          <h2>Cab & Transfer Cancellations</h2>
+        </div>
+      </div>
+      <p>Cab and airport transfer bookings can be cancelled with full refund if done sufficiently in advance. Last-minute cancellations incur flat fees to compensate drivers:</p>
+      <table class="ref-table">
+        <thead>
+          <tr><th>Time Before Pickup</th><th>Cancellation Fee</th><th>Refund</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>More than 4 hours</td><td>Nil</td><td><span class="badge badge-green">Full Refund</span></td></tr>
+          <tr><td>1–4 hours before pickup</td><td>₹300 flat</td><td><span class="badge badge-yellow">Refund minus ₹300</span></td></tr>
+          <tr><td>Less than 1 hour before pickup</td><td>₹500 flat</td><td><span class="badge badge-orange">Refund minus ₹500</span></td></tr>
+          <tr><td>Driver already dispatched</td><td>50% of fare</td><td><span class="badge badge-orange">50% Refund</span></td></tr>
+          <tr><td>No-show / After pickup time</td><td>100%</td><td><span class="badge badge-red">No Refund</span></td></tr>
+          <tr><td>Outstation multi-day cab</td><td>Per package terms</td><td>Varies</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- HOW TO CANCEL -->
+    <div class="section" id="how-to-cancel">
+      <div class="section-header">
+        <div class="section-icon icon-blue">📋</div>
+        <div class="section-title-wrap">
+          <div class="section-num">Section 06</div>
+          <h2>How to Cancel a Booking</h2>
+        </div>
+      </div>
+      <p>Cancelling your ZoomFly booking is simple. Follow these steps:</p>
+      <div class="process-steps">
+        <div class="process-step">
+          <div class="step-num">1</div>
+          <div class="step-title">Locate Booking Reference</div>
+          <div class="step-desc">Find your booking reference number in your confirmation email or WhatsApp message.</div>
+        </div>
+        <div class="process-step">
+          <div class="step-num">2</div>
+          <div class="step-title">Contact ZoomFly</div>
+          <div class="step-desc">WhatsApp us at +91 8076136300 or email s.admin@zoomfly.in with your booking reference.</div>
+        </div>
+        <div class="process-step">
+          <div class="step-num">3</div>
+          <div class="step-title">Confirm Cancellation</div>
+          <div class="step-desc">Our team will confirm the applicable cancellation fee and refund amount within 2 hours.</div>
+        </div>
+        <div class="process-step">
+          <div class="step-num">4</div>
+          <div class="step-title">Receive Refund</div>
+          <div class="step-desc">Approved refunds are credited to your original payment method within 5–7 business days.</div>
+        </div>
+      </div>
+      <div class="warn-box">
+        <p>⚠️ Cancellation requests must be submitted by the primary booker. Verbal requests are not accepted — all cancellations must be confirmed in writing via WhatsApp or email.</p>
+      </div>
+    </div>
+
+    <!-- REFUND TIMELINE -->
+    <div class="section" id="refund-timeline">
+      <div class="section-header">
+        <div class="section-icon icon-yellow">⏱️</div>
+        <div class="section-title-wrap">
+          <div class="section-num">Section 07</div>
+          <h2>Refund Processing Timeline</h2>
+        </div>
+      </div>
+      <p>Once a cancellation is confirmed, refunds are processed as follows:</p>
+      <table class="ref-table">
+        <thead>
+          <tr><th>Payment Method</th><th>Refund Timeline</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>UPI</td><td><span class="badge badge-green">1–3 Business Days</span></td></tr>
+          <tr><td>Credit / Debit Card</td><td><span class="badge badge-yellow">5–7 Business Days</span></td></tr>
+          <tr><td>Net Banking</td><td><span class="badge badge-yellow">5–7 Business Days</span></td></tr>
+          <tr><td>NEFT / RTGS</td><td><span class="badge badge-yellow">3–5 Business Days</span></td></tr>
+          <tr><td>EMI</td><td><span class="badge badge-orange">7–10 Business Days</span></td></tr>
+          <tr><td>Airline-dependent refunds</td><td><span class="badge badge-orange">7–21 Business Days</span></td></tr>
+        </tbody>
+      </table>
+      <div class="green-box">
+        <p>✅ ZoomFly initiates the refund within <strong>24–48 hours</strong> of cancellation confirmation. The remaining processing time depends on your bank or payment provider.</p>
+      </div>
+      <p>Refunds are credited to the <strong>original payment source only</strong>. We do not process refunds to a different account, card, or UPI ID than the one used for payment.</p>
+    </div>
+
+    <!-- MODIFICATIONS -->
+    <div class="section" id="modifications">
+      <div class="section-header">
+        <div class="section-icon icon-teal">✏️</div>
+        <div class="section-title-wrap">
+          <div class="section-num">Section 08</div>
+          <h2>Booking Modifications</h2>
+        </div>
+      </div>
+      <p>If you need to change your travel dates, passenger details, or other booking specifics — rather than cancelling — the following applies:</p>
+      <ul>
+        <li><strong>Date Changes:</strong> Subject to availability and fare difference. A modification fee of ₹200–500 per booking may apply in addition to any fare difference.</li>
+        <li><strong>Name Corrections:</strong> Minor spelling corrections are free. Full name changes (different passenger) are treated as a cancellation and re-booking.</li>
+        <li><strong>Adding Passengers:</strong> Subject to availability. New passengers are priced at current rates, which may differ from original booking price.</li>
+        <li><strong>Upgrading Room/Seat:</strong> Subject to availability. Difference in cost is charged at prevailing rates.</li>
+        <li><strong>International Bookings:</strong> Modifications may not be possible on certain international fares. Check with ZoomFly support before requesting changes.</li>
+      </ul>
+      <p>To request a modification, contact our support team on WhatsApp at <strong>+91 8076136300</strong> with your booking reference and the specific change required.</p>
+    </div>
+
+    <!-- EXCEPTIONS -->
+    <div class="section" id="exceptions">
+      <div class="section-header">
+        <div class="section-icon icon-red">🚫</div>
+        <div class="section-title-wrap">
+          <div class="section-num">Section 09</div>
+          <h2>Exceptions & Non-Refundable Scenarios</h2>
+        </div>
+      </div>
+      <p>The following scenarios are <strong>not eligible for refunds</strong> under any circumstances:</p>
+      <ul>
+        <li>Bookings explicitly marked as <strong>Non-Refundable</strong> at the time of purchase.</li>
+        <li>Cancellations made after the applicable free cancellation window has expired.</li>
+        <li>No-shows — failing to appear for a flight, hotel check-in, bus departure, or cab pickup without prior cancellation.</li>
+        <li>Denied boarding due to invalid or expired travel documents (passport, visa, government ID).</li>
+        <li>Failure to meet health requirements, entry regulations, or immigration rules at the destination.</li>
+        <li>Voluntary no-shows during natural disasters, strikes, or force majeure events (ZoomFly will assist with rebooking where possible).</li>
+        <li>Promotional or discounted bookings marked as non-refundable.</li>
+        <li>Partially utilised packages (e.g., hotel used but flight not taken — no partial refund for unused services).</li>
+      </ul>
+      <div class="red-box">
+        <p>🚫 ZoomFly is not responsible for losses arising from third-party travel disruptions, government restrictions, or personal emergencies. We strongly recommend purchasing <strong>travel insurance</strong> to cover such scenarios.</p>
+      </div>
+      <p><strong>Compassionate Exceptions:</strong> In genuine medical emergencies or bereavement situations, ZoomFly may consider waiving cancellation fees at its sole discretion. Supporting documentation (medical certificate, death certificate) must be provided within 72 hours of cancellation request.</p>
+    </div>
+
+    <!-- CONTACT -->
+    <div class="section" id="contact">
+      <div class="section-header">
+        <div class="section-icon icon-orange">📞</div>
+        <div class="section-title-wrap">
+          <div class="section-num">Section 10</div>
+          <h2>Contact Support</h2>
+        </div>
+      </div>
+      <p>For all cancellation, modification, and refund requests, please reach out to our support team with your <strong>booking reference number</strong> ready:</p>
+      <div class="contact-card">
+        <div class="contact-item">
+          <div class="ci-label">WhatsApp (Fastest)</div>
+          <div class="ci-value"><a href="https://wa.me/918076136300">+91 8076136300</a></div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-label">Email</div>
+          <div class="ci-value"><a href="mailto:s.admin@zoomfly.in">s.admin@zoomfly.in</a></div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-label">Response Time</div>
+          <div class="ci-value">Within 2 hours</div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-label">Support Hours</div>
+          <div class="ci-value">Mon–Sat, 9 AM – 9 PM IST</div>
+        </div>
+      </div>
+      <div class="green-box" style="margin-top: 24px;">
+        <p>✅ This Refund & Cancellation Policy was last updated on <strong>May 8, 2026</strong>. ZoomFly reserves the right to amend this policy with 15 days' notice to registered users.</p>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<footer>
+  <div class="footer-top">
+    <a href="index.html">Home</a>
+    <div class="footer-divider"></div>
+    <a href="privacy-policy.html">Privacy Policy</a>
+    <div class="footer-divider"></div>
+    <a href="terms.html">Terms & Conditions</a>
+    <div class="footer-divider"></div>
+    <a href="refund-policy.html">Refund Policy</a>
+    <div class="footer-divider"></div>
+    <a href="about.html">About Us</a>
+    <div class="footer-divider"></div>
+    <a href="contact.html">Contact</a>
+  </div>
+  <div class="footer-bottom">© 2026 ZoomFly Travel Services. All rights reserved. | Built with ❤️ for Indian travellers.</div>
+</footer>
+
+<script>
+  const sections = document.querySelectorAll('.section[id], .timeline-hero[id]');
+  const tocLinks = document.querySelectorAll('.toc ul li a');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        tocLinks.forEach(l => l.classList.remove('active'));
+        const a = document.querySelector(`.toc a[href="#${entry.target.id}"]`);
+        if (a) a.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>

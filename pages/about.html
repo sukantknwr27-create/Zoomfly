@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About Us — ZoomFly</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✈️</text></svg>"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --primary: #1a73e8;
+      --primary-dark: #1557b0;
+      --accent: #ff6b35;
+      --dark: #0f1923;
+      --dark2: #1a2535;
+      --text: #2d3748;
+      --text-light: #64748b;
+      --border: #e2e8f0;
+      --bg: #f8fafc;
+      --white: #ffffff;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.8; overflow-x: hidden; }
+
+    /* NAV */
+    nav { background: var(--dark); padding: 0 5%; display: flex; align-items: center; justify-content: space-between; height: 68px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 20px rgba(0,0,0,0.3); }
+    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .logo-icon { width: 38px; height: 38px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+    .logo-text { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--white); font-weight: 700; }
+    .logo-text span { color: var(--accent); }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a { color: rgba(255,255,255,0.75); text-decoration: none; font-size: 0.88rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--white); }
+    .nav-cta { background: var(--accent) !important; color: var(--white) !important; padding: 8px 20px; border-radius: 8px; font-weight: 600 !important; }
+
+    /* HERO */
+    .hero {
+      background: var(--dark);
+      min-height: 520px;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      padding: 80px 5%;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 80% at 80% 50%, rgba(26,115,232,0.18) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 60% at 10% 80%, rgba(255,107,53,0.12) 0%, transparent 50%),
+        linear-gradient(135deg, #0f1923 0%, #1a2535 100%);
+    }
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .hero-content { position: relative; z-index: 2; max-width: 700px; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,107,53,0.15); border: 1px solid rgba(255,107,53,0.3); border-radius: 20px; padding: 6px 16px; font-size: 0.78rem; font-weight: 600; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 24px; }
+    .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.4rem, 5vw, 3.8rem); color: var(--white); font-weight: 800; line-height: 1.15; margin-bottom: 20px; }
+    .hero h1 span { background: linear-gradient(90deg, var(--accent), #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero p { color: rgba(255,255,255,0.7); font-size: 1.05rem; line-height: 1.8; margin-bottom: 36px; max-width: 560px; }
+    .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+    .btn-primary { background: linear-gradient(135deg, var(--accent), #e85d04); color: var(--white); padding: 13px 28px; border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 0.92rem; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 20px rgba(255,107,53,0.4); }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(255,107,53,0.5); }
+    .btn-outline { background: transparent; color: var(--white); padding: 13px 28px; border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 0.92rem; border: 1.5px solid rgba(255,255,255,0.3); transition: all 0.2s; }
+    .btn-outline:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.6); }
+    .hero-plane { position: absolute; right: 5%; bottom: 0; font-size: 180px; opacity: 0.06; transform: rotate(-20deg); user-select: none; z-index: 1; }
+
+    /* STATS STRIP */
+    .stats-strip { background: var(--white); border-bottom: 1px solid var(--border); }
+    .stats-inner { max-width: 1100px; margin: 0 auto; padding: 0 5%; display: grid; grid-template-columns: repeat(4, 1fr); }
+    .stat-item { padding: 32px 20px; text-align: center; border-right: 1px solid var(--border); }
+    .stat-item:last-child { border-right: none; }
+    .stat-num { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 700; color: var(--dark); line-height: 1; margin-bottom: 6px; }
+    .stat-num span { color: var(--accent); }
+    .stat-label { font-size: 0.82rem; color: var(--text-light); font-weight: 500; }
+
+    /* SECTIONS */
+    .section-wrap { max-width: 1100px; margin: 0 auto; padding: 80px 5%; }
+    .section-wrap + .section-wrap { padding-top: 0; }
+
+    .section-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); margin-bottom: 10px; }
+    .section-heading { font-family: 'Playfair Display', serif; font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 700; color: var(--dark); line-height: 1.3; margin-bottom: 16px; }
+    .section-heading span { color: var(--primary); }
+    .section-subtext { color: var(--text-light); font-size: 0.97rem; line-height: 1.8; max-width: 600px; }
+
+    /* STORY SECTION */
+    .story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+    .story-text p { color: var(--text-light); font-size: 0.95rem; line-height: 1.9; margin-bottom: 18px; }
+    .story-text p:last-child { margin-bottom: 0; }
+    .story-text strong { color: var(--text); }
+    .story-visual { position: relative; }
+    .story-card-main { background: linear-gradient(135deg, var(--dark), var(--dark2)); border-radius: 20px; padding: 36px; color: var(--white); }
+    .story-card-main .sc-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1.5px; color: rgba(255,255,255,0.5); margin-bottom: 6px; }
+    .story-card-main .sc-value { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; margin-bottom: 4px; }
+    .story-card-main .sc-sub { font-size: 0.82rem; color: rgba(255,255,255,0.5); margin-bottom: 24px; }
+    .story-divider { height: 1px; background: rgba(255,255,255,0.1); margin: 20px 0; }
+    .story-card-row { display: flex; justify-content: space-between; }
+    .story-card-col .scr-label { font-size: 0.72rem; color: rgba(255,255,255,0.4); margin-bottom: 4px; }
+    .story-card-col .scr-val { font-size: 1.1rem; font-weight: 600; }
+    .story-badge { position: absolute; bottom: -20px; right: -20px; background: var(--accent); color: var(--white); padding: 16px 20px; border-radius: 14px; box-shadow: 0 8px 30px rgba(255,107,53,0.4); }
+    .story-badge .sb-num { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700; line-height: 1; }
+    .story-badge .sb-label { font-size: 0.72rem; opacity: 0.9; }
+
+    /* MISSION / VALUES */
+    .values-bg { background: linear-gradient(135deg, var(--dark) 0%, var(--dark2) 100%); }
+    .values-inner { max-width: 1100px; margin: 0 auto; padding: 80px 5%; }
+    .values-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px; }
+    .value-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 32px; transition: all 0.3s; }
+    .value-card:hover { background: rgba(255,255,255,0.08); transform: translateY(-4px); }
+    .value-icon { font-size: 32px; margin-bottom: 16px; }
+    .value-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--white); font-weight: 600; margin-bottom: 10px; }
+    .value-desc { font-size: 0.88rem; color: rgba(255,255,255,0.55); line-height: 1.7; }
+
+    /* SERVICES */
+    .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 48px; }
+    .service-card { background: var(--white); border: 1px solid var(--border); border-radius: 16px; padding: 28px; transition: all 0.3s; box-shadow: 0 2px 12px rgba(0,0,0,0.04); }
+    .service-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.1); transform: translateY(-3px); border-color: var(--primary); }
+    .svc-icon { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 16px; }
+    .svc-title { font-weight: 700; font-size: 1rem; color: var(--dark); margin-bottom: 8px; }
+    .svc-desc { font-size: 0.85rem; color: var(--text-light); line-height: 1.6; }
+    .svc-flight .svc-icon { background: rgba(26,115,232,0.1); }
+    .svc-hotel .svc-icon { background: rgba(139,92,246,0.1); }
+    .svc-pkg .svc-icon { background: rgba(255,107,53,0.1); }
+    .svc-bus .svc-icon { background: rgba(20,184,166,0.1); }
+    .svc-cab .svc-icon { background: rgba(34,197,94,0.1); }
+    .svc-dest .svc-icon { background: rgba(234,179,8,0.1); }
+
+    /* WHY CHOOSE US */
+    .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+    .why-list { list-style: none; margin-top: 24px; }
+    .why-item { display: flex; gap: 16px; margin-bottom: 24px; }
+    .why-dot { width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, var(--primary), var(--accent)); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    .why-content .why-title { font-weight: 700; font-size: 0.95rem; color: var(--dark); margin-bottom: 4px; }
+    .why-content .why-desc { font-size: 0.85rem; color: var(--text-light); line-height: 1.6; }
+    .why-visual { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .why-card { background: var(--white); border: 1px solid var(--border); border-radius: 16px; padding: 24px; text-align: center; box-shadow: 0 2px 12px rgba(0,0,0,0.04); }
+    .why-card .wc-icon { font-size: 28px; margin-bottom: 10px; }
+    .why-card .wc-num { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700; color: var(--dark); line-height: 1; margin-bottom: 4px; }
+    .why-card .wc-label { font-size: 0.78rem; color: var(--text-light); }
+    .why-card.accent-card { background: linear-gradient(135deg, var(--accent), #ea580c); border-color: transparent; }
+    .why-card.accent-card .wc-num, .why-card.accent-card .wc-label { color: var(--white); }
+
+    /* COMPANY INFO */
+    .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 40px; }
+    .info-card { background: var(--white); border: 1px solid var(--border); border-radius: 16px; padding: 28px; box-shadow: 0 2px 12px rgba(0,0,0,0.04); }
+    .info-card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+    .info-card-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+    .info-card-title { font-weight: 700; font-size: 0.92rem; color: var(--dark); }
+    .info-row { display: flex; flex-direction: column; margin-bottom: 14px; }
+    .info-row:last-child { margin-bottom: 0; }
+    .info-label { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text-light); margin-bottom: 3px; }
+    .info-value { font-size: 0.9rem; color: var(--text); font-weight: 500; }
+    .info-value a { color: var(--primary); text-decoration: none; }
+    .info-value a:hover { text-decoration: underline; }
+
+    /* TRUST BADGES */
+    .trust-strip { background: var(--dark); padding: 48px 5%; }
+    .trust-inner { max-width: 1100px; margin: 0 auto; }
+    .trust-title { text-align: center; font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--white); margin-bottom: 36px; }
+    .trust-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; }
+    .trust-badge { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 20px 16px; text-align: center; }
+    .trust-badge .tb-icon { font-size: 28px; margin-bottom: 10px; }
+    .trust-badge .tb-label { font-size: 0.78rem; color: rgba(255,255,255,0.65); line-height: 1.4; font-weight: 500; }
+
+    /* CTA */
+    .cta-section { background: linear-gradient(135deg, var(--primary) 0%, #1557b0 50%, #0f4c9e 100%); padding: 80px 5%; text-align: center; position: relative; overflow: hidden; }
+    .cta-section::before { content: ''; position: absolute; top: -80px; right: -80px; width: 300px; height: 300px; background: rgba(255,255,255,0.05); border-radius: 50%; }
+    .cta-inner { position: relative; z-index: 1; max-width: 600px; margin: 0 auto; }
+    .cta-section h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3vw, 2.5rem); color: var(--white); margin-bottom: 14px; }
+    .cta-section p { color: rgba(255,255,255,0.75); font-size: 0.97rem; margin-bottom: 36px; line-height: 1.7; }
+    .cta-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .cta-btn-white { background: var(--white); color: var(--primary); padding: 13px 28px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 0.92rem; transition: all 0.2s; }
+    .cta-btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+    .cta-btn-outline { background: transparent; color: var(--white); padding: 13px 28px; border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 0.92rem; border: 1.5px solid rgba(255,255,255,0.4); transition: all 0.2s; }
+    .cta-btn-outline:hover { background: rgba(255,255,255,0.1); }
+
+    /* FOOTER */
+    footer { background: var(--dark); color: rgba(255,255,255,0.6); text-align: center; padding: 40px 5%; }
+    .footer-top { display: flex; justify-content: center; align-items: center; gap: 32px; flex-wrap: wrap; margin-bottom: 24px; }
+    .footer-top a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+    .footer-top a:hover { color: var(--accent); }
+    .footer-divider { width: 40px; height: 1px; background: rgba(255,255,255,0.15); }
+    .footer-bottom { font-size: 0.8rem; color: rgba(255,255,255,0.35); }
+
+    /* ANIMATIONS */
+    .fade-up { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 900px) {
+      .stats-inner { grid-template-columns: repeat(2,1fr); }
+      .story-grid, .why-grid { grid-template-columns: 1fr; }
+      .values-grid, .services-grid { grid-template-columns: repeat(2,1fr); }
+      .story-badge { right: 0; }
+      .nav-links { display: none; }
+    }
+    @media (max-width: 600px) {
+      .stats-inner { grid-template-columns: 1fr 1fr; }
+      .values-grid, .services-grid, .why-visual { grid-template-columns: 1fr; }
+      .hero { padding: 60px 5%; min-height: auto; }
+    }
+  </style>
+  <script>
+    window.SUPABASE_URL="https://ndaurluolurdljrjbxii.supabase.co";
+    window.SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kYXVybHVvbHVyZGxqcmpieGlpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MDY2MzksImV4cCI6MjA5MzQ4MjYzOX0.JsZXOof19JkyX7asJQ7EtoaBKqURJUYzVqXQIenCzjQ";
+    window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/);return m?m[1]:null;};
+  </script>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="logo">
+    <div class="logo-icon">✈️</div>
+    <div class="logo-text">Zoom<span>Fly</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="flights.html">Flights</a></li>
+    <li><a href="hotels.html">Hotels</a></li>
+    <li><a href="packages.html">Packages</a></li>
+    <li><a href="buses.html">Buses</a></li>
+    <li><a href="cabs.html">Cabs</a></li>
+    <li><a href="contact.html" class="nav-cta">Contact Us</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge">✈️ About ZoomFly</div>
+    <h1>Travel Smarter.<br/><span>Dream Bigger.</span></h1>
+    <p>ZoomFly is India's emerging travel platform built for the modern explorer — connecting millions of travellers to flights, hotels, packages, buses, and cabs with the simplicity of WhatsApp and the power of technology.</p>
+    <div class="hero-actions">
+      <a href="packages.html" class="btn-primary">Explore Packages</a>
+      <a href="contact.html" class="btn-outline">Get in Touch</a>
+    </div>
+  </div>
+  <div class="hero-plane">✈️</div>
+</section>
+
+<!-- STATS STRIP -->
+<div class="stats-strip">
+  <div class="stats-inner">
+    <div class="stat-item">
+      <div class="stat-num">22<span>+</span></div>
+      <div class="stat-label">Destinations Covered</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">50<span>+</span></div>
+      <div class="stat-label">Verified Vendors</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">10<span>K+</span></div>
+      <div class="stat-label">Happy Travellers</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">6<span></span></div>
+      <div class="stat-label">Travel Services</div>
+    </div>
+  </div>
+</div>
+
+<!-- OUR STORY -->
+<div class="section-wrap">
+  <div class="story-grid fade-up">
+    <div class="story-text">
+      <div class="section-label">Our Story</div>
+      <h2 class="section-heading">Born from a <span>Simple Belief</span></h2>
+      <p>ZoomFly was founded with one clear belief: <strong>travel should be simple, affordable, and accessible to every Indian</strong> — not just those in metro cities.</p>
+      <p>We saw a gap. Most travel platforms were built for the elite — complex interfaces, hidden charges, and zero human touch. We built ZoomFly differently. <strong>WhatsApp-first, customer-first, India-first.</strong></p>
+      <p>From a single idea to a full-stack travel platform covering flights, hotels, packages, buses, cabs, and destinations — ZoomFly is on a mission to become India's most trusted travel companion for Tier 1, Tier 2, and Tier 3 cities alike.</p>
+      <p>We are not just a booking platform. We are your travel partner — available on WhatsApp, always ready to help, and committed to making every journey memorable.</p>
+    </div>
+    <div class="story-visual">
+      <div class="story-card-main">
+        <div class="sc-label">Platform Launched</div>
+        <div class="sc-value">ZoomFly</div>
+        <div class="sc-sub">zoomfly.in · New Delhi, India</div>
+        <div class="story-divider"></div>
+        <div class="story-card-row">
+          <div class="story-card-col">
+            <div class="scr-label">Founded</div>
+            <div class="scr-val">2025</div>
+          </div>
+          <div class="story-card-col">
+            <div class="scr-label">Services</div>
+            <div class="scr-val">6</div>
+          </div>
+          <div class="story-card-col">
+            <div class="scr-label">Cities</div>
+            <div class="scr-val">22+</div>
+          </div>
+        </div>
+        <div class="story-divider"></div>
+        <div style="font-size: 0.82rem; color: rgba(255,255,255,0.45);">Powered by Supabase · Deployed on Vercel · Payments via Razorpay</div>
+      </div>
+      <div class="story-badge">
+        <div class="sb-num">100%</div>
+        <div class="sb-label">India Built</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MISSION & VALUES -->
+<div class="values-bg">
+  <div class="values-inner">
+    <div style="text-align:center;" class="fade-up">
+      <div class="section-label" style="color:rgba(255,107,53,0.8);">What We Stand For</div>
+      <h2 class="section-heading" style="color:var(--white); max-width:500px; margin: 0 auto 12px;">Our Mission &amp; <span style="color:var(--accent);">Core Values</span></h2>
+      <p class="section-subtext" style="color:rgba(255,255,255,0.55); margin: 0 auto; text-align:center;">Every decision we make at ZoomFly is guided by these principles.</p>
+    </div>
+    <div class="values-grid fade-up">
+      <div class="value-card">
+        <div class="value-icon">🎯</div>
+        <div class="value-title">Customer First, Always</div>
+        <div class="value-desc">Every feature, every policy, every decision starts with one question: does this make life easier for our travellers? If not, we don't build it.</div>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">🤝</div>
+        <div class="value-title">Radical Transparency</div>
+        <div class="value-desc">No hidden fees. No fine-print surprises. What you see is what you pay. We believe trust is built through honesty, not marketing.</div>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">🇮🇳</div>
+        <div class="value-title">Built for Bharat</div>
+        <div class="value-desc">We design for all of India — not just metro cities. WhatsApp bookings, local language support, and affordable pricing for every pocket.</div>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">⚡</div>
+        <div class="value-title">Speed & Simplicity</div>
+        <div class="value-desc">Booking travel should take minutes, not hours. We obsess over reducing friction at every step of your journey from search to confirmation.</div>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">🔒</div>
+        <div class="value-title">Security You Can Trust</div>
+        <div class="value-desc">Your payments are secured by Razorpay. Your data is protected by Supabase. Your privacy is governed by Indian law and our strict policies.</div>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">🌱</div>
+        <div class="value-title">Growing Together</div>
+        <div class="value-desc">We grow when our vendors grow and our customers return. We invest in long-term relationships, not short-term transactions.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- OUR SERVICES -->
+<div class="section-wrap fade-up">
+  <div class="section-label">What We Offer</div>
+  <h2 class="section-heading">Everything You Need<br/><span>for Your Journey</span></h2>
+  <p class="section-subtext">One platform. Six services. Countless memories waiting to be made.</p>
+  <div class="services-grid">
+    <div class="service-card svc-flight">
+      <div class="svc-icon">✈️</div>
+      <div class="svc-title">Flight Bookings</div>
+      <div class="svc-desc">Search across 52+ airports. Domestic and international flights with WhatsApp-assisted booking and confirmation.</div>
+    </div>
+    <div class="service-card svc-hotel">
+      <div class="svc-icon">🏨</div>
+      <div class="svc-title">Hotel Bookings</div>
+      <div class="svc-desc">Curated hotels across India with real pricing, room options, and instant confirmation. Budget to luxury.</div>
+    </div>
+    <div class="service-card svc-pkg">
+      <div class="svc-icon">🧳</div>
+      <div class="svc-title">Holiday Packages</div>
+      <div class="svc-desc">12+ handcrafted packages covering flights, hotels, transfers, and sightseeing. Travel without the planning stress.</div>
+    </div>
+    <div class="service-card svc-bus">
+      <div class="svc-icon">🚌</div>
+      <div class="svc-title">Bus Bookings</div>
+      <div class="svc-desc">Inter-city and long-distance bus reservations with multiple operator options. Comfortable and affordable travel.</div>
+    </div>
+    <div class="service-card svc-cab">
+      <div class="svc-icon">🚖</div>
+      <div class="svc-title">Cab & Transfers</div>
+      <div class="svc-desc">Airport pickups, local city cabs, and outstation journeys. Reliable drivers, transparent pricing, no surprises.</div>
+    </div>
+    <div class="service-card svc-dest">
+      <div class="svc-icon">🗺️</div>
+      <div class="svc-title">Destinations</div>
+      <div class="svc-desc">Discover 22+ destinations with travel guides, tips, best time to visit, and curated itinerary suggestions.</div>
+    </div>
+  </div>
+</div>
+
+<!-- WHY CHOOSE US -->
+<div class="section-wrap" style="background: var(--white); border-radius: 24px; box-shadow: 0 4px 32px rgba(0,0,0,0.06); border: 1px solid var(--border); padding: 60px; margin-bottom: 80px;">
+  <div class="why-grid fade-up">
+    <div>
+      <div class="section-label">Why ZoomFly</div>
+      <h2 class="section-heading">Why Thousands Choose <span>Us</span></h2>
+      <ul class="why-list">
+        <li class="why-item">
+          <div class="why-dot">💬</div>
+          <div class="why-content">
+            <div class="why-title">WhatsApp-First Booking</div>
+            <div class="why-desc">Book, confirm, and get support entirely on WhatsApp. No app downloads, no complex portals — just a simple message.</div>
+          </div>
+        </li>
+        <li class="why-item">
+          <div class="why-dot">💰</div>
+          <div class="why-content">
+            <div class="why-title">Best Price Guarantee</div>
+            <div class="why-desc">We negotiate directly with vendors to bring you the lowest prices. Found it cheaper? Tell us — we'll match it.</div>
+          </div>
+        </li>
+        <li class="why-item">
+          <div class="why-dot">🛡️</div>
+          <div class="why-content">
+            <div class="why-title">Secure Payments</div>
+            <div class="why-desc">Razorpay-powered payments with UPI, cards, net banking, NEFT, and EMI. PCI-DSS compliant and fully encrypted.</div>
+          </div>
+        </li>
+        <li class="why-item">
+          <div class="why-dot">⚡</div>
+          <div class="why-content">
+            <div class="why-title">Instant Confirmation</div>
+            <div class="why-desc">Receive booking confirmation via WhatsApp and email within minutes of payment. Zero waiting, zero anxiety.</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="why-visual">
+      <div class="why-card">
+        <div class="wc-icon">⭐</div>
+        <div class="wc-num">4.8</div>
+        <div class="wc-label">Customer Rating</div>
+      </div>
+      <div class="why-card accent-card">
+        <div class="wc-icon">🚀</div>
+        <div class="wc-num">2 min</div>
+        <div class="wc-label">Avg. Booking Time</div>
+      </div>
+      <div class="why-card">
+        <div class="wc-icon">🔄</div>
+        <div class="wc-num">98%</div>
+        <div class="wc-label">Confirmation Rate</div>
+      </div>
+      <div class="why-card">
+        <div class="wc-icon">💬</div>
+        <div class="wc-num">24h</div>
+        <div class="wc-label">WhatsApp Support</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- COMPANY INFO -->
+<div class="section-wrap" style="padding-top: 0;">
+  <div class="section-label">Company Information</div>
+  <h2 class="section-heading">Legal & <span>Contact Details</span></h2>
+  <p class="section-subtext">Full transparency — here is everything you need to know about the company behind ZoomFly.</p>
+  <div class="info-grid fade-up">
+
+    <div class="info-card">
+      <div class="info-card-header">
+        <div class="info-card-icon" style="background:rgba(26,115,232,0.1);">🏢</div>
+        <div class="info-card-title">Company Details</div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">Company Name</div>
+        <div class="info-value">ZoomFly Travel Services</div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">Type</div>
+        <div class="info-value">Travel Aggregator & Booking Platform</div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">Founded</div>
+        <div class="info-value">2025</div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">Headquarters</div>
+        <div class="info-value">New Delhi, India</div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">GSTIN</div>
+        <div class="info-value">— (Update with your GSTIN)</div>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <div class="info-card-header">
+        <div class="info-card-icon" style="background:rgba(255,107,53,0.1);">📞</div>
+        <div class="info-card-title">Contact Information</div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">Admin Email</div>
+        <div class="info-value"><a href="mailto:s.admin@zoomfly.in">s.admin@zoomfly.in</a></div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">WhatsApp</div>
+        <div class="info-value"><a href="https://wa.me/918076136300">+91 8076136300</a></div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">Website</div>
+        <div class="info-value"><a href="https://zoomfly.in">zoomfly.in</a></div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">Support Hours</div>
+        <div class="info-value">Mon–Sat, 9 AM – 9 PM IST</div>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <div class="info-card-header">
+        <div class="info-card-icon" style="background:rgba(34,197,94,0.1);">⚖️</div>
+        <div class="info-card-title">Grievance Officer</div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">Officer Name</div>
+        <div class="info-value">ZoomFly Admin</div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">Designation</div>
+        <div class="info-value">Grievance Officer</div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">Email</div>
+        <div class="info-value"><a href="mailto:s.admin@zoomfly.in">s.admin@zoomfly.in</a></div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">Response Time</div>
+        <div class="info-value">Within 30 days (as per IT Act)</div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">Jurisdiction</div>
+        <div class="info-value">New Delhi, India</div>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <div class="info-card-header">
+        <div class="info-card-icon" style="background:rgba(139,92,246,0.1);">🔒</div>
+        <div class="info-card-title">Compliance & Security</div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">Governed By</div>
+        <div class="info-value">IT Act 2000 · Consumer Protection Act 2019</div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">Payment Gateway</div>
+        <div class="info-value">Razorpay (PCI-DSS Certified)</div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">Database & Auth</div>
+        <div class="info-value">Supabase (SOC 2 Compliant)</div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">Hosting</div>
+        <div class="info-value">Vercel (Enterprise-grade CDN)</div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">Privacy Policy</div>
+        <div class="info-value"><a href="privacy-policy.html">View Privacy Policy →</a></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- TRUST BADGES -->
+<div class="trust-strip">
+  <div class="trust-inner">
+    <div class="trust-title">Trusted Infrastructure. Verified Partners.</div>
+    <div class="trust-grid">
+      <div class="trust-badge">
+        <div class="tb-icon">🔐</div>
+        <div class="tb-label">Razorpay<br/>PCI-DSS Certified</div>
+      </div>
+      <div class="trust-badge">
+        <div class="tb-icon">🛡️</div>
+        <div class="tb-label">Supabase<br/>SOC 2 Compliant</div>
+      </div>
+      <div class="trust-badge">
+        <div class="tb-icon">🌐</div>
+        <div class="tb-label">Vercel<br/>Enterprise Hosting</div>
+      </div>
+      <div class="trust-badge">
+        <div class="tb-icon">⚖️</div>
+        <div class="tb-label">IT Act 2000<br/>Compliant</div>
+      </div>
+      <div class="trust-badge">
+        <div class="tb-icon">🇮🇳</div>
+        <div class="tb-label">Consumer Protection<br/>Act 2019</div>
+      </div>
+      <div class="trust-badge">
+        <div class="tb-icon">💬</div>
+        <div class="tb-label">WhatsApp<br/>Business Partner</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-section">
+  <div class="cta-inner">
+    <h2>Ready to Start Your Journey?</h2>
+    <p>Join thousands of happy travellers who book smarter with ZoomFly. Flights, hotels, packages, buses, and cabs — all in one place.</p>
+    <div class="cta-actions">
+      <a href="packages.html" class="cta-btn-white">Browse Packages</a>
+      <a href="https://wa.me/918076136300" class="cta-btn-outline">💬 Chat on WhatsApp</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-top">
+    <a href="index.html">Home</a>
+    <div class="footer-divider"></div>
+    <a href="privacy-policy.html">Privacy Policy</a>
+    <div class="footer-divider"></div>
+    <a href="terms.html">Terms & Conditions</a>
+    <div class="footer-divider"></div>
+    <a href="refund-policy.html">Refund Policy</a>
+    <div class="footer-divider"></div>
+    <a href="about.html">About Us</a>
+    <div class="footer-divider"></div>
+    <a href="contact.html">Contact</a>
+  </div>
+  <div class="footer-bottom">© 2026 ZoomFly Travel Services. All rights reserved. | Built with ❤️ for Indian travellers.</div>
+</footer>
+
+<script>
+  // Scroll animations
+  const fadeEls = document.querySelectorAll('.fade-up');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  fadeEls.forEach(el => observer.observe(el));
+
+  // Animated counters
+  const statNums = document.querySelectorAll('.stat-num');
+  const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const text = el.textContent;
+        const num = parseFloat(text.replace(/[^0-9.]/g, ''));
+        const suffix = text.replace(/[0-9.]/g, '').trim();
+        let start = 0;
+        const duration = 1200;
+        const step = (timestamp) => {
+          if (!start) start = timestamp;
+          const progress = Math.min((timestamp - start) / duration, 1);
+          const current = progress * num;
+          el.innerHTML = (num % 1 === 0 ? Math.floor(current) : current.toFixed(1)) + `<span>${suffix}</span>`;
+          if (progress < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+        counterObserver.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+  statNums.forEach(el => counterObserver.observe(el));
+</script>
+
+</body>
+</html>

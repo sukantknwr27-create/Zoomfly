@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Agent Management — ZoomFly Admin</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✈️</text></svg>"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--primary:#1a73e8;--accent:#ff6b35;--dark:#0f1923;--dark2:#1a2535;
+      --text:#2d3748;--light:#64748b;--border:#e2e8f0;--bg:#f8fafc;--white:#fff;
+      --green:#22c55e;--yellow:#f59e0b;--teal:#14b8a6;--red:#ef4444;--sidebar:240px;}
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);display:flex;min-height:100vh;}
+
+    .sidebar{width:var(--sidebar);background:var(--dark);min-height:100vh;position:fixed;
+      left:0;top:0;z-index:200;display:flex;flex-direction:column;box-shadow:4px 0 24px rgba(0,0,0,0.2);}
+    .sb-logo{padding:24px 20px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(255,255,255,0.06);}
+    .sb-logo-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--primary),var(--accent));
+      border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;}
+    .sb-logo-text{font-family:'Playfair Display',serif;font-size:1.2rem;color:#fff;font-weight:700;}
+    .sb-logo-text span{color:var(--accent);}
+    .sb-section{padding:20px 12px 8px;}
+    .sb-section-label{font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;
+      color:rgba(255,255,255,0.25);padding:0 8px;margin-bottom:8px;}
+    .sb-link{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;
+      color:rgba(255,255,255,0.55);text-decoration:none;font-size:0.85rem;font-weight:500;
+      transition:all 0.2s;margin-bottom:2px;}
+    .sb-link:hover{background:rgba(255,255,255,0.07);color:#fff;}
+    .sb-link.active{background:rgba(26,115,232,0.2);color:#fff;}
+    .sb-icon{font-size:16px;width:20px;text-align:center;}
+    .sb-badge{margin-left:auto;background:var(--accent);color:#fff;font-size:0.65rem;font-weight:700;padding:2px 7px;border-radius:10px;}
+    .sb-bottom{margin-top:auto;padding:16px 12px;border-top:1px solid rgba(255,255,255,0.06);}
+
+    .main{margin-left:var(--sidebar);flex:1;display:flex;flex-direction:column;}
+    .topbar{background:var(--white);border-bottom:1px solid var(--border);padding:0 32px;
+      height:64px;display:flex;align-items:center;justify-content:space-between;
+      position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,0.04);}
+    .topbar-left h1{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--dark);font-weight:700;}
+    .topbar-left p{font-size:0.78rem;color:var(--light);}
+    .tb-btn{padding:8px 16px;border-radius:9px;border:1.5px solid var(--border);background:var(--white);
+      color:var(--text);font-size:0.82rem;font-weight:600;cursor:pointer;transition:all 0.2s;
+      display:flex;align-items:center;gap:6px;}
+    .tb-btn:hover{border-color:var(--teal);color:var(--teal);}
+
+    .content{padding:28px 32px;}
+
+    /* TABS */
+    .page-tabs{display:flex;gap:6px;margin-bottom:24px;border-bottom:1px solid var(--border);padding-bottom:0;}
+    .ptab{padding:10px 20px;font-size:0.88rem;font-weight:600;color:var(--light);cursor:pointer;
+      border-bottom:2px solid transparent;margin-bottom:-1px;transition:all 0.2s;}
+    .ptab:hover{color:var(--dark);}
+    .ptab.active{color:var(--teal);border-bottom-color:var(--teal);}
+
+    .tab-section{display:none;}
+    .tab-section.active{display:block;}
+
+    /* STATS */
+    .stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px;}
+    .stat-card{background:var(--white);border-radius:14px;border:1px solid var(--border);
+      padding:20px;box-shadow:0 2px 8px rgba(0,0,0,0.04);position:relative;overflow:hidden;}
+    .stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+    .sc-a::before{background:var(--teal);}  .sc-b::before{background:var(--green);}
+    .sc-c::before{background:var(--yellow)}.sc-d::before{background:var(--primary);}
+    .sc-icon{font-size:20px;margin-bottom:10px;}
+    .sc-num{font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:700;color:var(--dark);line-height:1;margin-bottom:4px;}
+    .sc-label{font-size:0.78rem;color:var(--light);}
+
+    /* FILTERS */
+    .filters-bar{background:var(--white);border:1px solid var(--border);border-radius:14px;
+      padding:14px 18px;margin-bottom:20px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+    .f-search{flex:1;min-width:180px;display:flex;align-items:center;gap:8px;
+      background:var(--bg);border:1.5px solid var(--border);border-radius:9px;padding:8px 14px;}
+    .f-search input{border:none;background:none;outline:none;font-family:inherit;font-size:0.85rem;width:100%;}
+    .f-select{padding:9px 12px;border:1.5px solid var(--border);border-radius:9px;
+      font-family:inherit;font-size:0.82rem;background:var(--white);cursor:pointer;outline:none;}
+
+    /* TABLE */
+    .card{background:var(--white);border-radius:14px;border:1px solid var(--border);
+      box-shadow:0 2px 8px rgba(0,0,0,0.04);overflow:hidden;margin-bottom:20px;}
+    .card-header{padding:16px 20px;border-bottom:1px solid var(--border);
+      display:flex;align-items:center;justify-content:space-between;}
+    .card-title{font-weight:700;font-size:0.95rem;color:var(--dark);}
+    table{width:100%;border-collapse:collapse;}
+    thead tr{background:var(--bg);}
+    th{padding:10px 16px;text-align:left;font-size:0.72rem;font-weight:700;
+      text-transform:uppercase;letter-spacing:1px;color:var(--light);
+      border-bottom:1px solid var(--border);white-space:nowrap;}
+    td{padding:11px 16px;font-size:0.85rem;border-bottom:1px solid #f8fafc;vertical-align:middle;}
+    tr:last-child td{border-bottom:none;}
+    tr:hover td{background:rgba(20,184,166,0.02);}
+
+    .agent-code{font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--teal);font-weight:600;}
+    .tier-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;
+      border-radius:10px;font-size:0.72rem;font-weight:700;}
+    .t-associate{background:rgba(20,184,166,0.1);color:#0f766e;}
+    .t-senior   {background:rgba(245,158,11,0.1);color:#92400e;}
+    .t-elite    {background:rgba(139,92,246,0.1);color:#5b21b6;}
+    .status-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;
+      border-radius:10px;font-size:0.72rem;font-weight:700;}
+    .s-active   {background:rgba(34,197,94,0.1); color:#166534;}
+    .s-pending  {background:rgba(245,158,11,0.1);color:#92400e;}
+    .s-suspended{background:rgba(239,68,68,0.1); color:#991b1b;}
+
+    .action-menu{display:flex;gap:5px;}
+    .act-btn{width:30px;height:30px;border-radius:7px;border:none;cursor:pointer;
+      display:flex;align-items:center;justify-content:center;font-size:13px;transition:all 0.2s;}
+    .ab-view   {background:rgba(26,115,232,0.08);color:var(--primary);}
+    .ab-view:hover{background:var(--primary);color:#fff;}
+    .ab-pay    {background:rgba(34,197,94,0.1); color:#16a34a;}
+    .ab-pay:hover{background:var(--green);color:#fff;}
+    .ab-wa     {background:rgba(37,211,102,0.1);color:#16a34a;}
+    .ab-wa:hover{background:#25d366;color:#fff;}
+    .ab-suspend{background:rgba(239,68,68,0.08);color:var(--red);}
+    .ab-suspend:hover{background:var(--red);color:#fff;}
+
+    /* Leaderboard */
+    .leader-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px;}
+    .leader-card{background:var(--white);border-radius:14px;border:1px solid var(--border);
+      padding:20px;box-shadow:0 2px 8px rgba(0,0,0,0.04);text-align:center;}
+    .lc-rank{font-size:2rem;margin-bottom:8px;}
+    .lc-name{font-weight:700;font-size:0.95rem;color:var(--dark);margin-bottom:4px;}
+    .lc-code{font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--teal);margin-bottom:8px;}
+    .lc-earned{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--green);}
+    .lc-sub{font-size:0.75rem;color:var(--light);margin-top:2px;}
+
+    /* Payout section */
+    .payout-card{background:var(--white);border-radius:14px;border:1px solid var(--border);
+      padding:20px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,0.04);
+      display:flex;align-items:center;justify-content:space-between;gap:16px;}
+    .pc-info .pci-name{font-weight:700;font-size:0.92rem;color:var(--dark);}
+    .pc-info .pci-code{font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--teal);margin-top:2px;}
+    .pc-info .pci-bank{font-size:0.78rem;color:var(--light);margin-top:4px;}
+    .pc-amount{text-align:right;}
+    .pca-gross{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--dark);}
+    .pca-tds{font-size:0.75rem;color:var(--red);margin-top:2px;}
+    .pca-net{font-size:0.82rem;font-weight:700;color:var(--green);margin-top:2px;}
+    .pca-count{font-size:0.72rem;color:var(--light);}
+    .pay-btn{padding:9px 18px;border-radius:9px;background:var(--green);color:#fff;
+      border:none;cursor:pointer;font-weight:700;font-size:0.82rem;white-space:nowrap;transition:all 0.2s;}
+    .pay-btn:hover{background:#16a34a;}
+
+    /* Drawer */
+    .drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:400;
+      opacity:0;pointer-events:none;transition:opacity 0.3s;backdrop-filter:blur(2px);}
+    .drawer-overlay.open{opacity:1;pointer-events:all;}
+    .drawer{position:fixed;top:0;right:0;bottom:0;width:440px;max-width:95vw;
+      background:var(--white);z-index:401;transform:translateX(100%);
+      transition:transform 0.35s cubic-bezier(.4,0,.2,1);
+      box-shadow:-8px 0 40px rgba(0,0,0,0.15);display:flex;flex-direction:column;}
+    .drawer.open{transform:translateX(0);}
+    .drawer-head{padding:20px 24px;border-bottom:1px solid var(--border);
+      display:flex;align-items:center;justify-content:space-between;}
+    .drawer-head h2{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--dark);font-weight:700;}
+    .drawer-close{width:32px;height:32px;border-radius:8px;border:1.5px solid var(--border);
+      background:var(--white);cursor:pointer;font-size:18px;display:flex;
+      align-items:center;justify-content:center;transition:all 0.2s;}
+    .drawer-close:hover{background:var(--red);color:#fff;border-color:var(--red);}
+    .drawer-body{flex:1;overflow-y:auto;padding:20px 24px;}
+    .drawer-foot{padding:16px 24px;border-top:1px solid var(--border);display:flex;gap:10px;}
+
+    .sec-label{font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;
+      color:var(--light);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border);margin-top:20px;}
+    .sec-label:first-child{margin-top:0;}
+    .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:4px;}
+    .info-item .il{font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--light);margin-bottom:3px;}
+    .info-item .iv{font-size:0.88rem;font-weight:600;color:var(--dark);}
+    .info-item .iv a{color:var(--primary);text-decoration:none;}
+
+    .da-btn{padding:11px 16px;border-radius:10px;border:none;cursor:pointer;
+      font-size:0.85rem;font-weight:700;transition:all 0.2s;
+      display:flex;align-items:center;justify-content:center;gap:6px;}
+    .da-pay    {background:var(--green);color:#fff;flex:1;}
+    .da-pay:hover{background:#16a34a;}
+    .da-wa     {background:#25d366;color:#fff;}
+    .da-wa:hover{background:#20b858;}
+    .da-suspend{background:rgba(239,68,68,0.08);color:var(--red);border:1.5px solid rgba(239,68,68,0.15);}
+    .da-suspend:hover{background:var(--red);color:#fff;}
+
+    .utr-input{width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:9px;
+      font-family:inherit;font-size:0.88rem;outline:none;margin-top:12px;}
+    .utr-input:focus{border-color:var(--teal);}
+
+    .empty{text-align:center;padding:48px 20px;color:var(--light);}
+    .empty-icon{font-size:40px;margin-bottom:12px;}
+
+    .toast{position:fixed;bottom:24px;right:24px;background:var(--dark);color:#fff;
+      padding:12px 20px;border-radius:10px;font-size:0.88rem;font-weight:600;
+      z-index:9999;opacity:0;transform:translateY(8px);transition:all 0.3s;pointer-events:none;}
+    .toast.show{opacity:1;transform:translateY(0);}
+
+    @media(max-width:1024px){.sidebar{display:none;}.main{margin-left:0;}
+      .stat-row{grid-template-columns:repeat(2,1fr);}.leader-grid{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sb-logo">
+    <div class="sb-logo-icon">✈️</div>
+    <div class="sb-logo-text">Zoom<span>Fly</span></div>
+  </div>
+  <div class="sb-section">
+    <div class="sb-section-label">Main</div>
+    <a href="admin.html"          class="sb-link"><span class="sb-icon">📊</span> Dashboard</a>
+    <a href="admin-bookings.html" class="sb-link"><span class="sb-icon">🎫</span> Bookings</a>
+    <a href="admin-workflow.html" class="sb-link"><span class="sb-icon">🔄</span> Workflow</a>
+    <a href="admin-vendors.html"  class="sb-link"><span class="sb-icon">🏨</span> Vendors</a>
+    <a href="admin-agents.html"   class="sb-link active"><span class="sb-icon">🤝</span> Agents <span class="sb-badge" id="sb-pending">0</span></a>
+  </div>
+  <div class="sb-section">
+    <div class="sb-section-label">Content</div>
+    <a href="admin-packages.html" class="sb-link"><span class="sb-icon">🧳</span> Packages</a>
+    <a href="admin-hotels.html"   class="sb-link"><span class="sb-icon">🏩</span> Hotels</a>
+  </div>
+  <div class="sb-bottom">
+    <a href="index.html" class="sb-link"><span class="sb-icon">🌐</span> View Site</a>
+    <a href="#" class="sb-link" onclick="doLogout()"><span class="sb-icon">🚪</span> Logout</a>
+  </div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-left">
+      <h1>Agent Management</h1>
+      <p id="topbar-sub">Loading...</p>
+    </div>
+    <div style="display:flex;gap:10px;">
+      <button class="tb-btn" onclick="exportCSV()">📥 Export</button>
+      <button class="tb-btn" onclick="loadAll()">🔄 Refresh</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <div class="stat-row">
+      <div class="stat-card sc-a"><div class="sc-icon">🤝</div><div class="sc-num" id="s-total">0</div><div class="sc-label">Total Agents</div></div>
+      <div class="stat-card sc-b"><div class="sc-icon">💰</div><div class="sc-num" id="s-earned">₹0</div><div class="sc-label">Total Commission Earned</div></div>
+      <div class="stat-card sc-c"><div class="sc-icon">⏳</div><div class="sc-num" id="s-pending-pay">₹0</div><div class="sc-label">Pending Payouts</div></div>
+      <div class="stat-card sc-d"><div class="sc-icon">🎫</div><div class="sc-num" id="s-bookings">0</div><div class="sc-label">Total Agent Bookings</div></div>
+    </div>
+
+    <!-- PAGE TABS -->
+    <div class="page-tabs">
+      <div class="ptab active" onclick="switchPageTab('agents',this)">All Agents</div>
+      <div class="ptab"        onclick="switchPageTab('payouts',this)">Pending Payouts</div>
+      <div class="ptab"        onclick="switchPageTab('leaderboard',this)">Leaderboard</div>
+    </div>
+
+    <!-- AGENTS TAB -->
+    <div class="tab-section active" id="tab-agents">
+      <div class="filters-bar">
+        <div class="f-search">🔍<input type="text" id="search" placeholder="Search name, email, code, city..." oninput="renderTable()"/></div>
+        <select class="f-select" id="f-tier" onchange="renderTable()">
+          <option value="">All Tiers</option>
+          <option value="associate">🤝 Associate</option>
+          <option value="senior">⭐ Senior</option>
+          <option value="elite">💎 Elite</option>
+        </select>
+        <select class="f-select" id="f-status" onchange="renderTable()">
+          <option value="">All Statuses</option>
+          <option value="active">✅ Active</option>
+          <option value="pending">⏳ Pending</option>
+          <option value="suspended">⛔ Suspended</option>
+        </select>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">All Agents</div>
+          <div class="sc-label" id="table-count" style="font-size:0.8rem;">—</div>
+        </div>
+        <div id="agents-table">
+          <div class="empty"><div class="empty-icon">⏳</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAYOUTS TAB -->
+    <div class="tab-section" id="tab-payouts">
+      <div style="background:rgba(20,184,166,0.06);border:1px solid rgba(20,184,166,0.2);
+        border-radius:12px;padding:16px 20px;margin-bottom:20px;font-size:0.85rem;color:var(--text);">
+        💳 Payouts are processed on the <strong>1st and 15th</strong> of every month.
+        Minimum payout: <strong>₹500</strong>. TDS of 5% is deducted for payouts over ₹5,000.
+      </div>
+      <div id="payouts-list">
+        <div class="empty"><div class="empty-icon">⏳</div><h3 style="color:var(--dark);">Loading...</h3></div>
+      </div>
+    </div>
+
+    <!-- LEADERBOARD TAB -->
+    <div class="tab-section" id="tab-leaderboard">
+      <div class="leader-grid" id="top3">
+        <!-- Top 3 rendered by JS -->
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">🏆 Full Leaderboard</div></div>
+        <div id="leaderboard-table">
+          <div class="empty"><div class="empty-icon">⏳</div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- DRAWER -->
+<div class="drawer-overlay" id="overlay" onclick="closeDrawer()"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-head">
+    <h2 id="d-title">Agent Details</h2>
+    <button class="drawer-close" onclick="closeDrawer()">×</button>
+  </div>
+  <div class="drawer-body" id="d-body">Loading...</div>
+  <div class="drawer-foot" id="d-foot"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+const SUPABASE_URL = window.SUPABASE_URL      || 'https://ndaurluolurdljrjbxii.supabase.co';
+const SUPABASE_KEY = window.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kYXVybHVvbHVyZGxqcmpieGlpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MDY2MzksImV4cCI6MjA5MzQ4MjYzOX0.JsZXOof19JkyX7asJQ7EtoaBKqURJUYzVqXQIenCzjQ';
+const supabase     = createClient(SUPABASE_URL, SUPABASE_KEY);
+const WA_ADMIN     = '918076136300';
+
+const COMM_RATES = { associate:0.05, senior:0.07, elite:0.10 };
+
+let allAgents  = [];
+let allComms   = [];
+let activeA    = null;
+
+async function checkAuth() {
+  const {data:{session}}=await supabase.auth.getSession();
+  if(!session){window.location.href='admin-login.html';return false;}
+  const {data:p}=await supabase.from('profiles').select('role').eq('id',session.user.id).single();
+  if(p?.role!=='admin'){window.location.href='index.html';return false;}
+  return true;
+}
+
+window.loadAll = async function() {
+  const {data:agents}=await supabase.from('agents').select('*').order('total_commission_earned',{ascending:false});
+  allAgents=agents||[];
+  // Load commissions summary
+  const {data:comms}=await supabase.from('agent_commissions').select('*').eq('status','earned').is('payout_id',null);
+  allComms=comms||[];
+
+  renderStats();
+  renderTable();
+  renderPayouts();
+  renderLeaderboard();
+
+  const pending=allAgents.filter(a=>a.status==='pending').length;
+  document.getElementById('sb-pending').textContent=pending;
+  document.getElementById('topbar-sub').textContent=
+    `${allAgents.length} agents · ${pending} pending approval · ${allComms.length} pending commissions`;
+};
+
+function renderStats() {
+  const totalEarned=allAgents.reduce((s,a)=>s+parseFloat(a.total_commission_earned||0),0);
+  const pendingPay =allComms.reduce((s,c)=>s+parseFloat(c.commission_amount||0),0);
+  const totalBooks =allAgents.reduce((s,a)=>s+parseInt(a.total_bookings||0),0);
+  document.getElementById('s-total').textContent     =allAgents.length;
+  document.getElementById('s-earned').textContent    ='₹'+fmtAmt(totalEarned);
+  document.getElementById('s-pending-pay').textContent='₹'+fmtAmt(pendingPay);
+  document.getElementById('s-bookings').textContent  =totalBooks;
+}
+
+window.renderTable = function() {
+  const q   =document.getElementById('search').value.toLowerCase();
+  const tier=document.getElementById('f-tier').value;
+  const stat=document.getElementById('f-status').value;
+  const filt=allAgents.filter(a=>{
+    if(q&&!(a.full_name?.toLowerCase().includes(q)||a.email?.toLowerCase().includes(q)||
+             a.agent_code?.toLowerCase().includes(q)||a.city?.toLowerCase().includes(q))) return false;
+    if(tier&&a.tier!==tier) return false;
+    if(stat&&a.status!==stat) return false;
+    return true;
+  });
+  document.getElementById('table-count').textContent=`${filt.length} agent${filt.length!==1?'s':''}`;
+  const el=document.getElementById('agents-table');
+  if(!filt.length){el.innerHTML=`<div class="empty"><div class="empty-icon">🔍</div><h3 style="color:var(--dark);">No agents found</h3></div>`;return;}
+  const rate=a=>COMM_RATES[a.tier]||0.05;
+  el.innerHTML=`
+    <table>
+      <thead><tr><th>Code</th><th>Agent</th><th>City</th><th>Tier</th><th>Bookings</th><th>Revenue</th><th>Commission</th><th>Pending</th><th>Status</th><th>Actions</th></tr></thead>
+      <tbody>${filt.map(a=>{
+        const comm=parseFloat(a.total_commission_earned||0);
+        const paid=parseFloat(a.total_commission_paid||0);
+        const pend=Math.max(0,comm-paid);
+        return`<tr>
+          <td><span class="agent-code">${esc(a.agent_code)}</span></td>
+          <td><div style="font-weight:600;font-size:0.88rem;">${esc(a.full_name)}</div>
+              <div style="font-size:0.73rem;color:var(--light);">${esc(a.email)}</div></td>
+          <td style="font-size:0.83rem;">📍 ${esc(a.city||'—')}</td>
+          <td><span class="tier-badge t-${a.tier}">${tierLabel(a.tier)}</span></td>
+          <td style="font-weight:700;">${a.confirmed_bookings||0}<span style="color:var(--light);font-weight:400;">/${a.total_bookings||0}</span></td>
+          <td style="font-weight:700;">₹${fmtAmt(a.total_booking_value)}</td>
+          <td style="color:var(--green);font-weight:700;">₹${fmtAmt(comm)}</td>
+          <td style="font-weight:700;color:${pend>0?'var(--yellow)':'var(--light)'};">₹${fmtAmt(pend)}</td>
+          <td><span class="status-badge s-${a.status}">${capitalize(a.status)}</span></td>
+          <td><div class="action-menu">
+            <button class="act-btn ab-view"    onclick="openDrawer('${a.id}')">👁️</button>
+            <button class="act-btn ab-pay"     onclick="processPayout('${a.id}')">💳</button>
+            <button class="act-btn ab-wa"      onclick="waAgent('${esc(a.phone)}','${esc(a.full_name)}')">💬</button>
+            ${a.status==='active'?`<button class="act-btn ab-suspend" onclick="suspendAgent('${a.id}')">⛔</button>`:''}
+          </div></td>
+        </tr>`;}).join('')}
+      </tbody>
+    </table>`;
+};
+
+function renderPayouts() {
+  // Group commissions by agent
+  const byAgent={};
+  allComms.forEach(c=>{
+    if(!byAgent[c.agent_id]) byAgent[c.agent_id]={total:0,count:0};
+    byAgent[c.agent_id].total+=parseFloat(c.commission_amount||0);
+    byAgent[c.agent_id].count++;
+  });
+  const eligibleAgents=allAgents.filter(a=>byAgent[a.id]&&byAgent[a.id].total>=500);
+  const el=document.getElementById('payouts-list');
+  if(!eligibleAgents.length){
+    el.innerHTML=`<div class="empty"><div class="empty-icon">✅</div><h3 style="color:var(--dark);">No pending payouts</h3><p>All agents have been paid or haven't reached minimum ₹500 threshold.</p></div>`;
+    return;
+  }
+  el.innerHTML=eligibleAgents.map(a=>{
+    const gross=byAgent[a.id].total;
+    const tds=gross>5000?gross*0.05:0;
+    const net=gross-tds;
+    const cnt=byAgent[a.id].count;
+    return`<div class="payout-card">
+      <div class="pc-info">
+        <div class="pci-name">${esc(a.full_name)}</div>
+        <div class="pci-code">${esc(a.agent_code)} · ${tierLabel(a.tier)}</div>
+        <div class="pci-bank">${a.bank_name?`🏦 ${esc(a.bank_name)} · ${a.bank_acc_num?'••••'+a.bank_acc_num.slice(-4):'No account'}`: '⚠️ Bank details not provided'}</div>
+      </div>
+      <div class="pc-amount">
+        <div class="pca-gross">₹${fmtAmt(gross)}</div>
+        ${tds>0?`<div class="pca-tds">TDS: -₹${fmtAmt(tds)}</div>`:''}
+        <div class="pca-net">Net: ₹${fmtAmt(net)}</div>
+        <div class="pca-count">${cnt} booking${cnt!==1?'s':''}</div>
+      </div>
+      <button class="pay-btn" onclick="processPayout('${a.id}')">💳 Pay ₹${fmtAmt(net)}</button>
+    </div>`;
+  }).join('');
+}
+
+function renderLeaderboard() {
+  const sorted=[...allAgents].filter(a=>a.status==='active')
+    .sort((a,b)=>parseFloat(b.total_commission_earned||0)-parseFloat(a.total_commission_earned||0));
+  const medals=['🥇','🥈','🥉'];
+  document.getElementById('top3').innerHTML=sorted.slice(0,3).map((a,i)=>`
+    <div class="leader-card">
+      <div class="lc-rank">${medals[i]||'🏅'}</div>
+      <div class="lc-name">${esc(a.full_name)}</div>
+      <div class="lc-code">${esc(a.agent_code)} · ${esc(a.city||'—')}</div>
+      <div class="lc-earned">₹${fmtAmt(a.total_commission_earned)}</div>
+      <div class="lc-sub">${a.confirmed_bookings||0} confirmed bookings · ${tierLabel(a.tier)}</div>
+    </div>`).join('');
+  document.getElementById('leaderboard-table').innerHTML=`
+    <table>
+      <thead><tr><th>Rank</th><th>Agent</th><th>Code</th><th>Tier</th><th>Bookings</th><th>Revenue</th><th>Earned</th></tr></thead>
+      <tbody>${sorted.map((a,i)=>`
+        <tr>
+          <td style="font-weight:700;color:var(--light);">#${i+1}</td>
+          <td><div style="font-weight:600;">${esc(a.full_name)}</div><div style="font-size:0.73rem;color:var(--light);">📍 ${esc(a.city||'—')}</div></td>
+          <td><span class="agent-code">${esc(a.agent_code)}</span></td>
+          <td><span class="tier-badge t-${a.tier}">${tierLabel(a.tier)}</span></td>
+          <td style="font-weight:700;">${a.confirmed_bookings||0}</td>
+          <td>₹${fmtAmt(a.total_booking_value)}</td>
+          <td style="font-weight:700;color:var(--green);">₹${fmtAmt(a.total_commission_earned)}</td>
+        </tr>`).join('')}
+      </tbody>
+    </table>`;
+}
+
+// ── Drawer ─────────────────────────────────────────────────
+window.openDrawer = function(id) {
+  activeA=allAgents.find(a=>a.id===id);
+  if(!activeA)return;
+  const a=activeA;
+  const comm=parseFloat(a.total_commission_earned||0);
+  const paid=parseFloat(a.total_commission_paid||0);
+  const pend=Math.max(0,comm-paid);
+  const agentComms=allComms.filter(c=>c.agent_id===a.id);
+  const pendAmt=agentComms.reduce((s,c)=>s+parseFloat(c.commission_amount||0),0);
+  const tds=pendAmt>5000?pendAmt*0.05:0;
+
+  document.getElementById('d-title').textContent=a.full_name;
+  document.getElementById('overlay').classList.add('open');
+  document.getElementById('drawer').classList.add('open');
+  document.getElementById('d-body').innerHTML=`
+    <div style="display:flex;gap:8px;margin-bottom:16px;">
+      <span class="tier-badge t-${a.tier}">${tierLabel(a.tier)}</span>
+      <span class="status-badge s-${a.status}">${capitalize(a.status)}</span>
+    </div>
+    <div class="sec-label">Agent Details</div>
+    <div class="info-grid">
+      ${ii('Code', a.agent_code)} ${ii('City',a.city||'—')}
+      ${ii('Phone',`<a href="tel:${esc(a.phone)}">${esc(a.phone)}</a>`)}
+      ${ii('Email',`<a href="mailto:${esc(a.email)}">${esc(a.email)}</a>`)}
+      ${ii('Experience',a.experience||'—')} ${ii('PAN',a.pan||'—')}
+    </div>
+    <div class="sec-label">Performance</div>
+    <div class="info-grid">
+      ${ii('Total Bookings',  String(a.total_bookings||0))}
+      ${ii('Confirmed',       String(a.confirmed_bookings||0))}
+      ${ii('Booking Revenue', '₹'+fmtAmt(a.total_booking_value))}
+      ${ii('Commission Rate', (a.commission_rate||5)+'%')}
+      ${ii('Total Earned',    '₹'+fmtAmt(comm))}
+      ${ii('Total Paid',      '₹'+fmtAmt(paid))}
+      ${ii('Pending',         '₹'+fmtAmt(pend))}
+      ${ii('Affiliate Clicks',String(a.affiliate_clicks||0))}
+    </div>
+    <div class="sec-label">Bank Details</div>
+    <div class="info-grid">
+      ${ii('Account Name', a.bank_acc_name||'—')}
+      ${ii('Account No',   a.bank_acc_num?'••••'+a.bank_acc_num.slice(-4):'—')}
+      ${ii('IFSC',         a.bank_ifsc||'—')}
+      ${ii('Bank',         a.bank_name||'—')}
+    </div>
+    ${pendAmt>0?`
+    <div class="sec-label">Payout Summary</div>
+    <div style="background:var(--bg);border-radius:10px;padding:14px;font-size:0.85rem;">
+      <div style="display:flex;justify-content:space-between;padding:5px 0;"><span style="color:var(--light);">Pending Amount</span><span style="font-weight:700;">₹${fmtAmt(pendAmt)}</span></div>
+      ${tds>0?`<div style="display:flex;justify-content:space-between;padding:5px 0;"><span style="color:var(--red);">TDS (5%)</span><span style="font-weight:700;color:var(--red);">-₹${fmtAmt(tds)}</span></div>`:''}
+      <div style="display:flex;justify-content:space-between;padding:5px 0;border-top:1px solid var(--border);margin-top:4px;"><span style="font-weight:700;">Net Payout</span><span style="font-weight:700;color:var(--green);">₹${fmtAmt(pendAmt-tds)}</span></div>
+      <div style="display:flex;justify-content:space-between;padding:5px 0;"><span style="color:var(--light);">Bookings included</span><span style="font-weight:700;">${agentComms.length}</span></div>
+    </div>
+    <input class="utr-input" id="utr-input" placeholder="UTR number (bank transfer reference)"/>
+    `:'<div class="empty" style="padding:20px;"><div class="empty-icon" style="font-size:28px;">✅</div><p>No pending payout</p></div>'}
+  `;
+  document.getElementById('d-foot').innerHTML=`
+    ${pendAmt>=500?`<button class="da-btn da-pay" onclick="processPayout('${a.id}',true)">💳 Process Payout ₹${fmtAmt(pendAmt-tds)}</button>`:''}
+    <button class="da-btn da-wa" onclick="waAgent('${esc(a.phone)}','${esc(a.full_name)}')">💬</button>
+    ${a.status==='active'?`<button class="da-btn da-suspend" onclick="suspendAgent('${a.id}')">⛔</button>`:''}
+  `;
+};
+
+function ii(label,value){return`<div class="info-item"><div class="il">${label}</div><div class="iv">${value}</div></div>`;}
+window.closeDrawer=()=>{document.getElementById('overlay').classList.remove('open');document.getElementById('drawer').classList.remove('open');};
+
+// ── Actions ────────────────────────────────────────────────
+window.processPayout = async (id, fromDrawer=false) => {
+  const a=allAgents.find(x=>x.id===id);
+  const utr=(fromDrawer?document.getElementById('utr-input')?.value:null)||null;
+  const agentComms=allComms.filter(c=>c.agent_id===id);
+  const pendAmt=agentComms.reduce((s,c)=>s+parseFloat(c.commission_amount||0),0);
+  if(pendAmt<500){showToast('Minimum payout is ₹500','error');return;}
+  if(!confirm(`Process payout of ₹${fmtAmt(pendAmt)} to ${a?.full_name}?`))return;
+
+  // Mark commissions as paid (simplified — in production use the DB function)
+  const commIds=agentComms.map(c=>c.id);
+  const tds=pendAmt>5000?pendAmt*0.05:0;
+  const net=pendAmt-tds;
+
+  const {error:payoutErr}=await supabase.from('agent_payouts').insert([{
+    agent_id:id, amount:pendAmt, tds_deducted:tds, net_amount:net,
+    payout_status:'completed', utr_number:utr, booking_count:agentComms.length,
+    payout_date:new Date().toISOString().split('T')[0]
+  }]);
+  if(payoutErr){showToast('Error: '+payoutErr.message,'error');return;}
+
+  // Update commission records
+  await supabase.from('agent_commissions').update({status:'paid'}).in('id',commIds);
+  // Update agent paid stats
+  await supabase.from('agents').update({
+    total_commission_paid: parseFloat(a.total_commission_paid||0) + net
+  }).eq('id',id);
+
+  // Remove from allComms
+  allComms=allComms.filter(c=>!commIds.includes(c.id));
+  const idx=allAgents.findIndex(x=>x.id===id);
+  if(idx!==-1) allAgents[idx].total_commission_paid=(parseFloat(a.total_commission_paid||0)+net).toString();
+
+  renderStats(); renderTable(); renderPayouts();
+  closeDrawer();
+  showToast(`✅ Payout of ₹${fmtAmt(net)} processed for ${a?.full_name}`);
+
+  // WhatsApp agent
+  const ph=sanitizePhone(a?.phone||'');
+  const msg=`💳 *ZoomFly Commission Payout*\n\nHi ${a?.full_name},\n\nYour commission payout of ₹${fmtAmt(net)} has been processed!\n${utr?'UTR: '+utr+'\n':''}${tds>0?'TDS deducted: ₹'+fmtAmt(tds)+'\n':''}\nThank you for being a ZoomFly agent! 🎉`;
+  if(confirm(`Send WhatsApp confirmation to ${a?.full_name}?`))
+    window.open(`https://wa.me/${ph}?text=${encodeURIComponent(msg)}`,'_blank');
+};
+
+window.suspendAgent = async (id) => {
+  const reason=prompt('Reason for suspension:');
+  if(!reason)return;
+  const {error}=await supabase.from('agents').update({status:'suspended'}).eq('id',id);
+  if(error){showToast('Error: '+error.message,'error');return;}
+  const idx=allAgents.findIndex(a=>a.id===id);
+  if(idx!==-1) allAgents[idx].status='suspended';
+  renderTable(); closeDrawer(); showToast('Agent suspended');
+};
+
+window.waAgent = (phone, name) => {
+  const ph=sanitizePhone(phone);
+  const msg=`Hi ${name}! This is ZoomFly regarding your agent account. How can we help?`;
+  window.open(`https://wa.me/${ph}?text=${encodeURIComponent(msg)}`,'_blank');
+};
+
+window.exportCSV = () => {
+  const hdrs=['Code','Name','Email','Phone','City','Tier','Status','Bookings','Revenue','Earned','Paid','Pending'];
+  const rows=allAgents.map(a=>{
+    const comm=parseFloat(a.total_commission_earned||0);
+    const paid=parseFloat(a.total_commission_paid||0);
+    return[a.agent_code,a.full_name,a.email,a.phone,a.city||'',a.tier,a.status,
+      a.total_bookings||0,a.total_booking_value||0,comm,paid,Math.max(0,comm-paid)]
+      .map(v=>`"${String(v||'').replace(/"/g,'""')}"`).join(',');
+  });
+  const a=Object.assign(document.createElement('a'),{
+    href:URL.createObjectURL(new Blob([[hdrs.join(','),...rows].join('\n')],{type:'text/csv'})),
+    download:`zoomfly-agents-${new Date().toISOString().slice(0,10)}.csv`
+  });
+  a.click(); showToast('📥 CSV exported');
+};
+
+window.switchPageTab = (tab, el) => {
+  document.querySelectorAll('.ptab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-section').forEach(s=>s.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('tab-'+tab).classList.add('active');
+};
+
+window.doLogout = async () => { await supabase.auth.signOut(); window.location.href='admin-login.html'; };
+
+// ── Helpers ────────────────────────────────────────────────
+function fmtAmt(n){return parseFloat(n||0).toLocaleString('en-IN',{minimumFractionDigits:0,maximumFractionDigits:2});}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function capitalize(s){return s?s.charAt(0).toUpperCase()+s.slice(1):'—';}
+function tierLabel(t){return{associate:'🤝 Associate',senior:'⭐ Senior',elite:'💎 Elite'}[t]||capitalize(t);}
+function sanitizePhone(p){let ph=String(p||'').replace(/\D/g,'');if(ph.length===10)ph='91'+ph;return ph||WA_ADMIN;}
+function showToast(msg,type='success'){const t=document.getElementById('toast');t.textContent=msg;t.style.background=type==='error'?'#ef4444':'var(--dark)';t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
+
+(async()=>{const ok=await checkAuth();if(ok)await loadAll();})();
+</script>
+</body>
+</html>

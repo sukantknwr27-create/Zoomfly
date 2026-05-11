@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vendor Portal — ZoomFly</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✈️</text></svg>"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --primary:#1a73e8; --primary-dark:#1557b0;
+      --accent:#ff6b35;  --dark:#0f1923;  --dark2:#1a2535;
+      --text:#2d3748;    --light:#64748b;
+      --border:#e2e8f0;  --bg:#f8fafc;    --white:#fff;
+      --green:#22c55e;   --yellow:#f59e0b;
+      --red:#ef4444;     --purple:#8b5cf6;
+      --teal:#14b8a6;    --sidebar:250px;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+
+    /* ── AUTH SCREEN ── */
+    #view-auth{display:none;}
+    #view-auth.show{display:flex;align-items:center;justify-content:center;
+      min-height:100vh;padding:20px;
+      background:linear-gradient(135deg,#0f1923 0%,#1a2535 60%,#1a3a2e 100%);}
+
+    .auth-card{background:var(--white);border-radius:20px;
+      box-shadow:0 24px 80px rgba(0,0,0,0.3);width:100%;max-width:440px;overflow:hidden;}
+    .ac-header{background:linear-gradient(135deg,var(--dark),var(--dark2));
+      padding:32px;text-align:center;}
+    .ac-header .ac-icon{font-size:44px;margin-bottom:14px;}
+    .ac-header h1{font-family:'Playfair Display',serif;font-size:1.6rem;color:#fff;margin-bottom:6px;}
+    .ac-header p{color:rgba(255,255,255,0.5);font-size:0.85rem;}
+
+    .ac-tabs{display:flex;border-bottom:1px solid var(--border);}
+    .ac-tab{flex:1;padding:13px;text-align:center;font-size:0.88rem;font-weight:600;
+      color:var(--light);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;}
+    .ac-tab.active{color:var(--primary);border-bottom-color:var(--primary);}
+
+    .ac-body{padding:28px;}
+    .form-group{margin-bottom:16px;}
+    .form-label{font-size:0.78rem;font-weight:600;color:var(--text);margin-bottom:6px;display:block;}
+    .form-input,.form-select{width:100%;padding:11px 14px;border:1.5px solid var(--border);
+      border-radius:10px;font-family:inherit;font-size:0.9rem;color:var(--text);
+      outline:none;transition:border 0.2s;background:var(--white);}
+    .form-input:focus,.form-select:focus{border-color:var(--primary);}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+    .auth-btn{width:100%;padding:13px;border-radius:10px;border:none;cursor:pointer;
+      background:linear-gradient(135deg,var(--primary),var(--primary-dark));
+      color:#fff;font-size:0.92rem;font-weight:700;font-family:inherit;
+      transition:all 0.2s;box-shadow:0 4px 16px rgba(26,115,232,0.3);}
+    .auth-btn:hover{transform:translateY(-1px);}
+    .auth-btn:disabled{opacity:0.6;cursor:not-allowed;transform:none;}
+    .auth-msg{padding:10px 14px;border-radius:8px;font-size:0.83rem;
+      margin-bottom:14px;display:none;}
+    .auth-msg.show{display:block;}
+    .auth-msg.error{background:rgba(239,68,68,0.08);color:#991b1b;border:1px solid rgba(239,68,68,0.2);}
+    .auth-msg.success{background:rgba(34,197,94,0.08);color:#166534;border:1px solid rgba(34,197,94,0.2);}
+
+    /* ── PORTAL LAYOUT ── */
+    #view-portal{display:none;}
+    #view-portal.show{display:flex;min-height:100vh;}
+
+    /* SIDEBAR */
+    .sidebar{width:var(--sidebar);background:var(--dark);min-height:100vh;
+      position:fixed;left:0;top:0;z-index:200;display:flex;flex-direction:column;
+      box-shadow:4px 0 24px rgba(0,0,0,0.2);}
+    .sb-logo{padding:22px 20px;display:flex;align-items:center;gap:10px;
+      border-bottom:1px solid rgba(255,255,255,0.06);}
+    .sb-logo-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--teal),var(--green));
+      border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;}
+    .sb-logo-text{font-family:'Playfair Display',serif;font-size:1.1rem;color:#fff;font-weight:700;line-height:1.2;}
+    .sb-logo-sub{font-size:0.65rem;color:rgba(255,255,255,0.35);margin-top:1px;}
+
+    .sb-vendor-info{padding:16px 20px;border-bottom:1px solid rgba(255,255,255,0.06);}
+    .svi-name{font-weight:700;font-size:0.9rem;color:#fff;margin-bottom:2px;}
+    .svi-type{font-size:0.72rem;color:rgba(255,255,255,0.4);}
+    .svi-badge{display:inline-block;margin-top:6px;padding:2px 10px;border-radius:10px;
+      font-size:0.68rem;font-weight:700;}
+    .badge-active{background:rgba(34,197,94,0.2);color:#86efac;}
+    .badge-pending{background:rgba(245,158,11,0.2);color:#fde047;}
+
+    .sb-nav{padding:16px 12px;flex:1;}
+    .sb-nav-label{font-size:0.65rem;font-weight:700;text-transform:uppercase;
+      letter-spacing:2px;color:rgba(255,255,255,0.25);padding:0 8px;margin-bottom:8px;margin-top:8px;}
+    .sb-link{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;
+      color:rgba(255,255,255,0.55);text-decoration:none;font-size:0.85rem;
+      font-weight:500;transition:all 0.2s;margin-bottom:2px;cursor:pointer;border:none;
+      background:none;width:100%;text-align:left;}
+    .sb-link:hover{background:rgba(255,255,255,0.07);color:#fff;}
+    .sb-link.active{background:rgba(20,184,166,0.2);color:#fff;}
+    .sb-link.active .sb-icon{color:var(--teal);}
+    .sb-icon{font-size:16px;width:20px;text-align:center;}
+    .sb-count{margin-left:auto;background:var(--accent);color:#fff;
+      font-size:0.65rem;font-weight:700;padding:2px 7px;border-radius:10px;}
+    .sb-bottom{padding:16px 12px;border-top:1px solid rgba(255,255,255,0.06);}
+
+    /* MAIN */
+    .main{margin-left:var(--sidebar);flex:1;display:flex;flex-direction:column;min-width:0;}
+
+    /* TOPBAR */
+    .topbar{background:var(--white);border-bottom:1px solid var(--border);
+      padding:0 28px;height:64px;display:flex;align-items:center;
+      justify-content:space-between;position:sticky;top:0;z-index:100;
+      box-shadow:0 2px 8px rgba(0,0,0,0.04);}
+    .topbar-title{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--dark);font-weight:700;}
+    .topbar-sub{font-size:0.78rem;color:var(--light);margin-top:1px;}
+    .tb-actions{display:flex;gap:10px;}
+    .tb-btn{padding:8px 16px;border-radius:9px;border:1.5px solid var(--border);
+      background:var(--white);color:var(--text);font-size:0.82rem;font-weight:600;
+      cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:6px;}
+    .tb-btn:hover{border-color:var(--primary);color:var(--primary);}
+    .tb-btn.teal{background:var(--teal);color:#fff;border-color:var(--teal);}
+    .tb-btn.teal:hover{background:#0f9b8e;}
+
+    /* SECTIONS */
+    .section{display:none;padding:28px;}
+    .section.active{display:block;}
+
+    /* ── DASHBOARD ── */
+    .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px;}
+    .stat-card{background:var(--white);border-radius:14px;border:1px solid var(--border);
+      padding:20px;box-shadow:0 2px 8px rgba(0,0,0,0.04);position:relative;overflow:hidden;}
+    .stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+    .sc-enquiries::before{background:var(--teal);}
+    .sc-confirmed::before{background:var(--green);}
+    .sc-revenue::before{background:var(--accent);}
+    .sc-rating::before{background:var(--purple);}
+    .sc-icon{font-size:22px;margin-bottom:10px;}
+    .sc-num{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;
+      color:var(--dark);line-height:1;margin-bottom:4px;}
+    .sc-label{font-size:0.78rem;color:var(--light);font-weight:500;}
+
+    /* Quick actions */
+    .quick-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:28px;}
+    .qa-btn{background:var(--white);border:1px solid var(--border);border-radius:14px;
+      padding:18px;text-align:center;cursor:pointer;transition:all 0.2s;
+      box-shadow:0 2px 8px rgba(0,0,0,0.04);}
+    .qa-btn:hover{border-color:var(--teal);box-shadow:0 4px 20px rgba(20,184,166,0.12);transform:translateY(-2px);}
+    .qa-icon{font-size:26px;margin-bottom:8px;}
+    .qa-label{font-size:0.82rem;font-weight:700;color:var(--dark);}
+    .qa-sub{font-size:0.72rem;color:var(--light);margin-top:2px;}
+
+    /* Recent activity table */
+    .card{background:var(--white);border-radius:14px;border:1px solid var(--border);
+      box-shadow:0 2px 8px rgba(0,0,0,0.04);overflow:hidden;margin-bottom:20px;}
+    .card-header{padding:16px 20px;border-bottom:1px solid var(--border);
+      display:flex;align-items:center;justify-content:space-between;}
+    .card-title{font-weight:700;font-size:0.95rem;color:var(--dark);}
+    .card-action{font-size:0.8rem;color:var(--teal);cursor:pointer;font-weight:600;
+      background:none;border:none;}
+    table{width:100%;border-collapse:collapse;}
+    thead tr{background:var(--bg);}
+    th{padding:10px 16px;text-align:left;font-size:0.72rem;font-weight:700;
+      text-transform:uppercase;letter-spacing:1px;color:var(--light);
+      border-bottom:1px solid var(--border);}
+    td{padding:12px 16px;font-size:0.85rem;border-bottom:1px solid #f8fafc;vertical-align:middle;}
+    tr:last-child td{border-bottom:none;}
+    tr:hover td{background:rgba(20,184,166,0.02);}
+
+    /* ── ENQUIRIES ── */
+    .filters-bar{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;}
+    .f-search{flex:1;min-width:180px;display:flex;align-items:center;gap:8px;
+      background:var(--white);border:1.5px solid var(--border);border-radius:9px;padding:8px 14px;}
+    .f-search input{border:none;background:none;outline:none;font-family:inherit;
+      font-size:0.85rem;color:var(--text);width:100%;}
+    .f-select{padding:9px 12px;border:1.5px solid var(--border);border-radius:9px;
+      font-family:inherit;font-size:0.82rem;color:var(--text);background:var(--white);
+      cursor:pointer;outline:none;}
+    .f-select:focus{border-color:var(--teal);}
+
+    .enquiry-card{background:var(--white);border-radius:14px;border:1px solid var(--border);
+      margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,0.04);overflow:hidden;
+      transition:all 0.2s;}
+    .enquiry-card:hover{box-shadow:0 4px 20px rgba(0,0,0,0.08);}
+    .enq-top{padding:18px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer;}
+    .enq-left{display:flex;align-items:center;gap:14px;min-width:0;}
+    .enq-icon{width:46px;height:46px;border-radius:12px;display:flex;
+      align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+    .enq-ref{font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--teal);font-weight:600;margin-bottom:2px;}
+    .enq-service{font-weight:700;font-size:0.9rem;color:var(--dark);margin-bottom:2px;}
+    .enq-customer{font-size:0.78rem;color:var(--light);}
+    .enq-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0;}
+    .enq-amount{font-weight:700;font-size:1rem;color:var(--dark);}
+
+    .status-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;
+      border-radius:20px;font-size:0.72rem;font-weight:700;}
+    .sb-pending   {background:rgba(245,158,11,0.1); color:#92400e;}
+    .sb-confirmed {background:rgba(26,115,232,0.1); color:#1557b0;}
+    .sb-processing{background:rgba(139,92,246,0.1); color:#5b21b6;}
+    .sb-completed {background:rgba(34,197,94,0.1);  color:#166534;}
+    .sb-cancelled {background:rgba(239,68,68,0.1);  color:#991b1b;}
+
+    .enq-detail{display:none;border-top:1px solid var(--border);}
+    .enq-detail.open{display:block;}
+    .enq-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;}
+    .enq-col{padding:18px 20px;}
+    .enq-col+.enq-col{border-left:1px solid var(--border);}
+    .ec-label{font-size:0.7rem;font-weight:700;text-transform:uppercase;
+      letter-spacing:1.5px;color:var(--light);margin-bottom:10px;}
+    .ec-row{display:flex;justify-content:space-between;padding:6px 0;
+      font-size:0.83rem;border-bottom:1px solid #f8fafc;}
+    .ec-row:last-child{border-bottom:none;}
+    .ec-key{color:var(--light);}
+    .ec-val{font-weight:600;color:var(--dark);text-align:right;}
+    .enq-actions{padding:14px 20px;background:var(--bg);border-top:1px solid var(--border);
+      display:flex;gap:10px;flex-wrap:wrap;}
+    .enq-btn{padding:9px 16px;border-radius:9px;border:none;cursor:pointer;
+      font-size:0.82rem;font-weight:700;font-family:inherit;transition:all 0.2s;
+      display:flex;align-items:center;gap:6px;}
+    .eb-confirm{background:var(--green);color:#fff;}
+    .eb-confirm:hover{background:#16a34a;}
+    .eb-wa{background:#25d366;color:#fff;}
+    .eb-wa:hover{background:#20b858;}
+    .eb-decline{background:rgba(239,68,68,0.08);color:var(--red);border:1.5px solid rgba(239,68,68,0.15);}
+    .eb-decline:hover{background:var(--red);color:#fff;}
+
+    /* ── LISTINGS ── */
+    .listings-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+    .listing-card{background:var(--white);border-radius:14px;border:1px solid var(--border);
+      padding:20px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,0.04);
+      display:flex;align-items:flex-start;gap:16px;}
+    .lc-icon{width:52px;height:52px;border-radius:12px;background:rgba(20,184,166,0.1);
+      display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;}
+    .lc-info{flex:1;min-width:0;}
+    .lc-name{font-weight:700;font-size:0.95rem;color:var(--dark);margin-bottom:4px;}
+    .lc-meta{font-size:0.8rem;color:var(--light);margin-bottom:8px;}
+    .lc-tags{display:flex;gap:6px;flex-wrap:wrap;}
+    .lc-tag{padding:3px 10px;border-radius:10px;font-size:0.72rem;font-weight:600;
+      background:var(--bg);border:1px solid var(--border);color:var(--light);}
+    .lc-right{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0;}
+    .lc-price{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--dark);}
+    .lc-price span{font-size:0.72rem;font-weight:400;color:var(--light);}
+    .lc-actions{display:flex;gap:8px;}
+    .lc-btn{padding:7px 14px;border-radius:8px;border:1.5px solid var(--border);
+      background:var(--white);color:var(--text);font-size:0.78rem;font-weight:600;
+      cursor:pointer;transition:all 0.2s;}
+    .lc-btn:hover{border-color:var(--teal);color:var(--teal);}
+    .lc-btn.danger:hover{border-color:var(--red);color:var(--red);}
+
+    /* ── LISTING FORM MODAL ── */
+    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:500;
+      display:none;align-items:center;justify-content:center;padding:20px;
+      backdrop-filter:blur(4px);}
+    .modal-overlay.show{display:flex;}
+    .modal{background:var(--white);border-radius:18px;padding:0;
+      max-width:580px;width:100%;box-shadow:0 24px 80px rgba(0,0,0,0.25);
+      max-height:90vh;display:flex;flex-direction:column;}
+    .modal-head{padding:24px 28px;border-bottom:1px solid var(--border);
+      display:flex;align-items:center;justify-content:space-between;}
+    .modal-head h3{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--dark);}
+    .modal-close{width:32px;height:32px;border-radius:8px;border:1.5px solid var(--border);
+      background:var(--white);cursor:pointer;font-size:18px;display:flex;
+      align-items:center;justify-content:center;transition:all 0.2s;}
+    .modal-close:hover{background:var(--red);color:#fff;border-color:var(--red);}
+    .modal-body{padding:24px 28px;overflow-y:auto;flex:1;}
+    .modal-foot{padding:16px 28px;border-top:1px solid var(--border);
+      display:flex;gap:10px;justify-content:flex-end;}
+    .modal-btn{padding:11px 24px;border-radius:10px;border:none;cursor:pointer;
+      font-size:0.88rem;font-weight:700;font-family:inherit;transition:all 0.2s;}
+    .mb-cancel{background:var(--bg);color:var(--light);border:1.5px solid var(--border);}
+    .mb-save{background:var(--teal);color:#fff;}
+    .mb-save:hover{background:#0f9b8e;}
+
+    /* ── PROFILE ── */
+    .profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+    .profile-card{background:var(--white);border-radius:14px;border:1px solid var(--border);
+      padding:24px;box-shadow:0 2px 8px rgba(0,0,0,0.04);}
+    .pc-title{font-weight:700;font-size:0.95rem;color:var(--dark);margin-bottom:16px;
+      padding-bottom:12px;border-bottom:1px solid var(--border);}
+
+    /* ── EARNINGS ── */
+    .earnings-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;}
+    .earn-card{background:var(--white);border-radius:14px;border:1px solid var(--border);
+      padding:20px;box-shadow:0 2px 8px rgba(0,0,0,0.04);}
+    .earn-label{font-size:0.75rem;font-weight:700;text-transform:uppercase;
+      letter-spacing:1px;color:var(--light);margin-bottom:8px;}
+    .earn-amount{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:var(--dark);}
+    .earn-sub{font-size:0.78rem;color:var(--light);margin-top:4px;}
+
+    /* Empty */
+    .empty{text-align:center;padding:48px 20px;color:var(--light);}
+    .empty-icon{font-size:40px;margin-bottom:12px;}
+    .empty h3{font-size:1rem;font-weight:700;color:var(--dark);margin-bottom:6px;}
+    .empty p{font-size:0.85rem;}
+
+    /* Toast */
+    .toast{position:fixed;bottom:24px;right:24px;background:var(--dark);color:#fff;
+      padding:12px 20px;border-radius:10px;font-size:0.88rem;font-weight:600;
+      z-index:9999;opacity:0;transform:translateY(8px);transition:all 0.3s;pointer-events:none;}
+    .toast.show{opacity:1;transform:translateY(0);}
+
+    @media(max-width:1024px){.sidebar{display:none;}.main{margin-left:0;}
+      .stat-grid,.quick-actions{grid-template-columns:repeat(2,1fr);}
+      .enq-grid{grid-template-columns:1fr 1fr;}}
+    @media(max-width:640px){.stat-grid,.quick-actions,.profile-grid,.earnings-grid{grid-template-columns:1fr;}
+      .section{padding:16px;}}
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     AUTH VIEW
+══════════════════════════════════════════ -->
+<div id="view-auth">
+  <div class="auth-card">
+    <div class="ac-header">
+      <div class="ac-icon">🏨</div>
+      <h1>ZoomFly Vendor Portal</h1>
+      <p>Manage your listings, enquiries &amp; earnings</p>
+    </div>
+
+    <div class="ac-tabs">
+      <div class="ac-tab active" onclick="switchTab('login')">Sign In</div>
+      <div class="ac-tab"        onclick="switchTab('register')">Register as Vendor</div>
+    </div>
+
+    <!-- LOGIN -->
+    <div id="ac-login" class="ac-body">
+      <div class="auth-msg" id="login-msg"></div>
+      <div class="form-group">
+        <label class="form-label">Email Address</label>
+        <input class="form-input" type="email" id="l-email" placeholder="vendor@example.com"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input class="form-input" type="password" id="l-pass" placeholder="••••••••"/>
+      </div>
+      <button class="auth-btn" id="login-btn" onclick="doLogin()">Sign In to Portal</button>
+      <div style="text-align:center;margin-top:12px;">
+        <a href="#" onclick="doForgot()" style="font-size:0.8rem;color:var(--primary);text-decoration:none;">Forgot password?</a>
+      </div>
+    </div>
+
+    <!-- REGISTER -->
+    <div id="ac-register" class="ac-body" style="display:none;">
+      <div class="auth-msg" id="reg-msg"></div>
+      <div class="form-group">
+        <label class="form-label">Business Name</label>
+        <input class="form-input" type="text" id="r-bname" placeholder="Hotel Grand Palace"/>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Contact Name</label>
+          <input class="form-input" type="text" id="r-name" placeholder="Rajesh Kumar"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Phone</label>
+          <input class="form-input" type="tel" id="r-phone" placeholder="9876543210"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email Address</label>
+        <input class="form-input" type="email" id="r-email" placeholder="vendor@example.com"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Vendor Type</label>
+        <select class="form-select" id="r-type">
+          <option value="">Select type...</option>
+          <option value="hotel">🏨 Hotel / Resort</option>
+          <option value="bus">🚌 Bus Operator</option>
+          <option value="cab">🚖 Cab / Transfer Provider</option>
+          <option value="tour_operator">🧳 Tour Operator</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">City</label>
+          <input class="form-input" type="text" id="r-city" placeholder="New Delhi"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">GSTIN (optional)</label>
+          <input class="form-input" type="text" id="r-gstin" placeholder="22AAAAA0000A1Z5"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input class="form-input" type="password" id="r-pass" placeholder="Min 8 characters"/>
+      </div>
+      <button class="auth-btn" id="reg-btn" onclick="doRegister()">Register as Vendor</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PORTAL VIEW
+══════════════════════════════════════════ -->
+<div id="view-portal">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sb-logo">
+      <div class="sb-logo-icon">🏨</div>
+      <div>
+        <div class="sb-logo-text">ZoomFly</div>
+        <div class="sb-logo-sub">Vendor Portal</div>
+      </div>
+    </div>
+    <div class="sb-vendor-info">
+      <div class="svi-name" id="sb-bname">Loading...</div>
+      <div class="svi-type" id="sb-vtype"></div>
+      <span class="svi-badge badge-active" id="sb-status">✅ Active</span>
+    </div>
+    <div class="sb-nav">
+      <button class="sb-link active" onclick="showSection('dashboard',this)"><span class="sb-icon">📊</span> Dashboard</button>
+      <button class="sb-link"        onclick="showSection('enquiries',this)"><span class="sb-icon">📋</span> Enquiries <span class="sb-count" id="enq-count">0</span></button>
+      <button class="sb-link"        onclick="showSection('listings', this)"><span class="sb-icon">🏷️</span> My Listings</button>
+      <button class="sb-link"        onclick="showSection('earnings', this)"><span class="sb-icon">💰</span> Earnings</button>
+      <button class="sb-link"        onclick="showSection('profile',  this)"><span class="sb-icon">👤</span> Profile</button>
+    </div>
+    <div class="sb-bottom">
+      <a href="index.html" class="sb-link"><span class="sb-icon">🌐</span> View ZoomFly</a>
+      <button class="sb-link" onclick="doLogout()"><span class="sb-icon">🚪</span> Sign Out</button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div>
+        <div class="topbar-title" id="topbar-title">Dashboard</div>
+        <div class="topbar-sub"  id="topbar-sub">Welcome back</div>
+      </div>
+      <div class="tb-actions">
+        <button class="tb-btn" onclick="loadAll()">🔄 Refresh</button>
+        <button class="tb-btn teal" onclick="openListingModal()">+ Add Listing</button>
+      </div>
+    </div>
+
+    <!-- ── DASHBOARD ── -->
+    <div class="section active" id="sec-dashboard">
+      <div class="stat-grid">
+        <div class="stat-card sc-enquiries">
+          <div class="sc-icon">📋</div>
+          <div class="sc-num" id="ds-enquiries">0</div>
+          <div class="sc-label">New Enquiries</div>
+        </div>
+        <div class="stat-card sc-confirmed">
+          <div class="sc-icon">✅</div>
+          <div class="sc-num" id="ds-confirmed">0</div>
+          <div class="sc-label">Confirmed Bookings</div>
+        </div>
+        <div class="stat-card sc-revenue">
+          <div class="sc-icon">💰</div>
+          <div class="sc-num" id="ds-revenue">₹0</div>
+          <div class="sc-label">This Month's Revenue</div>
+        </div>
+        <div class="stat-card sc-rating">
+          <div class="sc-icon">⭐</div>
+          <div class="sc-num" id="ds-listings">0</div>
+          <div class="sc-label">Active Listings</div>
+        </div>
+      </div>
+
+      <div class="quick-actions">
+        <div class="qa-btn" onclick="showSection('enquiries',null)">
+          <div class="qa-icon">📋</div>
+          <div class="qa-label">View Enquiries</div>
+          <div class="qa-sub">Respond to bookings</div>
+        </div>
+        <div class="qa-btn" onclick="openListingModal()">
+          <div class="qa-icon">➕</div>
+          <div class="qa-label">Add Listing</div>
+          <div class="qa-sub">Hotel, cab, bus, tour</div>
+        </div>
+        <div class="qa-btn" onclick="showSection('earnings',null)">
+          <div class="qa-icon">📈</div>
+          <div class="qa-label">View Earnings</div>
+          <div class="qa-sub">Revenue & payouts</div>
+        </div>
+        <div class="qa-btn" onclick="openWASupport()">
+          <div class="qa-icon">💬</div>
+          <div class="qa-label">ZoomFly Support</div>
+          <div class="qa-sub">WhatsApp us</div>
+        </div>
+      </div>
+
+      <!-- Recent enquiries table -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Recent Enquiries</div>
+          <button class="card-action" onclick="showSection('enquiries',null)">View All →</button>
+        </div>
+        <div id="recent-table">
+          <div class="empty"><div class="empty-icon">⏳</div><h3>Loading...</h3></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── ENQUIRIES ── -->
+    <div class="section" id="sec-enquiries">
+      <div class="filters-bar">
+        <div class="f-search">🔍<input type="text" id="enq-search" placeholder="Search ref, customer..." oninput="renderEnquiries()"/></div>
+        <select class="f-select" id="enq-status" onchange="renderEnquiries()">
+          <option value="">All Statuses</option>
+          <option value="pending">⏳ Pending</option>
+          <option value="confirmed">✅ Confirmed</option>
+          <option value="completed">🎉 Completed</option>
+          <option value="cancelled">❌ Cancelled</option>
+        </select>
+        <select class="f-select" id="enq-date" onchange="renderEnquiries()">
+          <option value="">All Time</option>
+          <option value="today">Today</option>
+          <option value="week">This Week</option>
+          <option value="month">This Month</option>
+        </select>
+      </div>
+      <div id="enquiries-list">
+        <div class="empty"><div class="empty-icon">⏳</div><h3>Loading enquiries...</h3></div>
+      </div>
+    </div>
+
+    <!-- ── LISTINGS ── -->
+    <div class="section" id="sec-listings">
+      <div class="listings-header">
+        <div>
+          <div style="font-weight:700;font-size:1rem;color:var(--dark);">My Listings</div>
+          <div style="font-size:0.82rem;color:var(--light);margin-top:2px;">Manage your services on ZoomFly</div>
+        </div>
+        <button class="tb-btn teal" onclick="openListingModal()">+ Add New Listing</button>
+      </div>
+      <div id="listings-list">
+        <div class="empty"><div class="empty-icon">⏳</div><h3>Loading listings...</h3></div>
+      </div>
+    </div>
+
+    <!-- ── EARNINGS ── -->
+    <div class="section" id="sec-earnings">
+      <div class="earnings-grid">
+        <div class="earn-card">
+          <div class="earn-label">Total Earned</div>
+          <div class="earn-amount" id="earn-total">₹0</div>
+          <div class="earn-sub">All confirmed bookings</div>
+        </div>
+        <div class="earn-card">
+          <div class="earn-label">This Month</div>
+          <div class="earn-amount" id="earn-month">₹0</div>
+          <div class="earn-sub">Current month revenue</div>
+        </div>
+        <div class="earn-card">
+          <div class="earn-label">ZoomFly Commission</div>
+          <div class="earn-amount" id="earn-commission">₹0</div>
+          <div class="earn-sub">10% platform fee</div>
+        </div>
+        <div class="earn-card">
+          <div class="earn-label">Net Payable to You</div>
+          <div class="earn-amount" id="earn-net">₹0</div>
+          <div class="earn-sub">After commission deduction</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Earnings Breakdown</div>
+        </div>
+        <div id="earnings-table">
+          <div class="empty"><div class="empty-icon">📊</div><h3>No earnings data yet</h3><p>Confirmed bookings will appear here.</p></div>
+        </div>
+      </div>
+
+      <div style="background:rgba(20,184,166,0.06);border:1px solid rgba(20,184,166,0.2);border-radius:12px;padding:18px 20px;margin-top:20px;">
+        <div style="font-weight:700;color:#0f766e;margin-bottom:6px;">💳 Payout Information</div>
+        <div style="font-size:0.85rem;color:var(--light);line-height:1.7;">
+          Payouts are processed on the <strong>1st and 15th</strong> of every month via NEFT/RTGS to your registered bank account.
+          Minimum payout threshold: <strong>₹500</strong>. For payout queries, WhatsApp us at <strong>+91 8076136300</strong>.
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PROFILE ── -->
+    <div class="section" id="sec-profile">
+      <div class="profile-grid">
+        <div class="profile-card" style="grid-column:1/-1;">
+          <div class="pc-title">Business Information</div>
+          <div class="form-row" style="margin-bottom:14px;">
+            <div class="form-group">
+              <label class="form-label">Business Name</label>
+              <input class="form-input" type="text" id="p-bname" placeholder="Your business name"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Vendor Type</label>
+              <select class="form-select" id="p-vtype">
+                <option value="hotel">🏨 Hotel / Resort</option>
+                <option value="bus">🚌 Bus Operator</option>
+                <option value="cab">🚖 Cab Provider</option>
+                <option value="tour_operator">🧳 Tour Operator</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row" style="margin-bottom:14px;">
+            <div class="form-group">
+              <label class="form-label">Contact Person</label>
+              <input class="form-input" type="text" id="p-cname" placeholder="Contact name"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Phone / WhatsApp</label>
+              <input class="form-input" type="tel" id="p-phone" placeholder="9876543210"/>
+            </div>
+          </div>
+          <div class="form-row" style="margin-bottom:14px;">
+            <div class="form-group">
+              <label class="form-label">City</label>
+              <input class="form-input" type="text" id="p-city" placeholder="City"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">GSTIN</label>
+              <input class="form-input" type="text" id="p-gstin" placeholder="22AAAAA0000A1Z5"/>
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom:20px;">
+            <label class="form-label">Business Description</label>
+            <textarea class="form-input" id="p-desc" rows="3" style="resize:vertical;"
+              placeholder="Brief description of your services..."></textarea>
+          </div>
+          <button class="tb-btn teal" onclick="saveProfile()" style="padding:11px 24px;">💾 Save Profile</button>
+        </div>
+
+        <div class="profile-card">
+          <div class="pc-title">Bank Account Details</div>
+          <div class="form-group">
+            <label class="form-label">Account Holder Name</label>
+            <input class="form-input" type="text" id="p-accname" placeholder="As per bank records"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Account Number</label>
+            <input class="form-input" type="text" id="p-accnum" placeholder="Account number"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">IFSC Code</label>
+            <input class="form-input" type="text" id="p-ifsc" placeholder="SBIN0001234"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Bank Name</label>
+            <input class="form-input" type="text" id="p-bank" placeholder="State Bank of India"/>
+          </div>
+          <button class="tb-btn teal" onclick="saveBankDetails()" style="padding:11px 24px;">💾 Save Bank Details</button>
+        </div>
+
+        <div class="profile-card">
+          <div class="pc-title">Commission Structure</div>
+          <div style="background:var(--bg);border-radius:10px;padding:16px;">
+            <div style="display:flex;justify-content:space-between;padding:8px 0;font-size:0.88rem;border-bottom:1px solid var(--border);">
+              <span style="color:var(--light);">Platform Commission</span>
+              <span style="font-weight:700;">10%</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:8px 0;font-size:0.88rem;border-bottom:1px solid var(--border);">
+              <span style="color:var(--light);">Payment Processing</span>
+              <span style="font-weight:700;">Included</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:8px 0;font-size:0.88rem;border-bottom:1px solid var(--border);">
+              <span style="color:var(--light);">Payout Frequency</span>
+              <span style="font-weight:700;">1st &amp; 15th</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:8px 0;font-size:0.88rem;">
+              <span style="color:var(--light);">Min. Payout</span>
+              <span style="font-weight:700;">₹500</span>
+            </div>
+          </div>
+          <div style="margin-top:16px;font-size:0.82rem;color:var(--light);line-height:1.6;">
+            Commission is deducted before payout. For premium partner rates, contact
+            <a href="mailto:s.admin@zoomfly.in" style="color:var(--teal);">s.admin@zoomfly.in</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /main -->
+</div><!-- /view-portal -->
+
+<!-- LISTING MODAL -->
+<div class="modal-overlay" id="listing-modal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="modal-title">Add New Listing</h3>
+      <button class="modal-close" onclick="closeListingModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Listing Name</label>
+        <input class="form-input" type="text" id="lst-name" placeholder="e.g. Deluxe Room, Delhi–Manali Bus, Airport Cab"/>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Service Type</label>
+          <select class="form-select" id="lst-type">
+            <option value="hotel">🏨 Hotel Room</option>
+            <option value="bus">🚌 Bus Route</option>
+            <option value="cab">🚖 Cab Service</option>
+            <option value="package">🧳 Tour Package</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">City / Location</label>
+          <input class="form-input" type="text" id="lst-city" placeholder="New Delhi"/>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Price (₹)</label>
+          <input class="form-input" type="number" id="lst-price" placeholder="e.g. 3500"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Price Per</label>
+          <select class="form-select" id="lst-per">
+            <option value="night">Per Night</option>
+            <option value="person">Per Person</option>
+            <option value="trip">Per Trip</option>
+            <option value="seat">Per Seat</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Capacity / Availability</label>
+        <input class="form-input" type="text" id="lst-capacity" placeholder="e.g. 4 guests, 40 seats, 2 cabs"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Description</label>
+        <textarea class="form-input" id="lst-desc" rows="3" style="resize:vertical;"
+          placeholder="Describe your service, amenities, inclusions..."></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Amenities / Inclusions (comma separated)</label>
+        <input class="form-input" type="text" id="lst-amenities"
+          placeholder="AC, WiFi, Breakfast, Airport Transfer"/>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Available From</label>
+          <input class="form-input" type="date" id="lst-from"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Available Until</label>
+          <input class="form-input" type="date" id="lst-until"/>
+        </div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="modal-btn mb-cancel" onclick="closeListingModal()">Cancel</button>
+      <button class="modal-btn mb-save"   onclick="saveListing()">💾 Save Listing</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+const SUPABASE_URL = window.SUPABASE_URL      || 'https://ndaurluolurdljrjbxii.supabase.co';
+const SUPABASE_KEY = window.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kYXVybHVvbHVyZGxqcmpieGlpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MDY2MzksImV4cCI6MjA5MzQ4MjYzOX0.JsZXOof19JkyX7asJQ7EtoaBKqURJUYzVqXQIenCzjQ';
+const supabase     = createClient(SUPABASE_URL, SUPABASE_KEY);
+const WA_ADMIN     = '918076136300';
+const COMMISSION   = 0.10;
+
+let currentUser    = null;
+let vendorProfile  = null;
+let allEnquiries   = [];
+let allListings    = [];
+let editListingId  = null;
+
+// ── Auth State ─────────────────────────────────────────────
+supabase.auth.onAuthStateChange(async (event, session) => {
+  if (session?.user) {
+    currentUser = session.user;
+    await loadVendorProfile();
+    showPortal();
+    await loadAll();
+  } else {
+    showAuth();
+  }
+});
+
+function showAuth() {
+  document.getElementById('view-auth').className = 'show';
+  document.getElementById('view-portal').className = '';
+}
+function showPortal() {
+  document.getElementById('view-auth').className = '';
+  document.getElementById('view-portal').className = 'show';
+}
+
+// ── Auth Tab ───────────────────────────────────────────────
+window.switchTab = (tab) => {
+  document.querySelectorAll('.ac-tab').forEach((t,i) =>
+    t.classList.toggle('active', (i===0&&tab==='login')||(i===1&&tab==='register')));
+  document.getElementById('ac-login').style.display    = tab==='login'    ? 'block':'none';
+  document.getElementById('ac-register').style.display = tab==='register' ? 'block':'none';
+};
+
+// ── Login ──────────────────────────────────────────────────
+window.doLogin = async () => {
+  const email = document.getElementById('l-email').value.trim();
+  const pass  = document.getElementById('l-pass').value;
+  const btn   = document.getElementById('login-btn');
+  const msg   = document.getElementById('login-msg');
+  if (!email||!pass) { showMsg(msg,'Fill in all fields.','error'); return; }
+  btn.disabled=true; btn.textContent='Signing in...';
+  const { error } = await supabase.auth.signInWithPassword({ email, password:pass });
+  if (error) showMsg(msg, error.message,'error');
+  btn.disabled=false; btn.textContent='Sign In to Portal';
+};
+
+// ── Register ───────────────────────────────────────────────
+window.doRegister = async () => {
+  const bname = document.getElementById('r-bname').value.trim();
+  const name  = document.getElementById('r-name').value.trim();
+  const phone = document.getElementById('r-phone').value.trim();
+  const email = document.getElementById('r-email').value.trim();
+  const vtype = document.getElementById('r-type').value;
+  const city  = document.getElementById('r-city').value.trim();
+  const gstin = document.getElementById('r-gstin').value.trim();
+  const pass  = document.getElementById('r-pass').value;
+  const btn   = document.getElementById('reg-btn');
+  const msg   = document.getElementById('reg-msg');
+
+  if (!bname||!name||!email||!pass||!vtype) { showMsg(msg,'Please fill all required fields.','error'); return; }
+  if (pass.length<8) { showMsg(msg,'Password must be at least 8 characters.','error'); return; }
+
+  btn.disabled=true; btn.textContent='Registering...';
+
+  const { data, error } = await supabase.auth.signUp({
+    email, password:pass,
+    options:{ data:{ full_name:name, business_name:bname, vendor_type:vtype, phone, city, gstin, role:'vendor' } }
+  });
+
+  if (error) { showMsg(msg, error.message,'error'); }
+  else {
+    // Create vendor profile
+    if (data.user) {
+      await supabase.from('vendors').insert([{
+        user_id: data.user.id, business_name:bname,
+        contact_name:name, phone, email, vendor_type:vtype, city, gstin,
+        status:'pending'
+      }]);
+    }
+    showMsg(msg,'✅ Account created! Check your email to verify. Our team will approve your vendor account within 24 hours.','success');
+  }
+  btn.disabled=false; btn.textContent='Register as Vendor';
+};
+
+window.doForgot = async () => {
+  const email = document.getElementById('l-email').value.trim();
+  const msg   = document.getElementById('login-msg');
+  if (!email) { showMsg(msg,'Enter your email above.','error'); return; }
+  const { error } = await supabase.auth.resetPasswordForEmail(email);
+  showMsg(msg, error ? error.message : '✅ Reset email sent to '+email, error?'error':'success');
+};
+
+window.doLogout = async () => { await supabase.auth.signOut(); };
+
+// ── Load Vendor Profile ────────────────────────────────────
+async function loadVendorProfile() {
+  const { data } = await supabase.from('vendors')
+    .select('*').eq('user_id', currentUser.id).single();
+  vendorProfile = data;
+  if (data) {
+    document.getElementById('sb-bname').textContent = data.business_name || 'My Business';
+    document.getElementById('sb-vtype').textContent = typeLabel(data.vendor_type);
+    document.getElementById('sb-status').textContent = data.status==='active' ? '✅ Active' : '⏳ Pending Approval';
+    document.getElementById('sb-status').className = 'svi-badge ' + (data.status==='active'?'badge-active':'badge-pending');
+    // Prefill profile form
+    setVal('p-bname',  data.business_name);
+    setVal('p-cname',  data.contact_name);
+    setVal('p-phone',  data.phone);
+    setVal('p-city',   data.city);
+    setVal('p-gstin',  data.gstin);
+    setVal('p-desc',   data.description);
+    setVal('p-accname',data.bank_acc_name);
+    setVal('p-accnum', data.bank_acc_num);
+    setVal('p-ifsc',   data.bank_ifsc);
+    setVal('p-bank',   data.bank_name);
+    if (data.vendor_type) document.getElementById('p-vtype').value = data.vendor_type;
+  }
+}
+
+// ── Load All Data ──────────────────────────────────────────
+window.loadAll = async function() {
+  if (!currentUser) return;
+  const vendorId = vendorProfile?.id;
+
+  // Load bookings for this vendor
+  let eq = supabase.from('bookings').select('*').order('created_at',{ascending:false});
+  if (vendorId) eq = eq.eq('vendor_id', vendorId);
+  const { data: bData } = await eq;
+  allEnquiries = bData || [];
+
+  // Load listings
+  const { data: lData } = await supabase.from('vendors')
+    .select('listings').eq('user_id', currentUser.id).single();
+  allListings = lData?.listings || [];
+
+  renderDashboard();
+  renderEnquiries();
+  renderListings();
+  renderEarnings();
+};
+
+// ── DASHBOARD ──────────────────────────────────────────────
+function renderDashboard() {
+  const now   = new Date();
+  const month = new Date(now.getFullYear(), now.getMonth(), 1);
+  const newEnq    = allEnquiries.filter(b=>b.status==='pending');
+  const confirmed = allEnquiries.filter(b=>b.status==='confirmed');
+  const monthRev  = allEnquiries
+    .filter(b=>b.payment_status==='paid'&&new Date(b.created_at)>=month)
+    .reduce((s,b)=>s+parseFloat(b.total_amount||0),0);
+
+  document.getElementById('ds-enquiries').textContent = newEnq.length;
+  document.getElementById('ds-confirmed').textContent = confirmed.length;
+  document.getElementById('ds-revenue').textContent   = '₹'+fmtAmt(monthRev);
+  document.getElementById('ds-listings').textContent  = allListings.length;
+  document.getElementById('enq-count').textContent    = newEnq.length;
+
+  // Recent table
+  const recent = allEnquiries.slice(0,5);
+  if (recent.length===0) {
+    document.getElementById('recent-table').innerHTML =
+      `<div class="empty"><div class="empty-icon">📋</div><h3>No enquiries yet</h3><p>Bookings will appear here once customers book your services.</p></div>`;
+    return;
+  }
+  document.getElementById('recent-table').innerHTML = `
+    <table>
+      <thead><tr><th>Ref</th><th>Service</th><th>Customer</th><th>Amount</th><th>Status</th></tr></thead>
+      <tbody>
+        ${recent.map(b=>`
+          <tr>
+            <td><span style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--teal);">${esc(b.booking_ref)}</span></td>
+            <td style="font-size:0.83rem;">${esc(b.service_name)}</td>
+            <td style="font-size:0.83rem;">${esc(b.customer_name)}</td>
+            <td style="font-weight:700;">₹${fmtAmt(b.total_amount)}</td>
+            <td><span class="status-badge sb-${b.status}">${statusLabel(b.status)}</span></td>
+          </tr>`).join('')}
+      </tbody>
+    </table>`;
+}
+
+// ── ENQUIRIES ──────────────────────────────────────────────
+window.renderEnquiries = function() {
+  const q    = document.getElementById('enq-search')?.value?.toLowerCase()||'';
+  const stat = document.getElementById('enq-status')?.value||'';
+  const date = document.getElementById('enq-date')?.value||'';
+  const now  = new Date();
+  const today= new Date(now.getFullYear(),now.getMonth(),now.getDate());
+  const week = new Date(today); week.setDate(today.getDate()-7);
+  const month= new Date(now.getFullYear(),now.getMonth(),1);
+
+  const filtered = allEnquiries.filter(b=>{
+    const cr=new Date(b.created_at);
+    if(q&&!(b.booking_ref?.toLowerCase().includes(q)||b.customer_name?.toLowerCase().includes(q)||b.customer_phone?.includes(q)))return false;
+    if(stat&&b.status!==stat)return false;
+    if(date==='today'&&cr<today)return false;
+    if(date==='week' &&cr<week) return false;
+    if(date==='month'&&cr<month)return false;
+    return true;
+  });
+
+  const list = document.getElementById('enquiries-list');
+  if (filtered.length===0) {
+    list.innerHTML=`<div class="empty"><div class="empty-icon">📋</div><h3>No enquiries found</h3><p>Try adjusting your filters.</p></div>`;
+    return;
+  }
+
+  list.innerHTML = filtered.map(b => {
+    const td=b.travel_details||{};
+    return `
+      <div class="enquiry-card">
+        <div class="enq-top" onclick="toggleEnq('${b.id}')">
+          <div class="enq-left">
+            <div class="enq-icon" style="background:rgba(20,184,166,0.1);">${svcIcon(b.service_type)}</div>
+            <div>
+              <div class="enq-ref">${esc(b.booking_ref)}</div>
+              <div class="enq-service">${esc(b.service_name)}</div>
+              <div class="enq-customer">👤 ${esc(b.customer_name)} · 📞 ${esc(b.customer_phone)} · ${timeAgo(b.created_at)}</div>
+            </div>
+          </div>
+          <div class="enq-right">
+            <div class="enq-amount">₹${fmtAmt(b.total_amount)}</div>
+            <span class="status-badge sb-${b.status}">${statusLabel(b.status)}</span>
+          </div>
+        </div>
+        <div class="enq-detail" id="enq-detail-${b.id}">
+          <div class="enq-grid">
+            <div class="enq-col">
+              <div class="ec-label">Customer</div>
+              ${row('Name',   b.customer_name)}
+              ${row('Phone',  b.customer_phone)}
+              ${row('Email',  b.customer_email)}
+              ${row('Guests', `${b.num_adults}A ${b.num_children}C`)}
+            </div>
+            <div class="enq-col">
+              <div class="ec-label">Travel Details</div>
+              ${buildTravelRows(b.service_type, td)}
+              ${b.special_requests?row('Special Req.',b.special_requests):''}
+            </div>
+            <div class="enq-col">
+              <div class="ec-label">Payment</div>
+              ${row('Base',    '₹'+fmtAmt(b.base_amount))}
+              ${row('Tax',     '₹'+fmtAmt(b.tax_amount))}
+              ${b.discount_amount>0?row('Discount','-₹'+fmtAmt(b.discount_amount)):''}
+              ${row('Total',   '₹'+fmtAmt(b.total_amount))}
+              ${row('Status',  capitalize(b.payment_status||'pending'))}
+            </div>
+          </div>
+          <div class="enq-actions">
+            ${b.status==='pending'?`<button class="enq-btn eb-confirm" onclick="confirmEnquiry('${b.id}')">✅ Confirm Booking</button>`:''}
+            <button class="enq-btn eb-wa"
+              onclick="waCustomer('${esc(b.customer_whatsapp||b.customer_phone)}','${esc(b.booking_ref)}','${esc(b.customer_name)}')">
+              💬 WhatsApp Customer
+            </button>
+            ${b.status==='pending'?`<button class="enq-btn eb-decline" onclick="declineEnquiry('${b.id}')">❌ Decline</button>`:''}
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+};
+
+function row(k,v){ return `<div class="ec-row"><span class="ec-key">${k}</span><span class="ec-val">${esc(v||'—')}</span></div>`; }
+
+function buildTravelRows(type,td){
+  switch(type){
+    case 'flight':return row('Route',`${td.from||''}→${td.to||''}`)+row('Date',fmtDate(td.date))+row('Class',td.class);
+    case 'hotel': return row('Hotel',td.hotel_name)+row('City',td.city)+row('Check-in',fmtDate(td.check_in))+row('Check-out',fmtDate(td.check_out))+row('Nights',td.nights);
+    case 'package':return row('Package',td.package_name)+row('Dest',td.destination)+row('Date',fmtDate(td.start_date));
+    case 'bus':   return row('Route',`${td.from||''}→${td.to||''}`)+row('Date',fmtDate(td.date))+row('Seats',td.seat_numbers?.join(','));
+    case 'cab':   return row('Pickup',td.from)+row('Drop',td.to)+row('Date',fmtDate(td.pickup_date))+row('Time',td.pickup_time);
+    default:return '';
+  }
+}
+
+window.toggleEnq = (id) => document.getElementById('enq-detail-'+id)?.classList.toggle('open');
+
+window.confirmEnquiry = async (id) => {
+  const { error } = await supabase.from('bookings')
+    .update({ status:'confirmed', vendor_confirmed:true, vendor_confirmed_at:new Date().toISOString() })
+    .eq('id',id);
+  if (error) { showToast('Error: '+error.message,'error'); return; }
+  const idx = allEnquiries.findIndex(b=>b.id===id);
+  if (idx!==-1) allEnquiries[idx].status='confirmed';
+  renderDashboard(); renderEnquiries();
+  showToast('✅ Booking confirmed!');
+  // WhatsApp the customer
+  const b = allEnquiries.find(b=>b.id===id);
+  if (b) {
+    const ph  = sanitizePhone(b.customer_whatsapp||b.customer_phone);
+    const msg = `✅ *Booking Confirmed!*\n\nRef: *${b.booking_ref}*\nService: ${b.service_name}\nAmount: ₹${fmtAmt(b.total_amount)}\n\nYour booking is confirmed. Please contact us for any queries.\n\n📞 +91 ${WA_ADMIN.slice(2)}`;
+    if (confirm('Send confirmation to customer via WhatsApp?'))
+      window.open(`https://wa.me/${ph}?text=${encodeURIComponent(msg)}`, '_blank');
+  }
+};
+
+window.declineEnquiry = async (id) => {
+  if (!confirm('Decline this enquiry? The customer will be notified.')) return;
+  await supabase.from('bookings').update({ status:'cancelled' }).eq('id',id);
+  const idx = allEnquiries.findIndex(b=>b.id===id);
+  if (idx!==-1) allEnquiries[idx].status='cancelled';
+  renderDashboard(); renderEnquiries();
+  showToast('Enquiry declined');
+};
+
+// ── LISTINGS ───────────────────────────────────────────────
+function renderListings() {
+  const list = document.getElementById('listings-list');
+  if (allListings.length===0){
+    list.innerHTML=`<div class="empty"><div class="empty-icon">🏷️</div><h3>No listings yet</h3><p>Add your first listing to appear on ZoomFly.</p></div>`;
+    return;
+  }
+  list.innerHTML = allListings.map((l,i)=>`
+    <div class="listing-card">
+      <div class="lc-icon">${svcIcon(l.type)}</div>
+      <div class="lc-info">
+        <div class="lc-name">${esc(l.name)}</div>
+        <div class="lc-meta">${svcIcon(l.type)} ${typeLabel(l.type)} · 📍 ${esc(l.city||'')}</div>
+        ${l.amenities?.length?`<div class="lc-tags">${l.amenities.slice(0,4).map(a=>`<span class="lc-tag">${esc(a.trim())}</span>`).join('')}</div>`:''}
+      </div>
+      <div class="lc-right">
+        <div class="lc-price">₹${fmtAmt(l.price)} <span>/ ${l.per||'night'}</span></div>
+        <div class="lc-actions">
+          <button class="lc-btn" onclick="editListing(${i})">✏️ Edit</button>
+          <button class="lc-btn danger" onclick="deleteListing(${i})">🗑️</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+window.openListingModal = (idx=null) => {
+  editListingId = idx;
+  document.getElementById('modal-title').textContent = idx!==null ? 'Edit Listing' : 'Add New Listing';
+  if (idx!==null) {
+    const l = allListings[idx];
+    setVal('lst-name',l.name); setVal('lst-city',l.city);
+    setVal('lst-price',l.price); setVal('lst-capacity',l.capacity);
+    setVal('lst-desc',l.description);
+    setVal('lst-amenities', l.amenities?.join(', ')||'');
+    setVal('lst-from',l.available_from); setVal('lst-until',l.available_until);
+    document.getElementById('lst-type').value = l.type||'hotel';
+    document.getElementById('lst-per').value  = l.per||'night';
+  } else {
+    ['lst-name','lst-city','lst-price','lst-capacity','lst-desc','lst-amenities','lst-from','lst-until']
+      .forEach(id=>setVal(id,''));
+  }
+  document.getElementById('listing-modal').classList.add('show');
+};
+
+window.editListing = (idx) => openListingModal(idx);
+window.closeListingModal = () => document.getElementById('listing-modal').classList.remove('show');
+
+window.saveListing = async () => {
+  const listing = {
+    name:        document.getElementById('lst-name').value.trim(),
+    type:        document.getElementById('lst-type').value,
+    city:        document.getElementById('lst-city').value.trim(),
+    price:       parseFloat(document.getElementById('lst-price').value)||0,
+    per:         document.getElementById('lst-per').value,
+    capacity:    document.getElementById('lst-capacity').value.trim(),
+    description: document.getElementById('lst-desc').value.trim(),
+    amenities:   document.getElementById('lst-amenities').value.split(',').map(a=>a.trim()).filter(Boolean),
+    available_from:  document.getElementById('lst-from').value,
+    available_until: document.getElementById('lst-until').value,
+    created_at:  new Date().toISOString(),
+  };
+  if (!listing.name||!listing.price){ showToast('Name and price are required','error'); return; }
+
+  if (editListingId!==null) allListings[editListingId]=listing;
+  else allListings.push(listing);
+
+  const { error } = await supabase.from('vendors').update({ listings:allListings }).eq('user_id',currentUser.id);
+  if (error){ showToast('Error: '+error.message,'error'); return; }
+  renderListings();
+  closeListingModal();
+  showToast('✅ Listing saved!');
+};
+
+window.deleteListing = async (idx) => {
+  if (!confirm('Delete this listing?')) return;
+  allListings.splice(idx,1);
+  await supabase.from('vendors').update({ listings:allListings }).eq('user_id',currentUser.id);
+  renderListings();
+  showToast('Listing deleted');
+};
+
+// ── EARNINGS ───────────────────────────────────────────────
+function renderEarnings() {
+  const paid  = allEnquiries.filter(b=>b.payment_status==='paid');
+  const total = paid.reduce((s,b)=>s+parseFloat(b.total_amount||0),0);
+  const now   = new Date();
+  const month = new Date(now.getFullYear(),now.getMonth(),1);
+  const monthTotal = paid.filter(b=>new Date(b.created_at)>=month)
+    .reduce((s,b)=>s+parseFloat(b.total_amount||0),0);
+  const commission = total * COMMISSION;
+  const net        = total - commission;
+
+  document.getElementById('earn-total').textContent      = '₹'+fmtAmt(total);
+  document.getElementById('earn-month').textContent      = '₹'+fmtAmt(monthTotal);
+  document.getElementById('earn-commission').textContent = '₹'+fmtAmt(commission);
+  document.getElementById('earn-net').textContent        = '₹'+fmtAmt(net);
+
+  const el = document.getElementById('earnings-table');
+  if (paid.length===0){
+    el.innerHTML=`<div class="empty"><div class="empty-icon">📊</div><h3>No earnings yet</h3><p>Confirmed bookings will appear here.</p></div>`;
+    return;
+  }
+  el.innerHTML=`
+    <table>
+      <thead><tr><th>Ref</th><th>Service</th><th>Date</th><th>Gross</th><th>Commission</th><th>Net</th></tr></thead>
+      <tbody>
+        ${paid.map(b=>{const g=parseFloat(b.total_amount||0);return`
+          <tr>
+            <td><span style="font-family:'JetBrains Mono',monospace;font-size:0.73rem;color:var(--teal);">${esc(b.booking_ref)}</span></td>
+            <td style="font-size:0.83rem;">${esc(b.service_name)}</td>
+            <td style="font-size:0.8rem;color:var(--light);">${fmtDate(b.created_at)}</td>
+            <td style="font-weight:700;">₹${fmtAmt(g)}</td>
+            <td style="color:var(--red);">-₹${fmtAmt(g*COMMISSION)}</td>
+            <td style="font-weight:700;color:var(--green);">₹${fmtAmt(g*(1-COMMISSION))}</td>
+          </tr>`;}).join('')}
+      </tbody>
+    </table>`;
+}
+
+// ── PROFILE SAVE ───────────────────────────────────────────
+window.saveProfile = async () => {
+  const { error } = await supabase.from('vendors').update({
+    business_name: document.getElementById('p-bname').value,
+    contact_name:  document.getElementById('p-cname').value,
+    phone:         document.getElementById('p-phone').value,
+    city:          document.getElementById('p-city').value,
+    gstin:         document.getElementById('p-gstin').value,
+    description:   document.getElementById('p-desc').value,
+    vendor_type:   document.getElementById('p-vtype').value,
+  }).eq('user_id', currentUser.id);
+  showToast(error ? 'Error: '+error.message : '✅ Profile saved!', error?'error':'success');
+  if (!error) loadVendorProfile();
+};
+
+window.saveBankDetails = async () => {
+  const { error } = await supabase.from('vendors').update({
+    bank_acc_name: document.getElementById('p-accname').value,
+    bank_acc_num:  document.getElementById('p-accnum').value,
+    bank_ifsc:     document.getElementById('p-ifsc').value,
+    bank_name:     document.getElementById('p-bank').value,
+  }).eq('user_id', currentUser.id);
+  showToast(error ? 'Error: '+error.message : '✅ Bank details saved!', error?'error':'success');
+};
+
+// ── SECTION NAV ───────────────────────────────────────────
+window.showSection = (id, btn) => {
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById('sec-'+id).classList.add('active');
+  document.querySelectorAll('.sb-link').forEach(l=>l.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  const titles={dashboard:'Dashboard',enquiries:'Enquiries',listings:'My Listings',earnings:'Earnings',profile:'Profile'};
+  document.getElementById('topbar-title').textContent = titles[id]||id;
+  document.getElementById('topbar-sub').textContent   =
+    id==='dashboard' ? `Welcome, ${vendorProfile?.contact_name||'Vendor'}` :
+    id==='enquiries' ? `${allEnquiries.length} total enquiries` :
+    id==='listings'  ? `${allListings.length} active listings` : '';
+};
+
+// ── HELPERS ────────────────────────────────────────────────
+window.openWASupport = () =>
+  window.open(`https://wa.me/${WA_ADMIN}?text=${encodeURIComponent('Hi ZoomFly! I am a vendor and need support.')}`, '_blank');
+
+window.waCustomer = (phone, ref, name) => {
+  const ph  = sanitizePhone(phone);
+  const msg = `Hi ${name}! I am reaching out regarding your ZoomFly booking *${ref}*. How can I assist you?`;
+  window.open(`https://wa.me/${ph}?text=${encodeURIComponent(msg)}`, '_blank');
+};
+
+function setVal(id,val){ const el=document.getElementById(id); if(el)el.value=val||''; }
+function fmtAmt(n){ return parseFloat(n||0).toLocaleString('en-IN',{minimumFractionDigits:0,maximumFractionDigits:2}); }
+function fmtDate(d){ if(!d)return'—'; try{return new Date(d).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});}catch(_){return d;} }
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function capitalize(s){ return s?s.charAt(0).toUpperCase()+s.slice(1):'—'; }
+function svcIcon(t){ return{flight:'✈️',hotel:'🏨',package:'🧳',bus:'🚌',cab:'🚖'}[t]||'📦'; }
+function typeLabel(t){ return{hotel:'Hotel/Resort',bus:'Bus Operator',cab:'Cab Provider',tour_operator:'Tour Operator'}[t]||capitalize(t); }
+function statusLabel(s){ return{pending:'⏳ Pending',confirmed:'✅ Confirmed',processing:'⚙️ Processing',completed:'🎉 Completed',cancelled:'❌ Cancelled'}[s]||capitalize(s); }
+function sanitizePhone(p){ let ph=String(p||'').replace(/\D/g,''); if(ph.length===10)ph='91'+ph; return ph||WA_ADMIN; }
+function timeAgo(d){ if(!d)return''; const m=Math.round((Date.now()-new Date(d))/60000); if(m<1)return'just now'; if(m<60)return m+'m ago'; if(m<1440)return Math.floor(m/60)+'h ago'; return Math.floor(m/1440)+'d ago'; }
+function showMsg(el,msg,type){ el.textContent=msg; el.className='auth-msg show '+type; setTimeout(()=>el.className='auth-msg',7000); }
+function showToast(msg,type='success'){ const t=document.getElementById('toast'); t.textContent=msg; t.style.background=type==='error'?'#ef4444':'var(--dark)'; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3000); }
+
+// ── Realtime ───────────────────────────────────────────────
+supabase.channel('vendor-bookings')
+  .on('postgres_changes',{event:'INSERT',schema:'public',table:'bookings'},()=>loadAll())
+  .subscribe();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"/>
+  <link rel="shortcut icon" href="/assets/favicon.svg"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>All Destinations — ZoomFly</title>
+  <link rel="stylesheet" href="/assets/css/main.css"/>
+  <style>
+    .dest-hero{background:linear-gradient(145deg,#1b4f8a,#0f2d4e);color:#fff;padding:4rem 2rem 3rem;text-align:center}
+    .dest-hero h1{font-size:2.5rem;font-weight:900;margin-bottom:.75rem}
+    .dest-hero h1 em{font-style:normal;color:#FFD700}
+    .dest-hero p{opacity:.82;max-width:540px;margin:0 auto 1.5rem}
+    .search-bar{max-width:500px;margin:0 auto;position:relative}
+    .search-bar input{width:100%;padding:.9rem 1.25rem .9rem 3rem;border:none;border-radius:50px;font-size:1rem;font-family:inherit;outline:none}
+    .search-bar::before{content:'🔍';position:absolute;left:1.1rem;top:50%;transform:translateY(-50%);font-size:1rem}
+    .filter-strip{background:#fff;border-bottom:1px solid #e2e8f0;padding:1rem 1.5rem;display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center;position:sticky;top:64px;z-index:50}
+    .fchip{padding:.45rem 1.1rem;border:1.5px solid #e2e8f0;border-radius:50px;font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s;color:#475569;background:#fff}
+    .fchip:hover,.fchip.active{border-color:var(--blue);background:var(--blue);color:#fff}
+    .container{max-width:1200px;margin:0 auto;padding:0 1.5rem}
+    .section-pad{padding:3rem 0}
+    .dest-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;padding:2.5rem 0}
+    .dest-card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;overflow:hidden;cursor:pointer;transition:all .25s;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+    .dest-card:hover{transform:translateY(-4px);box-shadow:0 12px 36px rgba(0,0,0,.12);border-color:transparent}
+    .dest-thumb{height:180px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+    .dest-thumb .emoji{font-size:5rem;position:relative;z-index:1}
+    .dest-badge{position:absolute;top:.75rem;left:.75rem;background:rgba(0,0,0,.5);color:#fff;font-size:.7rem;font-weight:700;padding:.25rem .65rem;border-radius:50px;text-transform:uppercase;letter-spacing:.05em}
+    .dest-body{padding:1.25rem}
+    .dest-name{font-size:1.1rem;font-weight:800;margin-bottom:.2rem}
+    .dest-tagline{font-size:.82rem;color:#64748b;margin-bottom:.75rem}
+    .dest-meta{display:flex;justify-content:space-between;align-items:center}
+    .dest-from{font-size:.78rem;color:#94a3b8}
+    .dest-price{font-size:1rem;font-weight:800;color:var(--blue)}
+    .dest-tags{display:flex;gap:.35rem;flex-wrap:wrap;margin-bottom:.75rem}
+    .dtag{font-size:.7rem;font-weight:600;padding:.2rem .55rem;border-radius:50px;background:#f1f5f9;color:#475569}
+    .dest-cta{display:flex;gap:.5rem;margin-top:.85rem}
+    .btn-view{flex:1;padding:.5rem;background:var(--blue);color:#fff;border:none;border-radius:8px;font-size:.8rem;font-weight:700;cursor:pointer}
+    .btn-wa{flex:1;padding:.5rem;background:#25D366;color:#fff;border:none;border-radius:8px;font-size:.8rem;font-weight:700;cursor:pointer}
+    .no-results{text-align:center;padding:4rem 1rem;color:#94a3b8}
+    .no-results .icon{font-size:4rem;margin-bottom:1rem}
+    .count-bar{padding:1rem 0;color:#64748b;font-size:.875rem}
+    @media(max-width:1100px){.dest-grid{grid-template-columns:repeat(3,1fr)}}
+    @media(max-width:768px){.dest-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:480px){.dest-grid{grid-template-columns:1fr}}
+  </style>
+  <script>
+    window.SUPABASE_URL="https://ndaurluolurdljrjbxii.supabase.co";
+    window.SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kYXVybHVvbHVyZGxqcmpieGlpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MDY2MzksImV4cCI6MjA5MzQ4MjYzOX0.JsZXOof19JkyX7asJQ7EtoaBKqURJUYzVqXQIenCzjQ";
+    window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/);return m?m[1]:null;};
+  </script>
+</head>
+<body data-page="destinations">
+<header class="nav" id="mainNav"></header>
+
+<section class="dest-hero">
+  <div class="breadcrumb" style="justify-content:center;margin-bottom:1rem"><a href="/index.html" style="color:rgba(255,255,255,.7)">Home</a><span style="color:rgba(255,255,255,.5)">›</span><span style="color:#fff">Destinations</span></div>
+  <h1>Explore <em>All Destinations</em></h1>
+  <p>From the Himalayas to the Indian Ocean — discover handpicked destinations across India and the world.</p>
+  <div class="search-bar">
+    <input type="text" id="dest-search" placeholder="Search destinations, cities, countries…" oninput="filterDests()"/>
+  </div>
+</section>
+
+<div class="filter-strip">
+  <button class="fchip active" onclick="setFilter('all',this)">🌍 All</button>
+  <button class="fchip" onclick="setFilter('domestic',this)">🇮🇳 Domestic</button>
+  <button class="fchip" onclick="setFilter('international',this)">✈️ International</button>
+  <button class="fchip" onclick="setFilter('beach',this)">🏖️ Beach</button>
+  <button class="fchip" onclick="setFilter('mountains',this)">🏔️ Mountains</button>
+  <button class="fchip" onclick="setFilter('heritage',this)">🏰 Heritage</button>
+  <button class="fchip" onclick="setFilter('nature',this)">🌿 Nature</button>
+  <button class="fchip" onclick="setFilter('honeymoon',this)">💑 Honeymoon</button>
+  <button class="fchip" onclick="setFilter('adventure',this)">🧗 Adventure</button>
+  <button class="fchip" onclick="setFilter('spiritual',this)">🙏 Spiritual</button>
+  <button class="fchip" onclick="setFilter('wildlife',this)">🦁 Wildlife</button>
+</div>
+
+<div class="container section-pad">
+  <div class="count-bar" id="count-bar">Showing all destinations</div>
+  <div class="dest-grid" id="dest-grid"></div>
+  <div class="no-results" id="no-results" style="display:none">
+    <div class="icon">🔍</div>
+    <h3>No destinations found</h3>
+    <p>Try a different search or filter</p>
+  </div>
+</div>
+
+<section class="newsletter" id="newsletter"></section>
+<footer class="footer" id="mainFooter"></footer>
+<script src="/assets/js/main.js"></script>
+<script>
+const DESTINATIONS = [
+  // Domestic – Beach
+  {id:'goa',name:'Goa',country:'India',state:'Goa',tagline:'Sun, Sand & Sunsets',emoji:'🏖️',bg:'linear-gradient(135deg,#f6d365,#fda085)',type:'domestic',categories:['beach','party','nature'],tags:['Beach','Nightlife','Water Sports','Churches'],from:6999,best:'Oct–Mar',desc:'India\'s most loved beach destination with golden sands, lively shacks, colonial heritage and year-round sunshine.'},
+  {id:'andaman',name:'Andaman Islands',country:'India',state:'Andaman & Nicobar',tagline:'Crystal Blue Waters',emoji:'🐠',bg:'linear-gradient(135deg,#a1c4fd,#c2e9fb)',type:'domestic',categories:['beach','adventure','nature'],tags:['Beaches','Scuba Diving','Snorkelling','Cellular Jail'],from:14999,best:'Nov–Apr',desc:'Paradise islands with pristine beaches, turquoise waters and some of India\'s best scuba diving.'},
+  {id:'lakshadweep',name:'Lakshadweep',country:'India',state:'Lakshadweep',tagline:'Coral Island Paradise',emoji:'🐚',bg:'linear-gradient(135deg,#43e97b,#38f9d7)',type:'domestic',categories:['beach','honeymoon'],tags:['Coral Reefs','Snorkelling','Kayaking','Isolated'],from:22999,best:'Oct–May',desc:'Untouched coral islands with lagoons, white sand beaches and incredible marine biodiversity.'},
+  // Domestic – Mountains
+  {id:'manali',name:'Manali',country:'India',state:'Himachal Pradesh',tagline:'Mountains & Adventure',emoji:'🏔️',bg:'linear-gradient(135deg,#667eea,#764ba2)',type:'domestic',categories:['mountains','adventure','honeymoon'],tags:['Snow','Skiing','Trekking','Rohtang Pass'],from:10499,best:'Oct–Jun',desc:'A high-altitude Himalayan resort town offering snow sports, adventure activities and scenic mountain beauty.'},
+  {id:'shimla',name:'Shimla',country:'India',state:'Himachal Pradesh',tagline:'Queen of Hills',emoji:'🏘️',bg:'linear-gradient(135deg,#4facfe,#00f2fe)',type:'domestic',categories:['mountains','heritage'],tags:['Colonial Heritage','Toy Train','Mall Road','Scenic'],from:7999,best:'Mar–Jun, Oct–Dec',desc:'Former summer capital of British India, with colonial architecture, scenic hills and the famous toy train.'},
+  {id:'darjeeling',name:'Darjeeling',country:'India',state:'West Bengal',tagline:'Tea Gardens & Peaks',emoji:'🍵',bg:'linear-gradient(135deg,#43e97b,#38f9d7)',type:'domestic',categories:['mountains','nature'],tags:['Tea Gardens','Toy Train','Sunrise','Kanchenjunga'],from:8499,best:'Mar–May, Oct–Dec',desc:'Charming hill station famous for its tea estates, UNESCO toy train and views of Kanchenjunga.'},
+  {id:'spiti',name:'Spiti Valley',country:'India',state:'Himachal Pradesh',tagline:'Cold Desert Magic',emoji:'🏜️',bg:'linear-gradient(135deg,#89f7fe,#66a6ff)',type:'domestic',categories:['mountains','adventure'],tags:['Monasteries','High Altitude','Trekking','Off-Beat'],from:12999,best:'Jun–Oct',desc:'Remote high-altitude desert valley with ancient monasteries, barren landscapes and rare wildlife.'},
+  {id:'ladakh',name:'Ladakh',country:'India',state:'Ladakh (UT)',tagline:'Land of High Passes',emoji:'⛰️',bg:'linear-gradient(135deg,#fccb90,#d57eeb)',type:'domestic',categories:['mountains','adventure','spiritual'],tags:['Pangong Lake','Monasteries','Bike Trip','Scenic'],from:16999,best:'Jun–Sep',desc:'India\'s crown jewel — moonscapes, mirror lakes, Buddhist monasteries and legendary mountain passes.'},
+  // Domestic – Heritage
+  {id:'rajasthan',name:'Rajasthan',country:'India',state:'Rajasthan',tagline:'Royal Heritage',emoji:'🏰',bg:'linear-gradient(135deg,#fa709a,#fee140)',type:'domestic',categories:['heritage','culture','desert'],tags:['Forts','Palaces','Camel Safari','Desert'],from:12999,best:'Oct–Mar',desc:'The royal state of India — golden forts, blue cities, pink cities and camel safaris under starlit skies.'},
+  {id:'varanasi',name:'Varanasi',country:'India',state:'Uttar Pradesh',tagline:'Spiritual Capital',emoji:'🪔',bg:'linear-gradient(135deg,#f7971e,#ffd200)',type:'domestic',categories:['spiritual','heritage'],tags:['Ganges','Ghats','Temples','Aarti'],from:5999,best:'Oct–Mar',desc:'One of the world\'s oldest living cities — Ganga ghats, ancient temples and the most sacred spiritual experience in India.'},
+  {id:'hampi',name:'Hampi',country:'India',state:'Karnataka',tagline:'Ancient Ruins',emoji:'🗿',bg:'linear-gradient(135deg,#c94b4b,#4b134f)',type:'domestic',categories:['heritage','adventure'],tags:['UNESCO Site','Ruins','Bouldering','History'],from:6999,best:'Oct–Feb',desc:'UNESCO World Heritage Site — magnificent ruins of the Vijayanagara Empire scattered across a surreal boulder landscape.'},
+  // Domestic – Nature/Wildlife
+  {id:'kerala',name:'Kerala',country:'India',state:'Kerala',tagline:"God's Own Country",emoji:'🌴',bg:'linear-gradient(135deg,#56ab2f,#a8e063)',type:'domestic',categories:['nature','beach','honeymoon','backwaters'],tags:['Backwaters','Houseboat','Spices','Beaches'],from:9999,best:'Sep–Mar',desc:'Tranquil backwaters, lush hills, Ayurvedic spas and palm-lined beaches — Kerala is India\'s most serene state.'},
+  {id:'coorg',name:'Coorg',country:'India',state:'Karnataka',tagline:'Scotland of India',emoji:'☕',bg:'linear-gradient(135deg,#134e5e,#71b280)',type:'domestic',categories:['nature','honeymoon'],tags:['Coffee Estates','Waterfalls','Trekking','Misty Hills'],from:7999,best:'Oct–May',desc:'Misty mountains, aromatic coffee estates and roaring waterfalls — Coorg is Karnataka\'s most charming hill station.'},
+  {id:'ranthambore',name:'Ranthambore',country:'India',state:'Rajasthan',tagline:'Tiger Land',emoji:'🐯',bg:'linear-gradient(135deg,#d4680a,#f7971e)',type:'domestic',categories:['wildlife','heritage'],tags:['Tiger Safari','Wildlife','Fort','Jungle'],from:8999,best:'Oct–Jun',desc:'Home to Royal Bengal Tigers and an ancient fort — Ranthambore is India\'s most exciting wildlife destination.'},
+  // International
+  {id:'bangkok',name:'Bangkok & Pattaya',country:'Thailand',tagline:'Temples & Nightlife',emoji:'🗼',bg:'linear-gradient(135deg,#4facfe,#00f2fe)',type:'international',categories:['culture','beach','party'],tags:['Temples','Street Food','Nightlife','Shopping'],from:28999,best:'Nov–Apr',desc:'Vibrant capital with golden temples, floating markets, amazing street food and buzzing nightlife.'},
+  {id:'bali',name:'Bali',country:'Indonesia',tagline:'Island of Gods',emoji:'🌸',bg:'linear-gradient(135deg,#a18cd1,#fbc2eb)',type:'international',categories:['beach','honeymoon','culture'],tags:['Rice Terraces','Temples','Surfing','Spa'],from:42999,best:'Apr–Oct',desc:'Spiritual island paradise with terraced rice fields, ancient temples, world-class surfing and romantic sunsets.'},
+  {id:'singapore',name:'Singapore',country:'Singapore',tagline:'Lion City',emoji:'🦁',bg:'linear-gradient(135deg,#f6d365,#fda085)',type:'international',categories:['city','family'],tags:['Universal Studios','Marina Bay','Shopping','Gardens'],from:38999,best:'Year Round',desc:'Ultra-modern city-state with iconic skylines, diverse cuisine, amazing theme parks and world-class shopping.'},
+  {id:'dubai',name:'Dubai',country:'UAE',tagline:'City of Gold',emoji:'🌇',bg:'linear-gradient(135deg,#ffecd2,#fcb69f)',type:'international',categories:['city','luxury','adventure'],tags:['Burj Khalifa','Desert Safari','Shopping','Gold Souk'],from:45999,best:'Nov–Apr',desc:'Futuristic city of superlatives — tallest buildings, luxury malls, gold souks and thrilling desert safaris.'},
+  {id:'maldives',name:'Maldives',country:'Maldives',tagline:'Paradise on Earth',emoji:'🏝️',bg:'linear-gradient(135deg,#00c6fb,#005bea)',type:'international',categories:['beach','honeymoon','luxury'],tags:['Overwater Villas','Snorkelling','Luxury','Seclusion'],from:79999,best:'Nov–Apr',desc:'The ultimate luxury tropical escape — overwater villas, crystal lagoons and some of the world\'s best coral reefs.'},
+  {id:'nepal',name:'Nepal',country:'Nepal',tagline:'Roof of the World',emoji:'🏔️',bg:'linear-gradient(135deg,#8e44ad,#3498db)',type:'international',categories:['mountains','adventure','spiritual'],tags:['Everest','Trekking','Temples','Pokhara'],from:18999,best:'Mar–May, Oct–Nov',desc:'Home to eight of the world\'s ten highest peaks, ancient temples, friendly people and legendary trekking trails.'},
+  {id:'srilanka',name:'Sri Lanka',country:'Sri Lanka',tagline:'Pearl of Indian Ocean',emoji:'🌿',bg:'linear-gradient(135deg,#2af598,#009efd)',type:'international',categories:['nature','heritage','beach'],tags:['Tea Estates','Temples','Wildlife','Beaches'],from:24999,best:'Dec–Mar',desc:'Compact island with ancient cities, misty tea hills, elephant-filled national parks and palm-fringed beaches.'},
+  {id:'europe',name:'Europe Multi-City',country:'Multiple',tagline:'Castles & Culture',emoji:'🏰',bg:'linear-gradient(135deg,#b8cbb8,#b8a4c9)',type:'international',categories:['heritage','culture','city'],tags:['Paris','Rome','Amsterdam','Scenic Rail'],from:149999,best:'Apr–Oct',desc:'Iconic cities of Europe — the Eiffel Tower, Colosseum, canals of Amsterdam and Swiss Alps on one grand tour.'},
+  {id:'japan',name:'Japan',country:'Japan',tagline:'Land of Rising Sun',emoji:'🌸',bg:'linear-gradient(135deg,#f7971e,#ffd200)',type:'international',categories:['culture','nature','city'],tags:['Cherry Blossoms','Temples','Mt. Fuji','Bullet Train'],from:95999,best:'Mar–May, Oct–Nov',desc:'Ancient traditions meet futuristic cities — cherry blossoms, samurai history, sushi, Mt. Fuji and bullet trains.'},
+];
+
+let activeFilter = 'all';
+let searchTerm = '';
+
+function setFilter(f, el) {
+  activeFilter = f;
+  document.querySelectorAll('.fchip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  render();
+}
+
+function filterDests() {
+  searchTerm = document.getElementById('dest-search').value.toLowerCase();
+  render();
+}
+
+function render() {
+  let data = DESTINATIONS.filter(d => {
+    if (activeFilter !== 'all' && activeFilter !== d.type && !d.categories.includes(activeFilter)) return false;
+    if (searchTerm && !d.name.toLowerCase().includes(searchTerm) && !d.tagline.toLowerCase().includes(searchTerm) && !d.country.toLowerCase().includes(searchTerm) && !d.tags.some(t => t.toLowerCase().includes(searchTerm))) return false;
+    return true;
+  });
+
+  document.getElementById('count-bar').textContent = `Showing ${data.length} destination${data.length !== 1 ? 's' : ''}`;
+  const grid = document.getElementById('dest-grid');
+  const noRes = document.getElementById('no-results');
+
+  if (!data.length) { grid.innerHTML = ''; noRes.style.display = 'block'; return; }
+  noRes.style.display = 'none';
+
+  grid.innerHTML = data.map((d, i) => `
+    <div class="dest-card reveal" style="transition-delay:${(i % 4) * 60}ms">
+      <div class="dest-thumb" style="background:${d.bg}">
+        <span class="emoji">${d.emoji}</span>
+        <span class="dest-badge">${d.type === 'international' ? '🌍 International' : '🇮🇳 Domestic'}</span>
+      </div>
+      <div class="dest-body">
+        <div class="dest-name">${d.name}${d.country !== 'India' ? ` <span style="font-size:.75rem;color:#94a3b8">${d.country}</span>` : ''}</div>
+        <div class="dest-tagline">${d.tagline}</div>
+        <div class="dest-tags">${d.tags.slice(0,3).map(t => `<span class="dtag">${t}</span>`).join('')}</div>
+        <div style="font-size:.8rem;color:#64748b;margin-bottom:.75rem;line-height:1.5">${d.desc.substring(0,100)}…</div>
+        <div class="dest-meta">
+          <span class="dest-from">📅 Best: ${d.best}</span>
+          <span class="dest-price">From ₹${d.from.toLocaleString('en-IN')}</span>
+        </div>
+        <div class="dest-cta">
+          <button class="btn-view" onclick="viewPackages('${d.name}')">View Packages</button>
+          <button class="btn-wa" onclick="waEnquire('${d.name}')">💬 WhatsApp</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  // Re-trigger reveal animations
+  setTimeout(() => document.querySelectorAll('.dest-card.reveal').forEach(el => el.classList.add('visible')), 50);
+}
+
+function viewPackages(name) {
+  window.location.href = `/pages/packages.html?search=${encodeURIComponent(name)}`;
+}
+
+function waEnquire(name) {
+  const msg = `Hi ZoomFly! 🌍 I'm interested in a trip to ${name}. Please share available packages and pricing.`;
+  window.open('https://wa.me/918076136300?text=' + encodeURIComponent(msg), '_blank');
+}
+
+render();
+</script>
+</body>
+</html>

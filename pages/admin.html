@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"/>
+  <link rel="shortcut icon" href="/assets/favicon.svg"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Admin Dashboard — ZoomFly</title>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--primary:#0057FF;--accent:#FF6B35;--text:#1e293b;--muted:#64748b;--light:#94a3b8;--bg:#F1F5F9;--white:#fff;--border:#E2E8F0;--success:#059669;--success-bg:#ECFDF5;--warn:#D97706;--warn-bg:#FFFBEB;--error:#DC2626;--error-bg:#FEF2F2;--info:#0057FF;--info-bg:#EEF3FF;--sb:#0f172a;--sb-text:#94a3b8;--sb-active:#1e293b;--shadow-sm:0 1px 3px rgba(0,0,0,.07);--shadow:0 4px 12px rgba(0,0,0,.08);--r:12px;--r2:8px;--font:'Segoe UI',system-ui,sans-serif}
+    body{font-family:var(--font);background:var(--bg);color:var(--text);display:flex;min-height:100vh}
+    a{text-decoration:none;color:inherit}
+    .sidebar{width:240px;background:var(--sb);color:var(--sb-text);display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh;z-index:100}
+    .sb-logo{padding:1.5rem 1.25rem 1.25rem;border-bottom:1px solid #1e293b}
+    .sb-logo h1{font-size:1.3rem;font-weight:800;color:white}.sb-logo h1 span{color:var(--accent)}
+    .sb-logo p{font-size:.7rem;color:var(--sb-text);margin-top:2px}
+    .sb-nav{flex:1;padding:1rem 0;overflow-y:auto}
+    .sb-sec{padding:.5rem 1.25rem .35rem;font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#475569}
+    .nav-item{display:flex;align-items:center;gap:.75rem;padding:.6rem 1.25rem;font-size:.875rem;font-weight:500;cursor:pointer;transition:all .15s;border-left:3px solid transparent}
+    .nav-item:hover{background:var(--sb-active);color:white}
+    .nav-item.active{background:var(--sb-active);color:white;border-left-color:var(--primary)}
+    .nav-item .icon{font-size:1rem;width:20px;text-align:center}
+    .nav-item .badge{margin-left:auto;background:var(--error);color:white;font-size:.65rem;font-weight:700;padding:.1rem .45rem;border-radius:50px}
+    .sb-footer{padding:1rem 1.25rem;border-top:1px solid #1e293b}
+    .admin-pill{display:flex;align-items:center;gap:.75rem}
+    .av{width:36px;height:36px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:700;color:white;flex-shrink:0}
+    .av-info strong{display:block;font-size:.8rem;color:white}
+    .av-info span{font-size:.7rem;color:var(--sb-text)}
+    .main{flex:1;margin-left:240px;display:flex;flex-direction:column;min-height:100vh}
+    .topbar{background:white;border-bottom:1px solid var(--border);padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;box-shadow:var(--shadow-sm)}
+    .topbar h2{font-size:1.1rem;font-weight:700}
+    .topbar-right{display:flex;align-items:center;gap:1rem}
+    .notif{position:relative;width:36px;height:36px;border-radius:50%;border:1px solid var(--border);background:white;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem}
+    .notif-dot{position:absolute;top:6px;right:6px;width:8px;height:8px;border-radius:50%;background:var(--error);border:2px solid white}
+    .live-badge{background:var(--success-bg);color:var(--success);font-size:.72rem;font-weight:700;padding:.25rem .65rem;border-radius:50px;display:flex;align-items:center;gap:.35rem}
+    .live-dot{width:6px;height:6px;border-radius:50%;background:var(--success);animation:pulse 2s infinite}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+    .btn-add{padding:.5rem 1rem;background:var(--primary);color:white;border:none;border-radius:var(--r2);font-size:.8rem;font-weight:600;cursor:pointer}
+    .content{padding:1.75rem 2rem;flex:1}
+    .section{display:none}.section.active{display:block;animation:fi .25s ease}
+    @keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+    .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;margin-bottom:1.75rem}
+    .stat-card{background:white;border:1px solid var(--border);border-radius:var(--r);padding:1.25rem;box-shadow:var(--shadow-sm)}
+    .stat-hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.75rem}
+    .stat-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem}
+    .stat-chg{font-size:.72rem;font-weight:600;padding:.15rem .5rem;border-radius:50px}
+    .up{background:var(--success-bg);color:var(--success)}
+    .stat-val{font-size:1.75rem;font-weight:800;line-height:1;margin-bottom:.25rem}
+    .stat-lbl{font-size:.78rem;color:var(--muted)}
+    .chart-row{display:grid;grid-template-columns:2fr 1fr;gap:1.25rem;margin-bottom:1.75rem}
+    .chart-card{background:white;border:1px solid var(--border);border-radius:var(--r);padding:1.25rem;box-shadow:var(--shadow-sm)}
+    .chart-card h3{font-size:.9rem;font-weight:700;margin-bottom:1.25rem}
+    .bar-chart{display:flex;align-items:flex-end;gap:.5rem;height:100px}
+    .bc{flex:1;display:flex;flex-direction:column;align-items:center;gap:.3rem}
+    .bar{border-radius:4px 4px 0 0;width:100%;transition:opacity .2s}
+    .blbl{font-size:.65rem;color:var(--muted)}
+    .bval{font-size:.62rem;font-weight:600;color:var(--muted)}
+    .table-card{background:white;border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow-sm);overflow:hidden;margin-bottom:1.75rem}
+    .table-hdr{padding:1rem 1.25rem;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:.75rem}
+    .table-hdr h3{font-size:.9rem;font-weight:700}
+    .tsearch{padding:.45rem .85rem;border:1px solid var(--border);border-radius:var(--r2);font-size:.8rem;font-family:var(--font);color:var(--text);min-width:200px}
+    .tsearch:focus{outline:none;border-color:var(--primary)}
+    table{width:100%;border-collapse:collapse}
+    th{padding:.65rem 1rem;text-align:left;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);background:var(--bg);border-bottom:1px solid var(--border);white-space:nowrap}
+    td{padding:.75rem 1rem;font-size:.825rem;border-bottom:1px solid var(--border);vertical-align:middle}
+    tr:last-child td{border-bottom:none}
+    tr:hover td{background:#FAFBFF}
+    .pill{display:inline-block;padding:.2rem .65rem;border-radius:50px;font-size:.7rem;font-weight:700;white-space:nowrap}
+    .p-new{background:var(--info-bg);color:var(--info)}
+    .p-confirmed{background:var(--success-bg);color:var(--success)}
+    .p-pending{background:var(--warn-bg);color:var(--warn)}
+    .p-cancelled{background:var(--error-bg);color:var(--error)}
+    .p-active{background:var(--success-bg);color:var(--success)}
+    .p-approved{background:var(--success-bg);color:var(--success)}
+    .ab{display:flex;gap:.4rem}
+    .bs{padding:.3rem .65rem;border-radius:4px;font-size:.72rem;font-weight:600;cursor:pointer;border:none;white-space:nowrap}
+    .bv{background:var(--info-bg);color:var(--info)}
+    .bd{background:var(--success-bg);color:var(--success)}
+    .bc2{background:var(--error-bg);color:var(--error)}
+    .be{background:var(--warn-bg);color:var(--warn)}
+    .pkg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem}
+    .pkg-card-admin{background:white;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow-sm)}
+    .pct{height:90px;display:flex;align-items:center;justify-content:center;font-size:3rem}
+    .pcb{padding:.85rem 1rem}
+    .pcn{font-size:.9rem;font-weight:700;margin-bottom:.3rem}
+    .pcm{font-size:.75rem;color:var(--muted);margin-bottom:.75rem}
+    .pcf{display:flex;justify-content:space-between;align-items:center}
+    .pcp{font-size:1rem;font-weight:800;color:var(--primary)}
+    .toggle{position:relative;display:inline-block;width:36px;height:20px}
+    .toggle input{opacity:0;width:0;height:0}
+    .slider{position:absolute;cursor:pointer;inset:0;background:#ccc;border-radius:20px;transition:.3s}
+    .slider::before{content:'';position:absolute;width:14px;height:14px;left:3px;top:3px;background:white;border-radius:50%;transition:.3s}
+    .toggle input:checked+.slider{background:var(--success)}
+    .toggle input:checked+.slider::before{transform:translateX(16px)}
+    .loading{text-align:center;padding:2rem;color:var(--muted)}
+    .spinner{display:inline-block;width:24px;height:24px;border:3px solid var(--border);border-top-color:var(--primary);border-radius:50%;animation:sp .7s linear infinite}
+    @keyframes sp{to{transform:rotate(360deg)}}
+    .toast{position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;padding:.75rem 1.25rem;border-radius:var(--r2);font-size:.875rem;font-weight:600;color:white;box-shadow:var(--shadow);display:none}
+    .toast.show{display:block;animation:slideUp .3s ease}
+    .toast.success{background:var(--success)}.toast.error{background:var(--error)}
+    @keyframes slideUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+    @media(max-width:1100px){.stats-grid{grid-template-columns:repeat(2,1fr)}.chart-row{grid-template-columns:1fr}}
+    @media(max-width:768px){.sidebar{transform:translateX(-100%)}.main{margin-left:0}}
+  </style>
+  <script>
+    window.SUPABASE_URL="https://ndaurluolurdljrjbxii.supabase.co";
+    window.SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kYXVybHVvbHVyZGxqcmpieGlpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MDY2MzksImV4cCI6MjA5MzQ4MjYzOX0.JsZXOof19JkyX7asJQ7EtoaBKqURJUYzVqXQIenCzjQ";
+    window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/);return m?m[1]:null;};
+  </script>
+</head>
+<body>
+<aside class="sidebar">
+  <div class="sb-logo"><h1>Zoom<span>Fly</span> ✈</h1><p>Admin Dashboard</p></div>
+  <nav class="sb-nav">
+    <div class="sb-sec">Main</div>
+    <div class="nav-item active" onclick="show('overview',this)"><span class="icon">📊</span> Overview</div>
+    <div class="nav-item" onclick="show('enquiries',this)"><span class="icon">📩</span> Enquiries <span class="badge" id="enq-badge">0</span></div>
+    <div class="nav-item" onclick="show('bookings',this)"><span class="icon">🗓</span> Bookings</div>
+    <div class="sb-sec" style="margin-top:.5rem">Manage</div>
+    <div class="nav-item" onclick="show('packages',this)"><span class="icon">🗺</span> Packages</div>
+    <div class="nav-item" onclick="show('vendors',this)"><span class="icon">🤝</span> Vendors</div>
+    <div class="nav-item" onclick="show('customers',this)"><span class="icon">👥</span> Customers</div>
+    <div class="nav-item" onclick="show('subscribers',this)"><span class="icon">📧</span> Email Subscribers</div>
+    <div class="nav-item" onclick="show('testimonials',this)"><span class="icon">⭐</span> Testimonials</div>
+    <div class="sb-sec" style="margin-top:.5rem">Other</div>
+    <div class="nav-item" onclick="window.open('../index.html','_blank')"><span class="icon">🌐</span> View Website</div>
+    <div class="nav-item" onclick="doLogout()"><span class="icon">🚪</span> Log Out</div>
+  </nav>
+  <div class="sb-footer">
+    <div class="admin-pill">
+      <div class="av" id="sb-av">A</div>
+      <div class="av-info"><strong id="sb-name">Admin</strong><span>ZoomFly Team</span></div>
+    </div>
+  </div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <h2 id="page-title">Overview</h2>
+    <div class="topbar-right">
+      <div class="live-badge"><span class="live-dot"></span> Live</div>
+      <div class="notif">🔔<span class="notif-dot"></span></div>
+      <button class="btn-add" onclick="show('packages',document.querySelectorAll('.nav-item')[4]);openAddPackage()">+ Add Package</button>
+    </div>
+  </div>
+  <div class="content">
+
+    <!-- OVERVIEW -->
+    <div class="section active" id="section-overview">
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-hdr"><div class="stat-icon" style="background:#EEF3FF">💰</div><span class="stat-chg up">↑ 18%</span></div><div class="stat-val" id="s-revenue">—</div><div class="stat-lbl">Revenue This Month</div></div>
+        <div class="stat-card"><div class="stat-hdr"><div class="stat-icon" style="background:#ECFDF5">🗓</div><span class="stat-chg up">↑ 12%</span></div><div class="stat-val" id="s-bookings">—</div><div class="stat-lbl">Total Bookings</div></div>
+        <div class="stat-card"><div class="stat-hdr"><div class="stat-icon" style="background:#FFFBEB">📩</div><span class="stat-chg up">↑ 31%</span></div><div class="stat-val" id="s-enquiries">—</div><div class="stat-lbl">New Enquiries</div></div>
+        <div class="stat-card"><div class="stat-hdr"><div class="stat-icon" style="background:#FEF2F2">👥</div><span class="stat-chg up">↑ 8%</span></div><div class="stat-val" id="s-customers">—</div><div class="stat-lbl">Total Customers</div></div>
+      </div>
+      <div class="chart-row">
+        <div class="chart-card"><h3>Monthly Revenue (₹ Lakhs)</h3><div class="bar-chart" id="rev-chart"></div></div>
+        <div class="chart-card"><h3>Bookings by Type</h3>
+          <svg width="90" height="90" viewBox="0 0 90 90" style="display:block;margin:0 auto">
+            <circle cx="45" cy="45" r="35" fill="none" stroke="#E5E7EB" stroke-width="16"/>
+            <circle cx="45" cy="45" r="35" fill="none" stroke="#0057FF" stroke-width="16" stroke-dasharray="88 132" stroke-dashoffset="0" transform="rotate(-90 45 45)"/>
+            <circle cx="45" cy="45" r="35" fill="none" stroke="#FF6B35" stroke-width="16" stroke-dasharray="44 176" stroke-dashoffset="-88" transform="rotate(-90 45 45)"/>
+            <circle cx="45" cy="45" r="35" fill="none" stroke="#059669" stroke-width="16" stroke-dasharray="66 154" stroke-dashoffset="-154" transform="rotate(-90 45 45)"/>
+          </svg>
+          <div style="margin-top:1rem;display:flex;flex-direction:column;gap:.5rem">
+            <div style="display:flex;align-items:center;gap:.5rem;font-size:.78rem"><span style="width:10px;height:10px;border-radius:50%;background:#0057FF;display:inline-block"></span>Packages<strong style="margin-left:auto">40%</strong></div>
+            <div style="display:flex;align-items:center;gap:.5rem;font-size:.78rem"><span style="width:10px;height:10px;border-radius:50%;background:#FF6B35;display:inline-block"></span>Hotels<strong style="margin-left:auto">20%</strong></div>
+            <div style="display:flex;align-items:center;gap:.5rem;font-size:.78rem"><span style="width:10px;height:10px;border-radius:50%;background:#059669;display:inline-block"></span>Other<strong style="margin-left:auto">40%</strong></div>
+          </div>
+        </div>
+      </div>
+      <div class="table-card">
+        <div class="table-hdr"><h3>📩 Recent Enquiries</h3><button class="bs bv" onclick="show('enquiries',document.querySelector('[onclick*=enquiries]'))">View All</button></div>
+        <div class="loading" id="ov-enq-load"><div class="spinner"></div></div>
+        <table><thead><tr><th>Name</th><th>Interest</th><th>Contact</th><th>Time</th><th>Status</th><th>Action</th></tr></thead><tbody id="ov-enq-tbody"></tbody></table>
+      </div>
+    </div>
+
+    <!-- ENQUIRIES -->
+    <div class="section" id="section-enquiries">
+      <div class="table-card">
+        <div class="table-hdr"><h3>📩 All Enquiries</h3><input class="tsearch" placeholder="Search name, destination..." oninput="filterTbl('enq-tbody',this.value)"/></div>
+        <div class="loading" id="enq-load"><div class="spinner"></div></div>
+        <table><thead><tr><th>Name</th><th>Phone</th><th>Email</th><th>Interest</th><th>Destination</th><th>Travellers</th><th>Budget</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead><tbody id="enq-tbody"></tbody></table>
+      </div>
+    </div>
+
+    <!-- BOOKINGS -->
+    <div class="section" id="section-bookings">
+      <div class="table-card">
+        <div class="table-hdr"><h3>🗓 All Bookings</h3><input class="tsearch" placeholder="Search ref, name..." oninput="filterTbl('book-tbody',this.value)"/></div>
+        <div class="loading" id="book-load"><div class="spinner"></div></div>
+        <table><thead><tr><th>Ref</th><th>Customer</th><th>Type</th><th>Travel Date</th><th>Guests</th><th>Amount</th><th>Payment</th><th>Status</th><th>Actions</th></tr></thead><tbody id="book-tbody"></tbody></table>
+      </div>
+    </div>
+
+    <!-- PACKAGES -->
+    <div class="section" id="section-packages">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem">
+        <h3 style="font-size:1rem;font-weight:700">🗺 Package Management</h3>
+        <button class="btn-add" onclick="openAddPackage()">+ Add Package</button>
+      </div>
+      <div class="loading" id="pkg-load"><div class="spinner"></div></div>
+      <div class="pkg-grid" id="pkg-admin-grid"></div>
+    </div>
+
+    <!-- VENDORS -->
+    <div class="section" id="section-vendors">
+      <div class="table-card">
+        <div class="table-hdr"><h3>🤝 Vendor Applications</h3><input class="tsearch" placeholder="Search vendors..." oninput="filterTbl('vendor-tbody',this.value)"/></div>
+        <div class="loading" id="vendor-load"><div class="spinner"></div></div>
+        <table><thead><tr><th>Business</th><th>Type</th><th>Owner</th><th>City</th><th>Contact</th><th>Applied</th><th>Status</th><th>Actions</th></tr></thead><tbody id="vendor-tbody"></tbody></table>
+      </div>
+    </div>
+
+    <!-- CUSTOMERS -->
+    <div class="section" id="section-customers">
+      <div class="table-card">
+        <div class="table-hdr"><h3>👥 Customers</h3><input class="tsearch" placeholder="Search customers..." oninput="filterTbl('cust-tbody',this.value)"/></div>
+        <div class="loading" id="cust-load"><div class="spinner"></div></div>
+        <table><thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Role</th><th>Joined</th><th>Actions</th></tr></thead><tbody id="cust-tbody"></tbody></table>
+      </div>
+    </div>
+
+    <!-- PACKAGE MODAL -->
+    <div id="pkg-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:999;align-items:flex-start;justify-content:center;padding:2rem;overflow-y:auto">
+      <div style="background:#fff;border-radius:16px;padding:2rem;max-width:640px;width:100%;margin:auto">
+        <h3 style="margin-bottom:1.5rem;font-size:1.1rem">📦 <span id="pkg-modal-title">Add New Package</span></h3>
+        <input type="hidden" id="pm-id"/>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+          <div><label style="font-size:.75rem;font-weight:700;display:block;margin-bottom:.35rem">Package Name *</label><input id="pm-title" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;box-sizing:border-box" placeholder="Manali Snow Escape"/></div>
+          <div><label style="font-size:.75rem;font-weight:700;display:block;margin-bottom:.35rem">Slug (URL) *</label><input id="pm-slug" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;box-sizing:border-box" placeholder="manali-snow-escape"/></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 80px;gap:1rem;margin-bottom:1rem">
+          <div><label style="font-size:.75rem;font-weight:700;display:block;margin-bottom:.35rem">Type</label>
+            <select id="pm-type" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit">
+              <option value="domestic">Domestic</option><option value="international">International</option>
+            </select>
+          </div>
+          <div><label style="font-size:.75rem;font-weight:700;display:block;margin-bottom:.35rem">Category</label>
+            <select id="pm-cat" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit">
+              <option>adventure</option><option>beach</option><option>nature</option><option>heritage</option>
+              <option>honeymoon</option><option>family</option><option>spiritual</option><option>wildlife</option><option>international</option>
+            </select>
+          </div>
+          <div><label style="font-size:.75rem;font-weight:700;display:block;margin-bottom:.35rem">Emoji</label><input id="pm-emoji" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;font-size:1.2rem;box-sizing:border-box" placeholder="🏔️" value="🗺️"/></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:1rem;margin-bottom:1rem">
+          <div><label style="font-size:.75rem;font-weight:700;display:block;margin-bottom:.35rem">Price (₹) *</label><input type="number" id="pm-price" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;box-sizing:border-box" placeholder="12499"/></div>
+          <div><label style="font-size:.75rem;font-weight:700;display:block;margin-bottom:.35rem">Old Price (₹)</label><input type="number" id="pm-old-price" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;box-sizing:border-box" placeholder="14999"/></div>
+          <div><label style="font-size:.75rem;font-weight:700;display:block;margin-bottom:.35rem">Days</label><input type="number" id="pm-days" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;box-sizing:border-box" placeholder="6" min="1"/></div>
+          <div><label style="font-size:.75rem;font-weight:700;display:block;margin-bottom:.35rem">Nights</label><input type="number" id="pm-nights" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;box-sizing:border-box" placeholder="5" min="0"/></div>
+        </div>
+        <div style="margin-bottom:1rem"><label style="font-size:.75rem;font-weight:700;display:block;margin-bottom:.35rem">Description *</label><textarea id="pm-desc" rows="2" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;resize:vertical;box-sizing:border-box" placeholder="Short description of the package..."></textarea></div>
+        <div style="margin-bottom:1rem"><label style="font-size:.75rem;font-weight:700;display:block;margin-bottom:.35rem">Inclusions (comma-separated)</label><input id="pm-inclusions" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;box-sizing:border-box" placeholder="Hotel Stay, Breakfast, Sightseeing, Airport Transfers"/></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem">
+          <div><label style="font-size:.75rem;font-weight:700;display:block;margin-bottom:.35rem">Badge (e.g. Best Seller)</label><input id="pm-badge" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;box-sizing:border-box" placeholder="Best Seller / Trending / New"/></div>
+          <div style="display:flex;align-items:center;gap:1rem;padding-top:1.4rem">
+            <label style="display:flex;align-items:center;gap:.4rem;cursor:pointer;font-size:.83rem"><input type="checkbox" id="pm-active" checked/> Active</label>
+            <label style="display:flex;align-items:center;gap:.4rem;cursor:pointer;font-size:.83rem"><input type="checkbox" id="pm-featured"/> Featured</label>
+          </div>
+        </div>
+        <div style="display:flex;gap:.75rem;justify-content:flex-end">
+          <button onclick="document.getElementById('pkg-modal').style.display='none'" style="padding:.65rem 1.25rem;border:1.5px solid #e2e8f0;border-radius:8px;cursor:pointer;background:none;font-family:inherit">Cancel</button>
+          <button onclick="savePackage()" style="padding:.65rem 1.5rem;background:#0057FF;color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit">💾 Save Package</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TESTIMONIALS -->
+    <div class="section" id="section-testimonials">
+      <div class="table-card">
+        <div class="table-hdr">
+          <h3>⭐ Testimonials</h3>
+          <button class="btn-add" onclick="openAddTestimonial()">+ Add Testimonial</button>
+        </div>
+        <div class="loading" id="testi-load"><div class="spinner"></div></div>
+        <table><thead><tr><th>Name</th><th>City</th><th>Trip</th><th>Stars</th><th>Status</th><th>Actions</th></tr></thead><tbody id="testi-tbody"></tbody></table>
+      </div>
+    </div>
+
+    <!-- Add Testimonial Modal -->
+    <div id="testi-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999;align-items:center;justify-content:center">
+      <div style="background:#fff;border-radius:16px;padding:2rem;max-width:520px;width:90%;max-height:90vh;overflow-y:auto">
+        <h3 style="margin-bottom:1.5rem">Add / Edit Testimonial</h3>
+        <input type="hidden" id="tm-id"/>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+          <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Name *</label><input id="tm-name" class="form-input" placeholder="Rohit Verma" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px"/></div>
+          <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">City</label><input id="tm-city" class="form-input" placeholder="Mumbai" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px"/></div>
+        </div>
+        <div style="margin-bottom:1rem"><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Trip / Package</label><input id="tm-trip" class="form-input" placeholder="Manali Snow Escape" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px"/></div>
+        <div style="margin-bottom:1rem"><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Stars</label>
+          <select id="tm-stars" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px">
+            <option value="5">★★★★★ (5)</option><option value="4">★★★★☆ (4)</option><option value="3">★★★☆☆ (3)</option>
+          </select>
+        </div>
+        <div style="margin-bottom:1rem"><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Review Text *</label><textarea id="tm-text" rows="4" placeholder="Share the guest's experience..." style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;resize:vertical"></textarea></div>
+        <div style="display:flex;gap:.75rem;justify-content:flex-end">
+          <button onclick="document.getElementById('testi-modal').style.display='none'" style="padding:.65rem 1.25rem;border:1.5px solid #e2e8f0;border-radius:8px;cursor:pointer;background:none">Cancel</button>
+          <button onclick="saveTestimonial()" style="padding:.65rem 1.25rem;background:#0057FF;color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer">Save Testimonial</button>
+        </div>
+      </div>
+    </div>
+    <div class="section" id="section-subscribers">
+      <div class="table-card">
+        <div class="table-hdr">
+          <h3>📧 Email Subscribers</h3>
+          <div style="display:flex;gap:.75rem;align-items:center">
+            <input class="tsearch" placeholder="Search email..." oninput="filterTbl('sub-tbody',this.value)"/>
+            <button class="btn-add" onclick="exportSubscribers()">⬇ Export CSV</button>
+          </div>
+        </div>
+        <div class="loading" id="sub-load"><div class="spinner"></div></div>
+        <table><thead><tr><th>Email</th><th>Subscribed On</th><th>Source</th><th>Status</th></tr></thead><tbody id="sub-tbody"></tbody></table>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import { admin, requireAdmin, getProfile, subscribeToEnquiries, subscribeToBookings, signOut } from '../assets/js/supabase.js';
+
+// Guard
+const profile = await requireAdmin();
+if (!profile) throw new Error('redirect');
+
+// Nav avatar
+const initials = (profile.full_name||'Admin').split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+document.getElementById('sb-av').textContent = initials;
+document.getElementById('sb-name').textContent = profile.full_name || 'Admin';
+
+window.doLogout = async () => { await signOut(); };
+
+// Navigation
+window.show = (id, el) => {
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById('section-'+id).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  el?.classList.add('active');
+  const titles={overview:'Overview',enquiries:'Enquiries',bookings:'Bookings',packages:'Packages',vendors:'Vendors',customers:'Customers'};
+  document.getElementById('page-title').textContent = titles[id]||id;
+  if(id==='enquiries') loadEnquiries();
+  if(id==='bookings') loadBookings();
+  if(id==='packages') loadPackages();
+  if(id==='vendors') loadVendors();
+  if(id==='customers') loadCustomers();
+  if(id==='subscribers') loadSubscribers();
+  if(id==='testimonials') loadTestimonials();
+};
+
+// Toast
+function toast(msg, type='success') {
+  const el=document.getElementById('toast');
+  el.textContent=msg; el.className=`toast ${type} show`;
+  setTimeout(()=>el.classList.remove('show'),3500);
+}
+
+// Status pill
+function pill(s) {
+  const map={new:'p-new New',confirmed:'p-confirmed Confirmed',pending:'p-pending Pending',cancelled:'p-cancelled Cancelled',active:'p-active Active',approved:'p-approved Approved',contacted:'p-pending Contacted',closed:'p-cancelled Closed',paid:'p-confirmed Paid',failed:'p-cancelled Failed'};
+  const parts=(map[s]||'p-pending '+s).split(' ');
+  return `<span class="pill ${parts[0]}">${parts.slice(1).join(' ')}</span>`;
+}
+
+function filterTbl(tbodyId, term) {
+  document.getElementById(tbodyId)?.querySelectorAll('tr').forEach(r=>{
+    r.style.display=r.textContent.toLowerCase().includes(term.toLowerCase())?'':'none';
+  });
+}
+window.filterTbl = filterTbl;
+
+// Revenue chart
+const months=['Oct','Nov','Dec','Jan','Feb','Mar','Apr'];
+const revData=[3.2,4.1,5.8,4.9,6.2,7.1,8.4];
+const maxR=Math.max(...revData);
+const chart=document.getElementById('rev-chart');
+months.forEach((m,i)=>{
+  const h=Math.round((revData[i]/maxR)*90);
+  chart.innerHTML+=`<div class="bc"><div class="bval">₹${revData[i]}L</div><div class="bar" style="height:${h}px;background:${i===months.length-1?'#0057FF':'#93AEFF'}"></div><div class="blbl">${m}</div></div>`;
+});
+
+// Load stats
+async function loadStats() {
+  try {
+    const stats = await admin.getStats();
+    document.getElementById('s-revenue').textContent = '₹'+Number(stats.totalRevenue).toLocaleString('en-IN');
+    document.getElementById('s-bookings').textContent = stats.totalBookings||0;
+    document.getElementById('s-enquiries').textContent = stats.newEnquiries||0;
+    document.getElementById('s-customers').textContent = stats.totalCustomers||0;
+    document.getElementById('enq-badge').textContent = stats.newEnquiries||0;
+  } catch(e) { console.error('Stats error:', e); }
+}
+
+// Load recent enquiries for overview
+async function loadOverviewEnquiries() {
+  try {
+    const data = await admin.getAllEnquiries();
+    document.getElementById('ov-enq-load').style.display='none';
+    document.getElementById('ov-enq-tbody').innerHTML = data.slice(0,5).map(e=>`
+      <tr>
+        <td><strong>${e.name}</strong></td>
+        <td>${(e.interest||[]).join(', ')}</td>
+        <td><a href="tel:${e.phone}" style="color:var(--primary)">${e.phone}</a></td>
+        <td style="font-size:.75rem;color:var(--muted)">${new Date(e.created_at).toLocaleString('en-IN',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}</td>
+        <td>${pill(e.status)}</td>
+        <td><div class="ab">
+          <button class="bs bd" onclick="resolveEnq('${e.id}')">✓ Done</button>
+          <button class="bs bv" onclick="window.open('https://wa.me/${e.phone?.replace(/\D/g,'')}','_blank')">📞</button>
+        </div></td>
+      </tr>`).join('');
+  } catch(e) { document.getElementById('ov-enq-load').style.display='none'; }
+}
+
+// Load enquiries
+async function loadEnquiries() {
+  const load=document.getElementById('enq-load');
+  load.style.display='block';
+  try {
+    const data = await admin.getAllEnquiries();
+    load.style.display='none';
+    document.getElementById('enq-tbody').innerHTML = data.map(e=>`
+      <tr>
+        <td><strong>${e.name}</strong></td>
+        <td><a href="tel:${e.phone}" style="color:var(--primary)">${e.phone}</a></td>
+        <td><a href="mailto:${e.email}" style="color:var(--primary)">${e.email}</a></td>
+        <td>${(e.interest||[]).join(', ')}</td>
+        <td>${e.destination||'—'}</td>
+        <td>${e.travellers||'—'}</td>
+        <td>${e.budget||'—'}</td>
+        <td style="font-size:.75rem;color:var(--muted)">${new Date(e.created_at).toLocaleString('en-IN',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}</td>
+        <td>${pill(e.status)}</td>
+        <td><div class="ab">
+          <button class="bs bd" onclick="resolveEnq('${e.id}')">✓ Done</button>
+          <button class="bs bv" onclick="window.open('https://wa.me/${(e.phone||'').replace(/\D/g,'')}','_blank')">📞</button>
+        </div></td>
+      </tr>`).join('');
+  } catch(e) { load.style.display='none'; toast('Failed to load enquiries','error'); }
+}
+
+// Load bookings
+async function loadBookings() {
+  const load=document.getElementById('book-load');
+  load.style.display='block';
+  try {
+    const data = await admin.getAllBookings();
+    load.style.display='none';
+    document.getElementById('book-tbody').innerHTML = data.map(b=>`
+      <tr>
+        <td style="font-family:monospace;font-weight:700;color:var(--primary)">${b.booking_ref}</td>
+        <td><strong>${b.guest_name}</strong></td>
+        <td style="text-transform:capitalize">${b.booking_type}</td>
+        <td>${b.travel_date||b.checkin_date||'—'}</td>
+        <td>${b.num_guests}</td>
+        <td><strong>₹${Number(b.total_amount).toLocaleString('en-IN')}</strong></td>
+        <td>${pill(b.payment_status)}</td>
+        <td>${pill(b.status)}</td>
+        <td><div class="ab">
+          ${b.status!=='confirmed'?`<button class="bs bd" onclick="confirmBook('${b.id}')">Confirm</button>`:''}
+          ${b.status!=='cancelled'?`<button class="bs bc2" onclick="cancelBook('${b.id}')">Cancel</button>`:''}
+        </div></td>
+      </tr>`).join('');
+  } catch(e) { load.style.display='none'; toast('Failed to load bookings','error'); }
+}
+
+// Load packages
+window.openAddPackage = () => {
+  document.getElementById('pkg-modal-title').textContent = 'Add New Package';
+  ['pm-id','pm-title','pm-slug','pm-desc','pm-inclusions','pm-badge'].forEach(id => { const el=document.getElementById(id); if(el) el.value=''; });
+  document.getElementById('pm-emoji').value = '🗺️';
+  document.getElementById('pm-type').value = 'domestic';
+  document.getElementById('pm-cat').value = 'adventure';
+  document.getElementById('pm-price').value = '';
+  document.getElementById('pm-old-price').value = '';
+  document.getElementById('pm-days').value = '';
+  document.getElementById('pm-nights').value = '';
+  document.getElementById('pm-active').checked = true;
+  document.getElementById('pm-featured').checked = false;
+  document.getElementById('pkg-modal').style.display = 'flex';
+};
+
+window.editPackage = async (id) => {
+  const { supabase } = await import('../assets/js/supabase.js');
+  const { data: p } = await supabase.from('packages').select('*').eq('id', id).single();
+  if (!p) { toast('Package not found', 'error'); return; }
+  document.getElementById('pkg-modal-title').textContent = 'Edit Package';
+  document.getElementById('pm-id').value = p.id;
+  document.getElementById('pm-title').value = p.title || '';
+  document.getElementById('pm-slug').value = p.slug || '';
+  document.getElementById('pm-type').value = p.type || 'domestic';
+  document.getElementById('pm-cat').value = p.category || 'adventure';
+  document.getElementById('pm-emoji').value = p.emoji || '🗺️';
+  document.getElementById('pm-price').value = p.price || '';
+  document.getElementById('pm-old-price').value = p.old_price || '';
+  document.getElementById('pm-days').value = p.duration_days || '';
+  document.getElementById('pm-nights').value = p.nights || '';
+  document.getElementById('pm-desc').value = p.description || '';
+  document.getElementById('pm-inclusions').value = (p.inclusions || []).join(', ');
+  document.getElementById('pm-badge').value = p.badge_label || '';
+  document.getElementById('pm-active').checked = !!p.is_active;
+  document.getElementById('pm-featured').checked = !!p.is_featured;
+  document.getElementById('pkg-modal').style.display = 'flex';
+};
+
+window.savePackage = async () => {
+  const title = document.getElementById('pm-title').value.trim();
+  const slug = document.getElementById('pm-slug').value.trim() || title.toLowerCase().replace(/[^a-z0-9]+/g,'-');
+  const price = parseFloat(document.getElementById('pm-price').value);
+  const desc = document.getElementById('pm-desc').value.trim();
+  if (!title || !price || !desc) { toast('Name, price and description are required', 'error'); return; }
+  const id = document.getElementById('pm-id').value;
+  const inclusions = (document.getElementById('pm-inclusions').value || '').split(',').map(s=>s.trim()).filter(Boolean);
+  const badgeLabel = document.getElementById('pm-badge').value.trim();
+  const payload = {
+    title, slug, description: desc,
+    type: document.getElementById('pm-type').value,
+    category: document.getElementById('pm-cat').value,
+    emoji: document.getElementById('pm-emoji').value || '🗺️',
+    price, old_price: parseFloat(document.getElementById('pm-old-price').value) || null,
+    duration_days: parseInt(document.getElementById('pm-days').value) || null,
+    nights: parseInt(document.getElementById('pm-nights').value) || null,
+    inclusions, badge: badgeLabel?.toLowerCase().replace(/\s+/g,'-') || null,
+    badge_label: badgeLabel || null,
+    is_active: document.getElementById('pm-active').checked,
+    is_featured: document.getElementById('pm-featured').checked,
+    bg_gradient: 'linear-gradient(135deg,#667eea,#764ba2)',
+    rating: 4.8, review_count: 0,
+  };
+  try {
+    const { supabase } = await import('../assets/js/supabase.js');
+    if (id) {
+      const { error } = await supabase.from('packages').update(payload).eq('id', id);
+      if (error) throw error;
+      toast('Package updated ✅');
+    } else {
+      const { error } = await supabase.from('packages').insert(payload);
+      if (error) throw error;
+      toast('Package added ✅');
+    }
+    document.getElementById('pkg-modal').style.display = 'none';
+    loadPackages();
+  } catch(e) { toast('Error: ' + e.message, 'error'); }
+};
+
+window.deletePackage = async (id, name) => {
+  if (!confirm('Delete "' + name + '"? This cannot be undone.')) return;
+  try {
+    const { supabase } = await import('../assets/js/supabase.js');
+    await supabase.from('packages').delete().eq('id', id);
+    toast('Package deleted');
+    loadPackages();
+  } catch(e) { toast('Error: ' + e.message, 'error'); }
+};
+
+window.togglePkg = async (id, active) => {
+  try {
+    const { supabase } = await import('../assets/js/supabase.js');
+    await supabase.from('packages').update({ is_active: active }).eq('id', id);
+    toast(active ? 'Package activated' : 'Package hidden');
+  } catch(e) { toast('Toggle failed: ' + e.message, 'error'); }
+};
+
+async function loadPackages() {
+  const load = document.getElementById('pkg-load');
+  load.style.display = 'block';
+  try {
+    const { supabase } = await import('../assets/js/supabase.js');
+    const { data, error } = await supabase.from('packages').select('*').order('created_at', { ascending: false });
+    if (error) throw error;
+    load.style.display = 'none';
+    const grid = document.getElementById('pkg-admin-grid');
+    if (!data || !data.length) {
+      grid.innerHTML = '<div style="text-align:center;padding:3rem;color:var(--muted)">No packages yet. Click + Add Package to add one.</div>';
+      return;
+    }
+    grid.innerHTML = data.map(p => `
+      <div class="pkg-card-admin">
+        <div class="pct" style="background:${p.bg_gradient || 'linear-gradient(135deg,#667eea,#764ba2)'}">${p.emoji || '🗺️'}</div>
+        <div class="pcb">
+          <div class="pcn">${p.title}</div>
+          <div class="pcm" style="font-size:.73rem;color:var(--muted);margin:.2rem 0">${p.category || ''} · ${p.duration_days || '?'}D / ${p.nights || '?'}N · ₹${Number(p.price).toLocaleString('en-IN')}</div>
+          <div class="pcf">
+            <span class="pcp">₹${Number(p.price).toLocaleString('en-IN')}</span>
+            <div style="display:flex;align-items:center;gap:.4rem">
+              <label class="toggle" title="${p.is_active ? 'Active' : 'Hidden'}">
+                <input type="checkbox" ${p.is_active ? 'checked' : ''} onchange="togglePkg('${p.id}',this.checked)">
+                <span class="slider"></span>
+              </label>
+              <button class="bs be" onclick="editPackage('${p.id}')">✏️</button>
+              <button class="bs" style="color:#DC2626;border-color:#fecaca;background:#fff5f5" onclick="deletePackage('${p.id}','${(p.title||'').replace(/'/g,"\\'")}')">🗑</button>
+            </div>
+          </div>
+        </div>
+      </div>`).join('');
+  } catch(e) {
+    load.style.display = 'none';
+    document.getElementById('pkg-admin-grid').innerHTML = '<div style="text-align:center;padding:3rem;color:#DC2626">Error: ' + e.message + '</div>';
+  }
+}
+
+// Load vendors
+async function loadVendors() {
+  const load=document.getElementById('vendor-load');
+  load.style.display='block';
+  try {
+    const data = await admin.getAllVendors();
+    load.style.display='none';
+    document.getElementById('vendor-tbody').innerHTML = data.map(v=>`
+      <tr>
+        <td><strong>${v.business_name}</strong></td>
+        <td>${v.business_type}</td>
+        <td>${v.owner_name}</td>
+        <td>${v.city}</td>
+        <td><a href="tel:${v.phone}" style="color:var(--primary)">${v.phone}</a></td>
+        <td style="font-size:.75rem;color:var(--muted)">${new Date(v.created_at).toLocaleDateString('en-IN')}</td>
+        <td>${pill(v.status)}</td>
+        <td><div class="ab">
+          ${v.status==='pending'?`<button class="bs bd" onclick="approveVendor('${v.id}')">✓ Approve</button>`:''}
+          <button class="bs bv" onclick="window.open('mailto:${v.email}')">Email</button>
+        </div></td>
+      </tr>`).join('');
+  } catch(e) { load.style.display='none'; toast('Failed to load vendors','error'); }
+}
+
+// Load customers
+async function loadCustomers() {
+  const load=document.getElementById('cust-load');
+  load.style.display='block';
+  try {
+    const data = await admin.getAllCustomers();
+    load.style.display='none';
+    document.getElementById('cust-tbody').innerHTML = data.map(c=>`
+      <tr>
+        <td><strong>${c.full_name||'—'}</strong></td>
+        <td>${c.phone||'—'}</td>
+        <td style="text-transform:capitalize">${c.role}</td>
+        <td>${new Date(c.created_at).toLocaleDateString('en-IN')}</td>
+        <td><div class="ab"><button class="bs bv" onclick="alert('View customer')">View</button></div></td>
+      </tr>`).join('');
+  } catch(e) { load.style.display='none'; toast('Failed to load customers','error'); }
+}
+
+// Load testimonials
+async function loadTestimonials() {
+  const load = document.getElementById('testi-load');
+  load.style.display = 'block';
+  try {
+    const { supabase } = await import('../assets/js/supabase.js');
+    const { data } = await supabase.from('testimonials').select('*').order('created_at', { ascending: false });
+    load.style.display = 'none';
+    if (!data?.length) { document.getElementById('testi-tbody').innerHTML = '<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--muted)">No testimonials yet. Add one!</td></tr>'; return; }
+    document.getElementById('testi-tbody').innerHTML = data.map(t => `
+      <tr>
+        <td><strong>${t.name}</strong></td>
+        <td style="font-size:.78rem">${t.city || '—'}</td>
+        <td style="font-size:.78rem">${t.trip || '—'}</td>
+        <td>${'★'.repeat(t.stars || 5)}</td>
+        <td>${pill(t.is_active ? 'active' : 'inactive')}</td>
+        <td>
+          <button class="tbl-btn" onclick="editTestimonial('${t.id}','${(t.name||'').replace(/'/g,"\\'")}','${(t.city||'').replace(/'/g,"\\'")}','${(t.trip||'').replace(/'/g,"\\'")}',${t.stars},'${(t.text||'').replace(/'/g,"\\'").replace(/\n/g,' ')}')">✏️ Edit</button>
+          <button class="tbl-btn tbl-btn-del" onclick="deleteTestimonial('${t.id}')">🗑 Delete</button>
+          <button class="tbl-btn" onclick="toggleTestimonial('${t.id}',${t.is_active})">${t.is_active ? '🙈 Hide' : '👁 Show'}</button>
+        </td>
+      </tr>`).join('');
+  } catch(e) {
+    load.style.display = 'none';
+    document.getElementById('testi-tbody').innerHTML = '<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--muted)">Run the SQL patch to create the testimonials table first.</td></tr>';
+  }
+}
+
+window.openAddTestimonial = () => {
+  document.getElementById('tm-id').value = '';
+  document.getElementById('tm-name').value = '';
+  document.getElementById('tm-city').value = '';
+  document.getElementById('tm-trip').value = '';
+  document.getElementById('tm-stars').value = '5';
+  document.getElementById('tm-text').value = '';
+  document.getElementById('testi-modal').style.display = 'flex';
+};
+
+window.editTestimonial = (id, name, city, trip, stars, text) => {
+  document.getElementById('tm-id').value = id;
+  document.getElementById('tm-name').value = name;
+  document.getElementById('tm-city').value = city;
+  document.getElementById('tm-trip').value = trip;
+  document.getElementById('tm-stars').value = stars;
+  document.getElementById('tm-text').value = text;
+  document.getElementById('testi-modal').style.display = 'flex';
+};
+
+window.saveTestimonial = async () => {
+  const id = document.getElementById('tm-id').value;
+  const name = document.getElementById('tm-name').value.trim();
+  const text = document.getElementById('tm-text').value.trim();
+  if (!name || !text) { toast('Name and review text are required', 'error'); return; }
+  const payload = {
+    name, city: document.getElementById('tm-city').value.trim(),
+    trip: document.getElementById('tm-trip').value.trim(),
+    stars: parseInt(document.getElementById('tm-stars').value),
+    text, initials: name.split(' ').map(n => n[0]).join('').substring(0,2).toUpperCase(),
+    is_active: true
+  };
+  try {
+    const { supabase } = await import('../assets/js/supabase.js');
+    if (id) { await supabase.from('testimonials').update(payload).eq('id', id); }
+    else { await supabase.from('testimonials').insert(payload); }
+    document.getElementById('testi-modal').style.display = 'none';
+    toast(id ? 'Testimonial updated ✅' : 'Testimonial added ✅');
+    loadTestimonials();
+  } catch(e) { toast('Error: ' + e.message, 'error'); }
+};
+
+window.deleteTestimonial = async (id) => {
+  if (!confirm('Delete this testimonial?')) return;
+  try {
+    const { supabase } = await import('../assets/js/supabase.js');
+    await supabase.from('testimonials').delete().eq('id', id);
+    toast('Testimonial deleted');
+    loadTestimonials();
+  } catch(e) { toast('Error: ' + e.message, 'error'); }
+};
+
+window.toggleTestimonial = async (id, current) => {
+  try {
+    const { supabase } = await import('../assets/js/supabase.js');
+    await supabase.from('testimonials').update({ is_active: !current }).eq('id', id);
+    toast(current ? 'Testimonial hidden' : 'Testimonial shown');
+    loadTestimonials();
+  } catch(e) { toast('Error: ' + e.message, 'error'); }
+};
+
+// Load subscribers
+async function loadSubscribers() {
+  const load = document.getElementById('sub-load');
+  load.style.display = 'block';
+  try {
+    const { supabase } = await import('../assets/js/supabase.js');
+    const { data } = await supabase.from('newsletter_subscribers').select('*').order('created_at', {ascending: false});
+    load.style.display = 'none';
+    if (!data || !data.length) {
+      document.getElementById('sub-tbody').innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--muted);padding:2rem">No subscribers yet.</td></tr>';
+      return;
+    }
+    document.getElementById('sub-tbody').innerHTML = data.map(s => `
+      <tr>
+        <td><strong>${s.email}</strong></td>
+        <td style="font-size:.78rem;color:var(--muted)">${new Date(s.created_at).toLocaleString('en-IN',{day:'numeric',month:'short',year:'numeric'})}</td>
+        <td>${s.source || 'Website'}</td>
+        <td>${pill(s.status || 'active')}</td>
+      </tr>`).join('');
+  } catch(e) {
+    load.style.display = 'none';
+    document.getElementById('sub-tbody').innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--muted);padding:2rem">No newsletter_subscribers table yet. Run the schema SQL in Supabase.</td></tr>';
+  }
+}
+
+window.exportSubscribers = async () => {
+  try {
+    const { supabase } = await import('../assets/js/supabase.js');
+    const { data } = await supabase.from('newsletter_subscribers').select('email,created_at,source');
+    if (!data?.length) { toast('No subscribers to export', 'error'); return; }
+    const csv = 'Email,Subscribed On,Source\n' + data.map(s => `${s.email},${s.created_at},${s.source||'Website'}`).join('\n');
+    const blob = new Blob([csv], {type:'text/csv'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = 'zoomfly-subscribers.csv'; a.click();
+    toast('Subscribers exported!');
+  } catch(e) { toast('Export failed: ' + e.message, 'error'); }
+};
+
+// Actions
+window.resolveEnq = async (id) => {
+  try { await admin.updateEnquiryStatus(id,'closed'); toast('Marked as resolved'); loadOverviewEnquiries(); loadEnquiries(); } catch(e) { toast(e.message,'error'); }
+};
+window.confirmBook = async (id) => {
+  try { await admin.updateBookingStatus(id,'confirmed'); toast('Booking confirmed'); loadBookings(); } catch(e) { toast(e.message,'error'); }
+};
+window.cancelBook = async (id) => {
+  if(!confirm('Cancel this booking?')) return;
+  try { await admin.updateBookingStatus(id,'cancelled'); toast('Booking cancelled'); loadBookings(); } catch(e) { toast(e.message,'error'); }
+};
+window.approveVendor = async (id) => {
+  try { await admin.approveVendor(id); toast('Vendor approved!'); loadVendors(); } catch(e) { toast(e.message,'error'); }
+};
+window.togglePkg = async (id, active) => {
+  try { await admin.togglePackageStatus(id, active); toast(`Package ${active?'activated':'deactivated'}`); } catch(e) { toast(e.message,'error'); }
+};
+
+// Live subscriptions
+subscribeToEnquiries(payload => {
+  const count=document.getElementById('enq-badge');
+  count.textContent = parseInt(count.textContent||'0')+1;
+  toast(`🔔 New enquiry from ${payload.new?.name||'a customer'}`);
+  loadOverviewEnquiries(); loadStats();
+});
+subscribeToBookings(payload => {
+  if(payload.eventType==='INSERT') toast(`💰 New booking: ${payload.new?.booking_ref}`);
+  loadStats();
+});
+
+// Init
+loadStats();
+loadOverviewEnquiries();
+</script>
+</body>
+</html>

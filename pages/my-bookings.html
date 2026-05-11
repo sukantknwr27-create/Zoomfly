@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Bookings — ZoomFly</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✈️</text></svg>"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --primary:#1a73e8; --primary-dark:#1557b0;
+      --accent:#ff6b35;  --dark:#0f1923; --dark2:#1a2535;
+      --text:#2d3748;    --light:#64748b;
+      --border:#e2e8f0;  --bg:#f8fafc;  --white:#fff;
+      --green:#22c55e;   --yellow:#f59e0b; --red:#ef4444;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+
+    /* ── NAV ── */
+    nav{background:var(--dark);padding:0 5%;display:flex;align-items:center;
+      justify-content:space-between;height:68px;position:sticky;top:0;z-index:100;
+      box-shadow:0 2px 20px rgba(0,0,0,0.3);}
+    .logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+    .logo-icon{width:38px;height:38px;background:linear-gradient(135deg,var(--primary),var(--accent));
+      border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;}
+    .logo-text{font-family:'Playfair Display',serif;font-size:1.5rem;color:#fff;font-weight:700;}
+    .logo-text span{color:var(--accent);}
+    .nav-links{display:flex;gap:24px;list-style:none;}
+    .nav-links a{color:rgba(255,255,255,0.7);text-decoration:none;font-size:0.88rem;font-weight:500;transition:color 0.2s;}
+    .nav-links a:hover{color:#fff;}
+    .nav-cta{background:var(--accent)!important;color:#fff!important;padding:7px 18px;border-radius:8px;font-weight:600!important;}
+    .nav-user{display:flex;align-items:center;gap:10px;}
+    .nav-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--accent));
+      display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:0.85rem;}
+    .nav-name{color:rgba(255,255,255,0.8);font-size:0.85rem;}
+    .nav-logout{color:rgba(255,255,255,0.5);background:none;border:none;cursor:pointer;
+      font-size:0.82rem;padding:5px 10px;border-radius:6px;transition:all 0.2s;}
+    .nav-logout:hover{background:rgba(255,255,255,0.1);color:#fff;}
+
+    /* ── VIEWS ── */
+    #view-login, #view-portal { display:none; }
+    #view-login.show, #view-portal.show { display:block; }
+
+    /* ══════════════════════════════════════════
+       LOGIN / REGISTER
+    ══════════════════════════════════════════ */
+    .auth-page{min-height:calc(100vh - 68px);display:flex;align-items:center;
+      justify-content:center;padding:40px 20px;
+      background:linear-gradient(135deg,#0f1923 0%,#1a2535 60%,#1a3a5c 100%);}
+    .auth-card{background:var(--white);border-radius:20px;
+      box-shadow:0 24px 80px rgba(0,0,0,0.25);width:100%;max-width:420px;overflow:hidden;}
+    .auth-header{background:linear-gradient(135deg,var(--dark),var(--dark2));
+      padding:32px;text-align:center;}
+    .auth-icon{font-size:40px;margin-bottom:12px;}
+    .auth-header h2{font-family:'Playfair Display',serif;font-size:1.5rem;color:#fff;margin-bottom:6px;}
+    .auth-header p{color:rgba(255,255,255,0.55);font-size:0.85rem;}
+
+    .auth-tabs{display:flex;border-bottom:1px solid var(--border);}
+    .auth-tab{flex:1;padding:14px;text-align:center;font-size:0.88rem;font-weight:600;
+      color:var(--light);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;}
+    .auth-tab.active{color:var(--primary);border-bottom-color:var(--primary);}
+
+    .auth-body{padding:28px;}
+    .form-group{margin-bottom:16px;}
+    .form-label{font-size:0.78rem;font-weight:600;color:var(--text);margin-bottom:6px;display:block;}
+    .form-input{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;
+      font-family:inherit;font-size:0.9rem;color:var(--text);outline:none;transition:border 0.2s;}
+    .form-input:focus{border-color:var(--primary);}
+    .form-input.error{border-color:var(--red);}
+    .form-error{font-size:0.75rem;color:var(--red);margin-top:4px;display:none;}
+    .form-error.show{display:block;}
+
+    .auth-btn{width:100%;padding:13px;border-radius:10px;border:none;cursor:pointer;
+      background:linear-gradient(135deg,var(--primary),var(--primary-dark));
+      color:#fff;font-size:0.92rem;font-weight:700;font-family:inherit;
+      transition:all 0.2s;box-shadow:0 4px 16px rgba(26,115,232,0.3);}
+    .auth-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(26,115,232,0.4);}
+    .auth-btn:disabled{opacity:0.6;cursor:not-allowed;transform:none;}
+
+    .auth-divider{text-align:center;position:relative;margin:16px 0;}
+    .auth-divider::before{content:'';position:absolute;left:0;right:0;top:50%;height:1px;background:var(--border);}
+    .auth-divider span{background:var(--white);padding:0 12px;position:relative;
+      font-size:0.78rem;color:var(--light);}
+
+    .guest-btn{width:100%;padding:11px;border-radius:10px;
+      border:1.5px solid var(--border);background:var(--white);
+      color:var(--text);font-size:0.88rem;font-weight:600;font-family:inherit;
+      cursor:pointer;transition:all 0.2s;}
+    .guest-btn:hover{border-color:var(--primary);color:var(--primary);}
+
+    .auth-msg{padding:10px 14px;border-radius:8px;font-size:0.83rem;
+      margin-bottom:14px;display:none;}
+    .auth-msg.show{display:block;}
+    .auth-msg.error{background:rgba(239,68,68,0.08);color:#991b1b;border:1px solid rgba(239,68,68,0.2);}
+    .auth-msg.success{background:rgba(34,197,94,0.08);color:#166534;border:1px solid rgba(34,197,94,0.2);}
+
+    /* Guest lookup */
+    .guest-lookup{padding:28px;border-top:1px solid var(--border);}
+    .guest-lookup h3{font-size:0.95rem;font-weight:700;color:var(--dark);margin-bottom:4px;}
+    .guest-lookup p{font-size:0.82rem;color:var(--light);margin-bottom:16px;}
+
+    /* ══════════════════════════════════════════
+       CUSTOMER PORTAL
+    ══════════════════════════════════════════ */
+    .portal{max-width:960px;margin:0 auto;padding:40px 5% 80px;}
+
+    /* Hero */
+    .portal-hero{background:linear-gradient(135deg,var(--dark),var(--dark2));
+      border-radius:20px;padding:32px 36px;margin-bottom:28px;
+      display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;}
+    .ph-left h2{font-family:'Playfair Display',serif;font-size:1.5rem;color:#fff;margin-bottom:4px;}
+    .ph-left p{color:rgba(255,255,255,0.55);font-size:0.85rem;}
+    .ph-stats{display:flex;gap:24px;}
+    .ph-stat{text-align:center;}
+    .ph-stat .ps-num{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;color:#fff;line-height:1;}
+    .ph-stat .ps-num span{color:var(--accent);}
+    .ph-stat .ps-label{font-size:0.72rem;color:rgba(255,255,255,0.45);margin-top:3px;}
+
+    /* Tabs */
+    .portal-tabs{display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap;}
+    .ptab{padding:8px 18px;border-radius:10px;border:1.5px solid var(--border);
+      background:var(--white);color:var(--light);font-size:0.85rem;font-weight:600;
+      cursor:pointer;transition:all 0.2s;}
+    .ptab:hover{border-color:var(--primary);color:var(--primary);}
+    .ptab.active{background:var(--primary);color:#fff;border-color:var(--primary);}
+    .ptab .ptab-count{display:inline-block;background:rgba(255,255,255,0.3);
+      padding:1px 7px;border-radius:10px;font-size:0.7rem;margin-left:4px;}
+    .ptab.active .ptab-count{background:rgba(255,255,255,0.25);}
+
+    /* Booking cards */
+    .booking-list{display:flex;flex-direction:column;gap:14px;}
+
+    .bcard{background:var(--white);border-radius:16px;border:1px solid var(--border);
+      overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.04);
+      transition:all 0.2s;cursor:pointer;}
+    .bcard:hover{box-shadow:0 6px 24px rgba(0,0,0,0.1);border-color:var(--primary);}
+
+    .bcard-top{padding:18px 20px;display:flex;align-items:center;
+      justify-content:space-between;gap:12px;}
+    .bcard-left{display:flex;align-items:center;gap:14px;min-width:0;}
+    .bcard-icon{width:48px;height:48px;border-radius:12px;
+      display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+    .bi-flight {background:rgba(26,115,232,0.1);}
+    .bi-hotel  {background:rgba(139,92,246,0.1);}
+    .bi-package{background:rgba(255,107,53,0.1);}
+    .bi-bus    {background:rgba(20,184,166,0.1);}
+    .bi-cab    {background:rgba(34,197,94,0.1);}
+
+    .bcard-info .bc-ref{font-family:'JetBrains Mono',monospace;font-size:0.75rem;
+      color:var(--primary);font-weight:600;margin-bottom:2px;}
+    .bcard-info .bc-name{font-weight:700;font-size:0.95rem;color:var(--dark);
+      white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:260px;}
+    .bcard-info .bc-date{font-size:0.78rem;color:var(--light);margin-top:2px;}
+
+    .bcard-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0;}
+    .bc-amount{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--dark);}
+    .bc-status{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;
+      border-radius:20px;font-size:0.72rem;font-weight:700;}
+    .s-pending   {background:rgba(245,158,11,0.1); color:#92400e;}
+    .s-confirmed {background:rgba(26,115,232,0.1); color:#1557b0;}
+    .s-processing{background:rgba(139,92,246,0.1); color:#5b21b6;}
+    .s-completed {background:rgba(34,197,94,0.1);  color:#166534;}
+    .s-cancelled {background:rgba(239,68,68,0.1);  color:#991b1b;}
+    .s-refunded  {background:rgba(100,116,139,0.1);color:#334155;}
+
+    /* Expandable detail */
+    .bcard-detail{display:none;border-top:1px solid var(--border);}
+    .bcard-detail.open{display:block;}
+
+    .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+    .detail-col{padding:20px;}
+    .detail-col:first-child{border-right:1px solid var(--border);}
+
+    .dc-title{font-size:0.7rem;font-weight:700;text-transform:uppercase;
+      letter-spacing:1.5px;color:var(--light);margin-bottom:12px;}
+    .dc-row{display:flex;justify-content:space-between;padding:7px 0;
+      font-size:0.85rem;border-bottom:1px solid #f8fafc;}
+    .dc-row:last-child{border-bottom:none;}
+    .dc-key{color:var(--light);}
+    .dc-val{font-weight:600;color:var(--dark);text-align:right;max-width:180px;
+      overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+
+    /* price breakdown */
+    .price-box{background:var(--bg);border-radius:10px;padding:14px;margin-top:8px;}
+    .pb-row{display:flex;justify-content:space-between;font-size:0.83rem;padding:4px 0;}
+    .pb-total{border-top:1px solid var(--border);margin-top:6px;padding-top:8px;font-weight:700;}
+    .pb-total span:last-child{color:var(--accent);font-size:0.95rem;}
+
+    /* action strip */
+    .bcard-actions{padding:14px 20px;background:var(--bg);
+      border-top:1px solid var(--border);display:flex;gap:10px;flex-wrap:wrap;}
+    .action-btn{padding:9px 18px;border-radius:9px;border:none;cursor:pointer;
+      font-size:0.82rem;font-weight:700;font-family:inherit;transition:all 0.2s;
+      display:flex;align-items:center;gap:7px;}
+    .ab-wa{background:#25d366;color:#fff;}
+    .ab-wa:hover{background:#20b858;}
+    .ab-cancel{background:rgba(239,68,68,0.08);color:var(--red);
+      border:1.5px solid rgba(239,68,68,0.15);}
+    .ab-cancel:hover{background:var(--red);color:#fff;border-color:var(--red);}
+    .ab-track{background:rgba(26,115,232,0.08);color:var(--primary);
+      border:1.5px solid rgba(26,115,232,0.15);}
+    .ab-track:hover{background:var(--primary);color:#fff;}
+
+    /* Empty state */
+    .empty{text-align:center;padding:60px 20px;background:var(--white);
+      border-radius:16px;border:1px solid var(--border);}
+    .empty-icon{font-size:48px;margin-bottom:14px;}
+    .empty h3{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--dark);margin-bottom:8px;}
+    .empty p{font-size:0.88rem;color:var(--light);margin-bottom:20px;}
+    .empty-btn{display:inline-block;padding:11px 24px;background:var(--primary);
+      color:#fff;border-radius:10px;text-decoration:none;font-weight:700;font-size:0.88rem;}
+
+    /* Track box */
+    .track-box{background:var(--white);border-radius:16px;border:1px solid var(--border);
+      padding:28px;margin-bottom:20px;box-shadow:0 2px 12px rgba(0,0,0,0.04);}
+    .track-box h3{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--dark);margin-bottom:4px;}
+    .track-box p{font-size:0.85rem;color:var(--light);margin-bottom:16px;}
+    .track-form{display:flex;gap:10px;}
+    .track-input{flex:1;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;
+      font-family:inherit;font-size:0.9rem;outline:none;transition:border 0.2s;}
+    .track-input:focus{border-color:var(--primary);}
+    .track-btn{padding:11px 20px;background:var(--primary);color:#fff;border:none;
+      border-radius:10px;cursor:pointer;font-weight:700;font-size:0.88rem;white-space:nowrap;}
+
+    /* Toast */
+    .toast{position:fixed;bottom:24px;right:24px;background:var(--dark);color:#fff;
+      padding:12px 20px;border-radius:10px;font-size:0.88rem;font-weight:600;
+      z-index:9999;opacity:0;transform:translateY(8px);transition:all 0.3s;pointer-events:none;}
+    .toast.show{opacity:1;transform:translateY(0);}
+
+    @media(max-width:680px){
+      .detail-grid{grid-template-columns:1fr;}
+      .detail-col:first-child{border-right:none;border-bottom:1px solid var(--border);}
+      .bcard-top{flex-direction:column;align-items:flex-start;}
+      .bcard-right{flex-direction:row;align-items:center;}
+      .ph-stats{gap:16px;}
+      .portal-hero{padding:24px 20px;}
+      .nav-links{display:none;}
+      .track-form{flex-direction:column;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="logo">
+    <div class="logo-icon">✈️</div>
+    <div class="logo-text">Zoom<span>Fly</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="flights.html">Flights</a></li>
+    <li><a href="hotels.html">Hotels</a></li>
+    <li><a href="packages.html">Packages</a></li>
+    <li><a href="contact.html" class="nav-cta">Contact</a></li>
+  </ul>
+  <div class="nav-user" id="nav-user" style="display:none;">
+    <div class="nav-avatar" id="nav-avatar">U</div>
+    <span class="nav-name" id="nav-name"></span>
+    <button class="nav-logout" onclick="handleLogout()">Sign out</button>
+  </div>
+</nav>
+
+<!-- ── LOGIN VIEW ── -->
+<div id="view-login">
+  <div class="auth-page">
+    <div class="auth-card">
+
+      <div class="auth-header">
+        <div class="auth-icon">✈️</div>
+        <h2>My ZoomFly Account</h2>
+        <p>Sign in to view and manage your bookings</p>
+      </div>
+
+      <!-- TABS -->
+      <div class="auth-tabs">
+        <div class="auth-tab active" onclick="switchAuthTab('login')">Sign In</div>
+        <div class="auth-tab"        onclick="switchAuthTab('register')">Create Account</div>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <div id="login-form" class="auth-body">
+        <div class="auth-msg" id="login-msg"></div>
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input class="form-input" type="email" id="login-email" placeholder="you@example.com" autocomplete="email"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input class="form-input" type="password" id="login-pass" placeholder="••••••••" autocomplete="current-password"/>
+        </div>
+        <button class="auth-btn" id="login-btn" onclick="handleLogin()">Sign In</button>
+        <div style="text-align:right;margin-top:10px;">
+          <a href="#" onclick="handleForgotPassword()" style="font-size:0.8rem;color:var(--primary);text-decoration:none;">
+            Forgot password?
+          </a>
+        </div>
+      </div>
+
+      <!-- REGISTER FORM -->
+      <div id="register-form" class="auth-body" style="display:none;">
+        <div class="auth-msg" id="register-msg"></div>
+        <div class="form-group">
+          <label class="form-label">Full Name</label>
+          <input class="form-input" type="text" id="reg-name" placeholder="Rahul Sharma" autocomplete="name"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input class="form-input" type="email" id="reg-email" placeholder="you@example.com" autocomplete="email"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Phone Number</label>
+          <input class="form-input" type="tel" id="reg-phone" placeholder="9876543210" autocomplete="tel"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input class="form-input" type="password" id="reg-pass" placeholder="Min 8 characters" autocomplete="new-password"/>
+        </div>
+        <button class="auth-btn" id="register-btn" onclick="handleRegister()">Create Account</button>
+      </div>
+
+      <!-- GUEST LOOKUP -->
+      <div class="guest-lookup">
+        <h3>🔍 Track Without Account</h3>
+        <p>Enter your booking reference to check status without logging in.</p>
+        <div class="track-form">
+          <input class="track-input" type="text" id="guest-ref" placeholder="ZF-FLT-20260509-0001"/>
+          <button class="track-btn" onclick="guestLookup()">Track</button>
+        </div>
+        <div id="guest-result" style="margin-top:14px;font-size:0.85rem;"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ── PORTAL VIEW ── -->
+<div id="view-portal">
+  <div class="portal">
+
+    <!-- Hero -->
+    <div class="portal-hero">
+      <div class="ph-left">
+        <h2 id="portal-greeting">Welcome back!</h2>
+        <p id="portal-email"></p>
+      </div>
+      <div class="ph-stats">
+        <div class="ph-stat">
+          <div class="ps-num" id="stat-total">0</div>
+          <div class="ps-label">Total Bookings</div>
+        </div>
+        <div class="ph-stat">
+          <div class="ps-num" id="stat-active">0</div>
+          <div class="ps-label">Active</div>
+        </div>
+        <div class="ph-stat">
+          <div class="ps-num">₹<span id="stat-spent">0</span></div>
+          <div class="ps-label">Total Spent</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Track box -->
+    <div class="track-box">
+      <h3>🔍 Track a Booking</h3>
+      <p>Enter any booking reference number to view its full details.</p>
+      <div class="track-form">
+        <input class="track-input" type="text" id="portal-track-input"
+          placeholder="e.g. ZF-FLT-20260509-0001"/>
+        <button class="track-btn" onclick="trackBooking()">Track</button>
+      </div>
+      <div id="portal-track-result" style="margin-top:14px;"></div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="portal-tabs">
+      <div class="ptab active" onclick="filterTab('all',   this)">All <span class="ptab-count" id="tab-all">0</span></div>
+      <div class="ptab"        onclick="filterTab('pending',this)">⏳ Pending <span class="ptab-count" id="tab-pending">0</span></div>
+      <div class="ptab"        onclick="filterTab('confirmed',this)">✅ Confirmed <span class="ptab-count" id="tab-confirmed">0</span></div>
+      <div class="ptab"        onclick="filterTab('completed',this)">🎉 Completed <span class="ptab-count" id="tab-completed">0</span></div>
+      <div class="ptab"        onclick="filterTab('cancelled',this)">❌ Cancelled <span class="ptab-count" id="tab-cancelled">0</span></div>
+    </div>
+
+    <!-- Booking list -->
+    <div class="booking-list" id="booking-list">
+      <div class="empty">
+        <div class="empty-icon">⏳</div>
+        <h3>Loading your bookings...</h3>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+const SUPABASE_URL = window.SUPABASE_URL      || 'https://ndaurluolurdljrjbxii.supabase.co';
+const SUPABASE_KEY = window.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kYXVybHVvbHVyZGxqcmpieGlpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MDY2MzksImV4cCI6MjA5MzQ4MjYzOX0.JsZXOof19JkyX7asJQ7EtoaBKqURJUYzVqXQIenCzjQ';
+const supabase     = createClient(SUPABASE_URL, SUPABASE_KEY);
+const WA_NUMBER    = '918076136300';
+
+let allBookings = [];
+let currentTab  = 'all';
+
+// ── Auth state ─────────────────────────────────────────────
+supabase.auth.onAuthStateChange(async (event, session) => {
+  if (session?.user) {
+    showPortal(session.user);
+    await loadBookings(session.user.id);
+  } else {
+    showLogin();
+  }
+});
+
+function showLogin() {
+  document.getElementById('view-login').className = 'show';
+  document.getElementById('view-portal').className = '';
+  document.getElementById('nav-user').style.display = 'none';
+}
+
+function showPortal(user) {
+  document.getElementById('view-login').className  = '';
+  document.getElementById('view-portal').className = 'show';
+
+  const name  = user.user_metadata?.full_name || user.email.split('@')[0];
+  const email = user.email;
+  const init  = name.charAt(0).toUpperCase();
+
+  document.getElementById('nav-user').style.display   = 'flex';
+  document.getElementById('nav-avatar').textContent   = init;
+  document.getElementById('nav-name').textContent     = name;
+  document.getElementById('portal-greeting').textContent = `Welcome back, ${name.split(' ')[0]}! 👋`;
+  document.getElementById('portal-email').textContent = email;
+}
+
+// ── Auth Tab ───────────────────────────────────────────────
+window.switchAuthTab = (tab) => {
+  document.querySelectorAll('.auth-tab').forEach((t,i) => {
+    t.classList.toggle('active', (i===0&&tab==='login')||(i===1&&tab==='register'));
+  });
+  document.getElementById('login-form').style.display    = tab==='login'    ? 'block' : 'none';
+  document.getElementById('register-form').style.display = tab==='register' ? 'block' : 'none';
+};
+
+// ── Login ──────────────────────────────────────────────────
+window.handleLogin = async () => {
+  const email = document.getElementById('login-email').value.trim();
+  const pass  = document.getElementById('login-pass').value;
+  const btn   = document.getElementById('login-btn');
+  const msg   = document.getElementById('login-msg');
+
+  if (!email||!pass) { showMsg(msg,'Please fill in all fields.','error'); return; }
+  btn.disabled = true; btn.textContent = 'Signing in...';
+
+  const { error } = await supabase.auth.signInWithPassword({ email, password:pass });
+  if (error) { showMsg(msg, error.message,'error'); }
+
+  btn.disabled = false; btn.textContent = 'Sign In';
+};
+
+// ── Register ───────────────────────────────────────────────
+window.handleRegister = async () => {
+  const name  = document.getElementById('reg-name').value.trim();
+  const email = document.getElementById('reg-email').value.trim();
+  const phone = document.getElementById('reg-phone').value.trim();
+  const pass  = document.getElementById('reg-pass').value;
+  const btn   = document.getElementById('register-btn');
+  const msg   = document.getElementById('register-msg');
+
+  if (!name||!email||!pass) { showMsg(msg,'Please fill in all required fields.','error'); return; }
+  if (pass.length < 8) { showMsg(msg,'Password must be at least 8 characters.','error'); return; }
+
+  btn.disabled = true; btn.textContent = 'Creating account...';
+
+  const { error } = await supabase.auth.signUp({
+    email, password:pass,
+    options: { data:{ full_name:name, phone } }
+  });
+
+  if (error) { showMsg(msg, error.message,'error'); }
+  else { showMsg(msg,'Account created! Please check your email to verify.','success'); }
+
+  btn.disabled = false; btn.textContent = 'Create Account';
+};
+
+// ── Forgot Password ────────────────────────────────────────
+window.handleForgotPassword = async () => {
+  const email = document.getElementById('login-email').value.trim();
+  if (!email) { showMsg(document.getElementById('login-msg'),'Enter your email above first.','error'); return; }
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: window.location.origin + '/my-bookings.html'
+  });
+  showMsg(document.getElementById('login-msg'),
+    error ? error.message : '✅ Reset link sent to ' + email,
+    error ? 'error' : 'success');
+};
+
+// ── Logout ─────────────────────────────────────────────────
+window.handleLogout = async () => {
+  await supabase.auth.signOut();
+  allBookings = [];
+};
+
+// ── Load Bookings ──────────────────────────────────────────
+async function loadBookings(userId) {
+  const { data, error } = await supabase
+    .from('bookings').select('*')
+    .eq('user_id', userId)
+    .order('created_at', { ascending:false });
+
+  if (error) { showToast('Could not load bookings.','error'); return; }
+  allBookings = data || [];
+  renderStats();
+  renderBookings();
+}
+
+function renderStats() {
+  const active  = allBookings.filter(b=>['pending','confirmed','processing'].includes(b.status));
+  const spent   = allBookings.filter(b=>b.payment_status==='paid').reduce((s,b)=>s+parseFloat(b.total_amount||0),0);
+  document.getElementById('stat-total').textContent   = allBookings.length;
+  document.getElementById('stat-active').textContent  = active.length;
+  document.getElementById('stat-spent').textContent   = fmtAmt(spent);
+
+  // Tab counts
+  ['all','pending','confirmed','completed','cancelled'].forEach(t => {
+    const count = t==='all' ? allBookings.length : allBookings.filter(b=>b.status===t).length;
+    document.getElementById('tab-'+t).textContent = count;
+  });
+}
+
+// ── Filter Tab ─────────────────────────────────────────────
+window.filterTab = (tab, el) => {
+  currentTab = tab;
+  document.querySelectorAll('.ptab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  renderBookings();
+};
+
+function renderBookings() {
+  const data = currentTab==='all' ? allBookings
+    : allBookings.filter(b=>b.status===currentTab);
+
+  const list = document.getElementById('booking-list');
+
+  if (data.length === 0) {
+    list.innerHTML = `
+      <div class="empty">
+        <div class="empty-icon">${currentTab==='all'?'🧳':'🔍'}</div>
+        <h3>${currentTab==='all' ? 'No bookings yet' : `No ${currentTab} bookings`}</h3>
+        <p>${currentTab==='all' ? 'Start planning your next trip with ZoomFly!' : 'Try a different filter tab.'}</p>
+        <a href="packages.html" class="empty-btn">Browse Packages</a>
+      </div>`;
+    return;
+  }
+
+  list.innerHTML = data.map(b => renderBookingCard(b)).join('');
+}
+
+function renderBookingCard(b) {
+  const td   = b.travel_details || {};
+  const icon = svcIcon(b.service_type);
+  const iconClass = `bi-${b.service_type}`;
+
+  return `
+    <div class="bcard" id="card-${b.id}">
+      <div class="bcard-top" onclick="toggleCard('${b.id}')">
+        <div class="bcard-left">
+          <div class="bcard-icon ${iconClass}">${icon}</div>
+          <div class="bcard-info">
+            <div class="bc-ref">${esc(b.booking_ref)}</div>
+            <div class="bc-name">${esc(b.service_name)}</div>
+            <div class="bc-date">${fmtDate(b.created_at)} · ${capitalize(b.service_type)}</div>
+          </div>
+        </div>
+        <div class="bcard-right">
+          <div class="bc-amount">₹${fmtAmt(b.total_amount)}</div>
+          <span class="bc-status s-${b.status}">${statusLabel(b.status)}</span>
+        </div>
+      </div>
+
+      <div class="bcard-detail" id="detail-${b.id}">
+        <div class="detail-grid">
+
+          <!-- Left: Travel details -->
+          <div class="detail-col">
+            <div class="dc-title">Travel Details</div>
+            ${buildTravelRows(b.service_type, td)}
+            <div class="dc-row">
+              <span class="dc-key">Travellers</span>
+              <span class="dc-val">${b.num_adults} Adult${b.num_adults>1?'s':''}${b.num_children>0?', '+b.num_children+' Child':''}</span>
+            </div>
+            ${b.special_requests ? `
+            <div class="dc-row">
+              <span class="dc-key">Special Req.</span>
+              <span class="dc-val">${esc(b.special_requests)}</span>
+            </div>` : ''}
+          </div>
+
+          <!-- Right: Payment -->
+          <div class="detail-col">
+            <div class="dc-title">Payment</div>
+            <div class="price-box">
+              <div class="pb-row"><span>Base Amount</span><span>₹${fmtAmt(b.base_amount)}</span></div>
+              <div class="pb-row"><span>Taxes & Fees</span><span>₹${fmtAmt(b.tax_amount)}</span></div>
+              ${b.discount_amount>0?`<div class="pb-row" style="color:var(--green)"><span>Discount${b.promo_code?' ('+esc(b.promo_code)+')':''}</span><span>-₹${fmtAmt(b.discount_amount)}</span></div>`:''}
+              <div class="pb-row pb-total"><span>Total Paid</span><span>₹${fmtAmt(b.total_amount)}</span></div>
+            </div>
+            <div class="dc-row" style="margin-top:10px;">
+              <span class="dc-key">Payment Status</span>
+              <span class="dc-val">${capitalize(b.payment_status||'pending')}</span>
+            </div>
+            <div class="dc-row">
+              <span class="dc-key">Method</span>
+              <span class="dc-val">${capitalize(b.payment_method||'—')}</span>
+            </div>
+            ${b.refund_amount>0?`
+            <div class="dc-row">
+              <span class="dc-key">Refund</span>
+              <span class="dc-val" style="color:var(--red);">₹${fmtAmt(b.refund_amount)}</span>
+            </div>`:''
+            }
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="bcard-actions">
+          <button class="action-btn ab-wa"
+            onclick="chatAboutBooking('${esc(b.customer_whatsapp||b.customer_phone||'')}','${esc(b.booking_ref)}')">
+            💬 Chat on WhatsApp
+          </button>
+          ${['pending','confirmed'].includes(b.status) ? `
+          <button class="action-btn ab-cancel"
+            onclick="requestCancellation('${b.id}','${esc(b.booking_ref)}')">
+            ❌ Request Cancellation
+          </button>` : ''}
+          <button class="action-btn ab-track"
+            onclick="copyRef('${esc(b.booking_ref)}')">
+            📋 Copy Ref
+          </button>
+        </div>
+      </div>
+    </div>`;
+}
+
+function buildTravelRows(type, td) {
+  const row = (k,v) => !v ? '' :
+    `<div class="dc-row"><span class="dc-key">${k}</span><span class="dc-val">${esc(v)}</span></div>`;
+  switch(type) {
+    case 'flight': return row('From', `${td.from_city||''} (${td.from||''})`)
+      +row('To',`${td.to_city||''} (${td.to||''})`)
+      +row('Date', fmtDate(td.date))
+      +(td.return_date?row('Return',fmtDate(td.return_date)):'')
+      +row('Class', capitalize(td.class||'Economy'));
+    case 'hotel': return row('Hotel',td.hotel_name)+row('City',td.city)
+      +row('Check-in',fmtDate(td.check_in))+row('Check-out',fmtDate(td.check_out))
+      +row('Room',`${td.room_type||'Standard'} × ${td.num_rooms||1}`)
+      +row('Nights',String(td.nights||''));
+    case 'package': return row('Package',td.package_name)+row('Destination',td.destination)
+      +row('Departs',fmtDate(td.start_date))+(td.end_date?row('Returns',fmtDate(td.end_date)):'')+row('Duration',td.duration);
+    case 'bus': return row('From',td.from)+row('To',td.to)
+      +row('Date',fmtDate(td.date))+row('Time',td.departure_time)
+      +row('Operator',td.operator)+(td.seat_numbers?.length?row('Seats',td.seat_numbers.join(', ')):'');
+    case 'cab': return row('Pickup',td.from)+row('Drop',td.to)
+      +row('Date',fmtDate(td.pickup_date))+row('Time',td.pickup_time)+row('Cab',td.cab_type);
+    default: return '';
+  }
+}
+
+// ── Toggle card expand ─────────────────────────────────────
+window.toggleCard = (id) => {
+  const detail = document.getElementById('detail-'+id);
+  detail.classList.toggle('open');
+};
+
+// ── Guest track ────────────────────────────────────────────
+window.guestLookup = async () => {
+  const ref = document.getElementById('guest-ref').value.trim().toUpperCase();
+  const res = document.getElementById('guest-result');
+  if (!ref) return;
+  res.innerHTML = '<span style="color:var(--light);">🔍 Looking up...</span>';
+  const { data, error } = await supabase.from('bookings').select('*').eq('booking_ref', ref).single();
+  if (error||!data) {
+    res.innerHTML = `<div style="color:var(--red);font-size:0.83rem;">❌ Booking not found. Please check the reference number or <a href="https://wa.me/${WA_NUMBER}" style="color:var(--primary);">contact us</a>.</div>`;
+    return;
+  }
+  res.innerHTML = `
+    <div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:14px;">
+      <div style="font-weight:700;color:var(--dark);margin-bottom:8px;">${esc(data.service_name)}</div>
+      <div style="display:flex;justify-content:space-between;font-size:0.83rem;margin-bottom:4px;">
+        <span style="color:var(--light);">Customer</span><span style="font-weight:600;">${esc(data.customer_name)}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:0.83rem;margin-bottom:4px;">
+        <span style="color:var(--light);">Amount</span><span style="font-weight:700;color:var(--accent);">₹${fmtAmt(data.total_amount)}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:0.83rem;align-items:center;">
+        <span style="color:var(--light);">Status</span>
+        <span class="bc-status s-${data.status}">${statusLabel(data.status)}</span>
+      </div>
+    </div>`;
+};
+
+window.trackBooking = async () => {
+  const ref = document.getElementById('portal-track-input').value.trim().toUpperCase();
+  const res = document.getElementById('portal-track-result');
+  if (!ref) return;
+  res.innerHTML = '<span style="color:var(--light);font-size:0.83rem;">🔍 Searching...</span>';
+  const { data, error } = await supabase.from('bookings').select('*').eq('booking_ref', ref).single();
+  if (error||!data) {
+    res.innerHTML = `<div style="color:var(--red);font-size:0.83rem;">❌ Not found — <a href="https://wa.me/${WA_NUMBER}" style="color:var(--primary);">contact support</a></div>`;
+    return;
+  }
+  res.innerHTML = `
+    <div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:14px;font-size:0.83rem;">
+      <div style="font-weight:700;color:var(--dark);margin-bottom:6px;">${esc(data.booking_ref)} · ${esc(data.service_name)}</div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+        <span style="color:var(--light);">Amount</span><span style="font-weight:700;color:var(--accent);">₹${fmtAmt(data.total_amount)}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <span style="color:var(--light);">Status</span><span class="bc-status s-${data.status}">${statusLabel(data.status)}</span>
+      </div>
+    </div>`;
+};
+
+// ── Cancellation request ───────────────────────────────────
+window.requestCancellation = (id, ref) => {
+  const reason = prompt(`Request cancellation for ${ref}?\n\nPlease state your reason (optional):`);
+  if (reason === null) return; // user cancelled prompt
+  const ph  = WA_NUMBER;
+  const msg = `Hi ZoomFly, I would like to cancel my booking.\n\nRef: *${ref}*\nReason: ${reason||'Not specified'}\n\nPlease process my cancellation request.`;
+  window.open(`https://wa.me/${ph}?text=${encodeURIComponent(msg)}`, '_blank');
+  showToast('Cancellation request sent via WhatsApp');
+};
+
+// ── Chat about booking ─────────────────────────────────────
+window.chatAboutBooking = (phone, ref) => {
+  const msg = `Hi ZoomFly! I need help with my booking.\n\nRef: *${ref}*\n\nPlease assist.`;
+  window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`,'_blank');
+};
+
+// ── Copy ref ───────────────────────────────────────────────
+window.copyRef = (ref) => {
+  navigator.clipboard.writeText(ref).then(()=>showToast('📋 Copied: '+ref));
+};
+
+// ── Helpers ────────────────────────────────────────────────
+function fmtAmt(n){ return parseFloat(n||0).toLocaleString('en-IN',{minimumFractionDigits:0,maximumFractionDigits:2}); }
+function fmtDate(d){
+  if(!d)return'—';
+  try{return new Date(d).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});}
+  catch(_){return d;}
+}
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function capitalize(s){ return s?s.charAt(0).toUpperCase()+s.slice(1):'—'; }
+function svcIcon(t){ return{flight:'✈️',hotel:'🏨',package:'🧳',bus:'🚌',cab:'🚖'}[t]||'📦'; }
+function statusLabel(s){
+  return{pending:'⏳ Pending',confirmed:'✅ Confirmed',processing:'⚙️ Processing',
+    completed:'🎉 Completed',cancelled:'❌ Cancelled',refunded:'💰 Refunded',
+    failed:'🚫 Failed'}[s]||capitalize(s);
+}
+function showMsg(el, msg, type){
+  el.textContent=msg; el.className='auth-msg show '+type;
+  setTimeout(()=>el.className='auth-msg',6000);
+}
+function showToast(msg,type='success'){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.style.background=type==='error'?'#ef4444':'var(--dark)';
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+</script>
+
+</body>
+</html>
