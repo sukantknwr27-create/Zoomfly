@@ -1,3 +1,0 @@
-User-agent: *
-Allow: /
-Sitemap: https://zoomfly-virid.vercel.app/sitemap.xml
