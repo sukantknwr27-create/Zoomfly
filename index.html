@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"/>
+  <link rel="shortcut icon" href="/assets/favicon.svg"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>ZoomFly — Tour Packages, Flights, Hotels & Bus Booking India</title>
+  <meta name="description" content="India's trusted travel partner. Book curated tour packages, flights, hotels and buses. Best price guarantee, instant confirmation, 24/7 support."/>
+  <meta name="keywords" content="tour packages India, Manali packages, Goa trip, Bali honeymoon, cheap flights, hotel booking, bus booking, ZoomFly travel"/>
+  <link rel="canonical" href="https://zoomfly-virid.vercel.app/"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:title" content="ZoomFly — Tour Packages, Flights, Hotels & Bus Booking"/>
+  <meta property="og:description" content="India's trusted travel partner. 200+ curated packages, best prices, 24/7 support."/>
+  <meta property="og:url" content="https://zoomfly-virid.vercel.app/"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TravelAgency","name":"ZoomFly","url":"https://zoomfly-virid.vercel.app/","telephone":"+91-98765-43210","email":"hello@zoomfly.in","address":{"@type":"PostalAddress","streetAddress":"Connaught Place","addressLocality":"New Delhi","postalCode":"110001","addressCountry":"IN"},"aggregateRating":{"@type":"AggregateRating","ratingValue":"4.9","reviewCount":"5000"}}</script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--primary:#0057FF;--primary-dark:#0041CC;--primary-light:#EEF3FF;--accent:#FF6B35;--text:#111827;--muted:#6B7280;--light:#9CA3AF;--bg:#fff;--bg2:#F9FAFB;--border:#E5E7EB;--success:#059669;--shadow-sm:0 1px 3px rgba(0,0,0,.06);--shadow:0 4px 16px rgba(0,0,0,.08);--shadow-lg:0 16px 48px rgba(0,0,0,.12);--r:16px;--r2:10px;--font:'Segoe UI',system-ui,sans-serif}
+    html{scroll-behavior:smooth}
+    body{font-family:var(--font);color:var(--text);background:var(--bg)}
+    a{text-decoration:none;color:inherit}
+    /* NAV */
+    nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,.96);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between}
+    .logo{font-size:1.55rem;font-weight:900;color:var(--primary);letter-spacing:-.5px}.logo span{color:var(--accent)}
+    .nav-links{display:flex;gap:1.75rem;align-items:center}
+    .nav-links a{font-size:.875rem;color:var(--muted);font-weight:500;transition:color .2s}.nav-links a:hover{color:var(--primary)}
+    .nav-right{display:flex;gap:.75rem;align-items:center}
+    .btn-login{font-size:.875rem;font-weight:600;color:var(--muted);padding:.45rem .9rem;border:1.5px solid var(--border);border-radius:50px;transition:all .2s}.btn-login:hover{border-color:var(--primary);color:var(--primary)}
+    .btn-cta{font-size:.875rem;font-weight:700;color:white;background:var(--primary);padding:.5rem 1.25rem;border-radius:50px;transition:all .2s}.btn-cta:hover{background:var(--primary-dark);color:white}
+    /* user pill when logged in */
+    .user-pill{display:flex;align-items:center;gap:.6rem;padding:.4rem .85rem .4rem .5rem;border:1px solid var(--border);border-radius:50px;font-size:.875rem;font-weight:600;cursor:pointer;transition:border-color .2s}.user-pill:hover{border-color:var(--primary)}
+    .uav{width:28px;height:28px;border-radius:50%;background:var(--primary);color:white;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700}
+    /* PROMO */
+    .promo{background:linear-gradient(90deg,var(--primary),#7C3AED);color:white;text-align:center;padding:.6rem 1rem;font-size:.85rem;font-weight:600;display:flex;align-items:center;justify-content:center;gap:.75rem}
+    .promo-code{background:rgba(255,255,255,.2);padding:.15rem .6rem;border-radius:4px;font-family:monospace;letter-spacing:.05em}
+    .promo a{color:white;text-decoration:underline;font-weight:700}
+    /* HERO */
+    .hero{background:linear-gradient(145deg,#0f172a,#1e3a5f 60%,#0057FF);color:white;padding:5rem 2rem 4rem;text-align:center;position:relative;overflow:hidden}
+    .hero::after{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");pointer-events:none}
+    .hero-content{position:relative;z-index:1}
+    .hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:50px;padding:.35rem 1rem;font-size:.78rem;font-weight:600;margin-bottom:1.5rem}
+    .hero h1{font-size:3.5rem;font-weight:900;line-height:1.12;letter-spacing:-2px;margin-bottom:1.25rem}.hero h1 em{font-style:normal;color:#60a5fa}
+    .hero p{font-size:1.1rem;opacity:.8;max-width:540px;margin:0 auto 2.5rem;line-height:1.7}
+    .hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:3.5rem}
+    .btn-hp{padding:.9rem 2.25rem;background:var(--accent);color:white;border-radius:50px;font-weight:700;font-size:1rem;transition:all .2s;box-shadow:0 4px 16px rgba(255,107,53,.4)}.btn-hp:hover{background:#e55a25;transform:translateY(-2px);color:white}
+    .btn-hs{padding:.9rem 2.25rem;background:rgba(255,255,255,.12);color:white;border:1.5px solid rgba(255,255,255,.3);border-radius:50px;font-weight:600;font-size:1rem;transition:all .2s}.btn-hs:hover{background:rgba(255,255,255,.2);color:white}
+    .hero-stats{display:flex;justify-content:center;gap:3rem;padding-top:2.5rem;border-top:1px solid rgba(255,255,255,.12);flex-wrap:wrap;gap:2rem}
+    .hstat strong{display:block;font-size:1.75rem;font-weight:800}.hstat span{font-size:.78rem;opacity:.65}
+    /* SEARCH */
+    .search-wrap{max-width:900px;margin:-2rem auto 0;padding:0 2rem;position:relative;z-index:10}
+    .search-card{background:white;border-radius:var(--r);box-shadow:var(--shadow-lg);overflow:hidden;border:1px solid var(--border)}
+    .stabs{display:flex;border-bottom:1px solid var(--border);background:var(--bg2)}
+    .stab{padding:.85rem 1.5rem;font-size:.875rem;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2.5px solid transparent;transition:all .2s;display:flex;align-items:center;gap:.4rem}.stab:hover{color:var(--text)}.stab.active{color:var(--primary);border-bottom-color:var(--primary);background:white}
+    .spanel{display:none;padding:1.25rem 1.5rem}.spanel.active{display:flex;gap:.75rem;align-items:flex-end;flex-wrap:wrap}
+    .sf{flex:1;min-width:130px}
+    .sf label{display:block;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--light);margin-bottom:.4rem}
+    .sf input,.sf select{width:100%;padding:.6rem .8rem;border:1.5px solid var(--border);border-radius:var(--r2);font-size:.9rem;font-family:var(--font);color:var(--text);background:white;transition:border-color .2s}
+    .sf input:focus,.sf select:focus{outline:none;border-color:var(--primary)}
+    .btn-search{padding:.65rem 1.75rem;background:var(--primary);color:white;border:none;border-radius:var(--r2);font-size:.95rem;font-weight:700;cursor:pointer;white-space:nowrap;transition:background .2s}.btn-search:hover{background:var(--primary-dark)}
+    /* SECTIONS */
+    .sw{max-width:1200px;margin:0 auto;padding:5rem 2rem}
+    .sh{text-align:center;margin-bottom:3rem}
+    .slbl{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--primary);margin-bottom:.6rem}
+    .stitle{font-size:2.25rem;font-weight:800;letter-spacing:-.5px}.stitle em{font-style:normal;color:var(--primary)}
+    .ssub{font-size:1rem;color:var(--muted);max-width:500px;margin:.75rem auto 0}
+    /* SERVICES */
+    .svc-section{background:var(--bg2);padding:5rem 2rem}
+    .svc-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr);gap:1.25rem}
+    .svc-card{background:white;border:1px solid var(--border);border-radius:var(--r);padding:2rem 1.5rem;text-align:center;cursor:pointer;box-shadow:var(--shadow-sm);transition:all .2s}.svc-card:hover{box-shadow:var(--shadow);transform:translateY(-3px);border-color:var(--primary)}
+    .svc-icon{font-size:2.5rem;margin-bottom:1rem}
+    .svc-card h3{font-size:1rem;font-weight:700;margin-bottom:.5rem}
+    .svc-card p{font-size:.82rem;color:var(--muted);line-height:1.6;margin-bottom:1rem}
+    .svc-link{font-size:.82rem;color:var(--primary);font-weight:700;display:flex;align-items:center;justify-content:center;gap:.3rem}
+    /* PACKAGES */
+    .pkg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem}
+    .pkg-card{background:white;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;cursor:pointer;box-shadow:var(--shadow-sm);transition:box-shadow .25s,transform .25s;display:flex;flex-direction:column}.pkg-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-5px)}
+    .pkg-thumb{height:200px;display:flex;align-items:center;justify-content:center;font-size:5rem;position:relative}
+    .thumb-em{transition:transform .4s}.pkg-card:hover .thumb-em{transform:scale(1.08)}
+    .pkg-badge{position:absolute;top:.75rem;left:.75rem;padding:.25rem .7rem;border-radius:50px;font-size:.7rem;font-weight:700}
+    .badge-bestseller{background:var(--accent);color:white}.badge-trending{background:#7C3AED;color:white}.badge-new{background:var(--success);color:white}
+    .pkg-body{padding:1.25rem;flex:1;display:flex;flex-direction:column}
+    .pkg-tags{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.5rem}
+    .pkg-tag{font-size:.68rem;font-weight:600;padding:.2rem .5rem;background:var(--primary-light);color:var(--primary);border-radius:4px}
+    .pkg-title{font-size:1.05rem;font-weight:700;margin-bottom:.3rem}
+    .pkg-desc{font-size:.8rem;color:var(--muted);line-height:1.55;margin-bottom:1rem;flex:1}
+    .pkg-footer{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border);padding-top:.85rem}
+    .pkg-price .lbl{font-size:.68rem;color:var(--muted)}.pkg-price .amt{font-size:1.3rem;font-weight:800;color:var(--primary)}.pkg-price .old{font-size:.75rem;color:var(--light);text-decoration:line-through}
+    .pkg-rating{font-size:.8rem;font-weight:600;display:flex;align-items:center;gap:.3rem}.star{color:#F59E0B}
+    .btn-pkg{margin-top:.85rem;width:100%;padding:.6rem;background:var(--primary);color:white;border:none;border-radius:var(--r2);font-size:.875rem;font-weight:700;cursor:pointer;transition:background .2s}.btn-pkg:hover{background:var(--primary-dark)}
+    .view-all{text-align:center;margin-top:2.5rem}
+    .btn-view-all{display:inline-flex;align-items:center;gap:.5rem;padding:.75rem 2rem;border:2px solid var(--primary);border-radius:50px;color:var(--primary);font-weight:700;font-size:.95rem;transition:all .2s}.btn-view-all:hover{background:var(--primary);color:white}
+    /* LOADING */
+    .pkg-loading{grid-column:1/-1;text-align:center;padding:3rem;color:var(--muted)}
+    .spinner{display:inline-block;width:28px;height:28px;border:3px solid var(--border);border-top-color:var(--primary);border-radius:50%;animation:sp .7s linear infinite;margin-bottom:.75rem}
+    @keyframes sp{to{transform:rotate(360deg)}}
+    /* DESTINATIONS */
+    .dest-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
+    .dest-card{border-radius:var(--r);overflow:hidden;cursor:pointer;position:relative;height:200px;display:flex;align-items:flex-end;box-shadow:var(--shadow-sm);transition:transform .25s,box-shadow .25s}.dest-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}.dest-card:first-child{grid-column:span 2;height:260px}
+    .dest-bg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:6rem}
+    .dest-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.75),rgba(0,0,0,.1) 60%)}
+    .dest-content{position:relative;z-index:1;padding:1.25rem;color:white}
+    .dest-content h3{font-size:1.1rem;font-weight:800}.dest-content p{font-size:.78rem;opacity:.85}
+    .dest-from{font-size:.72rem;background:rgba(255,255,255,.2);padding:.15rem .5rem;border-radius:50px;display:inline-block;margin-top:.35rem}
+    /* WHY */
+    .why-section{background:linear-gradient(145deg,#0f172a,#1e3a5f);color:white;padding:5rem 2rem}
+    .why-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+    .why-label{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#60a5fa;margin-bottom:.75rem}
+    .why-title{font-size:2rem;font-weight:800;color:white}.why-title em{font-style:normal;color:#60a5fa}
+    .perks{margin-top:2rem;display:flex;flex-direction:column;gap:1.1rem}
+    .perk{display:flex;align-items:flex-start;gap:1rem}
+    .perk-icon{width:42px;height:42px;border-radius:10px;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+    .perk strong{display:block;font-size:.9rem;font-weight:700;color:white}.perk span{font-size:.8rem;opacity:.65;line-height:1.5}
+    .why-stats{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    .wstat{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:var(--r2);padding:1.5rem;text-align:center}
+    .wstat strong{display:block;font-size:2rem;font-weight:900;color:white}.wstat span{font-size:.78rem;opacity:.6}
+    /* TESTIMONIALS */
+    .test-section{background:var(--bg2);padding:5rem 2rem}
+    .test-inner{max-width:1200px;margin:0 auto}
+    .test-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+    .test-card{background:white;border:1px solid var(--border);border-radius:var(--r);padding:1.5rem;box-shadow:var(--shadow-sm)}
+    .test-stars{color:#F59E0B;font-size:.9rem;margin-bottom:.75rem}
+    .test-text{font-size:.875rem;color:var(--muted);line-height:1.7;margin-bottom:1.25rem;font-style:italic}
+    .test-author{display:flex;align-items:center;gap:.75rem}
+    .test-av{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:700;color:white;flex-shrink:0}
+    .test-name{font-size:.875rem;font-weight:700}.test-trip{font-size:.75rem;color:var(--muted)}
+    /* FAQ */
+    .faq-section{max-width:760px;margin:0 auto;padding:5rem 2rem}
+    .faq-item{border:1px solid var(--border);border-radius:var(--r2);margin-bottom:.75rem;overflow:hidden;background:white}
+    .faq-q{padding:1.1rem 1.25rem;font-size:.9rem;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background .2s}.faq-q:hover{background:var(--bg2)}
+    .faq-a{padding:0 1.25rem;max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s;font-size:.85rem;color:var(--muted);line-height:1.7;background:var(--bg2)}
+    .faq-item.open .faq-a{max-height:200px;padding:1rem 1.25rem}
+    .faq-chv{transition:transform .3s;color:var(--light)}.faq-item.open .faq-chv{transform:rotate(180deg)}
+    /* CTA */
+    .cta-section{background:linear-gradient(135deg,var(--accent),#e55a25);padding:4rem 2rem;text-align:center;color:white}
+    .cta-section h2{font-size:2rem;font-weight:800;margin-bottom:.75rem}
+    .cta-section p{font-size:1rem;opacity:.85;margin-bottom:2rem}
+    .cta-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+    .btn-cta-w{padding:.85rem 2rem;background:white;color:var(--accent);border-radius:50px;font-weight:700;font-size:.95rem;transition:all .2s}.btn-cta-w:hover{background:#fff3ef;color:var(--accent)}
+    .btn-cta-o{padding:.85rem 2rem;background:transparent;color:white;border:2px solid rgba(255,255,255,.5);border-radius:50px;font-weight:600;font-size:.95rem;transition:all .2s}.btn-cta-o:hover{background:rgba(255,255,255,.15);color:white}
+    /* MODAL */
+    .modal-ov{display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.55);align-items:flex-start;justify-content:center;padding:2rem 1rem;overflow-y:auto}.modal-ov.open{display:flex}
+    .modal{background:white;border-radius:var(--r);width:100%;max-width:660px;box-shadow:var(--shadow-lg);animation:mIn .3s ease;margin:auto}
+    @keyframes mIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+    .m-thumb{height:220px;display:flex;align-items:center;justify-content:center;position:relative;border-radius:var(--r) var(--r) 0 0}
+    .m-close{position:absolute;top:1rem;right:1rem;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.9);border:none;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center}.m-close:hover{background:white}
+    .m-body{padding:1.5rem 1.75rem}
+    .m-body h2{font-size:1.45rem;font-weight:800;margin-bottom:.4rem}
+    .m-meta{display:flex;gap:1rem;flex-wrap:wrap;font-size:.82rem;color:var(--muted);margin-bottom:.75rem}
+    .m-desc{font-size:.875rem;color:var(--muted);line-height:1.65;margin-bottom:1.25rem}
+    .m-inc-grid{display:grid;grid-template-columns:1fr 1fr;gap:.4rem}
+    .m-inc{font-size:.8rem;color:var(--muted);display:flex;gap:.4rem}.m-inc::before{content:'✓';color:var(--success);font-weight:700}
+    .m-footer{padding:1.25rem 1.75rem;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+    .m-price .amt{font-size:1.75rem;font-weight:800;color:var(--primary)}.m-price .per{font-size:.78rem;color:var(--muted)}
+    .m-cta{display:flex;gap:.75rem}
+    .btn-book{padding:.75rem 1.75rem;background:var(--accent);color:white;border:none;border-radius:50px;font-size:.95rem;font-weight:700;cursor:pointer;transition:background .2s}.btn-book:hover{background:#e55a25}
+    .btn-wa-m{padding:.75rem 1.25rem;background:#25D366;color:white;border:none;border-radius:50px;font-size:.875rem;font-weight:600;cursor:pointer}.btn-wa-m:hover{background:#1db954}
+    /* FOOTER */
+    footer{background:#0f172a;color:#94a3b8;padding:3.5rem 2rem 2rem}
+    .footer-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;margin-bottom:2.5rem}
+    .footer-logo{font-size:1.4rem;font-weight:900;color:white;margin-bottom:.75rem}.footer-logo span{color:var(--accent)}
+    .footer-desc{font-size:.82rem;line-height:1.7;max-width:260px}
+    .footer-social{display:flex;gap:.65rem;margin-top:1.25rem}
+    .social-btn{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:1rem;cursor:pointer;transition:background .2s}.social-btn:hover{background:rgba(255,255,255,.18)}
+    .footer-col h4{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:white;margin-bottom:1rem}
+    .footer-col a{display:block;font-size:.82rem;color:#94a3b8;margin-bottom:.6rem;transition:color .2s}.footer-col a:hover{color:white}
+    .footer-bottom{border-top:1px solid rgba(255,255,255,.08);padding-top:1.5rem;max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;font-size:.78rem;flex-wrap:wrap;gap:.75rem}
+    .trust-marks{display:flex;gap:1rem}
+    .tm{font-size:.72rem;background:rgba(255,255,255,.07);padding:.25rem .65rem;border-radius:50px}
+    @media(max-width:1024px){.why-inner{grid-template-columns:1fr;gap:2rem}.footer-inner{grid-template-columns:1fr 1fr}}
+    @media(max-width:1024px){.svc-grid{grid-template-columns:repeat(3,1fr)}}
+    @media(max-width:768px){nav .nav-links{display:none}.hero h1{font-size:2.2rem}.svc-grid{grid-template-columns:repeat(2,1fr)}.dest-grid{grid-template-columns:1fr}.dest-card:first-child{grid-column:span 1}.test-grid{grid-template-columns:1fr}.footer-inner{grid-template-columns:1fr;gap:2rem}.why-stats{grid-template-columns:1fr 1fr}}
+  </style>
+  <!-- Affiliate Tracker -->
+  <script>
+    (function(){
+      const p=new URLSearchParams(location.search).get("agent");
+      if(p){document.cookie="zf_agent="+p+"; max-age="+(30*24*3600)+"; path=/; SameSite=Lax";}
+      window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/);return m?m[1]:null;};
+      window.SUPABASE_URL="https://ndaurluolurdljrjbxii.supabase.co";
+      window.SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kYXVybHVvbHVyZGxqcmpieGlpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MDY2MzksImV4cCI6MjA5MzQ4MjYzOX0.JsZXOof19JkyX7asJQ7EtoaBKqURJUYzVqXQIenCzjQ";
+    })();
+  </script>
+</head>
+<body>
+
+<div class="promo">✈ Use code <span class="promo-code">ZOOMFLY10</span> for 10% off all packages! <a href="pages/packages.html">Browse →</a></div>
+
+<nav>
+  <a href="index.html" class="logo">Zoom<span>Fly</span> ✈</a>
+  <div class="nav-links">
+    <a href="pages/packages.html">Packages</a>
+    <a href="pages/group-booking.html">Groups</a>
+    <a href="pages/flights.html">Flights</a>
+    <a href="pages/hotels.html">Hotels</a>
+    <a href="pages/bus.html">Bus</a>
+    <a href="pages/about.html">About</a>
+    <a href="pages/vendor.html">Partner With Us</a>
+  </div>
+  <div class="nav-right" id="nav-right">
+    <!-- Populated by JS based on auth state -->
+    <a href="pages/login.html" class="btn-login">Log In</a>
+    <a href="pages/loyalty.html">⭐ Rewards</a>
+    <a href="pages/my-bookings.html">My Bookings</a>
+    <a href="pages/contact.html" class="btn-cta">Free Quote</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">🏆 India's #1 Rated Travel Platform · 4.9★</div>
+    <h1>Your Next <em>Adventure</em><br>Awaits</h1>
+    <p>Curated tour packages, seamless flights, hotels & buses — plan your perfect trip with ZoomFly.</p>
+    <div class="hero-btns">
+      <a href="pages/packages.html" class="btn-hp">Explore Packages 🗺</a>
+      <a href="pages/contact.html" class="btn-hs">Free Custom Quote</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hstat"><strong>5,000+</strong><span>Happy Travellers</span></div>
+      <div class="hstat"><strong>200+</strong><span>Tour Packages</span></div>
+      <div class="hstat"><strong>50+</strong><span>Destinations</span></div>
+      <div class="hstat"><strong>4.9★</strong><span>Avg Rating</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- SEARCH -->
+<div class="search-wrap">
+  <div class="search-card">
+    <div class="stabs">
+      <div class="stab active" onclick="switchSearch('tours',this)">🗺 Tours</div>
+      <div class="stab" onclick="switchSearch('flights',this)">✈ Flights</div>
+      <div class="stab" onclick="switchSearch('hotels',this)">🏨 Hotels</div>
+      <div class="stab" onclick="switchSearch('bus',this)">🚌 Bus</div>
+      <div class="stab" onclick="switchSearch('cabs',this)">🚗 Cabs</div>
+    </div>
+    <div class="spanel active" id="sp-tours">
+      <div class="sf" style="flex:2"><label>Destination</label><input type="text" id="tour-dest" placeholder="e.g. Manali, Goa, Bali..."/></div>
+      <div class="sf"><label>Travel Date</label><input type="date" id="tour-date"/></div>
+      <div class="sf"><label>Travellers</label><select><option>1 Person</option><option>2 People</option><option>3–5 People</option><option>6+ People</option></select></div>
+      <button class="btn-search" onclick="doSearch('tours')">Search 🔍</button>
+    </div>
+    <div class="spanel" id="sp-flights">
+      <div class="sf"><label>From</label><input type="text" placeholder="Delhi (DEL)"/></div>
+      <div class="sf"><label>To</label><input type="text" placeholder="Mumbai (BOM)"/></div>
+      <div class="sf"><label>Departure</label><input type="date"/></div>
+      <div class="sf"><label>Passengers</label><select><option>1 Adult</option><option>2 Adults</option><option>3+ Adults</option></select></div>
+      <button class="btn-search" onclick="doSearch('flights')">Search ✈</button>
+    </div>
+    <div class="spanel" id="sp-hotels">
+      <div class="sf" style="flex:2"><label>City / Hotel</label><input type="text" placeholder="Goa, Jaipur, Kerala..."/></div>
+      <div class="sf"><label>Check-in</label><input type="date"/></div>
+      <div class="sf"><label>Check-out</label><input type="date"/></div>
+      <div class="sf"><label>Guests</label><select><option>1 Guest</option><option>2 Guests</option><option>4 Guests</option></select></div>
+      <button class="btn-search" onclick="doSearch('hotels')">Search 🏨</button>
+    </div>
+    <div class="spanel" id="sp-bus">
+      <div class="sf" style="flex:2"><label>From</label><input type="text" placeholder="Delhi"/></div>
+      <div class="sf" style="flex:2"><label>To</label><input type="text" placeholder="Manali"/></div>
+      <div class="sf"><label>Travel Date</label><input type="date"/></div>
+      <button class="btn-search" onclick="doSearch('bus')">Search 🚌</button>
+    </div>
+    <div class="spanel" id="sp-cabs">
+      <div class="sf" style="flex:2"><label>Pickup Location</label><input type="text" id="cab-from" placeholder="Delhi Airport / Hotel"/></div>
+      <div class="sf" style="flex:2"><label>Drop Location</label><input type="text" id="cab-to" placeholder="Manali / Agra / City"/></div>
+      <div class="sf"><label>Travel Date</label><input type="date" id="cab-date"/></div>
+      <button class="btn-search" onclick="doSearch('cabs')">Search 🚗</button>
+    </div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="svc-section">
+  <div style="text-align:center;margin-bottom:3rem;max-width:1200px;margin:0 auto 3rem">
+    <div class="slbl">What We Offer</div>
+    <h2 class="stitle">All Travel Needs, <em>One Platform</em></h2>
+  </div>
+  <div class="svc-grid">
+    <a href="pages/packages.html" class="svc-card"><div class="svc-icon">🗺️</div><h3>Tour Packages</h3><p>Handcrafted itineraries from weekend getaways to 14-day international holidays.</p><div class="svc-link">Browse Packages →</div></a>
+    <a href="pages/flights.html" class="svc-card"><div class="svc-icon">✈️</div><h3>Flight Booking</h3><p>Best fares on domestic & international flights with instant e-ticket confirmation.</p><div class="svc-link">Book Flight →</div></a>
+    <a href="pages/hotels.html" class="svc-card"><div class="svc-icon">🏨</div><h3>Hotel Booking</h3><p>Curated stays from budget homestays to 5-star resorts across 500+ cities.</p><div class="svc-link">Find Hotels →</div></a>
+    <a href="pages/bus.html" class="svc-card"><div class="svc-icon">🚌</div><h3>Bus Booking</h3><p>AC & sleeper buses on all major routes at the best prices, guaranteed.</p><div class="svc-link">Book Bus →</div></a>
+    <a href="pages/cabs.html" class="svc-card"><div class="svc-icon">🚗</div><h3>Cab & Transfers</h3><p>Airport pickups, outstation trips & hill station transfers at best rates.</p><div class="svc-link">Book Cab →</div></a>
+  </div>
+</section>
+
+<!-- PACKAGES -->
+<section style="background:white">
+  <div class="sw">
+    <div class="sh"><div class="slbl">Popular Packages</div><h2 class="stitle">Handpicked <em>Tour Packages</em></h2><p class="ssub">Our most-booked trips, loved by thousands of travellers.</p></div>
+    <div class="pkg-grid" id="home-pkgs">
+      <div class="pkg-loading"><div class="spinner"></div><p>Loading packages...</p></div>
+    </div>
+    <div class="view-all"><a href="pages/packages.html" class="btn-view-all">View All 200+ Packages →</a></div>
+  </div>
+</section>
+
+<!-- DESTINATIONS -->
+<section style="background:var(--bg2)">
+  <div class="sw">
+    <div class="sh"><div class="slbl">Top Picks</div><h2 class="stitle">Popular <em>Destinations</em></h2><p class="ssub">Explore India's most-loved getaways and beyond.</p></div>
+    <div class="dest-grid">
+      <div class="dest-card" onclick="location.href='pages/packages.html'"><div class="dest-bg" style="background:linear-gradient(135deg,#4facfe,#00f2fe)">🏔️</div><div class="dest-ov"></div><div class="dest-content"><h3>Manali & Spiti</h3><p>Snow, adventure & mountain magic</p><span class="dest-from">From ₹12,499</span></div></div>
+      <div class="dest-card" onclick="location.href='pages/packages.html'"><div class="dest-bg" style="background:linear-gradient(135deg,#f093fb,#f5576c)">🏖️</div><div class="dest-ov"></div><div class="dest-content"><h3>Goa</h3><p>Sun, beaches & culture</p><span class="dest-from">From ₹8,999</span></div></div>
+      <div class="dest-card" onclick="location.href='pages/packages.html'"><div class="dest-bg" style="background:linear-gradient(135deg,#43e97b,#38f9d7)">🌴</div><div class="dest-ov"></div><div class="dest-content"><h3>Kerala</h3><p>Backwaters & tropical beauty</p><span class="dest-from">From ₹15,499</span></div></div>
+      <div class="dest-card" onclick="location.href='pages/packages.html'"><div class="dest-bg" style="background:linear-gradient(135deg,#fa709a,#fee140)">🏰</div><div class="dest-ov"></div><div class="dest-content"><h3>Rajasthan</h3><p>Forts, palaces & heritage</p><span class="dest-from">From ₹22,999</span></div></div>
+      <div class="dest-card" onclick="location.href='pages/packages.html'"><div class="dest-bg" style="background:linear-gradient(135deg,#f77062,#fe5196)">🌏</div><div class="dest-ov"></div><div class="dest-content"><h3>Bali</h3><p>Romantic international escape</p><span class="dest-from">From ₹54,999</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section class="why-section">
+  <div class="why-inner">
+    <div>
+      <div class="why-label">Why Choose Us</div>
+      <h2 class="why-title">Travel With <em>Confidence</em></h2>
+      <p style="opacity:.7;margin-top:.75rem;font-size:.95rem;line-height:1.7">ZoomFly has been crafting unforgettable experiences for over 6 years.</p>
+      <div class="perks">
+        <div class="perk"><div class="perk-icon">💰</div><div><strong>Best Price Guarantee</strong><span>Found it cheaper? We'll match or beat any price.</span></div></div>
+        <div class="perk"><div class="perk-icon">📞</div><div><strong>24/7 WhatsApp Support</strong><span>Our team is available round-the-clock during your trip.</span></div></div>
+        <div class="perk"><div class="perk-icon">🎯</div><div><strong>Fully Customisable</strong><span>Every itinerary tailored to your preferences and budget.</span></div></div>
+        <div class="perk"><div class="perk-icon">⚡</div><div><strong>Instant Confirmation</strong><span>Book and receive e-tickets within minutes.</span></div></div>
+        <div class="perk"><div class="perk-icon">💳</div><div><strong>EMI Options</strong><span>Pay in easy monthly instalments on all packages.</span></div></div>
+      </div>
+    </div>
+    <div class="why-stats">
+      <div class="wstat"><strong>5,000+</strong><span>Happy Travellers</span></div>
+      <div class="wstat"><strong>4.9★</strong><span>Average Rating</span></div>
+      <div class="wstat"><strong>200+</strong><span>Tour Packages</span></div>
+      <div class="wstat"><strong>6+</strong><span>Years Experience</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="test-section">
+  <div class="test-inner">
+    <div class="sh"><div class="slbl">Traveller Stories</div><h2 class="stitle">What Our Guests <em>Say</em></h2></div>
+    <div class="test-grid" id="test-grid"></div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section">
+  <div class="sh"><div class="slbl">Quick Answers</div><h2 class="stitle">Frequently Asked <em>Questions</em></h2></div>
+  <div id="faq-list"></div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2>Ready to Explore India & Beyond? 🌍</h2>
+  <p>Talk to our experts and get a custom itinerary — completely free.</p>
+  <div class="cta-btns">
+    <a href="pages/contact.html" class="btn-cta-w">Plan My Dream Trip</a>
+    <a href="https://wa.me/918076136300" target="_blank" class="btn-cta-o">💬 WhatsApp Us</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">Zoom<span>Fly</span> ✈</div>
+      <p class="footer-desc">India's trusted travel partner since 2018. Crafting unforgettable journeys across 50+ destinations worldwide.</p>
+      <div class="footer-social">
+        <div class="social-btn" onclick="window.open('https://instagram.com','_blank')">📸</div>
+        <div class="social-btn" onclick="window.open('https://facebook.com','_blank')">👍</div>
+        <div class="social-btn" onclick="window.open('https://wa.me/918076136300','_blank')">💬</div>
+        <div class="social-btn" onclick="window.open('https://youtube.com','_blank')">▶️</div>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Travel</h4>
+      <a href="pages/packages.html">Tour Packages</a>
+      <a href="pages/flights.html">Flights</a>
+      <a href="pages/hotels.html">Hotels</a>
+      <a href="pages/bus.html">Bus Booking</a>
+      <a href="pages/packages.html">Honeymoon</a>
+      <a href="pages/group-booking.html">Group Bookings</a>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <a href="pages/about.html">About Us</a>
+      <a href="pages/contact.html">Contact</a>
+      <a href="pages/vendor.html">Partner With Us</a>
+      <a href="pages/my-bookings.html">My Bookings</a>
+      <a href="pages/loyalty.html">⭐ Rewards</a>
+      <a href="pages/admin.html">Admin</a>
+      <a href="pages/agent-portal.html">Agent Portal</a>
+      <a href="pages/vendor-portal.html">Vendor Portal</a>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <a href="tel:+918076136300">📞 +91 8076136300</a>
+      <a href="mailto:hello@zoomfly.in">📧 hello@zoomfly.in</a>
+      <a href="#">📍 Connaught Place, New Delhi</a>
+      <a href="https://wa.me/918076136300" target="_blank">💬 WhatsApp Chat</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 ZoomFly. All rights reserved.</span>
+    <div class="trust-marks">
+      <span class="tm">🔒 SSL Secured</span>
+      <span class="tm">✅ IATA Affiliated</span>
+      <span class="tm">🛡 RBI Compliant</span>
+    </div>
+    <div style="display:flex;gap:1.25rem;font-size:.75rem">
+      <a href="pages/privacy-policy.html" style="color:#94a3b8">Privacy Policy</a>
+      <a href="pages/terms.html" style="color:#94a3b8">Terms</a>
+      <a href="pages/refund-policy.html" style="color:#94a3b8">Refund Policy</a>
+    </div>
+  </div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-ov" id="modal-ov" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="m-thumb" id="m-thumb"><button class="m-close" onclick="closeModal()">✕</button></div>
+    <div class="m-body" id="m-body"></div>
+    <div class="m-footer" id="m-footer"></div>
+  </div>
+</div>
+
+<script type="module">
+import { getPackages, getUser, addToWishlist, removeFromWishlist, getWishlist } from './assets/js/supabase.js';
+
+// ── Auth-aware nav ──
+const user = await getUser();
+if (user) {
+  const initials = (user.email||'U').substring(0,2).toUpperCase();
+  document.getElementById('nav-right').innerHTML = `
+    <a href="pages/dashboard.html" class="user-pill"><div class="uav">${initials}</div> My Trips</a>
+    <a href="pages/loyalty.html">⭐ Rewards</a>
+    <a href="pages/my-bookings.html">My Bookings</a>
+    <a href="pages/contact.html" class="btn-cta">Free Quote</a>`;
+}
+
+// ── Search tabs ──
+window.switchSearch = (tab, el) => {
+  document.querySelectorAll('.stab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.spanel').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('sp-'+tab).classList.add('active');
+};
+window.doSearch = (type) => {
+  const pages={tours:'pages/packages.html',flights:'pages/flights.html',hotels:'pages/hotels.html',bus:'pages/bus.html',cabs:'pages/cabs.html'};
+  const dest=document.getElementById('tour-dest')?.value;
+  const cabFrom=document.getElementById('cab-from')?.value;
+  const cabTo=document.getElementById('cab-to')?.value;
+  let url=pages[type];
+  if (type==='tours' && dest) url+=`?search=${encodeURIComponent(dest)}`;
+  if (type==='cabs' && cabFrom && cabTo) {
+    const msg=`Hi ZoomFly! 🚗 I want a cab from ${cabFrom} to ${cabTo}. Please share pricing.`;
+    window.open('https://wa.me/918076136300?text='+encodeURIComponent(msg),'_blank'); return;
+  }
+  window.location.href=url;
+};
+
+// ── Load packages from Supabase ──
+let allPkgs = [];
+async function loadHomePkgs() {
+  try {
+    allPkgs = await getPackages({ limit: 6 });
+    // Fallback: if DB empty, show static packages from ZF data
+    if (!allPkgs || !allPkgs.length) {
+      allPkgs = (typeof ZF !== 'undefined' && ZF.packages) ? ZF.packages.map(p => ({
+        id: p.id, title: p.name, bg_gradient: p.bg, emoji: p.emoji,
+        badge: p.badge, badge_label: p.badge, tags: [p.type, p.category],
+        description: p.itinerary?.[0]?.desc || '',
+        price: p.price, old_price: p.originalPrice, rating: p.rating,
+        review_count: p.reviews, duration_days: parseInt(p.duration), nights: parseInt(p.duration)-1,
+        type: p.type?.toLowerCase() === 'domestic' ? 'domestic' : 'international',
+        inclusions: p.inclusions
+      })) : [];
+      if (!allPkgs.length) {
+        document.getElementById('home-pkgs').innerHTML = `<div class="pkg-loading"><p>No packages found. <a href="pages/packages.html" style="color:var(--primary)">Browse all</a></p></div>`;
+        return;
+      }
+    }
+    renderPkgs(allPkgs.slice(0,6));
+  } catch(e) {
+    // On any error, use static packages
+    if (typeof ZF !== 'undefined' && ZF.packages?.length) {
+      allPkgs = ZF.packages.map(p => ({
+        id: p.id, title: p.name, bg_gradient: p.bg, emoji: p.emoji,
+        badge: p.badge, badge_label: p.badge, tags: [p.type, p.category],
+        description: p.itinerary?.[0]?.desc || '',
+        price: p.price, old_price: p.originalPrice, rating: p.rating,
+        review_count: p.reviews, duration_days: parseInt(p.duration), nights: parseInt(p.duration)-1,
+        type: p.type?.toLowerCase() === 'domestic' ? 'domestic' : 'international',
+        inclusions: p.inclusions
+      }));
+      renderPkgs(allPkgs.slice(0,6));
+    } else {
+      document.getElementById('home-pkgs').innerHTML = `<div class="pkg-loading"><p style="color:#DC2626">Could not load packages. <a href="pages/packages.html" style="color:var(--primary)">Try packages page</a></p></div>`;
+    }
+  }
+}
+
+function renderPkgs(pkgs) {
+  document.getElementById('home-pkgs').innerHTML = pkgs.map(p => `
+    <div class="pkg-card" onclick="openModal('${p.id}')">
+      <div class="pkg-thumb" style="background:${p.bg_gradient||'linear-gradient(135deg,#667eea,#764ba2)'}">
+        <span class="thumb-em">${p.emoji||'🗺️'}</span>
+        ${p.badge?`<span class="pkg-badge badge-${p.badge}">${p.badge_label||p.badge}</span>`:''}
+      </div>
+      <div class="pkg-body">
+        <div class="pkg-tags">${(p.tags||[]).slice(0,3).map(t=>`<span class="pkg-tag">${t}</span>`).join('')}</div>
+        <div class="pkg-title">${p.title}</div>
+        <div class="pkg-desc">${p.description||''}</div>
+        <div class="pkg-footer">
+          <div class="pkg-price"><div class="lbl">From</div><div class="amt">₹${Number(p.price).toLocaleString('en-IN')}</div><div class="old">₹${Number(p.old_price||p.price).toLocaleString('en-IN')}</div></div>
+          <div class="pkg-rating"><span class="star">★</span>${p.rating} <span style="font-size:.7rem;color:var(--light)">(${p.review_count})</span></div>
+        </div>
+        <button class="btn-pkg" onclick="event.stopPropagation();openModal('${p.id}')">View Details →</button>
+      </div>
+    </div>`).join('');
+}
+
+// ── Modal ──
+window.openModal = (id) => {
+  const p = allPkgs.find(x=>x.id===id); if(!p) return;
+  document.getElementById('m-thumb').style.background=p.bg_gradient||'linear-gradient(135deg,#667eea,#764ba2)';
+  document.getElementById('m-thumb').innerHTML=`<button class="m-close" onclick="closeModal()">✕</button><span style="font-size:7rem">${p.emoji||'🗺️'}</span>`;
+  document.getElementById('m-body').innerHTML=`
+    <h2>${p.title}</h2>
+    <div class="m-meta"><span>📅 ${p.duration_days} Days / ${p.nights} Nights</span><span>⭐ ${p.rating} (${p.review_count} reviews)</span><span>${p.type==='international'?'🌍 International':'🇮🇳 Domestic'}</span></div>
+    <p class="m-desc">${p.description||''}</p>
+    ${(p.inclusions||[]).length?`<div style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--light);margin-bottom:.75rem">What's Included</div><div class="m-inc-grid">${p.inclusions.map(i=>`<div class="m-inc">${i}</div>`).join('')}</div>`:''}`;
+  document.getElementById('m-footer').innerHTML=`
+    <div class="m-price"><div class="amt">₹${Number(p.price).toLocaleString('en-IN')}</div><div class="per">/person <s style="color:var(--light)">₹${Number(p.old_price||p.price).toLocaleString('en-IN')}</s></div></div>
+    <div class="m-cta">
+      <button class="btn-wa-m" onclick="window.open('https://wa.me/918076136300?text=Hi!+Interested+in+${encodeURIComponent(p.title)}','_blank')">💬 WhatsApp</button>
+      <button class="btn-book" onclick="window.location.href='pages/contact.html?pkg=${encodeURIComponent(p.title)}'">Book Now →</button>
+    </div>`;
+  document.getElementById('modal-ov').classList.add('open');
+  document.body.style.overflow='hidden';
+};
+window.closeModal=()=>{document.getElementById('modal-ov').classList.remove('open');document.body.style.overflow='';};
+document.addEventListener('keydown',e=>{if(e.key==='Escape')window.closeModal();});
+
+// ── Testimonials — loads from Supabase, falls back to static, auto-rotates ──
+const STATIC_TESTIMONIALS = [
+  {stars:5,text:'Booked the Manali package — everything was perfect. Hotel, transfers, the Rohtang trip — ZoomFly handled every detail flawlessly.',name:'Rohit Verma',city:'Hyderabad',trip:'Manali Snow Escape',avatar:'#0057FF',initials:'RV'},
+  {stars:5,text:'Our Bali honeymoon was an absolute dream. The private villa, couples spa and romantic beach dinner — all arranged perfectly.',name:'Priya & Arjun Singh',city:'Mumbai',trip:'Bali Honeymoon',avatar:'#f77062',initials:'PA'},
+  {stars:5,text:'Incredible value for money. Kerala backwaters on a private houseboat was a bucket-list experience. Team was available on WhatsApp throughout.',name:'Kavita Nair',city:'Bengaluru',trip:'Kerala Backwaters',avatar:'#43e97b',initials:'KN'},
+  {stars:5,text:'Ladakh Grand Tour was life-changing. The permits, camping, jeep safari — flawlessly organised. Will book again for Spiti!',name:'Aditya Sharma',city:'Delhi',trip:'Ladakh Grand Tour',avatar:'#764ba2',initials:'AS'},
+  {stars:5,text:'Rajasthan package exceeded all expectations. Heritage hotels, camel safari, amazing food — worth every rupee.',name:'Sunita & Rakesh Gupta',city:'Jaipur',trip:'Rajasthan Royal Tour',avatar:'#fa709a',initials:'SR'},
+  {stars:4,text:'Great Goa package for our group of 8. All transfers were on time, hotel was excellent and the water sports were amazing!',name:'Manish Patel',city:'Ahmedabad',trip:'Goa Beach Bliss',avatar:'#f6d365',initials:'MP'},
+];
+
+let allTestimonials = [...STATIC_TESTIMONIALS];
+let testPage = 0;
+const TESTS_PER_PAGE = 3;
+
+function renderTestimonials(data) {
+  const grid = document.getElementById('test-grid');
+  if (!grid) return;
+  grid.innerHTML = data.map(t => `
+    <div class="test-card">
+      <div class="test-stars">${'★'.repeat(t.stars || 5)}</div>
+      <p class="test-text">"${t.text}"</p>
+      <div class="test-author">
+        <div class="test-av" style="background:${t.avatar || '#0057FF'}">${t.initials || (t.name||'').split(' ').map(n=>n[0]).join('').substring(0,2)}</div>
+        <div><div class="test-name">${t.name}</div><div class="test-trip">📍 ${t.city || ''} · ${t.trip || ''}</div></div>
+      </div>
+    </div>`).join('');
+}
+
+function showTestPage(page) {
+  const start = page * TESTS_PER_PAGE;
+  renderTestimonials(allTestimonials.slice(start, start + TESTS_PER_PAGE));
+  testPage = page;
+}
+
+// Auto-rotate every 5 seconds
+function startTestRotation() {
+  showTestPage(0);
+  setInterval(() => {
+    const maxPage = Math.ceil(allTestimonials.length / TESTS_PER_PAGE) - 1;
+    const nextPage = testPage >= maxPage ? 0 : testPage + 1;
+    // Fade out, switch, fade in
+    const grid = document.getElementById('test-grid');
+    if (grid) {
+      grid.style.transition = 'opacity 0.4s';
+      grid.style.opacity = '0';
+      setTimeout(() => { showTestPage(nextPage); grid.style.opacity = '1'; }, 400);
+    }
+  }, 5000);
+}
+
+// Try loading from Supabase
+import('./assets/js/supabase.js').then(({ supabase }) => {
+  supabase.from('testimonials').select('*').eq('is_active', true).order('created_at', { ascending: false }).then(({ data }) => {
+    if (data && data.length) allTestimonials = [...data, ...STATIC_TESTIMONIALS];
+    startTestRotation();
+  }).catch(() => startTestRotation());
+}).catch(() => startTestRotation());
+
+// ── FAQ ──
+const faqs=[
+  {q:'How do I book a tour package?',a:'Browse packages, click View Details, and either WhatsApp us or fill the enquiry form. Our expert calls within 2 hours to confirm.'},
+  {q:'Is the price shown per person or total?',a:'All prices are per person based on double occupancy. Solo travellers may have a small supplement. Final price confirmed before booking.'},
+  {q:'Can I customise a package?',a:'Absolutely! All packages are fully customisable. Fill the Free Custom Quote form and we\'ll design your perfect itinerary.'},
+  {q:'What is your cancellation policy?',a:'30+ days before: 90% refund. 15–30 days: 50% refund. Less than 15 days: no refund. Flight/hotel charges as per provider policy.'},
+  {q:'Do you offer EMI or payment plans?',a:'Yes! 0% interest EMI on packages above ₹20,000 through major credit cards and BNPL apps. Ask our team for details.'},
+];
+document.getElementById('faq-list').innerHTML=faqs.map((f,i)=>`
+  <div class="faq-item" id="faq-${i}">
+    <div class="faq-q" onclick="toggleFaq(${i})">${f.q}<span class="faq-chv">▾</span></div>
+    <div class="faq-a">${f.a}</div>
+  </div>`).join('');
+window.toggleFaq=(i)=>{
+  document.querySelectorAll('.faq-item').forEach((el,j)=>{if(j!==i)el.classList.remove('open');});
+  document.getElementById('faq-'+i).classList.toggle('open');
+};
+
+// ── Set min dates ──
+document.querySelectorAll('input[type=date]').forEach(i=>i.min=new Date().toISOString().split('T')[0]);
+
+loadHomePkgs();
+</script>
+</body>
+</html>
