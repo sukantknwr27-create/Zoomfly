@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WhatsApp Templates — ZoomFly Admin</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✈️</text></svg>"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --primary:#1a73e8; --accent:#ff6b35; --dark:#0f1923;
+      --dark2:#1a2535; --text:#2d3748; --light:#64748b;
+      --border:#e2e8f0; --bg:#f8fafc; --white:#fff;
+      --green:#25d366; --wa-dark:#075e54;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);}
+
+    /* NAV */
+    nav{background:var(--dark);padding:0 5%;display:flex;align-items:center;
+      justify-content:space-between;height:64px;position:sticky;top:0;z-index:100;}
+    .logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+    .logo-icon{width:34px;height:34px;background:linear-gradient(135deg,var(--primary),var(--accent));
+      border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;}
+    .logo-text{font-family:'Playfair Display',serif;font-size:1.3rem;color:#fff;font-weight:700;}
+    .logo-text span{color:var(--accent);}
+    .nav-right{display:flex;align-items:center;gap:12px;}
+    .nav-badge{background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.7);
+      padding:4px 12px;border-radius:20px;font-size:0.78rem;}
+    .nav-link{color:rgba(255,255,255,0.7);text-decoration:none;font-size:0.85rem;
+      padding:6px 14px;border-radius:8px;transition:all 0.2s;}
+    .nav-link:hover{background:rgba(255,255,255,0.1);color:#fff;}
+
+    /* LAYOUT */
+    .page{max-width:1200px;margin:0 auto;padding:40px 5%;}
+
+    /* HEADER */
+    .page-header{margin-bottom:36px;}
+    .page-title{font-family:'Playfair Display',serif;font-size:1.8rem;
+      color:var(--dark);margin-bottom:6px;}
+    .page-sub{color:var(--light);font-size:0.92rem;}
+
+    /* SERVICE TABS */
+    .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:32px;}
+    .tab{padding:9px 20px;border-radius:10px;border:1.5px solid var(--border);
+      background:var(--white);color:var(--light);font-size:0.85rem;font-weight:600;
+      cursor:pointer;transition:all 0.2s;}
+    .tab:hover{border-color:var(--primary);color:var(--primary);}
+    .tab.active{background:var(--primary);color:#fff;border-color:var(--primary);}
+
+    /* TEMPLATE GRID */
+    .template-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:32px;}
+
+    .template-panel{background:var(--white);border-radius:16px;
+      border:1px solid var(--border);overflow:hidden;
+      box-shadow:0 2px 12px rgba(0,0,0,0.05);}
+
+    .panel-header{padding:16px 20px;display:flex;align-items:center;
+      justify-content:space-between;border-bottom:1px solid var(--border);}
+    .panel-title{font-weight:700;font-size:0.9rem;color:var(--dark);
+      display:flex;align-items:center;gap:8px;}
+    .panel-badge{font-size:0.72rem;font-weight:600;padding:3px 10px;
+      border-radius:20px;text-transform:uppercase;letter-spacing:0.5px;}
+    .badge-customer{background:rgba(37,211,102,0.12);color:#166534;}
+    .badge-admin{background:rgba(255,107,53,0.12);color:#9a3412;}
+
+    /* MESSAGE BUBBLE */
+    .wa-bubble{
+      padding:20px;
+      min-height:320px;
+      max-height:440px;
+      overflow-y:auto;
+      font-family:'Courier New',monospace;
+      font-size:0.82rem;
+      line-height:1.7;
+      white-space:pre-wrap;
+      word-break:break-word;
+    }
+    .bubble-customer{background:#e9fbe9;color:#1a1a1a;}
+    .bubble-admin   {background:#f0f4ff;color:#1a1a1a;}
+
+    /* PANEL ACTIONS */
+    .panel-actions{padding:14px 20px;display:flex;gap:8px;
+      border-top:1px solid var(--border);background:var(--bg);}
+    .btn-copy{padding:8px 14px;border-radius:8px;border:1.5px solid var(--border);
+      background:var(--white);color:var(--text);font-size:0.82rem;font-weight:600;
+      cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:6px;}
+    .btn-copy:hover{border-color:var(--primary);color:var(--primary);}
+    .btn-send{padding:8px 16px;border-radius:8px;border:none;
+      font-size:0.82rem;font-weight:700;cursor:pointer;transition:all 0.2s;
+      display:flex;align-items:center;gap:6px;}
+    .btn-send-customer{background:var(--green);color:#fff;}
+    .btn-send-customer:hover{background:#20b858;}
+    .btn-send-admin{background:var(--accent);color:#fff;}
+    .btn-send-admin:hover{background:#e85d04;}
+
+    /* QUICK SEND SECTION */
+    .quick-send{background:var(--white);border-radius:16px;
+      border:1px solid var(--border);padding:28px;margin-bottom:24px;
+      box-shadow:0 2px 12px rgba(0,0,0,0.05);}
+    .qs-title{font-weight:700;font-size:1rem;color:var(--dark);margin-bottom:4px;}
+    .qs-sub{font-size:0.85rem;color:var(--light);margin-bottom:20px;}
+    .qs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;}
+    .qs-btn{padding:12px 16px;border-radius:10px;border:none;cursor:pointer;
+      font-size:0.85rem;font-weight:700;transition:all 0.2s;
+      display:flex;align-items:center;gap:8px;}
+    .qs-btn:hover{transform:translateY(-2px);}
+
+    /* STATUS UPDATE SECTION */
+    .status-section{background:var(--white);border-radius:16px;
+      border:1px solid var(--border);padding:28px;
+      box-shadow:0 2px 12px rgba(0,0,0,0.05);}
+    .section-title{font-weight:700;font-size:1rem;color:var(--dark);
+      margin-bottom:4px;}
+    .section-sub{font-size:0.85rem;color:var(--light);margin-bottom:20px;}
+
+    .status-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;}
+    .status-btn{padding:14px 16px;border-radius:12px;border:none;cursor:pointer;
+      font-size:0.85rem;font-weight:700;transition:all 0.2s;text-align:center;}
+    .status-btn:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,0.15);}
+    .s-confirm {background:rgba(34,197,94,0.1);color:#166534;border:1.5px solid rgba(34,197,94,0.3);}
+    .s-process {background:rgba(26,115,232,0.1);color:#1557b0;border:1.5px solid rgba(26,115,232,0.3);}
+    .s-complete{background:rgba(139,92,246,0.1);color:#5b21b6;border:1.5px solid rgba(139,92,246,0.3);}
+    .s-cancel  {background:rgba(239,68,68,0.1); color:#991b1b; border:1.5px solid rgba(239,68,68,0.3);}
+    .s-refund  {background:rgba(234,179,8,0.1); color:#854d0e; border:1.5px solid rgba(234,179,8,0.3);}
+    .s-payment {background:rgba(37,211,102,0.1);color:#166534;border:1.5px solid rgba(37,211,102,0.3);}
+
+    .note-input{width:100%;padding:10px 14px;border:1.5px solid var(--border);
+      border-radius:10px;font-family:inherit;font-size:0.88rem;
+      margin-top:16px;outline:none;resize:vertical;min-height:60px;}
+    .note-input:focus{border-color:var(--primary);}
+
+    /* TOAST */
+    .toast{position:fixed;bottom:24px;right:24px;background:var(--dark);
+      color:#fff;padding:12px 20px;border-radius:10px;font-size:0.88rem;
+      font-weight:600;z-index:9999;display:none;animation:toastIn 0.3s ease;}
+    @keyframes toastIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+    @media(max-width:900px){
+      .template-grid{grid-template-columns:1fr;}
+    }
+  </style>
+  <script>
+    window.SUPABASE_URL="https://ndaurluolurdljrjbxii.supabase.co";
+    window.SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kYXVybHVvbHVyZGxqcmpieGlpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MDY2MzksImV4cCI6MjA5MzQ4MjYzOX0.JsZXOof19JkyX7asJQ7EtoaBKqURJUYzVqXQIenCzjQ";
+    window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/);return m?m[1]:null;};
+  </script>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">
+    <div class="logo-icon">✈️</div>
+    <div class="logo-text">Zoom<span>Fly</span></div>
+  </a>
+  <div class="nav-right">
+    <span class="nav-badge">Admin Panel</span>
+    <a href="admin.html" class="nav-link">← Dashboard</a>
+  </div>
+</nav>
+
+<div class="page">
+
+  <div class="page-header">
+    <h1 class="page-title">💬 WhatsApp Message Templates</h1>
+    <p class="page-sub">Preview, copy, and send structured WhatsApp messages for any booking type.</p>
+  </div>
+
+  <!-- SERVICE TABS -->
+  <div class="tabs">
+    <button class="tab active" onclick="switchService('flight',  this)">✈️ Flight</button>
+    <button class="tab"        onclick="switchService('hotel',   this)">🏨 Hotel</button>
+    <button class="tab"        onclick="switchService('package', this)">🧳 Package</button>
+    <button class="tab"        onclick="switchService('bus',     this)">🚌 Bus</button>
+    <button class="tab"        onclick="switchService('cab',     this)">🚖 Cab</button>
+  </div>
+
+  <!-- TEMPLATE PREVIEW -->
+  <div class="template-grid">
+
+    <!-- Customer Message -->
+    <div class="template-panel">
+      <div class="panel-header">
+        <div class="panel-title">
+          📲 Customer Message
+          <span class="panel-badge badge-customer">Sent by Customer → ZoomFly</span>
+        </div>
+      </div>
+      <div class="wa-bubble bubble-customer" id="customer-preview">Loading...</div>
+      <div class="panel-actions">
+        <button class="btn-copy" onclick="copyMsg('customer')">📋 Copy</button>
+        <button class="btn-send btn-send-customer" onclick="sendCustomer()">
+          💬 Open in WhatsApp
+        </button>
+      </div>
+    </div>
+
+    <!-- Admin Alert -->
+    <div class="template-panel">
+      <div class="panel-header">
+        <div class="panel-title">
+          🔔 Admin Alert
+          <span class="panel-badge badge-admin">Sent to Admin Team</span>
+        </div>
+      </div>
+      <div class="wa-bubble bubble-admin" id="admin-preview">Loading...</div>
+      <div class="panel-actions">
+        <button class="btn-copy" onclick="copyMsg('admin')">📋 Copy</button>
+        <button class="btn-send btn-send-admin" onclick="sendAdmin()">
+          🔔 Send to Admin
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- QUICK SEND -->
+  <div class="quick-send">
+    <div class="qs-title">⚡ Quick Send — Status Updates</div>
+    <div class="qs-sub">Send pre-built status messages to the customer with one click.</div>
+    <div class="status-grid">
+      <button class="status-btn s-confirm"  onclick="sendStatus('confirmed')">✅ Booking Confirmed</button>
+      <button class="status-btn s-process"  onclick="sendStatus('processing')">⚙️ Being Processed</button>
+      <button class="status-btn s-payment"  onclick="sendStatus('payment_confirmed')">💳 Payment Received</button>
+      <button class="status-btn s-complete" onclick="sendStatus('completed')">🎉 Journey Complete</button>
+      <button class="status-btn s-cancel"   onclick="sendStatus('cancelled')">❌ Booking Cancelled</button>
+      <button class="status-btn s-refund"   onclick="sendStatus('refunded')">💰 Refund Processed</button>
+    </div>
+    <textarea class="note-input" id="status-note"
+      placeholder="Optional: Add a note to the status message (e.g. 'Your cab will arrive at 2:30 PM')..."></textarea>
+  </div>
+
+</div><!-- /page -->
+
+<div class="toast" id="toast">✅ Copied to clipboard!</div>
+
+<script type="module">
+  import { getTemplates, sendCustomerConfirmation, sendAdminAlert,
+           sendStatusUpdate, sendPaymentConfirmation,
+           sendCancellationMessage } from './assets/js/whatsapp-templates.js';
+
+  const WA_NUMBER = '918076136300';
+
+  // ── Sample booking data for preview ──
+  const SAMPLE_BOOKINGS = {
+    flight: {
+      booking_ref: 'ZF-FLT-20260509-0001',
+      service_name: 'Delhi (DEL) → Mumbai (BOM)',
+      customer_name: 'Rahul Sharma',
+      customer_email: 'rahul@example.com',
+      customer_phone: '9876543210',
+      customer_whatsapp: '9876543210',
+      num_adults: 2, num_children: 0, num_infants: 0,
+      base_amount: 8500, tax_amount: 1530, discount_amount: 0,
+      total_amount: 10030,
+      status: 'pending', payment_status: 'pending',
+      booking_source: 'website',
+      promo_code: null,
+      special_requests: 'Window seat preferred',
+      created_at: new Date().toISOString(),
+      travel_details: {
+        from: 'DEL', to: 'BOM',
+        from_city: 'Delhi', to_city: 'Mumbai',
+        date: '2026-06-15', return_date: null,
+        trip_type: 'one_way', class: 'economy'
+      }
+    },
+    hotel: {
+      booking_ref: 'ZF-HTL-20260509-0001',
+      service_name: 'The Taj Palace, New Delhi',
+      customer_name: 'Priya Mehta',
+      customer_email: 'priya@example.com',
+      customer_phone: '9123456780',
+      customer_whatsapp: '9123456780',
+      num_adults: 2, num_children: 1, num_infants: 0,
+      base_amount: 18000, tax_amount: 3240, discount_amount: 1000,
+      total_amount: 20240,
+      status: 'pending', payment_status: 'pending',
+      booking_source: 'website',
+      promo_code: 'ZOOMFLY10',
+      special_requests: null,
+      created_at: new Date().toISOString(),
+      travel_details: {
+        hotel_name: 'The Taj Palace',
+        city: 'New Delhi',
+        check_in: '2026-06-20',
+        check_out: '2026-06-23',
+        room_type: 'Deluxe King',
+        num_rooms: 1,
+        nights: 3
+      }
+    },
+    package: {
+      booking_ref: 'ZF-PKG-20260509-0001',
+      service_name: 'Goa Beach Escape — 4N/5D',
+      customer_name: 'Amit Gupta',
+      customer_email: 'amit@example.com',
+      customer_phone: '9988776655',
+      customer_whatsapp: '9988776655',
+      num_adults: 4, num_children: 2, num_infants: 0,
+      base_amount: 45000, tax_amount: 8100, discount_amount: 2000,
+      total_amount: 51100,
+      status: 'pending', payment_status: 'pending',
+      booking_source: 'website',
+      promo_code: 'SUMMER20',
+      special_requests: 'Vegetarian meals only',
+      created_at: new Date().toISOString(),
+      travel_details: {
+        package_name: 'Goa Beach Escape',
+        destination: 'Goa',
+        start_date: '2026-07-01',
+        end_date: '2026-07-05',
+        duration: '4 Nights / 5 Days',
+        hotel_class: '4 Star',
+        inclusions: ['Hotel', 'Breakfast', 'Airport Transfer', 'Sightseeing']
+      }
+    },
+    bus: {
+      booking_ref: 'ZF-BUS-20260509-0001',
+      service_name: 'Delhi → Manali (Volvo AC Sleeper)',
+      customer_name: 'Sunita Rawat',
+      customer_email: 'sunita@example.com',
+      customer_phone: '9871234567',
+      customer_whatsapp: '9871234567',
+      num_adults: 2, num_children: 0, num_infants: 0,
+      base_amount: 2800, tax_amount: 504, discount_amount: 0,
+      total_amount: 3304,
+      status: 'pending', payment_status: 'pending',
+      booking_source: 'website',
+      promo_code: null,
+      special_requests: null,
+      created_at: new Date().toISOString(),
+      travel_details: {
+        from: 'Delhi', to: 'Manali',
+        date: '2026-06-18',
+        departure_time: '20:00',
+        arrival_time: '08:00 (next day)',
+        operator: 'HRTC Volvo',
+        bus_type: 'AC Sleeper',
+        seat_numbers: ['A1', 'A2']
+      }
+    },
+    cab: {
+      booking_ref: 'ZF-CAB-20260509-0001',
+      service_name: 'IGI Airport → Connaught Place',
+      customer_name: 'Vikram Singh',
+      customer_email: 'vikram@example.com',
+      customer_phone: '9765432109',
+      customer_whatsapp: '9765432109',
+      num_adults: 2, num_children: 0, num_infants: 0,
+      base_amount: 650, tax_amount: 117, discount_amount: 0,
+      total_amount: 767,
+      status: 'pending', payment_status: 'pending',
+      booking_source: 'whatsapp',
+      promo_code: null,
+      special_requests: 'Baby seat required',
+      created_at: new Date().toISOString(),
+      travel_details: {
+        from: 'IGI Airport Terminal 3',
+        to: 'Connaught Place',
+        pickup_date: '2026-06-16',
+        pickup_time: '14:30',
+        cab_type: 'Sedan',
+        trip_type: 'one_way',
+        passengers: 2,
+        luggage: '2 large bags'
+      }
+    }
+  };
+
+  let currentService = 'flight';
+  let currentBooking = SAMPLE_BOOKINGS.flight;
+
+  // ── Init ──
+  window.switchService = function(service, btn) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    currentService = service;
+    currentBooking = SAMPLE_BOOKINGS[service];
+    renderPreviews();
+  };
+
+  function renderPreviews() {
+    const { customer, admin } = getTemplates(currentService, currentBooking);
+    document.getElementById('customer-preview').textContent = customer;
+    document.getElementById('admin-preview').textContent    = admin;
+    window._customerMsg = customer;
+    window._adminMsg    = admin;
+  }
+
+  // ── Copy ──
+  window.copyMsg = function(type) {
+    const text = type === 'customer' ? window._customerMsg : window._adminMsg;
+    navigator.clipboard.writeText(text).then(() => showToast('Copied to clipboard!')).catch(() => {
+      // fallback
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      ta.remove();
+      showToast('Copied!');
+    });
+  };
+
+  // ── Send Customer ──
+  window.sendCustomer = function() {
+    const url = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(window._customerMsg)}`;
+    window.open(url, '_blank');
+  };
+
+  // ── Send Admin ──
+  window.sendAdmin = function() {
+    const url = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(window._adminMsg)}`;
+    window.open(url, '_blank');
+  };
+
+  // ── Status Update ──
+  window.sendStatus = function(status) {
+    const note  = document.getElementById('status-note')?.value || '';
+    const phone = currentBooking.customer_whatsapp || currentBooking.customer_phone;
+
+    let message;
+    if (status === 'payment_confirmed') {
+      // Use payment template
+      const lines = [
+        `💳 *Payment Received — ZoomFly*`,
+        `━━━━━━━━━━━━━━━━━━━━━━`,
+        `📋 Ref: *${currentBooking.booking_ref}*`,
+        `📦 Service: ${currentBooking.service_name}`,
+        ``,
+        `✅ *Payment of ₹${parseFloat(currentBooking.total_amount).toLocaleString('en-IN')} confirmed*`,
+        ``,
+        `📄 Your e-ticket / booking voucher will be sent within 2 hours.`,
+        note ? `📝 Note: ${note}` : null,
+        ``,
+        `━━━━━━━━━━━━━━━━━━━━━━`,
+        `🙏 Thank you for choosing ZoomFly!`,
+        `📞 +91 80761 36300 · zoomfly.in`,
+      ].filter(Boolean).join('\n');
+      message = lines;
+    } else {
+      const statusMap = {
+        confirmed:  { emoji:'✅', label:'CONFIRMED',  msg:'Your booking is confirmed! Payment link will be sent shortly.' },
+        processing: { emoji:'⚙️', label:'PROCESSING', msg:'We are processing your booking with the service provider.' },
+        completed:  { emoji:'🎉', label:'COMPLETED',  msg:'Your journey is complete. Thank you for travelling with ZoomFly!' },
+        cancelled:  { emoji:'❌', label:'CANCELLED',  msg:'Your booking has been cancelled. Refund (if applicable) will be processed within 5–7 business days.' },
+        refunded:   { emoji:'💰', label:'REFUNDED',   msg:'Your refund has been processed and will reflect within 3–5 business days.' },
+      };
+      const s = statusMap[status] || { emoji:'ℹ️', label:status.toUpperCase(), msg:'' };
+      const lines = [
+        `${s.emoji} *ZoomFly Booking Update*`,
+        `━━━━━━━━━━━━━━━━━━━━━━`,
+        `📋 Ref: *${currentBooking.booking_ref}*`,
+        `📦 ${currentBooking.service_name}`,
+        ``,
+        `🔄 *Status: ${s.label}*`,
+        ``,
+        s.msg,
+        note ? `\n📝 ${note}` : null,
+        ``,
+        `━━━━━━━━━━━━━━━━━━━━━━`,
+        `❓ Questions? WhatsApp +91 80761 36300`,
+        `🌐 zoomfly.in`,
+      ].filter(Boolean).join('\n');
+      message = lines;
+    }
+
+    // Clean phone
+    let p = (phone || '').replace(/\D/g,'');
+    if (p.length === 10) p = '91' + p;
+
+    const url = `https://wa.me/${p}?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank');
+    showToast(`${status.replace('_',' ')} message opened in WhatsApp`);
+  };
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = '✅ ' + msg;
+    t.style.display = 'block';
+    setTimeout(() => { t.style.display = 'none'; }, 2800);
+  }
+
+  // Init on load
+  renderPreviews();
+</script>
+
+</body>
+</html>
