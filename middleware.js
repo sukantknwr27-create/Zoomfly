@@ -73,4 +73,3 @@ function _redirectToLogin(url, reason) {
   loginUrl.searchParams.set('reason', reason);
   return Response.redirect(loginUrl.toString(), 302);
 }
-Displaying middleware.js.
