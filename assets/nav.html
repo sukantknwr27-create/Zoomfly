@@ -1,0 +1,130 @@
+<!-- ─────────────────────────────────────────────
+     ZoomFly shared nav fragment
+     Fetched by renderNav() in main.js
+     No inline JS. All event listeners attached in main.js.
+     ───────────────────────────────────────────── -->
+<div class="nav-inner">
+
+  <!-- Logo -->
+  <a href="/index.html" class="logo">
+    <img src="/assets/logo.svg" alt="ZoomFly"
+         style="height:38px;width:auto"
+         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+    <div style="display:none;align-items:center;gap:6px">
+      <span class="logo-zoom">Zoom</span><span class="logo-fly">Fly</span>
+      <svg class="logo-plane" viewBox="0 0 24 24" fill="none">
+        <path d="M21 3L3 10.5L10 13.5L13 21L21 3Z"
+              stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+        <path d="M10 13.5L14 10"
+              stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+    </div>
+  </a>
+
+  <!-- Desktop nav links -->
+  <nav class="nav-links" aria-label="Main navigation">
+    <a href="/pages/packages.html"      data-page="packages">Packages</a>
+    <a href="/pages/destinations.html"  data-page="destinations">Destinations</a>
+    <a href="/pages/flights.html"       data-page="flights">Flights</a>
+    <a href="/pages/hotels.html"        data-page="hotels">Hotels</a>
+    <a href="/pages/cabs.html"          data-page="cabs">Cabs</a>
+    <a href="/pages/group-booking.html" data-page="group">Groups</a>
+    <a href="/pages/loyalty.html"       data-page="loyalty">⭐ Rewards</a>
+    <a href="/pages/contact.html" class="nav-cta">Book Now</a>
+  </nav>
+
+  <!-- Auth area -->
+  <div class="nav-auth" id="nav-auth-area">
+    <!-- Logged-out state -->
+    <a href="/pages/login.html" id="nav-login-btn"
+       style="display:flex;align-items:center;gap:6px;padding:6px 16px;
+              border:1.5px solid rgba(255,255,255,0.3);border-radius:50px;
+              font-size:0.82rem;font-weight:600;color:inherit;text-decoration:none;
+              transition:all 0.2s">
+      👤 Sign In
+    </a>
+
+    <!-- Logged-in state (hidden until auth resolves) -->
+    <div id="nav-user-menu" style="display:none;position:relative">
+      <button id="nav-user-btn"
+              style="display:flex;align-items:center;gap:8px;
+                     background:rgba(255,255,255,0.12);border:none;border-radius:50px;
+                     padding:5px 14px 5px 5px;cursor:pointer;color:inherit;
+                     font-size:0.82rem;font-weight:600"
+              data-action="toggle-user-menu">
+        <div id="nav-avatar"
+             style="width:28px;height:28px;border-radius:50%;
+                    background:linear-gradient(135deg,#1a73e8,#ff6b35);
+                    display:flex;align-items:center;justify-content:center;
+                    font-size:0.7rem;color:white;font-weight:700">?</div>
+        <span id="nav-username">Account</span>
+        <span style="font-size:0.65rem" aria-hidden="true">▼</span>
+      </button>
+
+      <div id="nav-dropdown"
+           role="menu"
+           style="display:none;position:absolute;right:0;top:calc(100% + 8px);
+                  background:white;border:1px solid #e5e7eb;border-radius:12px;
+                  box-shadow:0 8px 32px rgba(0,0,0,0.15);min-width:180px;
+                  z-index:1000;overflow:hidden">
+        <a href="/pages/dashboard.html"          role="menuitem"
+           style="display:flex;align-items:center;gap:10px;padding:12px 16px;
+                  font-size:0.85rem;color:#1e293b;text-decoration:none;
+                  border-bottom:1px solid #f1f5f9">📊 My Dashboard</a>
+        <a href="/pages/my-bookings.html"         role="menuitem"
+           style="display:flex;align-items:center;gap:10px;padding:12px 16px;
+                  font-size:0.85rem;color:#1e293b;text-decoration:none;
+                  border-bottom:1px solid #f1f5f9">🎫 My Bookings</a>
+        <a href="/pages/loyalty.html"             role="menuitem"
+           style="display:flex;align-items:center;gap:10px;padding:12px 16px;
+                  font-size:0.85rem;color:#1e293b;text-decoration:none;
+                  border-bottom:1px solid #f1f5f9">⭐ My Rewards</a>
+        <a href="/pages/dashboard.html#section-profile" role="menuitem"
+           style="display:flex;align-items:center;gap:10px;padding:12px 16px;
+                  font-size:0.85rem;color:#1e293b;text-decoration:none;
+                  border-bottom:1px solid #f1f5f9">👤 Profile</a>
+        <button data-action="sign-out" role="menuitem"
+                style="display:flex;align-items:center;gap:10px;padding:12px 16px;
+                       font-size:0.85rem;color:#dc2626;background:none;border:none;
+                       cursor:pointer;width:100%;text-align:left">🚪 Sign Out</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hamburger (mobile) -->
+  <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+
+</div><!-- /.nav-inner -->
+
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+  <a href="/index.html"               class="mm-link">Home</a>
+  <a href="/pages/packages.html"      class="mm-link" data-page="packages">Tour Packages</a>
+  <a href="/pages/destinations.html"  class="mm-link" data-page="destinations">Destinations</a>
+  <a href="/pages/flights.html"       class="mm-link" data-page="flights">Flights</a>
+  <a href="/pages/hotels.html"        class="mm-link" data-page="hotels">Hotels</a>
+  <a href="/pages/cabs.html"          class="mm-link" data-page="cabs">Cabs &amp; Transfers</a>
+  <a href="/pages/group-booking.html" class="mm-link" data-page="group">Group Bookings</a>
+  <a href="/pages/loyalty.html"       class="mm-link" data-page="loyalty">⭐ Rewards</a>
+  <a href="/pages/blog.html"          class="mm-link">Blog</a>
+  <a href="/pages/about.html"         class="mm-link">About</a>
+  <a href="/pages/contact.html"       class="mm-link mm-cta">Book Now</a>
+
+  <div style="border-top:1px solid rgba(255,255,255,0.1);margin:8px 0;padding-top:8px">
+    <a href="/pages/dashboard.html"   class="mm-link" id="mm-dashboard" style="display:none">📊 My Dashboard</a>
+    <a href="/pages/my-bookings.html" class="mm-link" id="mm-bookings"  style="display:none">🎫 My Bookings</a>
+    <a href="/pages/login.html"       class="mm-link" id="mm-login">👤 Sign In</a>
+    <button data-action="sign-out" class="mm-link" id="mm-signout"
+            style="display:none;background:none;border:none;width:100%;
+                   text-align:left;color:inherit;cursor:pointer;font-size:inherit">
+      🚪 Sign Out
+    </button>
+  </div>
+
+  <div style="border-top:1px solid rgba(255,255,255,0.1);margin:8px 0;padding-top:8px">
+    <a href="/pages/vendor-portal.html" class="mm-link" style="font-size:0.8rem;opacity:0.7">🏨 Vendor Portal</a>
+    <a href="/pages/agent-portal.html"  class="mm-link" style="font-size:0.8rem;opacity:0.7">🤝 Travel Partner Portal</a>
+  </div>
+</div><!-- /.mobile-menu -->
