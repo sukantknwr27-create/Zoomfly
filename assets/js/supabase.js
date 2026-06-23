@@ -530,6 +530,54 @@ export const admin = {
   }
 };
 
+// ── NAV LOADER ───────────────────────────────────────────
+export async function loadNav(activePage = '') {
+  const nav = document.getElementById('mainNav');
+  if (!nav) return;
+  try {
+    const res = await fetch('/assets/nav.html');
+    if (!res.ok) throw new Error('nav fetch failed');
+    nav.innerHTML = await res.text();
+  } catch {
+    nav.innerHTML = '<nav style="background:#0f1923;padding:14px 20px;display:flex;align-items:center;justify-content:space-between"><a href="/" style="color:#fff;font-weight:800;text-decoration:none;font-size:1.1rem">ZoomFly ✈</a></nav>';
+  }
+  if (activePage) {
+    const link = nav.querySelector(`[data-page="${activePage}"]`);
+    if (link) link.style.color = '#facc15';
+  }
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  if (hamburger && mobileMenu) {
+    hamburger.addEventListener('click', function () {
+      this.classList.toggle('open');
+      mobileMenu.classList.toggle('open');
+    });
+  }
+  // User menu dropdown
+  const userBtn = document.getElementById('userMenuBtn');
+  const userDropdown = document.getElementById('userDropdown');
+  if (userBtn && userDropdown) {
+    userBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      userDropdown.style.display = userDropdown.style.display === 'block' ? 'none' : 'block';
+    });
+    document.addEventListener('click', () => { userDropdown.style.display = 'none'; });
+  }
+  // Update user menu with logged-in state
+  const user = await getUser();
+  const guestLinks = document.getElementById('nav-guest-links');
+  const userLinks = document.getElementById('nav-user-links');
+  if (user) {
+    if (guestLinks) guestLinks.style.display = 'none';
+    if (userLinks) userLinks.style.display = 'flex';
+    const nameEl = document.getElementById('nav-user-name');
+    if (nameEl) nameEl.textContent = user.user_metadata?.full_name?.split(' ')[0] || 'Account';
+  } else {
+    if (guestLinks) guestLinks.style.display = 'flex';
+    if (userLinks) userLinks.style.display = 'none';
+  }
+}
+
 // ── REALTIME ─────────────────────────────────────────────
 export function subscribeToEnquiries(callback) {
   return supabase.channel('enquiries-channel')
