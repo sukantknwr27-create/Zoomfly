@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <meta name="robots" content="noindex,nofollow"/>
+  <title>Package Management — ZoomFly Admin</title>
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"/>
+  <link rel="stylesheet" href="/assets/css/main.css"/>
+  <style>
+    body{background:#f8fafc}
+    .layout{display:grid;grid-template-columns:220px 1fr;min-height:100vh}
+    .sidebar{background:#0f1923;color:#fff;padding:20px 0;position:sticky;top:0;height:100vh;overflow-y:auto}
+    .sb-logo{padding:0 20px 20px;font-size:1.2rem;font-weight:800;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:16px}
+    .sb-logo span{color:#ff6b35}
+    .sb-link{display:flex;align-items:center;gap:10px;padding:10px 20px;font-size:.85rem;color:rgba(255,255,255,.65);text-decoration:none;transition:all .15s;background:none;border:none;width:100%;cursor:pointer;text-align:left}
+    .sb-link:hover,.sb-link.active{color:#fff;background:rgba(255,255,255,.08)}
+    .sb-section{padding:8px 20px 4px;font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.3);margin-top:8px}
+    .main{padding:28px;overflow:auto}
+    .page-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:12px}
+    .page-title{font-size:1.3rem;font-weight:700;color:#0f1923}
+    .btn{padding:9px 18px;border:none;border-radius:8px;font-size:.85rem;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s}
+    .btn-blue{background:#1a73e8;color:#fff}
+    .btn-green{background:#16a34a;color:#fff}
+    .btn-red{background:#dc2626;color:#fff}
+    .btn-outline{background:#fff;border:1.5px solid #e2e8f0;color:#374151}
+    .stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;margin-bottom:24px}
+    .stat{background:#fff;border-radius:12px;padding:16px;border:1px solid #e2e8f0;text-align:center}
+    .stat-n{font-size:1.6rem;font-weight:800;color:#1a73e8}
+    .stat-l{font-size:.73rem;color:#94a3b8;margin-top:3px}
+    .card{background:#fff;border-radius:14px;border:1px solid #e2e8f0;overflow:hidden;margin-bottom:20px}
+    .card-hdr{padding:16px 20px;border-bottom:1px solid #e2e8f0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+    .card-hdr h3{font-size:.95rem;font-weight:700;color:#0f1923}
+    .fc{width:100%;padding:9px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:.88rem;font-family:inherit;outline:none;box-sizing:border-box;transition:border .2s}
+    .fc:focus{border-color:#1a73e8}
+    table{width:100%;border-collapse:collapse}
+    th{padding:10px 14px;text-align:left;font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#94a3b8;background:#f8fafc;border-bottom:1px solid #e2e8f0}
+    td{padding:11px 14px;font-size:.85rem;border-bottom:1px solid #f1f5f9;vertical-align:middle}
+    tr:last-child td{border:none}
+    tr:hover td{background:#fafafa}
+    .badge{display:inline-flex;align-items:center;gap:4px;padding:2px 9px;border-radius:20px;font-size:.7rem;font-weight:700}
+    .b-green{background:#dcfce7;color:#15803d}
+    .b-yellow{background:#fef3c7;color:#92400e}
+    .b-red{background:#fef2f2;color:#dc2626}
+    .b-blue{background:#eff6ff;color:#1d4ed8}
+    .action-btn{padding:4px 10px;border-radius:6px;font-size:.73rem;font-weight:600;cursor:pointer;border:1px solid #e2e8f0;background:#fff;font-family:inherit;transition:all .15s;white-space:nowrap}
+    .action-btn:hover{border-color:#1a73e8;color:#1a73e8}
+    .pkg-img{width:48px;height:36px;border-radius:6px;object-fit:cover;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+    /* Modal */
+    .modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:900;display:none;align-items:flex-start;justify-content:center;padding:20px;overflow-y:auto}
+    .modal-ov.show{display:flex}
+    .modal-box{background:#fff;border-radius:20px;padding:28px;width:100%;max-width:700px;margin:auto;box-shadow:0 24px 80px rgba(0,0,0,.3)}
+    .modal-title{font-size:1rem;font-weight:700;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .form-full{grid-column:1/-1}
+    .fg label{font-size:.72rem;font-weight:700;display:block;margin-bottom:4px;color:#374151;text-transform:uppercase;letter-spacing:.05em}
+    .fg{margin-bottom:2px}
+    .tab-row{display:flex;gap:4px;margin-bottom:20px;border-bottom:2px solid #e2e8f0}
+    .mtab{padding:10px 16px;font-size:.85rem;font-weight:600;cursor:pointer;color:#64748b;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .15s;background:none;border-top:none;border-left:none;border-right:none;font-family:inherit}
+    .mtab.active{color:#1a73e8;border-bottom-color:#1a73e8}
+    .mpanel{display:none}.mpanel.active{display:block}
+    .img-upload-area{border:2px dashed #e2e8f0;border-radius:10px;padding:20px;text-align:center;cursor:pointer;transition:all .2s;background:#fafafa}
+    .img-upload-area:hover{border-color:#1a73e8;background:#eff6ff}
+    .img-preview{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:8px}
+    .img-preview-item{position:relative}
+    .img-preview-item img{width:80px;height:60px;object-fit:cover;border-radius:6px;border:1.5px solid #e2e8f0}
+    .img-preview-item .del-img{position:absolute;top:-6px;right:-6px;width:18px;height:18px;background:#dc2626;color:#fff;border:none;border-radius:50%;font-size:.6rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
+    .itin-builder{border:1px solid #e2e8f0;border-radius:10px;overflow:hidden}
+    .itin-day-row{display:grid;grid-template-columns:50px 1fr 1fr auto;gap:8px;padding:10px 12px;border-bottom:1px solid #f1f5f9;align-items:center}
+    .itin-day-row:last-child{border:none}
+    .itin-day-num{width:32px;height:32px;border-radius:50%;background:#1a73e8;color:#fff;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700}
+    .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:#0f1923;color:#fff;padding:10px 22px;border-radius:100px;font-size:.85rem;z-index:9999;transition:transform .3s}
+    .toast.show{transform:translateX(-50%) translateY(0)}
+    .loading-row{padding:32px;text-align:center;color:#94a3b8;font-size:.9rem}
+    .avail-calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+    .avail-cell{aspect-ratio:1;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:600;cursor:pointer;transition:all .15s}
+    .avail-available{background:#dcfce7;color:#15803d}
+    .avail-blocked{background:#fef2f2;color:#dc2626}
+    .avail-today{border:2px solid #1a73e8}
+  </style>
+  <script>window.SUPABASE_URL='https://ndaurluolurdljrjbxii.supabase.co';window.SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kYXVybHVvbHVyZGxqcmpieGlpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MDY2MzksImV4cCI6MjA5MzQ4MjYzOX0.JsZXOof19JkyX7asJQ7EtoaBKqURJUYzVqXQIenCzjQ';</script>
+</head>
+<body>
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sb-logo">Zoom<span>Fly</span> ✈<div style="font-size:.65rem;color:rgba(255,255,255,.4);font-weight:400;margin-top:2px">Admin Panel</div></div>
+    <a href="/pages/admin.html" class="sb-link">📊 Overview</a>
+    <a href="/pages/admin-bookings.html" class="sb-link">🗓 Bookings</a>
+    <a href="/pages/admin-customers.html" class="sb-link">👥 Customers</a>
+    <a href="/pages/admin-packages.html" class="sb-link active">🧳 Packages</a>
+    <a href="/pages/admin-vendors.html" class="sb-link">🤝 Vendors</a>
+    <a href="/pages/admin-agents.html" class="sb-link">👤 Agents</a>
+    <div class="sb-section">Other</div>
+    <a href="/index.html" class="sb-link">🌐 View Website</a>
+    <button class="sb-link" onclick="doLogout()">🚪 Log Out</button>
+  </nav>
+  <main class="main">
+    <div class="page-hdr">
+      <div class="page-title">🧳 Package Management</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-outline" onclick="exportPackagesCSV()">⬇ Export</button>
+        <button class="btn btn-blue" onclick="openModal()">+ Add Package</button>
+      </div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat"><div class="stat-n" id="s-total">—</div><div class="stat-l">Total Packages</div></div>
+      <div class="stat"><div class="stat-n" id="s-active" style="color:#16a34a">—</div><div class="stat-l">Active</div></div>
+      <div class="stat"><div class="stat-n" id="s-featured" style="color:#f59e0b">—</div><div class="stat-l">Featured</div></div>
+      <div class="stat"><div class="stat-n" id="s-bookings" style="color:#ff6b35">—</div><div class="stat-l">Total Bookings</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-hdr">
+        <h3>All Packages</h3>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+          <input class="fc" style="width:200px" placeholder="Search packages..." id="pkg-search" oninput="filterPkgs(this.value)"/>
+          <select class="fc" style="width:140px" id="type-filter" onchange="filterPkgs(document.getElementById('pkg-search').value)">
+            <option value="">All Types</option>
+            <option value="domestic">Domestic</option>
+            <option value="international">International</option>
+          </select>
+          <select class="fc" style="width:130px" id="status-filter" onchange="filterPkgs(document.getElementById('pkg-search').value)">
+            <option value="">All Status</option>
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+            <option value="featured">Featured</option>
+          </select>
+        </div>
+      </div>
+      <div id="pkg-table"><div class="loading-row">⏳ Loading packages...</div></div>
+    </div>
+  </main>
+</div>
+
+<!-- Package Modal -->
+<div class="modal-ov" id="pkg-modal">
+  <div class="modal-box">
+    <div class="modal-title">
+      <span id="modal-heading">Add New Package</span>
+      <button onclick="closeModal()" style="background:none;border:none;cursor:pointer;color:#64748b;font-size:1.1rem">✕</button>
+    </div>
+
+    <div class="tab-row">
+      <button class="mtab active" onclick="switchMTab('basic',this)">📋 Basic Info</button>
+      <button class="mtab" onclick="switchMTab('media',this)">📸 Photos</button>
+      <button class="mtab" onclick="switchMTab('itinerary',this)">📅 Itinerary</button>
+      <button class="mtab" onclick="switchMTab('inclusions',this)">✅ Inclusions</button>
+      <button class="mtab" onclick="switchMTab('availability',this)">📆 Availability</button>
+    </div>
+
+    <input type="hidden" id="pkg-id"/>
+
+    <!-- Basic Info -->
+    <div class="mpanel active" id="mpanel-basic">
+      <div class="form-grid">
+        <div class="fg form-full"><label>Package Title *</label><input class="fc" id="p-title" placeholder="e.g. Goa Beach Escape 4D/3N" oninput="autoSlug()"/></div>
+        <div class="fg"><label>URL Slug *</label><input class="fc" id="p-slug" placeholder="goa-beach-escape"/></div>
+        <div class="fg"><label>Destination *</label><input class="fc" id="p-dest" placeholder="Goa, India"/></div>
+        <div class="fg"><label>Type</label>
+          <select class="fc" id="p-type"><option value="domestic">Domestic</option><option value="international">International</option></select></div>
+        <div class="fg"><label>Category</label>
+          <select class="fc" id="p-cat">
+            <option value="beach">Beach</option><option value="mountains">Mountains</option>
+            <option value="heritage">Heritage</option><option value="wildlife">Wildlife</option>
+            <option value="honeymoon">Honeymoon</option><option value="adventure">Adventure</option>
+            <option value="family">Family</option><option value="spiritual">Spiritual</option>
+          </select></div>
+        <div class="fg"><label>Emoji Icon</label><input class="fc" id="p-emoji" placeholder="🏖️" style="font-size:1.2rem"/></div>
+        <div class="fg"><label>Price (₹) per person *</label><input class="fc" id="p-price" type="number" placeholder="9999"/></div>
+        <div class="fg"><label>Original Price (₹)</label><input class="fc" id="p-old-price" type="number" placeholder="12999"/></div>
+        <div class="fg"><label>Duration (days)</label><input class="fc" id="p-days" type="number" placeholder="5"/></div>
+        <div class="fg"><label>Nights</label><input class="fc" id="p-nights" type="number" placeholder="4"/></div>
+        <div class="fg"><label>Min Group Size</label><input class="fc" id="p-min-group" type="number" value="2"/></div>
+        <div class="fg"><label>Rating</label><input class="fc" id="p-rating" type="number" step="0.1" min="0" max="5" value="4.8"/></div>
+        <div class="fg form-full"><label>Description</label><textarea class="fc" id="p-desc" rows="3" placeholder="Describe this package in 2-3 sentences..."></textarea></div>
+        <div class="fg"><label>Badge Label</label><input class="fc" id="p-badge" placeholder="Best Seller / Top Rated / New"/></div>
+        <div class="fg"><label>Background Gradient (CSS)</label><input class="fc" id="p-bg" placeholder="linear-gradient(135deg,#667eea,#764ba2)"/></div>
+        <div class="fg" style="display:flex;align-items:center;gap:12px;padding-top:18px">
+          <label style="display:flex;align-items:center;gap:6px;font-size:.85rem;cursor:pointer;text-transform:none;letter-spacing:0">
+            <input type="checkbox" id="p-active" checked/> Active (visible on site)
+          </label>
+          <label style="display:flex;align-items:center;gap:6px;font-size:.85rem;cursor:pointer;text-transform:none;letter-spacing:0">
+            <input type="checkbox" id="p-featured"/> Featured (homepage)
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Photos -->
+    <div class="mpanel" id="mpanel-media">
+      <div class="img-upload-area" onclick="document.getElementById('photo-upload').click()"
+           ondragover="event.preventDefault();this.style.borderColor='#1a73e8'"
+           ondragleave="this.style.borderColor='#e2e8f0'"
+           ondrop="handleDrop(event)">
+        <div class="img-preview" id="img-preview"></div>
+        <div style="font-size:2rem;margin-bottom:8px">📁</div>
+        <div style="font-size:.88rem;font-weight:600;color:#374151">Click to upload or drag & drop</div>
+        <div style="font-size:.75rem;color:#94a3b8;margin-top:4px">JPG, PNG, WebP — max 2MB each — multiple files OK</div>
+        <input type="file" id="photo-upload" accept="image/*" multiple style="display:none" onchange="uploadPhotos(this.files)"/>
+      </div>
+      <div id="upload-status" style="font-size:.78rem;margin-top:8px;color:#94a3b8;text-align:center"></div>
+      <input type="hidden" id="p-photos"/>
+    </div>
+
+    <!-- Itinerary -->
+    <div class="mpanel" id="mpanel-itinerary">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div style="font-size:.85rem;color:#64748b">Add one row per day. Click + to add more days.</div>
+        <button onclick="addItinDay()" class="btn btn-blue" style="padding:6px 14px;font-size:.8rem">+ Add Day</button>
+      </div>
+      <div class="itin-builder" id="itin-builder">
+        <div style="display:grid;grid-template-columns:50px 1fr 1fr auto;gap:8px;padding:8px 12px;background:#f8fafc;border-bottom:1px solid #e2e8f0">
+          <div style="font-size:.7rem;font-weight:700;color:#94a3b8">DAY</div>
+          <div style="font-size:.7rem;font-weight:700;color:#94a3b8">TITLE</div>
+          <div style="font-size:.7rem;font-weight:700;color:#94a3b8">DESCRIPTION</div>
+          <div></div>
+        </div>
+        <div id="itin-rows"></div>
+      </div>
+    </div>
+
+    <!-- Inclusions -->
+    <div class="mpanel" id="mpanel-inclusions">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+        <div>
+          <div style="font-size:.8rem;font-weight:700;color:#374151;margin-bottom:8px">✅ Included</div>
+          <div id="incl-list" style="display:flex;flex-direction:column;gap:6px"></div>
+          <button onclick="addIncl()" style="margin-top:8px;padding:7px 14px;border:2px dashed #e2e8f0;border-radius:8px;background:none;cursor:pointer;font-size:.82rem;color:#64748b;width:100%">+ Add Inclusion</button>
+        </div>
+        <div>
+          <div style="font-size:.8rem;font-weight:700;color:#374151;margin-bottom:8px">❌ Excluded</div>
+          <div id="excl-list" style="display:flex;flex-direction:column;gap:6px"></div>
+          <button onclick="addExcl()" style="margin-top:8px;padding:7px 14px;border:2px dashed #e2e8f0;border-radius:8px;background:none;cursor:pointer;font-size:.82rem;color:#64748b;width:100%">+ Add Exclusion</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Availability Calendar -->
+    <div class="mpanel" id="mpanel-availability">
+      <div style="font-size:.85rem;color:#64748b;margin-bottom:14px">Click dates to block (red) or unblock (green). Blocked dates won't be bookable.</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <button onclick="prevMonth()" style="padding:6px 12px;border:1px solid #e2e8f0;border-radius:8px;background:#fff;cursor:pointer">‹</button>
+        <div id="cal-month-label" style="font-weight:700;font-size:.95rem"></div>
+        <button onclick="nextMonth()" style="padding:6px 12px;border:1px solid #e2e8f0;border-radius:8px;background:#fff;cursor:pointer">›</button>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:6px">
+        ${['Su','Mo','Tu','We','Th','Fr','Sa'].map(d=>`<div style="text-align:center;font-size:.68rem;font-weight:700;color:#94a3b8;padding:4px">${d}</div>`).join('')}
+      </div>
+      <div id="avail-cal" class="avail-calendar"></div>
+      <div style="display:flex;gap:16px;margin-top:12px;font-size:.78rem">
+        <div style="display:flex;align-items:center;gap:6px"><div style="width:14px;height:14px;border-radius:4px;background:#dcfce7"></div>Available</div>
+        <div style="display:flex;align-items:center;gap:6px"><div style="width:14px;height:14px;border-radius:4px;background:#fef2f2"></div>Blocked</div>
+      </div>
+    </div>
+
+    <div id="modal-error" style="color:#dc2626;font-size:.82rem;margin-top:10px;min-height:18px"></div>
+    <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:16px">
+      <button onclick="closeModal()" class="btn btn-outline">Cancel</button>
+      <button onclick="savePackage()" class="btn btn-blue" id="save-btn">💾 Save Package</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import { supabase, requireAdmin, signOut } from '../assets/js/supabase.js';
+
+await requireAdmin();
+
+let allPkgs      = [];
+let blockedDates = new Set();
+let uploadedImgs = [];
+let itinDayCount = 0;
+let calYear      = new Date().getFullYear();
+let calMonth     = new Date().getMonth();
+
+// ── LOAD ─────────────────────────────────────────────────────
+async function loadPackages() {
+  try {
+    const [pkgRes, bookRes] = await Promise.allSettled([
+      supabase.from('packages').select('*').order('created_at', { ascending: false }),
+      supabase.from('bookings').select('service_type', { count: 'exact', head: true }).eq('service_type', 'package'),
+    ]);
+    allPkgs = pkgRes.status === 'fulfilled' ? (pkgRes.value.data || []) : [];
+    const totalBkgs = bookRes.status === 'fulfilled' ? (bookRes.value.count || 0) : 0;
+
+    document.getElementById('s-total').textContent    = allPkgs.length;
+    document.getElementById('s-active').textContent   = allPkgs.filter(p => p.is_active).length;
+    document.getElementById('s-featured').textContent = allPkgs.filter(p => p.is_featured).length;
+    document.getElementById('s-bookings').textContent = totalBkgs;
+
+    renderTable(allPkgs);
+  } catch(e) {
+    document.getElementById('pkg-table').innerHTML = `<div class="loading-row" style="color:#dc2626">Error: ${e.message}</div>`;
+  }
+}
+loadPackages();
+
+// ── RENDER TABLE ──────────────────────────────────────────────
+function renderTable(pkgs) {
+  if (!pkgs.length) {
+    document.getElementById('pkg-table').innerHTML = '<div class="loading-row">No packages found. Click + Add Package to get started.</div>';
+    return;
+  }
+  document.getElementById('pkg-table').innerHTML = `
+    <table>
+      <thead><tr><th>Package</th><th>Price</th><th>Duration</th><th>Rating</th><th>Type</th><th>Status</th><th>Actions</th></tr></thead>
+      <tbody>${pkgs.map(p => `
+        <tr>
+          <td>
+            <div style="display:flex;align-items:center;gap:10px">
+              ${p.photos?.[0]
+                ? `<img src="${p.photos[0]}" style="width:48px;height:36px;object-fit:cover;border-radius:6px" onerror="this.style.display='none'"/>`
+                : `<div style="width:48px;height:36px;border-radius:6px;background:${p.bg_gradient||'linear-gradient(135deg,#667eea,#764ba2)'};display:flex;align-items:center;justify-content:center;font-size:1.2rem">${p.emoji||'🗺️'}</div>`}
+              <div>
+                <div style="font-weight:600;font-size:.88rem">${esc(p.title)}</div>
+                <div style="font-size:.73rem;color:#94a3b8">📍 ${esc(p.destination||'')} · ${esc(p.slug||'')}</div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div style="font-weight:700;color:#1a73e8">₹${Number(p.price).toLocaleString('en-IN')}</div>
+            ${p.old_price?`<div style="font-size:.73rem;color:#94a3b8;text-decoration:line-through">₹${Number(p.old_price).toLocaleString('en-IN')}</div>`:''}
+          </td>
+          <td>${p.duration_days||'—'}D/${p.nights||'—'}N</td>
+          <td>⭐ ${p.rating||'—'} <span style="color:#94a3b8;font-size:.75rem">(${p.review_count||0})</span></td>
+          <td><span class="badge ${p.type==='international'?'b-blue':'b-green'}">${p.type==='international'?'🌍 Intl':'🇮🇳 Dom'}</span></td>
+          <td>
+            <div style="display:flex;flex-direction:column;gap:4px">
+              <span class="badge ${p.is_active?'b-green':'b-red'}">${p.is_active?'✓ Active':'✗ Inactive'}</span>
+              ${p.is_featured?'<span class="badge b-yellow">⭐ Featured</span>':''}
+            </div>
+          </td>
+          <td>
+            <div style="display:flex;gap:5px;flex-wrap:wrap">
+              <button class="action-btn" onclick="editPackage('${p.id}')">Edit</button>
+              <button class="action-btn" onclick="toggleActive('${p.id}',${p.is_active})">${p.is_active?'Deactivate':'Activate'}</button>
+              <button class="action-btn" onclick="toggleFeatured('${p.id}',${p.is_featured})">${p.is_featured?'Unfeature':'Feature'}</button>
+              <a class="action-btn" href="/pages/package-detail.html?id=${p.slug||p.id}" target="_blank" style="text-decoration:none">View</a>
+              <button class="action-btn" onclick="deletePackage('${p.id}')" style="color:#dc2626;border-color:#fecaca">Delete</button>
+            </div>
+          </td>
+        </tr>`).join('')}
+      </tbody>
+    </table>`;
+}
+
+// ── FILTER ────────────────────────────────────────────────────
+window.filterPkgs = (q) => {
+  const type   = document.getElementById('type-filter').value;
+  const status = document.getElementById('status-filter').value;
+  let f = allPkgs.filter(p =>
+    (!q || p.title?.toLowerCase().includes(q.toLowerCase()) ||
+           p.destination?.toLowerCase().includes(q.toLowerCase())) &&
+    (!type   || p.type === type) &&
+    (!status || (status==='active'?p.is_active:status==='inactive'?!p.is_active:p.is_featured))
+  );
+  renderTable(f);
+};
+
+// ── MODAL ─────────────────────────────────────────────────────
+window.openModal = () => {
+  document.getElementById('modal-heading').textContent = 'Add New Package';
+  document.getElementById('pkg-id').value = '';
+  // Clear all fields
+  ['p-title','p-slug','p-dest','p-emoji','p-price','p-old-price','p-days','p-nights',
+   'p-desc','p-badge','p-bg','p-photos'].forEach(id => {
+    const el = document.getElementById(id); if(el) el.value='';
+  });
+  document.getElementById('p-min-group').value = '2';
+  document.getElementById('p-rating').value    = '4.8';
+  document.getElementById('p-active').checked  = true;
+  document.getElementById('p-featured').checked= false;
+  document.getElementById('img-preview').innerHTML = '';
+  document.getElementById('upload-status').textContent = '';
+  document.getElementById('itin-rows').innerHTML = '';
+  document.getElementById('incl-list').innerHTML = '';
+  document.getElementById('excl-list').innerHTML = '';
+  uploadedImgs = []; itinDayCount = 0;
+  blockedDates = new Set();
+  renderCalendar();
+  // Add default inclusions
+  ['Hotel accommodation','Daily breakfast','All transfers','Sightseeing as per itinerary','Expert guide'].forEach(i => addInclWithValue(i));
+  ['Airfare','Personal expenses','Lunch & dinner','Optional activities'].forEach(i => addExclWithValue(i));
+  switchMTab('basic', document.querySelector('.mtab'));
+  document.getElementById('pkg-modal').classList.add('show');
+  document.body.style.overflow = 'hidden';
+};
+
+window.closeModal = () => {
+  document.getElementById('pkg-modal').classList.remove('show');
+  document.body.style.overflow = '';
+  document.getElementById('modal-error').textContent = '';
+};
+
+window.switchMTab = (id, el) => {
+  document.querySelectorAll('.mtab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.mpanel').forEach(p => p.classList.remove('active'));
+  if(el) el.classList.add('active');
+  document.getElementById('mpanel-'+id).classList.add('active');
+  if(id==='availability') renderCalendar();
+};
+
+window.autoSlug = () => {
+  const title = document.getElementById('p-title').value;
+  if (!document.getElementById('pkg-id').value) {
+    document.getElementById('p-slug').value = title.toLowerCase()
+      .replace(/[^a-z0-9\s-]/g,'').replace(/\s+/g,'-').replace(/-+/g,'-').trim();
+  }
+};
+
+// ── EDIT ─────────────────────────────────────────────────────
+window.editPackage = async (id) => {
+  const p = allPkgs.find(pkg => pkg.id === id);
+  if (!p) return;
+  openModal();
+  document.getElementById('modal-heading').textContent = 'Edit Package';
+  document.getElementById('pkg-id').value    = id;
+  document.getElementById('p-title').value   = p.title||'';
+  document.getElementById('p-slug').value    = p.slug||'';
+  document.getElementById('p-dest').value    = p.destination||'';
+  document.getElementById('p-type').value    = p.type||'domestic';
+  document.getElementById('p-cat').value     = p.category||'beach';
+  document.getElementById('p-emoji').value   = p.emoji||'';
+  document.getElementById('p-price').value   = p.price||'';
+  document.getElementById('p-old-price').value = p.old_price||'';
+  document.getElementById('p-days').value    = p.duration_days||'';
+  document.getElementById('p-nights').value  = p.nights||'';
+  document.getElementById('p-min-group').value = p.min_group||2;
+  document.getElementById('p-rating').value  = p.rating||4.8;
+  document.getElementById('p-desc').value    = p.description||'';
+  document.getElementById('p-badge').value   = p.badge_label||'';
+  document.getElementById('p-bg').value      = p.bg_gradient||'';
+  document.getElementById('p-active').checked = p.is_active;
+  document.getElementById('p-featured').checked = p.is_featured;
+
+  // Photos
+  uploadedImgs = [...(p.photos||[])];
+  renderImgPreviews();
+  document.getElementById('p-photos').value = uploadedImgs.join(',');
+
+  // Itinerary
+  document.getElementById('itin-rows').innerHTML = '';
+  itinDayCount = 0;
+  (p.itinerary||[]).forEach(d => addItinDayWithValues(d.day, d.title, d.desc));
+
+  // Inclusions
+  document.getElementById('incl-list').innerHTML = '';
+  document.getElementById('excl-list').innerHTML = '';
+  (p.inclusions||[]).forEach(i => addInclWithValue(i));
+  (p.exclusions||[]).forEach(i => addExclWithValue(i));
+
+  // Availability
+  blockedDates = new Set((p.blocked_dates||[]).map(d=>d));
+  renderCalendar();
+};
+
+// ── SAVE ──────────────────────────────────────────────────────
+window.savePackage = async () => {
+  const id    = document.getElementById('pkg-id').value;
+  const title = document.getElementById('p-title').value.trim();
+  const slug  = document.getElementById('p-slug').value.trim();
+  const price = parseFloat(document.getElementById('p-price').value);
+  const errEl = document.getElementById('modal-error');
+  errEl.textContent = '';
+
+  if (!title) { errEl.textContent='Title is required'; return; }
+  if (!slug)  { errEl.textContent='URL slug is required'; return; }
+  if (!price) { errEl.textContent='Price is required'; return; }
+
+  const btn = document.getElementById('save-btn');
+  btn.textContent='⏳ Saving...'; btn.disabled=true;
+
+  // Collect itinerary
+  const itinerary = [];
+  document.querySelectorAll('.itin-day-row').forEach(row => {
+    const day  = row.querySelector('.itin-day-num')?.textContent;
+    const ttl  = row.querySelector('.itin-title')?.value?.trim();
+    const desc = row.querySelector('.itin-desc')?.value?.trim();
+    if (ttl) itinerary.push({ day: parseInt(day), title: ttl, desc });
+  });
+
+  // Collect inclusions
+  const inclusions = [...document.querySelectorAll('.incl-inp')].map(i=>i.value.trim()).filter(Boolean);
+  const exclusions = [...document.querySelectorAll('.excl-inp')].map(i=>i.value.trim()).filter(Boolean);
+
+  const payload = {
+    title, slug, price,
+    destination:  document.getElementById('p-dest').value.trim(),
+    type:         document.getElementById('p-type').value,
+    category:     document.getElementById('p-cat').value,
+    emoji:        document.getElementById('p-emoji').value || '🗺️',
+    old_price:    parseFloat(document.getElementById('p-old-price').value)||null,
+    duration_days:parseInt(document.getElementById('p-days').value)||null,
+    nights:       parseInt(document.getElementById('p-nights').value)||null,
+    min_group:    parseInt(document.getElementById('p-min-group').value)||2,
+    rating:       parseFloat(document.getElementById('p-rating').value)||4.8,
+    description:  document.getElementById('p-desc').value.trim(),
+    badge_label:  document.getElementById('p-badge').value.trim()||null,
+    bg_gradient:  document.getElementById('p-bg').value.trim()||'linear-gradient(135deg,#667eea,#764ba2)',
+    is_active:    document.getElementById('p-active').checked,
+    is_featured:  document.getElementById('p-featured').checked,
+    photos:       uploadedImgs,
+    itinerary:    itinerary.length ? itinerary : null,
+    inclusions, exclusions,
+    blocked_dates:[...blockedDates],
+  };
+
+  try {
+    if (id) {
+      await supabase.from('packages').update(payload).eq('id', id);
+    } else {
+      payload.review_count = 0;
+      await supabase.from('packages').insert(payload);
+    }
+    closeModal();
+    showToast(id ? '✅ Package updated' : '✅ Package created');
+    loadPackages();
+  } catch(e) {
+    errEl.textContent = 'Error: ' + e.message;
+    btn.textContent='💾 Save Package'; btn.disabled=false;
+  }
+};
+
+// ── TOGGLE ACTIONS ────────────────────────────────────────────
+window.toggleActive = async (id, current) => {
+  await supabase.from('packages').update({ is_active: !current }).eq('id', id);
+  showToast(current ? 'Package deactivated' : 'Package activated');
+  loadPackages();
+};
+
+window.toggleFeatured = async (id, current) => {
+  await supabase.from('packages').update({ is_featured: !current }).eq('id', id);
+  showToast(current ? 'Removed from featured' : 'Added to featured');
+  loadPackages();
+};
+
+window.deletePackage = async (id) => {
+  if (!confirm('Delete this package? This cannot be undone.')) return;
+  await supabase.from('packages').delete().eq('id', id);
+  showToast('Package deleted');
+  loadPackages();
+};
+
+// ── IMAGE UPLOAD ──────────────────────────────────────────────
+window.uploadPhotos = async (files) => {
+  const status = document.getElementById('upload-status');
+  status.textContent = '⏳ Uploading...'; status.style.color='#64748b';
+  for (const file of Array.from(files)) {
+    if (file.size > 2*1024*1024) { status.textContent=`${file.name} too large (max 2MB)`; status.style.color='#dc2626'; continue; }
+    try {
+      const ext  = file.name.split('.').pop();
+      const path = `packages/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+      const { error } = await supabase.storage.from('zoomfly-images').upload(path, file);
+      if (error) throw error;
+      const { data } = supabase.storage.from('zoomfly-images').getPublicUrl(path);
+      uploadedImgs.push(data.publicUrl);
+    } catch(e) { status.textContent='Upload failed: '+e.message; status.style.color='#dc2626'; }
+  }
+  document.getElementById('p-photos').value = uploadedImgs.join(',');
+  renderImgPreviews();
+  status.textContent = `✅ ${uploadedImgs.length} photo${uploadedImgs.length>1?'s':''} uploaded`;
+  status.style.color = '#16a34a';
+};
+
+window.handleDrop = (e) => { e.preventDefault(); e.currentTarget.style.borderColor='#e2e8f0'; uploadPhotos(e.dataTransfer.files); };
+
+function renderImgPreviews() {
+  document.getElementById('img-preview').innerHTML = uploadedImgs.map((url,i) =>
+    `<div class="img-preview-item">
+      <img src="${url}" onerror="this.style.display='none'"/>
+      <button class="del-img" onclick="removeImg(${i})">✕</button>
+    </div>`
+  ).join('');
+}
+
+window.removeImg = (i) => { uploadedImgs.splice(i,1); renderImgPreviews(); document.getElementById('p-photos').value=uploadedImgs.join(','); };
+
+// ── ITINERARY BUILDER ─────────────────────────────────────────
+window.addItinDay = () => addItinDayWithValues(++itinDayCount, '', '');
+
+function addItinDayWithValues(day, title, desc) {
+  if (!document.getElementById('pkg-id').value) itinDayCount++;
+  const row = document.createElement('div');
+  row.className = 'itin-day-row';
+  row.innerHTML = `
+    <div><div class="itin-day-num">${day}</div></div>
+    <input class="fc itin-title" placeholder="Day title" value="${esc(title||'')}"/>
+    <input class="fc itin-desc"  placeholder="What happens this day..." value="${esc(desc||'')}"/>
+    <button onclick="this.closest('.itin-day-row').remove()" style="padding:4px 8px;border:1px solid #fecaca;border-radius:6px;color:#dc2626;background:#fff;cursor:pointer;font-size:.75rem">✕</button>`;
+  document.getElementById('itin-rows').appendChild(row);
+}
+
+// ── INCLUSIONS ────────────────────────────────────────────────
+window.addIncl = () => addInclWithValue('');
+window.addExcl = () => addExclWithValue('');
+
+function addInclWithValue(val) {
+  const div = document.createElement('div');
+  div.style.cssText='display:flex;gap:6px;align-items:center';
+  div.innerHTML=`<span style="color:#16a34a;font-weight:700;flex-shrink:0">✓</span><input class="fc incl-inp" value="${esc(val)}" placeholder="e.g. Hotel accommodation"/><button onclick="this.parentElement.remove()" style="border:none;background:none;color:#94a3b8;cursor:pointer;font-size:.9rem;flex-shrink:0">✕</button>`;
+  document.getElementById('incl-list').appendChild(div);
+}
+
+function addExclWithValue(val) {
+  const div = document.createElement('div');
+  div.style.cssText='display:flex;gap:6px;align-items:center';
+  div.innerHTML=`<span style="color:#dc2626;font-weight:700;flex-shrink:0">✗</span><input class="fc excl-inp" value="${esc(val)}" placeholder="e.g. Airfare"/><button onclick="this.parentElement.remove()" style="border:none;background:none;color:#94a3b8;cursor:pointer;font-size:.9rem;flex-shrink:0">✕</button>`;
+  document.getElementById('excl-list').appendChild(div);
+}
+
+// ── AVAILABILITY CALENDAR ─────────────────────────────────────
+function renderCalendar() {
+  const cal   = document.getElementById('avail-cal');
+  const label = document.getElementById('cal-month-label');
+  const first = new Date(calYear, calMonth, 1);
+  const days  = new Date(calYear, calMonth+1, 0).getDate();
+  const today = new Date().toISOString().split('T')[0];
+
+  label.textContent = first.toLocaleDateString('en-IN',{month:'long',year:'numeric'});
+  let html = '';
+  for (let i=0;i<first.getDay();i++) html+=`<div></div>`;
+  for (let d=1;d<=days;d++) {
+    const date    = `${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const blocked = blockedDates.has(date);
+    const isToday = date===today;
+    html+=`<div class="avail-cell ${blocked?'avail-blocked':'avail-available'} ${isToday?'avail-today':''}"
+      onclick="toggleDate('${date}')" title="${date}">${d}</div>`;
+  }
+  cal.innerHTML=html;
+}
+
+window.prevMonth = () => { if(--calMonth<0){calMonth=11;calYear--;} renderCalendar(); };
+window.nextMonth = () => { if(++calMonth>11){calMonth=0;calYear++;} renderCalendar(); };
+
+window.toggleDate = (date) => {
+  if(blockedDates.has(date)) blockedDates.delete(date);
+  else blockedDates.add(date);
+  renderCalendar();
+};
+
+// ── EXPORT ───────────────────────────────────────────────────
+window.exportPackagesCSV = () => {
+  const headers = ['Title','Slug','Destination','Type','Price','Old Price','Days','Nights','Rating','Active','Featured'];
+  const rows = allPkgs.map(p => [p.title,p.slug,p.destination,p.type,p.price,p.old_price||'',p.duration_days||'',p.nights||'',p.rating||'',p.is_active?'Yes':'No',p.is_featured?'Yes':'No']);
+  const csv = [headers,...rows].map(r=>r.map(v=>`"${v||''}"`).join(',')).join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
+  a.download = `zoomfly-packages-${new Date().toISOString().split('T')[0]}.csv`;
+  a.click();
+  showToast('✅ CSV downloaded');
+};
+
+// ── HELPERS ──────────────────────────────────────────────────
+function esc(s){const d=document.createElement('div');d.textContent=String(s||'');return d.innerHTML;}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
+window.doLogout = async () => { await signOut(); };
+</script>
+</body>
+</html>
