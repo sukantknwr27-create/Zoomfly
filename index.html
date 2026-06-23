@@ -704,7 +704,7 @@ window.exitPopupSubscribe = async (e) => {
   if (!email) return;
   try {
     const { supabase: sb } = await import('/assets/js/supabase.js');
-    await sb.from('newsletter_subscribers').insert({ email, source: 'exit_intent' });
+    await sb.from('newsletter').insert({ email, source: 'exit_intent' });
   } catch(_) {}
   msg.textContent = '🎉 Deal unlocked! Code FIRST10 saved to your clipboard.';
   navigator.clipboard.writeText('FIRST10').catch(()=>{});
@@ -774,7 +774,7 @@ window.submitNewsletter = async (e) => {
     // Use already-loaded Supabase client from main.js global scope
     const { supabase: sb } = await import('/assets/js/supabase.js');
     const { error } = await sb
-      .from('newsletter_subscribers')
+      .from('newsletter')
       .insert({ email, source: 'homepage', subscribed_at: new Date().toISOString() });
 
     if (error?.code === '23505') {

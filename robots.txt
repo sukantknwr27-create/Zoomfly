@@ -8,11 +8,17 @@ Disallow: /pages/admin-vendors.html
 Disallow: /pages/admin-agents.html
 Disallow: /pages/admin-workflow.html
 Disallow: /pages/admin-whatsapp-templates.html
+Disallow: /pages/admin-reminders.html
+Disallow: /pages/admin-customers.html
+Disallow: /pages/admin-packages.html
 Disallow: /pages/dashboard.html
 Disallow: /pages/my-bookings.html
 Disallow: /pages/payment.html
 Disallow: /pages/booking-confirmation.html
 Disallow: /pages/login.html
+Disallow: /pages/messages.html
+Disallow: /pages/trip-tracker.html
+Disallow: /pages/co-travellers.html
 Disallow: /pages/vendor-portal.html
 Disallow: /pages/agent-portal.html
 
