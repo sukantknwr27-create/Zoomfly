@@ -407,29 +407,175 @@ window.uploadDoc = (input) => {
 };
 
 // ── ACTIONS ──────────────────────────────────────────────────
-window.downloadItinerary = (bookingId) => {
-  const b = allBookings.find(bk=>bk.id===bookingId);
+window.downloadItinerary = async (bookingId) => {
+  const b = allBookings.find(bk => bk.id === bookingId);
   if (!b) return;
-  const td     = b.travel_details || {};
-  const itin   = td.itinerary || [];
-  const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"/><title>Itinerary — ${b.service_name}</title>
-  <style>body{font-family:Arial,sans-serif;max-width:700px;margin:40px auto;color:#1e293b;font-size:13px}
-  .header{border-bottom:3px solid #1a73e8;padding-bottom:20px;margin-bottom:24px}
-  .brand{font-size:20px;font-weight:800;color:#1a73e8}h1{font-size:18px;margin:8px 0 4px}
-  .meta{color:#64748b;font-size:12px}.day{margin-bottom:20px;padding:14px 16px;background:#f8fafc;border-radius:8px;border-left:3px solid #1a73e8}
-  .day-num{font-size:11px;font-weight:700;color:#1a73e8;text-transform:uppercase;letter-spacing:.06em}
-  .day-title{font-weight:700;font-size:14px;margin:3px 0}.day-desc{color:#64748b;line-height:1.7}
-  .footer{margin-top:32px;padding-top:16px;border-top:1px solid #e2e8f0;font-size:11px;color:#94a3b8;display:flex;justify-content:space-between}
-  @media print{body{margin:20px}}</style></head>
-  <body><div class="header"><div class="brand">ZoomFly ✈</div>
-  <h1>${b.service_name}</h1>
-  <div class="meta">Booking Ref: ${b.booking_ref||'—'} · Travel Date: ${fmtDate(b.travel_date)} · ${b.num_adults||1} Traveller${b.num_adults>1?'s':''}</div></div>
-  ${itin.length ? itin.map(d=>`<div class="day"><div class="day-num">Day ${d.day}</div><div class="day-title">${d.title}</div><div class="day-desc">${d.desc||''}</div></div>`).join('') : '<p style="color:#94a3b8">No itinerary details available. Contact us for a full day-by-day plan.</p>'}
-  <div class="footer"><div>ZoomFly Travel Services · hello@zoomfly.in · +91 80761 36300</div><div>Generated ${new Date().toLocaleDateString('en-IN')}</div></div>
-  <button onclick="window.print()" style="margin-top:20px;background:#1a73e8;color:#fff;border:none;border-radius:8px;padding:10px 24px;font-size:13px;font-weight:700;cursor:pointer;display:block">🖨 Print / Save as PDF</button>
-  </body></html>`;
-  const w = window.open('','_blank');
-  w.document.write(html); w.document.close(); w.focus();
+  showToast('⏳ Generating PDF…');
+
+  // Dynamically load jsPDF
+  if (!window.jspdf) {
+    await new Promise((resolve, reject) => {
+      const s = document.createElement('script');
+      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+      s.onload = resolve; s.onerror = reject;
+      document.head.appendChild(s);
+    });
+  }
+
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+  const W = doc.internal.pageSize.getWidth();
+  const H = doc.internal.pageSize.getHeight();
+  const margin = 18;
+  const contentW = W - margin * 2;
+  let y = 0;
+
+  const td   = b.travel_details || {};
+  const itin = td.itinerary || [];
+  const inclusions = td.inclusions || [];
+  const travellers = b.num_adults || 1;
+
+  // ── Helper: add new page if needed ──
+  const checkPage = (needed = 20) => {
+    if (y + needed > H - 20) { doc.addPage(); y = 18; }
+  };
+
+  // ── HEADER BAND ──
+  doc.setFillColor(26, 115, 232);
+  doc.rect(0, 0, W, 42, 'F');
+
+  // Brand
+  doc.setTextColor(255, 255, 255);
+  doc.setFontSize(20); doc.setFont('helvetica', 'bold');
+  doc.text('ZoomFly ✈', margin, 16);
+
+  doc.setFontSize(9); doc.setFont('helvetica', 'normal');
+  doc.text('Your Trusted Travel Partner · www.zoomfly.in', margin, 22);
+
+  // Title
+  doc.setFontSize(14); doc.setFont('helvetica', 'bold');
+  const title = (b.service_name || 'Trip Itinerary').slice(0, 55);
+  doc.text(title, margin, 34);
+  y = 52;
+
+  // ── BOOKING META ──
+  doc.setFillColor(239, 246, 255);
+  doc.roundedRect(margin, y, contentW, 26, 3, 3, 'F');
+  doc.setTextColor(30, 41, 59);
+  doc.setFontSize(8); doc.setFont('helvetica', 'bold');
+
+  const meta = [
+    ['Booking Ref', b.booking_ref || '—'],
+    ['Travel Date', fmtDate(b.travel_date)],
+    ['Travellers', `${travellers} Adult${travellers > 1 ? 's' : ''}`],
+    ['Status', (b.status || '').toUpperCase()],
+  ];
+  const colW = contentW / meta.length;
+  meta.forEach(([label, val], i) => {
+    const x = margin + i * colW + 8;
+    doc.setFont('helvetica', 'bold'); doc.setTextColor(100, 116, 139); doc.setFontSize(7);
+    doc.text(label.toUpperCase(), x, y + 9);
+    doc.setFont('helvetica', 'bold'); doc.setTextColor(15, 25, 35); doc.setFontSize(9);
+    doc.text(val, x, y + 18);
+  });
+  y += 34;
+
+  // ── ITINERARY ──
+  if (itin.length) {
+    checkPage(16);
+    doc.setFontSize(12); doc.setFont('helvetica', 'bold');
+    doc.setTextColor(15, 25, 35);
+    doc.text('Day-by-Day Itinerary', margin, y); y += 8;
+
+    // Divider
+    doc.setDrawColor(226, 232, 240); doc.setLineWidth(0.4);
+    doc.line(margin, y, W - margin, y); y += 6;
+
+    itin.forEach(day => {
+      checkPage(28);
+      // Day pill
+      doc.setFillColor(26, 115, 232);
+      doc.roundedRect(margin, y, 18, 7, 2, 2, 'F');
+      doc.setTextColor(255, 255, 255); doc.setFontSize(7.5); doc.setFont('helvetica', 'bold');
+      doc.text(`Day ${day.day}`, margin + 2.5, y + 5);
+
+      // Day title
+      doc.setTextColor(15, 25, 35); doc.setFontSize(10); doc.setFont('helvetica', 'bold');
+      doc.text(day.title || '', margin + 22, y + 5.5);
+      y += 11;
+
+      // Day description
+      if (day.desc) {
+        doc.setTextColor(100, 116, 139); doc.setFontSize(8.5); doc.setFont('helvetica', 'normal');
+        const lines = doc.splitTextToSize(day.desc, contentW - 4);
+        lines.forEach(line => {
+          checkPage(6);
+          doc.text(line, margin + 2, y); y += 5.2;
+        });
+      }
+
+      // Connector dot
+      doc.setFillColor(191, 219, 254);
+      doc.circle(margin + 9, y + 2, 1.2, 'F');
+      y += 7;
+    });
+  } else {
+    checkPage(20);
+    doc.setFillColor(248, 250, 252);
+    doc.roundedRect(margin, y, contentW, 20, 3, 3, 'F');
+    doc.setTextColor(148, 163, 184); doc.setFontSize(9); doc.setFont('helvetica', 'normal');
+    doc.text('No detailed itinerary available. Contact us for a full day-by-day plan.', margin + 8, y + 12);
+    y += 28;
+  }
+
+  // ── INCLUSIONS ──
+  if (inclusions.length) {
+    checkPage(24);
+    y += 4;
+    doc.setFontSize(11); doc.setFont('helvetica', 'bold'); doc.setTextColor(15, 25, 35);
+    doc.text("What's Included", margin, y); y += 8;
+    doc.setDrawColor(226, 232, 240); doc.line(margin, y, W - margin, y); y += 5;
+
+    const cols = 2; const itemW = contentW / cols;
+    inclusions.forEach((inc, i) => {
+      if (i % cols === 0) checkPage(8);
+      const x = margin + (i % cols) * itemW;
+      doc.setFillColor(220, 252, 231); doc.circle(x + 3, y + 1.5, 1.5, 'F');
+      doc.setTextColor(21, 128, 61); doc.setFontSize(7); doc.setFont('helvetica', 'bold');
+      doc.text('✓', x + 1.5, y + 2.5);
+      doc.setTextColor(55, 65, 81); doc.setFontSize(8.5); doc.setFont('helvetica', 'normal');
+      doc.text(inc, x + 7, y + 2.5);
+      if (i % cols === cols - 1 || i === inclusions.length - 1) y += 7;
+    });
+    y += 4;
+  }
+
+  // ── CONTACT BOX ──
+  checkPage(28);
+  y += 4;
+  doc.setFillColor(15, 25, 35);
+  doc.roundedRect(margin, y, contentW, 22, 3, 3, 'F');
+  doc.setTextColor(255, 255, 255); doc.setFontSize(9); doc.setFont('helvetica', 'bold');
+  doc.text('Need Help?', margin + 8, y + 8);
+  doc.setFont('helvetica', 'normal'); doc.setFontSize(8);
+  doc.text('📞 +91 80761 36300    ✉ hello@zoomfly.in    🌐 www.zoomfly.in', margin + 8, y + 15);
+  y += 28;
+
+  // ── FOOTER ──
+  const pageCount = doc.internal.getNumberOfPages();
+  for (let p = 1; p <= pageCount; p++) {
+    doc.setPage(p);
+    doc.setFillColor(248, 250, 252);
+    doc.rect(0, H - 12, W, 12, 'F');
+    doc.setTextColor(148, 163, 184); doc.setFontSize(7.5); doc.setFont('helvetica', 'normal');
+    doc.text(`ZoomFly Travel Services · Generated ${new Date().toLocaleDateString('en-IN')}`, margin, H - 5);
+    doc.text(`Page ${p} of ${pageCount}`, W - margin, H - 5, { align: 'right' });
+  }
+
+  // ── SAVE ──
+  const filename = `ZoomFly-Itinerary-${(b.booking_ref || bookingId.slice(0,8)).replace(/[^a-zA-Z0-9]/g,'-')}.pdf`;
+  doc.save(filename);
+  showToast('✅ Itinerary PDF downloaded!');
 };
 
 window.requestModification = (bookingId, name) => {

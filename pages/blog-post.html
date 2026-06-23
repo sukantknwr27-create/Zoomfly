@@ -35,6 +35,8 @@ window.SUPABASE_URL="https://ndaurluolurdljrjbxii.supabase.co";
 window.SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kYXVybHVvbHVyZGxqcmpieGlpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MDY2MzksImV4cCI6MjA5MzQ4MjYzOX0.JsZXOof19JkyX7asJQ7EtoaBKqURJUYzVqXQIenCzjQ";
 window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/);return m?m[1]:null;};
 </script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"ZoomFly","url":"https://www.zoomfly.in","logo":"https://www.zoomfly.in/assets/logo.svg","sameAs":["https://www.instagram.com/zoomfly.in"]}</script>
+<script id="blog-schema" type="application/ld+json">{}</script>
 </head>
 <body data-page="blog">
 <header class="nav" id="mainNav"></header>
@@ -306,6 +308,27 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('postTags').innerHTML = post.tags.map(t => `<span class="post-tag">${t}</span>`).join('');
   document.getElementById('authorName').textContent = post.author;
   document.getElementById('authorAvatar').textContent = post.author.split(' ').map(n=>n[0]).join('');
+
+  // ── BlogPosting Schema ───────────────────────────────────
+  const blogSchema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": post.title,
+    "description": post.excerpt || post.title,
+    "image": `https://www.zoomfly.in/assets/og-image.jpg`,
+    "author": { "@type": "Person", "name": post.author },
+    "publisher": {
+      "@type": "Organization",
+      "name": "ZoomFly",
+      "logo": { "@type": "ImageObject", "url": "https://www.zoomfly.in/assets/logo.svg" }
+    },
+    "datePublished": post.date,
+    "dateModified": post.date,
+    "mainEntityOfPage": { "@type": "WebPage", "@id": window.location.href },
+    "keywords": (post.tags || []).join(', ')
+  };
+  const schemaEl = document.getElementById('blog-schema');
+  if (schemaEl) schemaEl.textContent = JSON.stringify(blogSchema);
 });
 </script>
 </body>
