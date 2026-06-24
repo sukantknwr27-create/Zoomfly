@@ -204,6 +204,12 @@ window.switchTab = (tab) => {
   document.getElementById('success-panel').classList.remove('show');
 };
 
+// Auto-switch tab based on URL param (?tab=signup or ?register=1)
+const _urlParams = new URLSearchParams(window.location.search);
+if (_urlParams.get('tab') === 'signup' || _urlParams.get('register') === '1') {
+  switchTab('signup');
+}
+
 window.togglePw = (id, btn) => {
   const inp = document.getElementById(id);
   inp.type = inp.type==='password'?'text':'password';

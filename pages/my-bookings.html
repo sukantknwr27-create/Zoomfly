@@ -881,7 +881,6 @@ function fmtDate(d){
   try{return new Date(d).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});}
   catch(_){return d;}
 }
-function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 function capitalize(s){ return s?s.charAt(0).toUpperCase()+s.slice(1):'—'; }
 function svcIcon(t){ return{flight:'✈️',hotel:'🏨',package:'🧳',bus:'🚌',cab:'🚖'}[t]||'📦'; }
 function statusLabel(s){

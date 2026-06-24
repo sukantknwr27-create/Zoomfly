@@ -295,20 +295,30 @@
                  font-weight:800;color:#0f1923;">Frequently Asked <em style="color:var(--blue)">Questions</em></h2>
     </div>
     <div id="faqList">
-      ${[
-        ['When do I receive my ₹500 credit?','Within 24 hours of your referred friend completing their first booking (minimum ₹5,000 transaction value). You\'ll get a WhatsApp notification when it\'s credited.'],
-        ['Is there a limit on how many friends I can refer?','No limit at all. Refer 10 friends, earn ₹5,000. Refer 100, earn ₹50,000. There\'s no cap on referral earnings.'],
-        ['How long does my referral link stay active?','Your referral link never expires. Share it anytime and earn whenever someone books through it.'],
-        ['What counts as a qualifying booking?','Any completed and paid booking on ZoomFly with a minimum value of ₹5,000 — flights, hotels, packages, buses, or cabs all qualify.'],
-        ['Can I refer someone who already has a ZoomFly account?','No — the referral credit is only awarded for new customers who sign up using your link and make their first booking.'],
-        ['Where do my earned credits go?','Credits are added to your ZoomFly wallet and can be used on any future booking. They\'re valid for 12 months from the date earned.'],
-      ].map(([q,a],i) => `
-        <div class="faq-item">
-          <div class="faq-q" onclick="toggleFaq(${i})">
-            ${q} <span id="faq-icon-${i}">+</span>
-          </div>
-          <div class="faq-a" id="faq-a-${i}">${a}</div>
-        </div>`).join('')}
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(0)">When do I receive my ₹500 credit? <span id="faq-icon-0">+</span></div>
+        <div class="faq-a" id="faq-a-0">Within 24 hours of your referred friend completing their first booking (minimum ₹5,000 transaction value). You'll get a WhatsApp notification when it's credited.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(1)">Is there a limit on how many friends I can refer? <span id="faq-icon-1">+</span></div>
+        <div class="faq-a" id="faq-a-1">No limit at all. Refer 10 friends, earn ₹5,000. Refer 100, earn ₹50,000. There's no cap on referral earnings.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(2)">How long does my referral link stay active? <span id="faq-icon-2">+</span></div>
+        <div class="faq-a" id="faq-a-2">Your referral link never expires. Share it anytime and earn whenever someone books through it.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(3)">What counts as a qualifying booking? <span id="faq-icon-3">+</span></div>
+        <div class="faq-a" id="faq-a-3">Any completed and paid booking on ZoomFly with a minimum value of ₹5,000 — flights, hotels, packages, buses, or cabs all qualify.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(4)">Can I refer someone who already has a ZoomFly account? <span id="faq-icon-4">+</span></div>
+        <div class="faq-a" id="faq-a-4">No — the referral credit is only awarded for new customers who sign up using your link and make their first booking.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(5)">Where do my earned credits go? <span id="faq-icon-5">+</span></div>
+        <div class="faq-a" id="faq-a-5">Credits are added to your ZoomFly wallet and can be used on any future booking. They're valid for 12 months from the date earned.</div>
+      </div>
     </div>
   </div>
 </section>

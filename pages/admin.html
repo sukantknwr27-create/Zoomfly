@@ -463,7 +463,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
       </div>
 
       <!-- Add Promo Modal -->
-      <div id="promo-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999;display:none;align-items:center;justify-content:center">
+      <div id="promo-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999;align-items:center;justify-content:center">
         <div style="background:#fff;border-radius:16px;padding:2rem;max-width:480px;width:90%">
           <h3 style="margin-bottom:1.5rem">Add / Edit Promo Code</h3>
           <input type="hidden" id="promo-id"/>
@@ -579,13 +579,13 @@ if (!_adminUser) {
 const _adminRole = _adminUser.app_metadata?.role || _adminUser.user_metadata?.role;
 if (_adminRole !== 'admin') {
   // Try profiles table as fallback
+  let _isAdmin = false;
   try {
     const { data: _prof } = await supabase.from('profiles').select('role').eq('id', _adminUser.id).single();
-    if (_prof?.role !== 'admin') {
-      window.location.replace('/pages/admin-login.html?reason=access_denied');
-      throw new Error('redirect');
-    }
-  } catch {
+    _isAdmin = _prof?.role === 'admin';
+  } catch {}
+  if (!_isAdmin) {
+    await supabase.auth.signOut();
     window.location.replace('/pages/admin-login.html?reason=access_denied');
     throw new Error('redirect');
   }
