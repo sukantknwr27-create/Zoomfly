@@ -1385,7 +1385,7 @@ window.show = (id, el) => {
   if(id==='cabs')            loadCabs();
   if(id==='flights-mgmt')    loadFlightEnquiries();
   if(id==='travel-partners') loadTravelPartners();
-  if(id==='site-settings')   { loadSiteSettings(); loadPageContent(); }
+  if(id==='site-settings')   {window.loadSiteSettings(); loadPageContent(); }
   if(id==='loyalty')         loadLoyalty();
   if(id==='hotels')          loadHotels();
   if(id==='destinations')    loadDestinations();
