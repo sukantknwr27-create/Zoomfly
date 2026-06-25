@@ -1005,7 +1005,7 @@ window.saveSettings = async () => {
 };
 
 // Load site settings on page open
-async function loadSiteSettings() {
+window.loadSiteSettings = async () => {
   try {
     const { data } = await supabase.from('site_settings').select('*').eq('id', 1).single();
     if (data) {
