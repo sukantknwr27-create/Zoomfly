@@ -1065,12 +1065,15 @@ window.savePageContent = async () => {
   }
 };
   const settings = {
-    company_name:    document.getElementById('ss-name').value,
-    gstin:           document.getElementById('ss-gstin').value,
-    support_phone:   document.getElementById('ss-phone').value,
-    support_email:   document.getElementById('ss-email').value,
+    id: 1,
+    site_name: document.getElementById('ss-name').value,
+    gstin: document.getElementById('ss-gstin').value,
     whatsapp_number: document.getElementById('ss-wa').value,
-  };
+    admin_email: document.getElementById('ss-email').value,
+    logo_url: document.getElementById('ss-logo').value,
+    favicon_url: document.getElementById('ss-favicon').value,
+    updated_at: new Date().toISOString()
+};
   try {
     await supabase.from('site_settings').upsert({ id: 1, ...settings });
     toast('Settings saved successfully');
