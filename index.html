@@ -782,7 +782,7 @@ window.submitNewsletter = async (e) => {
     const { supabase: sb } = await import('/assets/js/supabase.js');
     const { error } = await sb
       .from('newsletter')
-      .insert({ email, source: 'homepage', subscribed_at: new Date().toISOString() });
+      .insert({ email, source: 'homepage' });
 
     if (error?.code === '23505') {
       success("You're already subscribed! 🎉 Great deals coming your way.");
