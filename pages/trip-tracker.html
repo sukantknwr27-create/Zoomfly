@@ -177,7 +177,8 @@
 <script src="/assets/js/main.js"></script>
 
 <script type="module">
-import { supabase, requireAuth, getMyBookings, getTravelDocuments, saveTravelDocument } from '../assets/js/supabase.js';
+import { supabase, requireAuth, getMyBookings, getTravelDocuments, saveTravelDocument , loadNav } from '../assets/js/supabase.js';
+loadNav();
 
 await requireAuth();
 const WA = '918076136300';

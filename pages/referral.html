@@ -329,7 +329,8 @@
 <script src="/assets/js/main.js"></script>
 
 <script type="module">
-import { supabase, getUser, getProfile } from '../assets/js/supabase.js';
+import { supabase, getUser, getProfile, loadNav } from '../assets/js/supabase.js';
+loadNav();
 
 let userRef  = null;
 let userData = null;

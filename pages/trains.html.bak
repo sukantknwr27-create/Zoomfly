@@ -257,36 +257,19 @@
     <div class="section-label">Why Book with Us</div>
     <h2 class="section-title">Train Booking <em>Benefits</em></h2>
     <div class="features-grid">
+      ${[
+        ['🎟','Tatkal Booking','Book Tatkal tickets with zero hassle — we handle the rush for you'],
+        ['💰','Best Prices','No hidden charges. Pay exactly what IRCTC charges, plus our nominal service fee'],
+        ['📱','WhatsApp Updates','Get real-time booking confirmations and PNR updates on WhatsApp'],
+        ['👥','Group Booking','Book for up to 6 passengers in one go with co-traveller profiles'],
+        ['🔄','Instant Refund','Cancellation refunds processed within 5-7 business days'],
+        ['🛡','Secure Payment','100% secure payments via Razorpay — UPI, cards, net banking'],
+      ].map(([icon,t,d]) => `
         <div class="feat-card">
-          <div class="feat-icon">🎟</div>
-          <div class="feat-title">Tatkal Booking</div>
-          <div class="feat-desc">Book Tatkal tickets with zero hassle — we handle the rush for you</div>
-        </div>
-        <div class="feat-card">
-          <div class="feat-icon">💰</div>
-          <div class="feat-title">Best Prices</div>
-          <div class="feat-desc">No hidden charges. Pay exactly what IRCTC charges, plus our nominal service fee</div>
-        </div>
-        <div class="feat-card">
-          <div class="feat-icon">📱</div>
-          <div class="feat-title">WhatsApp Updates</div>
-          <div class="feat-desc">Get real-time booking confirmations and PNR updates on WhatsApp</div>
-        </div>
-        <div class="feat-card">
-          <div class="feat-icon">👥</div>
-          <div class="feat-title">Group Booking</div>
-          <div class="feat-desc">Book for up to 6 passengers in one go with co-traveller profiles</div>
-        </div>
-        <div class="feat-card">
-          <div class="feat-icon">🔄</div>
-          <div class="feat-title">Instant Refund</div>
-          <div class="feat-desc">Cancellation refunds processed within 5–7 business days</div>
-        </div>
-        <div class="feat-card">
-          <div class="feat-icon">🛡</div>
-          <div class="feat-title">Secure Payment</div>
-          <div class="feat-desc">100% secure payments via Razorpay — UPI, cards, net banking</div>
-        </div>
+          <div class="feat-icon">${icon}</div>
+          <div class="feat-title">${t}</div>
+          <div class="feat-desc">${d}</div>
+        </div>`).join('')}
     </div>
   </div>
 </section>
@@ -337,8 +320,7 @@
 <script src="/assets/js/main.js"></script>
 
 <script type="module">
-import { supabase, bookTrain, getUser, getCotravellers , loadNav } from '../assets/js/supabase.js';
-loadNav();
+import { supabase, bookTrain, getUser, getCotravellers } from '../assets/js/supabase.js';
 
 const WA = '918076136300';
 const DAYS = ['M','T','W','T','F','S','S'];

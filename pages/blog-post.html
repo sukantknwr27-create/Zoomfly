@@ -331,5 +331,9 @@ document.addEventListener('DOMContentLoaded', () => {
   if (schemaEl) schemaEl.textContent = JSON.stringify(blogSchema);
 });
 </script>
+<script type="module">
+import { loadNav } from '../assets/js/supabase.js';
+loadNav();
+</script>
 </body>
 </html>
