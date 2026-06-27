@@ -6,9 +6,9 @@
 //   https://YOUR_PROJECT_ID.supabase.co/functions/v1/razorpay-webhook
 // ============================================================
 
-import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
+import { serve } from 'https://deno.land/std@0.224.0/http/server.ts';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
-import { crypto } from 'https://deno.land/std@0.168.0/crypto/mod.ts';
+import { crypto } from 'https://deno.land/std@0.224.0/crypto/mod.ts';
 
 async function verifyWebhookSignature(body: string, signature: string, secret: string): Promise<boolean> {
   const encoder = new TextEncoder();
