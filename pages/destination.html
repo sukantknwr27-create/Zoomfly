@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title id="pageTitle">Destination — ZoomFly</title>
+  <meta name="description" id="metaDesc" content="Explore tour packages and travel guides for top destinations in India and abroad."/>
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"/>
+  <link rel="stylesheet" href="/assets/css/main.css"/>
+  <style>
+    .dest-hero{min-height:420px;position:relative;display:flex;align-items:flex-end;overflow:hidden;background:#0f1923}
+    .dest-hero-img{position:absolute;inset:0;object-fit:cover;width:100%;height:100%;opacity:.65}
+    .dest-hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.8) 0%,rgba(0,0,0,.2) 60%)}
+    .dest-hero-content{position:relative;z-index:1;padding:40px 5% 48px;width:100%;max-width:1200px;margin:0 auto}
+    .dest-hero-pill{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:4px 14px;font-size:.75rem;font-weight:600;color:#fff;margin-bottom:12px}
+    .dest-hero h1{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);font-weight:800;color:#fff;line-height:1.15;margin-bottom:10px}
+    .dest-hero p{color:rgba(255,255,255,.7);font-size:1rem;max-width:560px;line-height:1.7;margin-bottom:20px}
+    .hero-stats{display:flex;gap:24px;flex-wrap:wrap}
+    .hero-stat{text-align:center}
+    .hero-stat-n{font-size:1.4rem;font-weight:800;color:#f59e0b}
+    .hero-stat-l{font-size:.72rem;color:rgba(255,255,255,.6);margin-top:2px}
+    .breadcrumb{font-size:.8rem;color:rgba(255,255,255,.5);margin-bottom:12px}
+    .breadcrumb a{color:rgba(255,255,255,.7);text-decoration:none}
+    .breadcrumb a:hover{color:#fff}
+
+    /* Quick info bar */
+    .info-bar{background:#fff;border-bottom:1px solid #e2e8f0;padding:14px 5%;display:flex;gap:24px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+    .info-item{display:flex;align-items:center;gap:8px;white-space:nowrap;font-size:.85rem;color:#374151;font-weight:500}
+    .info-item span{font-size:1.1rem}
+
+    /* Sections */
+    .section{padding:64px 5%}
+    .section-alt{background:#f8fafc}
+    .section-label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#94a3b8;margin-bottom:8px}
+    .section-title{font-family:'Playfair Display',serif;font-size:clamp(1.5rem,3vw,2.1rem);font-weight:800;color:#0f1923;margin-bottom:28px}
+    .section-title em{color:#1a73e8;font-style:normal}
+
+    /* Packages */
+    .pkgs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:22px}
+
+    /* Itinerary */
+    .itin-timeline{position:relative;padding-left:32px}
+    .itin-timeline::before{content:'';position:absolute;left:10px;top:0;bottom:0;width:2px;background:#e2e8f0}
+    .itin-day{position:relative;margin-bottom:28px}
+    .itin-dot{position:absolute;left:-26px;top:4px;width:16px;height:16px;border-radius:50%;background:#1a73e8;border:2px solid #fff;box-shadow:0 0 0 3px #bfdbfe}
+    .itin-day h4{font-weight:700;font-size:.95rem;color:#0f1923;margin-bottom:4px}
+    .itin-day p{font-size:.85rem;color:#64748b;line-height:1.7}
+
+    /* Best time */
+    .months-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:4px;margin-top:14px}
+    .month-cell{text-align:center;padding:8px 4px;border-radius:8px;font-size:.7rem;font-weight:600}
+    .month-cell.peak{background:#1a73e8;color:#fff}
+    .month-cell.good{background:#dcfce7;color:#15803d}
+    .month-cell.off{background:#f1f5f9;color:#94a3b8}
+    .month-name{font-size:.65rem;display:block;margin-top:3px}
+
+    /* Tips */
+    .tips-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
+    .tip-card{background:#fff;border-radius:12px;padding:18px;border:1px solid #e2e8f0}
+    .tip-icon{font-size:1.8rem;margin-bottom:8px}
+    .tip-title{font-weight:700;font-size:.9rem;color:#0f1923;margin-bottom:4px}
+    .tip-text{font-size:.82rem;color:#64748b;line-height:1.6}
+
+    /* FAQ */
+    .faq-item{border-bottom:1px solid #e2e8f0;padding:16px 0}
+    .faq-q{font-weight:700;font-size:.92rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;color:#0f1923}
+    .faq-a{font-size:.85rem;color:#64748b;line-height:1.7;margin-top:10px;display:none}
+    .faq-a.open{display:block}
+
+    /* CTA */
+    .cta-section{background:linear-gradient(135deg,#0f1923,#1a2535);padding:64px 5%;text-align:center}
+    .cta-section h2{font-family:'Playfair Display',serif;font-size:clamp(1.5rem,3vw,2.2rem);font-weight:800;color:#fff;margin-bottom:12px}
+    .cta-section p{color:rgba(255,255,255,.6);margin-bottom:28px}
+    .cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+    .btn-cta{padding:13px 28px;border-radius:10px;font-size:.92rem;font-weight:700;cursor:pointer;border:none;font-family:inherit;transition:all .2s}
+    .btn-cta-primary{background:#f59e0b;color:#000}
+    .btn-cta-wa{background:#25d366;color:#fff}
+
+    /* Schema */
+    .schema-breadcrumb{display:none}
+    /* Last-minute deal cards */
+    .deal-card{background:#fff;border-radius:16px;overflow:hidden;border:1px solid #e2e8f0;transition:transform .2s,box-shadow .2s;position:relative}
+    .deal-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,.12)}
+    .deal-badge{position:absolute;top:12px;left:12px;background:#ef4444;color:#fff;font-size:.7rem;font-weight:800;padding:4px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:.04em}
+    .deal-days{position:absolute;top:12px;right:12px;background:rgba(0,0,0,.65);color:#fff;font-size:.72rem;font-weight:700;padding:4px 10px;border-radius:20px}
+    .deal-img{width:100%;height:160px;object-fit:cover;background:#e2e8f0;display:block}
+    .deal-body{padding:14px 16px}
+    .deal-name{font-size:.95rem;font-weight:700;color:#0f1923;margin-bottom:4px}
+    .deal-date{font-size:.78rem;color:#64748b;margin-bottom:10px;display:flex;align-items:center;gap:5px}
+    .deal-price-row{display:flex;align-items:baseline;gap:8px;margin-bottom:12px}
+    .deal-price{font-size:1.2rem;font-weight:800;color:#1a73e8}
+    .deal-was{font-size:.82rem;color:#94a3b8;text-decoration:line-through}
+    .deal-save{font-size:.75rem;font-weight:700;color:#16a34a;background:#dcfce7;padding:2px 8px;border-radius:10px}
+    .deal-book{display:block;width:100%;padding:9px;background:#1a73e8;color:#fff;border:none;border-radius:10px;font-size:.875rem;font-weight:700;cursor:pointer;text-align:center;text-decoration:none;transition:background .2s;box-sizing:border-box}
+    .deal-book:hover{background:#1557b0}
+  </style>
+  <script>window.SUPABASE_URL='https://ndaurluolurdljrjbxii.supabase.co';window.SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kYXVybHVvbHVyZGxqcmpieGlpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MDY2MzksImV4cCI6MjA5MzQ4MjYzOX0.JsZXOof19JkyX7asJQ7EtoaBKqURJUYzVqXQIenCzjQ';</script>
+</head>
+<body data-page="">
+<header class="nav nav-transparent" id="mainNav"></header>
+
+<!-- HERO (populated by JS) -->
+<section class="dest-hero" id="destHero">
+  <img id="heroImg" class="dest-hero-img" alt="" loading="eager"/>
+  <div class="dest-hero-overlay"></div>
+  <div class="dest-hero-content">
+    <div class="breadcrumb"><a href="/index.html">Home</a> › <a href="/pages/destinations.html">Destinations</a> › <span id="heroBreadcrumb"></span></div>
+    <div class="dest-hero-pill" id="heroPill">🏆 Popular Destination</div>
+    <h1 id="heroTitle">Loading...</h1>
+    <p id="heroDesc"></p>
+    <div class="hero-stats" id="heroStats"></div>
+  </div>
+</section>
+
+<!-- QUICK INFO BAR -->
+<div class="info-bar" id="infoBar"></div>
+
+<!-- PACKAGES -->
+<section class="section">
+  <div class="container">
+    <div class="section-label" id="pkgLabel">Best Packages</div>
+    <h2 class="section-title" id="pkgTitle">Top <em>Tour Packages</em></h2>
+    <div class="pkgs-grid" id="pkgsGrid">
+      <div style="grid-column:1/-1;text-align:center;padding:40px;color:#94a3b8">⏳ Loading packages...</div>
+    </div>
+  </div>
+</section>
+
+<!-- ITINERARY SAMPLE -->
+<section class="section section-alt" id="itinSection">
+  <div class="container">
+    <div class="section-label">Day by Day</div>
+    <h2 class="section-title">Sample <em>Itinerary</em></h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start" id="itinLayout">
+      <div class="itin-timeline" id="itinList"></div>
+      <div id="itinSidebar"></div>
+    </div>
+  </div>
+</section>
+
+<!-- BEST TIME TO VISIT -->
+<section class="section" id="bestTimeSection">
+  <div class="container" style="max-width:800px">
+    <div class="section-label">Plan Your Trip</div>
+    <h2 class="section-title">Best Time to <em>Visit</em></h2>
+    <div id="bestTimeContent"></div>
+  </div>
+</section>
+
+<!-- TRAVEL TIPS -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-label">Insider Knowledge</div>
+    <h2 class="section-title">Travel <em>Tips</em></h2>
+    <div class="tips-grid" id="tipsGrid"></div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section">
+  <div class="container" style="max-width:720px">
+    <div class="section-label">Common Questions</div>
+    <h2 class="section-title">Frequently Asked <em>Questions</em></h2>
+    <div id="faqList"></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<!-- Last-minute deals -->
+<section class="section section-alt" id="dealsSection">
+  <div style="max-width:1200px;margin:0 auto">
+    <div class="section-label">Limited Time</div>
+    <h2 class="section-title">⚡ Last-Minute <em>Deals</em></h2>
+    <p style="color:#64748b;font-size:.95rem;margin-bottom:28px;max-width:560px">Departures within the next 14 days at special prices. Grab them before they're gone!</p>
+    <div id="dealsGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px">
+      <div style="color:#94a3b8;padding:20px;font-size:.9rem">⏳ Checking for deals…</div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="container">
+    <h2 id="ctaTitle">Ready to Explore?</h2>
+    <p id="ctaDesc">Let our travel experts craft your perfect trip. Free consultation, best prices guaranteed.</p>
+    <div class="cta-btns">
+      <button class="btn-cta btn-cta-primary" onclick="document.getElementById('mainFooter').scrollIntoView({behavior:'smooth'})">Get Free Quote</button>
+      <a class="btn-cta btn-cta-wa" id="ctaWA" href="#" target="_blank" rel="noopener">💬 Chat on WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<section class="newsletter" id="newsletter"></section>
+<footer class="footer" id="mainFooter"></footer>
+<script src="/assets/js/main.js"></script>
+
+<script type="module">
+import { supabase , loadNav } from '../assets/js/supabase.js';
+loadNav();
+
+const DEST_DATA = {
+  goa: {
+    name:'Goa', tagline:'Sun, Sand & Sunsets',
+    desc:'Goa is India\'s smallest state but its most vibrant — a unique blend of Indian and Portuguese heritage, stunning beaches, world-class seafood and a nightlife scene unlike anywhere else in India.',
+    heroImg:'https://images.unsplash.com/photo-1512343879522-8a4df9a27b14?w=1400&h=600&fit=crop&auto=format',
+    pill:'🏖️ Beach Paradise', country:'India', state:'Goa',
+    stats:[{n:'40+',l:'Beaches'},{n:'500+',l:'Restaurants'},{n:'Nov-Mar',l:'Best Season'},{n:'₹7,999',l:'Starting from'}],
+    info:['☀️ Best Time: Nov–Mar','✈️ Nearest Airport: Dabolim / Mopa','🌡 Climate: Tropical','🏨 Hotels: 500+','📍 Distance: 1,910 km from Delhi'],
+    faqs:[
+      {q:'What is the best time to visit Goa?',a:'November to March is the peak season with pleasant weather (25-32°C), clear skies, and calm seas. Avoid the monsoon months (June-September) for beach activities.'},
+      {q:'How many days are enough for Goa?',a:'4-5 days is ideal for a first-time visit covering North Goa beaches, South Goa, Old Goa churches, and local cuisine. 7 days lets you explore at leisure.'},
+      {q:'Is Goa safe for solo female travellers?',a:'Yes, Goa is generally safe. Stick to populated beaches and tourist areas, especially at night. North Goa (Baga, Calangute) is busier; South Goa (Palolem, Colva) is quieter and calmer.'},
+      {q:'What are the top things to do in Goa?',a:'Beach hopping, water sports, Old Goa churches (UNESCO), spice plantations, Anjuna flea market, dolphin watching, Dudhsagar waterfall, and night markets.'},
+      {q:'What is the budget for a Goa trip from Delhi?',a:'A 4D/3N budget trip costs ₹8,000-12,000 per person including flights, budget hotel, and meals. Mid-range is ₹15,000-25,000. Luxury is ₹40,000+.'},
+    ],
+    itinerary:[
+      {day:1,title:'Arrival & North Goa',desc:'Arrive at Goa airport. Check in to hotel. Evening at Baga/Calangute beach. Sunset at Fort Aguada. Dinner at a beachside shack.'},
+      {day:2,title:'Old Goa & Spice Tour',desc:'Visit Basilica of Bom Jesus, Se Cathedral (UNESCO). Afternoon spice plantation tour with traditional Goan lunch. Evening at Panjim promenade.'},
+      {day:3,title:'Water Sports & Markets',desc:'Morning water sports at Baga (parasailing, jet ski, banana boat). Afternoon Anjuna flea market. Evening Saturday Night Market (in season).'},
+      {day:4,title:'South Goa',desc:'Day trip to South Goa — Colva beach, Benaulim, Palolem beach. Optional: Dudhsagar waterfall. Evening departure or overnight.'},
+    ],
+    bestTime:{
+      months:['off','off','off','off','off','off','off','off','off','good','peak','peak','peak','peak','peak','good','off','off','off','off','off','off','off','off'],
+      legend:[{color:'#1a73e8',label:'Peak Season (Nov–Mar)'},{color:'#dcfce7',label:'Shoulder Season (Oct, Apr)'},{color:'#f1f5f9',label:'Monsoon / Off Season'}],
+      desc:'The best time to visit Goa is November to March when the weather is perfect for beaches and outdoor activities. October and April are shoulder months with fewer crowds and lower prices. Avoid June-September (monsoon) for beach trips.',
+    },
+    tips:[
+      {icon:'🏍',title:'Rent a Scooter',text:'Best way to explore. ₹300-500/day. International license required. Wear helmet.'},
+      {icon:'🍽',title:'Eat Local',text:'Try fish curry rice, bebinca dessert, and feni (local cashew spirit). Avoid tourist restaurants near beaches.'},
+      {icon:'💰',title:'Budget Smart',text:'Stay in South Goa for peace and lower prices. North Goa for nightlife. Book hotels 1-2 months early in peak season.'},
+      {icon:'🌊',title:'Beach Safety',text:'Swim only at flagged beaches with lifeguards. Red/yellow flags mean caution. Some beaches have strong currents.'},
+      {icon:'📸',title:'Photography',text:'Sunrise at Morjim, sunset at Vagator and Chapora Fort. Old Goa churches are best visited on weekday mornings.'},
+      {icon:'🛒',title:'Shopping',text:'Buy cashews, feni, spices, and azulejo tiles. Avoid buying at the beach — visit Friday Mapusa market for authentic local goods.'},
+    ],
+  },
+  manali: {
+    name:'Manali', tagline:'Mountains, Snow & Adventure',
+    desc:'Manali is Himachal Pradesh\'s crown jewel — a high-altitude Himalayan resort town offering snow-capped peaks, ancient temples, Apple orchards, river rafting and some of India\'s most spectacular mountain drives.',
+    heroImg:'https://images.unsplash.com/photo-1582552938357-6dcb01ab3afe?w=1400&h=600&fit=crop&auto=format',
+    pill:'🏔️ Mountain Paradise', country:'India', state:'Himachal Pradesh',
+    stats:[{n:'2,050m',l:'Altitude'},{n:'4,000m',l:'Rohtang Pass'},{n:'Oct-Jun',l:'Best Season'},{n:'₹10,499',l:'Starting from'}],
+    info:['🌨 Best Time: Oct–Jun','✈️ Nearest Airport: Bhuntar (50km)','🌡 Climate: Alpine Cold','🏨 Hotels: 300+','📍 Distance: 570 km from Delhi'],
+    faqs:[
+      {q:'What is the best time to visit Manali?',a:'October-November for snow and clear skies. March-June for pleasant weather and Rohtang Pass opening. December-February is extreme cold but ideal for snow activities.'},
+      {q:'Is Rohtang Pass open throughout the year?',a:'No. Rohtang Pass (3,978m) is typically open from May/June to November. It closes during heavy snowfall. The Atal Tunnel allows year-round access to Lahaul-Spiti beyond Rohtang.'},
+      {q:'Can beginners trek in Manali?',a:'Yes. Jogini Waterfall trek, Hampta Pass base camp, and Chandrakhani Pass are suitable for beginners. The Valley of Solang (Solang Nalla) offers easy snow activities.'},
+      {q:'How do I reach Manali from Delhi?',a:'Overnight Volvo bus from Delhi (12-14 hours, ₹1,200-1,800). Or fly to Bhuntar airport (60 km away). Train to Chandigarh/Ambala then bus.'},
+    ],
+    itinerary:[
+      {day:1,title:'Delhi to Manali (Overnight Bus)',desc:'Board overnight Volvo bus from Delhi at 6 PM. Arrive Manali next morning. Check-in and rest.'},
+      {day:2,title:'Manali Exploration',desc:'Old Manali village, Hadimba Devi Temple (1553 AD), Vashisht hot springs. Mall Road evening stroll.'},
+      {day:3,title:'Solang Valley & Snow',desc:'Day trip to Solang Nalla (skiing, zorbing, cable car). Snowfall and Himalayan views. Optional: Atal Tunnel to Sissu.'},
+      {day:4,title:'Rohtang Pass',desc:'Early morning drive to Rohtang Pass (3,978m). Snow activities, dramatic views. Afternoon return.'},
+      {day:5,title:'River Rafting & Departure',desc:'Morning Beas River rafting (Grade 3). Lunch at local dhaba. Afternoon bus back to Delhi.'},
+    ],
+    bestTime:{
+      months:['peak','peak','peak','peak','peak','peak','good','good','off','off','peak','peak'],
+      legend:[{color:'#1a73e8',label:'Peak Season (Oct-Jun)'},{color:'#dcfce7',label:'Shoulder'},{color:'#f1f5f9',label:'Monsoon (Jul-Sep)'}],
+      desc:'October to June is the best time to visit Manali. October-November offers snow and clear post-monsoon skies. March-June is pleasant for trekking and Rohtang. Avoid July-September due to heavy landslides and monsoon rains.',
+    },
+    tips:[
+      {icon:'🧥',title:'Pack Warm',text:'Even in summer, nights are cold (5-10°C). Carry thermals, woolens, and a windproof jacket at all times.'},
+      {icon:'🏔',title:'Altitude Sickness',text:'Acclimatise for 1 day before strenuous activity. Avoid alcohol on arrival day. Carry Diamox if going above 3,500m.'},
+      {icon:'💧',title:'Hydration',text:'Drink plenty of water at high altitude. Avoid heavy meals. Eat light (dal, rice) for first day.'},
+      {icon:'🚐',title:'Local Taxis',text:'Shared taxis are cheapest. Book private taxis (₹1,500-3,000/day) for Rohtang and Spiti. Bargain at the stand.'},
+      {icon:'🎿',title:'Snow Activities',text:'Skiing at Solang (Jan-Mar). Equipment rental ₹400-800/hr. Rohtang snow entry permit required (₹500).'},
+      {icon:'📶',title:'Connectivity',text:'BSNL has best coverage in mountains. JIO and Airtel work in Manali town but not on mountain roads.'},
+    ],
+  },
+  kerala: {
+    name:'Kerala', tagline:"God's Own Country",
+    desc:'Kerala is India\'s most diverse state — a 580-km coastline, backwater networks of lagoons and canals, misty hill stations, wildlife sanctuaries and Ayurvedic wellness traditions that attract millions of travellers every year.',
+    heroImg:'https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=1400&h=600&fit=crop&auto=format',
+    pill:"🌴 God's Own Country", country:'India', state:'Kerala',
+    stats:[{n:'44',l:'Rivers'},{n:'900km',l:'Coastline'},{n:'Oct-Feb',l:'Best Season'},{n:'₹9,999',l:'Starting from'}],
+    info:['🌺 Best Time: Oct–Feb','✈️ 3 Airports: Kochi, Trivandrum, Calicut','🌡 Tropical Humid','🛶 Houseboat: ₹6,000/night','📍 Distance: 2,680 km from Delhi'],
+    faqs:[
+      {q:'What makes Kerala unique?',a:'Kerala offers a rare combination: backwater cruises on houseboats, Ayurvedic massages, tea and spice plantations in Munnar, elephant sanctuaries in Periyar, and pristine beaches in Kovalam and Varkala.'},
+      {q:'How many days do I need for Kerala?',a:'7-10 days covers the highlights: Kochi (2 days), Munnar (2 days), Alleppey backwaters (2 days), Varkala/Kovalam beach (2 days). 5 days for a quick trip.'},
+      {q:'What is the cost of a Kerala houseboat?',a:'Basic houseboat: ₹6,000-9,000/night for 2 people including meals. Premium: ₹12,000-20,000. Sunset cruise: ₹1,500-2,500 per person.'},
+    ],
+    itinerary:[
+      {day:1,title:'Kochi — Fort & Culture',desc:'Explore Fort Kochi — Chinese fishing nets, St. Francis Church, Dutch Palace. Kathakali dance performance evening.'},
+      {day:2,title:'Munnar Hill Station',desc:'Drive to Munnar. Tea plantation tour. Eravikulam National Park (Nilgiri Tahr). Rose Garden sunset.'},
+      {day:3,title:'Thekkady Wildlife',desc:'Periyar Wildlife Sanctuary boat cruise. Spice plantation tour. Elephant interaction program.'},
+      {day:4,title:'Alleppey Houseboat',desc:'Board houseboat on Vembanad Lake. Cruise through backwater canals. Village life, birds, sunset.'},
+      {day:5,title:'Kovalam Beach & Departure',desc:'Kovalam beach, Vizhinjam lighthouse. Ayurvedic massage session. Evening flight departure.'},
+    ],
+    bestTime:{
+      months:['peak','peak','good','good','good','off','off','off','off','good','peak','peak'],
+      legend:[{color:'#1a73e8',label:'Peak (Oct-Feb)'},{color:'#dcfce7',label:'Shoulder'},{color:'#f1f5f9',label:'Monsoon (Jun-Sep)'}],
+      desc:'October to February is the best time. Kerala also has a "green season" during monsoon (June-August) when Ayurvedic treatments are most effective and the landscape is lush green — ideal for wellness tourism.',
+    },
+    tips:[
+      {icon:'🛶',title:'Book Houseboats Early',text:'Houseboat demand peaks in Dec-Jan. Book 2-3 months in advance for best boats and prices in Alleppey.'},
+      {icon:'🌿',title:'Ayurveda',text:'Authentic Ayurvedic resorts require minimum 7-day stays. Day massages available from ₹1,500. Ask for certified therapists.'},
+      {icon:'🐘',title:'Elephant Sighting',text:'Guruvayur Temple (mornings) and Periyar sanctuary are best for elephant sightings. Avoid elephant rides — they are harmful.'},
+      {icon:'🍛',title:'Kerala Cuisine',text:'Must try: Kerala fish curry, appam with stew, puttu, karimeen pollichathu (pearl spot fish), and banana leaf meals (sadhya).'},
+      {icon:'🚢',title:'Backwater Routes',desc:'Alleppey to Kollam is the most scenic route (8 hours). Kumarakom is quieter. Early morning cruises offer best bird sightings.'},
+      {icon:'🧘',title:'Wellness',text:'Varkala cliff is best for yoga and meditation. Wayanad is ideal for eco-stays. Book full-board resorts for complete relaxation.'},
+    ],
+  },
+};
+
+// Default for unknown destinations
+const DEFAULT_DEST = {
+  name:'Destination', tagline:'Explore with ZoomFly',
+  desc:'Discover amazing travel experiences with ZoomFly — India\'s trusted travel partner. Browse our curated packages for the best prices and hassle-free booking.',
+  heroImg:'https://images.unsplash.com/photo-1488085061851-e0efdae7d6e3?w=1400&h=600&fit=crop&auto=format',
+  pill:'✈️ Popular Destination', stats:[{n:'100+',l:'Packages'},{n:'24/7',l:'Support'}],
+  info:['Contact us for travel info'], faqs:[],
+  itinerary:[], bestTime:null, tips:[],
+};
+
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+// ── INIT ─────────────────────────────────────────────────────
+const slug = new URLSearchParams(location.search).get('d')?.toLowerCase() || '';
+const d    = DEST_DATA[slug] || DEFAULT_DEST;
+
+// SEO
+document.title = `${d.name} Tour Packages — Best Deals | ZoomFly`;
+document.getElementById('pageTitle').textContent = document.title;
+document.getElementById('metaDesc').content =
+  `Book ${d.name} tour packages from ₹${d.stats?.find(s=>s.l.includes('from'))?.n||'7,999'} per person. ${d.tagline}. Best prices, 24/7 support. Book with ZoomFly.`;
+
+// JSON-LD TouristDestination schema
+const schema = {
+  "@context":"https://schema.org","@type":"TouristDestination",
+  "name":d.name,"description":d.desc,
+  "url":`https://www.zoomfly.in/destination?d=${slug}`,
+  "touristType":["Cultural","Beach","Adventure","Nature"],
+  "includesAttraction":d.itinerary?.map(i=>({
+    "@type":"TouristAttraction","name":i.title,"description":i.desc
+  })),
+};
+const schemaEl = document.createElement('script');
+schemaEl.type = 'application/ld+json';
+schemaEl.textContent = JSON.stringify(schema);
+document.head.appendChild(schemaEl);
+
+// Hero
+document.getElementById('heroImg').src       = d.heroImg;
+document.getElementById('heroImg').alt       = `${d.name} travel guide`;
+document.getElementById('heroBreadcrumb').textContent = d.name;
+document.getElementById('heroPill').textContent       = d.pill;
+document.getElementById('heroTitle').textContent      = `${d.name}: ${d.tagline}`;
+document.getElementById('heroDesc').textContent       = d.desc;
+document.getElementById('heroStats').innerHTML = (d.stats||[]).map(s=>
+  `<div class="hero-stat"><div class="hero-stat-n">${s.n}</div><div class="hero-stat-l">${s.l}</div></div>`
+).join('');
+document.getElementById('heroBreadcrumb').textContent = d.name;
+
+// Info bar
+document.getElementById('infoBar').innerHTML = (d.info||[]).map(i=>
+  `<div class="info-item"><span>•</span>${i}</div>`
+).join('');
+
+// CTA
+document.getElementById('ctaTitle').textContent = `Ready to Explore ${d.name}?`;
+document.getElementById('ctaDesc').textContent  = `Let our travel experts craft your perfect ${d.name} trip. Free consultation, best prices guaranteed.`;
+const waMsg = `Hi ZoomFly! I'm interested in travelling to ${d.name}. Please help me plan my trip.`;
+document.getElementById('ctaWA').href = `https://wa.me/918076136300?text=${encodeURIComponent(waMsg)}`;
+
+// Packages + Deals
+loadPackages();
+loadLastMinuteDeals();
+async function loadPackages() {
+  const grid = document.getElementById('pkgsGrid');
+  try {
+    const { data } = await supabase.from('packages').select('*').eq('is_active', true)
+      .ilike('destination', `%${d.name}%`).limit(6);
+    if (data?.length) {
+      document.getElementById('pkgLabel').textContent = `${d.name} Packages`;
+      document.getElementById('pkgTitle').innerHTML   = `Best <em>${d.name} Tour Packages</em>`;
+      grid.innerHTML = data.map((p,i) => tourCard(p, i*80)).join('');
+      if (typeof initReveal === 'function') initReveal();
+    } else {
+      grid.innerHTML = `
+        <div style="grid-column:1/-1;text-align:center;padding:40px">
+          <div style="font-size:2rem;margin-bottom:10px">🗺️</div>
+          <div style="font-weight:600;color:#0f1923;margin-bottom:6px">Packages Coming Soon</div>
+          <div style="font-size:.85rem;color:#64748b;margin-bottom:16px">We're adding ${d.name} packages. Contact us for a custom quote.</div>
+          <a href="https://wa.me/918076136300?text=${encodeURIComponent('Hi! I want a custom '+d.name+' package.')}"
+             target="_blank" style="background:#25d366;color:#fff;padding:10px 22px;border-radius:10px;text-decoration:none;font-weight:700;font-size:.88rem">💬 Get Custom Quote</a>
+        </div>`;
+    }
+  } catch(_) {
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#94a3b8;padding:40px">Unable to load packages.</div>';
+  }
+}
+
+// Itinerary
+if (d.itinerary?.length) {
+  document.getElementById('itinList').innerHTML = d.itinerary.map(day => `
+    <div class="itin-day">
+      <div class="itin-dot"></div>
+      <h4>Day ${day.day}: ${day.title}</h4>
+      <p>${day.desc}</p>
+    </div>`).join('');
+  document.getElementById('itinSidebar').innerHTML = `
+    <div style="background:#f8fafc;border-radius:14px;padding:22px;border:1px solid #e2e8f0;position:sticky;top:100px">
+      <div style="font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#94a3b8;margin-bottom:12px">This Itinerary Includes</div>
+      ${['Hotel stays','All transfers','Breakfast daily','Expert guide','24/7 ZoomFly support'].map(item=>
+        `<div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid #e2e8f0;font-size:.88rem">
+          <span style="color:#16a34a;font-weight:700">✓</span>${item}</div>`
+      ).join('')}
+      <div style="margin-top:16px;padding:14px;background:#eff6ff;border-radius:10px;font-size:.85rem">
+        <div style="font-weight:700;margin-bottom:4px">Want this trip?</div>
+        <div style="color:#64748b;margin-bottom:10px">This is a sample itinerary. We customise every trip.</div>
+        <a href="/pages/contact.html" style="display:block;background:#1a73e8;color:#fff;text-align:center;padding:9px;border-radius:8px;text-decoration:none;font-weight:700;font-size:.85rem">Get Custom Quote →</a>
+      </div>
+    </div>`;
+}
+
+// Best time
+if (d.bestTime) {
+  const { months, legend, desc } = d.bestTime;
+  document.getElementById('bestTimeContent').innerHTML = `
+    <p style="color:#64748b;margin-bottom:20px;line-height:1.8">${desc}</p>
+    <div class="months-grid">${MONTHS.map((m,i) => {
+      const status = months[i] || 'off';
+      const bg = status==='peak'?'#1a73e8':status==='good'?'#dcfce7':'#f1f5f9';
+      const color = status==='peak'?'#fff':status==='good'?'#15803d':'#94a3b8';
+      return `<div class="month-cell" style="background:${bg};color:${color}">
+        ${status==='peak'?'✓':status==='good'?'~':'✗'}
+        <span class="month-name">${m}</span>
+      </div>`;
+    }).join('')}</div>
+    <div style="display:flex;gap:16px;margin-top:12px;flex-wrap:wrap">${legend.map(l=>
+      `<div style="display:flex;align-items:center;gap:6px;font-size:.78rem">
+        <div style="width:12px;height:12px;border-radius:3px;background:${l.color}"></div>${l.label}
+      </div>`).join('')}
+    </div>`;
+}
+
+// ── LAST-MINUTE DEALS ────────────────────────────────────────
+async function loadLastMinuteDeals() {
+  const grid = document.getElementById('dealsGrid');
+  if (!grid) return;
+  const today = new Date();
+  const cutoff = new Date(today.getTime() + 14 * 86400000);
+
+  try {
+    const { data: pkgs } = await supabase
+      .from('packages')
+      .select('id,title,price,duration_days,hero_image,photos,is_featured')
+      .eq('is_active', true)
+      .order('created_at', { ascending: false })
+      .limit(20);
+
+    if (!pkgs?.length) { grid.innerHTML = '<div style="color:#94a3b8;font-size:.875rem">No last-minute deals right now. <a href="/pages/packages.html" style="color:#1a73e8;font-weight:600">Browse all packages →</a></div>'; return; }
+
+    // Simulate upcoming departures within 14 days (in production, query package_availability)
+    const deals = pkgs.slice(0, Math.min(pkgs.length, 6)).map((p, i) => {
+      const depDate = new Date(today.getTime() + (2 + i * 2) * 86400000);
+      const daysLeft = Math.round((depDate - today) / 86400000);
+      const discount = daysLeft <= 3 ? 25 : daysLeft <= 7 ? 18 : 12;
+      const origPrice = Math.round((p.price || 9999) * 100 / (100 - discount));
+      return { ...p, depDate, daysLeft, discount, origPrice };
+    }).filter(d => d.depDate <= cutoff);
+
+    if (!deals.length) {
+      grid.innerHTML = '<div style="color:#94a3b8;font-size:.875rem">No last-minute deals right now. Check back soon!</div>';
+      return;
+    }
+
+    grid.innerHTML = deals.map(d => {
+      const img = d.hero_image || (d.photos?.[0]) || '';
+      const depStr = d.depDate.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
+      const urgency = d.daysLeft <= 3 ? '🔥 Only ' + d.daysLeft + ' days left!' : `📅 Departs ${depStr}`;
+      return `<div class="deal-card">
+        <span class="deal-badge">-${d.discount}% OFF</span>
+        <span class="deal-days">${urgency}</span>
+        ${img ? `<img class="deal-img" src="${img}" alt="${d.title}" onerror="this.style.display='none'"/>` : '<div class="deal-img" style="background:linear-gradient(135deg,#1a73e8,#ff6b35)"></div>'}
+        <div class="deal-body">
+          <div class="deal-name">${d.title}</div>
+          <div class="deal-date">⏱ ${d.duration_days || 3}N/${(d.duration_days||3)+1}D &nbsp;·&nbsp; 📅 Departs ${depStr}</div>
+          <div class="deal-price-row">
+            <div class="deal-price">₹${Number(d.price||9999).toLocaleString('en-IN')}</div>
+            <div class="deal-was">₹${Number(d.origPrice).toLocaleString('en-IN')}</div>
+            <div class="deal-save">Save ₹${Number(d.origPrice - (d.price||9999)).toLocaleString('en-IN')}</div>
+          </div>
+          <a class="deal-book" href="/pages/package-detail.html?id=${d.id}&deal=lastminute">Book Now — Limited Seats</a>
+        </div>
+      </div>`;
+    }).join('');
+  } catch(e) {
+    grid.innerHTML = '<div style="color:#94a3b8;font-size:.875rem">Unable to load deals right now.</div>';
+  }
+}
+
+// Tips
+document.getElementById('tipsGrid').innerHTML = (d.tips||[]).map(t=>`
+  <div class="tip-card">
+    <div class="tip-icon">${t.icon}</div>
+    <div class="tip-title">${t.title}</div>
+    <div class="tip-text">${t.text||t.desc||''}</div>
+  </div>`).join('');
+
+// FAQ
+document.getElementById('faqList').innerHTML = (d.faqs||[]).map((f,i)=>`
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(${i})">
+      ${f.q} <span id="faq-icon-${i}" style="font-size:.9rem;transition:transform .2s;display:inline-block">▼</span>
+    </div>
+    <div class="faq-a" id="faq-a-${i}">${f.a}</div>
+  </div>`).join('');
+
+window.toggleFaq = (i) => {
+  const a = document.getElementById('faq-a-'+i);
+  const icon = document.getElementById('faq-icon-'+i);
+  a.classList.toggle('open');
+  icon.style.transform = a.classList.contains('open') ? 'rotate(180deg)' : '';
+};
+</script>
+</body>
+</html>
