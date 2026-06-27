@@ -14,6 +14,85 @@ import { setLoading } from './booking-ui.js';
 // ✦ setLoading previously duplicated in both booking.js and booking-forms.js.
 //   Single definition now lives in booking-ui.js.
 
+// ============================================================
+//  VALIDATION UTILITIES
+// ============================================================
+
+/** Show an inline error under the given field element */
+function _fieldError(el, msg) {
+  if (!el) return;
+  el.style.borderColor = '#ef4444';
+  let err = el.parentElement.querySelector('.zf-err');
+  if (!err) { err = document.createElement('span'); err.className = 'zf-err'; err.style.cssText = 'color:#ef4444;font-size:.78rem;display:block;margin-top:3px'; el.parentElement.appendChild(err); }
+  err.textContent = msg;
+}
+
+function _clearErrors(form) {
+  form.querySelectorAll('.zf-err').forEach(e => e.remove());
+  form.querySelectorAll('[style*="border-color"]').forEach(e => e.style.borderColor = '');
+}
+
+function _validateEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()); }
+function _validatePhone(v) { return /^[6-9]\d{9}$/.test(v.replace(/\D/g,'')); }
+function _validateDate(v, minToday = true) {
+  if (!v) return false;
+  const d = new Date(v);
+  if (isNaN(d)) return false;
+  if (minToday && d < new Date(new Date().toDateString())) return false;
+  return true;
+}
+function _validateAmount(v) { return parseFloat(v) > 0; }
+
+/**
+ * Run common checks on customer contact fields present in a form.
+ * Returns true if all valid, false (with inline errors shown) if not.
+ */
+function validateContactFields(form) {
+  _clearErrors(form);
+  let ok = true;
+
+  const nameEl  = form.querySelector('[name="name"],[name="customer_name"],#passenger-name');
+  const emailEl = form.querySelector('[name="email"],[name="customer_email"],#passenger-email');
+  const phoneEl = form.querySelector('[name="phone"],[name="customer_phone"],#passenger-phone');
+
+  if (nameEl && nameEl.value.trim().length < 2) {
+    _fieldError(nameEl, 'Please enter your full name.'); ok = false;
+  }
+  if (emailEl && !_validateEmail(emailEl.value)) {
+    _fieldError(emailEl, 'Enter a valid email address.'); ok = false;
+  }
+  if (phoneEl && !_validatePhone(phoneEl.value)) {
+    _fieldError(phoneEl, 'Enter a valid 10-digit Indian mobile number.'); ok = false;
+  }
+  return ok;
+}
+
+/** Validate a travel date field — must be present and not in the past */
+function validateDateField(form, selector, label = 'Travel date') {
+  const el = form.querySelector(selector);
+  if (!el) return true;
+  if (!_validateDate(el.value)) {
+    _fieldError(el, `${label} must be today or a future date.`);
+    return false;
+  }
+  return true;
+}
+
+/** Validate that check-in is before check-out */
+function validateDateRange(form, inSel, outSel) {
+  const inEl  = form.querySelector(inSel);
+  const outEl = form.querySelector(outSel);
+  if (!inEl || !outEl) return true;
+  if (!_validateDate(inEl.value))  { _fieldError(inEl,  'Select a valid check-in date.');  return false; }
+  if (!_validateDate(outEl.value)) { _fieldError(outEl, 'Select a valid check-out date.'); return false; }
+  if (new Date(outEl.value) <= new Date(inEl.value)) {
+    _fieldError(outEl, 'Check-out must be after check-in.'); return false;
+  }
+  return true;
+}
+
+export { validateContactFields, validateDateField, validateDateRange, _clearErrors };
+
 
 // ============================================================
 //  1. FLIGHT BOOKING FORM
@@ -27,6 +106,12 @@ function initFlightBookingForm() {
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const btn = form.querySelector('[type="submit"]');
+
+    // Validate before loading
+    const contactOk = validateContactFields(form);
+    const dateOk    = validateDateField(form, '[name="date"],#departure-date,[type="date"]', 'Departure date');
+    if (!contactOk || !dateOk) return;
+
     setLoading(btn, true);
 
     try {

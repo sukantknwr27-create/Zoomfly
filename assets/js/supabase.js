@@ -7,7 +7,27 @@ const SUPABASE_URL  = 'https://ndaurluolurdljrjbxii.supabase.co';
 const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kYXVybHVvbHVyZGxqcmpieGlpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MDY2MzksImV4cCI6MjA5MzQ4MjYzOX0.JsZXOof19JkyX7asJQ7EtoaBKqURJUYzVqXQIenCzjQ';
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON);
-export const RAZORPAY_KEY_ID = 'rzp_test_YOUR_KEY_HERE'; // Replace with your Razorpay key
+// Razorpay Key ID — loaded at runtime from /api/config so it is NEVER hardcoded in source.
+// Fallback to empty string; pages check for empty and show WhatsApp booking instead.
+let _razorpayKeyId = '';
+export function getRazorpayKeyId() { return _razorpayKeyId; }
+
+// Fetch the publishable key from the server (Vercel edge config / env var)
+(async () => {
+  try {
+    const res = await fetch('/api/config');
+    if (res.ok) {
+      const cfg = await res.json();
+      _razorpayKeyId = cfg.razorpay_key_id || '';
+    }
+  } catch (_) {
+    // Silently fail — pages will fall back to WhatsApp booking when key is empty
+  }
+})();
+
+// Legacy export kept for backward-compat — always returns '' until fetch resolves.
+// Prefer getRazorpayKeyId() after awaiting the module init.
+export const RAZORPAY_KEY_ID = '';
 
 function siteUrl() {
   const h = window.location.hostname;
@@ -148,6 +168,7 @@ export async function createBooking(bookingData) {
   const payload = { ...bookingData, user_id: user?.id || null };
   const { data, error } = await supabase.from('bookings').insert(payload).select().single();
   if (error) throw error;
+  if (!data?.booking_ref) throw new Error('Booking created but no booking reference was returned. Please contact support.');
   // Award loyalty points
   if (user && data.total_amount > 0) {
     await awardLoyaltyPoints(user.id, Math.floor(data.total_amount / 100), data.id).catch(() => {});

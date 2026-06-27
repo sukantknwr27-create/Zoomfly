@@ -97,18 +97,46 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
     } catch(_) { /* keep static */ }
 
-    testiGrid.innerHTML = testimonials.slice(0,3).map((t,i) => `
-      <div class="testi-card reveal ${i===1?'testi-featured':''}" style="transition-delay:${i*80}ms">
-        <div class="testi-stars">${'★'.repeat(t.rating)}</div>
-        <p>"${t.text}"</p>
-        <div class="testi-author">
-          <div class="testi-avatar">${t.avatar}</div>
-          <div>
-            <div class="testi-name">${t.name}</div>
-            <div class="testi-sub">${t.location}${t.package ? ' · ' + t.package : ''}</div>
-          </div>
-        </div>
-      </div>`).join('');
+    // Build testimonial cards safely using DOM methods (no innerHTML with user data)
+    testiGrid.innerHTML = '';
+    testimonials.slice(0,3).forEach((t, i) => {
+      const card = document.createElement('div');
+      card.className = `testi-card reveal ${i===1?'testi-featured':''}`;
+      card.style.transitionDelay = `${i*80}ms`;
+
+      const stars = document.createElement('div');
+      stars.className = 'testi-stars';
+      stars.textContent = '★'.repeat(Math.min(5, Math.max(0, parseInt(t.rating) || 5)));
+
+      const quote = document.createElement('p');
+      quote.textContent = `"${t.text}"`;
+
+      const avatar = document.createElement('div');
+      avatar.className = 'testi-avatar';
+      avatar.textContent = t.avatar || '⭐';
+
+      const nameEl = document.createElement('div');
+      nameEl.className = 'testi-name';
+      nameEl.textContent = t.name || '';
+
+      const sub = document.createElement('div');
+      sub.className = 'testi-sub';
+      sub.textContent = t.location + (t.package ? ' · ' + t.package : '');
+
+      const authorInfo = document.createElement('div');
+      authorInfo.appendChild(nameEl);
+      authorInfo.appendChild(sub);
+
+      const author = document.createElement('div');
+      author.className = 'testi-author';
+      author.appendChild(avatar);
+      author.appendChild(authorInfo);
+
+      card.appendChild(stars);
+      card.appendChild(quote);
+      card.appendChild(author);
+      testiGrid.appendChild(card);
+    });
     if (typeof initReveal === 'function') initReveal();
   }
 
