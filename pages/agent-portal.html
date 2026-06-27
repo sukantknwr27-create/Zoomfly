@@ -313,7 +313,7 @@
       <button class="sb-link"        onclick="showSection('profile',this)"><span class="sb-icon">👤</span> Profile</button>
     </div>
     <div class="sb-bottom">
-      <a href="index.html" class="sb-link"><span class="sb-icon">🌐</span> View ZoomFly</a>
+      <a href="/index.html" class="sb-link"><span class="sb-icon">🌐</span> View ZoomFly</a>
       <button class="sb-link" onclick="doLogout()"><span class="sb-icon">🚪</span> Sign Out</button>
     </div>
   </aside>
@@ -505,7 +505,7 @@
         <div class="lb-sub">Generate tracking links for specific pages. Share with clients — bookings through your link auto-credit your commission.</div>
         <div class="lb-row" style="margin-bottom:12px;">
           <select class="lb-select" id="link-page" onchange="buildLink()">
-            <option value="index.html">🏠 Homepage</option>
+            <option value="/index.html">🏠 Homepage</option>
             <option value="flights.html">✈️ Flights</option>
             <option value="hotels.html">🏨 Hotels</option>
             <option value="packages.html">🧳 Packages</option>
@@ -938,7 +938,7 @@ window.calcCommission = () => {
 
 // ── Link Builder ───────────────────────────────────────────
 window.buildLink = () => {
-  const page=document.getElementById('link-page')?.value||'index.html';
+  const page=document.getElementById('link-page')?.value||'/index.html';
   const link=`${SITE_URL}/${page}?agent=${agentCode||'AGENT'}`;
   const el=document.getElementById('built-link');
   if(el) el.textContent=link;
