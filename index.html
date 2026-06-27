@@ -10,6 +10,7 @@
   <link rel="dns-prefetch" href="https://checkout.razorpay.com"/>
   <!-- Preload critical CSS -->
   <link rel="preload" href="/assets/css/main.css" as="style"/>
+  <link rel="stylesheet" href="/assets/css/main.css"/>
   <link rel="shortcut icon" href="/assets/favicon.svg"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>ZoomFly — Tour Packages, Flights, Hotels & Bus Booking India</title>
   <meta name="description" content="India's trusted travel partner. Book curated tour packages, flights, hotels and buses. Best price guarantee, instant confirmation, 24/7 support."/>
@@ -208,7 +209,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
   }
   </script>
 </head>
-<body>
+<body data-page="home">
 
 <section class="hero">
   <div class="hero-content">
@@ -473,6 +474,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
   </div>
 </div>
 
+<script src="/assets/js/main.js"></script>
 <script type="module">
 import { getPackages, getUser, addToWishlist, removeFromWishlist, getWishlist } from '/assets/js/supabase.js';
 
