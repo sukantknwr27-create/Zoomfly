@@ -532,18 +532,41 @@ window.processPayment = async () => {
           theme: { color: '#0057FF' },
           handler: async (response) => {
             try {
-              const { createBooking } = await import('../assets/js/supabase.js');
+              // Step 1: Create a pending booking in DB first
+              const { createBooking, supabase } = await import('../assets/js/supabase.js');
               const booking = await createBooking({
                 booking_type: bookingType, guest_name: name, guest_email: email,
                 guest_phone: phone.replace(/\D/g,''), num_guests: parseInt(document.getElementById('g-pax').value) || 2,
                 special_requests: document.getElementById('g-note').value,
                 base_amount: basePerPerson * numPersons, discount, taxes: tax, total_amount: total,
-                currency: 'INR', payment_method: 'razorpay', status: 'confirmed',
-                payment_status: 'paid', razorpay_payment_id: response.razorpay_payment_id,
+                currency: 'INR', payment_method: 'razorpay', status: 'pending',
+                payment_status: 'pending',
+                razorpay_order_id: response.razorpay_order_id,
               });
-              document.getElementById('booking-ref').textContent = `Booking Ref: ${booking.booking_ref || 'ZF-' + response.razorpay_payment_id.substring(4,10).toUpperCase()}`;
+
+              // Step 2: Verify signature server-side — NEVER mark paid from the browser
+              const { data: verified, error: verifyError } = await supabase.functions.invoke(
+                'verify-razorpay-payment',
+                {
+                  body: {
+                    booking_id:          booking.id,
+                    razorpay_order_id:   response.razorpay_order_id,
+                    razorpay_payment_id: response.razorpay_payment_id,
+                    razorpay_signature:  response.razorpay_signature,
+                  },
+                }
+              );
+
+              if (verifyError || !verified?.success) {
+                throw new Error(verified?.error || verifyError?.message || 'Payment verification failed');
+              }
+
+              document.getElementById('booking-ref').textContent =
+                `Booking Ref: ${verified.booking_ref || booking.booking_ref}`;
             } catch(e) {
-              document.getElementById('booking-ref').textContent = `Payment ID: ${response.razorpay_payment_id}`;
+              console.error('[ZoomFly Payment]', e);
+              // Show error to user — do NOT mark booking as paid
+              alert('Payment received but verification failed. Please contact us on WhatsApp with your Payment ID: ' + response.razorpay_payment_id);
             }
             document.getElementById('success-overlay').classList.add('show');
           },
@@ -565,9 +588,16 @@ window.processPayment = async () => {
       base_amount: basePerPerson * numPersons, discount, taxes: tax, total_amount: total,
       currency: 'INR', payment_method: selectedMethod, status: 'pending', payment_status: 'pending',
     });
-    document.getElementById('booking-ref').textContent = `Booking Ref: ${booking.booking_ref || 'ZF-' + Math.random().toString(36).substr(2,6).toUpperCase()}`;
+    if (!booking?.booking_ref) throw new Error('No booking reference returned from server.');
+    document.getElementById('booking-ref').textContent = `Booking Ref: ${booking.booking_ref}`;
   } catch(e) {
-    document.getElementById('booking-ref').textContent = `Booking Ref: ZF-${Math.random().toString(36).substr(2,6).toUpperCase()}`;
+    console.error('[ZoomFly Booking]', e);
+    document.getElementById('booking-ref').textContent =
+      'Booking could not be saved. Please contact us on WhatsApp so we can confirm manually.';
+    document.getElementById('success-overlay').classList.add('show');
+    btn.disabled = false;
+    btn.innerHTML = `🔒 Pay Securely Now — ₹${total.toLocaleString('en-IN')}`;
+    return;
   }
   document.getElementById('success-overlay').classList.add('show');
   btn.disabled = false;
