@@ -43,6 +43,14 @@ async function renderNav(activePage = '') {
     nav.innerHTML = _navFallbackHTML();
   }
 
+  // Apply nav-dark on all inner pages (not the homepage which has a hero behind the nav)
+  const isHomePage = window.location.pathname === '/' ||
+                     window.location.pathname === '/index.html' ||
+                     document.body.dataset.page === 'home';
+  if (!isHomePage) {
+    nav.classList.add('nav-dark');
+  }
+
   // Mark active link
   if (activePage) {
     const link = nav.querySelector(`[data-page="${activePage}"]`);
