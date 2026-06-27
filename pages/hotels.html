@@ -11,13 +11,10 @@
     :root{--primary:#0057FF;--primary-dark:#0041CC;--primary-light:#EEF3FF;--accent:#FF6B35;--text:#111827;--text-muted:#6B7280;--text-light:#9CA3AF;--bg:#F9FAFB;--bg-white:#fff;--border:#E5E7EB;--success:#059669;--success-bg:#ECFDF5;--error:#DC2626;--shadow-sm:0 1px 3px rgba(0,0,0,.07);--shadow:0 4px 12px rgba(0,0,0,.08);--shadow-lg:0 16px 40px rgba(0,0,0,.13);--r:14px;--r2:8px;--font:'Segoe UI',system-ui,sans-serif}
     body{font-family:var(--font);background:var(--bg);color:var(--text)}
     a{text-decoration:none;color:inherit}
-    nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px}
-    .logo{font-size:1.5rem;font-weight:800;color:var(--primary)}.logo span{color:var(--accent)}
-    .nav-links{display:flex;gap:2rem;align-items:center}
-    .nav-links a{font-size:.875rem;color:var(--text-muted);font-weight:500}
+.logo span{color:var(--accent)}
+.nav-links a{font-size:.875rem;color:var(--text-muted);font-weight:500}
     .nav-links a:hover,.nav-links a.active{color:var(--primary)}
-    .nav-cta{background:var(--primary);color:white!important;padding:.5rem 1.25rem;border-radius:50px;font-weight:600}
-    .search-hero{background:linear-gradient(135deg,#0057FF,#003BB5);padding:2.5rem 2rem;color:white}
+.search-hero{background:linear-gradient(135deg,#0057FF,#003BB5);padding:2.5rem 2rem;color:white}
     .search-hero h1{font-size:2rem;font-weight:800;margin-bottom:.35rem}
     .search-hero p{opacity:.85;font-size:.95rem;margin-bottom:1.5rem}
     .sbox{background:white;border-radius:var(--r);padding:1.25rem 1.5rem;max-width:900px;display:flex;gap:.75rem;align-items:flex-end;flex-wrap:wrap;box-shadow:var(--shadow-lg)}
@@ -118,8 +115,10 @@
     .bref{background:var(--primary-light);border:1px solid #c7d5ff;border-radius:var(--r2);padding:.75rem 1.25rem;display:inline-block;font-weight:700;color:var(--primary);letter-spacing:.1em;font-size:1.1rem;margin-bottom:1.5rem;font-family:monospace}
     footer{background:#111827;color:#9CA3AF;padding:2rem;text-align:center;font-size:.825rem;margin-top:3rem}
     footer strong{color:white}
-    @media(max-width:900px){.layout{grid-template-columns:1fr}.sidebar{position:static}.hotel-card{flex-direction:column}.h-thumb{width:100%;height:160px}.nav-links{display:none}}
+    @media(max-width:900px){.layout{grid-template-columns:1fr}.sidebar{position:static}.hotel-card{flex-direction:column}.h-thumb{width:100%;height:160px}
+}
   </style>
+<header class="nav" id="mainNav"></header>
 <script>
 window.SUPABASE_URL="https://ndaurluolurdljrjbxii.supabase.co";
 window.SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kYXVybHVvbHVyZGxqcmpieGlpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MDY2MzksImV4cCI6MjA5MzQ4MjYzOX0.JsZXOof19JkyX7asJQ7EtoaBKqURJUYzVqXQIenCzjQ";
@@ -137,14 +136,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
   <meta name="twitter:image"      content="https://www.zoomfly.in/assets/og-image.jpg"/>
 </head>
 <body>
-<nav>
-  <a href="../index.html" class="logo">Zoom<span>Fly</span> ✈</a>
-  <div class="nav-links">
-    <a href="packages.html">Packages</a><a href="flights.html">Flights</a>
-    <a href="hotels.html" class="active">Hotels</a><a href="bus.html">Bus</a>
-    <a href="contact.html" class="nav-cta">Get a Quote</a>
-  </div>
-</nav>
+
 
 <div class="search-hero">
   <h1>🏨 Find Your Perfect Hotel</h1>
@@ -236,6 +228,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
 
 <footer><p><strong>ZoomFly</strong> — India's Trusted Travel Partner Since 2018</p><p style="margin-top:.5rem">© 2025 ZoomFly · hello@zoomfly.in</p></footer>
 
+<script src="/assets/js/main.js"></script>
 <script type="module">
 import { getHotels, createBooking, getUser } from '../assets/js/supabase.js';
 

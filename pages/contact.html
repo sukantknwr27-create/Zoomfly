@@ -11,13 +11,10 @@
     :root{--primary:#0057FF;--primary-dark:#0041CC;--primary-light:#EEF3FF;--accent:#FF6B35;--text:#111827;--text-muted:#6B7280;--text-light:#9CA3AF;--bg:#fff;--bg2:#F9FAFB;--border:#E5E7EB;--success:#059669;--success-bg:#ECFDF5;--error:#DC2626;--shadow-lg:0 10px 25px -5px rgba(0,0,0,.10);--r:12px;--r2:8px;--font:'Segoe UI',system-ui,sans-serif}
     body{font-family:var(--font);color:var(--text);background:var(--bg2)}
     a{text-decoration:none;color:inherit}
-    nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px}
-    .logo{font-size:1.5rem;font-weight:800;color:var(--primary)}.logo span{color:var(--accent)}
-    .nav-links{display:flex;gap:1.75rem;align-items:center}
-    .nav-links a{font-size:.875rem;color:var(--text-muted);font-weight:500}
+.logo span{color:var(--accent)}
+.nav-links a{font-size:.875rem;color:var(--text-muted);font-weight:500}
     .nav-links a:hover,.nav-links a.active{color:var(--primary)}
-    .nav-cta{background:var(--primary);color:white!important;padding:.5rem 1.25rem;border-radius:50px;font-weight:600}
-    .hero{background:linear-gradient(135deg,var(--primary-light),#fff 60%);padding:3rem 2rem 2.5rem;text-align:center;border-bottom:1px solid var(--border)}
+.hero{background:linear-gradient(135deg,var(--primary-light),#fff 60%);padding:3rem 2rem 2.5rem;text-align:center;border-bottom:1px solid var(--border)}
     .hero h1{font-size:2.4rem;font-weight:800;letter-spacing:-1px}.hero h1 em{font-style:normal;color:var(--primary)}
     .hero p{margin:.75rem auto 0;color:var(--text-muted);max-width:500px}
     .wrap{max-width:1100px;margin:0 auto;padding:3rem 2rem 5rem;display:grid;grid-template-columns:1fr 1.6fr;gap:3rem;align-items:start}
@@ -83,8 +80,10 @@
     .sec-note{text-align:center;font-size:.775rem;color:var(--text-light);margin-top:.75rem}
     footer{background:#111827;color:#9CA3AF;padding:2rem;text-align:center;font-size:.825rem;margin-top:2rem}
     footer strong{color:white}
-    @media(max-width:768px){.wrap{grid-template-columns:1fr}.hero h1{font-size:1.8rem}.form-row{grid-template-columns:1fr}.nav-links{display:none}}
+    @media(max-width:768px){.wrap{grid-template-columns:1fr}.hero h1{font-size:1.8rem}.form-row{grid-template-columns:1fr}
+}
   </style>
+<header class="nav" id="mainNav"></header>
 <script>
 window.SUPABASE_URL="https://ndaurluolurdljrjbxii.supabase.co";
 window.SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kYXVybHVvbHVyZGxqcmpieGlpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MDY2MzksImV4cCI6MjA5MzQ4MjYzOX0.JsZXOof19JkyX7asJQ7EtoaBKqURJUYzVqXQIenCzjQ";
@@ -102,14 +101,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
   <meta name="twitter:image"      content="https://www.zoomfly.in/assets/og-image.jpg"/>
 </head>
 <body>
-<nav>
-  <a href="../index.html" class="logo">Zoom<span>Fly</span> ✈</a>
-  <div class="nav-links">
-    <a href="packages.html">Packages</a><a href="flights.html">Flights</a>
-    <a href="hotels.html">Hotels</a><a href="bus.html">Bus</a>
-    <a href="contact.html" class="active nav-cta">Get a Quote</a>
-  </div>
-</nav>
+
 
 <div class="hero"><h1>Get In <em>Touch</em></h1><p>Our travel experts plan your perfect trip — completely free.</p></div>
 
@@ -208,6 +200,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
 
 <footer><p><strong>ZoomFly</strong> — India's Trusted Travel Partner</p><p style="margin-top:.5rem">© 2025 ZoomFly · hello@zoomfly.in · +91 8076136300</p></footer>
 
+<script src="/assets/js/main.js"></script>
 <script type="module">
 import { submitEnquiry, supabase } from '../assets/js/supabase.js';
 

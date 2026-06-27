@@ -11,13 +11,10 @@
     :root{--primary:#0057FF;--primary-dark:#0041CC;--primary-light:#EEF3FF;--accent:#FF6B35;--text:#111827;--text-muted:#6B7280;--text-light:#9CA3AF;--bg:#F9FAFB;--bg-white:#fff;--border:#E5E7EB;--success:#059669;--shadow-sm:0 1px 3px rgba(0,0,0,.07);--shadow:0 4px 12px rgba(0,0,0,.08);--shadow-lg:0 12px 32px rgba(0,0,0,.12);--r:14px;--r2:8px;--font:'Segoe UI',system-ui,sans-serif}
     body{font-family:var(--font);background:var(--bg);color:var(--text)}
     a{text-decoration:none;color:inherit}
-    nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px}
-    .logo{font-size:1.5rem;font-weight:800;color:var(--primary)}.logo span{color:var(--accent)}
-    .nav-links{display:flex;gap:2rem;align-items:center}
-    .nav-links a{font-size:.875rem;color:var(--text-muted);font-weight:500;transition:color .2s}
+.logo span{color:var(--accent)}
+.nav-links a{font-size:.875rem;color:var(--text-muted);font-weight:500;transition:color .2s}
     .nav-links a:hover,.nav-links a.active{color:var(--primary)}
-    .nav-cta{background:var(--primary);color:white!important;padding:.5rem 1.25rem;border-radius:50px;font-weight:600}
-    .breadcrumb{padding:.75rem 2rem;font-size:.8rem;color:var(--text-muted);max-width:1280px;margin:0 auto}
+.breadcrumb{padding:.75rem 2rem;font-size:.8rem;color:var(--text-muted);max-width:1280px;margin:0 auto}
     .breadcrumb a{color:var(--primary)}
     .page-hero{background:linear-gradient(135deg,var(--primary-light),#fff 70%);padding:2.5rem 2rem 2rem;text-align:center;border-bottom:1px solid var(--border)}
     .page-hero h1{font-size:2.4rem;font-weight:800;letter-spacing:-1px}.page-hero h1 em{font-style:normal;color:var(--primary)}
@@ -106,8 +103,10 @@
     .btn-wa-m:hover{background:#1db954}
     footer{background:#111827;color:#9CA3AF;padding:2rem;text-align:center;font-size:.825rem;margin-top:3rem}
     footer strong{color:white}
-    @media(max-width:900px){.layout{grid-template-columns:1fr}.sidebar{position:static}.nav-links{display:none}}
+    @media(max-width:900px){.layout{grid-template-columns:1fr}.sidebar{position:static}
+}
   </style>
+<header class="nav" id="mainNav"></header>
 <script>
 window.SUPABASE_URL="https://ndaurluolurdljrjbxii.supabase.co";
 window.SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kYXVybHVvbHVyZGxqcmpieGlpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MDY2MzksImV4cCI6MjA5MzQ4MjYzOX0.JsZXOof19JkyX7asJQ7EtoaBKqURJUYzVqXQIenCzjQ";
@@ -125,14 +124,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
   <meta name="twitter:image"      content="https://www.zoomfly.in/assets/og-image.jpg"/>
 </head>
 <body>
-<nav>
-  <a href="../index.html" class="logo">Zoom<span>Fly</span> ✈</a>
-  <div class="nav-links">
-    <a href="packages.html" class="active">Packages</a><a href="flights.html">Flights</a>
-    <a href="hotels.html">Hotels</a><a href="bus.html">Bus</a><a href="about.html">About</a>
-    <a href="contact.html" class="nav-cta">Get a Quote</a>
-  </div>
-</nav>
+
 <div class="breadcrumb"><a href="../index.html">Home</a> › Tour Packages</div>
 <div class="page-hero">
   <h1>Our <em>Tour Packages</em></h1>
@@ -206,6 +198,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
 
 <footer><p><strong>ZoomFly</strong> — India's Trusted Travel Partner Since 2018</p><p style="margin-top:.5rem">© 2025 ZoomFly · hello@zoomfly.in</p></footer>
 
+<script src="/assets/js/main.js"></script>
 <script type="module">
 import { getPackages, addToWishlist, removeFromWishlist, getWishlist, getUser } from '../assets/js/supabase.js';
 

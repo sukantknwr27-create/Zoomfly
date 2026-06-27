@@ -22,18 +22,12 @@
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.8; }
-
-    nav { background: var(--dark); padding: 0 5%; display: flex; align-items: center; justify-content: space-between; height: 68px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 20px rgba(0,0,0,0.3); }
-    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-    .logo-icon { width: 38px; height: 38px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+.logo-icon { width: 38px; height: 38px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
     .logo-text { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--white); font-weight: 700; }
     .logo-text span { color: var(--accent); }
-    .nav-links { display: flex; gap: 28px; list-style: none; }
-    .nav-links a { color: rgba(255,255,255,0.75); text-decoration: none; font-size: 0.88rem; font-weight: 500; transition: color 0.2s; }
+.nav-links a { color: rgba(255,255,255,0.75); text-decoration: none; font-size: 0.88rem; font-weight: 500; transition: color 0.2s; }
     .nav-links a:hover { color: var(--white); }
-    .nav-cta { background: var(--accent); color: var(--white) !important; padding: 8px 20px; border-radius: 8px; font-weight: 600 !important; }
-
-    .page-hero { background: linear-gradient(135deg, #0f1923 0%, #1a2535 60%, #1f1a35 100%); padding: 72px 5% 60px; position: relative; overflow: hidden; }
+.page-hero { background: linear-gradient(135deg, #0f1923 0%, #1a2535 60%, #1f1a35 100%); padding: 72px 5% 60px; position: relative; overflow: hidden; }
     .page-hero::before { content: ''; position: absolute; top: -60px; right: -60px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(255,107,53,0.15) 0%, transparent 70%); border-radius: 50%; }
     .page-hero::after { content: ''; position: absolute; bottom: -40px; left: 10%; width: 200px; height: 200px; background: radial-gradient(circle, rgba(26,115,232,0.1) 0%, transparent 70%); border-radius: 50%; }
     .breadcrumb { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; font-size: 0.82rem; color: rgba(255,255,255,0.5); }
@@ -45,10 +39,8 @@
     .hero-meta-item { display: flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.6); font-size: 0.85rem; }
     .hero-meta-item .dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; }
 
-    /* quick nav pills */
-    .quick-nav { background: var(--white); border-bottom: 1px solid var(--border); padding: 16px 5%; display: flex; gap: 10px; flex-wrap: wrap; position: sticky; top: 68px; z-index: 90; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
-    .quick-pill { padding: 6px 16px; background: var(--bg); border: 1px solid var(--border); border-radius: 20px; font-size: 0.8rem; font-weight: 500; color: var(--text-light); text-decoration: none; transition: all 0.2s; white-space: nowrap; }
-    .quick-pill:hover { background: var(--primary); color: var(--white); border-color: var(--primary); }
+    /* quick
+.quick-pill:hover { background: var(--primary); color: var(--white); border-color: var(--primary); }
 
     .container { max-width: 1100px; margin: 0 auto; padding: 60px 5%; display: grid; grid-template-columns: 260px 1fr; gap: 48px; align-items: start; }
 
@@ -158,9 +150,11 @@
     .footer-divider { width: 40px; height: 1px; background: rgba(255,255,255,0.15); }
     .footer-bottom { font-size: 0.8rem; color: rgba(255,255,255,0.35); }
 
-    @media (max-width: 900px) { .container { grid-template-columns: 1fr; } .toc { display: none; } .nav-links { display: none; } .timeline { flex-wrap: wrap; gap: 16px; } .timeline::before { display: none; } }
+    @media (max-width: 900px) { .container { grid-template-columns: 1fr; } .toc { display: none; }
+.timeline { flex-wrap: wrap; gap: 16px; } .timeline::before { display: none; } }
     @media (max-width: 600px) { .section { padding: 24px 20px; } .timeline-hero { padding: 24px 20px; } }
   </style>
+<header class="nav" id="mainNav"></header>
   <script>
     window.SUPABASE_URL="https://ndaurluolurdljrjbxii.supabase.co";
     window.SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kYXVybHVvbHVyZGxqcmpieGlpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MDY2MzksImV4cCI6MjA5MzQ4MjYzOX0.JsZXOof19JkyX7asJQ7EtoaBKqURJUYzVqXQIenCzjQ";
@@ -179,20 +173,7 @@
 </head>
 <body>
 
-<nav>
-  <a href="index.html" class="logo">
-    <div class="logo-icon">✈️</div>
-    <div class="logo-text">Zoom<span>Fly</span></div>
-  </a>
-  <ul class="nav-links">
-    <li><a href="flights.html">Flights</a></li>
-    <li><a href="hotels.html">Hotels</a></li>
-    <li><a href="packages.html">Packages</a></li>
-    <li><a href="buses.html">Buses</a></li>
-    <li><a href="cabs.html">Cabs</a></li>
-    <li><a href="contact.html" class="nav-cta">Contact Us</a></li>
-  </ul>
-</nav>
+
 
 <div class="page-hero">
   <div class="breadcrumb">
@@ -670,5 +651,6 @@
   sections.forEach(s => observer.observe(s));
 </script>
 
+<script src="/assets/js/main.js"></script>
 </body>
 </html>
