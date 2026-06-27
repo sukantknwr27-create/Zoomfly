@@ -189,15 +189,15 @@ CREATE POLICY "Anyone create messages"    ON messages             FOR INSERT WIT
 SELECT 'New features tables created successfully ✅' as status;
 
 -- ── NEWSLETTER TABLE ─────────────────────────────────────────────────────────
-CREATE TABLE IF NOT EXISTS newsletter (
+CREATE TABLE IF NOT EXISTS newsletter_subscribers (
   id            UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   email         TEXT UNIQUE NOT NULL,
   source        TEXT DEFAULT 'homepage',
   promo_code    TEXT DEFAULT 'FIRST10',
   subscribed_at TIMESTAMPTZ DEFAULT NOW()
 );
-ALTER TABLE newsletter ENABLE ROW LEVEL SECURITY;
-DROP POLICY IF EXISTS "Anyone can subscribe to newsletter" ON newsletter;
-CREATE POLICY "Anyone can subscribe to newsletter" ON newsletter FOR INSERT WITH CHECK (true);
-DROP POLICY IF EXISTS "Admin reads newsletter" ON newsletter;
-CREATE POLICY "Admin reads newsletter" ON newsletter FOR SELECT USING ((auth.jwt()->'app_metadata'->>'role')='admin');
+ALTER TABLE newsletter_subscribers ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Anyone can subscribe to newsletter_subscribers" ON newsletter_subscribers;
+CREATE POLICY "Anyone can subscribe to newsletter_subscribers" ON newsletter_subscribers FOR INSERT WITH CHECK (true);
+DROP POLICY IF EXISTS "Admin reads newsletter_subscribers" ON newsletter_subscribers;
+CREATE POLICY "Admin reads newsletter_subscribers" ON newsletter_subscribers FOR SELECT USING ((auth.jwt()->'app_metadata'->>'role')='admin');
