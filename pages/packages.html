@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <meta charset="UTF-8"/>
   <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"/>
   <link rel="shortcut icon" href="/assets/favicon.svg"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
@@ -16,9 +18,9 @@
     .nav-links a:hover,.nav-links a.active{color:var(--primary)}
 .breadcrumb{padding:.75rem 2rem;font-size:.8rem;color:var(--text-muted);max-width:1280px;margin:0 auto}
     .breadcrumb a{color:var(--primary)}
-    .page-hero{background:linear-gradient(135deg,var(--primary-light),#fff 70%);padding:2.5rem 2rem 2rem;text-align:center;border-bottom:1px solid var(--border)}
-    .page-hero h1{font-size:2.4rem;font-weight:800;letter-spacing:-1px}.page-hero h1 em{font-style:normal;color:var(--primary)}
-    .page-hero p{color:var(--text-muted);margin-top:.5rem}
+    .page-hero{background:linear-gradient(145deg,var(--ink,#0C1B33) 0%,#1a2d4a 50%,#1e3a6e 100%);padding:120px 2rem 70px;text-align:center;position:relative;overflow:hidden}
+    .page-hero h1{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(2.2rem,5vw,3.5rem);font-weight:600;color:#fff;letter-spacing:-0.01em}.page-hero h1 em{font-style:italic;color:#E8B84B}
+    .page-hero p{color:rgba(255,255,255,0.70);margin-top:.75rem;font-size:1.05rem}
     .search-wrap{max-width:540px;margin:1.5rem auto 0;position:relative}
     .search-wrap input{width:100%;padding:.85rem 3rem .85rem 1.2rem;border:1.5px solid var(--border);border-radius:50px;font-size:.95rem;font-family:var(--font);background:white;box-shadow:var(--shadow-sm);transition:border-color .2s}
     .search-wrap input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(0,87,255,.1)}
@@ -123,6 +125,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
   <meta name="twitter:card"       content="summary_large_image"/>
   <meta name="twitter:image"      content="https://www.zoomfly.in/assets/og-image.jpg"/>
   <link rel="stylesheet" href="/assets/css/main.css"/>
+<link rel="stylesheet" href="/assets/css/premium.css"/>
 </head>
 <body>
 
