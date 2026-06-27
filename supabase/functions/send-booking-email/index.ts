@@ -4,12 +4,24 @@
 // Deploy: npx supabase functions deploy send-booking-email
 // ============================================================
 
-import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
+import { serve } from 'https://deno.land/std@0.224.0/http/server.ts';
 
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-};
+const ALLOWED_ORIGINS = [
+  'https://www.zoomfly.in',
+  'https://zoomfly.in',
+  'http://localhost:3000',
+  'http://127.0.0.1:5500',
+];
+
+function corsHeaders(req: Request) {
+  const origin = req.headers.get('origin') || '';
+  const allowed = ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
+  return {
+    'Access-Control-Allow-Origin': allowed,
+    'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+    'Vary': 'Origin',
+  };
+}
 
 // Uses Resend (free tier = 3000 emails/month) — sign up at resend.com
 // Alternative: replace with SMTP via nodemailer in a Node environment
@@ -133,8 +145,33 @@ function enquiryAckHtml(enquiry: any) {
   </body></html>`;
 }
 
+// ── RATE LIMITER ─────────────────────────────────────────────
+// Simple in-memory sliding-window rate limit per IP.
+// Deno isolates are recycled by Supabase, so this resets periodically —
+// suitable as a first-line abuse guard, not a hard quota.
+const _rateWindows = new Map<string, number[]>();
+const RATE_LIMIT_MAX      = 10;   // max calls per window
+const RATE_LIMIT_WINDOW   = 60_000; // 60 seconds
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const calls = (_rateWindows.get(ip) || []).filter(t => now - t < RATE_LIMIT_WINDOW);
+  calls.push(now);
+  _rateWindows.set(ip, calls);
+  return calls.length > RATE_LIMIT_MAX;
+}
+
 serve(async (req) => {
-  if (req.method === 'OPTIONS') return new Response('ok', { headers: corsHeaders });
+  if (req.method === 'OPTIONS') return new Response('ok', { headers: corsHeaders(req) });
+
+  // Rate limit by IP
+  const ip = req.headers.get('x-forwarded-for')?.split(',')[0].trim() || 'unknown';
+  if (isRateLimited(ip)) {
+    return new Response(JSON.stringify({ error: 'Too many requests. Please try again later.' }), {
+      status: 429,
+      headers: { ...corsHeaders(req), 'Content-Type': 'application/json', 'Retry-After': '60' },
+    });
+  }
 
   try {
     const { type, booking, enquiry } = await req.json();
@@ -173,13 +210,13 @@ serve(async (req) => {
     }
 
     return new Response(JSON.stringify({ success: true }), {
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+      headers: { ...corsHeaders(req), 'Content-Type': 'application/json' }
     });
 
   } catch (err) {
     return new Response(JSON.stringify({ error: err.message }), {
       status: 400,
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+      headers: { ...corsHeaders(req), 'Content-Type': 'application/json' }
     });
   }
 });
