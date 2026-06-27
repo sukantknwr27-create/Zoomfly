@@ -11,6 +11,7 @@
   <!-- Preload critical CSS -->
   <link rel="preload" href="/assets/css/main.css" as="style"/>
   <link rel="stylesheet" href="/assets/css/main.css"/>
+<link rel="stylesheet" href="/assets/css/premium.css"/>
   <link rel="shortcut icon" href="/assets/favicon.svg"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>ZoomFly — Tour Packages, Flights, Hotels & Bus Booking India</title>
   <meta name="description" content="India's trusted travel partner. Book curated tour packages, flights, hotels and buses. Best price guarantee, instant confirmation, 24/7 support."/>
@@ -211,20 +212,56 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
 </head>
 <body data-page="home">
 
-<section class="hero">
-  <div class="hero-content">
-    <div class="hero-badge">🏆 India's #1 Rated Travel Platform · 4.9★</div>
-    <h1>Your Next <em>Adventure</em><br>Awaits</h1>
-    <p>Curated tour packages, seamless flights, hotels & buses — plan your perfect trip with ZoomFly.</p>
-    <div class="hero-btns">
-      <a href="pages/packages.html" class="btn-hp">Explore Packages 🗺</a>
-      <a href="pages/contact.html" class="btn-hs">Free Custom Quote</a>
+<section class="hero" style="min-height:100vh;display:flex;align-items:center;">
+  <!-- Ambient orbs -->
+  <div aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:1">
+    <div style="position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(201,146,42,0.10),transparent 70%);top:-120px;right:-100px;animation:orbFloat 8s ease-in-out infinite"></div>
+    <div style="position:absolute;width:480px;height:480px;border-radius:50%;background:radial-gradient(circle,rgba(27,110,243,0.08),transparent 70%);bottom:-80px;left:-80px;animation:orbFloat 10s 2s ease-in-out infinite reverse"></div>
+  </div>
+  <style>
+    @keyframes orbFloat{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-24px) scale(1.04)}}
+  </style>
+
+  <div class="hero-content" style="position:relative;z-index:3">
+    <div class="hero-badge">
+      <span style="color:#F59E0B">★★★★★</span>&nbsp; India's #1 Rated Travel Platform · 4.9 / 5
     </div>
+
+    <h1>
+      Where will you<br>
+      <em>wander</em> next?
+    </h1>
+
+    <p>Curated tours, seamless flights, handpicked hotels — crafted for travellers who expect more than ordinary.</p>
+
+    <div class="hero-btns">
+      <a href="pages/packages.html" class="btn-hp">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 3L3 10.5L10 13.5L13 21L21 3Z"/><path d="M10 13.5L14 10"/></svg>
+        Explore Packages
+      </a>
+      <a href="pages/contact.html" class="btn-hs">Free Custom Quote →</a>
+    </div>
+
+    <!-- Divider line -->
+    <div style="width:1px;height:0;border:none;background:rgba(255,255,255,0.14);max-width:560px;margin:0 auto 40px;border-top:1px solid rgba(255,255,255,0.14)"></div>
+
     <div class="hero-stats">
-      <div class="hstat"><strong>5,000+</strong><span>Happy Travellers</span></div>
-      <div class="hstat"><strong>200+</strong><span>Tour Packages</span></div>
-      <div class="hstat"><strong>50+</strong><span>Destinations</span></div>
-      <div class="hstat"><strong>4.9★</strong><span>Avg Rating</span></div>
+      <div class="hstat">
+        <strong>5,000+</strong>
+        <span>Happy Travellers</span>
+      </div>
+      <div class="hstat">
+        <strong>200+</strong>
+        <span>Tour Packages</span>
+      </div>
+      <div class="hstat">
+        <strong>50+</strong>
+        <span>Destinations</span>
+      </div>
+      <div class="hstat">
+        <strong>4.9★</strong>
+        <span>Avg Rating</span>
+      </div>
     </div>
   </div>
 </section>
@@ -301,15 +338,39 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
 </section>
 
 <!-- DESTINATIONS -->
-<section style="background:var(--bg2)">
+<section style="background:var(--cream-2)">
   <div class="sw">
-    <div class="sh"><div class="slbl">Top Picks</div><h2 class="stitle">Popular <em>Destinations</em></h2><p class="ssub">Explore India's most-loved getaways and beyond.</p></div>
+    <div class="sh">
+      <div class="slbl">Top Picks</div>
+      <h2 class="stitle">Popular <em>Destinations</em></h2>
+      <p class="ssub">India's most-loved getaways, curated by travellers who've been there.</p>
+    </div>
     <div class="dest-grid">
-      <div class="dest-card" onclick="location.href='pages/packages.html'"><div class="dest-bg" style="background:linear-gradient(135deg,#4facfe,#00f2fe)">🏔️</div><div class="dest-ov"></div><div class="dest-content"><h3>Manali & Spiti</h3><p>Snow, adventure & mountain magic</p><span class="dest-from">From ₹12,499</span></div></div>
-      <div class="dest-card" onclick="location.href='pages/packages.html'"><div class="dest-bg" style="background:linear-gradient(135deg,#f093fb,#f5576c)">🏖️</div><div class="dest-ov"></div><div class="dest-content"><h3>Goa</h3><p>Sun, beaches & culture</p><span class="dest-from">From ₹8,999</span></div></div>
-      <div class="dest-card" onclick="location.href='pages/packages.html'"><div class="dest-bg" style="background:linear-gradient(135deg,#43e97b,#38f9d7)">🌴</div><div class="dest-ov"></div><div class="dest-content"><h3>Kerala</h3><p>Backwaters & tropical beauty</p><span class="dest-from">From ₹15,499</span></div></div>
-      <div class="dest-card" onclick="location.href='pages/packages.html'"><div class="dest-bg" style="background:linear-gradient(135deg,#fa709a,#fee140)">🏰</div><div class="dest-ov"></div><div class="dest-content"><h3>Rajasthan</h3><p>Forts, palaces & heritage</p><span class="dest-from">From ₹22,999</span></div></div>
-      <div class="dest-card" onclick="location.href='pages/packages.html'"><div class="dest-bg" style="background:linear-gradient(135deg,#f77062,#fe5196)">🌏</div><div class="dest-ov"></div><div class="dest-content"><h3>Bali</h3><p>Romantic international escape</p><span class="dest-from">From ₹54,999</span></div></div>
+      <div class="dest-card" onclick="location.href='pages/packages.html'" role="button" tabindex="0" aria-label="Manali & Spiti packages">
+        <div class="dest-bg" style="background:linear-gradient(145deg,#1a3a6b,#2d6bc4)">🏔️</div>
+        <div class="dest-ov"></div>
+        <div class="dest-content"><h3>Manali &amp; Spiti</h3><p>Snow, adventure &amp; mountain magic</p><span class="dest-from">From ₹12,499</span></div>
+      </div>
+      <div class="dest-card" onclick="location.href='pages/packages.html'" role="button" tabindex="0" aria-label="Goa packages">
+        <div class="dest-bg" style="background:linear-gradient(145deg,#1e6070,#2d9b8a)">🏖️</div>
+        <div class="dest-ov"></div>
+        <div class="dest-content"><h3>Goa</h3><p>Sun, beaches &amp; culture</p><span class="dest-from">From ₹8,999</span></div>
+      </div>
+      <div class="dest-card" onclick="location.href='pages/packages.html'" role="button" tabindex="0" aria-label="Kerala packages">
+        <div class="dest-bg" style="background:linear-gradient(145deg,#1a4a2e,#2d7a4f)">🌴</div>
+        <div class="dest-ov"></div>
+        <div class="dest-content"><h3>Kerala</h3><p>Backwaters &amp; tropical beauty</p><span class="dest-from">From ₹15,499</span></div>
+      </div>
+      <div class="dest-card" onclick="location.href='pages/packages.html'" role="button" tabindex="0" aria-label="Rajasthan packages">
+        <div class="dest-bg" style="background:linear-gradient(145deg,#4a2010,#8a3a1a)">🏰</div>
+        <div class="dest-ov"></div>
+        <div class="dest-content"><h3>Rajasthan</h3><p>Forts, palaces &amp; heritage</p><span class="dest-from">From ₹22,999</span></div>
+      </div>
+      <div class="dest-card" onclick="location.href='pages/packages.html'" role="button" tabindex="0" aria-label="Bali packages">
+        <div class="dest-bg" style="background:linear-gradient(145deg,#3a1a4a,#6a2d8a)">🌏</div>
+        <div class="dest-ov"></div>
+        <div class="dest-content"><h3>Bali</h3><p>Romantic international escape</p><span class="dest-from">From ₹54,999</span></div>
+      </div>
     </div>
   </div>
 </section>
@@ -363,44 +424,18 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
 </section>
 
 <!-- NEWSLETTER SECTION -->
-<section style="background:linear-gradient(135deg,#0f1923 0%,#1a2535 60%,#1a1a0f 100%);padding:72px 5%;position:relative;overflow:hidden;">
-  <div style="position:absolute;inset:0;background:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 60 60%22><text y=%221em%22 font-size=%2250%22 opacity=%220.04%22>✈</text></svg>') repeat;background-size:80px;"></div>
-  <div style="max-width:640px;margin:0 auto;text-align:center;position:relative;z-index:1;">
-    <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(245,158,11,.15);
-         border:1px solid rgba(245,158,11,.3);border-radius:20px;padding:5px 16px;
-         font-size:.75rem;font-weight:700;color:#fde68a;letter-spacing:1px;
-         text-transform:uppercase;margin-bottom:18px;">✉ Travel Deals</div>
-    <h2 style="font-family:'Playfair Display',serif;font-size:clamp(1.6rem,3.5vw,2.4rem);
-         font-weight:800;color:#fff;line-height:1.25;margin-bottom:14px;">
-      Get <em style="color:#f59e0b;">Exclusive Deals</em><br/>Before Everyone Else
-    </h2>
-    <p style="color:rgba(255,255,255,.55);font-size:.95rem;line-height:1.7;margin-bottom:30px;">
-      Join 14,000+ travellers getting the best fares, flash sales, and insider tips every week.
-      Unsubscribe anytime.
-    </p>
-    <form id="nl-form" onsubmit="submitNewsletter(event)" action="javascript:void(0)"
-      style="display:flex;gap:10px;max-width:480px;margin:0 auto 16px;">
-      <input type="email" id="nl-email" placeholder="Enter your email address"
-        required
-        style="flex:1;padding:13px 18px;border-radius:10px;border:1.5px solid rgba(255,255,255,.15);
-               background:rgba(255,255,255,.08);color:#fff;font-size:.92rem;outline:none;
-               font-family:inherit;transition:border .2s;"
-        onfocus="this.style.borderColor='rgba(245,158,11,.6)'"
-        onblur="this.style.borderColor='rgba(255,255,255,.15)'"/>
-      <button type="submit" id="nl-btn"
-        style="padding:13px 24px;background:linear-gradient(135deg,#f59e0b,#d97706);
-               color:#000;border:none;border-radius:10px;font-size:.92rem;font-weight:800;
-               cursor:pointer;white-space:nowrap;transition:all .2s;font-family:inherit;"
-        onmouseover="this.style.transform='translateY(-1px)'"
-        onmouseout="this.style.transform='none'">
-        Subscribe ✈
-      </button>
-    </form>
-    <div id="nl-msg" style="font-size:.85rem;margin-top:8px;min-height:20px;"></div>
-    <div style="display:flex;justify-content:center;gap:24px;margin-top:24px;flex-wrap:wrap;">
-      <span style="font-size:.78rem;color:rgba(255,255,255,.35);">🔒 No spam, ever</span>
-      <span style="font-size:.78rem;color:rgba(255,255,255,.35);">📬 Weekly deals only</span>
-      <span style="font-size:.78rem;color:rgba(255,255,255,.35);">✌ Unsubscribe anytime</span>
+<section class="newsletter">
+  <div class="zf-wrap">
+    <div class="newsletter-inner">
+      <div class="newsletter-text">
+        <div class="zf-eyebrow">Travel Deals</div>
+        <h3>Get the best deals,<br><em>before anyone else</em></h3>
+        <p>Join 12,000+ travellers getting exclusive offers every week.</p>
+      </div>
+      <form class="newsletter-form" onsubmit="handleNewsletterSignup(event)">
+        <input type="email" placeholder="Your email address" required aria-label="Email for newsletter"/>
+        <button type="submit" class="btn btn-navy btn-sm">Subscribe</button>
+      </form>
     </div>
   </div>
 </section>
