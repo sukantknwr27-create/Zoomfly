@@ -974,9 +974,9 @@ window.deletePromo = async (id) => {
   loadPromos();
 };
 
+
 // ── SITE SETTINGS ────────────────────────────────────────────
-// ── SITE SETTINGS ────────────────────────────────────────────
-window.saveSettings = async () => {
+
   const btn = document.querySelector('button[onclick="saveSettings()"]');
   if (btn) { btn.textContent = '⏳ Saving...'; btn.disabled = true; }
   window.saveCompanySettings = async () => {
