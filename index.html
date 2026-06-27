@@ -34,13 +34,10 @@
     body{font-family:var(--font);color:var(--text);background:var(--bg)}
     a{text-decoration:none;color:inherit}
     /* NAV */
-    nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,.96);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between}
-    .logo{font-size:1.55rem;font-weight:900;color:var(--primary);letter-spacing:-.5px}.logo span{color:var(--accent)}
-    .nav-links{display:flex;gap:1.75rem;align-items:center}
-    .nav-links a{font-size:.875rem;color:var(--muted);font-weight:500;transition:color .2s}.nav-links a:hover{color:var(--primary)}
-    .nav-right{display:flex;gap:.75rem;align-items:center}
-    .btn-login{font-size:.875rem;font-weight:600;color:var(--muted);padding:.45rem .9rem;border:1.5px solid var(--border);border-radius:50px;transition:all .2s}.btn-login:hover{border-color:var(--primary);color:var(--primary)}
-    .btn-cta{font-size:.875rem;font-weight:700;color:white;background:var(--primary);padding:.5rem 1.25rem;border-radius:50px;transition:all .2s}.btn-cta:hover{background:var(--primary-dark);color:white}
+.logo span{color:var(--accent)}
+.nav-links a{font-size:.875rem;color:var(--muted);font-weight:500;transition:color .2s}.nav-links a:hover{color:var(--primary)}
+.btn-login:hover{border-color:var(--primary);color:var(--primary)}
+.btn-cta:hover{background:var(--primary-dark);color:white}
     /* user pill when logged in */
     .user-pill{display:flex;align-items:center;gap:.6rem;padding:.4rem .85rem .4rem .5rem;border:1px solid var(--border);border-radius:50px;font-size:.875rem;font-weight:600;cursor:pointer;transition:border-color .2s}.user-pill:hover{border-color:var(--primary)}
     .uav{width:28px;height:28px;border-radius:50%;background:var(--primary);color:white;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700}
@@ -182,8 +179,10 @@
     .tm{font-size:.72rem;background:rgba(255,255,255,.07);padding:.25rem .65rem;border-radius:50px}
     @media(max-width:1024px){.why-inner{grid-template-columns:1fr;gap:2rem}.footer-inner{grid-template-columns:1fr 1fr}}
     @media(max-width:1024px){.svc-grid{grid-template-columns:repeat(3,1fr)}}
-    @media(max-width:768px){nav .nav-links{display:none}.hero h1{font-size:2.2rem}.svc-grid{grid-template-columns:repeat(2,1fr)}.dest-grid{grid-template-columns:1fr}.dest-card:first-child{grid-column:span 1}.test-grid{grid-template-columns:1fr}.footer-inner{grid-template-columns:1fr;gap:2rem}.why-stats{grid-template-columns:1fr 1fr}}
+    @media(max-width:768px){nav
+.hero h1{font-size:2.2rem}.svc-grid{grid-template-columns:repeat(2,1fr)}.dest-grid{grid-template-columns:1fr}.dest-card:first-child{grid-column:span 1}.test-grid{grid-template-columns:1fr}.footer-inner{grid-template-columns:1fr;gap:2rem}.why-stats{grid-template-columns:1fr 1fr}}
   </style>
+<header class="nav" id="mainNav"></header>
 <script>
 window.SUPABASE_URL="https://ndaurluolurdljrjbxii.supabase.co";
 window.SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kYXVybHVvbHVyZGxqcmpieGlpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MDY2MzksImV4cCI6MjA5MzQ4MjYzOX0.JsZXOof19JkyX7asJQ7EtoaBKqURJUYzVqXQIenCzjQ";
@@ -210,25 +209,6 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
   </script>
 </head>
 <body>
-
-<div class="promo">✈ Use code <span class="promo-code">ZOOMFLY10</span> for 10% off all packages! <a href="pages/packages.html">Browse →</a></div>
-
-<nav>
-  <a href="index.html" class="logo">Zoom<span>Fly</span> ✈</a>
-  <div class="nav-links">
-    <a href="pages/packages.html">Packages</a>
-    <a href="pages/flights.html">Flights</a>
-    <a href="pages/hotels.html">Hotels</a>
-    <a href="pages/bus.html">Bus</a>
-    <a href="pages/about.html">About</a>
-    <a href="pages/vendor.html">Partner With Us</a>
-  </div>
-  <div class="nav-right" id="nav-right">
-    <!-- Populated by JS based on auth state -->
-    <a href="pages/login.html" class="btn-login">Log In</a>
-    <a href="pages/contact.html" class="btn-cta">Free Quote</a>
-  </div>
-</nav>
 
 <section class="hero">
   <div class="hero-content">
