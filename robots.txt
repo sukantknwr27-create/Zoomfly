@@ -2,15 +2,17 @@ User-agent: *
 Allow: /
 
 # Block admin and private pages from indexing
-Disallow: /pages/admin
-Disallow: /pages/admin-bookings.html
-Disallow: /pages/admin-vendors.html
-Disallow: /pages/admin-agents.html
-Disallow: /pages/admin-workflow.html
-Disallow: /pages/admin-whatsapp-templates.html
-Disallow: /pages/admin-reminders.html
-Disallow: /pages/admin-customers.html
-Disallow: /pages/admin-packages.html
+Disallow: /pages/admin*
+Disallow: /admin
+Disallow: /admin-bookings
+Disallow: /admin-vendors
+Disallow: /admin-agents
+Disallow: /admin-workflow
+Disallow: /admin-whatsapp-templates
+Disallow: /admin-reminders
+Disallow: /admin-customers
+Disallow: /admin-packages
+Disallow: /admin-login
 Disallow: /pages/dashboard.html
 Disallow: /pages/my-bookings.html
 Disallow: /pages/payment.html
@@ -21,5 +23,10 @@ Disallow: /pages/trip-tracker.html
 Disallow: /pages/co-travellers.html
 Disallow: /pages/vendor-portal.html
 Disallow: /pages/agent-portal.html
+Disallow: /dashboard
+Disallow: /my-bookings
+Disallow: /payment
+Disallow: /login
+Disallow: /api/
 
 Sitemap: https://www.zoomfly.in/sitemap.xml
