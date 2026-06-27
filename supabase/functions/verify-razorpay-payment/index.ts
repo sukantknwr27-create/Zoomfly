@@ -4,14 +4,26 @@
 // Deploy: npx supabase functions deploy verify-razorpay-payment
 // ============================================================
 
-import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
+import { serve } from 'https://deno.land/std@0.224.0/http/server.ts';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
-import { crypto } from 'https://deno.land/std@0.168.0/crypto/mod.ts';
+import { crypto } from 'https://deno.land/std@0.224.0/crypto/mod.ts';
 
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-};
+const ALLOWED_ORIGINS = [
+  'https://www.zoomfly.in',
+  'https://zoomfly.in',
+  'http://localhost:3000',
+  'http://127.0.0.1:5500',
+];
+
+function corsHeaders(req: Request) {
+  const origin = req.headers.get('origin') || '';
+  const allowed = ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
+  return {
+    'Access-Control-Allow-Origin': allowed,
+    'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+    'Vary': 'Origin',
+  };
+}
 
 async function hmacSHA256(secret: string, message: string): Promise<string> {
   const encoder = new TextEncoder();
@@ -25,7 +37,7 @@ async function hmacSHA256(secret: string, message: string): Promise<string> {
 }
 
 serve(async (req) => {
-  if (req.method === 'OPTIONS') return new Response('ok', { headers: corsHeaders });
+  if (req.method === 'OPTIONS') return new Response('ok', { headers: corsHeaders(req) });
 
   try {
     const { booking_id, razorpay_order_id, razorpay_payment_id, razorpay_signature } = await req.json();
@@ -50,9 +62,12 @@ serve(async (req) => {
       throw new Error('Payment signature verification failed. Possible fraud attempt.');
     }
 
-    // Fetch booking to get amount
+    // Fetch booking and verify it belongs to the authenticated user
     const { data: booking } = await supabase.from('bookings').select('*').eq('id', booking_id).single();
     if (!booking) throw new Error('Booking not found');
+    if (booking.user_id && booking.user_id !== user.id) {
+      throw new Error('Unauthorized: booking does not belong to this user');
+    }
 
     // Update payment record
     await supabase.from('payments').update({
@@ -77,22 +92,27 @@ serve(async (req) => {
 
     if (updateError) throw updateError;
 
-    // Send confirmation email via Edge Function
-    await supabase.functions.invoke('send-booking-email', {
-      body: { booking: updatedBooking, type: 'confirmation' }
-    });
+    // Send confirmation email — non-fatal: log failure but don't fail the payment
+    try {
+      const { error: emailError } = await supabase.functions.invoke('send-booking-email', {
+        body: { booking: updatedBooking, type: 'confirmation' }
+      });
+      if (emailError) console.error('[verify-razorpay] Email send failed:', emailError.message);
+    } catch (emailErr) {
+      console.error('[verify-razorpay] Email invoke threw:', emailErr);
+    }
 
     return new Response(JSON.stringify({
       success: true,
       booking_ref: updatedBooking.booking_ref,
       status: 'confirmed',
       message: 'Payment verified and booking confirmed!'
-    }), { headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+    }), { headers: { ...corsHeaders(req), 'Content-Type': 'application/json' } });
 
   } catch (err) {
     return new Response(JSON.stringify({ error: err.message }), {
       status: 400,
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+      headers: { ...corsHeaders(req), 'Content-Type': 'application/json' }
     });
   }
 });
