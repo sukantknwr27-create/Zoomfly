@@ -231,68 +231,192 @@ async function doSignOut() {
 function renderFooter() {
   const footer = document.getElementById('mainFooter');
   if (!footer) return;
+  const yr = new Date().getFullYear();
   footer.innerHTML = `
-    <div class="container footer-inner">
-      <div class="footer-brand">
-        <a href="/" class="logo">
-          <span class="logo-zoom">Zoom</span><span class="logo-fly">Fly</span>
-          <svg class="logo-plane" viewBox="0 0 24 24" fill="none">
-            <path d="M21 3L3 10.5L10 13.5L13 21L21 3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
-            <path d="M10 13.5L14 10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-          </svg>
-        </a>
-        <p>Making travel accessible, joyful, and memorable for every Indian.</p>
-        <div class="footer-trust">
-          <div class="trust-badge">✈ IATA Registered</div>
-          <div class="trust-badge">🛡 GST Verified</div>
-          <div class="trust-badge">⭐ 4.9 Rated</div>
+<div class="zf-footer-wrap">
+
+  <!-- MAIN FOOTER GRID -->
+  <div class="zf-footer-grid">
+
+    <!-- COL 1: Brand -->
+    <div class="zf-footer-brand">
+      <a href="/" class="logo" style="margin-bottom:14px;display:inline-flex">
+        <span class="logo-zoom">Zoom</span><span class="logo-fly">Fly</span>
+        <svg class="logo-plane" viewBox="0 0 24 24" fill="none" style="width:16px;height:16px;margin-left:4px;color:var(--gold-light,#E8B84B)">
+          <path d="M21 3L3 10.5L10 13.5L13 21L21 3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+          <path d="M10 13.5L14 10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </a>
+      <p style="color:rgba(255,255,255,0.48);font-size:.82rem;line-height:1.75;max-width:220px;margin-bottom:18px;">
+        India's trusted travel partner since 2018. Crafting unforgettable journeys for thousands of happy travellers.
+      </p>
+      <!-- Trust badges -->
+      <div style="display:flex;flex-direction:column;gap:7px;margin-bottom:20px;">
+        <div style="display:flex;align-items:center;gap:8px;font-size:.75rem;color:rgba(255,255,255,0.55);">
+          <span style="color:#F59E0B">★</span> <strong style="color:rgba(255,255,255,0.75)">4.9/5 Google Rating</strong> — Based on 500+ Reviews
         </div>
-        <div class="social-links">
-          <a href="#" title="Instagram">📸</a>
-          <a href="#" title="Facebook">💙</a>
-          <a href="https://wa.me/${ZF.whatsapp}" title="WhatsApp">💬</a>
-          <a href="#" title="YouTube">▶️</a>
+        <div style="display:flex;align-items:center;gap:8px;font-size:.75rem;color:rgba(255,255,255,0.55);">
+          <span>🧳</span> <strong style="color:rgba(255,255,255,0.75)">5,000+ Happy Travellers</strong> Trusted by thousands
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:.75rem;color:rgba(255,255,255,0.55);">
+          <span>🗺️</span> <strong style="color:rgba(255,255,255,0.75)">200+ Tour Packages</strong> Handpicked experiences
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:.75rem;color:rgba(255,255,255,0.55);">
+          <span>🌍</span> <strong style="color:rgba(255,255,255,0.75)">50+ Destinations</strong> India &amp; International
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:.75rem;color:rgba(255,255,255,0.55);">
+          <span>📅</span> <strong style="color:rgba(255,255,255,0.75)">Since 2018</strong> 6+ years of excellence
         </div>
       </div>
-      <div class="footer-col">
-        <h4>Services</h4>
-        <a href="/pages/packages.html">Tour Packages</a>
-        <a href="/pages/destinations.html">All Destinations</a>
-        <a href="/pages/flights.html">Flight Booking</a>
-        <a href="/pages/hotels.html">Hotel Booking</a>
-        <a href="/pages/bus.html">Bus Booking</a>
-        <a href="/pages/cabs.html">Cab & Transfers</a>
-        <a href="/pages/contact.html">Custom Trips</a>
-      </div>
-      <div class="footer-col">
-        <h4>Destinations</h4>
-        <a href="/pages/destinations.html?filter=domestic">Domestic India</a>
-        <a href="/pages/destinations.html?filter=beach">Beach Getaways</a>
-        <a href="/pages/destinations.html?filter=mountains">Hill Stations</a>
-        <a href="/pages/destinations.html?filter=international">International</a>
-        <a href="/pages/destinations.html?filter=honeymoon">Honeymoon</a>
-      </div>
-      <div class="footer-col">
-        <h4>Company</h4>
-        <a href="/pages/about.html">About Us</a>
-        <a href="/pages/blog.html">Blog</a>
-        <a href="/pages/faq.html">FAQs</a>
-        <a href="/pages/privacy-policy.html">Privacy Policy</a>
-        <a href="/pages/terms.html">Terms of Service</a>
-        <a href="/pages/refund-policy.html">Refund Policy</a>
+      <!-- Social links -->
+      <div style="margin-bottom:4px;font-family:'Space Grotesk',system-ui;font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.28);margin-bottom:10px;">Follow Us</div>
+      <div style="display:flex;gap:8px;">
+        <a href="#" title="Instagram" style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:.95rem;transition:all .2s;text-decoration:none;" onmouseover="this.style.background='#C9922A';this.style.borderColor='#C9922A'" onmouseout="this.style.background='rgba(255,255,255,0.08)';this.style.borderColor='rgba(255,255,255,0.1)'">📸</a>
+        <a href="#" title="Facebook"  style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:.95rem;transition:all .2s;text-decoration:none;" onmouseover="this.style.background='#C9922A'" onmouseout="this.style.background='rgba(255,255,255,0.08)'">🔵</a>
+        <a href="https://wa.me/${ZF.whatsapp}" title="WhatsApp" style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:.95rem;transition:all .2s;text-decoration:none;" onmouseover="this.style.background='#25D366'" onmouseout="this.style.background='rgba(255,255,255,0.08)'">💬</a>
+        <a href="#" title="YouTube"   style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:.95rem;transition:all .2s;text-decoration:none;" onmouseover="this.style.background='#C9922A'" onmouseout="this.style.background='rgba(255,255,255,0.08)'">▶️</a>
+        <a href="#" title="Twitter/X" style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700;color:rgba(255,255,255,.65);transition:all .2s;text-decoration:none;" onmouseover="this.style.background='#C9922A'" onmouseout="this.style.background='rgba(255,255,255,0.08)'">𝕏</a>
       </div>
     </div>
-    <div class="container">
-      <div class="footer-bottom">
-        <p>© ${new Date().getFullYear()} ZoomFly Travel Pvt. Ltd. All rights reserved.</p>
-        <div class="footer-bottom-links">
-          <a href="/pages/privacy-policy.html">Privacy</a>
-          <a href="/pages/terms.html">Terms</a>
-          <a href="/pages/refund-policy.html">Refund</a>
-          <a href="/pages/contact.html">Contact</a>
+
+    <!-- COL 2: Travel -->
+    <div class="zf-footer-col">
+      <h4>TRAVEL</h4>
+      <a href="/pages/packages.html">🧳 Tour Packages</a>
+      <a href="/pages/flights.html">✈ Flights</a>
+      <a href="/pages/hotels.html">🏨 Hotels</a>
+      <a href="/pages/bus.html">🚌 Bus Booking</a>
+      <a href="/pages/packages.html?filter=honeymoon">💑 Honeymoon Packages</a>
+      <a href="/pages/packages.html?filter=group">👥 Group Tours</a>
+      <a href="/pages/destinations.html?filter=weekend">🌅 Weekend Getaways</a>
+      <a href="/pages/cabs.html">🚗 Visa Assistance</a>
+    </div>
+
+    <!-- COL 3: Company -->
+    <div class="zf-footer-col">
+      <h4>COMPANY</h4>
+      <a href="/pages/about.html">👋 About Us</a>
+      <a href="/pages/contact.html">📞 Contact Us</a>
+      <a href="/pages/vendor.html">🤝 Partner With Us</a>
+      <a href="/pages/about.html#careers">💼 Careers</a>
+      <a href="/pages/dashboard.html">👤 My Account</a>
+      <a href="/pages/terms.html">📄 Terms &amp; Conditions</a>
+      <a href="/pages/privacy-policy.html">🔒 Privacy Policy</a>
+      <a href="/pages/refund-policy.html">↩ Refund Policy</a>
+    </div>
+
+    <!-- COL 4: Partner Zone -->
+    <div class="zf-footer-col">
+      <h4>PARTNER ZONE</h4>
+      <a href="/pages/vendor-portal.html">🏨 Vendor Login</a>
+      <a href="/pages/agent-portal.html">🧑‍💼 Agent Login</a>
+      <a href="/pages/login.html?tab=signup">📝 Create Account</a>
+      <a href="/pages/referral.html">🎁 Refer &amp; Earn</a>
+      <div style="margin-top:18px;padding:14px;background:rgba(201,146,42,0.12);border:1px solid rgba(201,146,42,0.22);border-radius:10px;">
+        <div style="font-family:'Space Grotesk',system-ui;font-size:.75rem;font-weight:700;color:var(--gold-light,#E8B84B);margin-bottom:6px;">⭐ Refer &amp; Earn</div>
+        <div style="font-size:.72rem;color:rgba(255,255,255,0.52);line-height:1.6;">Invite friends &amp; earn exciting rewards. Get early access to best deals.</div>
+        <a href="/pages/referral.html" style="display:inline-block;margin-top:10px;font-family:'Space Grotesk',system-ui;font-size:.72rem;font-weight:700;color:var(--gold-light,#E8B84B);">Learn More →</a>
+      </div>
+    </div>
+
+    <!-- COL 5: Contact Us -->
+    <div class="zf-footer-col">
+      <h4>CONTACT US</h4>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div>
+          <a href="tel:+918076136300" style="display:flex;align-items:center;gap:7px;color:rgba(255,255,255,0.7);font-size:.82rem;text-decoration:none;margin-bottom:3px;">
+            <span>📞</span> +91 80761 36300
+          </a>
+          <div style="font-size:.72rem;color:rgba(255,255,255,0.35);padding-left:22px;">Mon – Sat (9 AM – 8 PM)</div>
+        </div>
+        <div>
+          <a href="mailto:hello@zoomfly.in" style="display:flex;align-items:center;gap:7px;color:rgba(255,255,255,0.7);font-size:.82rem;text-decoration:none;margin-bottom:3px;">
+            <span>📧</span> hello@zoomfly.in
+          </a>
+          <div style="font-size:.72rem;color:rgba(255,255,255,0.35);padding-left:22px;">We reply within 30 mins</div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:7px;font-size:.79rem;color:rgba(255,255,255,0.55);line-height:1.6;">
+          <span>📍</span>
+          <span>Connaught Place,<br>New Delhi – 110001<br>India</span>
+        </div>
+        <div>
+          <a href="https://wa.me/${ZF.whatsapp}" style="display:flex;align-items:center;gap:7px;color:rgba(255,255,255,0.7);font-size:.82rem;text-decoration:none;">
+            <span>💬</span> WhatsApp Chat
+          </a>
+          <div style="font-size:.72rem;color:rgba(255,255,255,0.35);padding-left:22px;">Quick support on WhatsApp</div>
+        </div>
+        <!-- Newsletter mini -->
+        <div style="margin-top:8px;">
+          <div style="font-family:'Space Grotesk',system-ui;font-size:.72rem;font-weight:600;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;">Stay Updated ✨</div>
+          <div style="font-size:.72rem;color:rgba(255,255,255,0.38);margin-bottom:8px;line-height:1.55;">Get exclusive travel deals, offers and new destination updates.</div>
+          <form onsubmit="handleNewsletter(event)" style="display:flex;gap:6px;">
+            <input type="email" placeholder="Enter your email" required
+              style="flex:1;padding:8px 12px;border:1px solid rgba(255,255,255,0.15);border-radius:6px;background:rgba(255,255,255,0.06);color:#fff;font-size:.78rem;font-family:'Inter',sans-serif;min-width:0;"/>
+            <button type="submit"
+              style="padding:8px 14px;background:var(--gold,#C9922A);color:#0C1B33;border:none;border-radius:6px;font-family:'Space Grotesk',system-ui;font-size:.75rem;font-weight:700;cursor:pointer;white-space:nowrap;">
+              Subscribe
+            </button>
+          </form>
         </div>
       </div>
-    </div>`;
+    </div>
+
+  </div>
+
+  <!-- DIVIDER -->
+  <div style="border-top:1px solid rgba(255,255,255,0.07);margin:0;"></div>
+
+  <!-- PAYMENT + TRUST ROW -->
+  <div style="padding:20px 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+    <div>
+      <div style="font-family:'Space Grotesk',system-ui;font-size:.65rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.25);margin-bottom:8px;">We Accept</div>
+      <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+        ${['VISA','MC','RuPay','UPI','PayTM','PhonePe','GPay'].map(p =>
+          `<div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:5px;padding:4px 10px;font-family:'Space Grotesk',system-ui;font-size:.65rem;font-weight:700;color:rgba(255,255,255,0.55);">${p}</div>`
+        ).join('')}
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+      <div style="text-align:center;">
+        <div style="font-size:1.1rem;margin-bottom:2px;">🔒</div>
+        <div style="font-family:'Space Grotesk',system-ui;font-size:.62rem;color:rgba(255,255,255,.35);font-weight:600;">SSL Secured<br>256-bit SSL</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-size:1.1rem;margin-bottom:2px;">✈</div>
+        <div style="font-family:'Space Grotesk',system-ui;font-size:.62rem;color:rgba(255,255,255,.35);font-weight:600;">IATA Affiliated<br>Member 2024</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-size:1.1rem;margin-bottom:2px;">🛡</div>
+        <div style="font-family:'Space Grotesk',system-ui;font-size:.62rem;color:rgba(255,255,255,.35);font-weight:600;">RBI Compliant<br>Payment Gateway</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-size:1.1rem;margin-bottom:2px;">⭐</div>
+        <div style="font-family:'Space Grotesk',system-ui;font-size:.62rem;color:rgba(255,255,255,.35);font-weight:600;">4.9/5 ★★★★★<br>Google Reviews</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DIVIDER -->
+  <div style="border-top:1px solid rgba(255,255,255,0.06);"></div>
+
+  <!-- BOTTOM BAR -->
+  <div style="padding:16px 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+    <div style="display:flex;align-items:center;gap:6px;">
+      <span style="font-size:.78rem;color:rgba(255,255,255,0.28);">© ${yr} ZoomFly. All rights reserved.</span>
+      <span style="color:rgba(255,255,255,0.15);margin:0 2px">·</span>
+      <span style="font-size:.75rem;color:rgba(255,255,255,0.22);">Made with ❤️ in India</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:18px;">
+      <a href="/pages/privacy-policy.html" style="font-size:.75rem;color:rgba(255,255,255,.28);text-decoration:none;transition:color .2s" onmouseover="this.style.color='rgba(255,255,255,.6)'" onmouseout="this.style.color='rgba(255,255,255,.28)'">Privacy Policy</a>
+      <a href="/pages/terms.html"          style="font-size:.75rem;color:rgba(255,255,255,.28);text-decoration:none;transition:color .2s" onmouseover="this.style.color='rgba(255,255,255,.6)'" onmouseout="this.style.color='rgba(255,255,255,.28)'">Terms &amp; Conditions</a>
+      <a href="/pages/refund-policy.html"  style="font-size:.75rem;color:rgba(255,255,255,.28);text-decoration:none;transition:color .2s" onmouseover="this.style.color='rgba(255,255,255,.6)'" onmouseout="this.style.color='rgba(255,255,255,.28)'">Refund Policy</a>
+      <a href="/pages/contact.html"        style="font-size:.75rem;color:rgba(255,255,255,.28);text-decoration:none;transition:color .2s" onmouseover="this.style.color='rgba(255,255,255,.6)'" onmouseout="this.style.color='rgba(255,255,255,.28)'">Cookies Policy</a>
+      <a href="/sitemap.xml"               style="font-size:.75rem;color:rgba(255,255,255,.28);text-decoration:none;transition:color .2s" onmouseover="this.style.color='rgba(255,255,255,.6)'" onmouseout="this.style.color='rgba(255,255,255,.28)'">Sitemap</a>
+    </div>
+    <div style="font-size:1.2rem;color:rgba(255,255,255,.12);">✈</div>
+  </div>
+
+</div>`;
 }
 
 // ─── WHATSAPP FLOAT ───
