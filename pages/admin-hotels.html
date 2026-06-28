@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Hotels — ZoomFly Admin</title>
+  <meta name="robots" content="noindex, nofollow"/>
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link rel="stylesheet" href="/assets/css/main.css"/>
+  <link rel="stylesheet" href="/assets/css/premium.css"/>
+  <style>
+    :root { --sidebar:240px; --dark:#0C1B33; --primary:#C9922A; --accent:#E8B84B; --bg:#F3F2EE; --text:#1C2340; --border:#E4E8EF; }
+    *{ margin:0;padding:0;box-sizing:border-box; }
+    body{ font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);display:flex;min-height:100vh;overflow-x:hidden; }
+
+    /* SIDEBAR */
+    .sidebar{ width:var(--sidebar);background:var(--dark);min-height:100vh;position:fixed;left:0;top:0;z-index:200;display:flex;flex-direction:column;box-shadow:4px 0 24px rgba(0,0,0,0.2); }
+    .sb-logo{ padding:24px 20px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(255,255,255,0.06); }
+    .sb-logo-icon{ width:36px;height:36px;background:linear-gradient(135deg,var(--primary),var(--accent));border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px; }
+    .sb-logo-text{ font-family:'Space Grotesk',system-ui;font-size:1.1rem;color:#fff;font-weight:700; }
+    .sb-logo-text span{ color:var(--accent); }
+    .sb-section{ padding:20px 12px 8px; }
+    .sb-section-label{ font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,.25);padding:0 8px;margin-bottom:8px; }
+    .sb-link{ display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;color:rgba(255,255,255,.55);text-decoration:none;font-size:.85rem;font-weight:500;transition:all .2s;margin-bottom:2px; }
+    .sb-link:hover,.sb-link.active{ background:rgba(255,255,255,.08);color:#fff; }
+    .sb-link.active{ background:rgba(201,146,42,.18);color:var(--accent); }
+    .sb-icon{ font-size:1rem;width:20px;text-align:center; }
+
+    /* MAIN */
+    .main{ margin-left:var(--sidebar);flex:1;display:flex;flex-direction:column;min-height:100vh; }
+    .top-bar{ background:#fff;border-bottom:1px solid var(--border);padding:16px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100; }
+    .page-title{ font-family:'Space Grotesk',system-ui;font-size:1.1rem;font-weight:700; }
+    .content{ padding:28px;flex:1; }
+
+    /* FILTERS / TOOLBAR */
+    .toolbar{ display:flex;align-items:center;gap:12px;margin-bottom:24px;flex-wrap:wrap; }
+    .toolbar input,.toolbar select{ padding:9px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:.85rem;background:#fff;color:var(--text);font-family:'Inter',sans-serif; }
+    .toolbar input:focus,.toolbar select:focus{ outline:none;border-color:var(--primary); }
+    .toolbar input{ flex:1;min-width:200px; }
+    .btn-add{ display:inline-flex;align-items:center;gap:7px;padding:9px 20px;background:var(--primary);color:var(--dark);border:none;border-radius:8px;font-family:'Space Grotesk',system-ui;font-size:.85rem;font-weight:700;cursor:pointer;white-space:nowrap;box-shadow:0 4px 16px rgba(201,146,42,.25); }
+    .btn-add:hover{ background:var(--accent); }
+
+    /* TABLE */
+    .table-wrap{ background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:0 2px 12px rgba(12,27,51,.06); }
+    table{ width:100%;border-collapse:collapse; }
+    thead th{ padding:12px 16px;text-align:left;font-family:'Space Grotesk',system-ui;font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:#8896AB;border-bottom:1px solid var(--border);background:#FAFAF7; }
+    tbody td{ padding:14px 16px;font-size:.85rem;border-bottom:1px solid var(--border);vertical-align:middle; }
+    tbody tr:last-child td{ border-bottom:none; }
+    tbody tr:hover td{ background:#FAFAF7; }
+    .hotel-name{ font-weight:600;color:var(--text); }
+    .hotel-loc{ font-size:.75rem;color:#8896AB;margin-top:2px; }
+    .badge{ display:inline-flex;align-items:center;padding:3px 10px;border-radius:100px;font-size:.7rem;font-weight:600; }
+    .badge-active{ background:#D1FAE5;color:#065F46; }
+    .badge-draft{ background:#FEF3C7;color:#92400E; }
+    .badge-inactive{ background:#FEE2E2;color:#991B1B; }
+    .stars{ color:#F59E0B;font-size:.78rem;letter-spacing:1px; }
+    .action-btns{ display:flex;gap:6px; }
+    .btn-edit,.btn-del{ padding:5px 12px;border-radius:6px;font-size:.75rem;font-weight:600;cursor:pointer;border:none;font-family:'Space Grotesk',system-ui; }
+    .btn-edit{ background:#EBF2FF;color:#185FA5; }
+    .btn-edit:hover{ background:#185FA5;color:#fff; }
+    .btn-del{ background:#FCEBEB;color:#A32D2D; }
+    .btn-del:hover{ background:#A32D2D;color:#fff; }
+
+    /* MODAL */
+    .modal-ov{ display:none;position:fixed;inset:0;z-index:1000;background:rgba(12,27,51,.55);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:1.5rem; }
+    .modal-ov.open{ display:flex; }
+    .modal-box{ background:#fff;border-radius:18px;width:100%;max-width:560px;box-shadow:0 24px 64px rgba(12,27,51,.18);animation:mIn .28s ease; }
+    @keyframes mIn{ from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none} }
+    .modal-header{ padding:22px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between; }
+    .modal-header h3{ font-family:'Space Grotesk',system-ui;font-size:1rem;font-weight:700; }
+    .modal-close{ background:none;border:none;font-size:1.3rem;cursor:pointer;color:#8896AB;line-height:1;padding:2px 6px;border-radius:6px; }
+    .modal-close:hover{ background:var(--border);color:var(--text); }
+    .modal-body{ padding:24px;display:grid;grid-template-columns:1fr 1fr;gap:16px; }
+    .modal-body .full{ grid-column:1/-1; }
+    .form-group label{ display:block;font-family:'Space Grotesk',system-ui;font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:#8896AB;margin-bottom:6px; }
+    .form-group input,.form-group select,.form-group textarea{ width:100%;padding:10px 13px;border:1.5px solid var(--border);border-radius:8px;font-size:.85rem;color:var(--text);font-family:'Inter',sans-serif; }
+    .form-group input:focus,.form-group select:focus,.form-group textarea:focus{ outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(201,146,42,.10); }
+    .modal-footer{ padding:16px 24px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px; }
+    .btn-cancel{ padding:10px 20px;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;font-family:'Space Grotesk',system-ui;font-size:.85rem;font-weight:600;cursor:pointer; }
+    .btn-save{ padding:10px 22px;background:var(--primary);color:var(--dark);border:none;border-radius:8px;font-family:'Space Grotesk',system-ui;font-size:.85rem;font-weight:700;cursor:pointer; }
+    .btn-save:hover{ background:var(--accent); }
+
+    /* EMPTY STATE */
+    .empty{ text-align:center;padding:64px 24px;color:#8896AB; }
+    .empty-icon{ font-size:3rem;margin-bottom:16px; }
+    .empty h3{ font-family:'Space Grotesk',system-ui;font-size:1rem;font-weight:700;color:var(--text);margin-bottom:8px; }
+    .empty p{ font-size:.85rem;line-height:1.65; }
+
+    /* STATS BAR */
+    .stats-row{ display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px; }
+    .stat-card{ background:#fff;border:1px solid var(--border);border-radius:12px;padding:18px 20px; }
+    .stat-card .lbl{ font-family:'Space Grotesk',system-ui;font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:#8896AB;margin-bottom:6px; }
+    .stat-card .val{ font-family:'Space Grotesk',system-ui;font-size:1.5rem;font-weight:700;color:var(--text); }
+    .stat-card .val span{ font-size:.8rem;font-weight:500;color:#8896AB; }
+  </style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sb-logo">
+    <div class="sb-logo-icon">✈️</div>
+    <div class="sb-logo-text">Zoom<span>Fly</span></div>
+  </div>
+  <div class="sb-section">
+    <div class="sb-section-label">Operations</div>
+    <a href="admin.html"          class="sb-link"><span class="sb-icon">📊</span> Dashboard</a>
+    <a href="admin-bookings.html" class="sb-link"><span class="sb-icon">📋</span> Bookings</a>
+    <a href="admin-workflow.html" class="sb-link"><span class="sb-icon">🔄</span> Workflow</a>
+    <a href="admin-reminders.html" class="sb-link"><span class="sb-icon">🔔</span> Reminders</a>
+  </div>
+  <div class="sb-section">
+    <div class="sb-section-label">People</div>
+    <a href="admin-customers.html" class="sb-link"><span class="sb-icon">👤</span> Customers</a>
+    <a href="admin-vendors.html"   class="sb-link"><span class="sb-icon">🏨</span> Vendors</a>
+    <a href="admin-agents.html"    class="sb-link"><span class="sb-icon">🧑‍💼</span> Agents</a>
+  </div>
+  <div class="sb-section">
+    <div class="sb-section-label">Content</div>
+    <a href="admin-packages.html"  class="sb-link"><span class="sb-icon">🧳</span> Packages</a>
+    <a href="admin-hotels.html"    class="sb-link active"><span class="sb-icon">🏩</span> Hotels</a>
+    <a href="admin.html#testimonials" class="sb-link"><span class="sb-icon">⭐</span> Testimonials</a>
+  </div>
+  <div class="sb-section">
+    <div class="sb-section-label">Tools</div>
+    <a href="admin-whatsapp-templates.html" class="sb-link"><span class="sb-icon">💬</span> WA Templates</a>
+    <a href="admin.html#promo"              class="sb-link"><span class="sb-icon">🎟️</span> Promo Codes</a>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="top-bar">
+    <div class="page-title">🏩 Hotel Inventory</div>
+    <button class="btn-add" onclick="openModal()">+ Add Hotel</button>
+  </div>
+
+  <div class="content">
+
+    <!-- STATS -->
+    <div class="stats-row" id="stats-row">
+      <div class="stat-card"><div class="lbl">Total Hotels</div><div class="val" id="stat-total">—</div></div>
+      <div class="stat-card"><div class="lbl">Active Listings</div><div class="val" id="stat-active">—</div></div>
+      <div class="stat-card"><div class="lbl">Avg Rating</div><div class="val" id="stat-rating">—</div></div>
+      <div class="stat-card"><div class="lbl">Cities Covered</div><div class="val" id="stat-cities">—</div></div>
+    </div>
+
+    <!-- TOOLBAR -->
+    <div class="toolbar">
+      <input type="text" id="search-input" placeholder="Search by name or city…" oninput="filterHotels()"/>
+      <select id="filter-status" onchange="filterHotels()">
+        <option value="">All Status</option>
+        <option value="active">Active</option>
+        <option value="draft">Draft</option>
+        <option value="inactive">Inactive</option>
+      </select>
+      <select id="filter-stars" onchange="filterHotels()">
+        <option value="">All Stars</option>
+        <option value="5">5 Star</option>
+        <option value="4">4 Star</option>
+        <option value="3">3 Star</option>
+        <option value="2">2 Star</option>
+      </select>
+    </div>
+
+    <!-- TABLE -->
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Hotel</th>
+            <th>Stars</th>
+            <th>Price / Night</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="hotels-body">
+          <tr><td colspan="5"><div class="empty"><div class="empty-icon">⏳</div><p>Loading hotels…</p></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ADD / EDIT MODAL -->
+<div class="modal-ov" id="hotel-modal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 id="modal-title">Add Hotel</h3>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="hotel-id"/>
+      <div class="form-group full">
+        <label>Hotel Name *</label>
+        <input type="text" id="h-name" placeholder="The Grand Palace"/>
+      </div>
+      <div class="form-group">
+        <label>City *</label>
+        <input type="text" id="h-city" placeholder="Manali"/>
+      </div>
+      <div class="form-group">
+        <label>State</label>
+        <input type="text" id="h-state" placeholder="Himachal Pradesh"/>
+      </div>
+      <div class="form-group">
+        <label>Star Rating</label>
+        <select id="h-stars">
+          <option value="5">5 Star</option>
+          <option value="4" selected>4 Star</option>
+          <option value="3">3 Star</option>
+          <option value="2">2 Star</option>
+          <option value="1">1 Star</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Price / Night (₹)</label>
+        <input type="number" id="h-price" placeholder="4500" min="0"/>
+      </div>
+      <div class="form-group">
+        <label>Status</label>
+        <select id="h-status">
+          <option value="active">Active</option>
+          <option value="draft">Draft</option>
+          <option value="inactive">Inactive</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Check-in Time</label>
+        <input type="text" id="h-checkin" placeholder="12:00 PM"/>
+      </div>
+      <div class="form-group full">
+        <label>Description</label>
+        <textarea id="h-desc" rows="3" placeholder="Brief description of the property…"></textarea>
+      </div>
+      <div class="form-group full">
+        <label>Amenities (comma-separated)</label>
+        <input type="text" id="h-amenities" placeholder="WiFi, Pool, Parking, Breakfast"/>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-save" onclick="saveHotel()">Save Hotel</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { supabase } from '../assets/js/supabase.js';
+
+// ── AUTH GUARD ────────────────────────────────────────────────
+async function checkAuth() {
+  const { data: { user }, error } = await supabase.auth.getUser();
+  if (error || !user) { window.location.replace('/pages/admin-login.html'); return false; }
+  const { data: p } = await supabase.from('profiles').select('role').eq('id', user.id).single();
+  if (p?.role !== 'admin') { window.location.replace('/pages/admin-login.html?reason=access_denied'); return false; }
+  return true;
+}
+
+let allHotels = [];
+
+async function loadHotels() {
+  const { data, error } = await supabase
+    .from('hotels')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    document.getElementById('hotels-body').innerHTML =
+      `<tr><td colspan="5"><div class="empty"><div class="empty-icon">⚠️</div>
+       <h3>Couldn't load hotels</h3><p>${error.message}</p></div></td></tr>`;
+    return;
+  }
+
+  allHotels = data || [];
+  renderStats(allHotels);
+  renderTable(allHotels);
+}
+
+function renderStats(hotels) {
+  const active = hotels.filter(h => h.status === 'active').length;
+  const ratings = hotels.filter(h => h.rating).map(h => h.rating);
+  const avgRating = ratings.length ? (ratings.reduce((a,b) => a+b, 0) / ratings.length).toFixed(1) : '—';
+  const cities = new Set(hotels.map(h => h.city).filter(Boolean)).size;
+
+  document.getElementById('stat-total').textContent  = hotels.length;
+  document.getElementById('stat-active').textContent = active;
+  document.getElementById('stat-rating').textContent = avgRating;
+  document.getElementById('stat-cities').textContent = cities;
+}
+
+function renderTable(hotels) {
+  const tbody = document.getElementById('hotels-body');
+  if (!hotels.length) {
+    tbody.innerHTML = `<tr><td colspan="5">
+      <div class="empty">
+        <div class="empty-icon">🏩</div>
+        <h3>No hotels yet</h3>
+        <p>Click "Add Hotel" to add your first property.</p>
+      </div></td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = hotels.map(h => `
+    <tr>
+      <td>
+        <div class="hotel-name">${_esc(h.name || '—')}</div>
+        <div class="hotel-loc">📍 ${_esc(h.city || '')}${h.state ? ', ' + _esc(h.state) : ''}</div>
+      </td>
+      <td><span class="stars">${'★'.repeat(Math.min(5,parseInt(h.stars)||0))}${'☆'.repeat(5-Math.min(5,parseInt(h.stars)||0))}</span></td>
+      <td>${h.price_per_night ? '₹' + Number(h.price_per_night).toLocaleString('en-IN') + '<span style="font-size:.72rem;color:#8896AB"> / night</span>' : '—'}</td>
+      <td><span class="badge badge-${_esc(h.status||'draft')}">${_esc(h.status||'draft')}</span></td>
+      <td>
+        <div class="action-btns">
+          <button class="btn-edit" onclick="window._editHotel('${h.id}')">Edit</button>
+          <button class="btn-del"  onclick="window._deleteHotel('${h.id}','${_esc(h.name)}')">Delete</button>
+        </div>
+      </td>
+    </tr>`).join('');
+}
+
+function _esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+window.filterHotels = function() {
+  const q  = document.getElementById('search-input').value.toLowerCase();
+  const st = document.getElementById('filter-status').value;
+  const sr = document.getElementById('filter-stars').value;
+  const filtered = allHotels.filter(h =>
+    (!q  || (h.name||'').toLowerCase().includes(q) || (h.city||'').toLowerCase().includes(q)) &&
+    (!st || h.status === st) &&
+    (!sr || String(h.stars) === sr)
+  );
+  renderTable(filtered);
+};
+
+window.openModal = function(id) {
+  document.getElementById('modal-title').textContent = id ? 'Edit Hotel' : 'Add Hotel';
+  document.getElementById('hotel-id').value = id || '';
+  if (!id) {
+    ['h-name','h-city','h-state','h-price','h-checkin','h-desc','h-amenities'].forEach(i => { document.getElementById(i).value = ''; });
+    document.getElementById('h-stars').value  = '4';
+    document.getElementById('h-status').value = 'active';
+  }
+  document.getElementById('hotel-modal').classList.add('open');
+};
+
+window.closeModal = function() {
+  document.getElementById('hotel-modal').classList.remove('open');
+};
+
+window._editHotel = function(id) {
+  const h = allHotels.find(x => x.id === id);
+  if (!h) return;
+  document.getElementById('hotel-id').value      = h.id;
+  document.getElementById('h-name').value        = h.name || '';
+  document.getElementById('h-city').value        = h.city || '';
+  document.getElementById('h-state').value       = h.state || '';
+  document.getElementById('h-stars').value       = h.stars || '4';
+  document.getElementById('h-price').value       = h.price_per_night || '';
+  document.getElementById('h-status').value      = h.status || 'active';
+  document.getElementById('h-checkin').value     = h.checkin_time || '';
+  document.getElementById('h-desc').value        = h.description || '';
+  document.getElementById('h-amenities').value   = (h.amenities || []).join(', ');
+  document.getElementById('modal-title').textContent = 'Edit Hotel';
+  document.getElementById('hotel-modal').classList.add('open');
+};
+
+window._deleteHotel = async function(id, name) {
+  if (!confirm(`Delete "${name}"? This cannot be undone.`)) return;
+  const { error } = await supabase.from('hotels').delete().eq('id', id);
+  if (error) { alert('Delete failed: ' + error.message); return; }
+  allHotels = allHotels.filter(h => h.id !== id);
+  renderStats(allHotels);
+  renderTable(allHotels);
+};
+
+window.saveHotel = async function() {
+  const id   = document.getElementById('hotel-id').value;
+  const name = document.getElementById('h-name').value.trim();
+  const city = document.getElementById('h-city').value.trim();
+  if (!name || !city) { alert('Hotel name and city are required.'); return; }
+
+  const payload = {
+    name,
+    city,
+    state:           document.getElementById('h-state').value.trim() || null,
+    stars:           parseInt(document.getElementById('h-stars').value) || 4,
+    price_per_night: parseFloat(document.getElementById('h-price').value) || null,
+    status:          document.getElementById('h-status').value,
+    checkin_time:    document.getElementById('h-checkin').value.trim() || null,
+    description:     document.getElementById('h-desc').value.trim() || null,
+    amenities:       document.getElementById('h-amenities').value.split(',').map(s => s.trim()).filter(Boolean),
+  };
+
+  const { error } = id
+    ? await supabase.from('hotels').update(payload).eq('id', id)
+    : await supabase.from('hotels').insert(payload);
+
+  if (error) { alert('Save failed: ' + error.message); return; }
+  closeModal();
+  loadHotels();
+};
+
+// Close on backdrop click
+document.getElementById('hotel-modal').addEventListener('click', e => {
+  if (e.target === e.currentTarget) closeModal();
+});
+
+// ── INIT ──────────────────────────────────────────────────────
+(async () => {
+  const ok = await checkAuth();
+  if (!ok) return;
+  await loadHotels();
+})();
+</script>
+</body>
+</html>

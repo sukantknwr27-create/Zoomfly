@@ -105,8 +105,6 @@
     @media(max-width:768px){.sidebar{transform:translateX(-100%)}.main{margin-left:0}}
   </style>
 <script>
-window.SUPABASE_URL="https://ndaurluolurdljrjbxii.supabase.co";
-window.SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kYXVybHVvbHVyZGxqcmpieGlpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MDY2MzksImV4cCI6MjA5MzQ4MjYzOX0.JsZXOof19JkyX7asJQ7EtoaBKqURJUYzVqXQIenCzjQ";
 window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/);return m?m[1]:null;};
 
 // Safe stubs — replaced by module once loaded
@@ -117,13 +115,6 @@ window.doLogout = function() {
       window.location.replace('/pages/admin-login.html');
     });
   }
-};
-window.show = function(id, el) {
-  document.querySelectorAll('.section').forEach(s=>s.style.display='none');
-  const sec = document.getElementById('section-'+id);
-  if(sec) sec.style.display='block';
-  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-  if(el) el.classList.add('active');
 };
 window.openPkgModal   = function(){};
 window.openPromoModal = function(){};

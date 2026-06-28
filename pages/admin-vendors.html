@@ -301,13 +301,6 @@ let allVendors  = [];
 let activeV     = null;
 
 // ── Auth guard ─────────────────────────────────────────────
-async function checkAuth() {
-  const { data: { user }, error } = await supabase.auth.getUser();
-  if (error || !user) { window.location.replace('/pages/admin-login.html'); return false; }
-  const { data: p } = await supabase.from('profiles').select('role').eq('id', user.id).single();
-  if (p?.role !== 'admin') { window.location.replace('/pages/admin-login.html?reason=access_denied'); return false; }
-  return true;
-}
 
 // ── Load ───────────────────────────────────────────────────
 window.loadVendors = async function() {
@@ -554,7 +547,7 @@ supabase.channel('vendor-changes')
   .subscribe();
 
 // ── Init ───────────────────────────────────────────────────
-(async()=>{ const ok=await checkAuth(); if(ok) await loadVendors(); })();
+(async()=>{ const ok = await requireAdmin(); if(ok) await loadVendors(); })();
 </script>
 </body>
 </html>

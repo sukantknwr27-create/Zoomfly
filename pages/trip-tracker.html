@@ -83,8 +83,7 @@
     .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:#0f1923;color:#fff;padding:10px 22px;border-radius:100px;font-size:.85rem;font-weight:600;z-index:9999;transition:transform .3s}
     .toast.show{transform:translateX(-50%) translateY(0)}
   </style>
-  <script>window.SUPABASE_URL='https://ndaurluolurdljrjbxii.supabase.co';window.SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kYXVybHVvbHVyZGxqcmpieGlpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MDY2MzksImV4cCI6MjA5MzQ4MjYzOX0.JsZXOof19JkyX7asJQ7EtoaBKqURJUYzVqXQIenCzjQ';</script>
-</head>
+  </head>
 <body data-page="">
 <header class="nav nav-dark" id="mainNav"></header>
 
@@ -180,8 +179,7 @@
 <script src="/assets/js/main.js"></script>
 
 <script type="module">
-import { supabase, requireAuth, getMyBookings, getTravelDocuments, saveTravelDocument , loadNav } from '../assets/js/supabase.js';
-loadNav();
+import { supabase, requireAuth, getMyBookings, getTravelDocuments, saveTravelDocument  } from '../assets/js/supabase.js';
 
 await requireAuth();
 const WA = '918076136300';

@@ -569,13 +569,6 @@ let activeBooking  = null;
 let selectedStatus = null;
 
 // ── Auth Guard ─────────────────────────────────────────────
-async function checkAuth() {
-  const { data: { user }, error } = await supabase.auth.getUser();
-  if (error || !user) { window.location.replace('/pages/admin-login.html'); return false; }
-  const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
-  if (profile?.role !== 'admin') { window.location.replace('/pages/admin-login.html?reason=access_denied'); return false; }
-  return true;
-}
 
 // ── Load Bookings ──────────────────────────────────────────
 window.loadBookings = async function() {
@@ -1077,7 +1070,7 @@ supabase.channel('bookings-changes')
 
 // ── Init ───────────────────────────────────────────────────
 (async () => {
-  const ok = await checkAuth();
+  const ok = await requireAdmin();
   if (ok) await loadBookings();
 })();
 </script>

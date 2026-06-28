@@ -328,13 +328,6 @@ let allAgents  = [];
 let allComms   = [];
 let activeA    = null;
 
-async function checkAuth() {
-  const { data: { user }, error } = await supabase.auth.getUser();
-  if (error || !user) { window.location.replace('/pages/admin-login.html'); return false; }
-  const { data: p } = await supabase.from('profiles').select('role').eq('id', user.id).single();
-  if (p?.role !== 'admin') { window.location.replace('/pages/admin-login.html?reason=access_denied'); return false; }
-  return true;
-}
 
 window.loadAll = async function() {
   const {data:agents}=await supabase.from('agents').select('*').order('total_commission_earned',{ascending:false});
@@ -632,7 +625,7 @@ function tierLabel(t){return{associate:'🤝 Associate',senior:'⭐ Senior',elit
 function sanitizePhone(p){let ph=String(p||'').replace(/\D/g,'');if(ph.length===10)ph='91'+ph;return ph||WA_ADMIN;}
 function showToast(msg,type='success'){const t=document.getElementById('toast');t.textContent=msg;t.style.background=type==='error'?'#ef4444':'var(--dark)';t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
 
-(async()=>{const ok=await checkAuth();if(ok)await loadAll();})();
+(async()=>{const ok = await requireAdmin();if(ok)await loadAll();})();
 </script>
 </body>
 </html>

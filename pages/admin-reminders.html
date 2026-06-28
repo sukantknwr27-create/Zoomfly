@@ -309,7 +309,6 @@ Book now: https://www.zoomfly.in/pages/packages.html — ZoomFly Team ✈️</te
 
 <div class="toast" id="toast"></div>
 
-<script>window.SUPABASE_URL='https://ndaurluolurdljrjbxii.supabase.co';window.SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kYXVybHVvbHVyZGxqcmpieGlpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MDY2MzksImV4cCI6MjA5MzQ4MjYzOX0.JsZXOof19JkyX7asJQ7EtoaBKqURJUYzVqXQIenCzjQ';</script>
 <script type="module">
 import { supabase, loadNav } from '../assets/js/supabase.js';
 loadNav();
@@ -318,10 +317,6 @@ const WA_NUMBER = '918076136300';
 let allBookings = [];
 let sentLog = JSON.parse(localStorage.getItem('zf_reminder_log') || '[]');
 
-// ── AUTH GUARD ────────────────────────────────────────────────
-async function checkAuth() {
-  const { data: { user }, error } = await supabase.auth.getUser();
-  if (error || !user) { window.location.replace('/pages/admin-login.html'); return false; }
   const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
   if (profile?.role !== 'admin') { window.location.replace('/pages/admin-login.html?reason=access_denied'); return false; }
   return true;
@@ -329,7 +324,7 @@ async function checkAuth() {
 
 // ── INIT ──────────────────────────────────────────────────────
 async function init() {
-  const ok = await checkAuth();
+  const ok = await requireAdmin();
   if (!ok) return;
   await loadBookings();
   loadQueue();

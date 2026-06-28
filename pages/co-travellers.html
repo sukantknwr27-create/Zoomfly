@@ -54,8 +54,7 @@
     .b-green{background:#dcfce7;color:#15803d}
     .b-yellow{background:#fef3c7;color:#92400e}
   </style>
-  <script>window.SUPABASE_URL='https://ndaurluolurdljrjbxii.supabase.co';window.SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kYXVybHVvbHVyZGxqcmpieGlpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MDY2MzksImV4cCI6MjA5MzQ4MjYzOX0.JsZXOof19JkyX7asJQ7EtoaBKqURJUYzVqXQIenCzjQ';</script>
-</head>
+  </head>
 <body data-page="">
 <header class="nav nav-dark" id="mainNav"></header>
 
@@ -159,8 +158,7 @@
 <script src="/assets/js/main.js"></script>
 
 <script type="module">
-import { supabase, requireAuth, getCotravellers, saveCotraveller, deleteCotraveller,
-loadNav();
+import { supabase, requireAuth, getCotravellers, saveCotraveller, deleteCotraveller();
          getTravelDocuments, saveTravelDocument, getPriceAlerts } from '../assets/js/supabase.js';
 
 await requireAuth();
