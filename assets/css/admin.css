@@ -1,0 +1,168 @@
+/* ═══════════════════════════════════════════════════════════════
+   ZOOMFLY — ADMIN THEME
+   Shared overrides for all admin pages. Injected after main.css.
+   ═══════════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ── ADMIN ROOT OVERRIDES ──────────────────────────────────── */
+:root {
+  --primary:    #C9922A;
+  --accent:     #E8B84B;
+  --gold-light: #F5E6C4;
+  --sb:         #0C1B33;
+  --sb2:        #1a2d4a;
+  --sb-text:    rgba(255,255,255,0.52);
+  --sb-hover:   rgba(255,255,255,0.06);
+  --sb-active-bg: rgba(201,146,42,0.13);
+  --sb-active-color: #E8B84B;
+  --sb-active-border: #C9922A;
+  --text:       #1C2340;
+  --muted:      #4A5568;
+  --light:      #8896AB;
+  --bg:         #F3F2EE;
+  --white:      #FFFFFF;
+  --border:     #E4E8EF;
+  --success:    #0E9F6E;
+  --success-bg: #D1FAE5;
+  --warn:       #D97706;
+  --warn-bg:    #FEF3C7;
+  --error:      #E53E3E;
+  --error-bg:   #FCEBEB;
+  --info:       #1B6EF3;
+  --info-bg:    #EBF2FF;
+  --shadow-sm:  0 1px 4px rgba(12,27,51,.06);
+  --shadow:     0 4px 16px rgba(12,27,51,.09);
+  --shadow-lg:  0 12px 40px rgba(12,27,51,.13);
+  --r:          14px;
+  --r2:         8px;
+  --font:       'Inter', system-ui, sans-serif;
+  --font-ui:    'Space Grotesk', system-ui, sans-serif;
+}
+
+body { font-family: var(--font) !important; }
+
+/* ── SIDEBAR ──────────────────────────────────────────────── */
+.sidebar, aside.sidebar {
+  background: var(--sb) !important;
+  border-right: 1px solid rgba(255,255,255,0.06) !important;
+}
+.sb-logo h1, .sb-logo-text { color: #fff !important; font-family: var(--font-ui) !important; }
+.sb-logo h1 span, .sb-logo-text span { color: var(--accent) !important; }
+.sb-sec, .sb-section-label { color: rgba(255,255,255,0.25) !important; }
+.sb-footer { border-top-color: rgba(255,255,255,0.06) !important; }
+.av-info strong { color: #fff !important; }
+.av-info span   { color: var(--sb-text) !important; }
+
+/* Sidebar nav items */
+.nav-item, .sb-link {
+  color: var(--sb-text) !important;
+  border-left-color: transparent !important;
+  font-family: var(--font-ui) !important;
+}
+.nav-item:hover, .sb-link:hover {
+  background: var(--sb-hover) !important;
+  color: rgba(255,255,255,0.9) !important;
+}
+.nav-item.active, .sb-link.active {
+  background: var(--sb-active-bg) !important;
+  color: var(--sb-active-color) !important;
+  border-left: 3px solid var(--sb-active-border) !important;
+}
+
+/* ── TOPBAR ───────────────────────────────────────────────── */
+.topbar {
+  background: var(--white) !important;
+  border-bottom: 1px solid var(--border) !important;
+  box-shadow: var(--shadow-sm) !important;
+}
+.topbar h2 { font-family: var(--font-ui) !important; }
+.btn-add {
+  background: var(--primary) !important;
+  color: #0C1B33 !important;
+  border-radius: 50px !important;
+  font-family: var(--font-ui) !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 14px rgba(201,146,42,.28) !important;
+}
+.btn-add:hover { background: var(--accent) !important; }
+
+/* ── STAT CARDS ───────────────────────────────────────────── */
+.stat-card {
+  border-radius: var(--r) !important;
+  border-color: var(--border) !important;
+  box-shadow: var(--shadow-sm) !important;
+  transition: all .25s !important;
+}
+.stat-card:hover {
+  box-shadow: var(--shadow) !important;
+  transform: translateY(-2px) !important;
+}
+.stat-val { font-family: var(--font-ui) !important; }
+.stat-icon { border-radius: 10px !important; }
+.up   { background: var(--success-bg) !important; color: var(--success) !important; }
+.down { background: var(--error-bg) !important;   color: var(--error) !important; }
+
+/* ── TABLES ───────────────────────────────────────────────── */
+.table-card { border-radius: var(--r) !important; box-shadow: var(--shadow-sm) !important; }
+th { font-family: var(--font-ui) !important; }
+.tsearch:focus {
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 3px rgba(201,146,42,.10) !important;
+}
+tr:hover td { background: #FAFAF7 !important; }
+
+/* ── STATUS BADGES ────────────────────────────────────────── */
+.pill, .badge { font-family: var(--font-ui) !important; }
+.p-new, .badge-new-enquiry     { background: rgba(201,146,42,.12) !important; color: #C9922A !important; }
+.p-confirmed, .badge-confirmed { background: var(--success-bg) !important; color: var(--success) !important; }
+.p-pending,   .badge-pending   { background: var(--warn-bg) !important;    color: var(--warn) !important; }
+.p-cancelled, .badge-cancelled { background: var(--error-bg) !important;   color: var(--error) !important; }
+.p-active,    .badge-active    { background: var(--success-bg) !important; color: var(--success) !important; }
+.p-approved                    { background: var(--success-bg) !important; color: var(--success) !important; }
+
+/* ── ACTION BUTTONS ───────────────────────────────────────── */
+.bs, .btn-sm { font-family: var(--font-ui) !important; }
+.bv { background: rgba(201,146,42,.12) !important; color: var(--primary) !important; }
+.bd { background: var(--success-bg) !important;    color: var(--success) !important; }
+.bc2, .bc { background: var(--error-bg) !important; color: var(--error) !important; }
+.be { background: var(--warn-bg) !important;        color: var(--warn) !important; }
+
+/* ── CHART BARS ───────────────────────────────────────────── */
+.bar { background: var(--primary) !important; }
+
+/* ── MODALS ───────────────────────────────────────────────── */
+.modal-ov { backdrop-filter: blur(4px) !important; }
+.modal, .modal-box { border-radius: var(--r) !important; box-shadow: var(--shadow-lg) !important; }
+
+/* ── FORMS ────────────────────────────────────────────────── */
+input:focus, select:focus, textarea:focus {
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 3px rgba(201,146,42,.10) !important;
+  outline: none !important;
+}
+
+/* ── LOADING ──────────────────────────────────────────────── */
+.spinner { border-top-color: var(--primary) !important; }
+
+/* ── TOASTS ───────────────────────────────────────────────── */
+.toast.success { background: var(--success) !important; }
+.toast.error   { background: var(--error) !important; }
+
+/* ── DONUT CHART ──────────────────────────────────────────── */
+circle[stroke="#0057FF"] { stroke: var(--primary) !important; }
+circle[stroke="#FF6B35"]  { stroke: var(--accent) !important; }
+
+/* ── LOGIN PAGE ───────────────────────────────────────────── */
+.login-box { border-radius: var(--r) !important; box-shadow: var(--shadow-lg) !important; }
+.admin-login-wrap {
+  background: linear-gradient(145deg, #0C1B33, #1a2d4a) !important;
+  min-height: 100vh !important;
+}
+
+/* ── RESPONSIVE ───────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .sidebar { transform: translateX(-100%) !important; transition: transform 0.3s !important; }
+  .sidebar.open { transform: translateX(0) !important; }
+  .main { margin-left: 0 !important; }
+}
