@@ -14,6 +14,7 @@ Disallow: /admin-customers
 Disallow: /admin-packages
 Disallow: /admin-hotels
 Disallow: /admin-login
+Disallow: /search
 Disallow: /api/
 
 # Authenticated user pages

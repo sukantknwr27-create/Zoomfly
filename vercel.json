@@ -126,6 +126,22 @@
       "dest": "/pages/faq.html"
     },
     {
+      "src": "^/careers$",
+      "dest": "/pages/careers.html"
+    },
+    {
+      "src": "^/search$",
+      "dest": "/pages/search-results.html"
+    },
+    {
+      "src": "^/customize$",
+      "dest": "/pages/customize.html"
+    },
+    {
+      "src": "^/tour-categories$",
+      "dest": "/pages/tour-category.html"
+    },
+    {
       "src": "^/blog$",
       "dest": "/pages/blog.html"
     },

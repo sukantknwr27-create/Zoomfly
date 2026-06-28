@@ -210,19 +210,39 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
 </head>
 <body data-page="home">
 
-<section class="hero" style="min-height:100vh;display:flex;align-items:center;">
-  <!-- Ambient orbs -->
-  <div aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:1">
-    <div style="position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(201,146,42,0.10),transparent 70%);top:-120px;right:-100px;animation:orbFloat 8s ease-in-out infinite"></div>
-    <div style="position:absolute;width:480px;height:480px;border-radius:50%;background:radial-gradient(circle,rgba(27,110,243,0.08),transparent 70%);bottom:-80px;left:-80px;animation:orbFloat 10s 2s ease-in-out infinite reverse"></div>
+<section class="hero" style="min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden;">
+
+  <!-- Full-bleed photographic background -->
+  <div aria-hidden="true" style="position:absolute;inset:0;z-index:0;">
+    <!-- Sky/mountains scenic gradient that mimics the reference photo -->
+    <div style="position:absolute;inset:0;background:linear-gradient(160deg,#061525 0%,#0d2545 30%,#1a3f6e 55%,#2d6494 70%,#c47a2b 85%,#e8a44a 100%);"></div>
+    <!-- Silhouette mountain layer -->
+    <svg style="position:absolute;bottom:0;left:0;width:100%;height:55%;opacity:0.55" viewBox="0 0 1440 320" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path fill="#0d1e35" d="M0,320L60,280L120,240L200,200L260,160L340,120L400,100L460,140L540,180L600,140L680,80L760,40L820,80L880,120L960,100L1040,60L1100,40L1180,80L1260,120L1320,100L1380,140L1440,160L1440,320Z"/>
+      <path fill="#0a1828" opacity="0.7" d="M0,320L80,300L160,280L240,260L320,240L400,200L480,220L560,240L640,200L720,160L800,180L880,200L960,180L1040,160L1120,140L1200,160L1280,180L1360,200L1440,220L1440,320Z"/>
+    </svg>
+    <!-- Warm glow at horizon -->
+    <div style="position:absolute;bottom:0;left:0;right:0;height:38%;background:linear-gradient(to top,rgba(196,122,43,0.22),transparent);pointer-events:none;"></div>
+    <!-- Dot grid overlay -->
+    <div style="position:absolute;inset:0;background-image:radial-gradient(circle at 1px 1px,rgba(255,255,255,0.04) 1px,transparent 0);background-size:40px 40px;pointer-events:none;"></div>
   </div>
-  <style>
-    @keyframes orbFloat{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-24px) scale(1.04)}}
-  </style>
+
+  <!-- Tagline — top-right like reference -->
+  <div style="position:absolute;top:50%;right:5%;transform:translateY(-50%);text-align:right;z-index:3;display:none" id="hero-tagline-desktop">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.4rem,2.5vw,2.2rem);font-weight:600;color:rgba(255,255,255,0.92);line-height:1.25;text-shadow:0 2px 20px rgba(0,0,0,0.4);">
+      Escape Ordinary.<br><em style="color:#E8B84B">Explore Extraordinary.</em>
+    </div>
+  </div>
+
+  <!-- Airplane SVG path decoration -->
+  <svg aria-hidden="true" style="position:absolute;top:28%;left:50%;transform:translateX(-50%);width:340px;opacity:0.08;pointer-events:none;z-index:1" viewBox="0 0 340 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 30 Q85 5 170 30 Q255 55 340 30" stroke="white" stroke-width="1.5" stroke-dasharray="6 4"/>
+    <polygon points="336,26 344,30 336,34" fill="white"/>
+  </svg>
 
   <div class="hero-content" style="position:relative;z-index:3">
     <div class="hero-badge">
-      <span style="color:#F59E0B">★★★★★</span>&nbsp; India's #1 Rated Travel Platform · 4.9 / 5
+      <span style="color:#F59E0B">★★★★★</span>&nbsp; India's #1 Rated Travel Platform &nbsp;·&nbsp; 4.9 / 5
     </div>
 
     <h1>
@@ -230,39 +250,42 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
       <em>wander</em> next?
     </h1>
 
-    <p>Curated tours, seamless flights, handpicked hotels — crafted for travellers who expect more than ordinary.</p>
+    <p>Curated tours, seamless flights, handpicked hotels —<br>crafted for travellers who expect more than ordinary.</p>
 
     <div class="hero-btns">
       <a href="/pages/packages.html" class="btn-hp">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 3L3 10.5L10 13.5L13 21L21 3Z"/><path d="M10 13.5L14 10"/></svg>
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 3L3 10.5L10 13.5L13 21L21 3Z"/><path d="M10 13.5L14 10"/></svg>
         Explore Packages
       </a>
       <a href="/pages/contact.html" class="btn-hs">Free Custom Quote →</a>
     </div>
 
-    <!-- Divider line -->
-    <div style="width:1px;height:0;border:none;background:rgba(255,255,255,0.14);max-width:560px;margin:0 auto 40px;border-top:1px solid rgba(255,255,255,0.14)"></div>
-
     <div class="hero-stats">
-      <div class="hstat">
-        <strong>5,000+</strong>
-        <span>Happy Travellers</span>
-      </div>
-      <div class="hstat">
-        <strong>200+</strong>
-        <span>Tour Packages</span>
-      </div>
-      <div class="hstat">
-        <strong>50+</strong>
-        <span>Destinations</span>
-      </div>
-      <div class="hstat">
-        <strong>4.9★</strong>
-        <span>Avg Rating</span>
-      </div>
+      <div class="hstat"><strong>5,000+</strong><span>Happy Travellers</span></div>
+      <div class="hstat"><strong>200+</strong><span>Tour Packages</span></div>
+      <div class="hstat"><strong>50+</strong><span>Destinations</span></div>
+      <div class="hstat"><strong>4.9★</strong><span>Avg Rating</span></div>
     </div>
   </div>
 </section>
+
+<!-- TRUST BAR -->
+<div style="background:#fff;border-bottom:1px solid #E4E8EF;padding:14px 28px;">
+  <div style="max-width:1240px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+    <div style="display:flex;align-items:center;gap:8px;font-family:'Space Grotesk',system-ui;font-size:.78rem;font-weight:600;color:#4A5568;">
+      <span style="font-size:1.1rem">💰</span> Best Price Guarantee — Find it cheaper? We match it.
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;font-family:'Space Grotesk',system-ui;font-size:.78rem;font-weight:600;color:#4A5568;">
+      <span style="font-size:1.1rem">📞</span> 24/7 Support — We're always here for you
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;font-family:'Space Grotesk',system-ui;font-size:.78rem;font-weight:600;color:#4A5568;">
+      <span style="font-size:1.1rem">🔒</span> Secure Payments — 100% safe &amp; trusted
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;font-family:'Space Grotesk',system-ui;font-size:.78rem;font-weight:600;color:#4A5568;">
+      <span style="font-size:1.1rem">📋</span> Flexible Booking — Easy changes &amp; refunds
+    </div>
+  </div>
+</div>
 
 <!-- SEARCH -->
 <div class="search-wrap">
@@ -439,64 +462,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
 </section>
 
 <!-- FOOTER -->
-<footer>
-  <div class="footer-inner">
-    <div>
-      <div class="footer-logo">Zoom<span>Fly</span> ✈</div>
-      <p class="footer-desc">India's trusted travel partner since 2018. Crafting unforgettable journeys across 50+ destinations worldwide.</p>
-      <div class="footer-social">
-        <div class="social-btn" onclick="window.open('https://instagram.com','_blank')">📸</div>
-        <div class="social-btn" onclick="window.open('https://facebook.com','_blank')">👍</div>
-        <div class="social-btn" onclick="window.open('https://wa.me/918076136300','_blank')">💬</div>
-        <div class="social-btn" onclick="window.open('https://youtube.com','_blank')">▶️</div>
-      </div>
-    </div>
-    <div class="footer-col">
-      <h4>Travel</h4>
-      <a href="/pages/packages.html">Tour Packages</a>
-      <a href="/pages/flights.html">Flights</a>
-      <a href="/pages/hotels.html">Hotels</a>
-      <a href="/pages/bus.html">Bus Booking</a>
-      <a href="/pages/packages.html">Honeymoon</a>
-      <a href="/pages/packages.html">Group Tours</a>
-    </div>
-    <div class="footer-col">
-      <h4>Company</h4>
-      <a href="/pages/about.html">About Us</a>
-      <a href="/pages/contact.html">Contact</a>
-      <a href="/pages/vendor.html">Partner With Us</a>
-      <a href="/pages/dashboard.html">My Account</a>
-      <a href="/pages/admin.html">Admin</a>
-    </div>
-    <div class="footer-col">
-      <h4>Contact</h4>
-      <a href="tel:+918076136300">📞 +91 8076136300</a>
-      <a href="mailto:hello@zoomfly.in">📧 hello@zoomfly.in</a>
-      <a href="#">📍 Connaught Place, New Delhi</a>
-      <a href="https://wa.me/918076136300" target="_blank">💬 WhatsApp Chat</a>
-    </div>
-    <div class="footer-col">
-      <h4>Partner Portals</h4>
-      <a href="/pages/vendor-portal.html">🏪 Vendor Login</a>
-      <a href="/pages/agent-portal.html">🤝 Agent Login</a>
-      <a href="/pages/login.html?tab=signup">✨ Create Account</a>
-      <a href="/pages/referral.html">🎁 Refer & Earn</a>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <span>© 2025 ZoomFly. All rights reserved.</span>
-    <div class="trust-marks">
-      <span class="tm">🔒 SSL Secured</span>
-      <span class="tm">✅ IATA Affiliated</span>
-      <span class="tm">🛡 RBI Compliant</span>
-    </div>
-    <div style="display:flex;gap:1.25rem;font-size:.75rem">
-      <a href="/pages/privacy-policy.html" style="color:#94a3b8">Privacy Policy</a>
-      <a href="/pages/terms.html"           style="color:#94a3b8">Terms</a>
-      <a href="/pages/refund-policy.html"   style="color:#94a3b8">Refund Policy</a>
-    </div>
-  </div>
-</footer>
+
 
 <!-- MODAL -->
 <div class="modal-ov" id="modal-ov" onclick="if(event.target===this)closeModal()">
@@ -856,5 +822,7 @@ window.submitNewsletter = async (e) => {
 @keyframes slideInLeft{from{opacity:0;transform:translateX(-30px)}to{opacity:1;transform:translateX(0)}}
 </style>
 
+
+<footer class="footer" id="mainFooter"></footer>
 </body>
 </html>
