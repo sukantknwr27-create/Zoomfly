@@ -91,6 +91,7 @@
     .run-banner-btns{display:flex;gap:8px;flex-shrink:0}
   </style>
   <link rel="stylesheet" href="/assets/css/admin.css"/>
+  <style>body{visibility:hidden;opacity:0}</style>
 </head>
 <body>
 <nav class="navbar" id="mainNav"></nav>
@@ -326,6 +327,7 @@ let sentLog = JSON.parse(localStorage.getItem('zf_reminder_log') || '[]');
 // ── INIT ──────────────────────────────────────────────────────
 async function init() {
   const ok = await requireAdmin();
+  document.body.style.visibility="visible";document.body.style.opacity="1";
   if (!ok) return;
   await loadBookings();
   loadQueue();

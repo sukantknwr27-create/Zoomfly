@@ -360,6 +360,7 @@
   <meta name="robots" content="noindex, nofollow"/>
   <link rel="stylesheet" href="/assets/css/premium.css"/>
   <link rel="stylesheet" href="/assets/css/admin.css"/>
+  <style>body{visibility:hidden;opacity:0}</style>
 </head>
 <body>
 
@@ -848,7 +849,7 @@ supabase.channel('workflow-changes')
 window.handleLogout = async () => { await adminSignOut(); };
 
 // ── Init ───────────────────────────────────────────────────
-(async()=>{ const ok = await requireAdmin(); if(ok) await loadAll(); })();
+(async()=>{ const ok = await requireAdmin(); if(ok){document.body.style.visibility="visible";document.body.style.opacity="1"; await loadAll(); })();
 </script>
 </body>
 </html>

@@ -375,6 +375,7 @@
   <meta name="robots" content="noindex, nofollow"/>
   <link rel="stylesheet" href="/assets/css/premium.css"/>
   <link rel="stylesheet" href="/assets/css/admin.css"/>
+  <style>body{visibility:hidden;opacity:0}</style>
 </head>
 <body>
 
@@ -1070,6 +1071,7 @@ supabase.channel('bookings-changes')
 // ── Init ───────────────────────────────────────────────────
 (async () => {
   const ok = await requireAdmin();
+  document.body.style.visibility="visible";document.body.style.opacity="1";
   if (ok) await loadBookings();
 })();
 </script>

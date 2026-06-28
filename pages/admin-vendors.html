@@ -180,6 +180,7 @@
   <meta name="robots" content="noindex, nofollow"/>
   <link rel="stylesheet" href="/assets/css/premium.css"/>
   <link rel="stylesheet" href="/assets/css/admin.css"/>
+  <style>body{visibility:hidden;opacity:0}</style>
 </head>
 <body>
 
@@ -549,7 +550,7 @@ supabase.channel('vendor-changes')
   .subscribe();
 
 // ── Init ───────────────────────────────────────────────────
-(async()=>{ const ok = await requireAdmin(); if(ok) await loadVendors(); })();
+(async()=>{ const ok = await requireAdmin(); if(ok){document.body.style.visibility="visible";document.body.style.opacity="1"; await loadVendors(); })();
 </script>
 </body>
 </html>

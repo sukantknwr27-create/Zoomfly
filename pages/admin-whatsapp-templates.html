@@ -147,6 +147,7 @@
   <meta name="robots" content="noindex, nofollow"/>
   <link rel="stylesheet" href="/assets/css/premium.css"/>
   <link rel="stylesheet" href="/assets/css/admin.css"/>
+  <style>body{visibility:hidden;opacity:0}</style>
 </head>
 <body>
 
@@ -242,6 +243,7 @@
   //   and only after the admin auth check passes. All other pages are unaffected.
   import { requireAdmin, adminSignOut } from '../assets/js/supabase.js';
   await requireAdmin(); // redirects to login if not admin
+  document.body.style.visibility="visible";document.body.style.opacity="1";
   window.doLogout = async () => { await adminSignOut(); };
 
   const {

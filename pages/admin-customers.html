@@ -78,6 +78,7 @@
     .overlay.show{display:block}
   </style>
     <link rel="stylesheet" href="/assets/css/admin.css"/>
+  <style>body{visibility:hidden;opacity:0}</style>
 </head>
 <body>
 <div class="admin-layout">
@@ -272,6 +273,7 @@ let currentCustomer = null;
 
 // ── INIT ────────────────────────────────────────────────────
 const adminUser = await requireAdmin();
+  document.body.style.visibility="visible";document.body.style.opacity="1";
 if (!adminUser) throw new Error('redirect');
 loadAll();
 

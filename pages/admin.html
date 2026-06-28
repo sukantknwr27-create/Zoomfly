@@ -124,6 +124,7 @@ window.openTestiModal = function(){};
   <meta name="robots" content="noindex, nofollow"/>
   <link rel="stylesheet" href="/assets/css/premium.css"/>
   <link rel="stylesheet" href="/assets/css/admin.css"/>
+  <style>body{visibility:hidden;opacity:0}</style>
 </head>
 <body>
 <aside class="sidebar">
@@ -601,11 +602,15 @@ if (_adminRole !== 'admin') {
     _isAdmin = _prof?.role === 'admin';
   } catch {}
   if (!_isAdmin) {
-    await supabase.auth.adminSignOut();
+    await adminSignOut();
     window.location.replace('/pages/admin-login.html?reason=access_denied');
     throw new Error('redirect');
   }
 }
+
+// Auth confirmed — reveal page
+document.body.style.visibility = 'visible';
+document.body.style.opacity    = '1';
 
 // Nav avatar — use auth user data (works even without profiles row)
 const _adminName = _adminUser.user_metadata?.full_name || _adminUser.email?.split('@')[0] || 'Admin';

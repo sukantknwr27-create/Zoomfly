@@ -97,6 +97,7 @@
     .stat-card .val span{ font-size:.8rem;font-weight:500;color:#8896AB; }
   </style>
   <link rel="stylesheet" href="/assets/css/admin.css"/>
+  <style>body{visibility:hidden;opacity:0}</style>
 </head>
 <body>
 
@@ -418,6 +419,8 @@ document.getElementById('hotel-modal').addEventListener('click', e => {
 (async () => {
   const ok = await checkAuth();
   if (!ok) return;
+  document.body.style.visibility = 'visible';
+  document.body.style.opacity    = '1';
   await loadHotels();
 })();
 

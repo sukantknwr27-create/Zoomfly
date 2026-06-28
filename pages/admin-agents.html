@@ -196,6 +196,7 @@
   <meta name="robots" content="noindex, nofollow"/>
   <link rel="stylesheet" href="/assets/css/premium.css"/>
   <link rel="stylesheet" href="/assets/css/admin.css"/>
+  <style>body{visibility:hidden;opacity:0}</style>
 </head>
 <body>
 
@@ -627,7 +628,7 @@ function tierLabel(t){return{associate:'🤝 Associate',senior:'⭐ Senior',elit
 function sanitizePhone(p){let ph=String(p||'').replace(/\D/g,'');if(ph.length===10)ph='91'+ph;return ph||WA_ADMIN;}
 function showToast(msg,type='success'){const t=document.getElementById('toast');t.textContent=msg;t.style.background=type==='error'?'#ef4444':'var(--dark)';t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
 
-(async()=>{const ok = await requireAdmin();if(ok)await loadAll();})();
+(async()=>{const ok = await requireAdmin();if(ok){document.body.style.visibility="visible";document.body.style.opacity="1";await loadAll();}})();
 </script>
 </body>
 </html>
