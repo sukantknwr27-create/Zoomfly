@@ -1,0 +1,313 @@
+/* ═══════════════════════════════════════════════════════════════
+   ZOOMFLY — INNER PAGES THEME
+   Reference-matched dark premium design for all inner pages
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Override legacy :root variables to match premium palette */
+:root {
+  --primary:       #C9922A !important;
+  --primary-dark:  #A37220 !important;
+  --primary-light: #F5E6C4 !important;
+  --accent:        #E8B84B !important;
+  --text:          #1C2340 !important;
+  --text-muted:    #4A5568 !important;
+  --text-light:    #8896AB !important;
+  --bg:            #F3F2EE !important;
+  --bg-white:      #FFFFFF !important;
+  --border:        #E4E8EF !important;
+  --success:       #0E9F6E !important;
+  --font:          'Inter', system-ui, sans-serif !important;
+  --r:             14px !important;
+  --r2:            8px !important;
+  --shadow-sm:     0 1px 4px rgba(12,27,51,.06) !important;
+  --shadow:        0 4px 16px rgba(12,27,51,.09) !important;
+  --shadow-lg:     0 12px 40px rgba(12,27,51,.13) !important;
+}
+
+/* ── PAGE HERO (all inner pages) ───────────────────────────── */
+.page-hero,
+.flight-hero,
+.hero-section,
+.pkg-hero {
+  background: linear-gradient(145deg, #0C1B33 0%, #1a2d4a 45%, #1e3a6e 100%) !important;
+  padding: 120px 2rem 72px !important;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.page-hero::before,
+.flight-hero::before,
+.hero-section::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.04) 1px, transparent 0);
+  background-size: 38px 38px;
+  pointer-events: none;
+}
+.page-hero::after,
+.flight-hero::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 60% 40%, rgba(201,146,42,0.10), transparent 60%),
+              radial-gradient(ellipse at 20% 80%, rgba(27,110,243,0.07), transparent 55%);
+  pointer-events: none;
+}
+
+/* Hero text */
+.page-hero h1, .flight-hero h1, .hero-section h1,
+.page-hero-inner h1 {
+  font-family: 'Cormorant Garamond', Georgia, serif !important;
+  font-size: clamp(2.2rem, 5vw, 3.75rem) !important;
+  font-weight: 600 !important;
+  color: #ffffff !important;
+  letter-spacing: -0.02em !important;
+  line-height: 1.1 !important;
+  margin-bottom: 16px !important;
+}
+.page-hero h1 em, .flight-hero h1 em, .hero-section h1 em { 
+  font-style: italic !important; 
+  color: #E8B84B !important; 
+}
+.page-hero p, .flight-hero p, .hero-section p,
+.page-hero-inner p {
+  color: rgba(255,255,255,0.68) !important;
+  font-size: 1.05rem !important;
+  max-width: 540px;
+  margin: 0 auto !important;
+}
+.page-hero-inner { position: relative; z-index: 2; }
+
+/* ── BREADCRUMB ────────────────────────────────────────────── */
+.breadcrumb { 
+  color: rgba(255,255,255,0.45) !important;
+  font-size: 0.78rem !important;
+}
+.breadcrumb a { color: rgba(255,255,255,0.6) !important; }
+.breadcrumb a:hover { color: #E8B84B !important; }
+
+/* ── FILTER SIDEBAR ────────────────────────────────────────── */
+.filter-card, .sidebar-card {
+  background: #ffffff !important;
+  border: 1px solid #E4E8EF !important;
+  border-radius: 14px !important;
+  box-shadow: 0 2px 12px rgba(12,27,51,.07) !important;
+}
+.freset { color: #C9922A !important; }
+.pill:hover { border-color: #C9922A !important; color: #C9922A !important; }
+.pill.active { 
+  background: #F5E6C4 !important; 
+  border-color: #C9922A !important; 
+  color: #C9922A !important; 
+}
+input[type=range] { accent-color: #C9922A !important; }
+
+/* ── PACKAGE CARDS (listing page) ─────────────────────────── */
+.pkg-card {
+  border-radius: 14px !important;
+  box-shadow: 0 2px 12px rgba(12,27,51,.07) !important;
+  transition: box-shadow 0.28s, transform 0.28s !important;
+}
+.pkg-card:hover {
+  box-shadow: 0 16px 48px rgba(12,27,51,.14) !important;
+  transform: translateY(-5px) !important;
+}
+.pkg-price .amount, .pkg-price strong, .price-main {
+  color: #C9922A !important;
+  font-family: 'Space Grotesk', system-ui !important;
+}
+
+/* ── SEARCH / FILTER BAR ───────────────────────────────────── */
+.search-bar, .filter-bar, .pkg-search {
+  background: #ffffff !important;
+  border: 1px solid #E4E8EF !important;
+  border-radius: 100px !important;
+  box-shadow: 0 2px 12px rgba(12,27,51,.07) !important;
+}
+.btn-search, .btn-filter-search, input[type="submit"].btn {
+  background: #C9922A !important;
+  color: #0C1B33 !important;
+  font-family: 'Space Grotesk', system-ui !important;
+  font-weight: 700 !important;
+  border-radius: 100px !important;
+  border: none !important;
+}
+.btn-search:hover { background: #E8B84B !important; }
+
+/* ── BUTTONS GLOBAL ────────────────────────────────────────── */
+.btn-primary, .btn-book, .cta-btn, button[class*="primary"] {
+  background: #C9922A !important;
+  color: #0C1B33 !important;
+  border-radius: 100px !important;
+  font-family: 'Space Grotesk', system-ui !important;
+  font-weight: 700 !important;
+  border: none !important;
+  box-shadow: 0 4px 18px rgba(201,146,42,.30) !important;
+}
+.btn-primary:hover, .btn-book:hover { 
+  background: #E8B84B !important; 
+  transform: translateY(-2px) !important;
+}
+.btn-secondary, .btn-outline-secondary {
+  background: transparent !important;
+  color: #0C1B33 !important;
+  border: 1.5px solid #E4E8EF !important;
+  border-radius: 100px !important;
+  font-family: 'Space Grotesk', system-ui !important;
+  font-weight: 600 !important;
+}
+.btn-secondary:hover { border-color: #0C1B33 !important; }
+.btn-whatsapp { 
+  background: #25D366 !important; 
+  border-radius: 100px !important;
+  font-family: 'Space Grotesk', system-ui !important;
+}
+
+/* ── CARDS GENERAL ─────────────────────────────────────────── */
+.card, .info-card, .feature-card, .stat-card {
+  border-radius: 14px !important;
+  border: 1px solid #E4E8EF !important;
+  box-shadow: 0 2px 12px rgba(12,27,51,.07) !important;
+}
+
+/* ── TABS ──────────────────────────────────────────────────── */
+.tab.active, .stab.active, [class*="tab"].active {
+  color: #C9922A !important;
+  border-color: #C9922A !important;
+}
+.tabs, .stabs { border-color: #E4E8EF !important; }
+
+/* ── SECTION LABELS ────────────────────────────────────────── */
+.section-label, .slbl, .eyebrow {
+  color: #C9922A !important;
+  font-family: 'Space Grotesk', system-ui !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.1em !important;
+}
+.section-title, .stitle, h2.title {
+  font-family: 'Cormorant Garamond', Georgia, serif !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.01em !important;
+}
+.section-title em, .stitle em { color: #C9922A !important; font-style: italic !important; }
+
+/* ── FLIGHT HERO SPECIFICS ─────────────────────────────────── */
+.flight-hero {
+  padding-bottom: 0 !important;
+}
+.flight-hero .search-box {
+  background: rgba(255,255,255,0.06) !important;
+  backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255,255,255,0.15) !important;
+  border-radius: 16px !important;
+  margin: 24px auto 0 !important;
+  max-width: 900px !important;
+}
+.trip-type-btn.active { 
+  background: #C9922A !important; 
+  color: #0C1B33 !important;
+  border-radius: 100px !important;
+}
+
+/* ── LOGIN PAGE ────────────────────────────────────────────── */
+.left, .auth-left {
+  background: linear-gradient(145deg, #0C1B33, #1a2d4a) !important;
+}
+.left::before { background: rgba(201,146,42,0.08) !important; }
+.perk-icon { background: rgba(201,146,42,0.18) !important; }
+.tab.active { background: #C9922A !important; color: #0C1B33 !important; }
+.fc:focus { border-color: #C9922A !important; box-shadow: 0 0 0 3px rgba(201,146,42,.12) !important; }
+
+/* ── ABOUT PAGE ────────────────────────────────────────────── */
+.hero .hero-bg { 
+  background: linear-gradient(145deg, #0C1B33, #1a2d4a, #1e3a6e) !important; 
+}
+.value-card:hover, .team-card:hover {
+  border-color: rgba(201,146,42,0.35) !important;
+  box-shadow: 0 8px 32px rgba(12,27,51,.12) !important;
+}
+.timeline-dot { background: #C9922A !important; }
+.stat-val { color: #C9922A !important; }
+
+/* ── CONTACT PAGE ──────────────────────────────────────────── */
+.contact-icon, .info-icon { 
+  background: rgba(201,146,42,0.14) !important; 
+  color: #C9922A !important;
+}
+.contact-card { 
+  border-left: 3px solid #C9922A !important;
+}
+
+/* ── FAQ PAGE ──────────────────────────────────────────────── */
+.faq-item.open .faq-q { color: #C9922A !important; }
+.faq-item.open { border-color: rgba(201,146,42,0.35) !important; }
+
+/* ── BOOKING CONFIRMATION ──────────────────────────────────── */
+.confirmation-icon { background: rgba(201,146,42,0.14) !important; color: #C9922A !important; }
+.booking-ref { color: #C9922A !important; font-family: 'Space Grotesk', system-ui !important; }
+
+/* ── DASHBOARD / MY BOOKINGS ───────────────────────────────── */
+.sidebar-nav a.active { 
+  background: rgba(201,146,42,0.12) !important; 
+  color: #C9922A !important;
+  border-left-color: #C9922A !important;
+}
+.booking-card .status-confirmed { color: #0E9F6E !important; }
+.booking-card .status-pending   { color: #C9922A !important; }
+
+/* ── BLOG ──────────────────────────────────────────────────── */
+.blog-category { 
+  background: rgba(201,146,42,0.12) !important; 
+  color: #C9922A !important;
+}
+.blog-card:hover { 
+  box-shadow: 0 12px 40px rgba(12,27,51,.12) !important;
+  transform: translateY(-4px) !important;
+}
+
+/* ── TRUST BAR (inner pages) ───────────────────────────────── */
+.trust-bar-inner {
+  background: #0C1B33;
+  padding: 12px 28px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 12px;
+}
+.trust-bar-inner .ti {
+  display: flex; align-items: center; gap: 8px;
+  font-family: 'Space Grotesk', system-ui;
+  font-size: .75rem; font-weight: 600; color: rgba(255,255,255,0.7);
+}
+
+/* ── CTA SECTION ───────────────────────────────────────────── */
+.cta-section, .cta-strip, .cta-banner {
+  background: linear-gradient(145deg, #0C1B33, #1a2d4a) !important;
+}
+.cta-section h2, .cta-strip h2, .cta-banner h2 {
+  font-family: 'Cormorant Garamond', serif !important;
+  color: #ffffff !important;
+}
+.cta-section h2 em { color: #E8B84B !important; }
+
+/* ── STARS ─────────────────────────────────────────────────── */
+.stars, .rating-stars, [class*="star"] { color: #F59E0B !important; }
+
+/* ── FORM INPUTS ───────────────────────────────────────────── */
+input:focus, select:focus, textarea:focus {
+  border-color: #C9922A !important;
+  box-shadow: 0 0 0 3px rgba(201,146,42,.10) !important;
+  outline: none !important;
+}
+
+/* ── LINKS ─────────────────────────────────────────────────── */
+a.link-gold, .read-more, .view-all-link { color: #C9922A !important; }
+a.link-gold:hover { color: #E8B84B !important; }
+
+/* ── LOADING SPINNER ───────────────────────────────────────── */
+.spinner { border-top-color: #C9922A !important; }
+
+/* ── RESPONSIVE ────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .page-hero, .flight-hero, .hero-section {
+    padding: 100px 1.25rem 56px !important;
+  }
+  .page-hero h1, .flight-hero h1 { font-size: 2rem !important; }
+}
