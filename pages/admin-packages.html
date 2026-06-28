@@ -84,7 +84,19 @@
   </style>
 
   <link rel="stylesheet" href="/assets/css/admin.css"/>
-  <style>body{visibility:hidden;opacity:0}</style>
+  <style>body{visibility:hidden;opacity:0;transition:opacity .2s}</style>
+  <script>
+    // Failsafe: if auth check hangs or JS errors, reveal after 4s so page isn't blank forever
+    window._authRevealTimer = setTimeout(function(){
+      document.body.style.visibility='visible';
+      document.body.style.opacity='1';
+    }, 4000);
+    window._revealPage = function(){
+      clearTimeout(window._authRevealTimer);
+      document.body.style.visibility='visible';
+      document.body.style.opacity='1';
+    };
+  </script>
 </head>
 <body>
 <div class="layout">
@@ -274,7 +286,7 @@
 import { supabase, requireAdmin, adminSignOut } from '../assets/js/supabase.js';
 
 await requireAdmin();
-  document.body.style.visibility="visible";document.body.style.opacity="1";
+  window._revealPage();
 
 let allPkgs      = [];
 let blockedDates = new Set();
