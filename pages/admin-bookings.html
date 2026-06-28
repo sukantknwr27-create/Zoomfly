@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Bookings — ZoomFly Admin</title>
@@ -8,13 +9,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
   <style>
     :root {
-      --primary: #1a73e8;
-      --accent:  #ff6b35;
+      --primary: #C9922A;
+      --accent:  #E8B84B;
       --dark:    #0f1923;
       --dark2:   #1a2535;
       --dark3:   #243044;
       --text:    #2d3748;
-      --light:   #64748b;
+      --light:   #4A5568;
       --border:  #e2e8f0;
       --bg:      #f8fafc;
       --white:   #ffffff;
@@ -373,6 +374,7 @@
   </style>
   <meta name="robots" content="noindex, nofollow"/>
   <link rel="stylesheet" href="/assets/css/premium.css"/>
+  <link rel="stylesheet" href="/assets/css/admin.css"/>
 </head>
 <body>
 
@@ -557,7 +559,7 @@
 <div class="toast" id="toast"></div>
 
 <script type="module">
-import { supabase } from '../assets/js/supabase.js';
+import { supabase, requireAdmin, adminSignOut } from '../assets/js/supabase.js';
 const WA_NUMBER    = '918076136300';
 
 // ── State ──────────────────────────────────────────────────
@@ -1010,10 +1012,7 @@ window.exportCSV = function() {
 };
 
 // ── Logout ─────────────────────────────────────────────────
-window.handleLogout = async () => {
-  await supabase.auth.signOut({ scope: 'global' }).then(() => { Object.keys(localStorage).forEach(k=>{ if(k.startsWith('sb-'))localStorage.removeItem(k); }); window.location.replace('/pages/login.html'); }).catch(()=>{ window.location.replace('/pages/login.html'); });
-  window.location.replace('/pages/login.html');
-};
+window.handleLogout = async () => { await adminSignOut(); };
 
 // ── Helpers ────────────────────────────────────────────────
 function esc(s) {

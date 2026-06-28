@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>WhatsApp Templates — ZoomFly Admin</title>
@@ -9,7 +10,7 @@
   <style>
     :root {
       --primary:#1a73e8; --accent:#ff6b35; --dark:#0f1923;
-      --dark2:#1a2535; --text:#2d3748; --light:#64748b;
+      --dark2:#1a2535; --text:#2d3748; --light:#4A5568;
       --border:#e2e8f0; --bg:#f8fafc; --white:#fff;
       --green:#25d366; --wa-dark:#075e54;
     }
@@ -145,6 +146,7 @@
   </script>
   <meta name="robots" content="noindex, nofollow"/>
   <link rel="stylesheet" href="/assets/css/premium.css"/>
+  <link rel="stylesheet" href="/assets/css/admin.css"/>
 </head>
 <body>
 
@@ -156,6 +158,7 @@
   <div class="nav-right">
     <span class="nav-badge">Admin Panel</span>
     <a href="admin.html" class="nav-link">← Dashboard</a>
+    <button onclick="doLogout()" class="nav-link" style="background:none;border:1px solid rgba(255,255,255,.2);cursor:pointer">🚪 Logout</button>
   </div>
 </nav>
 
@@ -237,8 +240,9 @@
 <script type="module">
   // ✦ Dynamic import — whatsapp-templates.js (24KB) only loads on this page
   //   and only after the admin auth check passes. All other pages are unaffected.
-  import { requireAdmin } from '../assets/js/supabase.js';
+  import { requireAdmin, adminSignOut } from '../assets/js/supabase.js';
   await requireAdmin(); // redirects to login if not admin
+  window.doLogout = async () => { await adminSignOut(); };
 
   const {
     getTemplates,

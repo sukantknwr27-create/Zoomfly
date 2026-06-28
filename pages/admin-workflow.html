@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Booking Workflow — ZoomFly Admin</title>
@@ -8,12 +9,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
   <style>
     :root {
-      --primary: #1a73e8;
-      --accent:  #ff6b35;
+      --primary: #C9922A;
+      --accent:  #E8B84B;
       --dark:    #0f1923;
       --dark2:   #1a2535;
       --text:    #2d3748;
-      --light:   #64748b;
+      --light:   #4A5568;
       --border:  #e2e8f0;
       --bg:      #f1f5f9;
       --white:   #ffffff;
@@ -26,11 +27,11 @@
 
       /* Column colours */
       --col-pending:    #f59e0b;
-      --col-confirmed:  #1a73e8;
+      --col-confirmed:  #C9922A;
       --col-processing: #8b5cf6;
       --col-completed:  #22c55e;
       --col-cancelled:  #ef4444;
-      --col-refunded:   #64748b;
+      --col-refunded:   #4A5568;
     }
 
     * { margin:0; padding:0; box-sizing:border-box; }
@@ -358,6 +359,7 @@
   </style>
   <meta name="robots" content="noindex, nofollow"/>
   <link rel="stylesheet" href="/assets/css/premium.css"/>
+  <link rel="stylesheet" href="/assets/css/admin.css"/>
 </head>
 <body>
 
@@ -402,7 +404,7 @@
     <div class="topbar-right">
       <div class="legend">
         <div class="leg-item"><div class="leg-dot" style="background:#ef4444"></div> Urgent (today)</div>
-        <div class="leg-item"><div class="leg-dot" style="background:#ff6b35"></div> High (≤3 days)</div>
+        <div class="leg-item"><div class="leg-dot" style="background:#E8B84B"></div> High (≤3 days)</div>
       </div>
       <button class="tb-btn" onclick="loadAll()">🔄 Refresh</button>
       <a href="admin-bookings.html" class="tb-btn">📋 Table View</a>
@@ -459,7 +461,7 @@
 <div class="toast" id="toast"></div>
 
 <script type="module">
-import { supabase } from '../assets/js/supabase.js';
+import { supabase, requireAdmin, adminSignOut } from '../assets/js/supabase.js';
 const WA_NUMBER    = '918076136300';
 
 // ── State ──────────────────────────────────────────────────
@@ -843,7 +845,7 @@ supabase.channel('workflow-changes')
   .subscribe();
 
 // ── Logout ─────────────────────────────────────────────────
-window.handleLogout = async () => { await supabase.auth.signOut({ scope: 'global' }).then(() => { Object.keys(localStorage).forEach(k=>{ if(k.startsWith('sb-'))localStorage.removeItem(k); }); window.location.replace('/pages/login.html'); }).catch(()=>{ window.location.replace('/pages/login.html'); }); window.location.replace('/pages/login.html'); };
+window.handleLogout = async () => { await adminSignOut(); };
 
 // ── Init ───────────────────────────────────────────────────
 (async()=>{ const ok = await requireAdmin(); if(ok) await loadAll(); })();

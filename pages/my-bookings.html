@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>My Bookings — ZoomFly</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✈️</text></svg>"/>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,600&family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <style>
     :root {
-      --primary:#1a73e8; --primary-dark:#1557b0;
-      --accent:#ff6b35;  --dark:#0f1923; --dark2:#1a2535;
+      --primary:#C9922A; --primary-dark:#A37220;
+      --accent:#E8B84B;  --dark:#0f1923; --dark2:#1a2535;
       --text:#2d3748;    --light:#64748b;
       --border:#e2e8f0;  --bg:#f8fafc;  --white:#fff;
       --green:#22c55e;   --yellow:#f59e0b; --red:#ef4444;
@@ -152,7 +152,7 @@
     .bc-status{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;
       border-radius:20px;font-size:0.72rem;font-weight:700;}
     .s-pending   {background:rgba(245,158,11,0.1); color:#92400e;}
-    .s-confirmed {background:rgba(26,115,232,0.1); color:#1557b0;}
+    .s-confirmed {background:rgba(26,115,232,0.1); color:#A37220;}
     .s-processing{background:rgba(139,92,246,0.1); color:#5b21b6;}
     .s-completed {background:rgba(34,197,94,0.1);  color:#166534;}
     .s-cancelled {background:rgba(239,68,68,0.1);  color:#991b1b;}
@@ -237,6 +237,7 @@
   <meta name="robots" content="noindex, nofollow"/>
   <link rel="stylesheet" href="/assets/css/main.css"/>
 <link rel="stylesheet" href="/assets/css/premium.css"/>
+<link rel="stylesheet" href="/assets/css/pages.css"/>
 </head>
 <body>
 
@@ -908,8 +909,8 @@ window.downloadGSTInvoice = (b) => {
 body{font-family:Arial,sans-serif;font-size:13px;color:#1e293b;background:#fff;padding:40px}
 .page{max-width:720px;margin:0 auto}
 .hdr{display:flex;justify-content:space-between;align-items:flex-start;
-     padding-bottom:20px;border-bottom:3px solid #1a73e8;margin-bottom:24px}
-.brand{font-size:22px;font-weight:800;color:#1a73e8}.brand span{color:#ff6b35}
+     padding-bottom:20px;border-bottom:3px solid #C9922A;margin-bottom:24px}
+.brand{font-size:22px;font-weight:800;color:#C9922A}.brand span{color:#E8B84B}
 .inv-title h1{font-size:26px;font-weight:800;text-align:right}
 .inv-title .ref{font-size:12px;color:#64748b;text-align:right;margin-top:4px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px}
@@ -922,11 +923,11 @@ td{padding:11px 12px;border-bottom:1px solid #f1f5f9;font-size:13px}
 .ar{text-align:right}
 .totals{margin-left:auto;width:260px}
 .totals td{padding:6px 12px;font-size:13px}
-.totals .ttl td{font-weight:800;font-size:15px;color:#1a73e8;border-top:2px solid #e2e8f0;padding-top:10px}
+.totals .ttl td{font-weight:800;font-size:15px;color:#C9922A;border-top:2px solid #e2e8f0;padding-top:10px}
 .badge{display:inline-block;background:#dcfce7;color:#15803d;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700}
 .gst-box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px 14px;font-size:12px;color:#64748b;line-height:1.8;margin-bottom:20px}
 .footer{margin-top:32px;padding-top:16px;border-top:1px solid #e2e8f0;font-size:11px;color:#94a3b8;display:flex;justify-content:space-between}
-.print-btn{background:#1a73e8;color:#fff;border:none;border-radius:8px;padding:10px 24px;font-size:13px;font-weight:700;cursor:pointer;margin:20px auto;display:block}
+.print-btn{background:#C9922A;color:#fff;border:none;border-radius:8px;padding:10px 24px;font-size:13px;font-weight:700;cursor:pointer;margin:20px auto;display:block}
 @media print{.print-btn{display:none!important}}
 </style></head><body><div class="page">
 
@@ -996,7 +997,10 @@ td{padding:11px 12px;border-bottom:1px solid #f1f5f9;font-size:13px}
   <div>hello@zoomfly.in | +91 80761 36300</div>
 </div>
 
-</div></body></html>`;
+</div>
+<section class="newsletter" id="newsletter"></section>
+<footer class="footer" id="mainFooter"></footer>
+</body></html>`;
 
   const win = window.open("", "_blank");
   win.document.write(html);
@@ -1006,5 +1010,8 @@ td{padding:11px 12px;border-bottom:1px solid #f1f5f9;font-size:13px}
 
 </script>
 
+
+<section class="newsletter" id="newsletter"></section>
+<footer class="footer" id="mainFooter"></footer>
 </body>
 </html>

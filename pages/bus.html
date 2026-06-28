@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,600&family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <meta charset="UTF-8"/>
   <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"/>
@@ -10,6 +11,7 @@
   <meta name="description" content="Book AC sleeper and semi-sleeper buses across India. Compare operators, pick your seat, instant booking confirmation with ZoomFly."/>
   <link rel="stylesheet" href="/assets/css/main.css"/>
 <link rel="stylesheet" href="/assets/css/premium.css"/>
+<link rel="stylesheet" href="/assets/css/pages.css"/>
   <style>
     .bus-search{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow-lg);padding:32px;margin-top:32px;}
     .bus-fields{display:grid;grid-template-columns:1fr auto 1fr 1fr auto;gap:14px;align-items:end;}
@@ -119,7 +121,7 @@ window.showBusAC = (inputId, dropId) => {
   if (!res.length) { drop.style.display = 'none'; return; }
   drop.innerHTML = res.map(c => `
     <div style="padding:.55rem 1rem;cursor:pointer;font-size:.85rem;border-bottom:1px solid #f1f5f9;transition:background .15s"
-      onmouseover="this.style.background='#EEF3FF'" onmouseout="this.style.background=''"
+      onmouseover="this.style.background='#F5E6C4'" onmouseout="this.style.background=''"
       onmousedown="document.getElementById('${inputId}').value='${c}';document.getElementById('${dropId}').style.display='none'">
       📍 ${c}
     </div>`).join('');

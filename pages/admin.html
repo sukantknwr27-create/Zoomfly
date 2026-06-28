@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <meta charset="UTF-8"/>
   <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"/>
@@ -9,18 +10,18 @@
   <title>Admin Dashboard — ZoomFly</title>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{--primary:#0057FF;--accent:#FF6B35;--text:#1e293b;--muted:#64748b;--light:#94a3b8;--bg:#F1F5F9;--white:#fff;--border:#E2E8F0;--success:#059669;--success-bg:#ECFDF5;--warn:#D97706;--warn-bg:#FFFBEB;--error:#DC2626;--error-bg:#FEF2F2;--info:#0057FF;--info-bg:#EEF3FF;--sb:#0f172a;--sb-text:#94a3b8;--sb-active:#1e293b;--shadow-sm:0 1px 3px rgba(0,0,0,.07);--shadow:0 4px 12px rgba(0,0,0,.08);--r:12px;--r2:8px;--font:'Segoe UI',system-ui,sans-serif}
+    :root{--primary:#C9922A;--accent:#E8B84B;--text:#1C2340;--muted:#4A5568;--light:#8896AB;--bg:#F3F2EE;--white:#fff;--border:#E4E8EF;--success:#0E9F6E;--success-bg:#D1FAE5;--warn:#D97706;--warn-bg:#FEF3C7;--error:#E53E3E;--error-bg:#FCEBEB;--info:#1B6EF3;--info-bg:#EBF2FF;--sb:#0C1B33;--sb-text:rgba(255,255,255,0.52);--sb-active:#1a2d4a;--shadow-sm:0 1px 4px rgba(12,27,51,.06);--shadow:0 4px 16px rgba(12,27,51,.09);--r:14px;--r2:8px;--font:'Inter',system-ui,sans-serif}
     body{font-family:var(--font);background:var(--bg);color:var(--text);display:flex;min-height:100vh}
     a{text-decoration:none;color:inherit}
     .sidebar{width:240px;background:var(--sb);color:var(--sb-text);display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh;z-index:100}
     .sb-logo{padding:1.5rem 1.25rem 1.25rem;border-bottom:1px solid #1e293b}
-    .sb-logo h1{font-size:1.3rem;font-weight:800;color:white}.sb-logo h1 span{color:var(--accent)}
+    .sb-logo h1{font-size:1.3rem;font-weight:800;color:white;font-family:'Space Grotesk',system-ui}.sb-logo h1 span{color:#E8B84B}
     .sb-logo p{font-size:.7rem;color:var(--sb-text);margin-top:2px}
     .sb-nav{flex:1;padding:1rem 0;overflow-y:auto}
     .sb-sec{padding:.5rem 1.25rem .35rem;font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#475569}
     .nav-item{display:flex;align-items:center;gap:.75rem;padding:.6rem 1.25rem;font-size:.875rem;font-weight:500;cursor:pointer;transition:all .15s;border-left:3px solid transparent}
-    .nav-item:hover{background:var(--sb-active);color:white}
-    .nav-item.active{background:var(--sb-active);color:white;border-left-color:var(--primary)}
+    .nav-item:hover{background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.9)}
+    .nav-item.active{background:rgba(201,146,42,0.12);color:#E8B84B;border-left-color:#C9922A;border-left-width:3px}
     .nav-item .icon{font-size:1rem;width:20px;text-align:center}
     .nav-item .badge{margin-left:auto;background:var(--error);color:white;font-size:.65rem;font-weight:700;padding:.1rem .45rem;border-radius:50px}
     .sb-footer{padding:1rem 1.25rem;border-top:1px solid #1e293b}
@@ -37,7 +38,7 @@
     .live-badge{background:var(--success-bg);color:var(--success);font-size:.72rem;font-weight:700;padding:.25rem .65rem;border-radius:50px;display:flex;align-items:center;gap:.35rem}
     .live-dot{width:6px;height:6px;border-radius:50%;background:var(--success);animation:pulse 2s infinite}
     @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-    .btn-add{padding:.5rem 1rem;background:var(--primary);color:white;border:none;border-radius:var(--r2);font-size:.8rem;font-weight:600;cursor:pointer}
+    .btn-add{padding:.5rem 1rem;background:var(--primary);color:#0C1B33;border:none;border-radius:50px;font-family:'Space Grotesk',system-ui;font-size:.8rem;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(201,146,42,.28)}
     .content{padding:1.75rem 2rem;flex:1}
     .section{display:none}.section.active{display:block;animation:fi .25s ease}
     @keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
@@ -47,7 +48,7 @@
     .stat-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem}
     .stat-chg{font-size:.72rem;font-weight:600;padding:.15rem .5rem;border-radius:50px}
     .up{background:var(--success-bg);color:var(--success)}
-    .stat-val{font-size:1.75rem;font-weight:800;line-height:1;margin-bottom:.25rem}
+    .stat-val{font-size:1.75rem;font-weight:800;line-height:1;margin-bottom:.25rem;font-family:'Space Grotesk',system-ui}
     .stat-lbl{font-size:.78rem;color:var(--muted)}
     .chart-row{display:grid;grid-template-columns:2fr 1fr;gap:1.25rem;margin-bottom:1.75rem}
     .chart-card{background:white;border:1px solid var(--border);border-radius:var(--r);padding:1.25rem;box-shadow:var(--shadow-sm)}
@@ -61,14 +62,14 @@
     .table-hdr{padding:1rem 1.25rem;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:.75rem}
     .table-hdr h3{font-size:.9rem;font-weight:700}
     .tsearch{padding:.45rem .85rem;border:1px solid var(--border);border-radius:var(--r2);font-size:.8rem;font-family:var(--font);color:var(--text);min-width:200px}
-    .tsearch:focus{outline:none;border-color:var(--primary)}
+    .tsearch:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(201,146,42,.10)}
     table{width:100%;border-collapse:collapse}
     th{padding:.65rem 1rem;text-align:left;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);background:var(--bg);border-bottom:1px solid var(--border);white-space:nowrap}
     td{padding:.75rem 1rem;font-size:.825rem;border-bottom:1px solid var(--border);vertical-align:middle}
     tr:last-child td{border-bottom:none}
-    tr:hover td{background:#FAFBFF}
+    tr:hover td{background:#FAFAF7}
     .pill{display:inline-block;padding:.2rem .65rem;border-radius:50px;font-size:.7rem;font-weight:700;white-space:nowrap}
-    .p-new{background:var(--info-bg);color:var(--info)}
+    .p-new{background:rgba(201,146,42,0.12);color:#C9922A}
     .p-confirmed{background:var(--success-bg);color:var(--success)}
     .p-pending{background:var(--warn-bg);color:var(--warn)}
     .p-cancelled{background:var(--error-bg);color:var(--error)}
@@ -76,7 +77,7 @@
     .p-approved{background:var(--success-bg);color:var(--success)}
     .ab{display:flex;gap:.4rem}
     .bs{padding:.3rem .65rem;border-radius:4px;font-size:.72rem;font-weight:600;cursor:pointer;border:none;white-space:nowrap}
-    .bv{background:var(--info-bg);color:var(--info)}
+    .bv{background:rgba(201,146,42,0.12);color:#C9922A}
     .bd{background:var(--success-bg);color:var(--success)}
     .bc2{background:var(--error-bg);color:var(--error)}
     .be{background:var(--warn-bg);color:var(--warn)}
@@ -87,7 +88,7 @@
     .pcn{font-size:.9rem;font-weight:700;margin-bottom:.3rem}
     .pcm{font-size:.75rem;color:var(--muted);margin-bottom:.75rem}
     .pcf{display:flex;justify-content:space-between;align-items:center}
-    .pcp{font-size:1rem;font-weight:800;color:var(--primary)}
+    .pcp{font-size:1rem;font-weight:800;color:var(--primary);font-family:'Space Grotesk',system-ui}
     .toggle{position:relative;display:inline-block;width:36px;height:20px}
     .toggle input{opacity:0;width:0;height:0}
     .slider{position:absolute;cursor:pointer;inset:0;background:#ccc;border-radius:20px;transition:.3s}
@@ -122,6 +123,7 @@ window.openTestiModal = function(){};
 </script>
   <meta name="robots" content="noindex, nofollow"/>
   <link rel="stylesheet" href="/assets/css/premium.css"/>
+  <link rel="stylesheet" href="/assets/css/admin.css"/>
 </head>
 <body>
 <aside class="sidebar">
@@ -175,23 +177,23 @@ window.openTestiModal = function(){};
     <!-- OVERVIEW -->
     <div class="section active" id="section-overview">
       <div class="stats-grid">
-        <div class="stat-card"><div class="stat-hdr"><div class="stat-icon" style="background:#EEF3FF">💰</div><span class="stat-chg up">↑ 18%</span></div><div class="stat-val" id="s-revenue">—</div><div class="stat-lbl">Revenue This Month</div></div>
-        <div class="stat-card"><div class="stat-hdr"><div class="stat-icon" style="background:#ECFDF5">🗓</div><span class="stat-chg up">↑ 12%</span></div><div class="stat-val" id="s-bookings">—</div><div class="stat-lbl">Total Bookings</div></div>
-        <div class="stat-card"><div class="stat-hdr"><div class="stat-icon" style="background:#FFFBEB">📩</div><span class="stat-chg up">↑ 31%</span></div><div class="stat-val" id="s-enquiries">—</div><div class="stat-lbl">New Enquiries</div></div>
-        <div class="stat-card"><div class="stat-hdr"><div class="stat-icon" style="background:#FEF2F2">👥</div><span class="stat-chg up">↑ 8%</span></div><div class="stat-val" id="s-customers">—</div><div class="stat-lbl">Total Customers</div></div>
+        <div class="stat-card"><div class="stat-hdr"><div class="stat-icon" style="background:rgba(201,146,42,0.12)">💰</div><span class="stat-chg up">↑ 18%</span></div><div class="stat-val" id="s-revenue">—</div><div class="stat-lbl">Revenue This Month</div></div>
+        <div class="stat-card"><div class="stat-hdr"><div class="stat-icon" style="background:rgba(14,159,110,0.10)">🗓</div><span class="stat-chg up">↑ 12%</span></div><div class="stat-val" id="s-bookings">—</div><div class="stat-lbl">Total Bookings</div></div>
+        <div class="stat-card"><div class="stat-hdr"><div class="stat-icon" style="background:rgba(27,110,243,0.10)">📩</div><span class="stat-chg up">↑ 31%</span></div><div class="stat-val" id="s-enquiries">—</div><div class="stat-lbl">New Enquiries</div></div>
+        <div class="stat-card"><div class="stat-hdr"><div class="stat-icon" style="background:rgba(229,62,62,0.10)">👥</div><span class="stat-chg up">↑ 8%</span></div><div class="stat-val" id="s-customers">—</div><div class="stat-lbl">Total Customers</div></div>
       </div>
       <div class="chart-row">
         <div class="chart-card"><h3>Monthly Revenue (₹ Lakhs)</h3><div class="bar-chart" id="rev-chart"></div></div>
         <div class="chart-card"><h3>Bookings by Type</h3>
           <svg width="90" height="90" viewBox="0 0 90 90" style="display:block;margin:0 auto">
             <circle cx="45" cy="45" r="35" fill="none" stroke="#E5E7EB" stroke-width="16"/>
-            <circle cx="45" cy="45" r="35" fill="none" stroke="#0057FF" stroke-width="16" stroke-dasharray="88 132" stroke-dashoffset="0" transform="rotate(-90 45 45)"/>
-            <circle cx="45" cy="45" r="35" fill="none" stroke="#FF6B35" stroke-width="16" stroke-dasharray="44 176" stroke-dashoffset="-88" transform="rotate(-90 45 45)"/>
+            <circle cx="45" cy="45" r="35" fill="none" stroke="#C9922A" stroke-width="16" stroke-dasharray="88 132" stroke-dashoffset="0" transform="rotate(-90 45 45)"/>
+            <circle cx="45" cy="45" r="35" fill="none" stroke="#E8B84B" stroke-width="16" stroke-dasharray="44 176" stroke-dashoffset="-88" transform="rotate(-90 45 45)"/>
             <circle cx="45" cy="45" r="35" fill="none" stroke="#059669" stroke-width="16" stroke-dasharray="66 154" stroke-dashoffset="-154" transform="rotate(-90 45 45)"/>
           </svg>
           <div style="margin-top:1rem;display:flex;flex-direction:column;gap:.5rem">
-            <div style="display:flex;align-items:center;gap:.5rem;font-size:.78rem"><span style="width:10px;height:10px;border-radius:50%;background:#0057FF;display:inline-block"></span>Packages<strong style="margin-left:auto">40%</strong></div>
-            <div style="display:flex;align-items:center;gap:.5rem;font-size:.78rem"><span style="width:10px;height:10px;border-radius:50%;background:#FF6B35;display:inline-block"></span>Hotels<strong style="margin-left:auto">20%</strong></div>
+            <div style="display:flex;align-items:center;gap:.5rem;font-size:.78rem"><span style="width:10px;height:10px;border-radius:50%;background:#C9922A;display:inline-block"></span>Packages<strong style="margin-left:auto">40%</strong></div>
+            <div style="display:flex;align-items:center;gap:.5rem;font-size:.78rem"><span style="width:10px;height:10px;border-radius:50%;background:#E8B84B;display:inline-block"></span>Hotels<strong style="margin-left:auto">20%</strong></div>
             <div style="display:flex;align-items:center;gap:.5rem;font-size:.78rem"><span style="width:10px;height:10px;border-radius:50%;background:#059669;display:inline-block"></span>Other<strong style="margin-left:auto">40%</strong></div>
           </div>
         </div>
@@ -314,7 +316,7 @@ window.openTestiModal = function(){};
         </div>
         <div style="display:flex;gap:.75rem;justify-content:flex-end">
           <button onclick="document.getElementById('pkg-modal').style.display='none'" style="padding:.65rem 1.25rem;border:1.5px solid #e2e8f0;border-radius:8px;cursor:pointer;background:none;font-family:inherit">Cancel</button>
-          <button onclick="savePackage()" style="padding:.65rem 1.5rem;background:#0057FF;color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit">💾 Save Package</button>
+          <button onclick="savePackage()" style="padding:.65rem 1.5rem;background:#C9922A;color:#0C1B33;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit">💾 Save Package</button>
         </div>
       </div>
     </div>
@@ -349,7 +351,7 @@ window.openTestiModal = function(){};
         <div style="margin-bottom:1rem"><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Review Text *</label><textarea id="tm-text" rows="4" placeholder="Share the guest's experience..." style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;resize:vertical"></textarea></div>
         <div style="display:flex;gap:.75rem;justify-content:flex-end">
           <button onclick="document.getElementById('testi-modal').style.display='none'" style="padding:.65rem 1.25rem;border:1.5px solid #e2e8f0;border-radius:8px;cursor:pointer;background:none">Cancel</button>
-          <button onclick="saveTestimonial()" style="padding:.65rem 1.25rem;background:#0057FF;color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer">Save Testimonial</button>
+          <button onclick="saveTestimonial()" style="padding:.65rem 1.25rem;background:#C9922A;color:#0C1B33;border:none;border-radius:8px;font-weight:700;cursor:pointer">Save Testimonial</button>
         </div>
       </div>
     </div>
@@ -504,7 +506,7 @@ window.openTestiModal = function(){};
           </div>
           <div style="display:flex;gap:.75rem;justify-content:flex-end;margin-top:1rem">
             <button onclick="closePromoModal()" style="padding:.65rem 1.25rem;border:1.5px solid #e2e8f0;border-radius:8px;cursor:pointer;background:none">Cancel</button>
-            <button onclick="savePromo()" style="padding:.65rem 1.25rem;background:#0057FF;color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer">Save Promo</button>
+            <button onclick="savePromo()" style="padding:.65rem 1.25rem;background:#C9922A;color:#0C1B33;border:none;border-radius:8px;font-weight:700;cursor:pointer">Save Promo</button>
           </div>
         </div>
       </div>
@@ -532,7 +534,7 @@ window.openTestiModal = function(){};
               <div style="font-size:.72rem;color:#94a3b8;margin-top:3px">Upload your logo to any image host (e.g. ImgBB, Cloudinary) and paste the URL here</div></div>
             <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">🌐 Favicon URL</label>
               <input id="ss-favicon" placeholder="https://www.zoomfly.in/assets/favicon.ico" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit"/></div>
-            <button onclick="saveSettings()" style="padding:.75rem;background:#0057FF;color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;margin-top:.5rem;width:100%">💾 Save Company Settings</button>
+            <button onclick="saveSettings()" style="padding:.75rem;background:#C9922A;color:#0C1B33;border:none;border-radius:8px;font-weight:700;cursor:pointer;margin-top:.5rem;width:100%">💾 Save Company Settings</button>
           </div>
         </div>
 
@@ -550,7 +552,7 @@ window.openTestiModal = function(){};
             <div style="font-size:.78rem;color:#64748b;margin-bottom:8px">Edit the content below, then click Save. Changes reflect instantly on the live page.</div>
             <textarea id="page-content-editor" rows="10" style="width:100%;padding:.75rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:monospace;font-size:.82rem;resize:vertical;box-sizing:border-box" placeholder="Loading page content..."></textarea>
             <div style="display:flex;gap:8px;margin-top:8px">
-              <button onclick="savePageContent()" style="flex:1;padding:.75rem;background:#0057FF;color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer">💾 Save Page Content</button>
+              <button onclick="savePageContent()" style="flex:1;padding:.75rem;background:#C9922A;color:#0C1B33;border:none;border-radius:8px;font-weight:700;cursor:pointer">💾 Save Page Content</button>
               <button onclick="window.open('/pages/'+document.getElementById('page-select').value+'.html','_blank')" style="padding:.75rem 1rem;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:8px;cursor:pointer">👁 Preview</button>
             </div>
             <div id="page-save-msg" style="font-size:.82rem;margin-top:6px;min-height:18px"></div>
@@ -582,7 +584,7 @@ window.openTestiModal = function(){};
 <div class="toast" id="toast"></div>
 
 <script type="module">
-import { supabase, admin, requireAdmin, getProfile, subscribeToEnquiries, subscribeToBookings, signOut } from '../assets/js/supabase.js';
+import { supabase, admin, requireAdmin, getProfile, subscribeToEnquiries, subscribeToBookings, adminSignOut } from '../assets/js/supabase.js';
 
 // Guard — check admin via JWT app_metadata (does NOT require profiles row)
 const { data: { user: _adminUser } } = await supabase.auth.getUser();
@@ -599,7 +601,7 @@ if (_adminRole !== 'admin') {
     _isAdmin = _prof?.role === 'admin';
   } catch {}
   if (!_isAdmin) {
-    await supabase.auth.signOut();
+    await supabase.auth.adminSignOut();
     window.location.replace('/pages/admin-login.html?reason=access_denied');
     throw new Error('redirect');
   }
@@ -611,7 +613,7 @@ const initials = _adminName.split(' ').map(w=>w[0]).join('').substring(0,2).toUp
 document.getElementById('sb-av').textContent = initials;
 document.getElementById('sb-name').textContent = _adminName;
 
-window.doLogout = async () => { await signOut(); };
+window.doLogout = async () => { await adminSignOut(); };
 
 // ── TRAVEL PARTNERS ──────────────────────────────────────────
 async function loadTravelPartners() {
@@ -770,7 +772,7 @@ window.openAddHotel = () => {
       <input id="h-img" placeholder="https://images.unsplash.com/photo-xxx" style="width:100%;padding:.6rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit"/>
     </div>
     <div style="display:flex;gap:8px">
-      <button onclick="submitAddHotel()" style="background:#0057FF;color:#fff;border:none;border-radius:8px;padding:8px 20px;font-weight:700;cursor:pointer">Add Hotel</button>
+      <button onclick="submitAddHotel()" style="background:#C9922A;color:#0C1B33;border:none;border-radius:8px;padding:8px 20px;font-weight:700;cursor:pointer">Add Hotel</button>
       <button onclick="document.getElementById('hotel-add-form').remove()" style="background:none;border:1.5px solid #e2e8f0;border-radius:8px;padding:8px 16px;cursor:pointer">Cancel</button>
     </div>`;
   document.querySelector('#section-hotels .table-card').prepend(form);
@@ -1127,7 +1129,7 @@ window.openAddBus = () => {
         <input id="b-dur" placeholder="8 hours" style="width:100%;padding:.6rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit"/></div>
     </div>
     <div style="display:flex;gap:8px">
-      <button onclick="submitAddBus()" style="background:#0057FF;color:#fff;border:none;border-radius:8px;padding:8px 20px;font-weight:700;cursor:pointer">Add Route</button>
+      <button onclick="submitAddBus()" style="background:#C9922A;color:#0C1B33;border:none;border-radius:8px;padding:8px 20px;font-weight:700;cursor:pointer">Add Route</button>
       <button onclick="document.getElementById('bus-add-form').remove()" style="background:none;border:1.5px solid #e2e8f0;border-radius:8px;padding:8px 16px;cursor:pointer">Cancel</button>
     </div>`;
   document.querySelector('#section-buses .table-card').prepend(form);
@@ -1199,7 +1201,7 @@ window.openAddCab = () => {
         <input id="c-dur" type="number" placeholder="2" style="width:100%;padding:.6rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit"/></div>
     </div>
     <div style="display:flex;gap:8px">
-      <button onclick="submitAddCab()" style="background:#0057FF;color:#fff;border:none;border-radius:8px;padding:8px 20px;font-weight:700;cursor:pointer">Add Cab</button>
+      <button onclick="submitAddCab()" style="background:#C9922A;color:#0C1B33;border:none;border-radius:8px;padding:8px 20px;font-weight:700;cursor:pointer">Add Cab</button>
       <button onclick="document.getElementById('cab-add-form').remove()" style="background:none;border:1.5px solid #e2e8f0;border-radius:8px;padding:8px 16px;cursor:pointer">Cancel</button>
     </div>`;
   document.querySelector('#section-cabs .table-card').prepend(form);
@@ -1414,7 +1416,7 @@ const maxR=Math.max(...revData);
 const chart=document.getElementById('rev-chart');
 months.forEach((m,i)=>{
   const h=Math.round((revData[i]/maxR)*90);
-  chart.innerHTML+=`<div class="bc"><div class="bval">₹${revData[i]}L</div><div class="bar" style="height:${h}px;background:${i===months.length-1?'#0057FF':'#93AEFF'}"></div><div class="blbl">${m}</div></div>`;
+  chart.innerHTML+=`<div class="bc"><div class="bval">₹${revData[i]}L</div><div class="bar" style="height:${h}px;background:${i===months.length-1?'#C9922A':'rgba(201,146,42,0.35)'}"></div><div class="blbl">${m}</div></div>`;
 });
 
 // Load stats

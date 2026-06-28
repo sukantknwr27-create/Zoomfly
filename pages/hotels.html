@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,600&family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <meta charset="UTF-8"/>
   <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"/>
@@ -10,13 +11,13 @@
   <meta name="description" content="Book hotels across 500+ destinations in India. Best rates, free cancellation options, instant confirmation. Trusted by 5,000+ travellers."/>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{--primary:#0057FF;--primary-dark:#0041CC;--primary-light:#EEF3FF;--accent:#FF6B35;--text:#111827;--text-muted:#6B7280;--text-light:#9CA3AF;--bg:#F9FAFB;--bg-white:#fff;--border:#E5E7EB;--success:#059669;--success-bg:#ECFDF5;--error:#DC2626;--shadow-sm:0 1px 3px rgba(0,0,0,.07);--shadow:0 4px 12px rgba(0,0,0,.08);--shadow-lg:0 16px 40px rgba(0,0,0,.13);--r:14px;--r2:8px;--font:'Segoe UI',system-ui,sans-serif}
+    :root{--primary:#C9922A;--primary-dark:#A37220;--primary-light:#F5E6C4;--accent:#E8B84B;--text:#1C2340;--text-muted:#4A5568;--text-light:#8896AB;--bg:#F3F2EE;--bg-white:#fff;--border:#E4E8EF;--success:#059669;--success-bg:#ECFDF5;--error:#DC2626;--shadow-sm:0 1px 3px rgba(0,0,0,.07);--shadow:0 4px 12px rgba(0,0,0,.08);--shadow-lg:0 16px 40px rgba(0,0,0,.13);--r:14px;--r2:8px;--font:'Inter',system-ui,sans-serif}
     body{font-family:var(--font);background:var(--bg);color:var(--text)}
     a{text-decoration:none;color:inherit}
 .logo span{color:var(--accent)}
 .nav-links a{font-size:.875rem;color:var(--text-muted);font-weight:500}
     .nav-links a:hover,.nav-links a.active{color:var(--primary)}
-.search-hero{background:linear-gradient(135deg,#0057FF,#003BB5);padding:2.5rem 2rem;color:white}
+.search-hero{background:linear-gradient(135deg,#C9922A,#003BB5);padding:2.5rem 2rem;color:white}
     .search-hero h1{font-size:2rem;font-weight:800;margin-bottom:.35rem}
     .search-hero p{opacity:.85;font-size:.95rem;margin-bottom:1.5rem}
     .sbox{background:white;border-radius:var(--r);padding:1.25rem 1.5rem;max-width:900px;display:flex;gap:.75rem;align-items:flex-end;flex-wrap:wrap;box-shadow:var(--shadow-lg)}
@@ -115,12 +116,22 @@
     .bsuccess h3{font-size:1.4rem;font-weight:800;margin-bottom:.5rem}
     .bsuccess p{color:var(--text-muted);font-size:.875rem;margin-bottom:1.5rem}
     .bref{background:var(--primary-light);border:1px solid #c7d5ff;border-radius:var(--r2);padding:.75rem 1.25rem;display:inline-block;font-weight:700;color:var(--primary);letter-spacing:.1em;font-size:1.1rem;margin-bottom:1.5rem;font-family:monospace}
-    footer{background:#111827;color:#9CA3AF;padding:2rem;text-align:center;font-size:.825rem;margin-top:3rem}
+    footer{background:#1C2340;color:#8896AB;padding:2rem;text-align:center;font-size:.825rem;margin-top:3rem}
     footer strong{color:white}
     @media(max-width:900px){.layout{grid-template-columns:1fr}.sidebar{position:static}.hotel-card{flex-direction:column}.h-thumb{width:100%;height:160px}
 }
   </style>
 <header class="nav" id="mainNav"></header>
+<section style="background:linear-gradient(145deg,#0C1B33 0%,#1a2d4a 45%,#1e3a6e 100%);padding:110px 2rem 60px;text-align:center;position:relative;overflow:hidden;">
+  <div style="position:absolute;inset:0;background-image:radial-gradient(circle at 1px 1px,rgba(255,255,255,.04) 1px,transparent 0);background-size:38px 38px;pointer-events:none;"></div>
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 60% 40%,rgba(201,146,42,.09),transparent 60%);pointer-events:none;"></div>
+  <div style="position:absolute;top:30%;right:7%;font-size:6rem;opacity:.06;pointer-events:none;">🏨</div>
+  <div style="position:relative;z-index:2;">
+    <div style="display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:100px;padding:6px 18px;font-family:'Space Grotesk',system-ui;font-size:.72rem;font-weight:500;color:rgba(255,255,255,.82);margin-bottom:18px;">🏨 Hotel Booking</div>
+    <h1 style="font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(2.2rem,5vw,3.5rem);font-weight:600;color:#fff;line-height:1.1;letter-spacing:-.02em;margin-bottom:12px;">Find Your Perfect <em style="font-style:italic;color:#E8B84B">Stay</em></h1>
+    <p style="color:rgba(255,255,255,.65);font-size:1rem;max-width:500px;margin:0 auto;">From budget stays to luxury resorts — across 500+ cities in India and beyond.</p>
+  </div>
+</section>
 <script>
 window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/);return m?m[1]:null;};
 </script>
@@ -136,6 +147,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
   <meta name="twitter:image"      content="https://www.zoomfly.in/assets/og-image.jpg"/>
   <link rel="stylesheet" href="/assets/css/main.css"/>
 <link rel="stylesheet" href="/assets/css/premium.css"/>
+<link rel="stylesheet" href="/assets/css/pages.css"/>
 </head>
 <body>
 
@@ -228,7 +240,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
   </div>
 </div>
 
-<footer><p><strong>ZoomFly</strong> — India's Trusted Travel Partner Since 2018</p><p style="margin-top:.5rem">© 2025 ZoomFly · hello@zoomfly.in</p></footer>
+
 
 <script src="/assets/js/main.js"></script>
 <script type="module">
@@ -504,5 +516,8 @@ const today=new Date().toISOString().split('T')[0];
 ['checkin','checkout'].forEach(id=>{const el=document.getElementById(id);if(el)el.min=today;});
 loadHotels();
 </script>
+
+<section class="newsletter" id="newsletter"></section>
+<footer class="footer" id="mainFooter"></footer>
 </body>
 </html>

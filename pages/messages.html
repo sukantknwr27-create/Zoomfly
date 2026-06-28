@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,600&family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
@@ -9,6 +10,7 @@
   <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"/>
   <link rel="stylesheet" href="/assets/css/main.css"/>
 <link rel="stylesheet" href="/assets/css/premium.css"/>
+<link rel="stylesheet" href="/assets/css/pages.css"/>
   <style>
     body{background:#f8fafc;min-height:100vh}
     .page-wrap{max-width:1100px;margin:0 auto;padding:24px 16px 60px}
@@ -23,18 +25,18 @@
     .thread-list{border-right:1px solid #e2e8f0;display:flex;flex-direction:column}
     .thread-search{padding:14px;border-bottom:1px solid #e2e8f0}
     .thread-search input{width:100%;padding:8px 12px;border:1.5px solid #e2e8f0;border-radius:10px;font-size:.85rem;outline:none;font-family:inherit;box-sizing:border-box}
-    .thread-search input:focus{border-color:#1a73e8}
+    .thread-search input:focus{border-color:#C9922A}
     .threads{overflow-y:auto;flex:1}
     .thread-item{padding:14px 16px;border-bottom:1px solid #f1f5f9;cursor:pointer;transition:background .15s;display:flex;gap:12px;align-items:flex-start}
     .thread-item:hover{background:#f8fafc}
-    .thread-item.active{background:#eff6ff;border-left:3px solid #1a73e8}
-    .thread-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#1a73e8,#ff6b35);display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700;color:#fff;flex-shrink:0}
+    .thread-item.active{background:#eff6ff;border-left:3px solid #C9922A}
+    .thread-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#C9922A,#E8B84B);display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700;color:#fff;flex-shrink:0}
     .thread-info{flex:1;min-width:0}
     .thread-name{font-size:.875rem;font-weight:700;color:#0f1923;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .thread-preview{font-size:.78rem;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
     .thread-meta{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0}
     .thread-time{font-size:.7rem;color:#94a3b8}
-    .thread-badge{background:#1a73e8;color:#fff;font-size:.65rem;font-weight:700;border-radius:10px;padding:2px 7px;min-width:18px;text-align:center}
+    .thread-badge{background:#C9922A;color:#fff;font-size:.65rem;font-weight:700;border-radius:10px;padding:2px 7px;min-width:18px;text-align:center}
     .thread-empty{padding:40px 20px;text-align:center;color:#94a3b8;font-size:.85rem}
 
     /* Chat window */
@@ -45,7 +47,7 @@
     .chat-header-sub{font-size:.78rem;color:#64748b;margin-top:1px}
     .chat-header-actions{display:flex;gap:8px}
     .chat-action-btn{padding:6px 14px;border:1.5px solid #e2e8f0;border-radius:8px;background:#fff;font-size:.78rem;font-weight:600;color:#374151;cursor:pointer;transition:all .15s}
-    .chat-action-btn:hover{border-color:#1a73e8;color:#1a73e8}
+    .chat-action-btn:hover{border-color:#C9922A;color:#C9922A}
 
     /* Messages */
     .messages-body{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:12px}
@@ -54,7 +56,7 @@
     .msg-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#64748b,#94a3b8);display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;color:#fff;flex-shrink:0}
     .msg-bubble{max-width:70%;padding:10px 14px;border-radius:16px;font-size:.875rem;line-height:1.5;word-break:break-word}
     .msg-bubble.theirs{background:#fff;border:1px solid #e2e8f0;border-bottom-left-radius:4px;color:#0f1923}
-    .msg-bubble.mine{background:#1a73e8;color:#fff;border-bottom-right-radius:4px}
+    .msg-bubble.mine{background:#C9922A;color:#fff;border-bottom-right-radius:4px}
     .msg-time{font-size:.65rem;color:#94a3b8;margin-top:3px;text-align:right}
     .msg-time.theirs{text-align:left}
 
@@ -72,9 +74,9 @@
     /* Input area */
     .chat-input-area{padding:14px 16px;background:#fff;border-top:1px solid #e2e8f0;display:flex;gap:10px;align-items:flex-end}
     .chat-textarea{flex:1;padding:10px 14px;border:1.5px solid #e2e8f0;border-radius:12px;font-size:.875rem;font-family:inherit;resize:none;outline:none;min-height:42px;max-height:120px;line-height:1.5;transition:border .2s}
-    .chat-textarea:focus{border-color:#1a73e8}
-    .send-btn{width:42px;height:42px;border-radius:12px;background:#1a73e8;border:none;color:#fff;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s}
-    .send-btn:hover{background:#1557b0}
+    .chat-textarea:focus{border-color:#C9922A}
+    .send-btn{width:42px;height:42px;border-radius:12px;background:#C9922A;border:none;color:#fff;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s}
+    .send-btn:hover{background:#A37220}
     .send-btn:disabled{background:#94a3b8;cursor:not-allowed}
 
     /* Empty state */
@@ -88,7 +90,7 @@
     .toast.show{transform:translateY(0);opacity:1}
 
     /* Booking ref tag */
-    .booking-tag{display:inline-flex;align-items:center;gap:6px;background:#eff6ff;color:#1a73e8;font-size:.72rem;font-weight:700;border-radius:6px;padding:3px 8px;margin-bottom:6px}
+    .booking-tag{display:inline-flex;align-items:center;gap:6px;background:#eff6ff;color:#C9922A;font-size:.72rem;font-weight:700;border-radius:6px;padding:3px 8px;margin-bottom:6px}
 
     /* Responsive */
     @media(max-width:700px){
@@ -97,7 +99,7 @@
       .thread-list.mobile-show{display:flex;position:fixed;inset:0;z-index:200;background:#fff;border-radius:0}
       .back-btn{display:flex}
     }
-    .back-btn{display:none;align-items:center;gap:6px;background:none;border:none;font-size:.85rem;font-weight:600;color:#1a73e8;cursor:pointer;padding:0}
+    .back-btn{display:none;align-items:center;gap:6px;background:none;border:none;font-size:.85rem;font-weight:600;color:#C9922A;cursor:pointer;padding:0}
   </style>
 </head>
 <body>
@@ -164,7 +166,7 @@ async function loadThreads() {
 
   if (!bookings?.length) {
     document.getElementById('threads').innerHTML =
-      '<div class="thread-empty">No bookings yet.<br><a href="/pages/packages.html" style="color:#1a73e8;font-weight:600">Browse packages →</a></div>';
+      '<div class="thread-empty">No bookings yet.<br><a href="/pages/packages.html" style="color:#C9922A;font-weight:600">Browse packages →</a></div>';
     return;
   }
 
@@ -406,5 +408,8 @@ window.showThreadList = () => {
 
 init();
 </script>
+
+<section class="newsletter" id="newsletter"></section>
+<footer class="footer" id="mainFooter"></footer>
 </body>
 </html>

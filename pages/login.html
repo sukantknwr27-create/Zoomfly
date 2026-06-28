@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,600&family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <meta charset="UTF-8"/>
   <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"/>
@@ -9,14 +10,14 @@
   <title>Login — ZoomFly</title>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{--primary:#0057FF;--primary-dark:#0041CC;--primary-light:#EEF3FF;--accent:#FF6B35;--text:#111827;--muted:#6B7280;--light:#9CA3AF;--bg:#F9FAFB;--border:#E5E7EB;--success:#059669;--error:#DC2626;--r:16px;--r2:8px;--font:'Segoe UI',system-ui,sans-serif}
+    :root{--primary:#C9922A;--primary-dark:#A37220;--primary-light:#F5E6C4;--accent:#E8B84B;--text:#1C2340;--muted:#4A5568;--light:#8896AB;--bg:#F3F2EE;--border:#E4E8EF;--success:#059669;--error:#DC2626;--r:16px;--r2:8px;--font:'Inter',system-ui,sans-serif}
     body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
     a{text-decoration:none;color:inherit}
     nav{background:white;border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px}
     .logo{font-size:1.5rem;font-weight:800;color:var(--primary)}.logo span{color:var(--accent)}
     .nav-back{font-size:.875rem;color:var(--muted);font-weight:500}.nav-back:hover{color:var(--primary)}
     .wrap{flex:1;display:grid;grid-template-columns:1fr 1fr;min-height:calc(100vh - 64px)}
-    .left{background:linear-gradient(145deg,#0057FF,#003BB5);padding:3rem;display:flex;flex-direction:column;justify-content:center;color:white;position:relative;overflow:hidden}
+    .left{background:linear-gradient(145deg,#C9922A,#003BB5);padding:3rem;display:flex;flex-direction:column;justify-content:center;color:white;position:relative;overflow:hidden}
     .left::before{content:'';position:absolute;width:400px;height:400px;background:rgba(255,255,255,.05);border-radius:50%;top:-100px;right:-100px}
     .left::after{content:'';position:absolute;width:300px;height:300px;background:rgba(255,255,255,.04);border-radius:50%;bottom:-80px;left:-80px}
     .left-content{position:relative;z-index:1}
@@ -90,6 +91,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
 </script>
   <meta name="robots" content="noindex, nofollow"/>
   <link rel="stylesheet" href="/assets/css/premium.css"/>
+<link rel="stylesheet" href="/assets/css/pages.css"/>
 </head>
 <body>
 <nav>
@@ -360,5 +362,8 @@ ge('forgot-link')?.addEventListener('click', async(e) => {
       ⚙️ Admin
     </a>
   </div>
+
+<section class="newsletter" id="newsletter"></section>
+<footer class="footer" id="mainFooter"></footer>
 </body>
 </html>
