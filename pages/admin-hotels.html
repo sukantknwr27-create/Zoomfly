@@ -130,6 +130,9 @@
     <a href="admin-whatsapp-templates.html" class="sb-link"><span class="sb-icon">💬</span> WA Templates</a>
     <a href="admin.html#promo"              class="sb-link"><span class="sb-icon">🎟️</span> Promo Codes</a>
   </div>
+  <div class="sb-section" style="margin-top:auto">
+    <a href="#" class="sb-link" onclick="doLogout()"><span class="sb-icon">🚪</span> Logout</a>
+  </div>
 </aside>
 
 <!-- MAIN -->
@@ -251,7 +254,7 @@
 </div>
 
 <script type="module">
-import { supabase } from '../assets/js/supabase.js';
+import { supabase, adminSignOut } from '../assets/js/supabase.js';
 
 // ── AUTH GUARD ────────────────────────────────────────────────
 async function checkAuth() {
@@ -417,6 +420,8 @@ document.getElementById('hotel-modal').addEventListener('click', e => {
   if (!ok) return;
   await loadHotels();
 })();
+
+window.doLogout = async () => { await adminSignOut(); };
 </script>
 </body>
 </html>

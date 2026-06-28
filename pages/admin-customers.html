@@ -264,7 +264,7 @@
 <div class="toast" id="toast"></div>
 
 <script type="module">
-import { supabase, requireAdmin, signOut, admin } from '../assets/js/supabase.js';
+import { supabase, requireAdmin, adminSignOut, admin } from '../assets/js/supabase.js';
 
 let allCustomers  = [];
 let allBookings   = [];
@@ -560,7 +560,7 @@ window.exportCSV = () => {
 function esc(s) { const d=document.createElement('div'); d.textContent=String(s||''); return d.innerHTML; }
 function fmtDate(d) { if(!d) return '—'; try{return new Date(d).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});}catch{return d;} }
 function showToast(msg) { const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3500); }
-window.doLogout = async () => { await signOut(); };
+window.doLogout = async () => { await adminSignOut(); };
 </script>
 </body>
 </html>

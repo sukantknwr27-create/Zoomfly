@@ -270,7 +270,7 @@
 <div class="toast" id="toast"></div>
 
 <script type="module">
-import { supabase, requireAdmin, signOut } from '../assets/js/supabase.js';
+import { supabase, requireAdmin, adminSignOut } from '../assets/js/supabase.js';
 
 await requireAdmin();
 
@@ -661,7 +661,7 @@ window.exportPackagesCSV = () => {
 // ── HELPERS ──────────────────────────────────────────────────
 function esc(s){const d=document.createElement('div');d.textContent=String(s||'');return d.innerHTML;}
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
-window.doLogout = async () => { await signOut(); };
+window.doLogout = async () => { await adminSignOut(); };
 </script>
 </body>
 </html>

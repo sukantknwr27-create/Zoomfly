@@ -96,6 +96,10 @@
 <nav class="navbar" id="mainNav"></nav>
 
 <div class="admin-wrap">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+    <a href="/pages/admin.html" style="display:inline-flex;align-items:center;gap:6px;color:#64748b;text-decoration:none;font-size:.875rem;font-weight:500">← Admin Dashboard</a>
+    <button onclick="doLogout()" style="background:none;border:1px solid #e2e8f0;color:#64748b;padding:6px 14px;border-radius:8px;cursor:pointer;font-size:.85rem">🚪 Logout</button>
+  </div>
   <div class="page-title">📬 Reminders & Follow-ups</div>
   <div class="page-sub">Automated pre-trip reminders and post-trip follow-up messages</div>
 
@@ -312,17 +316,12 @@ Book now: https://www.zoomfly.in/pages/packages.html — ZoomFly Team ✈️</te
 <div class="toast" id="toast"></div>
 
 <script type="module">
-import { supabase, loadNav } from '../assets/js/supabase.js';
+import { supabase, loadNav, requireAdmin, adminSignOut } from '../assets/js/supabase.js';
 loadNav();
 
 const WA_NUMBER = '918076136300';
 let allBookings = [];
 let sentLog = JSON.parse(localStorage.getItem('zf_reminder_log') || '[]');
-
-  const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
-  if (profile?.role !== 'admin') { window.location.replace('/pages/admin-login.html?reason=access_denied'); return false; }
-  return true;
-}
 
 // ── INIT ──────────────────────────────────────────────────────
 async function init() {
@@ -551,6 +550,8 @@ function showToast(msg) {
 }
 
 init();
+
+window.doLogout = async () => { await adminSignOut(); };
 </script>
 </body>
 </html>

@@ -584,7 +584,7 @@ window.openTestiModal = function(){};
 <div class="toast" id="toast"></div>
 
 <script type="module">
-import { supabase, admin, requireAdmin, getProfile, subscribeToEnquiries, subscribeToBookings, signOut } from '../assets/js/supabase.js';
+import { supabase, admin, requireAdmin, getProfile, subscribeToEnquiries, subscribeToBookings, adminSignOut } from '../assets/js/supabase.js';
 
 // Guard — check admin via JWT app_metadata (does NOT require profiles row)
 const { data: { user: _adminUser } } = await supabase.auth.getUser();
@@ -601,7 +601,7 @@ if (_adminRole !== 'admin') {
     _isAdmin = _prof?.role === 'admin';
   } catch {}
   if (!_isAdmin) {
-    await supabase.auth.signOut();
+    await supabase.auth.adminSignOut();
     window.location.replace('/pages/admin-login.html?reason=access_denied');
     throw new Error('redirect');
   }
@@ -613,7 +613,7 @@ const initials = _adminName.split(' ').map(w=>w[0]).join('').substring(0,2).toUp
 document.getElementById('sb-av').textContent = initials;
 document.getElementById('sb-name').textContent = _adminName;
 
-window.doLogout = async () => { await signOut(); };
+window.doLogout = async () => { await adminSignOut(); };
 
 // ── TRAVEL PARTNERS ──────────────────────────────────────────
 async function loadTravelPartners() {
@@ -1077,7 +1077,7 @@ window.savePageContent = async () => {
     // Table might not exist — show instructions
     toast('Save to Supabase failed. Create site_settings table first.', 'error');
   }
-
+};
 
 // ── ADMIN CUSTOMERS PAGE ──────────────────────────────────────
 // (existing function — kept for reference)

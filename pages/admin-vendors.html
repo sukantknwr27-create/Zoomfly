@@ -296,7 +296,7 @@
 <div class="toast" id="toast"></div>
 
 <script type="module">
-import { supabase } from '../assets/js/supabase.js';
+import { supabase, requireAdmin, adminSignOut } from '../assets/js/supabase.js';
 const WA_ADMIN     = '918076136300';
 
 let allVendors  = [];
@@ -530,7 +530,7 @@ window.exportCSV = () => {
   showToast('📥 CSV exported');
 };
 
-window.doLogout = async () => { await supabase.auth.signOut({ scope: 'global' }).then(() => { Object.keys(localStorage).forEach(k=>{ if(k.startsWith('sb-'))localStorage.removeItem(k); }); window.location.replace('/pages/login.html'); }).catch(()=>{ window.location.replace('/pages/login.html'); }); window.location.replace('/pages/login.html'); };
+window.doLogout = async () => { await adminSignOut(); };
 
 // ── Helpers ────────────────────────────────────────────────
 function fmtAmt(n){ return parseFloat(n||0).toLocaleString('en-IN',{minimumFractionDigits:0,maximumFractionDigits:2}); }
