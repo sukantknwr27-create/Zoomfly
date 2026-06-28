@@ -74,6 +74,13 @@ export async function signOut() {
   window.location.replace(siteUrl() + '/pages/login.html');
 }
 
+// Admin-specific logout — always redirects to admin-login, never customer login
+export async function adminSignOut() {
+  try { await supabase.auth.signOut({ scope: 'global' }); } catch(e) {}
+  Object.keys(localStorage).forEach(k => { if (k.startsWith('sb-') || k.includes('supabase')) localStorage.removeItem(k); });
+  window.location.replace(siteUrl() + '/pages/admin-login.html');
+}
+
 export async function getUser() {
   const { data: { user } } = await supabase.auth.getUser();
   return user;
