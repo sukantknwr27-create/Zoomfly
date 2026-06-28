@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,600&family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <meta charset="UTF-8"/>
   <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"/>
@@ -11,37 +12,37 @@
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     :root{
-      --primary:#0057FF;--primary-dark:#0041CC;--primary-light:#EEF3FF;
-      --accent:#FF6B35;--text:#111827;--text-muted:#6B7280;--text-light:#9CA3AF;
-      --bg:#F1F5F9;--bg-white:#FFFFFF;--border:#E5E7EB;
+      --primary:#C9922A;--primary-dark:#A37220;--primary-light:#F5E6C4;
+      --accent:#E8B84B;--text:#1C2340;--text-muted:#4A5568;--text-light:#8896AB;
+      --bg:#F3F2EE;--bg-white:#FFFFFF;--border:#E4E8EF;
       --success:#059669;--success-bg:#ECFDF5;--warning:#D97706;--warning-bg:#FFFBEB;
       --error:#DC2626;--error-bg:#FEF2F2;
       --shadow-sm:0 1px 3px rgba(0,0,0,0.07);--shadow:0 4px 12px rgba(0,0,0,0.08);
-      --radius:12px;--radius-sm:8px;--font:'Segoe UI',system-ui,sans-serif;
+      --radius:12px;--radius-sm:8px;--font:'Inter',system-ui,sans-serif;
     }
     body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh}
     a{text-decoration:none;color:inherit}
 
     /* NAV */
-    nav{background:white;border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px;position:sticky;top:0;z-index:100;box-shadow:var(--shadow-sm)}
-    .nav-logo{font-size:1.4rem;font-weight:900;color:var(--primary)}.nav-logo span{color:var(--accent)}
+    nav{background:#0C1B33;border-bottom:1px solid rgba(255,255,255,0.08);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(12,27,51,0.2)}
+    .nav-logo{font-size:1.4rem;font-weight:900;color:#fff;font-family:'Space Grotesk',system-ui}.nav-logo span{color:#E8B84B}
     .nav-right{display:flex;align-items:center;gap:1rem}
-    .user-pill{display:flex;align-items:center;gap:0.6rem;padding:0.4rem 0.85rem 0.4rem 0.5rem;border:1px solid var(--border);border-radius:50px;font-size:0.875rem;font-weight:600;cursor:pointer}
+    .user-pill{display:flex;align-items:center;gap:0.6rem;padding:0.4rem 0.85rem 0.4rem 0.5rem;border:1px solid rgba(255,255,255,0.2);border-radius:50px;font-size:0.875rem;font-weight:600;cursor:pointer;color:rgba(255,255,255,0.85)}
     .user-avatar{width:30px;height:30px;border-radius:50%;background:var(--primary);color:white;display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:700}
-    .btn-logout{font-size:0.8rem;color:var(--error);font-weight:600;cursor:pointer;border:none;background:none;padding:0.4rem 0.75rem;border:1px solid var(--error);border-radius:50px}
+    .btn-logout{font-size:0.8rem;color:rgba(255,255,255,0.65);font-weight:600;cursor:pointer;border:1px solid rgba(255,255,255,0.2);background:none;padding:0.4rem 0.75rem;border-radius:50px;transition:all .2s}.btn-logout:hover{color:#fff;border-color:rgba(255,255,255,0.5)}
 
     /* LAYOUT */
     .dash-layout{max-width:1100px;margin:0 auto;padding:2rem;display:grid;grid-template-columns:220px 1fr;gap:2rem;align-items:start}
     
     /* SIDEBAR */
     .dash-sidebar{position:sticky;top:80px}
-    .user-card{background:white;border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;text-align:center;margin-bottom:1rem;box-shadow:var(--shadow-sm)}
+    .user-card{background:#0C1B33;border:1px solid rgba(255,255,255,0.08);border-radius:var(--radius);padding:1.5rem;text-align:center;margin-bottom:1rem;box-shadow:0 4px 16px rgba(12,27,51,0.15)}
     .user-big-avatar{width:64px;height:64px;border-radius:50%;background:var(--primary);color:white;display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:700;margin:0 auto 0.75rem}
-    .user-name{font-size:1rem;font-weight:700;margin-bottom:0.2rem}
-    .user-email{font-size:0.78rem;color:var(--text-muted)}
-    .user-since{font-size:0.72rem;color:var(--text-light);margin-top:0.35rem}
-    .dash-nav{background:white;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-sm)}
-    .dash-nav-item{display:flex;align-items:center;gap:0.75rem;padding:0.85rem 1.25rem;font-size:0.875rem;font-weight:500;color:var(--text-muted);cursor:pointer;border-left:3px solid transparent;transition:all 0.15s}
+    .user-name{font-size:1rem;font-weight:700;margin-bottom:0.2rem;color:#fff;font-family:'Space Grotesk',system-ui}
+    .user-email{font-size:0.78rem;color:rgba(255,255,255,0.55)}
+    .user-since{font-size:0.72rem;color:rgba(255,255,255,0.38);margin-top:0.35rem}
+    .dash-nav{background:#0C1B33;border:1px solid rgba(255,255,255,0.07);border-radius:var(--radius);overflow:hidden;box-shadow:0 4px 16px rgba(12,27,51,0.15)}
+    .dash-nav-item{display:flex;align-items:center;gap:0.75rem;padding:0.85rem 1.25rem;font-size:0.875rem;font-weight:500;color:rgba(255,255,255,0.52);cursor:pointer;border-left:3px solid transparent;transition:all 0.15s;font-family:'Space Grotesk',system-ui}
     .dash-nav-item:hover{background:var(--bg);color:var(--text)}
     .dash-nav-item.active{color:var(--primary);background:var(--primary-light);border-left-color:var(--primary);font-weight:600}
     .dash-nav-item .icon{font-size:1rem;width:18px;text-align:center}
@@ -55,7 +56,7 @@
 
     /* STAT CARDS */
     .stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.5rem}
-    .stat-card{background:white;border:1px solid var(--border);border-radius:var(--radius);padding:1.1rem 1.25rem;box-shadow:var(--shadow-sm)}
+    .stat-card{background:white;border:1px solid var(--border);border-radius:var(--radius);padding:1.1rem 1.25rem;box-shadow:0 2px 10px rgba(12,27,51,0.07);transition:all .25s}.stat-card:hover{box-shadow:0 8px 28px rgba(12,27,51,0.11);transform:translateY(-2px)}
     .stat-icon{font-size:1.5rem;margin-bottom:0.5rem}
     .stat-val{font-size:1.5rem;font-weight:800;color:var(--text)}
     .stat-lbl{font-size:0.75rem;color:var(--text-muted)}
@@ -65,7 +66,7 @@
     .sec-hdr h2{font-size:1.05rem;font-weight:700}
     
     /* BOOKINGS */
-    .booking-card{background:white;border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;margin-bottom:1rem;box-shadow:var(--shadow-sm);display:flex;gap:1.25rem;align-items:flex-start}
+    .booking-card{background:white;border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;margin-bottom:1rem;box-shadow:0 2px 10px rgba(12,27,51,0.07);display:flex;gap:1.25rem;align-items:flex-start;transition:all .25s}.booking-card:hover{box-shadow:0 8px 28px rgba(12,27,51,0.10);border-color:rgba(201,146,42,0.25)}
     .booking-emoji{width:52px;height:52px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.75rem;flex-shrink:0}
     .booking-info{flex:1}
     .booking-title{font-size:0.95rem;font-weight:700;margin-bottom:0.2rem}
@@ -124,6 +125,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
 </script>
   <meta name="robots" content="noindex, nofollow"/>
   <link rel="stylesheet" href="/assets/css/premium.css"/>
+<link rel="stylesheet" href="/assets/css/pages.css"/>
 </head>
 <body>
 
@@ -310,7 +312,7 @@ function renderStats() {
 function bookingCard(b, showCancel = true) {
   const emoji = b.packages?.emoji || b.hotels?.emoji || '🗓';
   const title = b.packages?.title || b.hotels?.name || `${b.booking_type} Booking`;
-  const bg = b.booking_type === 'package' ? '#EEF3FF' : '#ECFDF5';
+  const bg = b.booking_type === 'package' ? '#F5E6C4' : '#ECFDF5';
   const statusCls = { confirmed:'s-confirmed', pending:'s-pending', cancelled:'s-cancelled' }[b.status] || 's-pending';
   const date = b.travel_date || b.checkin_date || b.created_at;
   return `
@@ -465,5 +467,8 @@ function toast(msg, type = 'success') {
 
 init();
 </script>
+
+<section class="newsletter" id="newsletter"></section>
+<footer class="footer" id="mainFooter"></footer>
 </body>
 </html>

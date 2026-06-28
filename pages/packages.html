@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,600&family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <meta charset="UTF-8"/>
   <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"/>
@@ -10,7 +11,7 @@
   <meta name="description" content="Explore 200+ curated tour packages across India and international destinations. Best prices, flexible booking, 24/7 support. Book with ZoomFly today."/>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{--primary:#0057FF;--primary-dark:#0041CC;--primary-light:#EEF3FF;--accent:#FF6B35;--text:#111827;--text-muted:#6B7280;--text-light:#9CA3AF;--bg:#F9FAFB;--bg-white:#fff;--border:#E5E7EB;--success:#059669;--shadow-sm:0 1px 3px rgba(0,0,0,.07);--shadow:0 4px 12px rgba(0,0,0,.08);--shadow-lg:0 12px 32px rgba(0,0,0,.12);--r:14px;--r2:8px;--font:'Segoe UI',system-ui,sans-serif}
+    :root{--primary:#C9922A;--primary-dark:#A37220;--primary-light:#F5E6C4;--accent:#E8B84B;--text:#1C2340;--text-muted:#4A5568;--text-light:#8896AB;--bg:#F3F2EE;--bg-white:#fff;--border:#E4E8EF;--success:#059669;--shadow-sm:0 1px 3px rgba(0,0,0,.07);--shadow:0 4px 12px rgba(0,0,0,.08);--shadow-lg:0 12px 32px rgba(0,0,0,.12);--r:14px;--r2:8px;--font:'Inter',system-ui,sans-serif}
     body{font-family:var(--font);background:var(--bg);color:var(--text)}
     a{text-decoration:none;color:inherit}
 .logo span{color:var(--accent)}
@@ -18,7 +19,7 @@
     .nav-links a:hover,.nav-links a.active{color:var(--primary)}
 .breadcrumb{padding:.75rem 2rem;font-size:.8rem;color:var(--text-muted);max-width:1280px;margin:0 auto}
     .breadcrumb a{color:var(--primary)}
-    .page-hero{background:linear-gradient(145deg,var(--ink,#0C1B33) 0%,#1a2d4a 50%,#1e3a6e 100%);padding:120px 2rem 70px;text-align:center;position:relative;overflow:hidden}
+    .page-hero{background:linear-gradient(145deg,#0C1B33 0%,#1a2d4a 45%,#1e3a6e 100%);padding:120px 2rem 72px;text-align:center;position:relative;overflow:hidden}.page-hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 1px 1px,rgba(255,255,255,.04) 1px,transparent 0);background-size:38px 38px;pointer-events:none}.page-hero::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 60% 40%,rgba(201,146,42,.10),transparent 60%);pointer-events:none}
     .page-hero h1{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(2.2rem,5vw,3.5rem);font-weight:600;color:#fff;letter-spacing:-0.01em}.page-hero h1 em{font-style:italic;color:#E8B84B}
     .page-hero p{color:rgba(255,255,255,0.70);margin-top:.75rem;font-size:1.05rem}
     .search-wrap{max-width:540px;margin:1.5rem auto 0;position:relative}
@@ -103,7 +104,7 @@
     .btn-book:hover{background:#e55a25}
     .btn-wa-m{padding:.75rem 1.25rem;background:#25D366;color:white;border:none;border-radius:50px;font-size:.875rem;font-weight:600;cursor:pointer}
     .btn-wa-m:hover{background:#1db954}
-    footer{background:#111827;color:#9CA3AF;padding:2rem;text-align:center;font-size:.825rem;margin-top:3rem}
+    footer{background:#1C2340;color:#8896AB;padding:2rem;text-align:center;font-size:.825rem;margin-top:3rem}
     footer strong{color:white}
     @media(max-width:900px){.layout{grid-template-columns:1fr}.sidebar{position:static}
 }
@@ -124,6 +125,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
   <meta name="twitter:image"      content="https://www.zoomfly.in/assets/og-image.jpg"/>
   <link rel="stylesheet" href="/assets/css/main.css"/>
 <link rel="stylesheet" href="/assets/css/premium.css"/>
+<link rel="stylesheet" href="/assets/css/pages.css"/>
 </head>
 <body>
 
@@ -198,7 +200,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
   </div>
 </div>
 
-<footer><p><strong>ZoomFly</strong> — India's Trusted Travel Partner Since 2018</p><p style="margin-top:.5rem">© 2025 ZoomFly · hello@zoomfly.in</p></footer>
+
 
 <script src="/assets/js/main.js"></script>
 <script type="module">
@@ -539,5 +541,8 @@ window.pickDest = (dest) => {
   applyFilters();
 };
 </script>
+
+<section class="newsletter" id="newsletter"></section>
+<footer class="footer" id="mainFooter"></footer>
 </body>
 </html>

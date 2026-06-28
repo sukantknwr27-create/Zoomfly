@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,600&family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
@@ -10,6 +11,7 @@
   <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"/>
   <link rel="stylesheet" href="/assets/css/main.css"/>
 <link rel="stylesheet" href="/assets/css/premium.css"/>
+<link rel="stylesheet" href="/assets/css/pages.css"/>
   <style>
     body{background:#f8fafc}
     .hero{background:linear-gradient(135deg,#0f1923,#1a2535);padding:40px 5% 36px;color:#fff}
@@ -20,17 +22,17 @@
     .card{background:#fff;border-radius:16px;border:1px solid #e2e8f0;padding:22px;margin-bottom:18px}
     .card h3{font-size:.92rem;font-weight:700;color:#0f1923;margin-bottom:14px}
     .traveller-card{background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:12px;padding:16px 18px;display:flex;align-items:center;gap:14px;margin-bottom:10px;transition:all .2s}
-    .traveller-card:hover{border-color:#1a73e8;box-shadow:0 2px 10px rgba(26,115,232,.1)}
-    .avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#1a73e8,#ff6b35);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.95rem;font-weight:700;flex-shrink:0}
+    .traveller-card:hover{border-color:#C9922A;box-shadow:0 2px 10px rgba(26,115,232,.1)}
+    .avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#C9922A,#E8B84B);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.95rem;font-weight:700;flex-shrink:0}
     .tc-name{font-weight:700;font-size:.92rem;color:#0f1923}
     .tc-sub{font-size:.78rem;color:#64748b;margin-top:2px}
     .tc-actions{margin-left:auto;display:flex;gap:6px}
     .tc-btn{padding:5px 12px;border-radius:7px;font-size:.75rem;font-weight:600;cursor:pointer;border:1.5px solid #e2e8f0;background:#fff;font-family:inherit;transition:all .15s}
-    .tc-btn:hover{border-color:#1a73e8;color:#1a73e8}
+    .tc-btn:hover{border-color:#C9922A;color:#C9922A}
     .tc-btn-red{color:#dc2626;border-color:#fecaca}
     .tc-btn-red:hover{background:#fef2f2}
     .add-card{border:2px dashed #e2e8f0;border-radius:12px;padding:20px;text-align:center;cursor:pointer;transition:all .2s;background:none;width:100%;font-family:inherit;margin-bottom:10px}
-    .add-card:hover{border-color:#1a73e8;background:#eff6ff}
+    .add-card:hover{border-color:#C9922A;background:#eff6ff}
     .modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:900;display:none;align-items:center;justify-content:center;padding:20px}
     .modal-ov.show{display:flex}
     .modal-box{background:#fff;border-radius:20px;padding:28px;max-width:500px;width:100%;box-shadow:0 24px 80px rgba(0,0,0,.3)}
@@ -39,8 +41,8 @@
     .fg{margin-bottom:0}
     .fg label{font-size:.72rem;font-weight:700;display:block;margin-bottom:4px;color:#374151;text-transform:uppercase;letter-spacing:.05em}
     .fc{width:100%;padding:10px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:.88rem;font-family:inherit;outline:none;box-sizing:border-box;transition:border .2s}
-    .fc:focus{border-color:#1a73e8}
-    .btn-primary{background:#1a73e8;color:#fff;border:none;border-radius:10px;padding:11px 22px;font-size:.9rem;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s}
+    .fc:focus{border-color:#C9922A}
+    .btn-primary{background:#C9922A;color:#fff;border:none;border-radius:10px;padding:11px 22px;font-size:.9rem;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s}
     .btn-outline{background:#fff;border:1.5px solid #e2e8f0;color:#374151;border-radius:10px;padding:11px 22px;font-size:.9rem;font-weight:600;cursor:pointer;font-family:inherit}
     .doc-upload-card{border:1.5px solid #e2e8f0;border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:12px;margin-bottom:8px;background:#fff}
     .doc-status-uploaded{color:#16a34a;font-weight:700;font-size:.78rem}
@@ -89,7 +91,7 @@
     <div class="card">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
         <h3 style="margin:0">📄 Travel Documents</h3>
-        <label style="display:inline-flex;align-items:center;gap:6px;padding:7px 14px;background:#eff6ff;color:#1a73e8;border-radius:8px;cursor:pointer;font-size:.8rem;font-weight:700;border:1.5px solid #bfdbfe">
+        <label style="display:inline-flex;align-items:center;gap:6px;padding:7px 14px;background:#eff6ff;color:#C9922A;border-radius:8px;cursor:pointer;font-size:.8rem;font-weight:700;border:1.5px solid #bfdbfe">
           📎 Upload <input type="file" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="uploadDocument(this)"/>
         </label>
       </div>
@@ -102,7 +104,7 @@
     <div class="card">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
         <h3 style="margin:0">🔔 Price Alerts</h3>
-        <a href="/pages/packages.html" style="font-size:.8rem;color:#1a73e8;text-decoration:none">Browse packages →</a>
+        <a href="/pages/packages.html" style="font-size:.8rem;color:#C9922A;text-decoration:none">Browse packages →</a>
       </div>
       <div id="alerts-list">
         <div class="empty-state">
@@ -321,10 +323,10 @@ async function loadDocuments() {
       ${doc ? `
         <div>
           <div class="doc-status-uploaded">✅ Uploaded</div>
-          <a href="${doc.file_url}" target="_blank" style="font-size:.72rem;color:#1a73e8;text-decoration:none">View →</a>
+          <a href="${doc.file_url}" target="_blank" style="font-size:.72rem;color:#C9922A;text-decoration:none">View →</a>
         </div>` : `
         <div class="doc-status-missing">Not uploaded</div>`}
-      <label style="padding:6px 12px;background:#eff6ff;color:#1a73e8;border-radius:8px;cursor:pointer;font-size:.75rem;font-weight:700;border:1.5px solid #bfdbfe;flex-shrink:0">
+      <label style="padding:6px 12px;background:#eff6ff;color:#C9922A;border-radius:8px;cursor:pointer;font-size:.75rem;font-weight:700;border:1.5px solid #bfdbfe;flex-shrink:0">
         ${doc?'Replace':'Upload'}
         <input type="file" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="uploadDocType(this,'${dt.type}','${dt.label}')"/>
       </label>
@@ -379,7 +381,7 @@ async function loadAlerts() {
       <div style="flex:1">
         <div style="font-weight:600;font-size:.88rem">${esc(pkg?.title||'Package')}</div>
         <div style="font-size:.75rem;color:#64748b;margin-top:2px">
-          Current: <strong style="color:#1a73e8">₹${Number(pkg?.price||0).toLocaleString('en-IN')}</strong>
+          Current: <strong style="color:#C9922A">₹${Number(pkg?.price||0).toLocaleString('en-IN')}</strong>
           · Alert when below: <strong style="color:#16a34a">₹${Number(a.target_price||0).toLocaleString('en-IN')}</strong>
         </div>
       </div>

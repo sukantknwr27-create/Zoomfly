@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <meta charset="UTF-8"/>
@@ -15,26 +16,26 @@
     .admin-layout{display:grid;grid-template-columns:220px 1fr;min-height:100vh}
     .sidebar{background:#0f1923;color:#fff;padding:20px 0;position:sticky;top:0;height:100vh;overflow-y:auto}
     .sb-logo{padding:0 20px 20px;font-size:1.2rem;font-weight:800;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:16px}
-    .sb-logo span{color:#ff6b35}
+    .sb-logo span{color:#E8B84B}
     .sb-link{display:flex;align-items:center;gap:10px;padding:10px 20px;font-size:.85rem;color:rgba(255,255,255,.65);text-decoration:none;transition:all .15s;cursor:pointer;border:none;background:none;width:100%;text-align:left}
-    .sb-link:hover,.sb-link.active{color:#fff;background:rgba(255,255,255,.08)}
+    .sb-link:hover,.sb-link.active{background:rgba(201,146,42,0.15);color:#E8B84B;border-left:3px solid #C9922A}
     .sb-link .icon{width:20px;text-align:center}
     .sb-section{padding:8px 20px 4px;font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.3);margin-top:8px}
     .main{padding:28px;overflow:auto}
     .page-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:12px}
     .page-title{font-size:1.3rem;font-weight:700;color:#0f1923}
-    .btn-primary{background:#1a73e8;color:#fff;border:none;border-radius:8px;padding:9px 18px;font-size:.85rem;font-weight:700;cursor:pointer;font-family:inherit}
+    .btn-primary{background:#C9922A;color:#0C1B33;border:none;border-radius:8px;padding:9px 18px;font-size:.85rem;font-weight:700;cursor:pointer;font-family:inherit}
     .stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:24px}
     .stat-card{background:#fff;border-radius:12px;padding:16px;border:1px solid #e2e8f0;text-align:center}
-    .stat-n{font-size:1.6rem;font-weight:800;color:#1a73e8}
-    .stat-l{font-size:.75rem;color:#94a3b8;margin-top:3px}
+    .stat-n{font-size:1.6rem;font-weight:800;color:#C9922A}
+    .stat-l{font-size:.75rem;color:rgba(255,255,255,0.52);margin-top:3px}
     .table-card{background:#fff;border-radius:14px;border:1px solid #e2e8f0;overflow:hidden}
     .table-header{padding:16px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #e2e8f0;flex-wrap:wrap;gap:10px}
     .table-header h3{font-size:.95rem;font-weight:700;color:#0f1923}
     .search-input{padding:8px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:.85rem;outline:none;font-family:inherit;width:220px}
-    .search-input:focus{border-color:#1a73e8}
+    .search-input:focus{border-color:#C9922A}
     table{width:100%;border-collapse:collapse}
-    th{padding:10px 14px;text-align:left;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#94a3b8;background:#f8fafc;border-bottom:1px solid #e2e8f0}
+    th{padding:10px 14px;text-align:left;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,0.52);background:#f8fafc;border-bottom:1px solid #e2e8f0}
     td{padding:12px 14px;font-size:.85rem;color:#374151;border-bottom:1px solid #f1f5f9}
     tr:last-child td{border-bottom:none}
     tr:hover td{background:#fafafa}
@@ -44,30 +45,30 @@
     .badge-yellow{background:#fef3c7;color:#92400e}
     .badge-red{background:#fef2f2;color:#dc2626}
     .action-btn{padding:4px 10px;border-radius:6px;font-size:.75rem;font-weight:600;cursor:pointer;border:1px solid #e2e8f0;background:#fff;font-family:inherit;transition:all .15s}
-    .action-btn:hover{border-color:#1a73e8;color:#1a73e8}
-    .avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#1a73e8,#ff6b35);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;flex-shrink:0}
-    .loading{padding:32px;text-align:center;color:#94a3b8;font-size:.9rem}
+    .action-btn:hover{border-color:#C9922A;color:#C9922A}
+    .avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#C9922A,#E8B84B);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;flex-shrink:0}
+    .loading{padding:32px;text-align:center;color:rgba(255,255,255,0.52);font-size:.9rem}
     /* Customer detail panel */
     .detail-panel{position:fixed;right:0;top:0;bottom:0;width:480px;background:#fff;box-shadow:-8px 0 32px rgba(0,0,0,.12);z-index:500;overflow-y:auto;transform:translateX(100%);transition:transform .3s}
     .detail-panel.open{transform:translateX(0)}
     .panel-header{padding:20px;border-bottom:1px solid #e2e8f0;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#fff;z-index:1}
     .panel-header h3{font-size:1rem;font-weight:700}
-    .close-panel{background:none;border:none;font-size:1.1rem;cursor:pointer;color:#64748b;padding:4px}
+    .close-panel{background:none;border:none;font-size:1.1rem;cursor:pointer;color:#4A5568;padding:4px}
     .panel-body{padding:20px}
     .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
-    .info-item label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#94a3b8;display:block;margin-bottom:3px}
+    .info-item label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,0.52);display:block;margin-bottom:3px}
     .info-item span{font-size:.88rem;font-weight:600;color:#0f1923}
     .booking-mini{background:#f8fafc;border-radius:10px;padding:12px 14px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
     .booking-mini-name{font-size:.85rem;font-weight:600;color:#0f1923}
-    .booking-mini-sub{font-size:.75rem;color:#94a3b8;margin-top:2px}
-    .booking-mini-amount{font-size:.9rem;font-weight:700;color:#1a73e8}
+    .booking-mini-sub{font-size:.75rem;color:rgba(255,255,255,0.52);margin-top:2px}
+    .booking-mini-amount{font-size:.9rem;font-weight:700;color:#C9922A}
     /* Manual booking modal */
     .modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:600;display:none;align-items:center;justify-content:center;padding:20px}
     .modal-ov.show{display:flex}
     .modal-box{background:#fff;border-radius:16px;padding:24px;max-width:520px;width:100%;max-height:90vh;overflow-y:auto}
     .modal-title{font-size:1rem;font-weight:700;margin-bottom:18px;display:flex;justify-content:space-between}
     .fc{width:100%;padding:9px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:.88rem;font-family:inherit;outline:none;box-sizing:border-box;transition:border .2s}
-    .fc:focus{border-color:#1a73e8}
+    .fc:focus{border-color:#C9922A}
     .form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
     .fg{margin-bottom:10px}
     .fg label{font-size:.72rem;font-weight:700;display:block;margin-bottom:4px;color:#374151;text-transform:uppercase;letter-spacing:.05em}
@@ -76,7 +77,8 @@
     .overlay{position:fixed;inset:0;z-index:499;display:none}
     .overlay.show{display:block}
   </style>
-  </head>
+    <link rel="stylesheet" href="/assets/css/admin.css"/>
+</head>
 <body>
 <div class="admin-layout">
   <!-- Sidebar -->
@@ -114,7 +116,7 @@
       <div class="stat-card"><div class="stat-n" id="s-total">—</div><div class="stat-l">Total Customers</div></div>
       <div class="stat-card"><div class="stat-n" id="s-new" style="color:#16a34a">—</div><div class="stat-l">New this month</div></div>
       <div class="stat-card"><div class="stat-n" id="s-repeat" style="color:#f59e0b">—</div><div class="stat-l">Repeat bookers</div></div>
-      <div class="stat-card"><div class="stat-n" id="s-revenue" style="color:#ff6b35">—</div><div class="stat-l">Total Revenue</div></div>
+      <div class="stat-card"><div class="stat-n" id="s-revenue" style="color:#E8B84B">—</div><div class="stat-l">Total Revenue</div></div>
     </div>
 
     <!-- Customer Table -->
@@ -153,7 +155,7 @@
   <div class="modal-box">
     <div class="modal-title">
       <span>📋 Create Manual Booking</span>
-      <button onclick="closeManualBooking()" style="background:none;border:none;cursor:pointer;color:#64748b;font-size:1rem">✕</button>
+      <button onclick="closeManualBooking()" style="background:none;border:none;cursor:pointer;color:#4A5568;font-size:1rem">✕</button>
     </div>
     <div class="fg">
       <label>Service Type</label>
@@ -225,7 +227,7 @@
   <div class="modal-box">
     <div class="modal-title">
       <span>📢 Send Broadcast</span>
-      <button onclick="closeBroadcast()" style="background:none;border:none;cursor:pointer;color:#64748b;font-size:1rem">✕</button>
+      <button onclick="closeBroadcast()" style="background:none;border:none;cursor:pointer;color:#4A5568;font-size:1rem">✕</button>
     </div>
     <div class="fg">
       <label>Recipients</label>
@@ -243,7 +245,7 @@
     <div class="fg">
       <label>Message Body</label>
       <textarea class="fc" id="bc-message" rows="5" placeholder="Hi {name}, we have an exclusive deal for you..."></textarea>
-      <div style="font-size:.72rem;color:#94a3b8;margin-top:3px">Use {name} for personalisation. Message sent via WhatsApp broadcast.</div>
+      <div style="font-size:.72rem;color:rgba(255,255,255,0.52);margin-top:3px">Use {name} for personalisation. Message sent via WhatsApp broadcast.</div>
     </div>
     <div class="fg">
       <label>Schedule (optional)</label>
@@ -329,17 +331,17 @@ function renderTable(customers) {
               <div class="avatar">${(c.full_name||c.email||'?').charAt(0).toUpperCase()}</div>
               <div>
                 <div style="font-weight:600">${esc(c.full_name || 'Unknown')}</div>
-                <div style="font-size:.75rem;color:#94a3b8">${esc(c.email||'')}</div>
+                <div style="font-size:.75rem;color:rgba(255,255,255,0.52)">${esc(c.email||'')}</div>
               </div>
             </div>
           </td>
           <td>
             <div>${esc(c.phone||'—')}</div>
-            ${c.city?`<div style="font-size:.75rem;color:#94a3b8">${esc(c.city)}</div>`:''}
+            ${c.city?`<div style="font-size:.75rem;color:rgba(255,255,255,0.52)">${esc(c.city)}</div>`:''}
           </td>
-          <td><span style="font-weight:700;color:#1a73e8">${c._booking_count}</span></td>
+          <td><span style="font-weight:700;color:#C9922A">${c._booking_count}</span></td>
           <td><span style="font-weight:600">₹${c._total_spent.toLocaleString('en-IN')}</span></td>
-          <td style="font-size:.78rem;color:#94a3b8">${fmtDate(c.created_at)}</td>
+          <td style="font-size:.78rem;color:rgba(255,255,255,0.52)">${fmtDate(c.created_at)}</td>
           <td>
             ${c._booking_count >= 3 ? '<span class="badge badge-blue">⭐ Loyal</span>' :
               c._booking_count >= 1 ? '<span class="badge badge-green">✓ Active</span>' :
@@ -349,7 +351,7 @@ function renderTable(customers) {
             <div style="display:flex;gap:5px">
               <button class="action-btn" onclick="openCustomerPanel('${c.id}')">View</button>
               <button class="action-btn" onclick="window.open('https://wa.me/${c.phone?.replace(/\\D/g,'')||''}')" ${!c.phone?'disabled':''}>💬 WA</button>
-              <button class="action-btn" onclick="openManualBooking('${c.id}','${esc(c.full_name||'')}','${esc(c.phone||'')}','${esc(c.email||'')}')" style="color:#1a73e8;border-color:#bfdbfe">+ Book</button>
+              <button class="action-btn" onclick="openManualBooking('${c.id}','${esc(c.full_name||'')}','${esc(c.phone||'')}','${esc(c.email||'')}')" style="color:#C9922A;border-color:#bfdbfe">+ Book</button>
             </div>
           </td>
         </tr>`).join('')}
@@ -386,7 +388,7 @@ function renderPanelBody(c) {
       <div class="avatar" style="width:52px;height:52px;font-size:1.2rem">${(c.full_name||c.email||'?').charAt(0).toUpperCase()}</div>
       <div>
         <div style="font-weight:700;font-size:1rem">${esc(c.full_name||'Unknown')}</div>
-        <div style="font-size:.8rem;color:#64748b">${esc(c.email||'')}</div>
+        <div style="font-size:.8rem;color:#4A5568">${esc(c.email||'')}</div>
         <div style="display:flex;gap:6px;margin-top:4px">
           ${c._booking_count>=3?'<span class="badge badge-blue">⭐ Loyal</span>':''}
           ${c.gender?`<span class="badge" style="background:#f1f5f9;color:#374151">${c.gender}</span>`:''}
@@ -396,8 +398,8 @@ function renderPanelBody(c) {
     <div class="info-grid">
       <div class="info-item"><label>Phone</label><span>${esc(c.phone||'—')}</span></div>
       <div class="info-item"><label>City</label><span>${esc(c.city||'—')}</span></div>
-      <div class="info-item"><label>Bookings</label><span style="color:#1a73e8">${c._booking_count}</span></div>
-      <div class="info-item"><label>Total Spent</label><span style="color:#ff6b35">₹${c._total_spent.toLocaleString('en-IN')}</span></div>
+      <div class="info-item"><label>Bookings</label><span style="color:#C9922A">${c._booking_count}</span></div>
+      <div class="info-item"><label>Total Spent</label><span style="color:#E8B84B">₹${c._total_spent.toLocaleString('en-IN')}</span></div>
       <div class="info-item"><label>Date of Birth</label><span>${c.date_of_birth||'—'}</span></div>
       <div class="info-item"><label>Joined</label><span>${fmtDate(c.created_at)}</span></div>
     </div>
@@ -405,10 +407,10 @@ function renderPanelBody(c) {
       ${c.phone?`<a href="tel:${c.phone}" class="action-btn" style="text-decoration:none">📞 Call</a>`:''}
       ${c.phone?`<a href="https://wa.me/${c.phone.replace(/\\D/g,'')}" target="_blank" class="action-btn" style="text-decoration:none">💬 WhatsApp</a>`:''}
       ${c.email?`<a href="mailto:${c.email}" class="action-btn" style="text-decoration:none">✉️ Email</a>`:''}
-      <button class="action-btn" onclick="openManualBooking('${c.id}','${esc(c.full_name||'')}','${esc(c.phone||'')}','${esc(c.email||'')}')" style="color:#1a73e8;border-color:#bfdbfe">+ New Booking</button>
+      <button class="action-btn" onclick="openManualBooking('${c.id}','${esc(c.full_name||'')}','${esc(c.phone||'')}','${esc(c.email||'')}')" style="color:#C9922A;border-color:#bfdbfe">+ New Booking</button>
       <button class="action-btn" onclick="generatePaymentLink('${c.id}','${esc(c.full_name||'')}','${esc(c.phone||'')}','${esc(c.email||'')}')">💳 Payment Link</button>
     </div>
-    <div style="font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#94a3b8;margin-bottom:10px">Booking History (${bks.length})</div>
+    <div style="font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,0.52);margin-bottom:10px">Booking History (${bks.length})</div>
     ${bks.length ? bks.map(b => `
       <div class="booking-mini">
         <div>
@@ -418,7 +420,7 @@ function renderPanelBody(c) {
           </div>
         </div>
         <div class="booking-mini-amount">₹${Number(b.total_amount||0).toLocaleString('en-IN')}</div>
-      </div>`).join('') : '<div style="color:#94a3b8;font-size:.85rem;text-align:center;padding:16px">No bookings yet</div>'}`;
+      </div>`).join('') : '<div style="color:rgba(255,255,255,0.52);font-size:.85rem;text-align:center;padding:16px">No bookings yet</div>'}`;
 }
 
 window.closePanel = () => {

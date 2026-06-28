@@ -6,10 +6,10 @@
   <title>Travel Agent Portal | ZoomFly Partner Program</title>
   <meta name="description" content="ZoomFly travel agent portal. Earn commissions on every booking you refer. Access exclusive rates and marketing support."/>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✈️</text></svg>"/>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,600&family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <style>
     :root{
-      --primary:#1a73e8; --accent:#ff6b35; --dark:#0f1923; --dark2:#1a2535;
+      --primary:#C9922A; --accent:#E8B84B; --dark:#0f1923; --dark2:#1a2535;
       --text:#2d3748; --light:#64748b; --border:#e2e8f0; --bg:#f8fafc; --white:#fff;
       --green:#22c55e; --yellow:#f59e0b; --teal:#14b8a6; --sidebar:240px;
     }
@@ -147,7 +147,7 @@
     .status-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;
       border-radius:20px;font-size:0.72rem;font-weight:700;}
     .s-pending  {background:rgba(245,158,11,0.1);color:#92400e;}
-    .s-confirmed{background:rgba(26,115,232,0.1);color:#1557b0;}
+    .s-confirmed{background:rgba(26,115,232,0.1);color:#A37220;}
     .s-completed{background:rgba(34,197,94,0.1); color:#166534;}
     .s-cancelled{background:rgba(239,68,68,0.1); color:#991b1b;}
 
@@ -217,6 +217,7 @@
   <meta name="twitter:image"      content="https://www.zoomfly.in/assets/og-image.jpg"/>
   <meta name="robots" content="noindex, nofollow"/>
     <link rel="stylesheet" href="/assets/css/premium.css"/>
+<link rel="stylesheet" href="/assets/css/pages.css"/>
 </head>
 <body>
 
@@ -1011,5 +1012,8 @@ function setVal(id,v){const el=document.getElementById(id);if(el)el.value=v||'';
 function showMsg(el,msg,type){el.textContent=msg;el.className='auth-msg show '+type;setTimeout(()=>el.className='auth-msg',7000);}
 function showToast(msg,type='success'){const t=document.getElementById('toast');t.textContent=msg;t.style.background=type==='error'?'#ef4444':'var(--dark)';t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
 </script>
+
+<section class="newsletter" id="newsletter"></section>
+<footer class="footer" id="mainFooter"></footer>
 </body>
 </html>

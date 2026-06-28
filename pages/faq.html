@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,600&family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <meta charset="UTF-8"/>
   <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"/>
@@ -10,6 +11,7 @@
   <meta name="description" content="Answers to common questions about booking travel with ZoomFly — cancellation policy, payment methods, group bookings, and more."/>
   <link rel="stylesheet" href="/assets/css/main.css"/>
 <link rel="stylesheet" href="/assets/css/premium.css"/>
+<link rel="stylesheet" href="/assets/css/pages.css"/>
   <style>
     .faq-layout{display:grid;grid-template-columns:260px 1fr;gap:48px;padding:70px 0 100px;align-items:start;}
     .faq-
@@ -66,11 +68,12 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
 <body data-page="">
 <header class="nav" id="mainNav"></header>
 
-<section class="page-hero">
-  <div class="container page-hero-inner">
-    <div class="breadcrumb"><a href="/index.html">Home</a><span>›</span><span>FAQs</span></div>
-    <h1>Frequently Asked <em>Questions</em></h1>
-    <p>Everything you need to know about booking with ZoomFly.</p>
+<section class="page-hero" style="background:linear-gradient(145deg,#0C1B33 0%,#1a2d4a 45%,#1e3a6e 100%);padding:110px 2rem 60px;text-align:center;position:relative;overflow:hidden;">
+  <div style="position:absolute;inset:0;background-image:radial-gradient(circle at 1px 1px,rgba(255,255,255,.04) 1px,transparent 0);background-size:38px 38px;pointer-events:none;"></div>
+  <div style="position:relative;z-index:2;">
+    <div style="display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:100px;padding:6px 18px;font-family:'Space Grotesk',system-ui;font-size:.72rem;font-weight:500;color:rgba(255,255,255,.82);margin-bottom:18px;">❓ Quick Answers</div>
+    <h1 style="font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(2.2rem,5vw,3.5rem);font-weight:600;color:#fff;line-height:1.1;letter-spacing:-.02em;margin-bottom:12px;">Frequently Asked <em style="font-style:italic;color:#E8B84B">Questions</em></h1>
+    <p style="color:rgba(255,255,255,.65);font-size:1rem;max-width:500px;margin:0 auto;">Find answers to common queries about bookings, payments and travel.</p>
   </div>
 </section>
 

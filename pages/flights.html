@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,600&family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <meta charset="UTF-8"/>
   <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"/>
@@ -11,6 +12,7 @@
   <meta name="description" content="Search and book the cheapest flights across India and internationally. Compare fares, airlines and timings. Instant confirmation with ZoomFly."/>
   <link rel="stylesheet" href="/assets/css/main.css"/>
 <link rel="stylesheet" href="/assets/css/premium.css"/>
+<link rel="stylesheet" href="/assets/css/pages.css"/>
   <style>
     .flight-hero{background:linear-gradient(145deg,#1b4f8a,#0f2d4e);color:#fff;padding:3.5rem 2rem 5rem;text-align:center}
     .flight-hero h1{font-size:2.4rem;font-weight:900;margin-bottom:.5rem}.flight-hero h1 em{font-style:normal;color:#FFD700}
@@ -32,7 +34,7 @@
     .btn-search:hover{background:#0f2d4e}
     .ac-dropdown{position:absolute;top:calc(100% + 4px);left:0;right:0;background:#fff;border:1.5px solid #e2e8f0;border-radius:10px;box-shadow:0 8px 32px rgba(0,0,0,.14);z-index:200;max-height:280px;overflow-y:auto;display:none}
     .ac-item{padding:.65rem 1rem;cursor:pointer;font-size:.84rem;border-bottom:1px solid #f1f5f9;display:flex;align-items:baseline;gap:.5rem}
-    .ac-item:hover{background:#EEF3FF}.ac-item:last-child{border-bottom:none}
+    .ac-item:hover{background:#F5E6C4}.ac-item:last-child{border-bottom:none}
     .ac-code{font-weight:800;color:#1b4f8a;font-size:.78rem;min-width:36px}
     .ac-city{font-weight:600;color:#1e293b}
     .ac-name{color:#94a3b8;font-size:.72rem;margin-left:.25rem}
@@ -87,10 +89,19 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
 <body data-page="flights">
 <header class="nav" id="mainNav"></header>
 
-<section class="flight-hero">
-  <div class="breadcrumb" style="justify-content:center;margin-bottom:1rem"><a href="/index.html" style="color:rgba(255,255,255,.7)">Home</a><span style="color:rgba(255,255,255,.5)">›</span><span style="color:#fff">Flights</span></div>
-  <h1>Book <em>Flights</em> Instantly</h1>
-  <p>Best fares on 500+ routes — domestic & international, with instant e-ticket confirmation</p>
+<section class="flight-hero" style="background:linear-gradient(145deg,#0C1B33 0%,#1a2d4a 40%,#1e3a6e 100%);padding:110px 2rem 60px;text-align:center;position:relative;overflow:hidden;">
+  <!-- dot grid -->
+  <div style="position:absolute;inset:0;background-image:radial-gradient(circle at 1px 1px,rgba(255,255,255,.04) 1px,transparent 0);background-size:38px 38px;pointer-events:none;"></div>
+  <!-- gold glow -->
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 70% 30%,rgba(201,146,42,.09),transparent 60%);pointer-events:none;"></div>
+  <!-- airplane silhouette -->
+  <div style="position:absolute;top:32%;right:8%;font-size:7rem;opacity:.06;transform:rotate(-20deg);pointer-events:none;z-index:0;">✈</div>
+  <div style="position:relative;z-index:2;">
+    <div style="display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:100px;padding:6px 18px;font-family:'Space Grotesk',system-ui;font-size:.72rem;font-weight:500;color:rgba(255,255,255,.82);margin-bottom:18px;letter-spacing:.03em;">✈ Flight Booking</div>
+    <div class="breadcrumb" style="justify-content:center;margin-bottom:16px;"><a href="/" style="color:rgba(255,255,255,.55)">Home</a><span style="color:rgba(255,255,255,.3);margin:0 6px">›</span><span style="color:rgba(255,255,255,.8)">Flights</span></div>
+    <h1 style="font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(2.2rem,5vw,3.5rem);font-weight:600;color:#fff;line-height:1.1;letter-spacing:-.02em;margin-bottom:12px;">Book Flights <em style="font-style:italic;color:#E8B84B">Across the World</em></h1>
+    <p style="color:rgba(255,255,255,.65);font-size:1rem;max-width:500px;margin:0 auto;">Best fares on 500+ routes — domestic &amp; international, with instant e-ticket.</p>
+  </div>
 </section>
 
 <div class="search-wrap">

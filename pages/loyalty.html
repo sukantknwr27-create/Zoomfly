@@ -6,10 +6,10 @@
   <title>ZoomFly Rewards — Earn Points on Every Booking</title>
   <meta name="description" content="Earn ZoomFly Points on every flight, hotel and package booking. Redeem for discounts. 4 tiers: Bronze, Silver, Gold, Platinum."/>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✈️</text></svg>"/>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,600&family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <style>
     :root{
-      --primary:#1a73e8; --accent:#ff6b35; --dark:#0f1923; --dark2:#1a2535;
+      --primary:#C9922A; --accent:#E8B84B; --dark:#0f1923; --dark2:#1a2535;
       --text:#2d3748; --light:#64748b; --border:#e2e8f0; --bg:#f8fafc; --white:#fff;
       --gold:#f59e0b; --silver:#94a3b8; --bronze:#cd7c35; --platinum:#8b5cf6;
     }
@@ -219,6 +219,7 @@
   <meta name="twitter:image"      content="https://www.zoomfly.in/assets/og-image.jpg"/>
   <link rel="stylesheet" href="/assets/css/main.css"/>
 <link rel="stylesheet" href="/assets/css/premium.css"/>
+<link rel="stylesheet" href="/assets/css/pages.css"/>
 </head>
 <body>
 
@@ -446,16 +447,7 @@
   </div>
 </section>
 
-<footer>
-  <div class="footer-links">
-    <a href="/index.html">Home</a>
-    <a href="my-bookings.html">My Bookings</a>
-    <a href="privacy-policy.html">Privacy Policy</a>
-    <a href="terms.html">Terms</a>
-    <a href="contact.html">Contact</a>
-  </div>
-  <div class="footer-copy">© 2026 ZoomFly Travel Services · ZoomFly Rewards</div>
-</footer>
+
 
 <div class="toast" id="toast"></div>
 
@@ -710,5 +702,8 @@ function fmtDate(d){ if(!d)return'—'; try{return new Date(d).toLocaleDateStrin
 function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 function showToast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3000); }
 </script>
+
+<section class="newsletter" id="newsletter"></section>
+<footer class="footer" id="mainFooter"></footer>
 </body>
 </html>

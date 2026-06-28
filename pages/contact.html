@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,600&family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <meta charset="UTF-8"/>
   <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"/>
@@ -10,7 +11,7 @@
   <meta name="description" content="Get in touch with ZoomFly for bookings, custom trip planning, or travel support. Call, email, or WhatsApp us — we reply within 30 minutes."/>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{--primary:#0057FF;--primary-dark:#0041CC;--primary-light:#EEF3FF;--accent:#FF6B35;--text:#111827;--text-muted:#6B7280;--text-light:#9CA3AF;--bg:#fff;--bg2:#F9FAFB;--border:#E5E7EB;--success:#059669;--success-bg:#ECFDF5;--error:#DC2626;--shadow-lg:0 10px 25px -5px rgba(0,0,0,.10);--r:12px;--r2:8px;--font:'Segoe UI',system-ui,sans-serif}
+    :root{--primary:#C9922A;--primary-dark:#A37220;--primary-light:#F5E6C4;--accent:#E8B84B;--text:#1C2340;--text-muted:#4A5568;--text-light:#8896AB;--bg:#fff;--bg2:#F3F2EE;--border:#E4E8EF;--success:#059669;--success-bg:#ECFDF5;--error:#DC2626;--shadow-lg:0 10px 25px -5px rgba(0,0,0,.10);--r:12px;--r2:8px;--font:'Inter',system-ui,sans-serif}
     body{font-family:var(--font);color:var(--text);background:var(--bg2)}
     a{text-decoration:none;color:inherit}
 .logo span{color:var(--accent)}
@@ -80,7 +81,7 @@
     .success-icon{width:72px;height:72px;border-radius:50%;background:var(--success-bg);margin:0 auto 1.5rem;display:flex;align-items:center;justify-content:center;font-size:2rem}
     .rev-box{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:1.25rem;margin-bottom:1.5rem;font-size:.875rem;line-height:2}
     .sec-note{text-align:center;font-size:.775rem;color:var(--text-light);margin-top:.75rem}
-    footer{background:#111827;color:#9CA3AF;padding:2rem;text-align:center;font-size:.825rem;margin-top:2rem}
+    footer{background:#1C2340;color:#8896AB;padding:2rem;text-align:center;font-size:.825rem;margin-top:2rem}
     footer strong{color:white}
     @media(max-width:768px){.wrap{grid-template-columns:1fr}.hero h1{font-size:1.8rem}.form-row{grid-template-columns:1fr}
 }
@@ -101,11 +102,20 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
   <meta name="twitter:image"      content="https://www.zoomfly.in/assets/og-image.jpg"/>
   <link rel="stylesheet" href="/assets/css/main.css"/>
 <link rel="stylesheet" href="/assets/css/premium.css"/>
+<link rel="stylesheet" href="/assets/css/pages.css"/>
 </head>
 <body>
 
 
-<div class="hero"><h1>Get In <em>Touch</em></h1><p>Our travel experts plan your perfect trip — completely free.</p></div>
+<section style="background:linear-gradient(145deg,#0C1B33 0%,#1a2d4a 45%,#1e3a6e 100%);padding:110px 2rem 60px;text-align:center;position:relative;overflow:hidden;">
+  <div style="position:absolute;inset:0;background-image:radial-gradient(circle at 1px 1px,rgba(255,255,255,.04) 1px,transparent 0);background-size:38px 38px;pointer-events:none;"></div>
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 60% 40%,rgba(201,146,42,.09),transparent 60%);pointer-events:none;"></div>
+  <div style="position:relative;z-index:2;">
+    <div style="display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:100px;padding:6px 18px;font-family:'Space Grotesk',system-ui;font-size:.72rem;font-weight:500;color:rgba(255,255,255,.82);margin-bottom:18px;">📞 Get in Touch</div>
+    <h1 style="font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(2.2rem,5vw,3.5rem);font-weight:600;color:#fff;line-height:1.1;letter-spacing:-.02em;margin-bottom:12px;">We're Here to <em style="font-style:italic;color:#E8B84B">Help You</em></h1>
+    <p style="color:rgba(255,255,255,.65);font-size:1rem;max-width:500px;margin:0 auto;">Our travel experts are here to help — get in touch for your travel support.</p>
+  </div>
+</section>
 
 <div class="wrap">
   <!-- LEFT -->
@@ -200,7 +210,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
   </div>
 </div>
 
-<footer><p><strong>ZoomFly</strong> — India's Trusted Travel Partner</p><p style="margin-top:.5rem">© 2025 ZoomFly · hello@zoomfly.in · +91 8076136300</p></footer>
+
 
 <script src="/assets/js/main.js"></script>
 <script type="module">
@@ -312,5 +322,8 @@ if (d === 0 || h < 9 || h >= 20) {
   ge('ssub').textContent = "Leave your enquiry — we'll respond first thing tomorrow!";
 }
 </script>
+
+<section class="newsletter" id="newsletter"></section>
+<footer class="footer" id="mainFooter"></footer>
 </body>
 </html>
