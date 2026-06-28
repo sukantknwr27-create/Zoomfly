@@ -553,6 +553,14 @@ export const admin = {
 
 // ── NAV LOADER ───────────────────────────────────────────
 export async function loadNav(activePage = '') {
+  // Delegate entirely to renderNav() from main.js to avoid double-injection (Fix #7)
+  // and ensure correct nav.html IDs are used (Fix #5).
+  if (typeof window._zfRenderNav === 'function') {
+    await window._zfRenderNav(activePage);
+    return;
+  }
+  // Fallback: if main.js hasn't loaded yet (e.g. admin pages that import supabase.js
+  // directly), do a minimal render using the correct nav.html IDs.
   const nav = document.getElementById('mainNav');
   if (!nav) return;
   try {
@@ -560,11 +568,11 @@ export async function loadNav(activePage = '') {
     if (!res.ok) throw new Error('nav fetch failed');
     nav.innerHTML = await res.text();
   } catch {
-    nav.innerHTML = '<nav style="background:#0f1923;padding:14px 20px;display:flex;align-items:center;justify-content:space-between"><a href="/" style="color:#fff;font-weight:800;text-decoration:none;font-size:1.1rem">ZoomFly ✈</a></nav>';
+    nav.innerHTML = '<nav style="background:#0C1B33;padding:14px 20px;display:flex;align-items:center;justify-content:space-between"><a href="/" style="color:#fff;font-weight:800;text-decoration:none;font-size:1.1rem">ZoomFly ✈</a></nav>';
   }
   if (activePage) {
     const link = nav.querySelector(`[data-page="${activePage}"]`);
-    if (link) link.style.color = '#facc15';
+    if (link) link.style.color = 'var(--gold-light,#E8B84B)';
   }
   const hamburger = document.getElementById('hamburger');
   const mobileMenu = document.getElementById('mobileMenu');
@@ -574,28 +582,45 @@ export async function loadNav(activePage = '') {
       mobileMenu.classList.toggle('open');
     });
   }
-  // User menu dropdown
-  const userBtn = document.getElementById('userMenuBtn');
-  const userDropdown = document.getElementById('userDropdown');
-  if (userBtn && userDropdown) {
-    userBtn.addEventListener('click', (e) => {
+  // Wire data-action events using correct nav.html IDs
+  nav.addEventListener('click', e => {
+    const btn = e.target.closest('[data-action]');
+    if (!btn) return;
+    if (btn.dataset.action === 'toggle-user-menu') {
       e.stopPropagation();
-      userDropdown.style.display = userDropdown.style.display === 'block' ? 'none' : 'block';
-    });
-    document.addEventListener('click', () => { userDropdown.style.display = 'none'; });
-  }
-  // Update user menu with logged-in state
+      const d = document.getElementById('nav-dropdown');
+      if (d) d.style.display = d.style.display === 'block' ? 'none' : 'block';
+    }
+    if (btn.dataset.action === 'sign-out') {
+      e.preventDefault();
+      signOut().then(() => { window.location.href = '/pages/login.html'; }).catch(() => {});
+    }
+  });
+  document.addEventListener('click', e => {
+    if (!e.target.closest('#nav-user-menu')) {
+      const d = document.getElementById('nav-dropdown');
+      if (d) d.style.display = 'none';
+    }
+  });
+  // Auth state using correct IDs
   const user = await getUser();
-  const guestLinks = document.getElementById('nav-guest-links');
-  const userLinks = document.getElementById('nav-user-links');
+  const loginBtn  = document.getElementById('nav-login-btn');
+  const signupBtn = document.getElementById('nav-signup-btn');
+  const userMenu  = document.getElementById('nav-user-menu');
   if (user) {
-    if (guestLinks) guestLinks.style.display = 'none';
-    if (userLinks) userLinks.style.display = 'flex';
-    const nameEl = document.getElementById('nav-user-name');
-    if (nameEl) nameEl.textContent = user.user_metadata?.full_name?.split(' ')[0] || 'Account';
+    if (loginBtn)  loginBtn.style.display  = 'none';
+    if (signupBtn) signupBtn.style.display = 'none';
+    if (userMenu)  userMenu.style.display  = 'block';
+    const profile = await getProfile();
+    const name = profile?.full_name || user.email?.split('@')[0] || 'Account';
+    const avatar   = document.getElementById('nav-avatar');
+    const username = document.getElementById('nav-username');
+    if (avatar)   avatar.textContent   = name.charAt(0).toUpperCase();
+    if (username) username.textContent = name.split(' ')[0];
   } else {
-    if (guestLinks) guestLinks.style.display = 'flex';
-    if (userLinks) userLinks.style.display = 'none';
+    if (loginBtn)  loginBtn.style.display  = '';
+    if (signupBtn) signupBtn.style.display = '';
+    if (userMenu)  userMenu.style.display  = 'none';
   }
 }
 

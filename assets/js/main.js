@@ -64,14 +64,33 @@ async function renderNav(activePage = '') {
     hamburger.addEventListener('click', function () {
       this.classList.toggle('open');
       mobileMenu.classList.toggle('open');
+      this.setAttribute('aria-expanded', mobileMenu.classList.contains('open'));
     });
     mobileMenu.querySelectorAll('.mm-link').forEach(l =>
       l.addEventListener('click', () => {
         mobileMenu.classList.remove('open');
         hamburger.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', 'false');
       })
     );
   }
+
+  // Fix 1 & 2: Delegate data-action clicks from nav.html (dropdown toggle + sign-out)
+  nav.addEventListener('click', e => {
+    const btn = e.target.closest('[data-action]');
+    if (!btn) return;
+    const action = btn.dataset.action;
+    if (action === 'toggle-user-menu') { e.stopPropagation(); toggleUserMenu(); }
+    if (action === 'sign-out')          { e.preventDefault();  doSignOut(); }
+  });
+
+  // Close dropdown when clicking outside
+  document.addEventListener('click', e => {
+    if (!e.target.closest('#nav-user-menu')) {
+      const d = document.getElementById('nav-dropdown');
+      if (d) d.style.display = 'none';
+    }
+  });
 
   // Scroll shadow
   const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 60);
@@ -84,7 +103,7 @@ async function renderNav(activePage = '') {
 
 function _navFallbackHTML() {
   return `<div class="nav-inner">
-    <a href="/index.html" class="logo"><span class="logo-zoom">Zoom</span><span class="logo-fly">Fly</span></a>
+    <a href="/" class="logo"><span class="logo-zoom">Zoom</span><span class="logo-fly">Fly</span></a>
     <nav class="nav-links">
       <a href="/pages/packages.html"    data-page="packages">Packages</a>
       <a href="/pages/destinations.html" data-page="destinations">Destinations</a>
@@ -134,7 +153,7 @@ function _navFallbackHTML() {
     <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
   </div>
   <div class="mobile-menu" id="mobileMenu">
-    <a href="/index.html"               class="mm-link">Home</a>
+    <a href="/"               class="mm-link">Home</a>
     <a href="/pages/packages.html"      class="mm-link" data-page="packages">Tour Packages</a>
     <a href="/pages/destinations.html"  class="mm-link" data-page="destinations">Destinations</a>
     <a href="/pages/flights.html"       class="mm-link" data-page="flights">Flights</a>
@@ -164,15 +183,17 @@ async function _updateNavAuth() {
   try {
     const { getUser, getProfile } = await import('./supabase.js');
     const user = await getUser();
-    const loginBtn  = document.getElementById('nav-login-btn');
-    const userMenu  = document.getElementById('nav-user-menu');
-    const mmLogin   = document.getElementById('mm-login');
-    const mmSignout = document.getElementById('mm-signout');
-    const mmDash    = document.getElementById('mm-dashboard');
-    const mmBook    = document.getElementById('mm-bookings');
+    const loginBtn   = document.getElementById('nav-login-btn');
+    const signupBtn  = document.getElementById('nav-signup-btn');  // Fix 9
+    const userMenu   = document.getElementById('nav-user-menu');
+    const mmLogin    = document.getElementById('mm-login');
+    const mmSignout  = document.getElementById('mm-signout');
+    const mmDash     = document.getElementById('mm-dashboard');
+    const mmBook     = document.getElementById('mm-bookings');
 
     if (user) {
       if (loginBtn)  loginBtn.style.display  = 'none';
+      if (signupBtn) signupBtn.style.display = 'none';   // Fix 9
       if (userMenu)  userMenu.style.display  = 'block';
       if (mmLogin)   mmLogin.style.display   = 'none';
       if (mmSignout) mmSignout.style.display = 'flex';
@@ -181,10 +202,15 @@ async function _updateNavAuth() {
 
       const profile = await getProfile();
       const name = profile?.full_name || user.email?.split('@')[0] || 'Account';
-      const avatar = document.getElementById('nav-avatar');
+      const avatar   = document.getElementById('nav-avatar');
       const username = document.getElementById('nav-username');
       if (avatar)   avatar.textContent   = name.charAt(0).toUpperCase();
       if (username) username.textContent = name.split(' ')[0];
+    } else {
+      // Ensure guest state is correct on hot-reloads
+      if (loginBtn)  loginBtn.style.display  = '';
+      if (signupBtn) signupBtn.style.display = '';
+      if (userMenu)  userMenu.style.display  = 'none';
     }
   } catch { /* not logged in or supabase unavailable */ }
 }
@@ -193,12 +219,6 @@ function toggleUserMenu() {
   const d = document.getElementById('nav-dropdown');
   if (d) d.style.display = d.style.display === 'block' ? 'none' : 'block';
 }
-document.addEventListener('click', e => {
-  if (!e.target.closest('#nav-user-menu')) {
-    const d = document.getElementById('nav-dropdown');
-    if (d) d.style.display = 'none';
-  }
-});
 
 async function doSignOut() {
   try {
@@ -214,7 +234,7 @@ function renderFooter() {
   footer.innerHTML = `
     <div class="container footer-inner">
       <div class="footer-brand">
-        <a href="/index.html" class="logo">
+        <a href="/" class="logo">
           <span class="logo-zoom">Zoom</span><span class="logo-fly">Fly</span>
           <svg class="logo-plane" viewBox="0 0 24 24" fill="none">
             <path d="M21 3L3 10.5L10 13.5L13 21L21 3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
@@ -427,6 +447,7 @@ function handleEnquiry(formEl, successMsg = "✅ Enquiry sent! We'll call you wi
 
 // ─── INIT ───
 document.addEventListener('DOMContentLoaded', () => {
+  window._zfRenderNav = renderNav;   // expose for supabase.js loadNav delegation (Fix #5, #7)
   renderNav(document.body.dataset.page || '');
   renderFooter();
   renderNewsletter();
