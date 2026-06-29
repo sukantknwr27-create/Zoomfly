@@ -78,19 +78,6 @@
     .overlay.show{display:block}
   </style>
     <link rel="stylesheet" href="/assets/css/admin.css"/>
-  <style>body{visibility:hidden;opacity:0;transition:opacity .2s}</style>
-  <script>
-    // Failsafe: if auth check hangs or JS errors, reveal after 4s so page isn't blank forever
-    window._authRevealTimer = setTimeout(function(){
-      document.body.style.visibility='visible';
-      document.body.style.opacity='1';
-    }, 4000);
-    window._revealPage = function(){
-      clearTimeout(window._authRevealTimer);
-      document.body.style.visibility='visible';
-      document.body.style.opacity='1';
-    };
-  </script>
 </head>
 <body>
 <div class="admin-layout">
@@ -277,7 +264,7 @@
 <div class="toast" id="toast"></div>
 
 <script type="module">
-import { supabase, requireAdmin, adminSignOut, admin } from '../assets/js/supabase.js';
+import { supabase, requireAdmin, signOut, admin } from '../assets/js/supabase.js';
 
 let allCustomers  = [];
 let allBookings   = [];
@@ -285,7 +272,6 @@ let currentCustomer = null;
 
 // ── INIT ────────────────────────────────────────────────────
 const adminUser = await requireAdmin();
-  window._revealPage();
 if (!adminUser) throw new Error('redirect');
 loadAll();
 
@@ -574,7 +560,7 @@ window.exportCSV = () => {
 function esc(s) { const d=document.createElement('div'); d.textContent=String(s||''); return d.innerHTML; }
 function fmtDate(d) { if(!d) return '—'; try{return new Date(d).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});}catch{return d;} }
 function showToast(msg) { const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3500); }
-window.doLogout = async () => { await adminSignOut(); };
+window.doLogout = async () => { await signOut(); };
 </script>
 </body>
 </html>

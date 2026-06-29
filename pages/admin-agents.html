@@ -196,19 +196,6 @@
   <meta name="robots" content="noindex, nofollow"/>
   <link rel="stylesheet" href="/assets/css/premium.css"/>
   <link rel="stylesheet" href="/assets/css/admin.css"/>
-  <style>body{visibility:hidden;opacity:0;transition:opacity .2s}</style>
-  <script>
-    // Failsafe: if auth check hangs or JS errors, reveal after 4s so page isn't blank forever
-    window._authRevealTimer = setTimeout(function(){
-      document.body.style.visibility='visible';
-      document.body.style.opacity='1';
-    }, 4000);
-    window._revealPage = function(){
-      clearTimeout(window._authRevealTimer);
-      document.body.style.visibility='visible';
-      document.body.style.opacity='1';
-    };
-  </script>
 </head>
 <body>
 
@@ -334,7 +321,7 @@
 <div class="toast" id="toast"></div>
 
 <script type="module">
-import { supabase, requireAdmin, adminSignOut } from '../assets/js/supabase.js';
+import { supabase } from '../assets/js/supabase.js';
 const WA_ADMIN     = '918076136300';
 
 const COMM_RATES = { associate:0.05, senior:0.07, elite:0.10 };
@@ -630,7 +617,7 @@ window.switchPageTab = (tab, el) => {
   document.getElementById('tab-'+tab).classList.add('active');
 };
 
-window.doLogout = async () => { await adminSignOut(); };
+window.doLogout = async () => { await supabase.auth.signOut({ scope: 'global' }).then(() => { Object.keys(localStorage).forEach(k=>{ if(k.startsWith('sb-'))localStorage.removeItem(k); }); window.location.replace('/pages/login.html'); }).catch(()=>{ window.location.replace('/pages/login.html'); }); window.location.replace('/pages/login.html'); };
 
 // ── Helpers ────────────────────────────────────────────────
 function fmtAmt(n){return parseFloat(n||0).toLocaleString('en-IN',{minimumFractionDigits:0,maximumFractionDigits:2});}
@@ -640,7 +627,7 @@ function tierLabel(t){return{associate:'🤝 Associate',senior:'⭐ Senior',elit
 function sanitizePhone(p){let ph=String(p||'').replace(/\D/g,'');if(ph.length===10)ph='91'+ph;return ph||WA_ADMIN;}
 function showToast(msg,type='success'){const t=document.getElementById('toast');t.textContent=msg;t.style.background=type==='error'?'#ef4444':'var(--dark)';t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
 
-(async()=>{const ok = await requireAdmin();if(ok){window._revealPage();await loadAll();}})();
+(async()=>{const ok = await requireAdmin();if(ok)await loadAll();})();
 </script>
 </body>
 </html>

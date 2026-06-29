@@ -147,19 +147,6 @@
   <meta name="robots" content="noindex, nofollow"/>
   <link rel="stylesheet" href="/assets/css/premium.css"/>
   <link rel="stylesheet" href="/assets/css/admin.css"/>
-  <style>body{visibility:hidden;opacity:0;transition:opacity .2s}</style>
-  <script>
-    // Failsafe: if auth check hangs or JS errors, reveal after 4s so page isn't blank forever
-    window._authRevealTimer = setTimeout(function(){
-      document.body.style.visibility='visible';
-      document.body.style.opacity='1';
-    }, 4000);
-    window._revealPage = function(){
-      clearTimeout(window._authRevealTimer);
-      document.body.style.visibility='visible';
-      document.body.style.opacity='1';
-    };
-  </script>
 </head>
 <body>
 
@@ -171,7 +158,6 @@
   <div class="nav-right">
     <span class="nav-badge">Admin Panel</span>
     <a href="admin.html" class="nav-link">← Dashboard</a>
-    <button onclick="doLogout()" class="nav-link" style="background:none;border:1px solid rgba(255,255,255,.2);cursor:pointer">🚪 Logout</button>
   </div>
 </nav>
 
@@ -253,10 +239,8 @@
 <script type="module">
   // ✦ Dynamic import — whatsapp-templates.js (24KB) only loads on this page
   //   and only after the admin auth check passes. All other pages are unaffected.
-  import { requireAdmin, adminSignOut } from '../assets/js/supabase.js';
+  import { requireAdmin } from '../assets/js/supabase.js';
   await requireAdmin(); // redirects to login if not admin
-  window._revealPage();
-  window.doLogout = async () => { await adminSignOut(); };
 
   const {
     getTemplates,

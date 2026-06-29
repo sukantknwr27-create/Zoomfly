@@ -97,19 +97,6 @@
     .stat-card .val span{ font-size:.8rem;font-weight:500;color:#8896AB; }
   </style>
   <link rel="stylesheet" href="/assets/css/admin.css"/>
-  <style>body{visibility:hidden;opacity:0;transition:opacity .2s}</style>
-  <script>
-    // Failsafe: if auth check hangs or JS errors, reveal after 4s so page isn't blank forever
-    window._authRevealTimer = setTimeout(function(){
-      document.body.style.visibility='visible';
-      document.body.style.opacity='1';
-    }, 4000);
-    window._revealPage = function(){
-      clearTimeout(window._authRevealTimer);
-      document.body.style.visibility='visible';
-      document.body.style.opacity='1';
-    };
-  </script>
 </head>
 <body>
 
@@ -142,9 +129,6 @@
     <div class="sb-section-label">Tools</div>
     <a href="admin-whatsapp-templates.html" class="sb-link"><span class="sb-icon">💬</span> WA Templates</a>
     <a href="admin.html#promo"              class="sb-link"><span class="sb-icon">🎟️</span> Promo Codes</a>
-  </div>
-  <div class="sb-section" style="margin-top:auto">
-    <a href="#" class="sb-link" onclick="doLogout()"><span class="sb-icon">🚪</span> Logout</a>
   </div>
 </aside>
 
@@ -267,7 +251,7 @@
 </div>
 
 <script type="module">
-import { supabase, adminSignOut } from '../assets/js/supabase.js';
+import { supabase } from '../assets/js/supabase.js';
 
 // ── AUTH GUARD ────────────────────────────────────────────────
 async function checkAuth() {
@@ -431,11 +415,8 @@ document.getElementById('hotel-modal').addEventListener('click', e => {
 (async () => {
   const ok = await checkAuth();
   if (!ok) return;
-  window._revealPage();
   await loadHotels();
 })();
-
-window.doLogout = async () => { await adminSignOut(); };
 </script>
 </body>
 </html>

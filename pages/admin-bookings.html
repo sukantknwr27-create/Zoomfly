@@ -375,19 +375,6 @@
   <meta name="robots" content="noindex, nofollow"/>
   <link rel="stylesheet" href="/assets/css/premium.css"/>
   <link rel="stylesheet" href="/assets/css/admin.css"/>
-  <style>body{visibility:hidden;opacity:0;transition:opacity .2s}</style>
-  <script>
-    // Failsafe: if auth check hangs or JS errors, reveal after 4s so page isn't blank forever
-    window._authRevealTimer = setTimeout(function(){
-      document.body.style.visibility='visible';
-      document.body.style.opacity='1';
-    }, 4000);
-    window._revealPage = function(){
-      clearTimeout(window._authRevealTimer);
-      document.body.style.visibility='visible';
-      document.body.style.opacity='1';
-    };
-  </script>
 </head>
 <body>
 
@@ -572,7 +559,7 @@
 <div class="toast" id="toast"></div>
 
 <script type="module">
-import { supabase, requireAdmin, adminSignOut } from '../assets/js/supabase.js';
+import { supabase } from '../assets/js/supabase.js';
 const WA_NUMBER    = '918076136300';
 
 // ── State ──────────────────────────────────────────────────
@@ -1025,7 +1012,10 @@ window.exportCSV = function() {
 };
 
 // ── Logout ─────────────────────────────────────────────────
-window.handleLogout = async () => { await adminSignOut(); };
+window.handleLogout = async () => {
+  await supabase.auth.signOut({ scope: 'global' }).then(() => { Object.keys(localStorage).forEach(k=>{ if(k.startsWith('sb-'))localStorage.removeItem(k); }); window.location.replace('/pages/login.html'); }).catch(()=>{ window.location.replace('/pages/login.html'); });
+  window.location.replace('/pages/login.html');
+};
 
 // ── Helpers ────────────────────────────────────────────────
 function esc(s) {
@@ -1083,7 +1073,6 @@ supabase.channel('bookings-changes')
 // ── Init ───────────────────────────────────────────────────
 (async () => {
   const ok = await requireAdmin();
-  window._revealPage();
   if (ok) await loadBookings();
 })();
 </script>

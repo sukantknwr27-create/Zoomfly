@@ -84,19 +84,6 @@
   </style>
 
   <link rel="stylesheet" href="/assets/css/admin.css"/>
-  <style>body{visibility:hidden;opacity:0;transition:opacity .2s}</style>
-  <script>
-    // Failsafe: if auth check hangs or JS errors, reveal after 4s so page isn't blank forever
-    window._authRevealTimer = setTimeout(function(){
-      document.body.style.visibility='visible';
-      document.body.style.opacity='1';
-    }, 4000);
-    window._revealPage = function(){
-      clearTimeout(window._authRevealTimer);
-      document.body.style.visibility='visible';
-      document.body.style.opacity='1';
-    };
-  </script>
 </head>
 <body>
 <div class="layout">
@@ -283,10 +270,9 @@
 <div class="toast" id="toast"></div>
 
 <script type="module">
-import { supabase, requireAdmin, adminSignOut } from '../assets/js/supabase.js';
+import { supabase, requireAdmin, signOut } from '../assets/js/supabase.js';
 
 await requireAdmin();
-  window._revealPage();
 
 let allPkgs      = [];
 let blockedDates = new Set();
@@ -675,7 +661,7 @@ window.exportPackagesCSV = () => {
 // ── HELPERS ──────────────────────────────────────────────────
 function esc(s){const d=document.createElement('div');d.textContent=String(s||'');return d.innerHTML;}
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
-window.doLogout = async () => { await adminSignOut(); };
+window.doLogout = async () => { await signOut(); };
 </script>
 </body>
 </html>
