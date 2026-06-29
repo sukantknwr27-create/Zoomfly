@@ -43,18 +43,13 @@ async function renderNav(activePage = '') {
     nav.innerHTML = _navFallbackHTML();
   }
 
-  // Apply nav-dark on all inner pages (not the homepage which has a hero behind the nav)
-  const isHomePage = window.location.pathname === '/' ||
-                     window.location.pathname === '/index.html' ||
-                     document.body.dataset.page === 'home';
-  if (!isHomePage) {
-    nav.classList.add('nav-dark');
-  }
+  // Nav is ALWAYS dark navy — matches reference design on all pages
+  nav.classList.add('nav-dark');
 
   // Mark active link
   if (activePage) {
     const link = nav.querySelector(`[data-page="${activePage}"]`);
-    if (link) link.style.color = 'var(--gold-light, #facc15)';
+    if (link) link.style.color = 'var(--gold-light, #E8B84B)';
   }
 
   // Mobile hamburger
@@ -103,78 +98,88 @@ async function renderNav(activePage = '') {
 
 function _navFallbackHTML() {
   return `<div class="nav-inner">
-    <a href="/" class="logo"><span class="logo-zoom">Zoom</span><span class="logo-fly">Fly</span></a>
-    <nav class="nav-links">
-      <a href="/pages/packages.html"    data-page="packages">Packages</a>
-      <a href="/pages/destinations.html" data-page="destinations">Destinations</a>
-      <a href="/pages/flights.html"     data-page="flights">Flights</a>
-      <a href="/pages/hotels.html"      data-page="hotels">Hotels</a>
-      <a href="/pages/cabs.html"        data-page="cabs">Cabs</a>
-      <a href="/pages/group-booking.html" data-page="group">Groups</a>
-      <a href="/pages/loyalty.html"     data-page="loyalty">⭐ Rewards</a>
-      <a href="/pages/contact.html" class="nav-cta">Book Now</a>
+    <a href="/" class="logo" style="display:flex;align-items:center;gap:5px;text-decoration:none;color:inherit;flex-shrink:0">
+      <span class="logo-zoom">Zoom</span><span class="logo-fly">Fly</span>
+      <svg viewBox="0 0 24 24" fill="none" style="width:17px;height:17px;margin-left:2px;color:#E8B84B" class="logo-plane">
+        <path d="M21 3L3 10.5L10 13.5L13 21L21 3Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+        <path d="M10 13.5L14 10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </a>
+    <nav class="nav-links" style="display:flex;align-items:center;gap:2px">
+      <a href="/pages/packages.html"    data-page="packages"    style="padding:6px 9px;font-family:'Space Grotesk',system-ui;font-size:.8rem;font-weight:600;color:inherit;text-decoration:none;white-space:nowrap">Packages</a>
+      <a href="/pages/destinations.html" data-page="destinations" style="padding:6px 9px;font-family:'Space Grotesk',system-ui;font-size:.8rem;font-weight:600;color:inherit;text-decoration:none;white-space:nowrap">Destinations</a>
+      <a href="/pages/flights.html"     data-page="flights"     style="padding:6px 9px;font-family:'Space Grotesk',system-ui;font-size:.8rem;font-weight:600;color:inherit;text-decoration:none;white-space:nowrap">Flights</a>
+      <a href="/pages/hotels.html"      data-page="hotels"      style="padding:6px 9px;font-family:'Space Grotesk',system-ui;font-size:.8rem;font-weight:600;color:inherit;text-decoration:none;white-space:nowrap">Hotels</a>
+      <a href="/pages/bus.html"         data-page="bus"         style="padding:6px 9px;font-family:'Space Grotesk',system-ui;font-size:.8rem;font-weight:600;color:inherit;text-decoration:none;white-space:nowrap">Bus</a>
+      <a href="/pages/cabs.html"        data-page="cabs"        style="padding:6px 9px;font-family:'Space Grotesk',system-ui;font-size:.8rem;font-weight:600;color:inherit;text-decoration:none;white-space:nowrap">Cabs</a>
+      <a href="/pages/trains.html"      data-page="trains"      style="padding:6px 9px;font-family:'Space Grotesk',system-ui;font-size:.8rem;font-weight:600;color:inherit;text-decoration:none;white-space:nowrap;display:flex;align-items:center;gap:4px">Trains <span style="font-size:.52rem;font-weight:800;background:#E8B84B;color:#0C1B33;padding:1px 5px;border-radius:4px">NEW</span></a>
+      <a href="/pages/blog.html"        data-page="blog"        style="padding:6px 9px;font-family:'Space Grotesk',system-ui;font-size:.8rem;font-weight:600;color:inherit;text-decoration:none;white-space:nowrap">Blog</a>
+      <a href="/pages/contact.html"     data-page="services"    style="padding:6px 9px;font-family:'Space Grotesk',system-ui;font-size:.8rem;font-weight:600;color:inherit;text-decoration:none;white-space:nowrap">Services</a>
     </nav>
-    <div class="nav-auth" id="nav-auth-area">
-      <a href="/pages/login.html" id="nav-login-btn"
-         style="display:flex;align-items:center;gap:6px;padding:6px 16px;
-                border:1.5px solid rgba(255,255,255,0.3);border-radius:50px;
-                font-size:0.82rem;font-weight:600;color:inherit;text-decoration:none">
-        👤 Sign In
-      </a>
-      <div id="nav-user-menu" style="display:none;position:relative">
-        <button id="nav-user-btn"
-          style="display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.12);
-                 border:none;border-radius:50px;padding:5px 14px 5px 5px;
-                 cursor:pointer;color:inherit;font-size:0.82rem;font-weight:600"
-          onclick="toggleUserMenu()">
-          <div id="nav-avatar"
-               style="width:28px;height:28px;border-radius:50%;
-                      background:linear-gradient(135deg,#1a73e8,#ff6b35);
-                      display:flex;align-items:center;justify-content:center;
-                      font-size:0.7rem;color:white;font-weight:700">?</div>
-          <span id="nav-username">Account</span>
-          <span style="font-size:0.65rem">▼</span>
-        </button>
-        <div id="nav-dropdown"
-             style="display:none;position:absolute;right:0;top:calc(100%+8px);
-                    background:white;border:1px solid #e5e7eb;border-radius:12px;
-                    box-shadow:0 8px 32px rgba(0,0,0,.15);min-width:180px;z-index:1000;overflow:hidden">
-          <a href="/pages/dashboard.html"          style="display:flex;align-items:center;gap:10px;padding:12px 16px;font-size:.85rem;color:#1e293b;text-decoration:none;border-bottom:1px solid #f1f5f9">📊 My Dashboard</a>
-          <a href="/pages/my-bookings.html"         style="display:flex;align-items:center;gap:10px;padding:12px 16px;font-size:.85rem;color:#1e293b;text-decoration:none;border-bottom:1px solid #f1f5f9">🎫 My Bookings</a>
-          <a href="/pages/loyalty.html"             style="display:flex;align-items:center;gap:10px;padding:12px 16px;font-size:.85rem;color:#1e293b;text-decoration:none;border-bottom:1px solid #f1f5f9">⭐ My Rewards</a>
-          <a href="/pages/dashboard.html#section-profile" style="display:flex;align-items:center;gap:10px;padding:12px 16px;font-size:.85rem;color:#1e293b;text-decoration:none;border-bottom:1px solid #f1f5f9">👤 Profile</a>
-          <button onclick="doSignOut()"
-                  style="display:flex;align-items:center;gap:10px;padding:12px 16px;
-                         font-size:.85rem;color:#dc2626;background:none;border:none;
-                         cursor:pointer;width:100%;text-align:left">🚪 Sign Out</button>
+    <div style="display:flex;align-items:center;gap:10px;flex-shrink:0">
+      <a href="tel:+918076136300" style="font-family:'Space Grotesk',system-ui;font-size:.75rem;font-weight:600;color:rgba(255,255,255,.82);text-decoration:none;white-space:nowrap">📞 +91 8076136300</a>
+      <div id="nav-auth-area" style="display:flex;align-items:center;gap:8px">
+        <a href="/pages/login.html" id="nav-login-btn"
+           style="display:flex;align-items:center;gap:5px;padding:7px 16px;border:1.5px solid rgba(255,255,255,0.32);border-radius:50px;font-family:'Space Grotesk',system-ui;font-size:.78rem;font-weight:600;color:rgba(255,255,255,.88);text-decoration:none;white-space:nowrap">
+          Sign In
+        </a>
+        <a href="/pages/login.html?tab=signup" id="nav-signup-btn" style="display:none"></a>
+        <div id="nav-user-menu" style="display:none;position:relative">
+          <button id="nav-user-btn" data-action="toggle-user-menu"
+            style="display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:50px;padding:5px 12px 5px 5px;cursor:pointer;color:inherit;font-family:'Space Grotesk',system-ui;font-size:.78rem;font-weight:600;white-space:nowrap">
+            <div id="nav-avatar" style="width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#C9922A,#E8B84B);display:flex;align-items:center;justify-content:center;font-size:.68rem;color:#0C1B33;font-weight:800">?</div>
+            <span id="nav-username">Account</span>
+            <span style="font-size:.6rem;opacity:.7">▼</span>
+          </button>
+          <div id="nav-dropdown" role="menu"
+               style="display:none;position:absolute;right:0;top:calc(100%+8px);background:white;border:1px solid #E4E8EF;border-radius:14px;box-shadow:0 12px 40px rgba(12,27,51,.18);min-width:200px;z-index:1000;padding:6px">
+            <a href="/pages/dashboard.html"          role="menuitem" style="display:flex;align-items:center;gap:9px;padding:10px 12px;font-size:.84rem;color:#1C2340;text-decoration:none;border-radius:8px">📊 My Dashboard</a>
+            <a href="/pages/my-bookings.html"        role="menuitem" style="display:flex;align-items:center;gap:9px;padding:10px 12px;font-size:.84rem;color:#1C2340;text-decoration:none;border-radius:8px">🎫 My Bookings</a>
+            <a href="/pages/loyalty.html"            role="menuitem" style="display:flex;align-items:center;gap:9px;padding:10px 12px;font-size:.84rem;color:#1C2340;text-decoration:none;border-radius:8px">⭐ My Rewards</a>
+            <a href="/pages/dashboard.html#section-profile" role="menuitem" style="display:flex;align-items:center;gap:9px;padding:10px 12px;font-size:.84rem;color:#1C2340;text-decoration:none;border-radius:8px">👤 Profile</a>
+            <div style="border-top:1px solid #E4E8EF;margin:4px 0"></div>
+            <button data-action="sign-out" role="menuitem"
+                    style="display:flex;align-items:center;gap:9px;padding:10px 12px;font-size:.84rem;color:#E53E3E;background:none;border:none;cursor:pointer;width:100%;text-align:left;border-radius:8px">🚪 Sign Out</button>
+          </div>
         </div>
       </div>
+      <a href="/pages/contact.html"
+         style="display:inline-flex;align-items:center;gap:5px;padding:8px 18px;background:#C9922A;color:#0C1B33;border-radius:50px;font-family:'Space Grotesk',system-ui;font-size:.78rem;font-weight:700;text-decoration:none;white-space:nowrap;box-shadow:0 4px 14px rgba(201,146,42,.35);flex-shrink:0">
+        Book Now
+      </a>
     </div>
-    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
   </div>
   <div class="mobile-menu" id="mobileMenu">
-    <a href="/"               class="mm-link">Home</a>
-    <a href="/pages/packages.html"      class="mm-link" data-page="packages">Tour Packages</a>
-    <a href="/pages/destinations.html"  class="mm-link" data-page="destinations">Destinations</a>
-    <a href="/pages/flights.html"       class="mm-link" data-page="flights">Flights</a>
-    <a href="/pages/hotels.html"        class="mm-link" data-page="hotels">Hotels</a>
-    <a href="/pages/cabs.html"          class="mm-link" data-page="cabs">Cabs & Transfers</a>
-    <a href="/pages/group-booking.html" class="mm-link" data-page="group">Group Bookings</a>
-    <a href="/pages/loyalty.html"       class="mm-link" data-page="loyalty">⭐ Rewards</a>
-    <a href="/pages/blog.html"          class="mm-link">Blog</a>
-    <a href="/pages/about.html"         class="mm-link">About</a>
-    <a href="/pages/contact.html"       class="mm-link mm-cta">Book Now</a>
-    <div style="border-top:1px solid rgba(255,255,255,.1);margin:8px 0;padding-top:8px">
-      <a href="/pages/dashboard.html"   class="mm-link" id="mm-dashboard" style="display:none">📊 My Dashboard</a>
-      <a href="/pages/my-bookings.html" class="mm-link" id="mm-bookings"  style="display:none">🎫 My Bookings</a>
-      <a href="/pages/login.html"       class="mm-link" id="mm-login">👤 Sign In</a>
-      <button onclick="doSignOut()" class="mm-link" id="mm-signout"
-              style="display:none;background:none;border:none;width:100%;
-                     text-align:left;color:inherit;cursor:pointer;font-size:inherit">🚪 Sign Out</button>
+    <a href="/"                          class="mm-link">🏠 Home</a>
+    <a href="/pages/packages.html"       class="mm-link" data-page="packages">🧳 Tour Packages</a>
+    <a href="/pages/destinations.html"   class="mm-link" data-page="destinations">🌍 Destinations</a>
+    <a href="/pages/flights.html"        class="mm-link" data-page="flights">✈️ Flights</a>
+    <a href="/pages/hotels.html"         class="mm-link" data-page="hotels">🏨 Hotels</a>
+    <a href="/pages/bus.html"            class="mm-link" data-page="bus">🚌 Buses</a>
+    <a href="/pages/cabs.html"           class="mm-link" data-page="cabs">🚗 Cabs</a>
+    <a href="/pages/trains.html"         class="mm-link" data-page="trains">🚂 Trains</a>
+    <a href="/pages/blog.html"           class="mm-link">📰 Blog</a>
+    <a href="/pages/customize.html"      class="mm-link">✨ Customize Trip</a>
+    <a href="/pages/group-booking.html"  class="mm-link">👥 Group Bookings</a>
+    <a href="/pages/referral.html"       class="mm-link">🎁 Refer &amp; Earn</a>
+    <a href="/pages/about.html"          class="mm-link">ℹ️ About Us</a>
+    <a href="/pages/contact.html"        class="mm-link mm-cta">📞 Book Now</a>
+    <div style="border-top:1px solid rgba(255,255,255,.12);margin:12px 0;padding-top:12px">
+      <a href="/pages/dashboard.html"    class="mm-link" id="mm-dashboard" style="display:none">📊 Dashboard</a>
+      <a href="/pages/my-bookings.html"  class="mm-link" id="mm-bookings"  style="display:none">🎫 My Bookings</a>
+      <a href="/pages/trip-tracker.html" class="mm-link" id="mm-trips"     style="display:none">📍 Trip Tracker</a>
+      <a href="/pages/co-travellers.html" class="mm-link" id="mm-cotrav"   style="display:none">👥 Co-Travellers</a>
+      <a href="/pages/login.html"        class="mm-link" id="mm-login">👤 Sign In</a>
+      <button data-action="sign-out"     class="mm-link" id="mm-signout"
+              style="display:none;background:none;border:none;width:100%;text-align:left;color:inherit;cursor:pointer;font-size:inherit">🚪 Sign Out</button>
     </div>
     <div style="border-top:1px solid rgba(255,255,255,.1);margin:8px 0;padding-top:8px">
-      <a href="/pages/vendor-portal.html" class="mm-link" style="font-size:.8rem;opacity:.7">🏨 Vendor Portal</a>
-      <a href="/pages/agent-portal.html"  class="mm-link" style="font-size:.8rem;opacity:.7">🤝 Travel Partner Portal</a>
+      <a href="/pages/vendor-portal.html" class="mm-link" style="font-size:.82rem;opacity:.7">🏨 Vendor Portal</a>
+      <a href="/pages/agent-portal.html"  class="mm-link" style="font-size:.82rem;opacity:.7">🤝 Agent Portal</a>
+    </div>
+    <div style="margin-top:16px;text-align:center">
+      <a href="tel:+918076136300" style="font-family:'Space Grotesk',system-ui;font-size:.85rem;font-weight:600;color:rgba(255,255,255,.75);text-decoration:none">📞 +91 8076136300</a>
     </div>
   </div>`;
 }
