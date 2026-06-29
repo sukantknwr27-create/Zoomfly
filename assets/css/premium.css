@@ -225,52 +225,27 @@ input, select, textarea { font-family: inherit; }
   padding: 0;
 }
 .nav.scrolled {
-  background: rgba(255,255,255,0.96);
+  background: rgba(10, 22, 45, 0.97);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
-  box-shadow: 0 1px 0 rgba(12,27,51,0.08), 0 4px 24px rgba(12,27,51,0.06);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.06), 0 4px 24px rgba(0,0,0,0.3);
 }
 .nav-inner {
-  max-width: 1240px; margin: 0 auto; padding: 20px 28px;
+  max-width: 1380px; margin: 0 auto; padding: 16px 28px;
   display: flex; align-items: center; justify-content: space-between;
+  gap: 16px;
   transition: padding 0.3s var(--ease);
 }
-.nav.scrolled .nav-inner { padding: 14px 28px; }
+.nav.scrolled .nav-inner { padding: 12px 28px; }
 
 .logo {
   display: flex; align-items: center; gap: 6px;
   font-family: var(--font-ui); font-weight: 700;
 }
-.logo-zoom { color: var(--white); font-size: 1.3rem; letter-spacing: -0.5px; transition: color 0.3s; }
-.logo-fly  { color: var(--gold-light); font-size: 1.3rem; letter-spacing: -0.5px; transition: color 0.3s; }
-.logo-plane { width: 18px; height: 18px; color: var(--gold-light); margin-left: 2px; transition: color 0.3s; }
-.nav.scrolled .logo-zoom  { color: var(--ink); }
-.nav.scrolled .logo-fly   { color: var(--gold); }
-.nav.scrolled .logo-plane { color: var(--gold); }
+
 
 .nav-links { display: flex; align-items: center; gap: 28px; }
-.nav-links a {
-  font-family: var(--font-ui);
-  font-size: var(--text-sm);
-  font-weight: 500;
-  color: rgba(255,255,255,0.82);
-  transition: color 0.2s;
-  position: relative;
-}
-.nav-links a::after {
-  content: '';
-  position: absolute; bottom: -4px; left: 0; right: 0;
-  height: 2px; background: var(--gold-light);
-  border-radius: 2px;
-  transform: scaleX(0);
-  transition: transform 0.22s var(--ease);
-  transform-origin: center;
-}
-.nav-links a:hover { color: var(--white); }
-.nav-links a:hover::after { transform: scaleX(1); }
-.nav.scrolled .nav-links a { color: var(--text-2); }
-.nav.scrolled .nav-links a::after { background: var(--gold); }
-.nav.scrolled .nav-links a:hover { color: var(--ink); }
+
 
 .nav-cta {
   background: var(--gold) !important;
@@ -289,25 +264,28 @@ input, select, textarea { font-family: inherit; }
   transform: translateY(-1px);
   box-shadow: 0 6px 24px rgba(201,146,42,.38) !important;
 }
-.nav.scrolled .nav-cta { box-shadow: var(--glow-gold); }
 
-/* Dark nav variant */
-.nav-dark, .nav-dark.scrolled {
-  background: var(--ink) !important;
-  backdrop-filter: none !important;
-  box-shadow: none !important;
+
+/* Dark nav — applied on ALL pages (homepage + inner pages) */
+.nav-dark,
+.nav-dark.scrolled {
+  background: rgba(10, 22, 45, 0.97) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.06), 0 4px 24px rgba(0,0,0,0.28) !important;
 }
-.nav-dark .logo-zoom { color: var(--white) !important; }
-.nav-dark .logo-fly  { color: var(--gold-light) !important; }
-.nav-dark .logo-plane { color: var(--gold-light) !important; }
-.nav-dark .nav-links a { color: rgba(255,255,255,0.78) !important; }
-.nav-dark .nav-links a:hover { color: var(--white) !important; }
-.nav-dark .hamburger span { background: var(--white) !important; }
+.nav-dark .logo-zoom  { color: #ffffff !important; }
+.nav-dark .logo-fly   { color: var(--gold-light, #E8B84B) !important; }
+.nav-dark .logo-plane { color: var(--gold-light, #E8B84B) !important; }
+.nav-dark .nav-links a,
+.nav-dark .nav-links button { color: rgba(255,255,255,0.82) !important; }
+.nav-dark .nav-links a:hover,
+.nav-dark .nav-links button:hover { color: var(--gold-light, #E8B84B) !important; }
+.nav-dark .hamburger span { background: #ffffff !important; }
 
 /* Hamburger */
 .hamburger { display: none; flex-direction: column; gap: 5px; padding: 4px; }
-.hamburger span { display: block; width: 24px; height: 2px; background: var(--white); border-radius: 2px; transition: all 0.3s; }
-.nav.scrolled .hamburger span { background: var(--ink); }
+
 .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
 .hamburger.open span:nth-child(2) { opacity: 0; }
 .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
@@ -336,8 +314,7 @@ input, select, textarea { font-family: inherit; }
   transition: all 0.2s !important;
 }
 #nav-login-btn:hover { border-color: rgba(255,255,255,0.7) !important; background: rgba(255,255,255,0.08) !important; }
-.nav.scrolled #nav-login-btn { border-color: var(--border-2) !important; color: var(--text) !important; }
-.nav.scrolled #nav-login-btn:hover { border-color: var(--ink) !important; }
+
 #nav-signup-btn { background: var(--gold) !important; color: var(--ink) !important; }
 #nav-signup-btn:hover { background: var(--gold-light) !important; }
 
@@ -1474,3 +1451,13 @@ footer input[type="email"]:focus {
 @media (max-width: 768px) {
   .zf-footer-grid { padding: 36px 16px 28px; gap: 20px; }
 }
+
+/* ── NAV ALWAYS DARK (reference matches dark nav on all pages) ── */
+.logo-zoom  { color: var(--white); font-family: var(--font-ui); font-size: 1.25rem; font-weight: 700; letter-spacing: -0.5px; }
+.logo-fly   { color: var(--gold-light); font-family: var(--font-ui); font-size: 1.25rem; font-weight: 700; letter-spacing: -0.5px; }
+.logo-plane { width: 17px; height: 17px; color: var(--gold-light); margin-left: 2px; }
+
+.hamburger span { display: block; width: 22px; height: 2px; background: var(--white); border-radius: 2px; transition: all 0.3s; }
+
+/* Nav-dark override for inner pages that inject this class */
+.nav-dark .nav-links a { color: rgba(255,255,255,0.82) !important; }
