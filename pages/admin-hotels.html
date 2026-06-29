@@ -251,7 +251,7 @@
 </div>
 
 <script type="module">
-import { supabase } from '../assets/js/supabase.js';
+import { supabase, requireAdmin, signOut } from '../assets/js/supabase.js';
 
 // ── AUTH GUARD ────────────────────────────────────────────────
 async function checkAuth() {

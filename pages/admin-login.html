@@ -9,20 +9,20 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:'DM Sans',sans-serif;background:#0f1923;min-height:100vh;
+    body{font-family:'Space Grotesk',system-ui,sans-serif;background:linear-gradient(145deg,#060F1C 0%,#0C1B33 50%,#1a2d4a 100%);min-height:100vh;
          display:flex;align-items:center;justify-content:center;padding:20px;}
 
     .card{background:#fff;border-radius:20px;padding:44px 40px;width:100%;max-width:420px;
-          box-shadow:0 32px 80px rgba(0,0,0,.4);}
+          box-shadow:0 32px 80px rgba(0,0,0,.5);border:1px solid rgba(255,255,255,0.04);}
 
     .brand{text-align:center;margin-bottom:32px;}
-    .brand-logo{font-size:1.6rem;font-weight:800;letter-spacing:-0.5px;margin-bottom:6px;}
-    .brand-logo span{color:#ff6b35;}
+    .brand-logo{font-size:1.6rem;font-weight:800;letter-spacing:-0.5px;margin-bottom:6px;font-family:'Space Grotesk',system-ui;}
+    .brand-logo span{color:#E8B84B;}
     .brand-badge{display:inline-flex;align-items:center;gap:6px;background:#fef3c7;
       color:#92400e;font-size:.72rem;font-weight:700;padding:3px 12px;
       border-radius:20px;letter-spacing:.06em;text-transform:uppercase;}
 
-    h2{font-size:1.3rem;font-weight:700;color:#0f1923;margin-bottom:6px;text-align:center;}
+    h2{font-size:1.3rem;font-weight:700;color:#1C2340;font-family:'Space Grotesk',system-ui;margin-bottom:6px;text-align:center;}
     .sub{font-size:.84rem;color:#4A5568;text-align:center;margin-bottom:28px;}
 
     .alert{padding:10px 14px;border-radius:8px;font-size:.83rem;margin-bottom:18px;display:none;}
@@ -35,7 +35,7 @@
           text-transform:uppercase;letter-spacing:.05em;}
     input{width:100%;padding:12px 14px;border:1.5px solid #e2e8f0;border-radius:10px;
           font-size:.92rem;font-family:inherit;outline:none;transition:border .2s;color:#0f1923;}
-    input:focus{border-color:#1a73e8;}
+    input:focus{border-color:#C9922A;box-shadow:0 0 0 3px rgba(201,146,42,.12);}
     .pw-wrap{position:relative;}
     .pw-wrap input{padding-right:44px;}
     .pw-eye{position:absolute;right:12px;top:50%;transform:translateY(-50%);
@@ -43,8 +43,8 @@
 
     .btn{width:100%;padding:13px;border:none;border-radius:10px;font-size:.95rem;
          font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s;margin-top:6px;}
-    .btn-primary{background:#1a73e8;color:#fff;}
-    .btn-primary:hover{background:#1557b0;}
+    .btn-primary{background:#C9922A;color:#0C1B33;font-family:'Space Grotesk',system-ui;}
+    .btn-primary:hover{background:#E8B84B;}
     .btn-primary:disabled{opacity:.6;cursor:not-allowed;}
 
     .spin{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.3);
@@ -55,7 +55,7 @@
     .divider{border:none;border-top:1px solid #f1f5f9;margin:22px 0;}
 
     .back-link{text-align:center;font-size:.82rem;color:rgba(255,255,255,0.52);margin-top:18px;}
-    .back-link a{color:#1a73e8;text-decoration:none;font-weight:600;}
+    .back-link a{color:#C9922A;text-decoration:none;font-weight:600;}
 
     .security-note{display:flex;align-items:center;gap:8px;background:#f8fafc;
       border-radius:8px;padding:10px 14px;font-size:.76rem;color:#4A5568;margin-top:16px;}
@@ -184,7 +184,7 @@ window.doLogin = async () => {
 
     // ✅ Admin confirmed — redirect
     btn.innerHTML = '✅ Access granted! Redirecting...';
-    btn.style.background = '#16a34a';
+    btn.style.background = '#0E9F6E';
     setTimeout(() => window.location.replace('/pages/admin.html'), 800);
 
   } catch (e) {

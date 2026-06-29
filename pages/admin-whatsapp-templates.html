@@ -239,7 +239,7 @@
 <script type="module">
   // ✦ Dynamic import — whatsapp-templates.js (24KB) only loads on this page
   //   and only after the admin auth check passes. All other pages are unaffected.
-  import { requireAdmin } from '../assets/js/supabase.js';
+  import { supabase, requireAdmin, signOut } from '../assets/js/supabase.js';
   await requireAdmin(); // redirects to login if not admin
 
   const {

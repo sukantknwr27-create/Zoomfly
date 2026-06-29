@@ -312,8 +312,7 @@ Book now: https://www.zoomfly.in/pages/packages.html — ZoomFly Team ✈️</te
 <div class="toast" id="toast"></div>
 
 <script type="module">
-import { supabase, loadNav } from '../assets/js/supabase.js';
-loadNav();
+import { supabase, requireAdmin, signOut } from '../assets/js/supabase.js';
 
 const WA_NUMBER = '918076136300';
 let allBookings = [];
