@@ -46,7 +46,7 @@
 
     /* ── SIDEBAR ── */
     .sidebar {
-      width:var(--sidebar); background:var(--dark); min-height:100vh;
+      width:var(--sidebar); background:#0C1B33; min-height:100vh;
       position:fixed; left:0; top:0; z-index:200;
       display:flex; flex-direction:column;
       box-shadow:4px 0 24px rgba(0,0,0,0.2);
@@ -65,7 +65,7 @@
       border-radius:10px; color:rgba(255,255,255,0.55); text-decoration:none;
       font-size:0.85rem; font-weight:500; transition:all 0.2s; margin-bottom:2px; }
     .sb-link:hover { background:rgba(255,255,255,0.07); color:#fff; }
-    .sb-link.active { background:rgba(26,115,232,0.2); color:#fff; }
+    .sb-link.active { background:rgba(201,146,42,0.15); color:#fff; }
     .sb-icon { font-size:16px; width:20px; text-align:center; }
     .sb-badge { margin-left:auto; background:var(--accent); color:#fff;
       font-size:0.65rem; font-weight:700; padding:2px 7px; border-radius:10px; }
@@ -83,7 +83,7 @@
       box-shadow:0 2px 8px rgba(0,0,0,0.04);
     }
     .topbar-left h1 { font-family:'Playfair Display',serif; font-size:1.2rem;
-      color:var(--dark); font-weight:700; }
+      color:#0C1B33; font-weight:700; }
     .topbar-left p  { font-size:0.78rem; color:var(--light); margin-top:1px; }
     .topbar-right { display:flex; align-items:center; gap:10px; }
     .tb-btn { padding:8px 16px; border-radius:9px; border:1.5px solid var(--border);
@@ -197,12 +197,12 @@
     .svc-bus     { background:rgba(20,184,166,0.1);  color:#0f766e; }
     .svc-cab     { background:rgba(34,197,94,0.1);   color:#166534; }
 
-    .card-name { font-weight:700; font-size:0.88rem; color:var(--dark); margin-bottom:2px; }
+    .card-name { font-weight:700; font-size:0.88rem; color:#0C1B33; margin-bottom:2px; }
     .card-service { font-size:0.78rem; color:var(--light); margin-bottom:8px;
       white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 
     .card-meta { display:flex; justify-content:space-between; align-items:center; }
-    .card-amount { font-weight:700; font-size:0.9rem; color:var(--dark); }
+    .card-amount { font-weight:700; font-size:0.9rem; color:#0C1B33; }
     .card-time { font-size:0.72rem; color:var(--light); }
 
     .card-footer { display:flex; gap:6px; margin-top:10px; padding-top:8px;
@@ -251,7 +251,7 @@
       display:flex; align-items:center; justify-content:space-between;
     }
     .drawer-head h2 { font-family:'Playfair Display',serif; font-size:1.05rem;
-      color:var(--dark); font-weight:700; }
+      color:#0C1B33; font-weight:700; }
     .drawer-close { width:32px; height:32px; border-radius:8px;
       border:1.5px solid var(--border); background:var(--white);
       cursor:pointer; font-size:18px; display:flex; align-items:center;
@@ -314,7 +314,7 @@
       font-size:0.85rem; border-bottom:1px solid #f8fafc; }
     .ds-row:last-child { border-bottom:none; }
     .ds-key { color:var(--light); }
-    .ds-val { font-weight:600; color:var(--dark); text-align:right; }
+    .ds-val { font-weight:600; color:#0C1B33; text-align:right; }
 
     .section-label { font-size:0.7rem; font-weight:700; text-transform:uppercase;
       letter-spacing:1.5px; color:var(--light); margin-bottom:10px;
@@ -343,7 +343,7 @@
 
     /* Toast */
     .toast {
-      position:fixed; bottom:24px; right:24px; background:var(--dark); color:#fff;
+      position:fixed; bottom:24px; right:24px; background:#0C1B33; color:#fff;
       padding:12px 20px; border-radius:10px; font-size:0.88rem; font-weight:600;
       z-index:9999; opacity:0; transform:translateY(8px);
       transition:all 0.3s; pointer-events:none;
@@ -362,6 +362,15 @@
   <link rel="stylesheet" href="/assets/css/admin.css"/>
 </head>
 <body>
+<!-- Auth loading overlay — hidden once auth passes -->
+<div id="auth-loading" style="position:fixed;inset:0;background:#0C1B33;display:flex;align-items:center;justify-content:center;z-index:9999;flex-direction:column;gap:16px">
+  <div style="font-family:'Space Grotesk',system-ui;font-size:1.3rem;font-weight:700;color:#fff">Zoom<span style="color:#E8B84B">Fly</span> ✈</div>
+  <div style="width:36px;height:36px;border:3px solid rgba(255,255,255,0.15);border-top-color:#C9922A;border-radius:50%;animation:authSpin .7s linear infinite"></div>
+  <div style="font-size:.8rem;color:rgba(255,255,255,0.5);font-family:'Inter',system-ui">Verifying access…</div>
+</div>
+<style>@keyframes authSpin{to{transform:rotate(360deg)}}</style>
+
+
 
 <!-- SIDEBAR -->
 <aside class="sidebar">
@@ -461,7 +470,7 @@
 <div class="toast" id="toast"></div>
 
 <script type="module">
-import { supabase, requireAdmin, signOut } from '../assets/js/supabase.js';
+import { supabase, requireAdmin, signOut } from '/assets/js/supabase.js';
 const WA_NUMBER    = '918076136300';
 
 // ── State ──────────────────────────────────────────────────
@@ -734,7 +743,7 @@ window.openDrawer = function(id) {
         <div style="display:flex;gap:8px;margin-bottom:8px;font-size:0.8rem;">
           <div style="width:6px;height:6px;border-radius:50%;background:var(--primary);margin-top:5px;flex-shrink:0;"></div>
           <div>
-            <span style="font-weight:700;color:var(--dark);">${capitalize(s.status)}</span>
+            <span style="font-weight:700;color:#0C1B33;">${capitalize(s.status)}</span>
             <span style="color:var(--light);"> · ${fmtDateTime(s.changed_at)}</span>
             ${s.note ? `<div style="color:var(--light);font-size:0.75rem;">${esc(s.note)}</div>` : ''}
           </div>
@@ -834,7 +843,7 @@ function timeAgo(d) {
 function showToast(msg, type='success') {
   const t = document.getElementById('toast');
   t.textContent = msg;
-  t.style.background = type==='error' ? '#ef4444' : 'var(--dark)';
+  t.style.background = type==='error' ? '#ef4444' : '#0C1B33';
   t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'), 3000);
 }
@@ -845,10 +854,12 @@ supabase.channel('workflow-changes')
   .subscribe();
 
 // ── Logout ─────────────────────────────────────────────────
-window.handleLogout = async () => { await supabase.auth.signOut({ scope: 'global' }).then(() => { Object.keys(localStorage).forEach(k=>{ if(k.startsWith('sb-'))localStorage.removeItem(k); }); window.location.replace('/pages/login.html'); }).catch(()=>{ window.location.replace('/pages/login.html'); }); window.location.replace('/pages/login.html'); };
+window.handleLogout = async () => { await supabase.auth.signOut({ scope: 'global' }).then(() => { Object.keys(localStorage).forEach(k=>{ if(k.startsWith('sb-'))localStorage.removeItem(k); }); window.location.replace('/pages/admin-login.html'); }).catch(()=>{ window.location.replace('/pages/admin-login.html'); }); window.location.replace('/pages/admin-login.html'); };
 
 // ── Init ───────────────────────────────────────────────────
-(async()=>{ const ok = await requireAdmin(); if(ok) await loadAll(); })();
+(async()=>{ const ok = await requireAdmin(); if(!ok)return;
+  const _ov = document.getElementById('auth-loading'); if (_ov) _ov.style.display='none';
+  if(ok) await loadAll(); })();
 </script>
 </body>
 </html>

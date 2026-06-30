@@ -14,7 +14,7 @@
     *{margin:0;padding:0;box-sizing:border-box;}
     body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);display:flex;min-height:100vh;}
 
-    .sidebar{width:var(--sidebar);background:var(--dark);min-height:100vh;position:fixed;
+    .sidebar{width:var(--sidebar);background:#0C1B33;min-height:100vh;position:fixed;
       left:0;top:0;z-index:200;display:flex;flex-direction:column;box-shadow:4px 0 24px rgba(0,0,0,0.2);}
     .sb-logo{padding:24px 20px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(255,255,255,0.06);}
     .sb-logo-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--primary),var(--accent));
@@ -37,7 +37,7 @@
     .topbar{background:var(--white);border-bottom:1px solid var(--border);padding:0 32px;
       height:64px;display:flex;align-items:center;justify-content:space-between;
       position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,0.04);}
-    .topbar-left h1{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--dark);font-weight:700;}
+    .topbar-left h1{font-family:'Playfair Display',serif;font-size:1.2rem;color:#0C1B33;font-weight:700;}
     .topbar-left p{font-size:0.78rem;color:var(--light);}
     .tb-btn{padding:8px 16px;border-radius:9px;border:1.5px solid var(--border);background:var(--white);
       color:var(--text);font-size:0.82rem;font-weight:600;cursor:pointer;transition:all 0.2s;
@@ -50,7 +50,7 @@
     .page-tabs{display:flex;gap:6px;margin-bottom:24px;border-bottom:1px solid var(--border);padding-bottom:0;}
     .ptab{padding:10px 20px;font-size:0.88rem;font-weight:600;color:var(--light);cursor:pointer;
       border-bottom:2px solid transparent;margin-bottom:-1px;transition:all 0.2s;}
-    .ptab:hover{color:var(--dark);}
+    .ptab:hover{color:#0C1B33;}
     .ptab.active{color:var(--teal);border-bottom-color:var(--teal);}
 
     .tab-section{display:none;}
@@ -64,7 +64,7 @@
     .sc-a::before{background:var(--teal);}  .sc-b::before{background:var(--green);}
     .sc-c::before{background:var(--yellow)}.sc-d::before{background:var(--primary);}
     .sc-icon{font-size:20px;margin-bottom:10px;}
-    .sc-num{font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:700;color:var(--dark);line-height:1;margin-bottom:4px;}
+    .sc-num{font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:700;color:#0C1B33;line-height:1;margin-bottom:4px;}
     .sc-label{font-size:0.78rem;color:var(--light);}
 
     /* FILTERS */
@@ -81,7 +81,7 @@
       box-shadow:0 2px 8px rgba(0,0,0,0.04);overflow:hidden;margin-bottom:20px;}
     .card-header{padding:16px 20px;border-bottom:1px solid var(--border);
       display:flex;align-items:center;justify-content:space-between;}
-    .card-title{font-weight:700;font-size:0.95rem;color:var(--dark);}
+    .card-title{font-weight:700;font-size:0.95rem;color:#0C1B33;}
     table{width:100%;border-collapse:collapse;}
     thead tr{background:var(--bg);}
     th{padding:10px 16px;text-align:left;font-size:0.72rem;font-weight:700;
@@ -120,7 +120,7 @@
     .leader-card{background:var(--white);border-radius:14px;border:1px solid var(--border);
       padding:20px;box-shadow:0 2px 8px rgba(0,0,0,0.04);text-align:center;}
     .lc-rank{font-size:2rem;margin-bottom:8px;}
-    .lc-name{font-weight:700;font-size:0.95rem;color:var(--dark);margin-bottom:4px;}
+    .lc-name{font-weight:700;font-size:0.95rem;color:#0C1B33;margin-bottom:4px;}
     .lc-code{font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--teal);margin-bottom:8px;}
     .lc-earned{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--green);}
     .lc-sub{font-size:0.75rem;color:var(--light);margin-top:2px;}
@@ -129,11 +129,11 @@
     .payout-card{background:var(--white);border-radius:14px;border:1px solid var(--border);
       padding:20px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,0.04);
       display:flex;align-items:center;justify-content:space-between;gap:16px;}
-    .pc-info .pci-name{font-weight:700;font-size:0.92rem;color:var(--dark);}
+    .pc-info .pci-name{font-weight:700;font-size:0.92rem;color:#0C1B33;}
     .pc-info .pci-code{font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--teal);margin-top:2px;}
     .pc-info .pci-bank{font-size:0.78rem;color:var(--light);margin-top:4px;}
     .pc-amount{text-align:right;}
-    .pca-gross{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--dark);}
+    .pca-gross{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:#0C1B33;}
     .pca-tds{font-size:0.75rem;color:var(--red);margin-top:2px;}
     .pca-net{font-size:0.82rem;font-weight:700;color:var(--green);margin-top:2px;}
     .pca-count{font-size:0.72rem;color:var(--light);}
@@ -152,7 +152,7 @@
     .drawer.open{transform:translateX(0);}
     .drawer-head{padding:20px 24px;border-bottom:1px solid var(--border);
       display:flex;align-items:center;justify-content:space-between;}
-    .drawer-head h2{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--dark);font-weight:700;}
+    .drawer-head h2{font-family:'Playfair Display',serif;font-size:1.05rem;color:#0C1B33;font-weight:700;}
     .drawer-close{width:32px;height:32px;border-radius:8px;border:1.5px solid var(--border);
       background:var(--white);cursor:pointer;font-size:18px;display:flex;
       align-items:center;justify-content:center;transition:all 0.2s;}
@@ -165,7 +165,7 @@
     .sec-label:first-child{margin-top:0;}
     .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:4px;}
     .info-item .il{font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--light);margin-bottom:3px;}
-    .info-item .iv{font-size:0.88rem;font-weight:600;color:var(--dark);}
+    .info-item .iv{font-size:0.88rem;font-weight:600;color:#0C1B33;}
     .info-item .iv a{color:var(--primary);text-decoration:none;}
 
     .da-btn{padding:11px 16px;border-radius:10px;border:none;cursor:pointer;
@@ -185,7 +185,7 @@
     .empty{text-align:center;padding:48px 20px;color:var(--light);}
     .empty-icon{font-size:40px;margin-bottom:12px;}
 
-    .toast{position:fixed;bottom:24px;right:24px;background:var(--dark);color:#fff;
+    .toast{position:fixed;bottom:24px;right:24px;background:#0C1B33;color:#fff;
       padding:12px 20px;border-radius:10px;font-size:0.88rem;font-weight:600;
       z-index:9999;opacity:0;transform:translateY(8px);transition:all 0.3s;pointer-events:none;}
     .toast.show{opacity:1;transform:translateY(0);}
@@ -198,6 +198,15 @@
   <link rel="stylesheet" href="/assets/css/admin.css"/>
 </head>
 <body>
+<!-- Auth loading overlay — hidden once auth passes -->
+<div id="auth-loading" style="position:fixed;inset:0;background:#0C1B33;display:flex;align-items:center;justify-content:center;z-index:9999;flex-direction:column;gap:16px">
+  <div style="font-family:'Space Grotesk',system-ui;font-size:1.3rem;font-weight:700;color:#fff">Zoom<span style="color:#E8B84B">Fly</span> ✈</div>
+  <div style="width:36px;height:36px;border:3px solid rgba(255,255,255,0.15);border-top-color:#C9922A;border-radius:50%;animation:authSpin .7s linear infinite"></div>
+  <div style="font-size:.8rem;color:rgba(255,255,255,0.5);font-family:'Inter',system-ui">Verifying access…</div>
+</div>
+<style>@keyframes authSpin{to{transform:rotate(360deg)}}</style>
+
+
 
 <aside class="sidebar">
   <div class="sb-logo">
@@ -287,7 +296,7 @@
         Minimum payout: <strong>₹500</strong>. TDS of 5% is deducted for payouts over ₹5,000.
       </div>
       <div id="payouts-list">
-        <div class="empty"><div class="empty-icon">⏳</div><h3 style="color:var(--dark);">Loading...</h3></div>
+        <div class="empty"><div class="empty-icon">⏳</div><h3 style="color:#0C1B33;">Loading...</h3></div>
       </div>
     </div>
 
@@ -321,7 +330,7 @@
 <div class="toast" id="toast"></div>
 
 <script type="module">
-import { supabase, requireAdmin, signOut } from '../assets/js/supabase.js';
+import { supabase, requireAdmin, signOut } from '/assets/js/supabase.js';
 const WA_ADMIN     = '918076136300';
 
 const COMM_RATES = { associate:0.05, senior:0.07, elite:0.10 };
@@ -372,7 +381,7 @@ window.renderTable = function() {
   });
   document.getElementById('table-count').textContent=`${filt.length} agent${filt.length!==1?'s':''}`;
   const el=document.getElementById('agents-table');
-  if(!filt.length){el.innerHTML=`<div class="empty"><div class="empty-icon">🔍</div><h3 style="color:var(--dark);">No agents found</h3></div>`;return;}
+  if(!filt.length){el.innerHTML=`<div class="empty"><div class="empty-icon">🔍</div><h3 style="color:#0C1B33;">No agents found</h3></div>`;return;}
   const rate=a=>COMM_RATES[a.tier]||0.05;
   el.innerHTML=`
     <table>
@@ -414,7 +423,7 @@ function renderPayouts() {
   const eligibleAgents=allAgents.filter(a=>byAgent[a.id]&&byAgent[a.id].total>=500);
   const el=document.getElementById('payouts-list');
   if(!eligibleAgents.length){
-    el.innerHTML=`<div class="empty"><div class="empty-icon">✅</div><h3 style="color:var(--dark);">No pending payouts</h3><p>All agents have been paid or haven't reached minimum ₹500 threshold.</p></div>`;
+    el.innerHTML=`<div class="empty"><div class="empty-icon">✅</div><h3 style="color:#0C1B33;">No pending payouts</h3><p>All agents have been paid or haven't reached minimum ₹500 threshold.</p></div>`;
     return;
   }
   el.innerHTML=eligibleAgents.map(a=>{
@@ -625,9 +634,11 @@ function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').
 function capitalize(s){return s?s.charAt(0).toUpperCase()+s.slice(1):'—';}
 function tierLabel(t){return{associate:'🤝 Associate',senior:'⭐ Senior',elite:'💎 Elite'}[t]||capitalize(t);}
 function sanitizePhone(p){let ph=String(p||'').replace(/\D/g,'');if(ph.length===10)ph='91'+ph;return ph||WA_ADMIN;}
-function showToast(msg,type='success'){const t=document.getElementById('toast');t.textContent=msg;t.style.background=type==='error'?'#ef4444':'var(--dark)';t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
+function showToast(msg,type='success'){const t=document.getElementById('toast');t.textContent=msg;t.style.background=type==='error'?'#ef4444':'#0C1B33';t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
 
-(async()=>{const ok = await requireAdmin();if(ok)await loadAll();})();
+(async()=>{const ok = await requireAdmin();if(!ok)return;
+  const _ov = document.getElementById('auth-loading'); if (_ov) _ov.style.display='none';
+  if(ok)await loadAll();})();
 </script>
 </body>
 </html>

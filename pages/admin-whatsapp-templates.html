@@ -18,7 +18,7 @@
     body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);}
 
     /* NAV */
-    nav{background:var(--dark);padding:0 5%;display:flex;align-items:center;
+    nav{background:#0C1B33;padding:0 5%;display:flex;align-items:center;
       justify-content:space-between;height:64px;position:sticky;top:0;z-index:100;}
     .logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
     .logo-icon{width:34px;height:34px;background:linear-gradient(135deg,var(--primary),var(--accent));
@@ -38,7 +38,7 @@
     /* HEADER */
     .page-header{margin-bottom:36px;}
     .page-title{font-family:'Playfair Display',serif;font-size:1.8rem;
-      color:var(--dark);margin-bottom:6px;}
+      color:#0C1B33;margin-bottom:6px;}
     .page-sub{color:var(--light);font-size:0.92rem;}
 
     /* SERVICE TABS */
@@ -58,7 +58,7 @@
 
     .panel-header{padding:16px 20px;display:flex;align-items:center;
       justify-content:space-between;border-bottom:1px solid var(--border);}
-    .panel-title{font-weight:700;font-size:0.9rem;color:var(--dark);
+    .panel-title{font-weight:700;font-size:0.9rem;color:#0C1B33;
       display:flex;align-items:center;gap:8px;}
     .panel-badge{font-size:0.72rem;font-weight:600;padding:3px 10px;
       border-radius:20px;text-transform:uppercase;letter-spacing:0.5px;}
@@ -99,7 +99,7 @@
     .quick-send{background:var(--white);border-radius:16px;
       border:1px solid var(--border);padding:28px;margin-bottom:24px;
       box-shadow:0 2px 12px rgba(0,0,0,0.05);}
-    .qs-title{font-weight:700;font-size:1rem;color:var(--dark);margin-bottom:4px;}
+    .qs-title{font-weight:700;font-size:1rem;color:#0C1B33;margin-bottom:4px;}
     .qs-sub{font-size:0.85rem;color:var(--light);margin-bottom:20px;}
     .qs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;}
     .qs-btn{padding:12px 16px;border-radius:10px;border:none;cursor:pointer;
@@ -111,7 +111,7 @@
     .status-section{background:var(--white);border-radius:16px;
       border:1px solid var(--border);padding:28px;
       box-shadow:0 2px 12px rgba(0,0,0,0.05);}
-    .section-title{font-weight:700;font-size:1rem;color:var(--dark);
+    .section-title{font-weight:700;font-size:1rem;color:#0C1B33;
       margin-bottom:4px;}
     .section-sub{font-size:0.85rem;color:var(--light);margin-bottom:20px;}
 
@@ -132,7 +132,7 @@
     .note-input:focus{border-color:var(--primary);}
 
     /* TOAST */
-    .toast{position:fixed;bottom:24px;right:24px;background:var(--dark);
+    .toast{position:fixed;bottom:24px;right:24px;background:#0C1B33;
       color:#fff;padding:12px 20px;border-radius:10px;font-size:0.88rem;
       font-weight:600;z-index:9999;display:none;animation:toastIn 0.3s ease;}
     @keyframes toastIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
@@ -149,6 +149,15 @@
   <link rel="stylesheet" href="/assets/css/admin.css"/>
 </head>
 <body>
+<!-- Auth loading overlay — hidden once auth passes -->
+<div id="auth-loading" style="position:fixed;inset:0;background:#0C1B33;display:flex;align-items:center;justify-content:center;z-index:9999;flex-direction:column;gap:16px">
+  <div style="font-family:'Space Grotesk',system-ui;font-size:1.3rem;font-weight:700;color:#fff">Zoom<span style="color:#E8B84B">Fly</span> ✈</div>
+  <div style="width:36px;height:36px;border:3px solid rgba(255,255,255,0.15);border-top-color:#C9922A;border-radius:50%;animation:authSpin .7s linear infinite"></div>
+  <div style="font-size:.8rem;color:rgba(255,255,255,0.5);font-family:'Inter',system-ui">Verifying access…</div>
+</div>
+<style>@keyframes authSpin{to{transform:rotate(360deg)}}</style>
+
+
 
 <nav>
   <a href="index.html" class="logo">
@@ -237,10 +246,13 @@
 <div class="toast" id="toast">✅ Copied to clipboard!</div>
 
 <script type="module">
-  // ✦ Dynamic import — whatsapp-templates.js (24KB) only loads on this page
-  //   and only after the admin auth check passes. All other pages are unaffected.
-  import { supabase, requireAdmin, signOut } from '../assets/js/supabase.js';
-  await requireAdmin(); // redirects to login if not admin
+import { supabase, requireAdmin, signOut } from '/assets/js/supabase.js';
+
+// ── AUTH GUARD ────────────────────────────────────────────
+const _waTplAdmin = await requireAdmin();
+if (!_waTplAdmin) throw new Error('Not authorized');
+  const _ov = document.getElementById('auth-loading'); if (_ov) _ov.style.display='none';
+
 
   const {
     getTemplates,
@@ -249,7 +261,7 @@
     sendStatusUpdate,
     sendPaymentConfirmation,
     sendCancellationMessage
-  } = await import('../assets/js/whatsapp-templates.js');
+  } = await import('/assets/js/whatsapp-templates.js');
 
   const WA_NUMBER = '918076136300';
 

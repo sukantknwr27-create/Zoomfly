@@ -32,7 +32,7 @@
 
     /* ── SIDEBAR ── */
     .sidebar {
-      width:var(--sidebar); background:var(--dark); min-height:100vh;
+      width:var(--sidebar); background:#0C1B33; min-height:100vh;
       position:fixed; left:0; top:0; z-index:200;
       display:flex; flex-direction:column;
       box-shadow:4px 0 24px rgba(0,0,0,0.2);
@@ -56,8 +56,8 @@
       font-size:0.85rem; font-weight:500; transition:all 0.2s; margin-bottom:2px;
     }
     .sb-link:hover { background:rgba(255,255,255,0.07); color:#fff; }
-    .sb-link.active { background:rgba(26,115,232,0.2); color:#fff; }
-    .sb-link.active .sb-icon { color:var(--primary); }
+    .sb-link.active { background:rgba(201,146,42,0.15); color:#fff; }
+    .sb-link.active .sb-icon { color:#E8B84B; }
     .sb-icon { font-size:16px; width:20px; text-align:center; }
     .sb-badge { margin-left:auto; background:var(--accent); color:#fff;
       font-size:0.65rem; font-weight:700; padding:2px 7px; border-radius:10px; }
@@ -77,7 +77,7 @@
     }
     .topbar-left { display:flex; align-items:center; gap:16px; }
     .topbar-title { font-family:'Playfair Display',serif; font-size:1.2rem;
-      color:var(--dark); font-weight:700; }
+      color:#0C1B33; font-weight:700; }
     .topbar-sub { font-size:0.8rem; color:var(--light); }
     .topbar-right { display:flex; align-items:center; gap:12px; }
     .topbar-btn {
@@ -111,7 +111,7 @@
 
     .stat-icon { font-size:20px; margin-bottom:10px; }
     .stat-num  { font-family:'Playfair Display',serif; font-size:1.7rem;
-      font-weight:700; color:var(--dark); line-height:1; margin-bottom:4px; }
+      font-weight:700; color:#0C1B33; line-height:1; margin-bottom:4px; }
     .stat-label{ font-size:0.78rem; color:var(--light); font-weight:500; }
     .stat-delta{ font-size:0.72rem; margin-top:6px; font-weight:600; }
     .delta-up  { color:var(--green); }
@@ -149,7 +149,7 @@
       padding:16px 20px; display:flex; align-items:center; justify-content:space-between;
       border-bottom:1px solid var(--border);
     }
-    .table-title { font-weight:700; font-size:0.95rem; color:var(--dark); }
+    .table-title { font-weight:700; font-size:0.95rem; color:#0C1B33; }
     .table-count { font-size:0.8rem; color:var(--light);
       background:var(--bg); padding:3px 10px; border-radius:20px; }
 
@@ -202,10 +202,10 @@
     .pay-failed  { background:rgba(239,68,68,0.1);  color:#991b1b; }
     .pay-refunded{ background:rgba(100,116,139,0.1);color:#334155; }
 
-    .amount { font-weight:700; font-size:0.9rem; color:var(--dark); white-space:nowrap; }
+    .amount { font-weight:700; font-size:0.9rem; color:#0C1B33; white-space:nowrap; }
     .amount-sub { font-size:0.72rem; color:var(--light); font-weight:400; }
 
-    .customer-cell .cn { font-weight:600; font-size:0.88rem; color:var(--dark); }
+    .customer-cell .cn { font-weight:600; font-size:0.88rem; color:#0C1B33; }
     .customer-cell .cp { font-size:0.75rem; color:var(--light); margin-top:1px; }
 
     .action-menu { display:flex; gap:6px; align-items:center; }
@@ -258,7 +258,7 @@
       padding:20px 24px; border-bottom:1px solid var(--border);
       display:flex; align-items:center; justify-content:space-between;
     }
-    .drawer-title { font-family:'Playfair Display',serif; font-size:1.1rem; color:var(--dark); font-weight:700; }
+    .drawer-title { font-family:'Playfair Display',serif; font-size:1.1rem; color:#0C1B33; font-weight:700; }
     .drawer-close {
       width:34px; height:34px; border-radius:8px; border:1.5px solid var(--border);
       background:var(--white); cursor:pointer; font-size:18px; display:flex;
@@ -277,7 +277,7 @@
     .ds-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
     .ds-item .di-label { font-size:0.72rem; font-weight:600; text-transform:uppercase;
       letter-spacing:1px; color:var(--light); margin-bottom:3px; }
-    .ds-item .di-value { font-size:0.88rem; font-weight:600; color:var(--dark); }
+    .ds-item .di-value { font-size:0.88rem; font-weight:600; color:#0C1B33; }
     .ds-item .di-value a { color:var(--primary); text-decoration:none; }
 
     .price-breakdown {
@@ -322,7 +322,7 @@
       max-width:420px; width:100%; box-shadow:0 24px 80px rgba(0,0,0,0.25);
     }
     .modal h3 { font-family:'Playfair Display',serif; font-size:1.2rem;
-      color:var(--dark); margin-bottom:6px; }
+      color:#0C1B33; margin-bottom:6px; }
     .modal p  { font-size:0.85rem; color:var(--light); margin-bottom:20px; }
     .modal-status-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:20px; }
     .modal-status-btn {
@@ -346,7 +346,7 @@
 
     /* ── TOAST ── */
     .toast {
-      position:fixed; bottom:24px; right:24px; background:var(--dark); color:#fff;
+      position:fixed; bottom:24px; right:24px; background:#0C1B33; color:#fff;
       padding:12px 20px; border-radius:10px; font-size:0.88rem; font-weight:600;
       z-index:9999; opacity:0; transform:translateY(8px);
       transition:all 0.3s; pointer-events:none;
@@ -357,7 +357,7 @@
     .empty-state { text-align:center; padding:60px 20px; }
     .empty-icon  { font-size:48px; margin-bottom:16px; }
     .empty-title { font-family:'Playfair Display',serif; font-size:1.2rem;
-      color:var(--dark); margin-bottom:8px; }
+      color:#0C1B33; margin-bottom:8px; }
     .empty-sub   { font-size:0.88rem; color:var(--light); }
 
     /* ── RESPONSIVE ── */
@@ -377,6 +377,15 @@
   <link rel="stylesheet" href="/assets/css/admin.css"/>
 </head>
 <body>
+<!-- Auth loading overlay — hidden once auth passes -->
+<div id="auth-loading" style="position:fixed;inset:0;background:#0C1B33;display:flex;align-items:center;justify-content:center;z-index:9999;flex-direction:column;gap:16px">
+  <div style="font-family:'Space Grotesk',system-ui;font-size:1.3rem;font-weight:700;color:#fff">Zoom<span style="color:#E8B84B">Fly</span> ✈</div>
+  <div style="width:36px;height:36px;border:3px solid rgba(255,255,255,0.15);border-top-color:#C9922A;border-radius:50%;animation:authSpin .7s linear infinite"></div>
+  <div style="font-size:.8rem;color:rgba(255,255,255,0.5);font-family:'Inter',system-ui">Verifying access…</div>
+</div>
+<style>@keyframes authSpin{to{transform:rotate(360deg)}}</style>
+
+
 
 <!-- SIDEBAR -->
 <aside class="sidebar">
@@ -559,7 +568,7 @@
 <div class="toast" id="toast"></div>
 
 <script type="module">
-import { supabase, requireAdmin, signOut } from '../assets/js/supabase.js';
+import { supabase, requireAdmin, signOut } from '/assets/js/supabase.js';
 const WA_NUMBER    = '918076136300';
 
 // ── State ──────────────────────────────────────────────────
@@ -686,7 +695,7 @@ function renderTable() {
         </span>
       </td>
       <td style="max-width:180px;">
-        <div style="font-size:0.85rem;font-weight:500;color:var(--dark);
+        <div style="font-size:0.85rem;font-weight:500;color:#0C1B33;
           white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"
           title="${esc(b.service_name)}">${esc(b.service_name)}</div>
       </td>
@@ -855,7 +864,7 @@ window.openDrawer = function(bookingId) {
           <div style="width:8px;height:8px;border-radius:50%;background:var(--primary);
             margin-top:5px;flex-shrink:0;"></div>
           <div>
-            <div style="font-weight:700;color:var(--dark);">${statusLabel(s.status)}</div>
+            <div style="font-weight:700;color:#0C1B33;">${statusLabel(s.status)}</div>
             <div style="color:var(--light);">${fmtDateTime(s.changed_at)}${s.note?' · '+esc(s.note):''}</div>
           </div>
         </div>
@@ -1013,8 +1022,8 @@ window.exportCSV = function() {
 
 // ── Logout ─────────────────────────────────────────────────
 window.handleLogout = async () => {
-  await supabase.auth.signOut({ scope: 'global' }).then(() => { Object.keys(localStorage).forEach(k=>{ if(k.startsWith('sb-'))localStorage.removeItem(k); }); window.location.replace('/pages/login.html'); }).catch(()=>{ window.location.replace('/pages/login.html'); });
-  window.location.replace('/pages/login.html');
+  await supabase.auth.signOut({ scope: 'global' }).then(() => { Object.keys(localStorage).forEach(k=>{ if(k.startsWith('sb-'))localStorage.removeItem(k); }); window.location.replace('/pages/admin-login.html'); }).catch(()=>{ window.location.replace('/pages/admin-login.html'); });
+  window.location.replace('/pages/admin-login.html');
 };
 
 // ── Helpers ────────────────────────────────────────────────
@@ -1058,7 +1067,7 @@ function sanitizePhone(p) {
 function showToast(msg, type = 'success') {
   const t = document.getElementById('toast');
   t.textContent = msg;
-  t.style.background = type === 'error' ? '#ef4444' : 'var(--dark)';
+  t.style.background = type === 'error' ? '#ef4444' : '#0C1B33';
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 3000);
 }
@@ -1073,7 +1082,9 @@ supabase.channel('bookings-changes')
 // ── Init ───────────────────────────────────────────────────
 (async () => {
   const ok = await requireAdmin();
-  if (ok) await loadBookings();
+  if (!ok) return;
+  const _ov = document.getElementById('auth-loading'); if (_ov) _ov.style.display='none';
+  await loadBookings();
 })();
 </script>
 

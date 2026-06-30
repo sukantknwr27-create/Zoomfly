@@ -1,206 +1,250 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <meta name="robots" content="noindex, nofollow"/>
   <title>Admin Login — ZoomFly</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <meta name="robots" content="noindex,nofollow"/>
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
   <style>
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:'Space Grotesk',system-ui,sans-serif;background:linear-gradient(145deg,#060F1C 0%,#0C1B33 50%,#1a2d4a 100%);min-height:100vh;
-         display:flex;align-items:center;justify-content:center;padding:20px;}
-
-    .card{background:#fff;border-radius:20px;padding:44px 40px;width:100%;max-width:420px;
-          box-shadow:0 32px 80px rgba(0,0,0,.5);border:1px solid rgba(255,255,255,0.04);}
-
-    .brand{text-align:center;margin-bottom:32px;}
-    .brand-logo{font-size:1.6rem;font-weight:800;letter-spacing:-0.5px;margin-bottom:6px;font-family:'Space Grotesk',system-ui;}
-    .brand-logo span{color:#E8B84B;}
-    .brand-badge{display:inline-flex;align-items:center;gap:6px;background:#fef3c7;
-      color:#92400e;font-size:.72rem;font-weight:700;padding:3px 12px;
-      border-radius:20px;letter-spacing:.06em;text-transform:uppercase;}
-
-    h2{font-size:1.3rem;font-weight:700;color:#1C2340;font-family:'Space Grotesk',system-ui;margin-bottom:6px;text-align:center;}
-    .sub{font-size:.84rem;color:#4A5568;text-align:center;margin-bottom:28px;}
-
-    .alert{padding:10px 14px;border-radius:8px;font-size:.83rem;margin-bottom:18px;display:none;}
-    .alert.error{background:#fef2f2;border:1px solid #fecaca;color:#dc2626;}
-    .alert.warn{background:#fffbeb;border:1px solid #fde68a;color:#92400e;}
-    .alert.show{display:block;}
-
-    .fg{margin-bottom:16px;}
-    label{display:block;font-size:.78rem;font-weight:600;color:#374151;margin-bottom:6px;
-          text-transform:uppercase;letter-spacing:.05em;}
-    input{width:100%;padding:12px 14px;border:1.5px solid #e2e8f0;border-radius:10px;
-          font-size:.92rem;font-family:inherit;outline:none;transition:border .2s;color:#0f1923;}
-    input:focus{border-color:#C9922A;box-shadow:0 0 0 3px rgba(201,146,42,.12);}
-    .pw-wrap{position:relative;}
-    .pw-wrap input{padding-right:44px;}
-    .pw-eye{position:absolute;right:12px;top:50%;transform:translateY(-50%);
-            background:none;border:none;cursor:pointer;font-size:1rem;color:rgba(255,255,255,0.52);}
-
-    .btn{width:100%;padding:13px;border:none;border-radius:10px;font-size:.95rem;
-         font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s;margin-top:6px;}
-    .btn-primary{background:#C9922A;color:#0C1B33;font-family:'Space Grotesk',system-ui;}
-    .btn-primary:hover{background:#E8B84B;}
-    .btn-primary:disabled{opacity:.6;cursor:not-allowed;}
-
-    .spin{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.3);
-          border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;
-          vertical-align:middle;margin-right:6px;}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Inter',system-ui,sans-serif;background:linear-gradient(145deg,#060F1C 0%,#0C1B33 55%,#1a2d4a 100%);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;position:relative;overflow:hidden}
+    body::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle at 1px 1px,rgba(255,255,255,0.04) 1px,transparent 0);background-size:40px 40px;pointer-events:none}
+    body::after{content:'';position:absolute;top:-200px;right:-200px;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(201,146,42,0.08),transparent 70%);pointer-events:none}
+    .card{background:#fff;border-radius:20px;width:100%;max-width:420px;padding:44px 40px;box-shadow:0 32px 80px rgba(0,0,0,0.5);position:relative;z-index:2}
+    .logo-row{display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:8px}
+    .logo-zoom{font-family:'Space Grotesk',system-ui;font-weight:800;font-size:1.6rem;color:#0C1B33;letter-spacing:-.5px}
+    .logo-fly{font-family:'Space Grotesk',system-ui;font-weight:800;font-size:1.6rem;color:#C9922A;letter-spacing:-.5px}
+    .badge{display:block;text-align:center;font-family:'Space Grotesk',system-ui;font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.15em;color:#8896AB;margin-bottom:28px}
+    h2{font-family:'Space Grotesk',system-ui;font-size:1.25rem;font-weight:700;color:#0C1B33;margin-bottom:6px;text-align:center}
+    .sub{font-size:.83rem;color:#8896AB;text-align:center;margin-bottom:28px}
+    .form-group{margin-bottom:16px}
+    .form-group label{display:block;font-family:'Space Grotesk',system-ui;font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:#4A5568;margin-bottom:7px}
+    .form-group input{width:100%;padding:11px 14px;border:1.5px solid #E4E8EF;border-radius:10px;font-size:.88rem;font-family:'Inter',system-ui;color:#0C1B33;transition:all .2s;outline:none;background:#fff}
+    .form-group input:focus{border-color:#C9922A;box-shadow:0 0 0 3px rgba(201,146,42,.12)}
+    .pw-wrap{position:relative}
+    .pw-wrap input{padding-right:42px}
+    .pw-eye{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:1rem;color:#8896AB;padding:4px}
+    .forgot{display:block;text-align:right;font-size:.78rem;color:#C9922A;text-decoration:none;margin-top:4px;font-weight:500}
+    .forgot:hover{color:#E8B84B}
+    .btn-login{width:100%;padding:13px;background:#C9922A;color:#0C1B33;border:none;border-radius:100px;font-family:'Space Grotesk',system-ui;font-size:.9rem;font-weight:700;cursor:pointer;transition:all .22s;box-shadow:0 4px 18px rgba(201,146,42,.35);margin-top:8px;display:flex;align-items:center;justify-content:center;gap:8px}
+    .btn-login:hover:not(:disabled){background:#E8B84B;transform:translateY(-1px)}
+    .btn-login:disabled{opacity:.7;cursor:not-allowed;transform:none}
+    .alert{display:none;padding:11px 14px;border-radius:10px;font-size:.82rem;font-weight:500;margin-bottom:16px}
+    .alert.show{display:block}
+    .alert-error{background:#FCEBEB;color:#A32D2D;border:1px solid rgba(163,45,45,.2)}
+    .alert-warn{background:#FEF3C7;color:#92400E;border:1px solid rgba(146,64,14,.2)}
+    .alert-success{background:#D1FAE5;color:#065F46;border:1px solid rgba(6,95,70,.2)}
+    .divider{border:none;border-top:1px solid #E4E8EF;margin:22px 0}
+    .trust-row{display:flex;align-items:center;justify-content:center;gap:6px;font-size:.72rem;color:#8896AB}
+    .trust-dot{width:6px;height:6px;border-radius:50%;background:#0E9F6E}
+    .spin{display:inline-block;width:16px;height:16px;border:2px solid rgba(12,27,51,.3);border-top-color:#0C1B33;border-radius:50%;animation:spin .7s linear infinite}
     @keyframes spin{to{transform:rotate(360deg)}}
-
-    .divider{border:none;border-top:1px solid #f1f5f9;margin:22px 0;}
-
-    .back-link{text-align:center;font-size:.82rem;color:rgba(255,255,255,0.52);margin-top:18px;}
-    .back-link a{color:#C9922A;text-decoration:none;font-weight:600;}
-
-    .security-note{display:flex;align-items:center;gap:8px;background:#f8fafc;
-      border-radius:8px;padding:10px 14px;font-size:.76rem;color:#4A5568;margin-top:16px;}
+    .back-link{text-align:center;margin-top:20px}
+    .back-link a{font-size:.8rem;color:rgba(255,255,255,.55);text-decoration:none;transition:color .2s}
+    .back-link a:hover{color:#E8B84B}
   </style>
-    <link rel="stylesheet" href="/assets/css/premium.css"/>
-  <link rel="stylesheet" href="/assets/css/admin.css"/>
 </head>
 <body>
+  <div class="card">
+    <div class="logo-row">
+      <span class="logo-zoom">Zoom</span><span class="logo-fly">Fly</span>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="color:#C9922A;margin-left:2px"><path d="M21 3L3 10.5L10 13.5L13 21L21 3Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M10 13.5L14 10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </div>
+    <span class="badge">Admin Portal</span>
 
-<div class="card">
-  <div class="brand">
-    <div class="brand-logo">Zoom<span>Fly</span> ✈</div>
-    <div class="brand-badge">🔐 Admin Portal</div>
-  </div>
+    <h2>Welcome Back</h2>
+    <p class="sub">Sign in to manage your travel platform</p>
 
-  <h2>Admin Sign In</h2>
-  <p class="sub">Restricted access. Authorised personnel only.</p>
+    <div class="alert alert-warn" id="alert-reason"></div>
+    <div class="alert alert-error" id="alert-error"></div>
+    <div class="alert alert-success" id="alert-success"></div>
 
-  <!-- Alerts -->
-  <div class="alert warn" id="alert-reason"></div>
-  <div class="alert error" id="alert-error"></div>
+    <div class="form-group">
+      <label>Email Address</label>
+      <input type="email" id="email" placeholder="admin@zoomfly.in" autocomplete="email"
+             onkeydown="if(event.key==='Enter')document.getElementById('password').focus()"/>
+    </div>
 
-  <!-- Form -->
-  <div class="fg">
-    <label>Admin Email</label>
-    <input type="email" id="email" placeholder="admin@zoomfly.in" autocomplete="email"/>
-  </div>
-  <div class="fg">
-    <label>Password</label>
-    <div class="pw-wrap">
-      <input type="password" id="password" placeholder="Enter admin password" autocomplete="current-password"/>
-      <button class="pw-eye" onclick="togglePw()" type="button">👁</button>
+    <div class="form-group">
+      <label>Password</label>
+      <div class="pw-wrap">
+        <input type="password" id="password" placeholder="••••••••" autocomplete="current-password"
+               onkeydown="if(event.key==='Enter')doLogin()"/>
+        <button class="pw-eye" onclick="togglePw()" type="button" tabindex="-1">👁</button>
+      </div>
+      <a class="forgot" href="#" onclick="doForgot();return false">Forgot password?</a>
+    </div>
+
+    <button class="btn-login" id="loginBtn" onclick="doLogin()">
+      Sign In to Admin
+    </button>
+
+    <hr class="divider"/>
+    <div class="trust-row">
+      <div class="trust-dot"></div>
+      <span>Secure admin access · Sessions expire in 8 hours</span>
     </div>
   </div>
 
-  <button class="btn btn-primary" id="loginBtn" onclick="doLogin()">Sign In to Admin</button>
-
-  <hr class="divider"/>
-
-  <div class="security-note">
-    🔒 This is a secure admin area. All access attempts are logged. Unauthorised access is prohibited.
-  </div>
-
   <div class="back-link">
-    Not an admin? <a href="/index.html">Back to ZoomFly</a>
+    <a href="/">← Back to ZoomFly website</a>
   </div>
-</div>
 
 <script type="module">
-import { supabase } from '../assets/js/supabase.js';
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
-// Show reason if redirected here
-const params = new URLSearchParams(location.search);
-const reason = params.get('reason');
+// Inline Supabase init — admin-login must be fully self-contained
+// (doesn't depend on main supabase.js which may not be loaded yet)
+const SUPABASE_URL  = 'https://ndaurluolurdljrjbxii.supabase.co';
+const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kYXVybHVvbHVyZGxqcmpieGlpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MDY2MzksImV4cCI6MjA5MzQ4MjYzOX0.JsZXOof19JkyX7asJQ7EtoaBKqURJUYzVqXQIenCzjQ';
+
+const sb = createClient(SUPABASE_URL, SUPABASE_ANON, {
+  auth: {
+    persistSession: true,
+    autoRefreshToken: true,
+    storageKey: 'zoomfly-auth',
+    storage: window.localStorage,
+  }
+});
+
+// ── Show reason message if redirected ───────────────────────
+const params   = new URLSearchParams(location.search);
+const reason   = params.get('reason');
 const reasonEl = document.getElementById('alert-reason');
 if (reason === 'access_denied') {
   reasonEl.textContent = '⚠️ Access denied. Admin credentials required.';
   reasonEl.classList.add('show');
 } else if (reason === 'auth_required') {
-  reasonEl.textContent = '⚠️ Please sign in to access the admin panel.';
+  reasonEl.textContent = '⚠️ Please sign in to continue.';
+  reasonEl.classList.add('show');
+} else if (reason === 'session_expired') {
+  reasonEl.textContent = '⚠️ Your session has expired. Please sign in again.';
   reasonEl.classList.add('show');
 }
 
-// Check if already logged in as admin
-const { data: { user } } = await supabase.auth.getUser();
-if (user) {
-  const role = user.app_metadata?.role || user.user_metadata?.role;
-  if (role === 'admin') {
-    window.location.replace('/pages/admin.html');
-  } else {
-    // Check profiles table
-    const { data: prof } = await supabase.from('profiles').select('role').eq('id', user.id).single();
-    if (prof?.role === 'admin') window.location.replace('/pages/admin.html');
+// ── Auto-redirect if already logged in as admin ─────────────
+(async () => {
+  try {
+    const { data: { user } } = await sb.auth.getUser();
+    if (!user) return; // not logged in — show form
+
+    const isAdmin = await checkAdminRole(sb, user);
+    if (isAdmin) {
+      window.location.replace('/pages/admin.html');
+    }
+  } catch(e) {
+    console.warn('[AdminLogin] Session check failed:', e.message);
   }
+})();
+
+// ── Helpers ─────────────────────────────────────────────────
+async function checkAdminRole(client, user) {
+  // Check app_metadata first (set server-side — most reliable)
+  const metaRole = user.app_metadata?.role || user.user_metadata?.role;
+  if (metaRole === 'admin') return true;
+  // Fallback: check profiles table
+  try {
+    const { data } = await client.from('profiles').select('role').eq('id', user.id).single();
+    return data?.role === 'admin';
+  } catch { return false; }
 }
 
-window.togglePw = () => {
-  const inp = document.getElementById('password');
-  const btn = document.querySelector('.pw-eye');
-  inp.type  = inp.type === 'password' ? 'text' : 'password';
-  btn.textContent = inp.type === 'password' ? '👁' : '🙈';
-};
+function showError(msg) {
+  const el = document.getElementById('alert-error');
+  el.textContent = msg;
+  el.classList.add('show');
+}
+function hideAlerts() {
+  ['alert-error','alert-warn','alert-success','alert-reason'].forEach(id => {
+    document.getElementById(id).classList.remove('show');
+  });
+}
 
+// ── Login ────────────────────────────────────────────────────
 window.doLogin = async () => {
   const email    = document.getElementById('email').value.trim();
   const password = document.getElementById('password').value;
   const btn      = document.getElementById('loginBtn');
-  const errEl    = document.getElementById('alert-error');
+
+  hideAlerts();
 
   if (!email || !password) {
-    errEl.textContent = 'Please enter your email and password.';
-    errEl.classList.add('show');
+    showError('Please enter your email address and password.');
     return;
   }
 
-  btn.disabled    = true;
-  btn.innerHTML   = '<span class="spin"></span> Signing in...';
-  errEl.classList.remove('show');
-  reasonEl.classList.remove('show');
+  btn.disabled   = true;
+  btn.innerHTML  = '<span class="spin"></span> Signing in…';
 
   try {
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    const { data, error } = await sb.auth.signInWithPassword({ email, password });
     if (error) throw error;
 
-    const user = data.user;
-
-    // Verify admin role — check app_metadata first, then profiles
-    const metaRole = user.app_metadata?.role || user.user_metadata?.role;
-    let isAdmin    = metaRole === 'admin';
-
+    const isAdmin = await checkAdminRole(sb, data.user);
     if (!isAdmin) {
-      const { data: prof } = await supabase.from('profiles')
-        .select('role').eq('id', user.id).single();
-      isAdmin = prof?.role === 'admin';
-    }
-
-    if (!isAdmin) {
-      // Sign them back out — they're not admin
-      await supabase.auth.signOut();
-      errEl.textContent = '❌ Access denied. This account does not have admin privileges.';
-      errEl.classList.add('show');
-      btn.disabled    = false;
-      btn.innerHTML   = 'Sign In to Admin';
+      await sb.auth.signOut();
+      btn.disabled  = false;
+      btn.innerHTML = 'Sign In to Admin';
+      showError('❌ Access denied. This account does not have admin privileges.\n\nContact your system administrator.');
       return;
     }
 
-    // ✅ Admin confirmed — redirect
-    btn.innerHTML = '✅ Access granted! Redirecting...';
+    // ✅ Admin confirmed
+    const successEl = document.getElementById('alert-success');
+    successEl.textContent = '✅ Access granted! Redirecting to dashboard…';
+    successEl.classList.add('show');
+    btn.innerHTML = '✅ Redirecting…';
     btn.style.background = '#0E9F6E';
-    setTimeout(() => window.location.replace('/pages/admin.html'), 800);
+    btn.style.color = '#fff';
 
-  } catch (e) {
-    errEl.textContent = e.message === 'Invalid login credentials'
-      ? '❌ Incorrect email or password. Please try again.'
-      : `❌ ${e.message || 'Login failed. Please try again.'}`;
-    errEl.classList.add('show');
+    setTimeout(() => window.location.replace('/pages/admin.html'), 900);
+
+  } catch (err) {
     btn.disabled  = false;
     btn.innerHTML = 'Sign In to Admin';
+    const msg = err.message || '';
+    if (msg.includes('Invalid login credentials')) {
+      showError('❌ Incorrect email or password. Please try again.');
+    } else if (msg.includes('Email not confirmed')) {
+      showError('❌ Please confirm your email address before signing in.');
+    } else if (msg.includes('Too many requests')) {
+      showError('⚠️ Too many attempts. Please wait a few minutes before trying again.');
+    } else {
+      showError('❌ Sign in failed: ' + msg);
+    }
   }
 };
 
-// Enter key support
-document.addEventListener('keydown', e => {
-  if (e.key === 'Enter') doLogin();
-});
+// ── Forgot password ──────────────────────────────────────────
+window.doForgot = async () => {
+  const email = document.getElementById('email').value.trim();
+  if (!email) {
+    showError('Enter your email address above first, then click "Forgot password?".');
+    return;
+  }
+  try {
+    await sb.auth.resetPasswordForEmail(email, {
+      redirectTo: window.location.origin + '/pages/admin-login.html?reason=password_reset',
+    });
+    const successEl = document.getElementById('alert-success');
+    successEl.textContent = '📧 Password reset email sent! Check your inbox.';
+    successEl.classList.add('show');
+  } catch(e) {
+    showError('Could not send reset email: ' + e.message);
+  }
+};
+
+// ── Toggle password visibility ───────────────────────────────
+window.togglePw = () => {
+  const inp = document.getElementById('password');
+  const btn = document.querySelector('.pw-eye');
+  inp.type      = inp.type === 'password' ? 'text' : 'password';
+  btn.textContent = inp.type === 'password' ? '👁' : '🙈';
+};
 </script>
 </body>
 </html>

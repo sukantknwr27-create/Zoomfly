@@ -126,6 +126,15 @@ window.openTestiModal = function(){};
   <link rel="stylesheet" href="/assets/css/admin.css"/>
 </head>
 <body>
+<!-- Auth loading overlay — hidden once auth passes -->
+<div id="auth-loading" style="position:fixed;inset:0;background:#0C1B33;display:flex;align-items:center;justify-content:center;z-index:9999;flex-direction:column;gap:16px">
+  <div style="font-family:'Space Grotesk',system-ui;font-size:1.3rem;font-weight:700;color:#fff">Zoom<span style="color:#E8B84B">Fly</span> ✈</div>
+  <div style="width:36px;height:36px;border:3px solid rgba(255,255,255,0.15);border-top-color:#C9922A;border-radius:50%;animation:authSpin .7s linear infinite"></div>
+  <div style="font-size:.8rem;color:rgba(255,255,255,0.5);font-family:'Inter',system-ui">Verifying access…</div>
+</div>
+<style>@keyframes authSpin{to{transform:rotate(360deg)}}</style>
+
+
 <aside class="sidebar">
   <div class="sb-logo"><h1>Zoom<span>Fly</span> ✈</h1><p>Admin Dashboard</p></div>
   <nav class="sb-nav">
@@ -584,7 +593,7 @@ window.openTestiModal = function(){};
 <div class="toast" id="toast"></div>
 
 <script type="module">
-import { supabase, admin, requireAdmin, getProfile, subscribeToEnquiries, subscribeToBookings, signOut } from '../assets/js/supabase.js';
+import { supabase, admin, requireAdmin, getProfile, subscribeToEnquiries, subscribeToBookings, signOut } from '/assets/js/supabase.js';
 
 // Guard — check admin via JWT app_metadata (does NOT require profiles row)
 const { data: { user: _adminUser } } = await supabase.auth.getUser();
@@ -613,7 +622,11 @@ const initials = _adminName.split(' ').map(w=>w[0]).join('').substring(0,2).toUp
 document.getElementById('sb-av').textContent = initials;
 document.getElementById('sb-name').textContent = _adminName;
 
-window.doLogout = async () => { await signOut(); };
+window.doLogout = async () => { await signOut('/pages/admin-login.html'); };
+
+// ── Reveal page after auth passes ─────────────────────────
+const _ov = document.getElementById('auth-loading'); if (_ov) _ov.style.display='none';
+
 
 // ── TRAVEL PARTNERS ──────────────────────────────────────────
 async function loadTravelPartners() {
@@ -672,7 +685,7 @@ async function loadLoyalty() {
         <td><strong>${esc(a.profiles?.full_name || '—')}</strong></td>
         <td>${esc(a.profiles?.email || '—')}</td>
         <td><span style="padding:2px 10px;border-radius:20px;font-size:.72rem;font-weight:700;color:#fff;background:${tierColors[tier]}">${tier.toUpperCase()}</span></td>
-        <td><strong style="color:#1a73e8">${(a.points_balance||0).toLocaleString('en-IN')}</strong></td>
+        <td><strong style="color:#E8B84B">${(a.points_balance||0).toLocaleString('en-IN')}</strong></td>
         <td>${(a.total_points_earned||0).toLocaleString('en-IN')}</td>
         <td>
           <button onclick="adjustPoints('${a.id}')" style="padding:4px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:.75rem;cursor:pointer;background:#fff">Adjust Points</button>
@@ -891,7 +904,7 @@ async function loadPromos() {
       const isExpired = p.expires_at && new Date(p.expires_at) < new Date();
       const isActive  = p.is_active && !isExpired;
       return `<tr>
-        <td><strong style="font-family:monospace;color:#1a73e8">${esc(p.code)}</strong></td>
+        <td><strong style="font-family:monospace;color:#E8B84B">${esc(p.code)}</strong></td>
         <td>${p.discount_type === 'percentage' ? 'Percentage' : 'Flat Amount'}</td>
         <td>${p.discount_type === 'percentage' ? p.discount_value + '%' : '₹' + p.discount_value}</td>
         <td>₹${Number(p.min_order_amount||0).toLocaleString('en-IN')}</td>

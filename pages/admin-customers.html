@@ -80,6 +80,15 @@
     <link rel="stylesheet" href="/assets/css/admin.css"/>
 </head>
 <body>
+<!-- Auth loading overlay — hidden once auth passes -->
+<div id="auth-loading" style="position:fixed;inset:0;background:#0C1B33;display:flex;align-items:center;justify-content:center;z-index:9999;flex-direction:column;gap:16px">
+  <div style="font-family:'Space Grotesk',system-ui;font-size:1.3rem;font-weight:700;color:#fff">Zoom<span style="color:#E8B84B">Fly</span> ✈</div>
+  <div style="width:36px;height:36px;border:3px solid rgba(255,255,255,0.15);border-top-color:#C9922A;border-radius:50%;animation:authSpin .7s linear infinite"></div>
+  <div style="font-size:.8rem;color:rgba(255,255,255,0.5);font-family:'Inter',system-ui">Verifying access…</div>
+</div>
+<style>@keyframes authSpin{to{transform:rotate(360deg)}}</style>
+
+
 <div class="admin-layout">
   <!-- Sidebar -->
   <nav class="sidebar">
@@ -264,16 +273,19 @@
 <div class="toast" id="toast"></div>
 
 <script type="module">
-import { supabase, requireAdmin, signOut, admin } from '../assets/js/supabase.js';
+import { supabase, requireAdmin, signOut, admin } from '/assets/js/supabase.js';
 
 let allCustomers  = [];
 let allBookings   = [];
 let currentCustomer = null;
 
 // ── INIT ────────────────────────────────────────────────────
-const adminUser = await requireAdmin();
-if (!adminUser) throw new Error('redirect');
-loadAll();
+(async () => {
+  const adminUser = await requireAdmin();
+  if (!adminUser) return;
+  const _ov = document.getElementById('auth-loading'); if (_ov) _ov.style.display='none';
+  await loadAll();
+})();
 
 async function loadAll() {
   try {

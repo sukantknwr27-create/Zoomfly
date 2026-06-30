@@ -17,7 +17,7 @@
     body{ font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);display:flex;min-height:100vh;overflow-x:hidden; }
 
     /* SIDEBAR */
-    .sidebar{ width:var(--sidebar);background:var(--dark);min-height:100vh;position:fixed;left:0;top:0;z-index:200;display:flex;flex-direction:column;box-shadow:4px 0 24px rgba(0,0,0,0.2); }
+    .sidebar{ width:var(--sidebar);background:#0C1B33;min-height:100vh;position:fixed;left:0;top:0;z-index:200;display:flex;flex-direction:column;box-shadow:4px 0 24px rgba(0,0,0,0.2); }
     .sb-logo{ padding:24px 20px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(255,255,255,0.06); }
     .sb-logo-icon{ width:36px;height:36px;background:linear-gradient(135deg,var(--primary),var(--accent));border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px; }
     .sb-logo-text{ font-family:'Space Grotesk',system-ui;font-size:1.1rem;color:#fff;font-weight:700; }
@@ -40,7 +40,7 @@
     .toolbar input,.toolbar select{ padding:9px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:.85rem;background:#fff;color:var(--text);font-family:'Inter',sans-serif; }
     .toolbar input:focus,.toolbar select:focus{ outline:none;border-color:var(--primary); }
     .toolbar input{ flex:1;min-width:200px; }
-    .btn-add{ display:inline-flex;align-items:center;gap:7px;padding:9px 20px;background:var(--primary);color:var(--dark);border:none;border-radius:8px;font-family:'Space Grotesk',system-ui;font-size:.85rem;font-weight:700;cursor:pointer;white-space:nowrap;box-shadow:0 4px 16px rgba(201,146,42,.25); }
+    .btn-add{ display:inline-flex;align-items:center;gap:7px;padding:9px 20px;background:var(--primary);color:#0C1B33;border:none;border-radius:8px;font-family:'Space Grotesk',system-ui;font-size:.85rem;font-weight:700;cursor:pointer;white-space:nowrap;box-shadow:0 4px 16px rgba(201,146,42,.25); }
     .btn-add:hover{ background:var(--accent); }
 
     /* TABLE */
@@ -80,7 +80,7 @@
     .form-group input:focus,.form-group select:focus,.form-group textarea:focus{ outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(201,146,42,.10); }
     .modal-footer{ padding:16px 24px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px; }
     .btn-cancel{ padding:10px 20px;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;font-family:'Space Grotesk',system-ui;font-size:.85rem;font-weight:600;cursor:pointer; }
-    .btn-save{ padding:10px 22px;background:var(--primary);color:var(--dark);border:none;border-radius:8px;font-family:'Space Grotesk',system-ui;font-size:.85rem;font-weight:700;cursor:pointer; }
+    .btn-save{ padding:10px 22px;background:var(--primary);color:#0C1B33;border:none;border-radius:8px;font-family:'Space Grotesk',system-ui;font-size:.85rem;font-weight:700;cursor:pointer; }
     .btn-save:hover{ background:var(--accent); }
 
     /* EMPTY STATE */
@@ -99,6 +99,15 @@
   <link rel="stylesheet" href="/assets/css/admin.css"/>
 </head>
 <body>
+<!-- Auth loading overlay — hidden once auth passes -->
+<div id="auth-loading" style="position:fixed;inset:0;background:#0C1B33;display:flex;align-items:center;justify-content:center;z-index:9999;flex-direction:column;gap:16px">
+  <div style="font-family:'Space Grotesk',system-ui;font-size:1.3rem;font-weight:700;color:#fff">Zoom<span style="color:#E8B84B">Fly</span> ✈</div>
+  <div style="width:36px;height:36px;border:3px solid rgba(255,255,255,0.15);border-top-color:#C9922A;border-radius:50%;animation:authSpin .7s linear infinite"></div>
+  <div style="font-size:.8rem;color:rgba(255,255,255,0.5);font-family:'Inter',system-ui">Verifying access…</div>
+</div>
+<style>@keyframes authSpin{to{transform:rotate(360deg)}}</style>
+
+
 
 <!-- SIDEBAR -->
 <aside class="sidebar">
@@ -251,16 +260,9 @@
 </div>
 
 <script type="module">
-import { supabase, requireAdmin, signOut } from '../assets/js/supabase.js';
+import { supabase, requireAdmin, signOut } from '/assets/js/supabase.js';
 
-// ── AUTH GUARD ────────────────────────────────────────────────
-async function checkAuth() {
-  const { data: { user }, error } = await supabase.auth.getUser();
-  if (error || !user) { window.location.replace('/pages/admin-login.html'); return false; }
-  const { data: p } = await supabase.from('profiles').select('role').eq('id', user.id).single();
-  if (p?.role !== 'admin') { window.location.replace('/pages/admin-login.html?reason=access_denied'); return false; }
-  return true;
-}
+// ── AUTH GUARD — handled by requireAdmin() from supabase.js ──
 
 let allHotels = [];
 
@@ -413,8 +415,9 @@ document.getElementById('hotel-modal').addEventListener('click', e => {
 
 // ── INIT ──────────────────────────────────────────────────────
 (async () => {
-  const ok = await checkAuth();
+  const ok = await requireAdmin();
   if (!ok) return;
+  const _ov = document.getElementById('auth-loading'); if (_ov) _ov.style.display='none';
   await loadHotels();
 })();
 </script>
