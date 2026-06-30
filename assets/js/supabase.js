@@ -6,7 +6,18 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 const SUPABASE_URL  = 'https://ndaurluolurdljrjbxii.supabase.co';
 const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kYXVybHVvbHVyZGxqcmpieGlpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MDY2MzksImV4cCI6MjA5MzQ4MjYzOX0.JsZXOof19JkyX7asJQ7EtoaBKqURJUYzVqXQIenCzjQ';
 
-export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON);
+export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON, {
+  auth: {
+    persistSession:    true,
+    autoRefreshToken:  true,
+    detectSessionInUrl: true,
+    storageKey: 'zoomfly-auth',          // same key on all subdomains
+    storage: typeof window !== 'undefined' ? window.localStorage : undefined,
+  },
+  global: {
+    headers: { 'x-application': 'zoomfly-web' },
+  },
+});
 // Razorpay Key ID — loaded at runtime from /api/config so it is NEVER hardcoded in source.
 // Fallback to empty string; pages check for empty and show WhatsApp booking instead.
 let _razorpayKeyId = '';
@@ -68,10 +79,16 @@ export async function signInWithGoogle() {
   return data;
 }
 
-export async function signOut() {
+export async function signOut(redirectTo) {
   try { await supabase.auth.signOut({ scope: 'global' }); } catch(e) {}
   Object.keys(localStorage).forEach(k => { if (k.startsWith('sb-') || k.includes('supabase')) localStorage.removeItem(k); });
-  window.location.replace(siteUrl() + '/pages/login.html');
+  // If a redirect is specified, use it; otherwise detect admin vs public context
+  if (redirectTo) { window.location.replace(redirectTo); return; }
+  const isAdminPage = window.location.pathname.includes('admin');
+  window.location.replace(isAdminPage
+    ? '/pages/admin-login.html'
+    : siteUrl() + '/pages/login.html'
+  );
 }
 
 export async function getUser() {
