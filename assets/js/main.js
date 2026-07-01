@@ -30,6 +30,27 @@ const ZF = {
 // Extracted to nav.html and loaded via fetch() — see renderNav() below.
 // This avoids a 60-line innerHTML string and eliminates the XSS surface.
 
+// Small transient toast — used for phone-copy feedback etc.
+function _showPhoneToast(msg) {
+  let t = document.getElementById('_zf-toast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = '_zf-toast';
+    t.style.cssText = 'position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);background:#0C1B33;color:#fff;padding:11px 22px;border-radius:100px;font-family:"Space Grotesk",system-ui;font-size:.82rem;font-weight:600;box-shadow:0 8px 32px rgba(0,0,0,.3);z-index:99999;opacity:0;transition:opacity .25s,transform .25s;pointer-events:none';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  requestAnimationFrame(() => {
+    t.style.opacity = '1';
+    t.style.transform = 'translateX(-50%) translateY(0)';
+  });
+  clearTimeout(t._hideTimer);
+  t._hideTimer = setTimeout(() => {
+    t.style.opacity = '0';
+    t.style.transform = 'translateX(-50%) translateY(20px)';
+  }, 2200);
+}
+
 async function renderNav(activePage = '') {
   const nav = document.getElementById('mainNav');
   if (!nav) return;
@@ -75,17 +96,32 @@ async function renderNav(activePage = '') {
     const btn = e.target.closest('[data-action]');
     if (!btn) return;
     const action = btn.dataset.action;
-    if (action === 'toggle-user-menu') { e.stopPropagation(); toggleUserMenu(); }
-    if (action === 'sign-out')          { e.preventDefault();  doSignOut(); }
+    if (action === 'toggle-user-menu')     { e.stopPropagation(); toggleUserMenu(); }
+    if (action === 'sign-out')             { e.preventDefault();  doSignOut(); }
+    if (action === 'toggle-services-menu') {
+      e.stopPropagation();
+      const m = document.getElementById('services-menu');
+      if (m) m.style.display = m.style.display === 'block' ? 'none' : 'block';
+    }
+    if (action === 'call-phone') {
+      // On desktop browsers with no tel: handler registered, the OS shows an
+      // ugly "no app found" dialog. Detect that case and copy the number
+      // to clipboard instead, with a friendly toast.
+      const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+      if (!isMobile) {
+        e.preventDefault();
+        const number = btn.getAttribute('href').replace('tel:', '');
+        navigator.clipboard?.writeText(number).then(() => {
+          _showPhoneToast(`📋 ${number} copied to clipboard`);
+        }).catch(() => {
+          _showPhoneToast(`📞 Call us: ${number}`);
+        });
+      }
+      // On mobile, let the tel: link work normally (don't preventDefault)
+    }
   });
 
-  // Services dropdown — must live here because <script> tags injected via
-  // innerHTML (nav.html fetch) never execute in browsers.
-  window.toggleServicesMenu = function(e) {
-    if (e) e.stopPropagation();
-    const m = document.getElementById('services-menu');
-    if (m) m.style.display = m.style.display === 'block' ? 'none' : 'block';
-  };
+  // Close Services dropdown when clicking outside it
   document.addEventListener('click', e => {
     if (!e.target.closest('.nav-dropdown-wrap')) {
       const m = document.getElementById('services-menu');
