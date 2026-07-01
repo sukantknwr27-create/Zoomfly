@@ -10,40 +10,45 @@ All three root causes are now fixed.
 
 ---
 
-## Admin Subdomain Deployment (Vercel)
+## Admin & Vendor Subdomains (Vercel) — ONE Project, Multiple Domains
 
-The admin portal should run on `admin.zoomfly.in` as a separate Vercel deployment.
+You do **not** need separate Vercel projects or separate deployments. One Vercel
+project serves `zoomfly.in`, `admin.zoomfly.in`, and `vendor.zoomfly.in` — all
+from the same codebase, same build, same deploy. This is handled entirely by
+`vercel.json` using host-based routing (the `has: [{ "type": "host", ... }]`
+condition), which is already configured in this repo.
 
-### Step 1 — Create a new Vercel project for admin
+### Step 1 — Attach the subdomains to your existing Vercel project
 
-```bash
-# In your Vercel dashboard:
-# 1. New Project → Import the same GitHub repo
-# 2. Set Root Directory to: (leave blank — uses repo root)
-# 3. Framework: Other
+In your **single** Vercel project → Settings → Domains:
+1. Add `admin.zoomfly.in`
+2. Add `vendor.zoomfly.in`
+
+### Step 2 — DNS
+
+In your DNS provider, add two CNAME records:
+- `admin` → `cname.vercel-dns.com`
+- `vendor` → `cname.vercel-dns.com`
+
+### Step 3 — That's it
+
+`vercel.json` already contains routing rules that check the incoming `Host`
+header:
+
+```json
+{
+  "src": "^/$",
+  "has": [{ "type": "host", "value": "admin.zoomfly.in" }],
+  "dest": "/pages/admin-login.html"
+}
 ```
 
-### Step 2 — Set the admin subdomain
+- Visiting `admin.zoomfly.in` → serves `/pages/admin-login.html`
+- Visiting `admin.zoomfly.in/pages/admin-bookings.html` → works directly (assets/pages pass through untouched on any host)
+- Visiting `vendor.zoomfly.in` → serves `/pages/vendor-portal.html`
+- `/assets/*` (CSS, JS) is shared across all three domains — one copy, no duplication
 
-In Vercel Dashboard → Your Admin Project → Settings → Domains:
-- Add domain: `admin.zoomfly.in`
-- In your DNS provider, add a CNAME: `admin` → `cname.vercel-dns.com`
-
-### Step 3 — Set Environment Variables
-
-In Vercel Dashboard → Admin Project → Settings → Environment Variables:
-
-| Variable | Value |
-|---|---|
-| `RAZORPAY_KEY_ID` | Your Razorpay publishable key |
-| `SUPABASE_URL` | `https://ndaurluolurdljrjbxii.supabase.co` |
-| `SUPABASE_ANON_KEY` | Your Supabase anon key |
-
-### Step 4 — Deploy
-
-The `admin-portal/vercel.json` routes `/` → admin-login, all paths are protected.
-
----
+No second project, no second deploy, no separate build step. Every `git push` updates all three domains simultaneously since they're the same deployment.
 
 ## Supabase — Setting Admin Role
 
@@ -165,48 +170,6 @@ USING (
 | `loadNav()` in reminders (wrong IDs) | Removed `loadNav` import; admin pages don't use public nav |
 | admin-login blue colors | Updated to gold/navy theme |
 | Admin subdomain | Created `admin-portal/vercel.json` with clean URL routing |
-
----
-
-## Vendor Portal Subdomain (`vendor.zoomfly.in`)
-
-### Step 1 — Create a new Vercel project
-
-```bash
-# In your Vercel dashboard:
-# 1. New Project → Import the same GitHub repo
-# 2. Set Root Directory to: (leave blank — uses repo root)
-# 3. Framework: Other
-# 4. This will use the SAME repo but its own vercel.json
-```
-
-**Important:** Vercel only reads one `vercel.json` per deployment (at the repo root). Since your main site already has `vercel.json` at the root, you have two options for the vendor subdomain:
-
-**Option A (recommended) — Separate repo/branch:**
-Push a copy of this repo to a second GitHub repo (or a dedicated branch), and replace the root `vercel.json` with the contents of `vendor-portal-deploy/vercel.json` in that copy. Deploy that repo as its own Vercel project, then point `vendor.zoomfly.in` at it.
-
-**Option B — Vercel Rewrites at the DNS/edge level:**
-Keep one deployment. In your main Vercel project → Settings → Domains, add `vendor.zoomfly.in`, then add this rule to your **existing root** `vercel.json` (merge it into your main routes array, near the top, before the catch-all):
-
-```json
-{ "src": "^/$", "has": [{ "type": "host", "value": "vendor.zoomfly.in" }], "dest": "/pages/vendor-portal.html" }
-```
-
-Option B is simpler if you don't want a second Vercel project.
-
-### Step 2 — DNS
-
-Add a CNAME: `vendor` → `cname.vercel-dns.com` (same as the admin subdomain).
-
-### Step 3 — Vendor role in Supabase
-
-Vendors self-register through the portal's Sign Up tab with `role: 'vendor'` set automatically. No manual SQL needed — but you can verify with:
-
-```sql
-SELECT id, email, raw_user_meta_data->>'role' as role, raw_user_meta_data->>'business_name' as business
-FROM auth.users
-WHERE raw_user_meta_data->>'role' = 'vendor';
-```
 
 ---
 

@@ -42,6 +42,46 @@
   ],
   "routes": [
     {
+      "src": "^/$",
+      "has": [
+        {
+          "type": "host",
+          "value": "admin.zoomfly.in"
+        }
+      ],
+      "dest": "/pages/admin-login.html"
+    },
+    {
+      "src": "^/(?!pages/|assets/|api/).*$",
+      "has": [
+        {
+          "type": "host",
+          "value": "admin.zoomfly.in"
+        }
+      ],
+      "dest": "/pages/admin-login.html"
+    },
+    {
+      "src": "^/$",
+      "has": [
+        {
+          "type": "host",
+          "value": "vendor.zoomfly.in"
+        }
+      ],
+      "dest": "/pages/vendor-portal.html"
+    },
+    {
+      "src": "^/(?!pages/|assets/|api/).*$",
+      "has": [
+        {
+          "type": "host",
+          "value": "vendor.zoomfly.in"
+        }
+      ],
+      "dest": "/pages/vendor-portal.html"
+    },
+    {
       "src": "^/trains$",
       "dest": "/pages/trains.html"
     },
@@ -250,7 +290,13 @@
       "headers": {
         "Location": "/admin-login?reason=direct_access_blocked"
       },
-      "status": 302
+      "status": 302,
+      "missing": [
+        {
+          "type": "host",
+          "value": "admin.zoomfly.in"
+        }
+      ]
     },
     {
       "src": "^/pages/(.*)",
