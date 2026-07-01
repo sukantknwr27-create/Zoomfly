@@ -244,7 +244,8 @@ input, select, textarea { font-family: inherit; }
 }
 
 
-.nav-links { display: flex; align-items: center; gap: 28px; }
+.nav-links { display: flex; align-items: center; gap: 2px; flex-shrink: 1; min-width: 0; overflow: hidden; }
+.nav-links a { flex-shrink: 0; }
 
 
 .nav-cta {
@@ -1241,6 +1242,27 @@ input, select, textarea { font-family: inherit; }
   .test-grid { grid-template-columns: repeat(2,1fr) !important; }
   .testi-grid { grid-template-columns: repeat(2,1fr) !important; }
   .why-inner { grid-template-columns: 1fr !important; gap: 40px !important; }
+}
+/* ── NAV: progressive collapse so phone/Sign In never get crushed ── */
+@media (max-width: 1320px) {
+  .nav-links a[data-page="blog"] { display: none; }
+}
+@media (max-width: 1220px) {
+  .nav-links a[data-page="cabs"] { display: none; }
+}
+@media (max-width: 1140px) {
+  .nav-links a[data-page="bus"] { display: none; }
+}
+@media (max-width: 1060px) {
+  /* Phone number takes real estate — drop it before Sign In/Book Now get squeezed */
+  .nav-inner > div > a[href^="tel:"] { display: none; }
+}
+@media (max-width: 980px) {
+  .nav-links a[data-page="trains"],
+  .nav-links a[data-page="destinations"] { display: none; }
+}
+@media (max-width: 900px) {
+  .nav-links .nav-dropdown-wrap { display: none; }
 }
 @media (max-width: 768px) {
   .nav-links { display: none; }
