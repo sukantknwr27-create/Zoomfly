@@ -124,6 +124,9 @@ if (reason === 'access_denied') {
 } else if (reason === 'session_expired') {
   reasonEl.textContent = '⚠️ Your session has expired. Please sign in again.';
   reasonEl.classList.add('show');
+} else if (reason === 'timeout') {
+  reasonEl.textContent = '⚠️ Connection timed out while verifying your session. Please sign in again.';
+  reasonEl.classList.add('show');
 }
 
 // ── Auto-redirect if already logged in as admin ─────────────

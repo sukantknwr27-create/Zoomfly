@@ -134,6 +134,17 @@ window.openTestiModal = function(){};
 </div>
 <style>@keyframes authSpin{to{transform:rotate(360deg)}}</style>
 
+<script>
+// FAILSAFE: independent of the module script — if auth verification takes
+// longer than 10 seconds (hung network, dead session, etc.), force a redirect
+// to admin-login instead of leaving the user stuck on a blank spinner forever.
+setTimeout(function() {
+  var ov = document.getElementById('auth-loading');
+  if (ov && ov.style.display !== 'none') {
+    window.location.replace('/pages/admin-login.html?reason=timeout');
+  }
+}, 10000);
+</script>
 
 <aside class="sidebar">
   <div class="sb-logo"><h1>Zoom<span>Fly</span> ✈</h1><p>Admin Dashboard</p></div>
@@ -595,25 +606,11 @@ window.openTestiModal = function(){};
 <script type="module">
 import { supabase, admin, requireAdmin, getProfile, subscribeToEnquiries, subscribeToBookings, signOut } from '/assets/js/supabase.js';
 
-// Guard — check admin via JWT app_metadata (does NOT require profiles row)
-const { data: { user: _adminUser } } = await supabase.auth.getUser();
+// ── AUTH GUARD — timeout-safe, never hangs (max 6s) ─────────
+const _adminUser = await requireAdmin();
 if (!_adminUser) {
-  window.location.replace('/pages/admin-login.html?reason=auth_required');
+  // requireAdmin() already redirected — stop script execution here
   throw new Error('redirect');
-}
-const _adminRole = _adminUser.app_metadata?.role || _adminUser.user_metadata?.role;
-if (_adminRole !== 'admin') {
-  // Try profiles table as fallback
-  let _isAdmin = false;
-  try {
-    const { data: _prof } = await supabase.from('profiles').select('role').eq('id', _adminUser.id).single();
-    _isAdmin = _prof?.role === 'admin';
-  } catch {}
-  if (!_isAdmin) {
-    await supabase.auth.signOut();
-    window.location.replace('/pages/admin-login.html?reason=access_denied');
-    throw new Error('redirect');
-  }
 }
 
 // Nav avatar — use auth user data (works even without profiles row)

@@ -94,6 +94,17 @@
 </div>
 <style>@keyframes authSpin{to{transform:rotate(360deg)}}</style>
 
+<script>
+// FAILSAFE: independent of the module script — if auth verification takes
+// longer than 10 seconds (hung network, dead session, etc.), force a redirect
+// to admin-login instead of leaving the user stuck on a blank spinner forever.
+setTimeout(function() {
+  var ov = document.getElementById('auth-loading');
+  if (ov && ov.style.display !== 'none') {
+    window.location.replace('/pages/admin-login.html?reason=timeout');
+  }
+}, 10000);
+</script>
 
 <div class="layout">
   <nav class="sidebar">
