@@ -351,29 +351,44 @@ const STATIONS = [
   { code:'NDLS', name:'New Delhi', city:'New Delhi' },
   { code:'DLI',  name:'Delhi Junction', city:'Delhi' },
   { code:'NZM',  name:'Hazrat Nizamuddin', city:'New Delhi' },
+  { code:'ANVT', name:'Anand Vihar Terminal', city:'Delhi' },
   { code:'MMCT', name:'Mumbai Central', city:'Mumbai' },
   { code:'CSTM', name:'Chhatrapati Shivaji Terminus', city:'Mumbai' },
   { code:'BCT',  name:'Mumbai Borivali', city:'Mumbai' },
+  { code:'LTT',  name:'Lokmanya Tilak Terminus', city:'Mumbai' },
   { code:'MAS',  name:'Chennai Central', city:'Chennai' },
+  { code:'MSC',  name:'Chennai Egmore', city:'Chennai' },
   { code:'SBC',  name:'Bangalore City Junction', city:'Bangalore' },
   { code:'YPR',  name:'Yesvantpur Junction', city:'Bangalore' },
+  { code:'KJM',  name:'Krishnarajapuram', city:'Bangalore' },
   { code:'HWH',  name:'Howrah Junction', city:'Kolkata' },
   { code:'SDAH', name:'Sealdah', city:'Kolkata' },
+  { code:'KOAA', name:'Kolkata', city:'Kolkata' },
   { code:'SC',   name:'Secunderabad Junction', city:'Hyderabad' },
   { code:'HYB',  name:'Hyderabad Deccan', city:'Hyderabad' },
+  { code:'KCG',  name:'Kacheguda', city:'Hyderabad' },
   { code:'JP',   name:'Jaipur Junction', city:'Jaipur' },
   { code:'ADI',  name:'Ahmedabad Junction', city:'Ahmedabad' },
+  { code:'ST',   name:'Surat', city:'Surat' },
+  { code:'BRC',  name:'Vadodara Junction', city:'Vadodara' },
   { code:'LKO',  name:'Lucknow NR', city:'Lucknow' },
+  { code:'LJN',  name:'Lucknow Junction', city:'Lucknow' },
   { code:'CNB',  name:'Kanpur Central', city:'Kanpur' },
   { code:'PNBE', name:'Patna Junction', city:'Patna' },
+  { code:'RJPB', name:'Rajendranagar Terminal', city:'Patna' },
   { code:'BBS',  name:'Bhubaneswar', city:'Bhubaneswar' },
+  { code:'PURI', name:'Puri', city:'Puri' },
   { code:'GHY',  name:'Guwahati', city:'Guwahati' },
   { code:'JAT',  name:'Jammu Tawi', city:'Jammu' },
   { code:'UHP',  name:'Udhampur', city:'Udhampur' },
   { code:'CDG',  name:'Chandigarh', city:'Chandigarh' },
+  { code:'ASR',  name:'Amritsar Junction', city:'Amritsar' },
+  { code:'LDH',  name:'Ludhiana Junction', city:'Ludhiana' },
   { code:'KOTA', name:'Kota Junction', city:'Kota' },
   { code:'AGC',  name:'Agra Cantt', city:'Agra' },
+  { code:'AF',   name:'Agra Fort', city:'Agra' },
   { code:'BSB',  name:'Varanasi Junction', city:'Varanasi' },
+  { code:'MGS',  name:'Mughal Sarai (DDU)', city:'Varanasi' },
   { code:'HW',   name:'Haridwar Junction', city:'Haridwar' },
   { code:'DDN',  name:'Dehradun', city:'Dehradun' },
   { code:'SLN',  name:'Sultanpur', city:'Sultanpur' },
@@ -383,11 +398,37 @@ const STATIONS = [
   { code:'TVC',  name:'Thiruvananthapuram Central', city:'Trivandrum' },
   { code:'CBE',  name:'Coimbatore Junction', city:'Coimbatore' },
   { code:'MDU',  name:'Madurai Junction', city:'Madurai' },
+  { code:'TPJ',  name:'Tiruchchirappalli Junction', city:'Trichy' },
   { code:'BPL',  name:'Bhopal Junction', city:'Bhopal' },
+  { code:'INDB', name:'Indore Junction', city:'Indore' },
+  { code:'JBP',  name:'Jabalpur', city:'Jabalpur' },
   { code:'JU',   name:'Jodhpur Junction', city:'Jodhpur' },
   { code:'UDZ',  name:'Udaipur City', city:'Udaipur' },
-  { code:'INDB', name:'Indore Junction', city:'Indore' },
+  { code:'BKN',  name:'Bikaner Junction', city:'Bikaner' },
+  { code:'AII',  name:'Ajmer Junction', city:'Ajmer' },
   { code:'GWL',  name:'Gwalior Junction', city:'Gwalior' },
+  { code:'RNC',  name:'Ranchi Junction', city:'Ranchi' },
+  { code:'DHN',  name:'Dhanbad Junction', city:'Dhanbad' },
+  { code:'CDG',  name:'Chandigarh', city:'Chandigarh' },
+  { code:'VSKP', name:'Visakhapatnam', city:'Visakhapatnam' },
+  { code:'BZA',  name:'Vijayawada Junction', city:'Vijayawada' },
+  { code:'NLR',  name:'Nellore', city:'Nellore' },
+  { code:'TPTY', name:'Tirupati', city:'Tirupati' },
+  { code:'MYS',  name:'Mysuru Junction', city:'Mysore' },
+  { code:'UBL',  name:'Hubballi Junction', city:'Hubli' },
+  { code:'MAO',  name:'Madgaon', city:'Goa' },
+  { code:'KRMI', name:'Karmali', city:'Goa' },
+  { code:'RTM',  name:'Ratlam Junction', city:'Ratlam' },
+  { code:'UJN',  name:'Ujjain Junction', city:'Ujjain' },
+  { code:'RPR',  name:'Raipur Junction', city:'Raipur' },
+  { code:'BSP',  name:'Bilaspur Junction', city:'Bilaspur' },
+  { code:'ALD',  name:'Prayagraj Junction', city:'Prayagraj' },
+  { code:'GKP',  name:'Gorakhpur Junction', city:'Gorakhpur' },
+  { code:'BE',   name:'Bareilly', city:'Bareilly' },
+  { code:'MB',   name:'Moradabad', city:'Moradabad' },
+  { code:'ASN',  name:'Asansol Junction', city:'Asansol' },
+  { code:'NJP',  name:'New Jalpaiguri', city:'Siliguri' },
+  { code:'DBRG', name:'Dibrugarh', city:'Dibrugarh' },
 ];
 
 // ── TRAIN DATA (Indicative) ───────────────────────────
@@ -453,17 +494,39 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ── AUTOCOMPLETE ─────────────────────────────────────
-function showStationAC(input, acId) {
+window.showStationAC = function(input, acId) {
   const q = input.value.toLowerCase().trim();
   const ac = document.getElementById(acId);
   if (!q) { ac.classList.remove('show'); return; }
-  const matches = STATIONS.filter(s =>
-    s.name.toLowerCase().includes(q) ||
-    s.city.toLowerCase().includes(q) ||
-    s.code.toLowerCase().includes(q)
-  ).slice(0,8);
-  if (!matches.length) { ac.classList.remove('show'); return; }
-  ac.innerHTML = matches.map(s =>
+
+  const scored = STATIONS
+    .map(s => {
+      const code = s.code.toLowerCase(), name = s.name.toLowerCase(), city = s.city.toLowerCase();
+      let score = -1;
+      if (code === q) score = 100;                          // exact code match — highest priority
+      else if (code.startsWith(q)) score = 90;
+      else if (city.startsWith(q)) score = 80;
+      else if (name.startsWith(q)) score = 70;
+      else if (city.includes(q)) score = 50;
+      else if (name.includes(q)) score = 40;
+      else if (code.includes(q)) score = 30;
+      return { s, score };
+    })
+    .filter(x => x.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 8)
+    .map(x => x.s);
+
+  if (!scored.length) {
+    ac.innerHTML = `<div style="padding:.85rem 1rem;font-size:.82rem;color:#8896AB;text-align:center">
+      No stations found for "<strong>${input.value}</strong>"<br>
+      <span style="font-size:.72rem">Try a city name, station name, or station code (e.g. NDLS)</span>
+    </div>`;
+    ac.classList.add('show');
+    return;
+  }
+
+  ac.innerHTML = scored.map(s =>
     `<div class="ac-item" onclick="pickStation('${input.id}','${acId}','${s.code}','${s.name}, ${s.city}')">
       <strong>${s.name}</strong>
       <span>${s.city} · ${s.code}</span>

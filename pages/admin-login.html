@@ -158,12 +158,14 @@ async function checkAdminRole(client, user) {
 
 function showError(msg) {
   const el = document.getElementById('alert-error');
+  if (!el) return;
   el.textContent = msg;
   el.classList.add('show');
 }
 function hideAlerts() {
-  ['alert-error','alert-warn','alert-success','alert-reason'].forEach(id => {
-    document.getElementById(id).classList.remove('show');
+  ['alert-error','alert-success','alert-reason'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.remove('show');
   });
 }
 

@@ -316,6 +316,7 @@ let numPersons = 1;
 let discount = 0;
 let tax = 0;
 let total = 0;
+let selectedMethod = 'whatsapp'; // shared across the page; updated when user picks a payment method
 
 // ── ADD-ON / UPSELL TOGGLES ────────────────────────────────
 let addonTotal = 0;
@@ -478,6 +479,7 @@ window.selectMethod = (el, method) => {
   document.querySelectorAll('.method-opt').forEach(m => m.classList.remove('selected'));
   el.classList.add('selected');
   el.dataset.method = method;
+  selectedMethod = method;
 };
 
 window.fmtCard = (el) => {
@@ -512,7 +514,7 @@ window.processPayment = async () => {
     return;
   }
 
-  const selectedMethod = document.querySelector('.method-opt.selected')?.dataset?.method || 'whatsapp';
+  selectedMethod = document.querySelector('.method-opt.selected')?.dataset?.method || 'whatsapp';
 
   // For card / UPI / net banking → try Razorpay
   if (['razorpay','upi','netbanking','emi'].includes(selectedMethod)) {
