@@ -23,12 +23,14 @@ condition), which is already configured in this repo.
 In your **single** Vercel project → Settings → Domains:
 1. Add `admin.zoomfly.in`
 2. Add `vendor.zoomfly.in`
+3. Add `agent.zoomfly.in`
 
 ### Step 2 — DNS
 
-In your DNS provider, add two CNAME records:
+In your DNS provider, add three CNAME records:
 - `admin` → `cname.vercel-dns.com`
 - `vendor` → `cname.vercel-dns.com`
+- `agent` → `cname.vercel-dns.com`
 
 ### Step 3 — That's it
 
@@ -46,7 +48,8 @@ header:
 - Visiting `admin.zoomfly.in` → serves `/pages/admin-login.html`
 - Visiting `admin.zoomfly.in/pages/admin-bookings.html` → works directly (assets/pages pass through untouched on any host)
 - Visiting `vendor.zoomfly.in` → serves `/pages/vendor-portal.html`
-- `/assets/*` (CSS, JS) is shared across all three domains — one copy, no duplication
+- Visiting `agent.zoomfly.in` → serves `/pages/agent-portal.html`
+- `/assets/*` (CSS, JS) is shared across all four domains — one copy, no duplication
 
 No second project, no second deploy, no separate build step. Every `git push` updates all three domains simultaneously since they're the same deployment.
 

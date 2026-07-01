@@ -82,6 +82,26 @@
       "dest": "/pages/vendor-portal.html"
     },
     {
+      "src": "^/$",
+      "has": [
+        {
+          "type": "host",
+          "value": "agent.zoomfly.in"
+        }
+      ],
+      "dest": "/pages/agent-portal.html"
+    },
+    {
+      "src": "^/(?!pages/|assets/|api/).*$",
+      "has": [
+        {
+          "type": "host",
+          "value": "agent.zoomfly.in"
+        }
+      ],
+      "dest": "/pages/agent-portal.html"
+    },
+    {
       "src": "^/trains$",
       "dest": "/pages/trains.html"
     },
