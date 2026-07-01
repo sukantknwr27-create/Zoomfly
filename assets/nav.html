@@ -72,7 +72,7 @@
   </nav>
 
   <!-- RIGHT SIDE: phone + auth + CTA -->
-  <div style="display:flex;align-items:center;gap:10px;flex-shrink:0">
+  <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;min-width:fit-content">
 
     <!-- Phone number -->
     <a href="tel:+918076136300"
@@ -172,17 +172,3 @@
     <a href="tel:+918076136300" style="font-family:'Space Grotesk',system-ui;font-size:.85rem;font-weight:600;color:rgba(255,255,255,.75);text-decoration:none">📞 +91 8076136300</a>
   </div>
 </div>
-
-<script>
-window.toggleServicesMenu = function(e) {
-  if (e) e.stopPropagation();
-  const m = document.getElementById('services-menu');
-  if (m) m.style.display = m.style.display === 'block' ? 'none' : 'block';
-};
-document.addEventListener('click', function(e) {
-  if (!e.target.closest('.nav-dropdown-wrap')) {
-    const m = document.getElementById('services-menu');
-    if (m) m.style.display = 'none';
-  }
-});
-</script>
