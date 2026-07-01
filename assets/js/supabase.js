@@ -18,6 +18,28 @@ export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON, {
     headers: { 'x-application': 'zoomfly-web' },
   },
 });
+
+// ── TIMEOUT WRAPPER ──────────────────────────────────────────
+// supabase.auth.getUser() can hang indefinitely if the network stalls
+// or the refresh-token exchange never resolves. Every auth call in this
+// file is wrapped so it ALWAYS settles within `ms`, treating a timeout
+// as "not logged in" rather than freezing the page forever.
+function withTimeout(promise, ms = 6000, fallback = { data: { user: null } }) {
+  return Promise.race([
+    promise,
+    new Promise(resolve => setTimeout(() => resolve(fallback), ms)),
+  ]);
+}
+
+async function safeGetUser() {
+  try {
+    const result = await withTimeout(supabase.auth.getUser(), 6000);
+    return result?.data?.user || null;
+  } catch (e) {
+    console.warn('[supabase] getUser failed:', e?.message);
+    return null;
+  }
+}
 // Razorpay Key ID — loaded at runtime from /api/config so it is NEVER hardcoded in source.
 // Fallback to empty string; pages check for empty and show WhatsApp booking instead.
 let _razorpayKeyId = '';
@@ -92,8 +114,7 @@ export async function signOut(redirectTo) {
 }
 
 export async function getUser() {
-  const { data: { user } } = await supabase.auth.getUser();
-  return user;
+  return await safeGetUser();
 }
 
 export async function getProfile() {
@@ -120,15 +141,16 @@ export async function requireAuth(redirectTo = '/pages/login.html') {
 
 export async function requireAdmin() {
   try {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) { window.location.replace('/pages/admin-login.html'); return null; }
+    const user = await safeGetUser();
+    if (!user) { window.location.replace('/pages/admin-login.html?reason=auth_required'); return null; }
     const metaRole = user.app_metadata?.role || user.user_metadata?.role;
     if (metaRole === 'admin') return { role: 'admin', ...user };
-    const profile = await getProfile().catch(() => null);
+    const profile = await withTimeout(getProfile(), 5000, null).catch(() => null);
     if (profile?.role === 'admin') return profile;
     window.location.replace('/pages/admin-login.html?reason=access_denied');
     return null;
   } catch(e) {
+    console.warn('[requireAdmin] error:', e?.message);
     window.location.replace('/pages/admin-login.html?reason=error');
     return null;
   }

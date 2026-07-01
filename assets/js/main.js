@@ -79,6 +79,20 @@ async function renderNav(activePage = '') {
     if (action === 'sign-out')          { e.preventDefault();  doSignOut(); }
   });
 
+  // Services dropdown — must live here because <script> tags injected via
+  // innerHTML (nav.html fetch) never execute in browsers.
+  window.toggleServicesMenu = function(e) {
+    if (e) e.stopPropagation();
+    const m = document.getElementById('services-menu');
+    if (m) m.style.display = m.style.display === 'block' ? 'none' : 'block';
+  };
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.nav-dropdown-wrap')) {
+      const m = document.getElementById('services-menu');
+      if (m) m.style.display = 'none';
+    }
+  });
+
   // Close dropdown when clicking outside
   document.addEventListener('click', e => {
     if (!e.target.closest('#nav-user-menu')) {
@@ -116,7 +130,7 @@ function _navFallbackHTML() {
       <a href="/pages/blog.html"        data-page="blog"        style="padding:6px 9px;font-family:'Space Grotesk',system-ui;font-size:.8rem;font-weight:600;color:inherit;text-decoration:none;white-space:nowrap">Blog</a>
       <a href="/pages/contact.html"     data-page="services"    style="padding:6px 9px;font-family:'Space Grotesk',system-ui;font-size:.8rem;font-weight:600;color:inherit;text-decoration:none;white-space:nowrap">Services</a>
     </nav>
-    <div style="display:flex;align-items:center;gap:10px;flex-shrink:0">
+    <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;min-width:fit-content">
       <a href="tel:+918076136300" style="font-family:'Space Grotesk',system-ui;font-size:.75rem;font-weight:600;color:rgba(255,255,255,.82);text-decoration:none;white-space:nowrap">📞 +91 8076136300</a>
       <div id="nav-auth-area" style="display:flex;align-items:center;gap:8px">
         <a href="/pages/login.html" id="nav-login-btn"
