@@ -189,7 +189,7 @@ setTimeout(function() {
     <div class="topbar-right">
       <div class="live-badge"><span class="live-dot"></span> Live</div>
       <div class="notif">🔔<span class="notif-dot"></span></div>
-      <button class="btn-add" onclick="show('packages',document.querySelectorAll('.nav-item')[4]);openAddPackage()">+ Add Package</button>
+      <button class="btn-add" onclick="show('packages',document.querySelectorAll('.nav-item')[3]);openAddPackage()">+ Add Package</button>
     </div>
   </div>
   <div class="content">
@@ -1070,24 +1070,6 @@ window.savePageContent = async () => {
     if (btn) { btn.textContent = '💾 Save Page Content'; btn.disabled = false; }
   }
 };
-  const settings = {
-    id: 1,
-    site_name: document.getElementById('ss-name').value,
-    gstin: document.getElementById('ss-gstin').value,
-    whatsapp_number: document.getElementById('ss-wa').value,
-    admin_email: document.getElementById('ss-email').value,
-    logo_url: document.getElementById('ss-logo').value,
-    favicon_url: document.getElementById('ss-favicon').value,
-    updated_at: new Date().toISOString()
-};
-  try {
-    await supabase.from('site_settings').upsert({ id: 1, ...settings });
-    toast('Settings saved successfully');
-  } catch(e) {
-    // Table might not exist — show instructions
-    toast('Save to Supabase failed. Create site_settings table first.', 'error');
-  }
-};
 
 // ── ADMIN CUSTOMERS PAGE ──────────────────────────────────────
 // (existing function — kept for reference)
@@ -1359,11 +1341,6 @@ const _origClearFields = () => {
   if (stat) stat.textContent = '';
 };
 
-window.openAddPackage = () => {
-  // Opens add package modal — trigger packages section first
-  show('packages', document.querySelectorAll('.nav-item')[3]);
-};
-
 // Navigation
 window.show = (id, el) => {
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
@@ -1397,6 +1374,17 @@ window.show = (id, el) => {
   if(id==='destinations')    loadDestinations();
   if(id==='offers')          loadPromos();
 };
+
+// HTML-escape helper — prevents XSS when injecting DB values into innerHTML
+function esc(str) {
+  if (str === null || str === undefined) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
 
 // Toast
 function toast(msg, type='success') {
@@ -1889,10 +1877,6 @@ window.cancelBook = async (id) => {
 window.approveVendor = async (id) => {
   try { await admin.approveVendor(id); toast('Vendor approved!'); loadVendors(); } catch(e) { toast(e.message,'error'); }
 };
-window.togglePkg = async (id, active) => {
-  try { await admin.togglePackageStatus(id, active); toast(`Package ${active?'activated':'deactivated'}`); } catch(e) { toast(e.message,'error'); }
-};
-
 // Live subscriptions
 subscribeToEnquiries(payload => {
   const count=document.getElementById('enq-badge');
