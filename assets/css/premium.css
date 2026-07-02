@@ -230,23 +230,31 @@ input, select, textarea { font-family: inherit; }
   -webkit-backdrop-filter: blur(20px) saturate(180%);
   box-shadow: 0 1px 0 rgba(255,255,255,0.06), 0 4px 24px rgba(0,0,0,0.3);
 }
-.nav-inner {
-  max-width: 1380px; margin: 0 auto; padding: 16px 28px;
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 16px;
-  transition: padding 0.3s var(--ease);
-}
-.nav.scrolled .nav-inner { padding: 12px 28px; }
-
-.logo {
-  display: flex; align-items: center; gap: 6px;
-  font-family: var(--font-ui); font-weight: 700;
+.nav-inner{
+    max-width:1380px;
+    margin:0 auto;
+    padding:16px 28px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
 }
 
+.nav-links{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex:1;
+    gap:2px;
+    min-width:0;
+}
 
-.nav-links { display: flex; align-items: center; gap: 2px; flex-shrink: 1; min-width: 0; overflow: hidden; }
-.nav-links a { flex-shrink: 0; }
-
+.nav-inner > div:last-child{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex-shrink:0;
+}
 
 .nav-cta {
   background: var(--gold) !important;
