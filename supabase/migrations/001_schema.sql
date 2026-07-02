@@ -15,7 +15,7 @@ CREATE TABLE public.profiles (
   full_name       TEXT,
   phone           TEXT,
   avatar_url      TEXT,
-  role            TEXT NOT NULL DEFAULT 'customer' CHECK (role IN ('customer','admin','vendor')),
+  role            TEXT NOT NULL DEFAULT 'customer' CHECK (role IN ('customer','admin','vendor','agent')),
   is_active       BOOLEAN DEFAULT TRUE,
   created_at      TIMESTAMPTZ DEFAULT NOW(),
   updated_at      TIMESTAMPTZ DEFAULT NOW()
@@ -276,9 +276,15 @@ CREATE TRIGGER trg_vendors_updated     BEFORE UPDATE ON public.vendors     FOR E
 CREATE OR REPLACE FUNCTION handle_new_user()
 RETURNS TRIGGER AS $$
 BEGIN
-  INSERT INTO public.profiles (id, full_name, role)
-  VALUES (NEW.id, NEW.raw_user_meta_data->>'full_name', 
-          COALESCE(NEW.raw_user_meta_data->>'role', 'customer'));
+  BEGIN
+    INSERT INTO public.profiles (id, full_name, role)
+    VALUES (NEW.id, NEW.raw_user_meta_data->>'full_name', 
+            COALESCE(NEW.raw_user_meta_data->>'role', 'customer'));
+  EXCEPTION WHEN OTHERS THEN
+    INSERT INTO public.profiles (id, full_name, role)
+    VALUES (NEW.id, NEW.raw_user_meta_data->>'full_name', 'customer')
+    ON CONFLICT (id) DO NOTHING;
+  END;
   RETURN NEW;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
