@@ -708,7 +708,12 @@ window.doRegister = async () => {
     email,password:pass,
     options:{data:{full_name:name,phone,city,experience:exp,role:'agent'}}
   });
-  if(error){showMsg(msg,error.message,'error');}
+  if(error){
+    const readable = (error.message && error.message.trim() && error.message.trim() !== '{}')
+      ? error.message
+      : 'Registration failed on our server. Please try again in a moment, or contact support if this continues.';
+    showMsg(msg,readable,'error');
+  }
   else{
     if(data.user){
       const code='ZFA'+Math.random().toString(36).slice(2,8).toUpperCase();
