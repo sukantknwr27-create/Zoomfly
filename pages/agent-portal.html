@@ -662,13 +662,24 @@ let agentTier     = 'associate';
 let allBookings   = [];
 
 // ── Auth ──────────────────────────────────────────────────
+// Failsafe: if auth never resolves for any reason, don't leave the
+// page permanently blank — fall back to the login screen after 8s.
+let _authResolved = false;
+setTimeout(() => { if (!_authResolved) showAuth(); }, 8000);
+
 supabase.auth.onAuthStateChange(async (event, session) => {
-  if (session?.user) {
-    currentUser = session.user;
-    await loadAgentProfile();
-    showPortal();
-    await loadAll();
-  } else {
+  _authResolved = true;
+  try {
+    if (session?.user) {
+      currentUser = session.user;
+      await loadAgentProfile();
+      showPortal();
+      await loadAll();
+    } else {
+      showAuth();
+    }
+  } catch (e) {
+    console.error('[agent-portal] auth/load failed:', e);
     showAuth();
   }
 });
@@ -740,7 +751,29 @@ window.doLogout = async () => {
 
 // ── Load Profile ───────────────────────────────────────────
 async function loadAgentProfile() {
-  const {data}=await supabase.from('agents').select('*').eq('user_id',currentUser.id).single();
+  // maybeSingle() instead of single(): a brand-new agent may not have
+  // a row yet (see self-heal block below) — single() throws a 406 in
+  // that case, maybeSingle() just returns null and lets us recover.
+  let {data}=await supabase.from('agents').select('*').eq('user_id',currentUser.id).maybeSingle();
+
+  // Self-heal: the row is normally created right after sign-up, but
+  // that insert runs BEFORE email confirmation (no session yet), so
+  // RLS silently blocks it and the row never gets created. If we get
+  // here with an authenticated session and still no row, create it
+  // now — this insert is authenticated so RLS allows it.
+  if(!data){
+    const meta=currentUser.user_metadata||{};
+    const code='ZFA'+Math.random().toString(36).slice(2,8).toUpperCase();
+    const {data:created,error:createErr}=await supabase.from('agents').insert([{
+      user_id:currentUser.id,
+      full_name:meta.full_name||currentUser.email?.split('@')[0]||'Agent',
+      phone:meta.phone||'', email:currentUser.email||'', city:meta.city||'',
+      experience:meta.experience||'', agent_code:code, tier:'associate', status:'active'
+    }]).select().maybeSingle();
+    if(createErr){ console.error('[agent-portal] could not create agent profile:', createErr.message); }
+    data=created||data;
+  }
+
   agentProfile=data;
   if(data){
     agentCode=data.agent_code;
@@ -888,6 +921,7 @@ window.submitAgentBooking = async () => {
   const total=amount+tax;
 
   const {error}=await supabase.from('bookings').insert([{
+    booking_type:   service,
     service_type:   service,
     service_name:   desc,
     customer_name:  cname,

@@ -773,13 +773,24 @@ let allListings    = [];
 let editListingId  = null;
 
 // ── Auth State ─────────────────────────────────────────────
+// Failsafe: if auth never resolves for any reason, don't leave the
+// page permanently blank — fall back to the login screen after 8s.
+let _authResolved = false;
+setTimeout(() => { if (!_authResolved) showAuth(); }, 8000);
+
 supabase.auth.onAuthStateChange(async (event, session) => {
-  if (session?.user) {
-    currentUser = session.user;
-    await loadVendorProfile();
-    showPortal();
-    await loadAll();
-  } else {
+  _authResolved = true;
+  try {
+    if (session?.user) {
+      currentUser = session.user;
+      await loadVendorProfile();
+      showPortal();
+      await loadAll();
+    } else {
+      showAuth();
+    }
+  } catch (e) {
+    console.error('[vendor-portal] auth/load failed:', e);
     showAuth();
   }
 });
@@ -866,8 +877,30 @@ window.doLogout = async () => { await supabase.auth.signOut({ scope: 'global' })
 
 // ── Load Vendor Profile ────────────────────────────────────
 async function loadVendorProfile() {
-  const { data } = await supabase.from('vendors')
-    .select('*').eq('user_id', currentUser.id).single();
+  // maybeSingle(): a brand-new vendor may not have a row yet (see
+  // self-heal below) — single() throws a 406 in that case.
+  let { data } = await supabase.from('vendors')
+    .select('*').eq('user_id', currentUser.id).maybeSingle();
+
+  // Self-heal: the row is normally created right after sign-up, but
+  // that insert runs BEFORE email confirmation (no session yet), so
+  // RLS can silently block it and the row never gets created. If we
+  // get here with an authenticated session and still no row, create
+  // it now — this insert is authenticated so RLS allows it.
+  if (!data) {
+    const meta = currentUser.user_metadata || {};
+    const { data: created, error: createErr } = await supabase.from('vendors').insert([{
+      user_id: currentUser.id,
+      business_name: meta.business_name || 'My Business',
+      contact_name: meta.full_name || currentUser.email?.split('@')[0] || '',
+      phone: meta.phone || '', email: currentUser.email || '',
+      vendor_type: meta.vendor_type || 'Hotel', city: meta.city || '', gstin: meta.gstin || '',
+      status: 'pending'
+    }]).select().maybeSingle();
+    if (createErr) { console.error('[vendor-portal] could not create vendor profile:', createErr.message); }
+    data = created || data;
+  }
+
   vendorProfile = data;
   if (data) {
     document.getElementById('sb-bname').textContent = data.business_name || 'My Business';
@@ -902,7 +935,7 @@ window.loadAll = async function() {
 
   // Load listings
   const { data: lData } = await supabase.from('vendors')
-    .select('listings').eq('user_id', currentUser.id).single();
+    .select('listings').eq('user_id', currentUser.id).maybeSingle();
   allListings = lData?.listings || [];
 
   renderDashboard();

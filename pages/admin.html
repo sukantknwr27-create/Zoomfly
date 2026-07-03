@@ -484,7 +484,35 @@ setTimeout(function() {
         <div class="loading" id="dest-load"><div class="spinner"></div></div>
         <div id="dest-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin-top:16px;"></div>
       </div>
+
+      <!-- Add/Edit Destination Modal -->
+      <div id="dest-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999;align-items:center;justify-content:center">
+        <div style="background:#fff;border-radius:16px;padding:2rem;max-width:480px;width:90%">
+          <h3 style="margin-bottom:1.5rem" id="dest-modal-title">Add Destination</h3>
+          <input type="hidden" id="dest-id"/>
+          <div style="margin-bottom:1rem">
+            <label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Destination Name *</label>
+            <input id="dest-name" placeholder="Goa" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px"/>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+            <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Country / Type</label>
+              <input id="dest-country" placeholder="India - Beach" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px"/></div>
+            <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Emoji</label>
+              <input id="dest-emoji" placeholder="🏖️" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px"/></div>
+          </div>
+          <div style="margin-bottom:1.5rem">
+            <label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Image URL (optional)</label>
+            <input id="dest-image" placeholder="https://... (leave blank to use emoji)" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px"/>
+          </div>
+          <div id="dest-modal-msg" style="font-size:.8rem;margin-bottom:1rem;color:#dc2626"></div>
+          <div style="display:flex;gap:.6rem;justify-content:flex-end">
+            <button onclick="closeDestModal()" style="background:none;border:1.5px solid #e2e8f0;border-radius:8px;padding:.65rem 1.2rem;cursor:pointer">Cancel</button>
+            <button onclick="saveDestination()" style="background:#C9922A;color:#0C1B33;border:none;border-radius:8px;padding:.65rem 1.4rem;font-weight:700;cursor:pointer">Save Destination</button>
+          </div>
+        </div>
+      </div>
     </div>
+
 
     <!-- OFFERS & PROMOS -->
     <div class="section" id="section-offers">
@@ -657,7 +685,8 @@ async function loadTravelPartners() {
 window.togglePartnerStatus = async (id, type, current) => {
   const newStatus = current === 'active' ? 'suspended' : 'active';
   const table = type === 'agent' ? 'agents' : 'vendors';
-  await supabase.from(table).update({ status: newStatus }).eq('id', id);
+  const { error } = await supabase.from(table).update({ status: newStatus }).eq('id', id);
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
   loadTravelPartners();
   toast('Status updated');
 };
@@ -756,7 +785,7 @@ async function loadHotels() {
   }
 }
 
-window.openAddHotel = () => {
+window.openAddHotel = async () => {
   // Show inline form inside the table card
   const existing = document.getElementById('hotel-add-form');
   if (existing) { existing.remove(); return; }
@@ -788,30 +817,33 @@ window.openAddHotel = () => {
   document.querySelector('#section-hotels .table-card').prepend(form);
 };
 
-window.submitAddHotel = () => {
+window.submitAddHotel = async () => {
   const name  = document.getElementById('h-name')?.value?.trim();
   const city  = document.getElementById('h-city')?.value?.trim();
   const stars = parseInt(document.getElementById('h-stars')?.value || '3');
   const price = parseFloat(document.getElementById('h-price')?.value || '0');
   const img   = document.getElementById('h-img')?.value?.trim() || null;
   if (!name || !city) { toast('Hotel name and city are required','error'); return; }
-  supabase.from('hotels').insert({ name, location: city, city, stars, price_per_night: price, image_url: img, is_active: true })
-    .then(() => { toast('Hotel added ✅'); document.getElementById('hotel-add-form')?.remove(); loadHotels(); })
-    .catch(e => toast('Error: ' + e.message, 'error'));
+  const { error } = await supabase.from('hotels').insert({ name, location: city, city, stars, price_per_night: price, image_url: img, is_active: true });
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
+  toast('Hotel added ✅'); document.getElementById('hotel-add-form')?.remove(); loadHotels();
 };
 
 window.editHotel = async (id) => {
-  const { data: h } = await supabase.from('hotels').select('*').eq('id', id).single();
+  const { data: h, error: fetchErr } = await supabase.from('hotels').select('*').eq('id', id).maybeSingle();
+  if (fetchErr || !h) { toast('Could not load hotel: ' + (fetchErr?.message || 'not found'), 'error'); return; }
   const name = prompt('Hotel name:', h.name); if (!name) return;
   const city = prompt('Location:', h.location || h.city);
   const price = parseInt(prompt('Price per night:', h.price_per_night) || h.price_per_night);
-  await supabase.from('hotels').update({ name, location: city, city, price_per_night: price }).eq('id', id);
+  const { error } = await supabase.from('hotels').update({ name, location: city, city, price_per_night: price }).eq('id', id);
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
   toast('Hotel updated'); loadHotels();
 };
 
 window.deleteHotel = async (id) => {
   if (!confirm('Delete this hotel?')) return;
-  await supabase.from('hotels').delete().eq('id', id);
+  const { error } = await supabase.from('hotels').delete().eq('id', id);
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
   toast('Hotel deleted'); loadHotels();
 };
 
@@ -843,28 +875,55 @@ async function loadDestinations() {
 }
 
 window.openAddDestination = () => {
-  const name     = prompt('Destination name (e.g. Goa):'); if (!name) return;
-  const country  = prompt('Country / Type (e.g. India - Beach):') || 'India';
-  const emoji    = prompt('Emoji (e.g. 🏖️):') || '🏖️';
-  const imageUrl = prompt('Image URL (optional — leave blank to use emoji):') || null;
-  supabase.from('destinations').insert({ name, country, emoji, image_url: imageUrl, is_active: true })
-    .then(() => { toast('Destination added'); loadDestinations(); })
-    .catch(e => toast('Error: ' + e.message, 'error'));
+  document.getElementById('dest-modal-title').textContent = 'Add Destination';
+  document.getElementById('dest-id').value = '';
+  document.getElementById('dest-name').value = '';
+  document.getElementById('dest-country').value = '';
+  document.getElementById('dest-emoji').value = '';
+  document.getElementById('dest-image').value = '';
+  document.getElementById('dest-modal-msg').textContent = '';
+  document.getElementById('dest-modal').style.display = 'flex';
 };
 
+window.closeDestModal = () => { document.getElementById('dest-modal').style.display = 'none'; };
+
 window.editDestination = async (id) => {
-  const { data: d } = await supabase.from('destinations').select('*').eq('id', id).single();
-  const name     = prompt('Name:', d.name); if (!name) return;
-  const country  = prompt('Country / Type:', d.country);
-  const emoji    = prompt('Emoji:', d.emoji || '🏖️');
-  const imageUrl = prompt('Image URL:', d.image_url || '');
-  await supabase.from('destinations').update({ name, country, emoji, image_url: imageUrl || null }).eq('id', id);
-  toast('Destination updated'); loadDestinations();
+  const { data: d, error } = await supabase.from('destinations').select('*').eq('id', id).maybeSingle();
+  if (error || !d) { toast('Could not load destination: ' + (error?.message || 'not found'), 'error'); return; }
+  document.getElementById('dest-modal-title').textContent = 'Edit Destination';
+  document.getElementById('dest-id').value = d.id;
+  document.getElementById('dest-name').value = d.name || '';
+  document.getElementById('dest-country').value = d.country || '';
+  document.getElementById('dest-emoji').value = d.emoji || '';
+  document.getElementById('dest-image').value = d.image_url || '';
+  document.getElementById('dest-modal-msg').textContent = '';
+  document.getElementById('dest-modal').style.display = 'flex';
+};
+
+window.saveDestination = async () => {
+  const id      = document.getElementById('dest-id').value;
+  const name    = document.getElementById('dest-name').value.trim();
+  const country = document.getElementById('dest-country').value.trim() || 'India';
+  const emoji   = document.getElementById('dest-emoji').value.trim() || '🏖️';
+  const imageUrl= document.getElementById('dest-image').value.trim() || null;
+  const msg     = document.getElementById('dest-modal-msg');
+  if (!name) { msg.textContent = 'Destination name is required.'; return; }
+
+  const payload = { name, country, emoji, image_url: imageUrl };
+  const { error } = id
+    ? await supabase.from('destinations').update(payload).eq('id', id)
+    : await supabase.from('destinations').insert({ ...payload, is_active: true });
+
+  if (error) { msg.textContent = 'Error: ' + error.message; return; }
+  closeDestModal();
+  toast(id ? 'Destination updated' : 'Destination added');
+  loadDestinations();
 };
 
 window.deleteDestination = async (id) => {
   if (!confirm('Delete this destination?')) return;
-  await supabase.from('destinations').delete().eq('id', id);
+  const { error } = await supabase.from('destinations').delete().eq('id', id);
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
   toast('Destination deleted'); loadDestinations();
 };
 
@@ -958,24 +1017,26 @@ window.savePromo = async () => {
   const expiry  = document.getElementById('promo-expiry').value || null;
   if (!code || !value) { toast('Code and value are required','error'); return; }
   const payload = { code, discount_type: type, discount_value: value, min_order_amount: min, max_uses: max, expires_at: expiry, is_active: true };
-  try {
-    if (id) { await supabase.from('promo_codes').update(payload).eq('id', id); }
-    else    { await supabase.from('promo_codes').insert(payload); }
-    closePromoModal();
-    toast('Promo code saved');
-    loadPromos();
-  } catch(e) { toast('Error: ' + e.message, 'error'); }
+  const { error } = id
+    ? await supabase.from('promo_codes').update(payload).eq('id', id)
+    : await supabase.from('promo_codes').insert(payload);
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
+  closePromoModal();
+  toast('Promo code saved');
+  loadPromos();
 };
 
 window.togglePromo = async (id, isActive) => {
-  await supabase.from('promo_codes').update({ is_active: !isActive }).eq('id', id);
+  const { error } = await supabase.from('promo_codes').update({ is_active: !isActive }).eq('id', id);
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
   toast(isActive ? 'Promo disabled' : 'Promo enabled');
   loadPromos();
 };
 
 window.deletePromo = async (id) => {
   if (!confirm('Delete this promo code? This cannot be undone.')) return;
-  await supabase.from('promo_codes').delete().eq('id', id);
+  const { error } = await supabase.from('promo_codes').delete().eq('id', id);
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
   toast('Promo deleted');
   loadPromos();
 };
@@ -1041,14 +1102,10 @@ window.loadPageContent = async () => {
   const msg    = document.getElementById('page-save-msg');
   editor.value = 'Loading...';
   msg.textContent = '';
-  try {
-    // Try to load from Supabase page_contents table
-    const { data } = await supabase.from('page_contents')
-      .select('content').eq('page_slug', page).single();
-    editor.value = data?.content || '(No content saved yet. Paste your HTML content here.)';
-  } catch(_) {
-    editor.value = '(No content saved yet. Paste your HTML content here.)';
-  }
+  const { data, error } = await supabase.from('page_contents')
+    .select('content').eq('page_slug', page).maybeSingle();
+  if (error) { msg.style.color='#dc2626'; msg.textContent = '❌ Error loading: ' + error.message; }
+  editor.value = data?.content || '(No content saved yet. Paste your HTML content here.)';
 };
 
 window.savePageContent = async () => {
@@ -1057,18 +1114,17 @@ window.savePageContent = async () => {
   const msg     = document.getElementById('page-save-msg');
   const btn     = document.querySelector('button[onclick="savePageContent()"]');
   if (btn) { btn.textContent = '⏳ Saving...'; btn.disabled = true; }
-  try {
-    await supabase.from('page_contents').upsert({
-      page_slug: page, content, updated_at: new Date().toISOString()
-    }, { onConflict: 'page_slug' });
-    msg.style.color   = '#059669';
-    msg.textContent   = '✅ Content saved! Create the page_contents table in Supabase if not done.';
-  } catch(e) {
+  const { error } = await supabase.from('page_contents').upsert({
+    page_slug: page, content, updated_at: new Date().toISOString()
+  }, { onConflict: 'page_slug' });
+  if (error) {
     msg.style.color   = '#dc2626';
-    msg.textContent   = '❌ Error: ' + e.message;
-  } finally {
-    if (btn) { btn.textContent = '💾 Save Page Content'; btn.disabled = false; }
+    msg.textContent   = '❌ Error: ' + error.message;
+  } else {
+    msg.style.color   = '#059669';
+    msg.textContent   = '✅ Content saved!';
   }
+  if (btn) { btn.textContent = '💾 Save Page Content'; btn.disabled = false; }
 };
 
 // ── ADMIN CUSTOMERS PAGE ──────────────────────────────────────
@@ -1127,11 +1183,11 @@ window.openAddBus = () => {
   document.querySelector('#section-buses .table-card').prepend(form);
 };
 
-window.submitAddBus = () => {
+window.submitAddBus = async () => {
   const from = document.getElementById('b-from')?.value?.trim();
   const to   = document.getElementById('b-to')?.value?.trim();
   if (!from || !to) { toast('From and To cities are required','error'); return; }
-  supabase.from('bus_routes').insert({
+  const { error } = await supabase.from('bus_routes').insert({
     from_city: from, to_city: to,
     operator: document.getElementById('b-op')?.value || 'Private',
     bus_type: document.getElementById('b-type')?.value || 'AC Sleeper',
@@ -1139,13 +1195,15 @@ window.submitAddBus = () => {
     departure_time: document.getElementById('b-dep')?.value || '',
     duration: document.getElementById('b-dur')?.value || '',
     is_active: true,
-  }).then(()=>{ toast('Bus route added ✅'); document.getElementById('bus-add-form')?.remove(); loadBuses(); })
-    .catch(e=>toast('Error: '+e.message,'error'));
+  });
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
+  toast('Bus route added ✅'); document.getElementById('bus-add-form')?.remove(); loadBuses();
 };
 
 window.deleteBus = async (id) => {
   if (!confirm('Delete this bus route?')) return;
-  await supabase.from('bus_routes').delete().eq('id',id);
+  const { error } = await supabase.from('bus_routes').delete().eq('id',id);
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
   toast('Bus route deleted'); loadBuses();
 };
 
@@ -1199,23 +1257,25 @@ window.openAddCab = () => {
   document.querySelector('#section-cabs .table-card').prepend(form);
 };
 
-window.submitAddCab = () => {
+window.submitAddCab = async () => {
   const from = document.getElementById('c-from')?.value?.trim();
   const to   = document.getElementById('c-to')?.value?.trim();
   if (!from || !to) { toast('From and To locations are required','error'); return; }
-  supabase.from('cab_services').insert({
+  const { error } = await supabase.from('cab_services').insert({
     from_location: from, to_location: to,
     cab_type:      document.getElementById('c-type')?.value || 'Sedan',
     price:         parseFloat(document.getElementById('c-price')?.value || '1000'),
     duration_hours:parseFloat(document.getElementById('c-dur')?.value  || '2'),
     is_active: true,
-  }).then(()=>{ toast('Cab service added ✅'); document.getElementById('cab-add-form')?.remove(); loadCabs(); })
-    .catch(e=>toast('Error: '+e.message,'error'));
+  });
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
+  toast('Cab service added ✅'); document.getElementById('cab-add-form')?.remove(); loadCabs();
 };
 
 window.deleteCab = async (id) => {
   if (!confirm('Delete this cab service?')) return;
-  await supabase.from('cab_services').delete().eq('id',id);
+  const { error } = await supabase.from('cab_services').delete().eq('id',id);
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
   toast('Cab service deleted'); loadCabs();
 };
 
@@ -1258,7 +1318,8 @@ window.markFlightDone = async (id) => {
 // ── PARTNER APPROVAL (issue 11) ───────────────────────────────
 window.approvePartner = async (id, type, email, name) => {
   const table = type === 'agent' ? 'agents' : 'vendors';
-  await supabase.from(table).update({ status: 'active', approved_at: new Date().toISOString() }).eq('id', id);
+  const { error } = await supabase.from(table).update({ status: 'active', approved_at: new Date().toISOString() }).eq('id', id);
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
   // Send approval notification via WhatsApp (no email service yet)
   const msg = `Hi ${name}! 🎉 Your application as a ZoomFly ${type} partner has been APPROVED. You can now log in to your partner portal and start earning commissions. Welcome aboard! — ZoomFly Team`;
   window.open('https://wa.me/' + email.replace(/\D/g,'') + '?text=' + encodeURIComponent(msg), '_blank');
@@ -1783,30 +1844,28 @@ window.saveTestimonial = async () => {
     text, initials: name.split(' ').map(n => n[0]).join('').substring(0,2).toUpperCase(),
     is_active: true
   };
-  try {
-    if (id) { await supabase.from('testimonials').update(payload).eq('id', id); }
-    else { await supabase.from('testimonials').insert(payload); }
-    document.getElementById('testi-modal').style.display = 'none';
-    toast(id ? 'Testimonial updated ✅' : 'Testimonial added ✅');
-    loadTestimonials();
-  } catch(e) { toast('Error: ' + e.message, 'error'); }
+  const { error } = id
+    ? await supabase.from('testimonials').update(payload).eq('id', id)
+    : await supabase.from('testimonials').insert(payload);
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
+  document.getElementById('testi-modal').style.display = 'none';
+  toast(id ? 'Testimonial updated ✅' : 'Testimonial added ✅');
+  loadTestimonials();
 };
 
 window.deleteTestimonial = async (id) => {
   if (!confirm('Delete this testimonial?')) return;
-  try {
-    await supabase.from('testimonials').delete().eq('id', id);
-    toast('Testimonial deleted');
-    loadTestimonials();
-  } catch(e) { toast('Error: ' + e.message, 'error'); }
+  const { error } = await supabase.from('testimonials').delete().eq('id', id);
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
+  toast('Testimonial deleted');
+  loadTestimonials();
 };
 
 window.toggleTestimonial = async (id, current) => {
-  try {
-    await supabase.from('testimonials').update({ is_active: !current }).eq('id', id);
-    toast(current ? 'Testimonial hidden' : 'Testimonial shown');
-    loadTestimonials();
-  } catch(e) { toast('Error: ' + e.message, 'error'); }
+  const { error } = await supabase.from('testimonials').update({ is_active: !current }).eq('id', id);
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
+  toast(current ? 'Testimonial hidden' : 'Testimonial shown');
+  loadTestimonials();
 };
 
 // Load subscribers
