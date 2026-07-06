@@ -471,12 +471,28 @@ window.generatePaymentLink = async (userId, name, phone, email) => {
 };
 
 // ── MANUAL BOOKING ────────────────────────────────────────────
+const MB_PLACEHOLDERS = {
+  package: 'e.g. Goa Beach Escape 4D/3N',
+  flight:  'e.g. Delhi → Mumbai, IndiGo 6E-123',
+  hotel:   'e.g. Taj Palace, New Delhi',
+  train:   'e.g. Rajdhani Express, Delhi → Mumbai',
+  bus:     'e.g. Volvo AC Sleeper, Delhi → Manali',
+  cab:     'e.g. Sedan, Delhi Airport Transfer',
+};
+
+window.updateServiceFields = () => {
+  const type = document.getElementById('mb-type').value;
+  const nameInput = document.getElementById('mb-name');
+  if (nameInput) nameInput.placeholder = MB_PLACEHOLDERS[type] || 'Service name';
+};
+
 window.openManualBooking = (userId='', name='', phone='', email='') => {
   document.getElementById('mb-cname').value = name;
   document.getElementById('mb-phone').value = phone;
   document.getElementById('mb-email').value = email;
   document.getElementById('manual-booking-modal').dataset.userId = userId;
   document.getElementById('manual-booking-modal').classList.add('show');
+  updateServiceFields();
 };
 
 window.closeManualBooking = () => {

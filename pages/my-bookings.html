@@ -233,7 +233,6 @@
 .track-form{flex-direction:column;}
     }
   </style>
-<header class="nav" id="mainNav"></header>
   <meta name="robots" content="noindex, nofollow"/>
   <link rel="stylesheet" href="/assets/css/main.css"/>
 <link rel="stylesheet" href="/assets/css/premium.css"/>
@@ -242,6 +241,8 @@
 <body>
 
 <!-- NAV -->
+<header class="nav" id="mainNav"></header>
+
 
 
 <!-- ── LOGIN VIEW ── -->
@@ -418,7 +419,6 @@ supabase.auth.onAuthStateChange(async (event, session) => {
 function showLogin() {
   document.getElementById('view-login').className = 'show';
   document.getElementById('view-portal').className = '';
-  document.getElementById('nav-user').style.display = 'none';
 }
 
 function showPortal(user) {
@@ -427,11 +427,7 @@ function showPortal(user) {
 
   const name  = user.user_metadata?.full_name || user.email.split('@')[0];
   const email = user.email;
-  const init  = name.charAt(0).toUpperCase();
 
-  document.getElementById('nav-user').style.display   = 'flex';
-  document.getElementById('nav-avatar').textContent   = init;
-  document.getElementById('nav-name').textContent     = name;
   document.getElementById('portal-greeting').textContent = `Welcome back, ${name.split(' ')[0]}! 👋`;
   document.getElementById('portal-email').textContent = email;
 }

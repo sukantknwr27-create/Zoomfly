@@ -338,11 +338,6 @@ const WA_NUMBER = '918076136300';
 let allBookings = [];
 let sentLog = JSON.parse(localStorage.getItem('zf_reminder_log') || '[]');
 
-  const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
-  if (profile?.role !== 'admin') { window.location.replace('/pages/admin-login.html?reason=access_denied'); return false; }
-  return true;
-}
-
 // ── INIT ──────────────────────────────────────────────────────
 async function init() {
   const ok = await requireAdmin();
