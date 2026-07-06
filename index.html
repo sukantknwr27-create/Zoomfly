@@ -453,7 +453,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
         <h3>Get the best deals,<br><em>before anyone else</em></h3>
         <p>Join 12,000+ travellers getting exclusive offers every week.</p>
       </div>
-      <form class="newsletter-form" onsubmit="handleNewsletterSignup(event)">
+      <form class="newsletter-form" onsubmit="handleNewsletter(event)">
         <input type="email" placeholder="Your email address" required aria-label="Email for newsletter"/>
         <button type="submit" class="btn btn-navy btn-sm">Subscribe</button>
       </form>
@@ -475,16 +475,10 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
 
 <script src="/assets/js/main.js"></script>
 <script type="module">
-import { getPackages, getUser, addToWishlist, removeFromWishlist, getWishlist } from '/assets/js/supabase.js';
+import { getPackages, addToWishlist, removeFromWishlist, getWishlist } from '/assets/js/supabase.js';
 
-// ── Auth-aware nav ──
-const user = await getUser();
-if (user) {
-  const initials = (user.email||'U').substring(0,2).toUpperCase();
-  document.getElementById('nav-right').innerHTML = `
-    <a href="/pages/dashboard.html" class="user-pill"><div class="uav">${initials}</div> My Trips</a>
-    <a href="/pages/contact.html" class="btn-cta">Free Quote</a>`;
-}
+// Note: auth-aware nav (login/signup vs user menu) is already handled
+// globally by main.js's renderNav()/_updateNavAuth() using nav.html's ids.
 
 // ── Search tabs ──
 window.switchSearch = (tab, el) => {
@@ -731,52 +725,6 @@ setTimeout(() => {
   showSocialProof();
   setInterval(showSocialProof, 25000);
 }, 8000);
-
-// ── Newsletter submit ──────────────────────────────────────
-window.submitNewsletter = async (e) => {
-  if (e) e.preventDefault();
-  const email = document.getElementById('nl-email')?.value?.trim();
-  const btn   = document.getElementById('nl-btn');
-  const msg   = document.getElementById('nl-msg');
-  if (!email || !email.includes('@')) return;
-
-  const origText = btn.textContent;
-  btn.textContent = '⏳ Subscribing...';
-  btn.disabled    = true;
-  msg.textContent = '';
-
-  const success = (text) => {
-    btn.textContent      = '✅ Subscribed!';
-    btn.style.background = 'linear-gradient(135deg,#22c55e,#16a34a)';
-    if (msg) { msg.style.color = '#86efac'; msg.textContent = text; }
-    document.getElementById('nl-form')?.reset();
-    setTimeout(() => {
-      btn.textContent      = origText;
-      btn.style.background = '';
-      btn.disabled         = false;
-      if (msg) msg.textContent = '';
-    }, 5000);
-  };
-
-  try {
-    // Use already-loaded Supabase client from main.js global scope
-    const { supabase: sb } = await import('/assets/js/supabase.js');
-    const { error } = await sb
-      .from('newsletter')
-      .insert({ email, source: 'homepage' });
-
-    if (error?.code === '23505') {
-      success("You're already subscribed! 🎉 Great deals coming your way.");
-    } else if (error) {
-      throw error;
-    } else {
-      success('🎉 Welcome aboard! Check your inbox for a welcome gift.');
-    }
-  } catch {
-    // Always show success — don't frustrate the user
-    success('🎉 Subscribed! We\'ll send you the best deals every week.');
-  }
-};
 </script>
 
 <!-- EXIT INTENT POPUP -->
