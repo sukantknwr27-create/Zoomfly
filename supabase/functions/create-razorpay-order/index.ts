@@ -49,7 +49,13 @@ serve(async (req) => {
   }
 
   try {
-    const { booking_id, amount, currency = 'INR' } = await req.json();
+    // NOTE: we intentionally do NOT accept `amount` from the client.
+    // Trusting a client-supplied amount would let anyone request an
+    // order for ₹1 instead of the real price. The price always comes
+    // from the booking row itself, which only the server (this
+    // function, with the service role) and Razorpay's webhook can
+    // set — never the browser.
+    const { booking_id, currency = 'INR' } = await req.json();
 
     // Verify user is authenticated
     const supabase = createClient(
@@ -67,6 +73,14 @@ serve(async (req) => {
     const { data: booking, error: bookingError } = await supabase
       .from('bookings').select('*').eq('id', booking_id).eq('user_id', user.id).single();
     if (bookingError || !booking) throw new Error('Booking not found');
+
+    if (booking.payment_status === 'paid') {
+      throw new Error('This booking has already been paid for.');
+    }
+
+    // Price comes from the booking row — never from the request body.
+    const amount = Number(booking.total_amount);
+    if (!amount || amount <= 0) throw new Error('Booking has no valid amount to charge.');
 
     // Create Razorpay order
     const razorpayKeyId     = Deno.env.get('RAZORPAY_KEY_ID')!;
