@@ -483,14 +483,13 @@ window.confirmBooking = async () => {
     if (user) {
       try {
         const booking = await createBooking({
-          booking_type:'hotel', hotel_id:selHotel.id,
-          guest_name: fn+' '+(document.getElementById('b-ln').value.trim()),
-          guest_email:em, guest_phone:ph,
-          checkin_date:ci||null, checkout_date:co||null,
-          num_guests:1, num_rooms:1,
-          room_type: room?.name || 'Standard',
+          service_type:'hotel', service_id:selHotel.id, service_name:selHotel.name,
+          customer_name: fn+' '+(document.getElementById('b-ln').value.trim()),
+          customer_email:em, customer_phone:ph,
+          travel_details: { checkin_date: ci||null, checkout_date: co||null, nights, room_type: room?.name || 'Standard', num_rooms: 1 },
+          num_adults:1,
           special_requests:document.getElementById('b-sr').value,
-          base_amount:amount, total_amount:amount, taxes:0, discount:0
+          base_amount:amount, total_amount:amount, tax_amount:0, discount_amount:0
         });
         document.getElementById('b-ref').textContent = booking.booking_ref;
         goMs(4); return;
@@ -498,10 +497,11 @@ window.confirmBooking = async () => {
     }
     // Redirect to payment page
     const params = new URLSearchParams({
-      type:'hotel', name: selHotel.name,
+      type:'hotel', id: selHotel.id, name: selHotel.name,
+      room: room?.name || 'Standard Room',
       emoji: selHotel.emoji||'🏨',
       bg: encodeURIComponent(selHotel.bg_gradient||''),
-      amount: amount, nights: nights+'N'
+      amount: amount, nights: nights+'N', unit:'room'
     });
     window.location.href = '/pages/payment.html?' + params.toString();
   } catch(e){alert('Booking failed: '+e.message);}

@@ -331,7 +331,7 @@ window.openModal = (id) => {
     <div class="m-price"><div class="amt">₹${Number(p.price).toLocaleString('en-IN')}</div><div class="per">/person <s style="color:var(--text-light)">₹${Number(p.old_price||p.price).toLocaleString('en-IN')}</s></div></div>
     <div class="m-cta">
       <button class="btn-wa-m" onclick="window.open('https://wa.me/918076136300?text=Hi!+Interested+in+${encodeURIComponent(p.title)}','_blank')">💬 WhatsApp</button>
-      <button class="btn-book" onclick="window.location.href='/pages/payment.html?type=package&name=${encodeURIComponent(p.title)}&emoji=${encodeURIComponent(p.emoji||'🗺️')}&amount=${p.price}&nights=${p.nights||5}N'">Book Now →</button>
+      <button class="btn-book" onclick="window.location.href='/pages/payment.html?type=package&id=${p.id}&name=${encodeURIComponent(p.title)}&emoji=${encodeURIComponent(p.emoji||'🗺️')}&amount=${p.price}&nights=${p.nights||5}N'">Book Now →</button>
     </div>`;
   document.getElementById('modal-ov').classList.add('open');
   document.body.style.overflow='hidden';

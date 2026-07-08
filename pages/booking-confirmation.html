@@ -332,7 +332,7 @@
   <!-- TRACK BOOKING -->
   <div class="track-card">
     <h3>🔍 Track Another Booking</h3>
-    <p>Enter a booking reference number to check its status.</p>
+    <p>Enter your booking reference and the email used to book.</p>
     <div class="track-form">
       <input
         type="text"
@@ -340,6 +340,14 @@
         id="track-input"
         placeholder="e.g. ZF-FLT-20260509-0001"
         maxlength="30"
+      />
+      <input
+        type="email"
+        class="track-input"
+        id="track-email-input"
+        placeholder="Email used for the booking"
+        maxlength="120"
+        style="margin-top:8px;"
       />
       <button class="track-btn" onclick="trackBooking()">Track</button>
     </div>
@@ -446,17 +454,20 @@
 
   // ── Track booking function ──
   window.trackBooking = async function() {
-    const input  = document.getElementById('track-input');
-    const result = document.getElementById('track-result');
-    const ref    = input?.value?.trim().toUpperCase();
+    const input      = document.getElementById('track-input');
+    const emailInput = document.getElementById('track-email-input');
+    const result     = document.getElementById('track-result');
+    const ref        = input?.value?.trim().toUpperCase();
+    const email      = emailInput?.value?.trim();
 
     if (!ref) { input.focus(); return; }
+    if (!email) { emailInput.focus(); return; }
 
     result.style.display = 'block';
     result.innerHTML = '<span style="color:#64748b;font-size:0.85rem;">🔍 Looking up booking...</span>';
 
     try {
-      const b = await getBookingByRef(ref);
+      const b = await getBookingByRef(ref, email);
       result.innerHTML = `
         <div style="font-size:0.85rem;">
           <div style="font-weight:700;color:#0f1923;margin-bottom:10px;">

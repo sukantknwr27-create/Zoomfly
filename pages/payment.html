@@ -309,14 +309,55 @@ const itemBg = params.get('bg') || 'linear-gradient(135deg,#667eea,#764ba2)';
   }
 })();
 const nights = params.get('nights') || '5N';
+const serviceId = params.get('id') || null;
+const roomName  = params.get('room') || null;
 
-const basePerPerson = parseInt(params.get('amount') || '12499');
+// `amount` from the URL is only a placeholder for the first paint.
+// If we have a service_id, the real price is fetched from the DB
+// below and OVERWRITES this — the URL amount is never trusted for
+// what gets charged or saved.
+let basePerPerson = parseInt(params.get('amount') || '12499');
 const bookingUnit = params.get('unit') || 'person'; // 'person' or 'room'
 let numPersons = 1;
 let discount = 0;
 let tax = 0;
 let total = 0;
 let selectedMethod = 'whatsapp'; // shared across the page; updated when user picks a payment method
+
+// ── SERVER-SIDE PRICE VERIFICATION ───────────────────────────
+// Prices used to travel to this page as a URL query param, which
+// anyone could edit before the page loaded. If we have a service_id
+// (set by packages.html / hotels.html), we look the real price up
+// from the database here and replace basePerPerson with it. Online
+// payment (Razorpay) is disabled until this resolves successfully.
+let priceVerified = !serviceId; // no service_id (old/direct link) = nothing to verify against
+let priceCheckFailed = false;
+
+async function verifyPriceFromServer() {
+  if (!serviceId) return;
+  const payBtn = document.getElementById('pay-btn');
+  if (payBtn) { payBtn.disabled = true; payBtn.innerHTML = '<div class="spin"></div> Verifying current price…'; }
+  try {
+    const { supabase } = await import('../assets/js/supabase.js');
+    const { data, error } = await supabase.functions.invoke('get-service-price', {
+      body: { service_type: bookingType, service_id: serviceId, room_name: roomName },
+    });
+    if (error || data?.error || !data?.base_per_unit) {
+      throw new Error(data?.error || error?.message || 'Price verification failed');
+    }
+    basePerPerson = bookingUnit === 'room'
+      ? data.base_per_unit * (parseInt(nights) || 1)
+      : data.base_per_unit;
+    priceVerified = true;
+  } catch (e) {
+    console.warn('[ZoomFly Payment] Could not verify price server-side:', e.message);
+    priceCheckFailed = true;
+  } finally {
+    if (payBtn) { payBtn.disabled = false; renderSummary(); }
+  }
+}
+verifyPriceFromServer();
+
 
 // ── ADD-ON / UPSELL TOGGLES ────────────────────────────────
 let addonTotal = 0;
@@ -518,6 +559,14 @@ window.processPayment = async () => {
 
   // For card / UPI / net banking → try Razorpay
   if (['razorpay','upi','netbanking','emi'].includes(selectedMethod)) {
+    if (!priceVerified) {
+      btn.disabled  = false;
+      btn.innerHTML = `🔒 Pay Securely Now — ₹${total.toLocaleString('en-IN')}`;
+      alert(priceCheckFailed
+        ? 'We could not verify the current price for this booking. Please go back and click "Book Now" again, or use Bank Transfer / WhatsApp to book — our team will confirm pricing manually.'
+        : 'Still verifying the price for this booking — please try again in a moment.');
+      return;
+    }
     try {
       const { RAZORPAY_KEY_ID } = await import('../assets/js/supabase.js');
       const razorKey = RAZORPAY_KEY_ID || 'rzp_test_YOUR_KEY_HERE';
@@ -540,10 +589,13 @@ window.processPayment = async () => {
               // Step 1: Create a pending booking in DB first
               const { createBooking, supabase } = await import('../assets/js/supabase.js');
               const booking = await createBooking({
-                booking_type: bookingType, guest_name: name, guest_email: email,
-                guest_phone: phone.replace(/\D/g,''), num_guests: parseInt(document.getElementById('g-pax').value) || 2,
+                service_type: bookingType, service_name: itemName,
+                customer_name: name, customer_email: email,
+                customer_phone: phone.replace(/\D/g,''),
+                num_adults: parseInt(document.getElementById('g-pax').value) || 2,
                 special_requests: document.getElementById('g-note').value,
-                base_amount: basePerPerson * numPersons, discount, taxes: tax, total_amount: total,
+                base_amount: basePerPerson * numPersons, discount_amount: discount,
+                tax_amount: tax, total_amount: total,
                 currency: 'INR', payment_method: 'razorpay', status: 'pending',
                 payment_status: 'pending',
                 razorpay_order_id: response.razorpay_order_id,
@@ -587,10 +639,13 @@ window.processPayment = async () => {
   try {
     const { createBooking } = await import('../assets/js/supabase.js');
     const booking = await createBooking({
-      booking_type: bookingType, guest_name: name, guest_email: email,
-      guest_phone: phone.replace(/\D/g,''), num_guests: parseInt(document.getElementById('g-pax').value) || 2,
+      service_type: bookingType, service_name: itemName,
+      customer_name: name, customer_email: email,
+      customer_phone: phone.replace(/\D/g,''),
+      num_adults: parseInt(document.getElementById('g-pax').value) || 2,
       special_requests: document.getElementById('g-note').value,
-      base_amount: basePerPerson * numPersons, discount, taxes: tax, total_amount: total,
+      base_amount: basePerPerson * numPersons, discount_amount: discount,
+      tax_amount: tax, total_amount: total,
       currency: 'INR', payment_method: selectedMethod, status: 'pending', payment_status: 'pending',
     });
     if (!booking?.booking_ref) throw new Error('No booking reference returned from server.');
