@@ -69,6 +69,43 @@ serve(async (req) => {
       throw new Error('Unauthorized: booking does not belong to this user');
     }
 
+    if (booking.payment_status === 'paid') {
+      // Already processed (e.g. duplicate webhook + client call) — return success idempotently.
+      return new Response(JSON.stringify({
+        success: true, booking_ref: booking.booking_ref, status: 'confirmed',
+        message: 'Booking already confirmed.',
+      }), { headers: { ...corsHeaders(req), 'Content-Type': 'application/json' } });
+    }
+
+    // ── CRITICAL: confirm the amount actually captured by Razorpay
+    // matches the booking's real price. A valid signature only proves
+    // the order/payment IDs are genuine — it does NOT prove the
+    // correct amount was paid. Without this check, someone could
+    // create/pay a Razorpay order for ₹1 and still have this function
+    // mark the full-price booking as paid.
+    const razorpayKeyId     = Deno.env.get('RAZORPAY_KEY_ID')!;
+    const razorpayKeySecret = Deno.env.get('RAZORPAY_KEY_SECRET')!;
+    const credentials = btoa(`${razorpayKeyId}:${razorpayKeySecret}`);
+
+    const paymentRes = await fetch(`https://api.razorpay.com/v1/payments/${razorpay_payment_id}`, {
+      headers: { 'Authorization': `Basic ${credentials}` },
+    });
+    if (!paymentRes.ok) throw new Error('Could not verify payment with Razorpay.');
+    const razorpayPayment = await paymentRes.json();
+
+    const expectedPaise = Math.round(Number(booking.total_amount) * 100);
+    if (razorpayPayment.status !== 'captured' && razorpayPayment.status !== 'authorized') {
+      throw new Error(`Payment not completed (status: ${razorpayPayment.status}).`);
+    }
+    if (razorpayPayment.amount !== expectedPaise) {
+      // Flag for manual review instead of silently confirming — do not
+      // mark the booking paid on a mismatched amount.
+      await supabase.from('bookings').update({
+        internal_notes: `⚠️ AMOUNT MISMATCH: paid ${razorpayPayment.amount / 100} vs expected ${booking.total_amount}. payment_id=${razorpay_payment_id}`,
+      }).eq('id', booking_id);
+      throw new Error('Amount mismatch detected. Our team has been flagged to review this payment.');
+    }
+
     // Update payment record
     await supabase.from('payments').update({
       razorpay_payment_id,
