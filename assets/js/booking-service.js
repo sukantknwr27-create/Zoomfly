@@ -27,14 +27,36 @@ export async function saveBooking(payload) {
 }
 
 // ─── FETCH BY REF ────────────────────────────────────────────
-export async function getBookingByRef(ref) {
-  const { data, error } = await supabase
-    .from('bookings')
-    .select('*')
-    .eq('booking_ref', ref.trim().toUpperCase())
-    .single();
-  if (error) throw new Error(error.message);
-  return data;
+// Logged-in user: RLS ("Users can view own bookings") scopes the
+// direct query to rows they own.
+// Guest (no session): the table has no public read policy anymore
+// (see 003_security_hardening.sql migration), so a direct query
+// would return nothing. Guests must supply the email on the
+// booking; the lookup then goes through the get-guest-booking edge
+// function, which verifies ref + email server-side before
+// returning anything.
+export async function getBookingByRef(ref, guestEmail = null) {
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (user) {
+    const { data, error } = await supabase
+      .from('bookings')
+      .select('*')
+      .eq('booking_ref', ref.trim().toUpperCase())
+      .single();
+    if (error) throw new Error(error.message);
+    return data;
+  }
+
+  if (!guestEmail) {
+    throw new Error('Please enter the email address used for this booking.');
+  }
+
+  const { data, error } = await supabase.functions.invoke('get-guest-booking', {
+    body: { booking_ref: ref.trim().toUpperCase(), email: guestEmail.trim() },
+  });
+  if (error || !data?.booking) throw new Error(data?.error || error?.message || 'Booking not found.');
+  return data.booking;
 }
 
 // ─── FETCH BY EMAIL ──────────────────────────────────────────
@@ -65,22 +87,22 @@ export async function cancelBooking(bookingId, reason = '') {
 }
 
 // ─── CONFIRM PAYMENT ─────────────────────────────────────────
+// IMPORTANT: this never writes status/payment_status to the DB
+// directly from the browser. A booking is only ever marked "paid"
+// by the verify-razorpay-payment edge function, after it has
+// independently confirmed the signature AND the amount actually
+// captured by Razorpay. This wrapper just calls that function so
+// existing callers keep working safely.
 export async function confirmPayment(bookingId, razorpayResponse, method = 'upi') {
-  const { data, error } = await supabase
-    .from('bookings')
-    .update({
-      status:              'confirmed',
-      payment_status:      'paid',
-      payment_method:      method,
-      payment_id:          razorpayResponse.razorpay_payment_id,
+  const { data, error } = await supabase.functions.invoke('verify-razorpay-payment', {
+    body: {
+      booking_id:          bookingId,
       razorpay_order_id:   razorpayResponse.razorpay_order_id,
+      razorpay_payment_id: razorpayResponse.razorpay_payment_id,
       razorpay_signature:  razorpayResponse.razorpay_signature,
-      confirmed_at:        new Date().toISOString(),
-    })
-    .eq('id', bookingId)
-    .select()
-    .single();
-  if (error) throw new Error(error.message);
+    },
+  });
+  if (error || !data?.success) throw new Error(data?.error || error?.message || 'Payment verification failed');
   return data;
 }
 
