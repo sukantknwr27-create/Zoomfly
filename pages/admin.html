@@ -426,7 +426,7 @@ setTimeout(function() {
           </div>
         </div>
         <div class="loading" id="flight-load"><div class="spinner"></div></div>
-        <table><thead><tr><th>Customer</th><th>Route</th><th>Date</th><th>Passengers</th><th>Class</th><th>Status</th><th>Actions</th></tr></thead>
+        <table><thead><tr><th>Customer</th><th>Destination</th><th>Date</th><th>Travellers</th><th>Budget</th><th>Status</th><th>Actions</th></tr></thead>
         <tbody id="flight-tbody"></tbody></table>
       </div>
     </div>
@@ -697,28 +697,35 @@ async function loadLoyalty() {
   const tbody = document.getElementById('loyalty-tbody');
   load.style.display = 'block';
   try {
-    const { data } = await supabase
+    // loyalty_accounts already stores customer_name/customer_email
+    // directly — using those instead of an embedded `profiles(...)`
+    // join, since embedded-resource queries depend on PostgREST's
+    // schema cache being current (a `NOTIFY pgrst, 'reload schema'`
+    // is needed after some migrations) even when the FK genuinely
+    // exists, which was causing this to fail with a 400.
+    const { data, error } = await supabase
       .from('loyalty_accounts')
-      .select('*, profiles(full_name, email)')
+      .select('*')
       .order('points_balance', { ascending: false })
       .limit(100);
+    if (error) throw error;
     load.style.display = 'none';
     if (!data?.length) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#94a3b8;padding:2rem">No loyalty accounts yet</td></tr>'; return; }
     tbody.innerHTML = data.map(a => {
       const tierColors = { bronze:'#cd7f32', silver:'#94a3b8', gold:'#f59e0b', platinum:'#6366f1' };
       const tier = a.tier || 'bronze';
       return `<tr>
-        <td><strong>${esc(a.profiles?.full_name || '—')}</strong></td>
-        <td>${esc(a.profiles?.email || '—')}</td>
+        <td><strong>${esc(a.customer_name || '—')}</strong></td>
+        <td>${esc(a.customer_email || '—')}</td>
         <td><span style="padding:2px 10px;border-radius:20px;font-size:.72rem;font-weight:700;color:#fff;background:${tierColors[tier]}">${tier.toUpperCase()}</span></td>
         <td><strong style="color:#E8B84B">${(a.points_balance||0).toLocaleString('en-IN')}</strong></td>
-        <td>${(a.total_points_earned||0).toLocaleString('en-IN')}</td>
+        <td>${(a.points_earned||0).toLocaleString('en-IN')}</td>
         <td>
           <button onclick="adjustPoints('${a.id}')" style="padding:4px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:.75rem;cursor:pointer;background:#fff">Adjust Points</button>
         </td>
       </tr>`;
     }).join('');
-  } catch(e) { load.style.display='none'; toast('Failed to load loyalty data','error'); }
+  } catch(e) { load.style.display='none'; toast('Failed to load loyalty data: ' + e.message,'error'); }
 }
 
 window.adjustPoints = async (accountId) => {
@@ -1280,38 +1287,47 @@ window.deleteCab = async (id) => {
 };
 
 // ── FLIGHT ENQUIRIES ─────────────────────────────────────────
+// This was querying columns that don't exist on `enquiries`
+// (service_type, travel_details, customer_name, num_adults) — written
+// against an older/different version of this table's schema at some
+// point and never updated. The real columns are name, phone, email,
+// interest (a text array), destination, travel_date, travellers,
+// budget. "Flight" enquiries are identified by 'flight' being one of
+// the values in `interest`.
 async function loadFlightEnquiries() {
   document.getElementById('flight-load').style.display = 'block';
   const tbody = document.getElementById('flight-tbody');
   try {
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from('enquiries')
       .select('*')
-      .eq('service_type','flight')
+      .contains('interest', ['flight'])
       .order('created_at',{ascending:false})
       .limit(100);
+    if (error) throw error;
     document.getElementById('flight-load').style.display = 'none';
     if (!data?.length) { tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#94a3b8;padding:2rem">No flight enquiries yet.</td></tr>'; return; }
     tbody.innerHTML = data.map(f => {
-      const td = f.travel_details || {};
       return `<tr>
-        <td><strong>${esc(f.customer_name||f.guest_name||'—')}</strong><br/><span style="font-size:.75rem;color:#94a3b8">${esc(f.customer_phone||f.guest_phone||'')}</span></td>
-        <td>${esc(td.origin||'—')} → ${esc(td.destination||'—')}</td>
-        <td>${f.travel_date||'—'}</td>
-        <td>${f.num_adults||1} pax</td>
-        <td>${esc(td.cabin_class||'Economy')}</td>
-        <td>${pill(f.status||'pending')}</td>
+        <td><strong>${esc(f.name||'—')}</strong><br/><span style="font-size:.75rem;color:#94a3b8">${esc(f.phone||'')}</span></td>
+        <td>${esc(f.destination||'—')}</td>
+        <td>${f.travel_date?new Date(f.travel_date).toLocaleDateString('en-IN',{day:'numeric',month:'short'}):'—'}</td>
+        <td>${esc(f.travellers||'—')}</td>
+        <td>${esc(f.budget||'—')}</td>
+        <td>${pill(f.status||'new')}</td>
         <td style="display:flex;gap:6px">
-          <button onclick="window.open('https://wa.me/${(f.customer_phone||'').replace(/\D/g,'')}','_blank')" style="padding:4px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:.75rem;cursor:pointer;background:#fff">📞 Call</button>
+          <button onclick="window.open('https://wa.me/${esc((f.phone||'').replace(/\D/g,''))}','_blank')" style="padding:4px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:.75rem;cursor:pointer;background:#fff">📞 Call</button>
           <button onclick="markFlightDone('${f.id}')" style="padding:4px 10px;border:1px solid #dcfce7;border-radius:6px;font-size:.75rem;cursor:pointer;color:#15803d;background:#fff">✓ Done</button>
         </td>
       </tr>`;
     }).join('');
-  } catch(e) { document.getElementById('flight-load').style.display='none'; toast('Failed to load flight enquiries','error'); }
+  } catch(e) { document.getElementById('flight-load').style.display='none'; toast('Failed to load flight enquiries: ' + e.message,'error'); }
 }
 
 window.markFlightDone = async (id) => {
-  await supabase.from('enquiries').update({status:'resolved'}).eq('id',id);
+  // 'resolved' isn't a valid status — the enquiries table's CHECK
+  // constraint only allows new/contacted/confirmed/closed.
+  await supabase.from('enquiries').update({status:'closed'}).eq('id',id);
   toast('Marked as done'); loadFlightEnquiries();
 };
 
