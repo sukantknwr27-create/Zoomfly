@@ -231,6 +231,42 @@ BEGIN
 END; $$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
 
 -- ----------------------------------------------------------------
+-- 7. THE ACTUAL 403 BUG: bookings_select / enquiries_select query auth.users
+-- ----------------------------------------------------------------
+-- Confirmed via a live information_schema.role_table_grants check:
+-- `authenticated` already has full SELECT/INSERT/UPDATE/DELETE on
+-- both bookings and enquiries — so the 403s seen in the admin
+-- dashboard were never a missing-grant problem. The real cause: both
+-- policies queried `(SELECT email FROM auth.users WHERE id =
+-- auth.uid())` directly inside their USING clause. Supabase does not
+-- grant `authenticated` SELECT on auth.users by default (it's
+-- intentionally locked down), so evaluating this policy raises a
+-- genuine "permission denied for table users" error on every single
+-- query against these two tables, for every user — which PostgREST
+-- reports as 403 Forbidden. This is different from RLS simply
+-- filtering rows out (which returns 200 with an empty/partial
+-- result) — the policy couldn't even finish evaluating.
+--
+-- Fixed with Supabase's documented pattern for exactly this
+-- situation: auth.jwt() ->> 'email' reads the email straight out of
+-- the current session's JWT claims, with no table access (and so no
+-- extra grant) required at all.
+DROP POLICY IF EXISTS "bookings_select" ON public.bookings;
+CREATE POLICY "bookings_select" ON public.bookings FOR SELECT USING (
+  user_id = auth.uid()
+  OR guest_email    = (auth.jwt() ->> 'email')
+  OR customer_email = (auth.jwt() ->> 'email')
+  OR public.is_admin()
+);
+
+DROP POLICY IF EXISTS "enquiries_select" ON public.enquiries;
+CREATE POLICY "enquiries_select" ON public.enquiries FOR SELECT USING (
+  email          = (auth.jwt() ->> 'email')
+  OR guest_email = (auth.jwt() ->> 'email')
+  OR public.is_admin()
+);
+
+-- ----------------------------------------------------------------
 -- 6. BOOKINGS: the real root cause behind #10/#11 — direct self-confirmation
 -- ----------------------------------------------------------------
 -- This is more fundamental than the payment-replay and price-mismatch
