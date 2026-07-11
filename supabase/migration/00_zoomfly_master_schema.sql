@@ -107,17 +107,46 @@ CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 -- ────────────────────────────────────────────────────────────
 CREATE OR REPLACE FUNCTION public.is_admin()
 RETURNS BOOLEAN
-LANGUAGE sql
+LANGUAGE plpgsql
 SECURITY DEFINER
 SET search_path = public
 STABLE
 AS $$
-  SELECT EXISTS (
+BEGIN
+  -- LANGUAGE plpgsql (not sql) deliberately: plpgsql defers checking
+  -- that public.profiles exists until this function actually RUNS,
+  -- whereas a LANGUAGE sql function is validated against the schema
+  -- at CREATE time — which fails here since profiles hasn't been
+  -- created yet at this point in the script on a brand-new database.
+  RETURN EXISTS (
     SELECT 1 FROM public.profiles WHERE id = auth.uid() AND role = 'admin'
   );
+END;
 $$;
 REVOKE ALL ON FUNCTION public.is_admin() FROM PUBLIC;
 GRANT EXECUTE ON FUNCTION public.is_admin() TO authenticated, anon, service_role;
+
+-- Drops every existing overload of a function name, regardless of
+-- its old argument or return types. Needed because several of these
+-- function names already exist in your database from earlier
+-- migrations with different signatures — plain CREATE OR REPLACE
+-- fails with "cannot change return type of existing function"
+-- (error 42P13) when that happens, so we drop first, unconditionally.
+CREATE OR REPLACE FUNCTION public._drop_all_functions(fn_name TEXT)
+RETURNS VOID LANGUAGE plpgsql AS $$
+DECLARE r RECORD;
+BEGIN
+  FOR r IN
+    SELECT p.oid::regprocedure::text AS sig
+    FROM pg_proc p
+    JOIN pg_namespace n ON n.oid = p.pronamespace
+    WHERE p.proname = fn_name AND n.nspname = 'public'
+  LOOP
+    EXECUTE format('DROP FUNCTION IF EXISTS %s CASCADE', r.sig);
+  END LOOP;
+END;
+$$;
+
 
 -- ================================================================
 -- 1. CORE TABLES
@@ -908,6 +937,7 @@ CREATE INDEX IF NOT EXISTS idx_ltxn_created             ON public.loyalty_transa
 -- ================================================================
 
 -- 3.1 Generic updated_at toucher, reused by most tables
+SELECT public._drop_all_functions('update_updated_at');
 CREATE OR REPLACE FUNCTION public.update_updated_at()
 RETURNS TRIGGER AS $$
 BEGIN NEW.updated_at = NOW(); RETURN NEW; END;
@@ -947,6 +977,7 @@ CREATE TRIGGER trg_loyalty_updated_at BEFORE UPDATE ON public.loyalty_accounts F
 -- the browser console made you an admin on the spot. Every account
 -- now starts as 'customer', full stop — role can only change via an
 -- admin/service_role action afterward.
+SELECT public._drop_all_functions('handle_new_user');
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -965,6 +996,7 @@ CREATE TRIGGER on_auth_user_created
   FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
 
 -- 3.3 Review insert/update → recompute package rating
+SELECT public._drop_all_functions('update_package_rating');
 CREATE OR REPLACE FUNCTION public.update_package_rating()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -980,6 +1012,7 @@ DROP TRIGGER IF EXISTS trg_package_rating ON public.reviews;
 CREATE TRIGGER trg_package_rating AFTER INSERT OR UPDATE ON public.reviews FOR EACH ROW EXECUTE FUNCTION public.update_package_rating();
 
 -- 3.4 Booking ref + status-change bookkeeping
+SELECT public._drop_all_functions('generate_booking_ref');
 CREATE OR REPLACE FUNCTION public.generate_booking_ref(svc TEXT DEFAULT 'GEN')
 RETURNS TEXT AS $$
 DECLARE
@@ -994,6 +1027,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+SELECT public._drop_all_functions('track_booking_status_change');
 CREATE OR REPLACE FUNCTION public.track_booking_status_change()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -1015,6 +1049,7 @@ CREATE TRIGGER trg_track_status_change
 
 -- 3.5 Vendor bookkeeping: auto-updated_at + auto-assign 'vendor' role
 -- to the profile behind a new vendor application.
+SELECT public._drop_all_functions('set_vendor_role');
 CREATE OR REPLACE FUNCTION public.set_vendor_role()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -1031,6 +1066,7 @@ CREATE TRIGGER trg_set_vendor_role
   FOR EACH ROW EXECUTE FUNCTION public.set_vendor_role();
 
 -- 3.6 Agents: auto agent_code + tier auto-upgrade based on lifetime value
+SELECT public._drop_all_functions('generate_agent_code');
 CREATE OR REPLACE FUNCTION public.generate_agent_code()
 RETURNS TEXT AS $$
 DECLARE code TEXT;
@@ -1040,6 +1076,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+SELECT public._drop_all_functions('auto_upgrade_agent_tier');
 CREATE OR REPLACE FUNCTION public.auto_upgrade_agent_tier()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -1063,6 +1100,7 @@ CREATE TRIGGER trg_auto_upgrade_tier BEFORE UPDATE ON public.agents FOR EACH ROW
 -- from service_role (your edge functions) or, where noted, an admin.
 
 -- profiles: stop self-promotion to admin (see header note #2)
+SELECT public._drop_all_functions('protect_profile_privileged_columns');
 CREATE OR REPLACE FUNCTION public.protect_profile_privileged_columns()
 RETURNS TRIGGER
 LANGUAGE plpgsql SECURITY DEFINER SET search_path = public
@@ -1081,6 +1119,7 @@ CREATE TRIGGER trg_protect_profile_privileged_columns
   FOR EACH ROW EXECUTE FUNCTION public.protect_profile_privileged_columns();
 
 -- vendors: stop vendors self-approving or editing their own commission
+SELECT public._drop_all_functions('protect_vendor_privileged_columns');
 CREATE OR REPLACE FUNCTION public.protect_vendor_privileged_columns()
 RETURNS TRIGGER
 LANGUAGE plpgsql SECURITY DEFINER SET search_path = public
@@ -1107,6 +1146,7 @@ CREATE TRIGGER trg_protect_vendor_privileged_columns
   FOR EACH ROW EXECUTE FUNCTION public.protect_vendor_privileged_columns();
 
 -- agents: stop agents self-editing tier/commission/earnings/status
+SELECT public._drop_all_functions('protect_agent_privileged_columns');
 CREATE OR REPLACE FUNCTION public.protect_agent_privileged_columns()
 RETURNS TRIGGER
 LANGUAGE plpgsql SECURITY DEFINER SET search_path = public
@@ -1135,6 +1175,7 @@ CREATE TRIGGER trg_protect_agent_privileged_columns
   FOR EACH ROW EXECUTE FUNCTION public.protect_agent_privileged_columns();
 
 -- loyalty_accounts: stop customers minting their own points/tier
+SELECT public._drop_all_functions('protect_loyalty_privileged_columns');
 CREATE OR REPLACE FUNCTION public.protect_loyalty_privileged_columns()
 RETURNS TRIGGER
 LANGUAGE plpgsql SECURITY DEFINER SET search_path = public
@@ -1160,6 +1201,7 @@ CREATE TRIGGER trg_protect_loyalty_privileged_columns
 -- bookings: stop fabricated "paid/confirmed" bookings on INSERT and
 -- stop customers editing pricing/payment/status on UPDATE (covers
 -- BOTH the legacy and new column names — see header note #1)
+SELECT public._drop_all_functions('enforce_safe_booking_insert');
 CREATE OR REPLACE FUNCTION public.enforce_safe_booking_insert()
 RETURNS TRIGGER
 LANGUAGE plpgsql SECURITY DEFINER SET search_path = public
@@ -1187,6 +1229,7 @@ CREATE TRIGGER trg_enforce_safe_booking_insert
   BEFORE INSERT ON public.bookings
   FOR EACH ROW EXECUTE FUNCTION public.enforce_safe_booking_insert();
 
+SELECT public._drop_all_functions('protect_booking_payment_columns');
 CREATE OR REPLACE FUNCTION public.protect_booking_payment_columns()
 RETURNS TRIGGER
 LANGUAGE plpgsql SECURITY DEFINER SET search_path = public
@@ -1264,6 +1307,7 @@ ALTER TABLE public.package_availability ENABLE ROW LEVEL SECURITY;
 
 -- Helper to drop every existing policy on a table before recreating
 -- (keeps this file safe to re-run without "policy already exists" errors)
+SELECT public._drop_all_functions('_drop_all_policies');
 CREATE OR REPLACE FUNCTION public._drop_all_policies(tbl TEXT)
 RETURNS VOID LANGUAGE plpgsql AS $$
 DECLARE r RECORD;
@@ -1466,6 +1510,7 @@ CREATE POLICY "availability_admin_all" ON public.package_availability FOR ALL US
 -- vendor, mark any booking paid, fabricate agent commissions, etc).
 -- ================================================================
 
+SELECT public._drop_all_functions('confirm_payment');
 CREATE OR REPLACE FUNCTION public.confirm_payment(
   p_booking_id UUID, p_razorpay_order TEXT,
   p_razorpay_payment TEXT, p_razorpay_sig TEXT, p_method TEXT DEFAULT 'upi'
@@ -1482,6 +1527,7 @@ BEGIN
   RETURN result;
 END; $$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
 
+SELECT public._drop_all_functions('initiate_refund');
 CREATE OR REPLACE FUNCTION public.initiate_refund(p_booking_id UUID, p_refund_amount NUMERIC, p_reason TEXT)
 RETURNS public.bookings AS $$
 DECLARE result public.bookings;
@@ -1495,6 +1541,7 @@ BEGIN
   RETURN result;
 END; $$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
 
+SELECT public._drop_all_functions('get_dashboard_stats');
 CREATE OR REPLACE FUNCTION public.get_dashboard_stats()
 RETURNS JSON AS $$
 DECLARE result JSON;
@@ -1514,6 +1561,7 @@ BEGIN
   RETURN result;
 END; $$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
 
+SELECT public._drop_all_functions('approve_vendor');
 CREATE OR REPLACE FUNCTION public.approve_vendor(p_vendor_id UUID, p_note TEXT DEFAULT NULL)
 RETURNS public.vendors AS $$
 DECLARE result public.vendors;
@@ -1527,6 +1575,7 @@ BEGIN
   RETURN result;
 END; $$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
 
+SELECT public._drop_all_functions('reject_vendor');
 CREATE OR REPLACE FUNCTION public.reject_vendor(p_vendor_id UUID, p_reason TEXT)
 RETURNS public.vendors AS $$
 DECLARE result public.vendors;
@@ -1539,6 +1588,7 @@ BEGIN
   RETURN result;
 END; $$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
 
+SELECT public._drop_all_functions('suspend_vendor');
 CREATE OR REPLACE FUNCTION public.suspend_vendor(p_vendor_id UUID, p_reason TEXT)
 RETURNS public.vendors AS $$
 DECLARE result public.vendors;
@@ -1551,6 +1601,7 @@ BEGIN
   RETURN result;
 END; $$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
 
+SELECT public._drop_all_functions('record_agent_commission');
 CREATE OR REPLACE FUNCTION public.record_agent_commission(
   p_booking_id UUID, p_booking_ref TEXT, p_booking_amount NUMERIC, p_agent_code TEXT
 ) RETURNS public.agent_commissions AS $$
@@ -1582,6 +1633,7 @@ BEGIN
   RETURN result;
 END; $$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
 
+SELECT public._drop_all_functions('sync_agent_stats');
 CREATE OR REPLACE FUNCTION public.sync_agent_stats(p_agent_code TEXT)
 RETURNS VOID AS $$
 DECLARE agent_rec public.agents;
@@ -1605,6 +1657,7 @@ END; $$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
 -- THEIR OWN account, so instead of admin-only we require
 -- p_user_id = auth.uid() unless the caller is service_role/admin —
 -- fixes "anyone can redeem/earn points on someone else's account".
+SELECT public._drop_all_functions('earn_booking_points');
 CREATE OR REPLACE FUNCTION public.earn_booking_points(
   p_user_id UUID, p_booking_id UUID, p_booking_ref TEXT, p_amount_paid NUMERIC
 ) RETURNS public.loyalty_accounts AS $$
@@ -1641,6 +1694,7 @@ BEGIN
   RETURN result;
 END; $$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
 
+SELECT public._drop_all_functions('redeem_loyalty_points');
 CREATE OR REPLACE FUNCTION public.redeem_loyalty_points(p_user_id UUID, p_points INTEGER, p_booking_ref TEXT)
 RETURNS JSON AS $$
 DECLARE acct public.loyalty_accounts; new_bal INTEGER; discount NUMERIC;
@@ -1660,6 +1714,7 @@ BEGIN
   RETURN json_build_object('success',true,'points_used',p_points,'discount_inr',discount,'new_balance',new_bal);
 END; $$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
 
+SELECT public._drop_all_functions('award_signup_bonus');
 CREATE OR REPLACE FUNCTION public.award_signup_bonus(p_user_id UUID, p_name TEXT, p_email TEXT, p_phone TEXT DEFAULT NULL)
 RETURNS public.loyalty_accounts AS $$
 DECLARE ref_code TEXT; acct public.loyalty_accounts;
@@ -1678,6 +1733,7 @@ BEGIN
   RETURN acct;
 END; $$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
 
+SELECT public._drop_all_functions('award_referral_bonus');
 CREATE OR REPLACE FUNCTION public.award_referral_bonus(p_referrer_code TEXT, p_new_user_id UUID)
 RETURNS VOID AS $$
 DECLARE referrer public.loyalty_accounts;
@@ -1697,6 +1753,7 @@ END; $$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
 
 -- Guest booking lookup (unchanged logic — this one was already fixed
 -- correctly): requires knowing the booking_ref AND the email on file.
+SELECT public._drop_all_functions('get_guest_booking');
 CREATE OR REPLACE FUNCTION public.get_guest_booking(p_ref TEXT, p_email TEXT)
 RETURNS SETOF public.bookings AS $$
   SELECT * FROM public.bookings
@@ -1709,6 +1766,7 @@ $$ LANGUAGE sql SECURITY DEFINER SET search_path = public;
 -- ================================================================
 -- 6. VIEWS
 -- ================================================================
+DROP VIEW IF EXISTS public.v_bookings_daily CASCADE;
 CREATE OR REPLACE VIEW public.v_bookings_daily AS
 SELECT DATE(created_at) AS booking_date, service_type,
   COUNT(*) AS total_bookings,
@@ -1718,6 +1776,7 @@ SELECT DATE(created_at) AS booking_date, service_type,
   SUM(total_amount) FILTER (WHERE payment_status='paid') AS revenue_inr
 FROM public.bookings GROUP BY DATE(created_at), service_type ORDER BY booking_date DESC;
 
+DROP VIEW IF EXISTS public.v_revenue_by_service CASCADE;
 CREATE OR REPLACE VIEW public.v_revenue_by_service AS
 SELECT service_type,
   COUNT(*) AS total_bookings,
@@ -1728,6 +1787,7 @@ SELECT service_type,
   ROUND(AVG(total_amount),2) AS avg_booking_value
 FROM public.bookings GROUP BY service_type ORDER BY net_revenue DESC NULLS LAST;
 
+DROP VIEW IF EXISTS public.v_bookings_recent CASCADE;
 CREATE OR REPLACE VIEW public.v_bookings_recent AS
 SELECT id, booking_ref, service_type, service_name,
   customer_name, customer_email, customer_phone, customer_whatsapp,
@@ -1737,6 +1797,7 @@ SELECT id, booking_ref, service_type, service_name,
   created_at, updated_at
 FROM public.bookings WHERE created_at >= NOW() - INTERVAL '30 days' ORDER BY created_at DESC;
 
+DROP VIEW IF EXISTS public.v_vendors_overview CASCADE;
 CREATE OR REPLACE VIEW public.v_vendors_overview AS
 SELECT v.id, v.business_name, v.vendor_type, v.contact_name, v.email, v.phone, v.city,
   v.status, v.commission_rate, v.is_featured, v.total_bookings, v.confirmed_bookings,
@@ -1746,10 +1807,12 @@ SELECT v.id, v.business_name, v.vendor_type, v.contact_name, v.email, v.phone, v
   v.created_at, v.approved_at, v.last_active_at
 FROM public.vendors v ORDER BY v.created_at DESC;
 
+DROP VIEW IF EXISTS public.v_vendors_pending CASCADE;
 CREATE OR REPLACE VIEW public.v_vendors_pending AS
 SELECT id, business_name, vendor_type, contact_name, email, phone, city, gstin, created_at
 FROM public.vendors WHERE status='pending' ORDER BY created_at ASC;
 
+DROP VIEW IF EXISTS public.v_agents_overview CASCADE;
 CREATE OR REPLACE VIEW public.v_agents_overview AS
 SELECT a.id, a.agent_code, a.full_name, a.email, a.phone, a.city, a.tier, a.status,
   a.commission_rate, a.total_bookings, a.confirmed_bookings, a.total_booking_value,
@@ -1759,6 +1822,7 @@ SELECT a.id, a.agent_code, a.full_name, a.email, a.phone, a.city, a.tier, a.stat
   a.created_at, a.last_active_at
 FROM public.agents a ORDER BY a.created_at DESC;
 
+DROP VIEW IF EXISTS public.v_loyalty_stats CASCADE;
 CREATE OR REPLACE VIEW public.v_loyalty_stats AS
 SELECT COUNT(*) AS total_members,
   COUNT(*) FILTER (WHERE tier='bronze') AS bronze,
@@ -1776,6 +1840,7 @@ FROM public.loyalty_accounts;
 -- alongside raw listing JSON to unauthenticated visitors). If your
 -- vendor directory page needs this publicly, expose only the
 -- specific fields it needs through a dedicated, narrower view.
+DROP VIEW IF EXISTS public.v_vendor_listings CASCADE;
 CREATE OR REPLACE VIEW public.v_vendor_listings AS
 SELECT v.id AS vendor_id, v.business_name, v.vendor_type, v.city AS vendor_city,
   v.status, v.commission_rate, l.value AS listing
