@@ -694,25 +694,41 @@ window.exitPopupSubscribe = async (e) => {
 };
 
 // ── SOCIAL PROOF NOTIFICATIONS ───────────────────────────
-const SOCIAL_PROOF_DATA = [
-  {name:'Priya S.',     city:'Delhi',     action:'just booked Goa Beach Escape',       time:'2 min ago',  avatar:'👩'},
-  {name:'Rahul M.',     city:'Mumbai',    action:'is viewing Manali Snow Adventure',   time:'4 min ago',  avatar:'👨'},
-  {name:'Anjali K.',    city:'Bangalore', action:'just booked Kerala Backwaters',      time:'7 min ago',  avatar:'👩'},
-  {name:'Vikram T.',    city:'Chennai',   action:'booked Bali Dream Holiday',          time:'12 min ago', avatar:'👨'},
-  {name:'Meera P.',     city:'Hyderabad', action:'just booked Rajasthan Royal Circuit',time:'15 min ago', avatar:'👩'},
-  {name:'Arjun S.',     city:'Pune',      action:'is comparing packages',              time:'1 min ago',  avatar:'👨'},
-  {name:'Neha G.',      city:'Kolkata',   action:'just booked Andaman Islands package',time:'20 min ago', avatar:'👩'},
-  {name:'Ravi K.',      city:'Ahmedabad', action:'booked Darjeeling Tea & Peaks',      time:'3 min ago',  avatar:'👨'},
-];
-
+// Pulls from public.public_recent_activity — a view that only ever
+// contains real, confirmed+paid bookings from the last 14 days,
+// scrubbed down to first-name + last-initial (see
+// supabase/migration/01_zoomfly_growth_features.sql). No hardcoded
+// names, no fabricated "X min ago" timers: if there's no real recent
+// activity, the widget simply never appears — an empty result is a
+// legitimate outcome, not a bug to paper over with fake data.
+let recentActivity = [];
 let spIndex = 0;
+
+async function loadRecentActivity() {
+  try {
+    const { supabase: sb } = await import('/assets/js/supabase.js');
+    const { data, error } = await sb
+      .from('public_recent_activity')
+      .select('id, display_name, service_name, service_type, time_ago')
+      .limit(15);
+    if (error || !data) return;
+    recentActivity = data;
+  } catch (_) { /* fail silent — widget just won't show */ }
+}
+
+function svcVerb(type){
+  return {package:'booked', hotel:'booked a stay for', flight:'booked a flight for',
+          bus:'booked a bus for', cab:'booked a cab for'}[type] || 'booked';
+}
+
 function showSocialProof() {
-  const d   = SOCIAL_PROOF_DATA[spIndex % SOCIAL_PROOF_DATA.length];
+  if (!recentActivity.length) return; // nothing real to show — stay hidden
+  const d   = recentActivity[spIndex % recentActivity.length];
   const el  = document.getElementById('social-proof');
-  document.getElementById('sp-avatar').textContent = d.avatar;
-  document.getElementById('sp-name').textContent   = `${d.name} from ${d.city}`;
-  document.getElementById('sp-action').textContent = d.action;
-  document.getElementById('sp-time').textContent   = d.time;
+  document.getElementById('sp-avatar').textContent = '👤';
+  document.getElementById('sp-name').textContent   = d.display_name || 'A traveller';
+  document.getElementById('sp-action').textContent = `${svcVerb(d.service_type)} ${d.service_name||''}`.trim();
+  document.getElementById('sp-time').textContent   = d.time_ago;
   el.style.display = 'block';
   el.style.animation = 'none';
   void el.offsetWidth; // reflow
@@ -720,11 +736,14 @@ function showSocialProof() {
   spIndex++;
   setTimeout(() => { el.style.display='none'; }, 5000);
 }
-// Show first notification after 8 seconds, then every 25 seconds
-setTimeout(() => {
-  showSocialProof();
-  setInterval(showSocialProof, 25000);
-}, 8000);
+// Load real data first; only start the rotation if there's anything real to rotate.
+loadRecentActivity().then(() => {
+  if (!recentActivity.length) return;
+  setTimeout(() => {
+    showSocialProof();
+    setInterval(showSocialProof, 25000);
+  }, 8000);
+});
 </script>
 
 <!-- EXIT INTENT POPUP -->
@@ -759,9 +778,9 @@ setTimeout(() => {
   <div style="display:flex;align-items:center;gap:10px">
     <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#1a73e8,#ff6b35);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0" id="sp-avatar">👤</div>
     <div>
-      <div style="font-weight:700;font-size:.82rem;color:#0f1923" id="sp-name">Priya from Delhi</div>
-      <div style="font-size:.75rem;color:#64748b;margin-top:1px" id="sp-action">just booked Goa Beach Escape</div>
-      <div style="font-size:.68rem;color:#94a3b8;margin-top:1px" id="sp-time">2 minutes ago</div>
+      <div style="font-weight:700;font-size:.82rem;color:#0f1923" id="sp-name"></div>
+      <div style="font-size:.75rem;color:#64748b;margin-top:1px" id="sp-action"></div>
+      <div style="font-size:.68rem;color:#94a3b8;margin-top:1px" id="sp-time"></div>
     </div>
     <button onclick="document.getElementById('social-proof').style.display='none'" style="background:none;border:none;color:#94a3b8;cursor:pointer;font-size:.9rem;align-self:flex-start;flex-shrink:0">✕</button>
   </div>
