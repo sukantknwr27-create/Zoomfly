@@ -246,6 +246,16 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
 <script type="module">
 import { getHotels, createBooking, getUser } from '../assets/js/supabase.js';
 
+// hotels.html didn't previously escape any hotel-supplied text before
+// rendering it into innerHTML. The `hotels` table is currently
+// admin-only writable, so this isn't reachable by the public today —
+// but it's still a stored-XSS risk on a *public, unauthenticated*
+// page (every visitor, not just admins) that only requires a single
+// admin account to ever be phished/compromised, or a name accidentally
+// pasted from somewhere untrusted, to turn into a site-wide compromise.
+// Cheap to close, so closing it as defense in depth.
+function esc(s) { return String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
 let allHotels = [], selHotel = null, selRoom = null, curMs = 1;
 let filters = { stars:'all', type:'all', budget:20000 };
 let amenFilters = [];
@@ -338,18 +348,18 @@ function renderHotels(data) {
     <div class="hotel-card" onclick="openModal('${h.id}')">
       <div class="h-thumb">
         <div class="h-thumb-bg" style="background:${h.bg_gradient||'linear-gradient(135deg,#667eea,#764ba2)'}">${h.emoji||'🏨'}</div>
-        ${h.badge?`<span class="h-badge badge-${h.badge}">${h.badge_label||h.badge}</span>`:''}
+        ${h.badge?`<span class="h-badge badge-${esc(h.badge)}">${esc(h.badge_label||h.badge)}</span>`:''}
       </div>
       <div class="h-body">
-        <div class="h-name">${h.name}</div>
-        <div class="h-loc">📍 ${h.location}</div>
+        <div class="h-name">${esc(h.name)}</div>
+        <div class="h-loc">📍 ${esc(h.location)}</div>
         <div class="h-stars">${'★'.repeat(h.stars||3)}${'☆'.repeat(5-(h.stars||3))}</div>
         <div class="h-rating-row">
           <span class="rating-badge">${h.rating}</span>
           <span style="font-size:.8rem;font-weight:600">${h.rating_label||'Good'}</span>
           <span style="font-size:.72rem;color:var(--text-muted)">${(h.review_count||0).toLocaleString('en-IN')} reviews</span>
         </div>
-        <div class="h-amenities">${(h.amenities||[]).slice(0,4).map(a=>`<span class="am-tag">${a}</span>`).join('')}${(h.amenities||[]).length>4?`<span class="am-tag">+${(h.amenities||[]).length-4} more</span>`:''}</div>
+        <div class="h-amenities">${(h.amenities||[]).slice(0,4).map(a=>`<span class="am-tag">${esc(a)}</span>`).join('')}${(h.amenities||[]).length>4?`<span class="am-tag">+${(h.amenities||[]).length-4} more</span>`:''}</div>
         <div class="h-footer">
           <div class="h-price"><div class="lbl">From</div><div class="amt">₹${Number(h.price_per_night).toLocaleString('en-IN')}</div><div class="old">₹${Number(h.old_price||h.price_per_night).toLocaleString('en-IN')}</div></div>
           <button class="btn-book-h" onclick="event.stopPropagation();openModal('${h.id}')">Book Now →</button>
@@ -408,11 +418,11 @@ window.openModal = (id) => {
   thumb.style.background=selHotel.bg_gradient||'linear-gradient(135deg,#667eea,#764ba2)';
   thumb.innerHTML=`<button class="m-close" onclick="closeModal()">✕</button><span style="font-size:7rem">${selHotel.emoji||'🏨'}</span>`;
   document.getElementById('m-info').innerHTML=`
-    <h2>${selHotel.name}</h2>
-    <div class="m-meta"><span>📍 ${selHotel.location}</span><span>${'★'.repeat(selHotel.stars||3)} ${selHotel.stars||3}-Star</span><span class="rating-badge" style="padding:.15rem .5rem;background:var(--primary);color:white;border-radius:4px;font-weight:700">${selHotel.rating}</span><span>${(selHotel.review_count||0).toLocaleString('en-IN')} reviews</span></div>
-    <p style="font-size:.875rem;color:var(--text-muted);line-height:1.6;margin-bottom:1rem">${selHotel.description||''}</p>
+    <h2>${esc(selHotel.name)}</h2>
+    <div class="m-meta"><span>📍 ${esc(selHotel.location)}</span><span>${'★'.repeat(selHotel.stars||3)} ${selHotel.stars||3}-Star</span><span class="rating-badge" style="padding:.15rem .5rem;background:var(--primary);color:white;border-radius:4px;font-weight:700">${selHotel.rating}</span><span>${(selHotel.review_count||0).toLocaleString('en-IN')} reviews</span></div>
+    <p style="font-size:.875rem;color:var(--text-muted);line-height:1.6;margin-bottom:1rem">${esc(selHotel.description||'')}</p>
     <div class="sec-t">Amenities</div>
-    <div class="am-grid">${(selHotel.amenities||[]).map(a=>`<div class="am-m">✓ ${a}</div>`).join('')}</div>`;
+    <div class="am-grid">${(selHotel.amenities||[]).map(a=>`<div class="am-m">✓ ${esc(a)}</div>`).join('')}</div>`;
   document.getElementById('m-f1').innerHTML=`
     <div class="fp"><div class="amt">₹${Number(selHotel.price_per_night).toLocaleString('en-IN')}</div><div class="per">/night</div></div>
     <div style="display:flex;gap:.75rem">
@@ -429,10 +439,10 @@ window.openModal = (id) => {
     { name: 'Suite', info: 'Luxurious suite with separate living area and premium service', price: Math.round(basePrice * 1.9) },
   ];
   selHotel._rooms = rooms;
-  document.getElementById('ms2-name').textContent = selHotel.name + ' · ' + selHotel.location;
+  document.getElementById('ms2-name').textContent = selHotel.name + ' · ' + selHotel.location; // textContent — already safe
   document.getElementById('room-cards').innerHTML = rooms.map((r, i) => `
     <div class="room-card" onclick="selectRoom(${i})" id="rc-${i}">
-      <div><div class="rn">${r.name}</div><div class="ri">${r.info}</div></div>
+      <div><div class="rn">${esc(r.name)}</div><div class="ri">${esc(r.info)}</div></div>
       <div style="text-align:right"><div class="rp">₹${Number(r.price).toLocaleString('en-IN')}</div><div class="rpp">/night</div></div>
     </div>`).join('');
   document.getElementById('modal-ov').classList.add('open');
@@ -457,8 +467,8 @@ function buildSum() {
   if (ci && co) { const d = (new Date(co) - new Date(ci)) / 86400000; if (d > 0) nights = d; }
   const total = Number(room.price) * nights;
   document.getElementById('b-sum').innerHTML = `
-    <p><span>Hotel</span><strong>${selHotel.name}</strong></p>
-    <p><span>Room</span><strong>${room.name}</strong></p>
+    <p><span>Hotel</span><strong>${esc(selHotel.name)}</strong></p>
+    <p><span>Room</span><strong>${esc(room.name)}</strong></p>
     <p><span>Nights</span><strong>${nights}</strong></p>
     <p><span>Rate</span><strong>₹${Number(room.price).toLocaleString('en-IN')}/night</strong></p>
     <p class="total"><span>Total</span><strong>₹${total.toLocaleString('en-IN')}</strong></p>`;

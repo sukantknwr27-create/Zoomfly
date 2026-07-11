@@ -197,7 +197,7 @@ function renderThreads(threads) {
       <div class="thread-avatar">${(t.service_name||'T')[0]}</div>
       <div class="thread-info">
         <div class="thread-name">${t.booking_ref||'Booking'}</div>
-        <div class="thread-preview">${t.lastMsg ? t.lastMsg.content.slice(0,50)+(t.lastMsg.content.length>50?'…':'') : t.service_name||'No messages yet'}</div>
+        <div class="thread-preview">${t.lastMsg ? escHtml(t.lastMsg.content.slice(0,50))+(t.lastMsg.content.length>50?'…':'') : escHtml(t.service_name||'No messages yet')}</div>
       </div>
       <div class="thread-meta">
         <div class="thread-time">${t.lastMsg ? fmtTime(t.lastMsg.created_at) : fmtDate(t.travel_date)}</div>

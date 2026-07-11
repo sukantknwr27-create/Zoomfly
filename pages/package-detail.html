@@ -286,7 +286,8 @@
         <div style="margin-top:18px;">
           <div class="form-group">
             <label>Travel Date</label>
-            <input type="date" id="travelDate" min=""/>
+            <input type="date" id="travelDate" min="" onchange="checkDateAvailability()"/>
+            <div id="availabilityNote" style="font-size:.78rem;margin-top:6px;min-height:16px;"></div>
           </div>
           <div class="form-group">
             <label>No. of Travellers</label>
@@ -302,7 +303,7 @@
             <label>Your Phone</label>
             <input type="tel" id="bookPhone" placeholder="+91 XXXXX XXXXX"/>
           </div>
-          <button class="btn btn-primary btn-full" onclick="bookNow()">
+          <button class="btn btn-primary btn-full" id="bookNowBtn" onclick="bookNow()">
             📞 Request Callback
           </button>
           <a id="waBookBtn" href="https://wa.me/918076136300"
@@ -351,6 +352,42 @@ let selectedRating = 0;
 const tomorrow = new Date();
 tomorrow.setDate(tomorrow.getDate() + 1);
 document.getElementById('travelDate').min = tomorrow.toISOString().split('T')[0];
+
+// ── Real availability check against package_availability ──────────
+// This table holds actual blackout dates set by ops/vendors
+// (is_blocked=true means sold out / unavailable for that date), so
+// this is a genuine check, not a manufactured "hurry, low stock"
+// message. If the date is blocked, booking is disabled until the
+// person picks a different date.
+let dateIsBlocked = false;
+window.checkDateAvailability = async () => {
+  const dateVal = document.getElementById('travelDate').value;
+  const note    = document.getElementById('availabilityNote');
+  const bookBtn = document.getElementById('bookNowBtn');
+  dateIsBlocked = false;
+  if (!dateVal || !pkg?.id) { note.textContent = ''; return; }
+  note.textContent = 'Checking availability…';
+  note.style.color = 'var(--text-muted)';
+  try {
+    const { data, error } = await supabase
+      .from('package_availability')
+      .select('is_blocked, reason')
+      .eq('package_id', pkg.id)
+      .eq('date', dateVal)
+      .maybeSingle();
+    if (!error && data?.is_blocked) {
+      dateIsBlocked = true;
+      note.textContent = `🚫 Not available on this date${data.reason ? ' — ' + data.reason : ''}. Please choose another date.`;
+      note.style.color = '#dc2626';
+    } else {
+      note.textContent = '✅ Available on this date';
+      note.style.color = '#16a34a';
+    }
+  } catch (_) {
+    note.textContent = ''; // fail open — don't block booking on a network hiccup
+  }
+  if (bookBtn) bookBtn.disabled = dateIsBlocked;
+};
 
 // ── Load package from Supabase (fallback to ZF.packages) ──
 async function loadPackage() {
@@ -645,7 +682,7 @@ async function loadReviews(pkgId) {
       .from('reviews')
       .select('*')
       .eq('package_id', pkgId)
-      .eq('is_approved', true)
+      .eq('is_published', true)
       .order('created_at', { ascending: false })
       .limit(20);
 
@@ -723,7 +760,7 @@ window.submitReview = async () => {
       rating:        selectedRating,
       title,
       body,
-      is_approved:   false, // admin approves before showing
+      is_published:  false, // admin approves before showing — see note below
     });
     msg.style.display = 'block';
     msg.style.color   = '#059669';
@@ -769,6 +806,10 @@ window.bookNow = () => {
 
   if (!date)  { document.getElementById('travelDate').focus(); return; }
   if (!phone) { document.getElementById('bookPhone').focus();  return; }
+  if (dateIsBlocked) {
+    document.getElementById('travelDate').focus();
+    return; // real blackout date — don't let this proceed even if someone bypasses the disabled state
+  }
 
   btn.textContent = '✅ We\'ll call you soon!';
   btn.style.background = '#16a34a';

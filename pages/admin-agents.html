@@ -510,10 +510,10 @@ window.openDrawer = function(id) {
     </div>
     <div class="sec-label">Agent Details</div>
     <div class="info-grid">
-      ${ii('Code', a.agent_code)} ${ii('City',a.city||'—')}
+      ${ii('Code', esc(a.agent_code))} ${ii('City',esc(a.city||'—'))}
       ${ii('Phone',`<a href="tel:${esc(a.phone)}">${esc(a.phone)}</a>`)}
       ${ii('Email',`<a href="mailto:${esc(a.email)}">${esc(a.email)}</a>`)}
-      ${ii('Experience',a.experience||'—')} ${ii('PAN',a.pan||'—')}
+      ${ii('Experience',esc(a.experience||'—'))} ${ii('PAN',esc(a.pan||'—'))}
     </div>
     <div class="sec-label">Performance</div>
     <div class="info-grid">
@@ -528,10 +528,10 @@ window.openDrawer = function(id) {
     </div>
     <div class="sec-label">Bank Details</div>
     <div class="info-grid">
-      ${ii('Account Name', a.bank_acc_name||'—')}
-      ${ii('Account No',   a.bank_acc_num?'••••'+a.bank_acc_num.slice(-4):'—')}
-      ${ii('IFSC',         a.bank_ifsc||'—')}
-      ${ii('Bank',         a.bank_name||'—')}
+      ${ii('Account Name', esc(a.bank_acc_name||'—'))}
+      ${ii('Account No',   a.bank_acc_num?'••••'+esc(a.bank_acc_num.slice(-4)):'—')}
+      ${ii('IFSC',         esc(a.bank_ifsc||'—'))}
+      ${ii('Bank',         esc(a.bank_name||'—'))}
     </div>
     ${pendAmt>0?`
     <div class="sec-label">Payout Summary</div>

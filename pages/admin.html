@@ -1513,14 +1513,14 @@ async function loadOverviewEnquiries() {
     document.getElementById('ov-enq-load').style.display='none';
     document.getElementById('ov-enq-tbody').innerHTML = data.slice(0,5).map(e=>`
       <tr>
-        <td><strong>${e.customer_name||e.guest_name||e.name||'—'}</strong></td>
-        <td>${(e.interest||[e.service_type||e.package_name||'General']).join(', ')}</td>
-        <td><a href="tel:${e.customer_phone||e.guest_phone||e.phone||''}" style="color:var(--primary)">${e.customer_phone||e.guest_phone||e.phone||'—'}</a></td>
+        <td><strong>${esc(e.customer_name||e.guest_name||e.name||'—')}</strong></td>
+        <td>${esc((e.interest||[e.service_type||e.package_name||'General']).join(', '))}</td>
+        <td><a href="tel:${esc(e.customer_phone||e.guest_phone||e.phone||'')}" style="color:var(--primary)">${esc(e.customer_phone||e.guest_phone||e.phone||'—')}</a></td>
         <td style="font-size:.75rem;color:var(--muted)">${new Date(e.created_at).toLocaleString('en-IN',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}</td>
         <td>${pill(e.status)}</td>
         <td><div class="ab">
           <button class="bs bd" onclick="resolveEnq('${e.id}')">✓ Done</button>
-          <button class="bs bv" onclick="window.open('https://wa.me/${e.phone?.replace(/\D/g,'')}','_blank')">📞</button>
+          <button class="bs bv" onclick="window.open('https://wa.me/${esc(e.phone?.replace(/\D/g,''))}','_blank')">📞</button>
         </div></td>
       </tr>`).join('');
   } catch(e) { document.getElementById('ov-enq-load').style.display='none'; }
@@ -1535,18 +1535,18 @@ async function loadEnquiries() {
     load.style.display='none';
     document.getElementById('enq-tbody').innerHTML = data.map(e=>`
       <tr>
-        <td><strong>${e.customer_name||e.guest_name||e.name||'—'}</strong></td>
-        <td><a href="tel:${e.customer_phone||e.guest_phone||e.phone||''}" style="color:var(--primary)">${e.customer_phone||e.guest_phone||e.phone||'—'}</a></td>
-        <td><a href="mailto:${e.customer_email||e.guest_email||e.email||''}" style="color:var(--primary)">${e.customer_email||e.guest_email||e.email||'—'}</a></td>
-        <td>${Array.isArray(e.interest)?e.interest.join(', '):(e.service_type||e.package_name||'General')}</td>
-        <td>${e.destination||e.travel_details?.destination||'—'}</td>
-        <td>${e.num_adults||e.travellers||'—'}</td>
-        <td>${e.budget||'—'}</td>
+        <td><strong>${esc(e.customer_name||e.guest_name||e.name||'—')}</strong></td>
+        <td><a href="tel:${esc(e.customer_phone||e.guest_phone||e.phone||'')}" style="color:var(--primary)">${esc(e.customer_phone||e.guest_phone||e.phone||'—')}</a></td>
+        <td><a href="mailto:${esc(e.customer_email||e.guest_email||e.email||'')}" style="color:var(--primary)">${esc(e.customer_email||e.guest_email||e.email||'—')}</a></td>
+        <td>${esc(Array.isArray(e.interest)?e.interest.join(', '):(e.service_type||e.package_name||'General'))}</td>
+        <td>${esc(e.destination||e.travel_details?.destination||'—')}</td>
+        <td>${esc(e.num_adults||e.travellers||'—')}</td>
+        <td>${esc(e.budget||'—')}</td>
         <td style="font-size:.75rem;color:var(--muted)">${new Date(e.created_at).toLocaleString('en-IN',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}</td>
         <td>${pill(e.status)}</td>
         <td><div class="ab">
           <button class="bs bd" onclick="resolveEnq('${e.id}')">✓ Done</button>
-          <button class="bs bv" onclick="window.open('https://wa.me/${(e.phone||'').replace(/\D/g,'')}','_blank')">📞</button>
+          <button class="bs bv" onclick="window.open('https://wa.me/${esc((e.phone||'').replace(/\D/g,''))}','_blank')">📞</button>
         </div></td>
       </tr>`).join('');
   } catch(e) { load.style.display='none'; toast('Failed to load enquiries','error'); }
@@ -1561,11 +1561,11 @@ async function loadBookings() {
     load.style.display='none';
     document.getElementById('book-tbody').innerHTML = data.map(b=>`
       <tr>
-        <td style="font-family:monospace;font-weight:700;color:var(--primary)">${b.booking_ref}</td>
-        <td><strong>${b.guest_name}</strong></td>
-        <td style="text-transform:capitalize">${b.booking_type}</td>
-        <td>${b.travel_date||b.checkin_date||'—'}</td>
-        <td>${b.num_guests}</td>
+        <td style="font-family:monospace;font-weight:700;color:var(--primary)">${esc(b.booking_ref)}</td>
+        <td><strong>${esc(b.guest_name)}</strong></td>
+        <td style="text-transform:capitalize">${esc(b.booking_type)}</td>
+        <td>${esc(b.travel_date||b.checkin_date||'—')}</td>
+        <td>${esc(b.num_guests)}</td>
         <td><strong>₹${Number(b.total_amount).toLocaleString('en-IN')}</strong></td>
         <td>${pill(b.payment_status)}</td>
         <td>${pill(b.status)}</td>
@@ -1722,8 +1722,8 @@ async function loadPackages() {
       <div class="pkg-card-admin">
         <div class="pct" style="background:${p.bg_gradient || 'linear-gradient(135deg,#667eea,#764ba2)'}">${p.emoji || '🗺️'}</div>
         <div class="pcb">
-          <div class="pcn">${p.title}</div>
-          <div class="pcm" style="font-size:.73rem;color:var(--muted);margin:.2rem 0">${p.category || ''} · ${p.duration_days || '?'}D / ${p.nights || '?'}N · ₹${Number(p.price).toLocaleString('en-IN')}</div>
+          <div class="pcn">${esc(p.title)}</div>
+          <div class="pcm" style="font-size:.73rem;color:var(--muted);margin:.2rem 0">${esc(p.category || '')} · ${esc(p.duration_days || '?')}D / ${esc(p.nights || '?')}N · ₹${Number(p.price).toLocaleString('en-IN')}</div>
           <div class="pcf">
             <span class="pcp">₹${Number(p.price).toLocaleString('en-IN')}</span>
             <div style="display:flex;align-items:center;gap:.4rem">
@@ -1776,9 +1776,9 @@ async function loadCustomers() {
     load.style.display='none';
     document.getElementById('cust-tbody').innerHTML = data.map(c=>`
       <tr>
-        <td><strong>${c.full_name||'—'}</strong></td>
-        <td>${c.phone||'—'}</td>
-        <td style="text-transform:capitalize">${c.role}</td>
+        <td><strong>${esc(c.full_name||'—')}</strong></td>
+        <td>${esc(c.phone||'—')}</td>
+        <td style="text-transform:capitalize">${esc(c.role)}</td>
         <td>${new Date(c.created_at).toLocaleDateString('en-IN')}</td>
         <td><div class="ab"><button class="bs bv" onclick="alert('View customer')">View</button></div></td>
       </tr>`).join('');

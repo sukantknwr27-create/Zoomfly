@@ -590,6 +590,9 @@ window.processPayment = async () => {
               const { createBooking, supabase } = await import('../assets/js/supabase.js');
               const booking = await createBooking({
                 service_type: bookingType, service_name: itemName,
+                service_id: serviceId,
+                package_id: bookingType === 'package' ? serviceId : null,
+                hotel_id:   bookingType === 'hotel'   ? serviceId : null,
                 customer_name: name, customer_email: email,
                 customer_phone: phone.replace(/\D/g,''),
                 num_adults: parseInt(document.getElementById('g-pax').value) || 2,
@@ -640,6 +643,9 @@ window.processPayment = async () => {
     const { createBooking } = await import('../assets/js/supabase.js');
     const booking = await createBooking({
       service_type: bookingType, service_name: itemName,
+      service_id: serviceId,
+      package_id: bookingType === 'package' ? serviceId : null,
+      hotel_id:   bookingType === 'hotel'   ? serviceId : null,
       customer_name: name, customer_email: email,
       customer_phone: phone.replace(/\D/g,''),
       num_adults: parseInt(document.getElementById('g-pax').value) || 2,

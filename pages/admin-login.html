@@ -146,10 +146,11 @@ if (reason === 'access_denied') {
 
 // ── Helpers ─────────────────────────────────────────────────
 async function checkAdminRole(client, user) {
-  // Check app_metadata first (set server-side — most reliable)
-  const metaRole = user.app_metadata?.role || user.user_metadata?.role;
-  if (metaRole === 'admin') return true;
-  // Fallback: check profiles table
+  // Only app_metadata is trustworthy for an authorization decision —
+  // it's set exclusively via the Supabase admin API (service_role).
+  // user_metadata is user-editable client-side and must never gate
+  // access on its own; see the matching fix in assets/js/supabase.js.
+  if (user.app_metadata?.role === 'admin') return true;
   try {
     const { data } = await client.from('profiles').select('role').eq('id', user.id).single();
     return data?.role === 'admin';

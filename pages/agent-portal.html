@@ -68,8 +68,9 @@
     .sai-tier{display:inline-block;margin-top:6px;padding:2px 10px;border-radius:10px;
       font-size:0.68rem;font-weight:700;}
     .tier-associate{background:rgba(20,184,166,0.2);color:#5eead4;}
-    .tier-senior    {background:rgba(245,158,11,0.2);color:#fde047;}
-    .tier-elite     {background:rgba(139,92,246,0.2);color:#c4b5fd;}
+    .tier-silver   {background:rgba(148,163,184,0.25);color:#e2e8f0;}
+    .tier-gold     {background:rgba(245,158,11,0.2);color:#fde047;}
+    .tier-platinum {background:rgba(139,92,246,0.2);color:#c4b5fd;}
     .sb-nav{padding:16px 12px;flex:1;}
     .sb-nav-label{font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;
       color:rgba(255,255,255,0.25);padding:0 8px;margin-bottom:8px;margin-top:8px;}
@@ -160,7 +161,10 @@
     .cc-sub{font-size:0.75rem;color:var(--light);margin-top:4px;}
 
     /* TIER CARDS */
-    .agent-tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px;}
+    .agent-tiers{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px;}
+    .tier-progress-wrap{background:var(--white);border-radius:14px;border:1px solid var(--border);padding:18px 20px;margin-bottom:20px;}
+    .tier-progress-bar{height:10px;border-radius:6px;background:var(--border);overflow:hidden;margin:10px 0 6px;}
+    .tier-progress-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,#14b8a6,#0d9488);transition:width .4s ease;}
     .at-card{background:var(--white);border-radius:14px;border:2px solid var(--border);
       padding:24px;text-align:center;transition:all 0.2s;}
     .at-card.active-tier{border-color:var(--teal);background:rgba(20,184,166,0.03);}
@@ -553,33 +557,54 @@
         <div style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--dark);margin-bottom:6px;">Partner Tier Program</div>
         <div style="font-size:0.85rem;color:var(--light);">Earn more commission as you grow. Higher tiers unlock better rates and exclusive perks.</div>
       </div>
+      <!-- Progress toward next tier — filled in by JS from real
+           total_booking_value, using the same thresholds the database
+           trigger (auto_upgrade_agent_tier) uses to promote agents. -->
+      <div class="tier-progress-wrap" id="tier-progress-wrap" style="display:none;">
+        <div style="display:flex;justify-content:space-between;font-size:.85rem;color:var(--light);">
+          <span id="tp-current">Associate</span>
+          <span id="tp-next">Silver at ₹1,00,000</span>
+        </div>
+        <div class="tier-progress-bar"><div class="tier-progress-fill" id="tp-fill" style="width:0%;"></div></div>
+        <div style="font-size:.8rem;color:var(--light);" id="tp-detail"></div>
+      </div>
+
       <div class="agent-tiers">
         <div class="at-card" id="tier-associate">
           <div class="at-icon">🤝</div>
           <div class="at-name">Associate</div>
-          <div class="at-req">0 – 49 confirmed bookings / ₹0 – ₹4.99L revenue</div>
+          <div class="at-req">Lifetime booking value: ₹0 – ₹99,999</div>
           <div class="at-perk">✓ 5% commission on all bookings</div>
           <div class="at-perk">✓ Affiliate tracking links</div>
           <div class="at-perk">✓ WhatsApp support</div>
           <div class="at-perk">✓ Monthly payout</div>
         </div>
-        <div class="at-card" id="tier-senior">
-          <div class="at-icon">⭐</div>
-          <div class="at-name">Senior Partner</div>
-          <div class="at-req">50–199 bookings / ₹5L – ₹24.99L revenue</div>
+        <div class="at-card" id="tier-silver">
+          <div class="at-icon">🥈</div>
+          <div class="at-name">Silver Partner</div>
+          <div class="at-req">Lifetime booking value: ₹1,00,000 – ₹4,99,999</div>
           <div class="at-perk">✓ 7% commission rate</div>
           <div class="at-perk">✓ Priority booking processing</div>
-          <div class="at-perk">✓ Dedicated agent manager</div>
           <div class="at-perk">✓ Early access to deals</div>
+          <div class="at-perk">✓ Monthly payout</div>
         </div>
-        <div class="at-card" id="tier-elite">
-          <div class="at-icon">💎</div>
-          <div class="at-name">Elite Partner</div>
-          <div class="at-req">200+ bookings / ₹25L+ revenue</div>
+        <div class="at-card" id="tier-gold">
+          <div class="at-icon">⭐</div>
+          <div class="at-name">Gold Partner</div>
+          <div class="at-req">Lifetime booking value: ₹5,00,000 – ₹19,99,999</div>
           <div class="at-perk">✓ 10% commission rate</div>
-          <div class="at-perk">✓ Sub-agent network allowed</div>
+          <div class="at-perk">✓ Dedicated agent manager</div>
           <div class="at-perk">✓ Co-branded marketing support</div>
           <div class="at-perk">✓ Bi-weekly payout</div>
+        </div>
+        <div class="at-card" id="tier-platinum">
+          <div class="at-icon">💎</div>
+          <div class="at-name">Platinum Partner</div>
+          <div class="at-req">Lifetime booking value: ₹20,00,000+</div>
+          <div class="at-perk">✓ 12% commission rate</div>
+          <div class="at-perk">✓ Sub-agent network allowed</div>
+          <div class="at-perk">✓ Bi-weekly payout, priority support</div>
+          <div class="at-perk">✓ Custom partnership terms</div>
         </div>
       </div>
     </div>
@@ -652,8 +677,22 @@ import { supabase } from '/assets/js/supabase.js';
 const WA_NUMBER    = '918076136300';
 const SITE_URL     = 'https://zoomfly.in';
 
-// Commission rates by tier
-const COMM_RATES   = { associate:0.05, senior:0.07, elite:0.10 };
+// Commission rate now comes straight from the agent's own DB row
+// (agents.commission_rate), which the auto_upgrade_agent_tier trigger
+// keeps in sync with tier server-side — see
+// supabase/migration/01_zoomfly_growth_features.sql. This avoids a
+// second, independently-maintained rate table in the frontend
+// silently drifting out of sync with what the database actually pays.
+function currentCommissionRate() {
+  return (agentProfile?.commission_rate != null ? Number(agentProfile.commission_rate) : 5) / 100;
+}
+// Tier thresholds — must match auto_upgrade_agent_tier() in the DB.
+const TIER_THRESHOLDS = [
+  { tier:'associate', min:0,       label:'Associate' },
+  { tier:'silver',     min:100000,  label:'Silver' },
+  { tier:'gold',       min:500000,  label:'Gold' },
+  { tier:'platinum',   min:2000000, label:'Platinum' },
+];
 
 let currentUser   = null;
 let agentProfile  = null;
@@ -790,9 +829,29 @@ async function loadAgentProfile() {
     // Highlight current tier
     document.querySelectorAll('.at-card').forEach(c=>c.classList.remove('active-tier'));
     document.getElementById('tier-'+agentTier)?.classList.add('active-tier');
+    renderTierProgress(Number(data.total_booking_value || 0));
   }
   buildLink();
   document.getElementById('quick-link').textContent = `${SITE_URL}/?agent=${agentCode||'LOADING'}`;
+}
+
+// ── Tier progress bar — real lifetime booking value vs. next threshold
+function renderTierProgress(totalValue) {
+  const wrap = document.getElementById('tier-progress-wrap');
+  if (!wrap) return;
+  const idx  = TIER_THRESHOLDS.findIndex(t => t.tier === agentTier);
+  const next = TIER_THRESHOLDS[idx + 1];
+  if (!next) { wrap.style.display = 'none'; return; } // already at top tier
+  const cur   = TIER_THRESHOLDS[idx];
+  const span  = next.min - cur.min;
+  const done  = Math.max(0, Math.min(100, ((totalValue - cur.min) / span) * 100));
+  const remain = Math.max(0, next.min - totalValue);
+  wrap.style.display = 'block';
+  document.getElementById('tp-current').textContent = `${cur.label} (${done.toFixed(0)}% to ${next.label})`;
+  document.getElementById('tp-next').textContent     = `${next.label} at ₹${next.min.toLocaleString('en-IN')}`;
+  document.getElementById('tp-fill').style.width     = done + '%';
+  document.getElementById('tp-detail').textContent   =
+    `₹${remain.toLocaleString('en-IN')} more in lifetime bookings to reach ${next.label}`;
 }
 
 // ── Load All ───────────────────────────────────────────────
@@ -809,7 +868,7 @@ window.loadAll = async function() {
 
 // ── Dashboard ──────────────────────────────────────────────
 function renderDashboard() {
-  const rate=COMM_RATES[agentTier]||0.05;
+  const rate=currentCommissionRate();
   const paid=allBookings.filter(b=>b.payment_status==='paid');
   const totalComm=paid.reduce((s,b)=>s+parseFloat(b.total_amount||0)*rate,0);
   const now=new Date(); const month=new Date(now.getFullYear(),now.getMonth(),1);
@@ -844,7 +903,7 @@ function renderDashboard() {
 
 // ── Bookings Table ─────────────────────────────────────────
 function renderBookingsTable() {
-  const rate=COMM_RATES[agentTier]||0.05;
+  const rate=currentCommissionRate();
   const el=document.getElementById('all-bookings-table');
   if(!allBookings.length){el.innerHTML=`<div class="empty"><div class="empty-icon">📋</div><h3 style="color:var(--dark);">No bookings yet</h3></div>`;return;}
   el.innerHTML=`
@@ -867,7 +926,7 @@ function renderBookingsTable() {
 
 // ── Commissions ────────────────────────────────────────────
 function renderCommissions() {
-  const rate=COMM_RATES[agentTier]||0.05;
+  const rate=currentCommissionRate();
   const paid=allBookings.filter(b=>b.payment_status==='paid');
   const total=paid.reduce((s,b)=>s+parseFloat(b.total_amount||0)*rate,0);
   const now=new Date(); const month=new Date(now.getFullYear(),now.getMonth(),1);
@@ -916,7 +975,7 @@ window.submitAgentBooking = async () => {
   const btn=document.querySelector('#sec-new-booking .submit-btn');
   btn.disabled=true; btn.textContent='Submitting...';
 
-  const rate=COMM_RATES[agentTier]||0.05;
+  const rate=currentCommissionRate();
   const tax =amount*0.18;
   const total=amount+tax;
 
@@ -966,7 +1025,7 @@ window.submitAgentBooking = async () => {
 // ── Commission calc ────────────────────────────────────────
 window.calcCommission = () => {
   const amt  = parseFloat(document.getElementById('bk-amount').value)||0;
-  const rate = COMM_RATES[agentTier]||0.05;
+  const rate = currentCommissionRate();
   const total= amt*1.18;
   const comm = total*rate;
   document.getElementById('bk-commission').value = amt
@@ -1017,7 +1076,7 @@ window.saveBankDetails = async () => {
 
 // ── Export ─────────────────────────────────────────────────
 window.exportBookings = () => {
-  const rate=COMM_RATES[agentTier]||0.05;
+  const rate=currentCommissionRate();
   const hdrs=['Ref','Service','Client','Phone','Date','Amount','Commission','Status'];
   const rows=allBookings.map(b=>[
     b.booking_ref,b.service_name,b.customer_name,b.customer_phone,b.created_at,

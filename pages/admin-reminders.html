@@ -336,6 +336,16 @@ Book now: https://www.zoomfly.in/pages/packages.html — ZoomFly Team ✈️</te
 import { supabase, requireAdmin, signOut } from '/assets/js/supabase.js';
 
 const WA_NUMBER = '918076136300';
+
+// Same escaping helper used across the other admin pages
+// (admin-workflow.html, admin-bookings.html, etc.) — this page never
+// had it, so customer-typed fields (name, phone, service name, ref)
+// were going straight into innerHTML unescaped. Anything a customer
+// types at checkout is untrusted text; without this, a crafted name
+// like `<img src=x onerror=...>` would execute inside an admin's
+// authenticated session the moment this queue rendered — worse than
+// customer-facing XSS, since it runs with admin privileges.
+function esc(s) { return String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 let allBookings = [];
 let sentLog = JSON.parse(localStorage.getItem('zf_reminder_log') || '[]');
 
@@ -419,8 +429,8 @@ window.loadQueue = () => {
     <thead><tr><th>Customer</th><th>Booking</th><th>Type</th><th>Trigger</th><th>Actions</th></tr></thead>
     <tbody>${queue.map(q => `
       <tr>
-        <td><strong>${q.booking.customer_name||'—'}</strong><br><span style="color:rgba(255,255,255,0.52);font-size:.78rem">${q.booking.customer_phone||''}</span></td>
-        <td>${q.booking.booking_ref||q.booking.id.slice(0,8)}<br><span style="color:#4A5568;font-size:.78rem">${q.booking.service_name||''}</span></td>
+        <td><strong>${esc(q.booking.customer_name||'—')}</strong><br><span style="color:rgba(255,255,255,0.52);font-size:.78rem">${esc(q.booking.customer_phone||'')}</span></td>
+        <td>${esc(q.booking.booking_ref||q.booking.id.slice(0,8))}<br><span style="color:#4A5568;font-size:.78rem">${esc(q.booking.service_name||'')}</span></td>
         <td><span class="badge ${q.badge}">${q.type.startsWith('pre')?'Pre-trip':'Post-trip'}</span></td>
         <td style="font-size:.82rem;color:#4A5568">${q.label}</td>
         <td style="display:flex;gap:6px;flex-wrap:wrap">

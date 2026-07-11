@@ -306,9 +306,10 @@
       <!-- GUEST LOOKUP -->
       <div class="guest-lookup">
         <h3>🔍 Track Without Account</h3>
-        <p>Enter your booking reference to check status without logging in.</p>
+        <p>Enter your booking reference and the email used at booking to check status without logging in.</p>
         <div class="track-form">
           <input class="track-input" type="text" id="guest-ref" placeholder="ZF-FLT-20260509-0001"/>
+          <input class="track-input" type="email" id="guest-email" placeholder="Email used for this booking" style="margin-top:8px;"/>
           <button class="track-btn" onclick="guestLookup()">Track</button>
         </div>
         <div id="guest-result" style="margin-top:14px;font-size:0.85rem;"></div>
@@ -765,30 +766,48 @@ window.toggleCard = (id) => {
 };
 
 // ── Guest track ────────────────────────────────────────────
+// This was previously a direct `supabase.from('bookings').select()`
+// call — but the bookings table only grants SELECT to `authenticated`
+// (see the master schema GRANTs), so an actual logged-out guest could
+// never successfully run this query at all; it silently only "worked"
+// for someone already logged in searching their own bookings, which
+// defeats the point of a no-account tracker. This now calls the
+// get-guest-booking edge function, which was already built for
+// exactly this (booking_ref + the email on file, checked server-side
+// with the service role — see supabase/functions/get-guest-booking).
 window.guestLookup = async () => {
-  const ref = document.getElementById('guest-ref').value.trim().toUpperCase();
-  const res = document.getElementById('guest-result');
-  if (!ref) return;
+  const ref   = document.getElementById('guest-ref').value.trim().toUpperCase();
+  const email = document.getElementById('guest-email').value.trim();
+  const res   = document.getElementById('guest-result');
+  if (!ref)   { res.innerHTML = '<div style="color:var(--red);font-size:0.83rem;">Please enter your booking reference.</div>'; return; }
+  if (!email) { res.innerHTML = '<div style="color:var(--red);font-size:0.83rem;">Please enter the email used for this booking.</div>'; return; }
   res.innerHTML = '<span style="color:var(--light);">🔍 Looking up...</span>';
-  const { data, error } = await supabase.from('bookings').select('*').eq('booking_ref', ref).single();
-  if (error||!data) {
-    res.innerHTML = `<div style="color:var(--red);font-size:0.83rem;">❌ Booking not found. Please check the reference number or <a href="https://wa.me/${WA_NUMBER}" style="color:var(--primary);">contact us</a>.</div>`;
-    return;
+  try {
+    const { data, error } = await supabase.functions.invoke('get-guest-booking', {
+      body: { booking_ref: ref, email },
+    });
+    if (error || data?.error || !data?.booking) {
+      res.innerHTML = `<div style="color:var(--red);font-size:0.83rem;">❌ ${esc(data?.error || 'Booking not found. Please check the reference number and email.')} <a href="https://wa.me/${WA_NUMBER}" style="color:var(--primary);">Contact us</a></div>`;
+      return;
+    }
+    const b = data.booking;
+    res.innerHTML = `
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:14px;">
+        <div style="font-weight:700;color:var(--dark);margin-bottom:8px;">${esc(b.service_name)}</div>
+        <div style="display:flex;justify-content:space-between;font-size:0.83rem;margin-bottom:4px;">
+          <span style="color:var(--light);">Customer</span><span style="font-weight:600;">${esc(b.customer_name || b.guest_name)}</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:0.83rem;margin-bottom:4px;">
+          <span style="color:var(--light);">Amount</span><span style="font-weight:700;color:var(--accent);">₹${fmtAmt(b.total_amount)}</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:0.83rem;align-items:center;">
+          <span style="color:var(--light);">Status</span>
+          <span class="bc-status s-${b.status}">${statusLabel(b.status)}</span>
+        </div>
+      </div>`;
+  } catch (e) {
+    res.innerHTML = `<div style="color:var(--red);font-size:0.83rem;">❌ Something went wrong. Please try again or <a href="https://wa.me/${WA_NUMBER}" style="color:var(--primary);">contact us</a>.</div>`;
   }
-  res.innerHTML = `
-    <div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:14px;">
-      <div style="font-weight:700;color:var(--dark);margin-bottom:8px;">${esc(data.service_name)}</div>
-      <div style="display:flex;justify-content:space-between;font-size:0.83rem;margin-bottom:4px;">
-        <span style="color:var(--light);">Customer</span><span style="font-weight:600;">${esc(data.customer_name)}</span>
-      </div>
-      <div style="display:flex;justify-content:space-between;font-size:0.83rem;margin-bottom:4px;">
-        <span style="color:var(--light);">Amount</span><span style="font-weight:700;color:var(--accent);">₹${fmtAmt(data.total_amount)}</span>
-      </div>
-      <div style="display:flex;justify-content:space-between;font-size:0.83rem;align-items:center;">
-        <span style="color:var(--light);">Status</span>
-        <span class="bc-status s-${data.status}">${statusLabel(data.status)}</span>
-      </div>
-    </div>`;
 };
 
 window.trackBooking = async () => {

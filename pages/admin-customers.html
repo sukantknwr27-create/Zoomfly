@@ -427,9 +427,9 @@ function renderPanelBody(c) {
       <div class="info-item"><label>Joined</label><span>${fmtDate(c.created_at)}</span></div>
     </div>
     <div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap">
-      ${c.phone?`<a href="tel:${c.phone}" class="action-btn" style="text-decoration:none">📞 Call</a>`:''}
-      ${c.phone?`<a href="https://wa.me/${c.phone.replace(/\\D/g,'')}" target="_blank" class="action-btn" style="text-decoration:none">💬 WhatsApp</a>`:''}
-      ${c.email?`<a href="mailto:${c.email}" class="action-btn" style="text-decoration:none">✉️ Email</a>`:''}
+      ${c.phone?`<a href="tel:${esc(c.phone)}" class="action-btn" style="text-decoration:none">📞 Call</a>`:''}
+      ${c.phone?`<a href="https://wa.me/${esc(c.phone.replace(/\\D/g,''))}" target="_blank" class="action-btn" style="text-decoration:none">💬 WhatsApp</a>`:''}
+      ${c.email?`<a href="mailto:${esc(c.email)}" class="action-btn" style="text-decoration:none">✉️ Email</a>`:''}
       <button class="action-btn" onclick="openManualBooking('${c.id}','${esc(c.full_name||'')}','${esc(c.phone||'')}','${esc(c.email||'')}')" style="color:#C9922A;border-color:#bfdbfe">+ New Booking</button>
       <button class="action-btn" onclick="generatePaymentLink('${c.id}','${esc(c.full_name||'')}','${esc(c.phone||'')}','${esc(c.email||'')}')">💳 Payment Link</button>
     </div>

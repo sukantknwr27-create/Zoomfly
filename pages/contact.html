@@ -292,9 +292,9 @@ ge('sub-btn').addEventListener('click', async () => {
   };
 
   try {
-    await submitEnquiry(payload);
+    const inserted = await submitEnquiry(payload);
     await supabase.functions.invoke('send-booking-email', {
-      body: { type: 'enquiry', enquiry: payload }
+      body: { type: 'enquiry', enquiry_id: inserted.id }
     });
     // Show success
     ge(`p${step}`).classList.remove('active');

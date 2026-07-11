@@ -418,17 +418,17 @@ window.openDrawer = function(id) {
 
     <div class="sec-label">Business Details</div>
     <div class="info-grid">
-      ${infoItem('Business',v.business_name)} ${infoItem('Type',typeLabel(v.vendor_type))}
-      ${infoItem('Contact', v.contact_name)}  ${infoItem('City', v.city||'—')}
-      ${infoItem('GSTIN',   v.gstin||'—')}    ${infoItem('PAN',  v.pan||'—')}
+      ${infoItem('Business',esc(v.business_name))} ${infoItem('Type',typeLabel(v.vendor_type))}
+      ${infoItem('Contact', esc(v.contact_name))}  ${infoItem('City', esc(v.city||'—'))}
+      ${infoItem('GSTIN',   esc(v.gstin||'—'))}    ${infoItem('PAN',  esc(v.pan||'—'))}
     </div>
 
     <div class="sec-label">Contact</div>
     <div class="info-grid">
       ${infoItem('Email',   `<a href="mailto:${esc(v.email)}">${esc(v.email)}</a>`)}
       ${infoItem('Phone',   `<a href="tel:${esc(v.phone)}">${esc(v.phone)}</a>`)}
-      ${infoItem('WhatsApp',v.whatsapp||v.phone||'—')}
-      ${infoItem('Website', v.website||'—')}
+      ${infoItem('WhatsApp',esc(v.whatsapp||v.phone||'—'))}
+      ${infoItem('Website', esc(v.website||'—'))}
     </div>
 
     <div class="sec-label">Performance</div>
@@ -441,10 +441,10 @@ window.openDrawer = function(id) {
 
     <div class="sec-label">Bank Details</div>
     <div class="info-grid">
-      ${infoItem('Account Name', v.bank_acc_name||'—')}
-      ${infoItem('Account No',   v.bank_acc_num ?'••••'+v.bank_acc_num.slice(-4):'—')}
-      ${infoItem('IFSC',         v.bank_ifsc||'—')}
-      ${infoItem('Bank',         v.bank_name||'—')}
+      ${infoItem('Account Name', esc(v.bank_acc_name||'—'))}
+      ${infoItem('Account No',   v.bank_acc_num ?'••••'+esc(v.bank_acc_num.slice(-4)):'—')}
+      ${infoItem('IFSC',         esc(v.bank_ifsc||'—'))}
+      ${infoItem('Bank',         esc(v.bank_name||'—'))}
     </div>
 
     ${v.listings?.length ? `
@@ -452,7 +452,7 @@ window.openDrawer = function(id) {
     ${v.listings.map(l=>`
       <div class="listing-mini">
         <div class="lm-name">${svcIcon(l.type)} ${esc(l.name)}</div>
-        <div class="lm-meta">📍 ${esc(l.city||'')} · ₹${fmtAmt(l.price)}/${l.per||'night'} · ${esc(l.capacity||'')}</div>
+        <div class="lm-meta">📍 ${esc(l.city||'')} · ₹${fmtAmt(l.price)}/${esc(l.per||'night')} · ${esc(l.capacity||'')}</div>
       </div>`).join('')}` : ''}
 
     <textarea class="note-input" id="admin-note" placeholder="Add admin note (for approval/rejection reason)..."></textarea>
