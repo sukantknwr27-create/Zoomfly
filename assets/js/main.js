@@ -548,6 +548,8 @@ function fmt(n) {
 }
 
 // tourCard() still works — now accepts a DB row shape OR old shape
+function esc(s) { return String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
 function tourCard(p, delay = 0) {
   // DB rows use snake_case; old hardcoded data used camelCase — support both
   const id          = p.slug     || p.id;
@@ -572,18 +574,18 @@ function tourCard(p, delay = 0) {
            style="background:${bg};height:200px;display:flex;align-items:center;
                   justify-content:center;position:relative;font-size:3.8rem;">
         ${emoji}
-        ${badge ? `<div class="badge badge-gold" style="position:absolute;top:14px;left:14px;">${badge}</div>` : ''}
+        ${badge ? `<div class="badge badge-gold" style="position:absolute;top:14px;left:14px;">${esc(badge)}</div>` : ''}
         ${savings > 0 ? `<div class="badge badge-green" style="position:absolute;top:14px;right:14px;">Save ${fmt(savings)}</div>` : ''}
       </div>
       <div style="padding:20px 22px 24px;">
         <div style="display:flex;gap:12px;font-size:.75rem;color:var(--text-muted);margin-bottom:10px;flex-wrap:wrap;">
-          <span>🕐 ${duration}</span>
-          <span>👥 ${people} people</span>
+          <span>🕐 ${esc(duration)}</span>
+          <span>👥 ${esc(people)} people</span>
           <span class="stars">${'★'.repeat(Math.floor(rating))}</span>
           <span style="color:var(--text-muted)">${rating} (${reviews})</span>
         </div>
-        <div style="font-weight:700;font-size:1.05rem;margin-bottom:6px;">${name}</div>
-        <div style="font-size:.82rem;color:var(--text-muted);margin-bottom:4px;">📍 ${dest}</div>
+        <div style="font-weight:700;font-size:1.05rem;margin-bottom:6px;">${esc(name)}</div>
+        <div style="font-size:.82rem;color:var(--text-muted);margin-bottom:4px;">📍 ${esc(dest)}</div>
         <div style="display:flex;align-items:center;justify-content:space-between;margin-top:16px;">
           <div>
             <div style="font-size:1.2rem;font-weight:700;color:var(--blue);">

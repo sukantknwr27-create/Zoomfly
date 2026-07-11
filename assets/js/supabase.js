@@ -143,8 +143,15 @@ export async function requireAdmin() {
   try {
     const user = await safeGetUser();
     if (!user) { window.location.replace('/pages/admin-login.html?reason=auth_required'); return null; }
-    const metaRole = user.app_metadata?.role || user.user_metadata?.role;
-    if (metaRole === 'admin') return { role: 'admin', ...user };
+    // Only app_metadata is trustworthy here — it can only be set via
+    // the Supabase admin API (service_role), never by the signed-in
+    // user themselves. user_metadata is intentionally user-editable
+    // (anyone can call supabase.auth.updateUser({data:{role:'admin'}})
+    // from the browser console), so it must never be used for an
+    // authorization decision — it was previously checked here too,
+    // which let a non-admin get the admin UI shell to render (though
+    // real data was still protected server-side by RLS/is_admin()).
+    if (user.app_metadata?.role === 'admin') return { role: 'admin', ...user };
     const profile = await withTimeout(getProfile(), 5000, null).catch(() => null);
     if (profile?.role === 'admin') return profile;
     window.location.replace('/pages/admin-login.html?reason=access_denied');
