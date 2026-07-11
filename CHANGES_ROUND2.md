@@ -427,3 +427,40 @@ to the form and wired it to that function instead.
    with "⚠️" going forward — that's now where both the webhook and
    verify-razorpay-payment flag anything suspicious instead of silently
    confirming it.
+7. Run the section 18 policy fix (auth.jwt() instead of auth.users) —
+   this is what was actually causing the 403s in the admin console, not
+   a grants issue. Confirmed via a live information_schema query that
+   `authenticated` already had full CRUD on both tables.
+
+## 18. Confirmed root cause of the 403s in the admin console (found and fixed)
+`bookings_select` / `enquiries_select` policies, fixed in the migration
+
+Both SELECT policies queried `(SELECT email FROM auth.users WHERE id =
+auth.uid())` directly inside their `USING` clause. Supabase doesn't
+grant `authenticated` SELECT on `auth.users` by default (intentionally
+— that table holds sensitive auth data), so evaluating this policy
+raised a genuine "permission denied for table users" error on *every*
+query against these two tables, for *every* user — surfaced by
+PostgREST as 403, not the 200-with-filtered-rows you'd get from RLS
+just excluding rows. Fixed using Supabase's documented pattern for
+this exact case: `auth.jwt() ->> 'email'` reads the email straight
+from the session's JWT claims, no table access (and so no extra
+grant) needed at all.
+
+## 19. Two more schema-drift bugs in admin.html, found from the console screenshot
+- **Flight Enquiries tab** (400 Bad Request): filtered on
+  `service_type`/`travel_details`/`customer_name`/`num_adults` —
+  none of which exist on `enquiries` (real columns: `name`, `phone`,
+  `interest[]`, `destination`, `travel_date`, `travellers`, `budget`).
+  This tab has likely never worked. Rewrote it against the real
+  schema, and fixed `markFlightDone()` setting `status:'resolved'`,
+  which isn't a legal value under that column's CHECK constraint
+  (only `new`/`contacted`/`confirmed`/`closed` are allowed).
+- **Loyalty accounts tab** (400 Bad Request): tried to embed a
+  `profiles(full_name, email)` join, which depends on PostgREST's
+  schema cache being current after a migration — even though the FK
+  genuinely exists. Fixed by using `customer_name`/`customer_email`,
+  which `loyalty_accounts` already stores directly, removing the
+  dependency on that cache entirely. Also fixed `a.total_points_earned`
+  (doesn't exist) → `a.points_earned` (the real column), which had
+  been silently showing 0 for every account.
