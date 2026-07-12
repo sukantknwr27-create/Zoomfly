@@ -119,15 +119,14 @@ input, select, textarea { font-family: inherit; }
 .hamburger.open span:nth-child(2) { opacity: 0; }
 .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
 
-/* LIGHT NAV — applied on ALL pages per 2026 redesign */
-.nav-dark { background: rgba(255,255,255,0.98) !important; box-shadow: 0 2px 20px rgba(12,27,51,0.08) !important; }
-.nav-dark .logo-zoom { color: #0C1B33 !important; }
-.nav-dark .logo-fly  { color: var(--gold) !important; }
-.nav-dark .logo-plane { color: var(--gold) !important; }
-.nav-dark .nav-links a { color: #33415C !important; }
-.nav-dark .nav-links a:hover { color: var(--gold) !important; }
-.nav-dark .hamburger span { background: #0C1B33 !important; }
-.nav-dark #nav-login-btn { border-color: rgba(12,27,51,0.28) !important; color: #0C1B33 !important; }
+/* DARK NAV (for non-hero pages) — matches mockup */
+.nav-dark { background: var(--blue-dark) !important; }
+.nav-dark .logo-zoom { color: #fff !important; }
+.nav-dark .logo-fly  { color: var(--gold-light) !important; }
+.nav-dark .logo-plane { color: var(--gold-light) !important; }
+.nav-dark .nav-links a { color: rgba(255,255,255,0.85) !important; }
+.nav-dark .hamburger span { background: #fff !important; }
+.nav-dark #nav-login-btn { border-color: rgba(255,255,255,0.32) !important; color: #fff !important; }
 
 /* ─── MOBILE MENU ─── */
 .mobile-menu {
