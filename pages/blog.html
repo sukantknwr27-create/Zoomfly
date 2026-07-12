@@ -150,11 +150,16 @@ function fmtDate(d) { try { return new Date(d).toLocaleDateString('en-IN',{day:'
 
 function cardHTML(p, i) {
   const featured = p.is_featured;
+  const imgBlock = p.cover_image_url
+    ? `<div class="blog-img${featured?' blog-img-featured':''}" style="background-image:url('${esc(p.cover_image_url)}');background-size:cover;background-position:center">
+        <div class="blog-cat"><span class="badge ${p.badge_class||'badge-gold'}">${esc(p.category||'Guide')}</span></div>
+      </div>`
+    : `<div class="blog-img${featured?' blog-img-featured':''}" style="background:${p.bg_gradient||'linear-gradient(135deg,#667eea,#764ba2)'}">
+        ${p.emoji||'🗺️'}<div class="blog-cat"><span class="badge ${p.badge_class||'badge-gold'}">${esc(p.category||'Guide')}</span></div>
+      </div>`;
   return `
     <a href="/pages/blog-post.html?id=${encodeURIComponent(p.slug)}" class="blog-card${featured?' blog-card-featured':''} reveal" style="transition-delay:${i*60}ms">
-      <div class="blog-img${featured?' blog-img-featured':''}" style="background:${p.bg_gradient||'linear-gradient(135deg,#667eea,#764ba2)'}">
-        ${p.emoji||'🗺️'}<div class="blog-cat"><span class="badge ${p.badge_class||'badge-gold'}">${esc(p.category||'Guide')}</span></div>
-      </div>
+      ${imgBlock}
       <div class="blog-body">
         <div class="blog-meta"><span>📅 ${fmtDate(p.published_at)}</span><span>✍️ ${esc(p.author||'ZoomFly Team')}</span><span>⏱ ${esc(p.read_time||'5 min read')}</span></div>
         <div class="blog-title${featured?' blog-title-lg':''}">${esc(p.title)}</div>
