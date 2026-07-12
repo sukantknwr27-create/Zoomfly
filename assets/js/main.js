@@ -10,6 +10,8 @@ const ZF = {
   email:     'hello@zoomfly.in',
   whatsapp:  '918076136300',
   address:   'Connaught Place, New Delhi – 110001',
+  faviconUrl: '',
+  social: { instagram: '', facebook: '', twitter: '', youtube: '' },
   // destinations used only for homepage hero cards — NOT for packages page
   destinations: [
     { name:'Goa',        tagline:'Sun, Sand & Sunsets',  emoji:'🏖️', bg:'linear-gradient(160deg,#667eea,#764ba2)', from:6999  },
@@ -25,6 +27,35 @@ const ZF = {
   //   Packages  → loaded from Supabase via getPackages() in supabase.js
   //   Testimonials → loaded from Supabase via getFeaturedReviews() in supabase.js
 };
+
+// ─── LIVE SITE SETTINGS ───
+// Pulls admin-managed contact/social/branding info from site_settings
+// and overlays it onto ZF before nav/footer render, so editing these in
+// Admin → Site Settings actually takes effect across the whole site
+// instead of only being saved to a table nothing reads from.
+async function _loadSiteSettingsIntoZF() {
+  try {
+    const { supabase } = await import('./supabase.js');
+    const { data } = await supabase.from('site_settings').select('*').eq('id', 1).single();
+    if (!data) return;
+    if (data.support_phone)   ZF.phone    = data.support_phone;
+    if (data.support_email)   ZF.email    = data.support_email;
+    if (data.whatsapp_number) ZF.whatsapp = data.whatsapp_number;
+    if (data.address)         ZF.address  = data.address;
+    if (data.favicon_url)     ZF.faviconUrl = data.favicon_url;
+    ZF.social = {
+      instagram: data.social_instagram || '',
+      facebook:  data.social_facebook  || '',
+      twitter:   data.social_twitter   || '',
+      youtube:   data.social_youtube   || '',
+    };
+    if (ZF.faviconUrl) {
+      document.querySelectorAll('link[rel*="icon"]').forEach(l => { l.href = ZF.faviconUrl; });
+    }
+  } catch (_) {
+    // Non-fatal — page just uses the ZF defaults above, same as before this existed.
+  }
+}
 
 // ─── NAV ───
 // Extracted to nav.html and loaded via fetch() — see renderNav() below.
@@ -326,11 +357,11 @@ function renderFooter() {
       <!-- Social links -->
       <div style="margin-bottom:4px;font-family:'Space Grotesk',system-ui;font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.28);margin-bottom:10px;">Follow Us</div>
       <div style="display:flex;gap:8px;">
-        <a href="#" title="Instagram" style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:.95rem;transition:all .2s;text-decoration:none;" onmouseover="this.style.background='#C9922A';this.style.borderColor='#C9922A'" onmouseout="this.style.background='rgba(255,255,255,0.08)';this.style.borderColor='rgba(255,255,255,0.1)'">📸</a>
-        <a href="#" title="Facebook"  style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:.95rem;transition:all .2s;text-decoration:none;" onmouseover="this.style.background='#C9922A'" onmouseout="this.style.background='rgba(255,255,255,0.08)'">🔵</a>
+        <a href="${ZF.social.instagram || '#'}" ${ZF.social.instagram ? 'target="_blank" rel="noopener"' : 'onclick="return false" style="opacity:.35;cursor:default"'} title="Instagram" style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:.95rem;transition:all .2s;text-decoration:none;" onmouseover="this.style.background='#C9922A';this.style.borderColor='#C9922A'" onmouseout="this.style.background='rgba(255,255,255,0.08)';this.style.borderColor='rgba(255,255,255,0.1)'">📸</a>
+        <a href="${ZF.social.facebook || '#'}" ${ZF.social.facebook ? 'target="_blank" rel="noopener"' : 'onclick="return false" style="opacity:.35;cursor:default"'} title="Facebook"  style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:.95rem;transition:all .2s;text-decoration:none;" onmouseover="this.style.background='#C9922A'" onmouseout="this.style.background='rgba(255,255,255,0.08)'">🔵</a>
         <a href="https://wa.me/${ZF.whatsapp}" title="WhatsApp" style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:.95rem;transition:all .2s;text-decoration:none;" onmouseover="this.style.background='#25D366'" onmouseout="this.style.background='rgba(255,255,255,0.08)'">💬</a>
-        <a href="#" title="YouTube"   style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:.95rem;transition:all .2s;text-decoration:none;" onmouseover="this.style.background='#C9922A'" onmouseout="this.style.background='rgba(255,255,255,0.08)'">▶️</a>
-        <a href="#" title="Twitter/X" style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700;color:rgba(255,255,255,.65);transition:all .2s;text-decoration:none;" onmouseover="this.style.background='#C9922A'" onmouseout="this.style.background='rgba(255,255,255,0.08)'">𝕏</a>
+        <a href="${ZF.social.youtube || '#'}" ${ZF.social.youtube ? 'target="_blank" rel="noopener"' : 'onclick="return false" style="opacity:.35;cursor:default"'} title="YouTube"   style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:.95rem;transition:all .2s;text-decoration:none;" onmouseover="this.style.background='#C9922A'" onmouseout="this.style.background='rgba(255,255,255,0.08)'">▶️</a>
+        <a href="${ZF.social.twitter || '#'}" ${ZF.social.twitter ? 'target="_blank" rel="noopener"' : 'onclick="return false" style="opacity:.35;cursor:default"'} title="Twitter/X" style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700;color:rgba(255,255,255,.65);transition:all .2s;text-decoration:none;" onmouseover="this.style.background='#C9922A'" onmouseout="this.style.background='rgba(255,255,255,0.08)'">𝕏</a>
       </div>
     </div>
 
@@ -379,20 +410,20 @@ function renderFooter() {
       <h4>CONTACT US</h4>
       <div style="display:flex;flex-direction:column;gap:12px;">
         <div>
-          <a href="tel:+918076136300" style="display:flex;align-items:center;gap:7px;color:rgba(255,255,255,0.7);font-size:.82rem;text-decoration:none;margin-bottom:3px;">
-            <span>📞</span> +91 80761 36300
+          <a href="tel:${ZF.phone.replace(/\s+/g,'')}" style="display:flex;align-items:center;gap:7px;color:rgba(255,255,255,0.7);font-size:.82rem;text-decoration:none;margin-bottom:3px;">
+            <span>📞</span> ${ZF.phone}
           </a>
           <div style="font-size:.72rem;color:rgba(255,255,255,0.35);padding-left:22px;">Mon – Sat (9 AM – 8 PM)</div>
         </div>
         <div>
-          <a href="mailto:hello@zoomfly.in" style="display:flex;align-items:center;gap:7px;color:rgba(255,255,255,0.7);font-size:.82rem;text-decoration:none;margin-bottom:3px;">
-            <span>📧</span> hello@zoomfly.in
+          <a href="mailto:${ZF.email}" style="display:flex;align-items:center;gap:7px;color:rgba(255,255,255,0.7);font-size:.82rem;text-decoration:none;margin-bottom:3px;">
+            <span>📧</span> ${ZF.email}
           </a>
           <div style="font-size:.72rem;color:rgba(255,255,255,0.35);padding-left:22px;">We reply within 30 mins</div>
         </div>
         <div style="display:flex;align-items:flex-start;gap:7px;font-size:.79rem;color:rgba(255,255,255,0.55);line-height:1.6;">
           <span>📍</span>
-          <span>Connaught Place,<br>New Delhi – 110001<br>India</span>
+          <span>${ZF.address}</span>
         </div>
         <div>
           <a href="https://wa.me/${ZF.whatsapp}" style="display:flex;align-items:center;gap:7px;color:rgba(255,255,255,0.7);font-size:.82rem;text-decoration:none;">
@@ -627,9 +658,19 @@ function handleEnquiry(formEl, successMsg = "✅ Enquiry sent! We'll call you wi
 }
 
 // ─── INIT ───
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   window._zfRenderNav = renderNav;   // expose for supabase.js loadNav delegation (Fix #5, #7)
-  renderNav(document.body.dataset.page || '');
+  await _loadSiteSettingsIntoZF();   // pull admin-managed phone/whatsapp/social/favicon before rendering
+  await renderNav(document.body.dataset.page || '');
+  // nav.html itself hardcodes a tel: link (static fragment, not JS-templated
+  // like the footer) — patch it in place so the admin-managed phone number
+  // takes effect there too, without having to convert nav.html into a
+  // template just for one field.
+  document.querySelectorAll('#mainNav a[href^="tel:"]').forEach(a => {
+    a.href = 'tel:' + ZF.phone.replace(/\s+/g, '');
+    const telText = a.querySelector('.tel-text');
+    if (telText) telText.textContent = ZF.phone; else a.textContent = '📞 ' + ZF.phone;
+  });
   renderFooter();
   renderNewsletter();
   renderWA();
