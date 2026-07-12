@@ -245,12 +245,12 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
       <span style="color:#F59E0B">★★★★★</span>&nbsp; India's #1 Rated Travel Platform &nbsp;·&nbsp; 4.9 / 5
     </div>
 
-    <h1>
+    <h1 id="heroTitle">
       Where will you<br>
       <em>wander</em> next?
     </h1>
 
-    <p>Curated tours, seamless flights, handpicked hotels —<br>crafted for travellers who expect more than ordinary.</p>
+    <p id="heroSubtitle">Curated tours, seamless flights, handpicked hotels —<br>crafted for travellers who expect more than ordinary.</p>
 
     <div class="hero-btns">
       <a href="/pages/packages.html" class="btn-hp">
@@ -475,10 +475,40 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
 
 <script src="/assets/js/main.js"></script>
 <script type="module">
-import { getPackages, addToWishlist, removeFromWishlist, getWishlist } from '/assets/js/supabase.js';
+import { getPackages, addToWishlist, removeFromWishlist, getWishlist, supabase } from '/assets/js/supabase.js';
 
 // Note: auth-aware nav (login/signup vs user menu) is already handled
 // globally by main.js's renderNav()/_updateNavAuth() using nav.html's ids.
+
+// ── Homepage hero + SEO defaults from Admin → Site Settings ──
+// Only overrides if the admin has actually set a value — otherwise the
+// designed default (with its <em>wander</em> styling) is left untouched.
+// NOTE on the meta title/description fields: this updates document.title
+// and the <meta name="description"> tag client-side, which is enough for
+// the browser tab and for social/share tools that execute JS — but it is
+// NOT a substitute for real SEO, since most search engine indexing reads
+// the raw static HTML. If Google indexing of the homepage title/description
+// matters, edit the static <title>/<meta> tags in index.html directly too.
+(async () => {
+  try {
+    const { data } = await supabase.from('site_settings').select('homepage_hero_title,homepage_hero_subtitle,meta_title,meta_description').eq('id', 1).single();
+    if (!data) return;
+    if (data.homepage_hero_subtitle) {
+      const el = document.getElementById('heroSubtitle');
+      if (el) el.textContent = data.homepage_hero_subtitle;
+    }
+    if (data.homepage_hero_title) {
+      const el = document.getElementById('heroTitle');
+      // Plain-text override — replaces the styled two-line/<em> version.
+      if (el) el.textContent = data.homepage_hero_title;
+    }
+    if (data.meta_title) document.title = data.meta_title;
+    if (data.meta_description) {
+      const m = document.querySelector('meta[name="description"]');
+      if (m) m.setAttribute('content', data.meta_description);
+    }
+  } catch (_) { /* non-fatal — homepage keeps its static defaults */ }
+})();
 
 // ── Search tabs ──
 window.switchSearch = (tab, el) => {
