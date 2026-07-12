@@ -75,74 +75,11 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
   <div class="blog-layout">
     <div>
       <div class="blog-grid" id="blogGrid">
-
-        <!-- Featured -->
-        <a href="/pages/blog-post.html?id=manali-guide" class="blog-card blog-card-featured reveal">
-          <div class="blog-img blog-img-featured" style="background:linear-gradient(135deg,#667eea,#764ba2)">
-            🏔️<div class="blog-cat"><span class="badge badge-gold">Guide</span></div>
-          </div>
-          <div class="blog-body">
-            <div class="blog-meta"><span>📅 March 15, 2025</span><span>✍️ Aakash Kumar</span><span>⏱ 8 min read</span></div>
-            <div class="blog-title blog-title-lg">The Ultimate Manali Travel Guide 2025 — Everything You Need to Know</div>
-            <div class="blog-excerpt">Planning a trip to Manali? We cover the best time to visit, top attractions, where to stay, what to eat, how to get there and everything in between. Your complete Manali handbook.</div>
-            <span class="blog-read-more">Read Full Guide →</span>
-          </div>
-        </a>
-
-        <a href="/pages/blog-post.html?id=goa-off-season" class="blog-card reveal" style="transition-delay:80ms">
-          <div class="blog-img" style="background:linear-gradient(135deg,#f6d365,#fda085)">🏖️<div class="blog-cat"><span class="badge badge-blue">Tips</span></div></div>
-          <div class="blog-body">
-            <div class="blog-meta"><span>📅 Feb 28, 2025</span><span>⏱ 5 min</span></div>
-            <div class="blog-title">Why You Should Visit Goa in the Off-Season (May–Sep)</div>
-            <div class="blog-excerpt">Fewer crowds, lower prices and lush green landscapes make monsoon Goa a hidden gem.</div>
-            <span class="blog-read-more">Read More →</span>
-          </div>
-        </a>
-
-        <a href="/pages/blog-post.html?id=budget-travel" class="blog-card reveal" style="transition-delay:160ms">
-          <div class="blog-img" style="background:linear-gradient(135deg,#43e97b,#38f9d7)">💰<div class="blog-cat"><span class="badge badge-green">Budget</span></div></div>
-          <div class="blog-body">
-            <div class="blog-meta"><span>📅 Feb 10, 2025</span><span>⏱ 6 min</span></div>
-            <div class="blog-title">10 Ways to Travel India on a Budget Without Compromising Fun</div>
-            <div class="blog-excerpt">From train passes to homestays — smart tricks that seasoned travellers swear by.</div>
-            <span class="blog-read-more">Read More →</span>
-          </div>
-        </a>
-
-        <a href="/pages/blog-post.html?id=kerala-honeymoon" class="blog-card reveal" style="transition-delay:80ms">
-          <div class="blog-img" style="background:linear-gradient(135deg,#a18cd1,#fbc2eb)">💕<div class="blog-cat"><span class="badge badge-gold">Honeymoon</span></div></div>
-          <div class="blog-body">
-            <div class="blog-meta"><span>📅 Jan 22, 2025</span><span>⏱ 7 min</span></div>
-            <div class="blog-title">Kerala Honeymoon Guide: Backwaters, Beaches & Bliss</div>
-            <div class="blog-excerpt">Everything you need to plan a romantic Kerala honeymoon — from houseboat bookings to the best resorts.</div>
-            <span class="blog-read-more">Read More →</span>
-          </div>
-        </a>
-
-        <a href="/pages/blog-post.html?id=rajasthan-winter" class="blog-card reveal" style="transition-delay:160ms">
-          <div class="blog-img" style="background:linear-gradient(135deg,#fa709a,#fee140)">🏰<div class="blog-cat"><span class="badge badge-blue">Seasonal</span></div></div>
-          <div class="blog-body">
-            <div class="blog-meta"><span>📅 Jan 5, 2025</span><span>⏱ 5 min</span></div>
-            <div class="blog-title">Best Time to Visit Rajasthan — A Month-by-Month Breakdown</div>
-            <div class="blog-excerpt">Winter, summer or monsoon — when is truly the best time to explore the royal desert state?</div>
-            <span class="blog-read-more">Read More →</span>
-          </div>
-        </a>
-
-        <a href="/pages/blog-post.html?id=bangkok-tips" class="blog-card reveal" style="transition-delay:240ms">
-          <div class="blog-img" style="background:linear-gradient(135deg,#4facfe,#00f2fe)">🗼<div class="blog-cat"><span class="badge badge-gold">International</span></div></div>
-          <div class="blog-body">
-            <div class="blog-meta"><span>📅 Dec 18, 2024</span><span>⏱ 9 min</span></div>
-            <div class="blog-title">Bangkok for First-Timers: The Only Guide You'll Ever Need</div>
-            <div class="blog-excerpt">Temples, street food, islands and shopping — how to experience the best of Bangkok in 5 days.</div>
-            <span class="blog-read-more">Read More →</span>
-          </div>
-        </a>
-
+        <div style="grid-column:1/-1;text-align:center;padding:60px 0;color:var(--text-muted)" id="blog-loading">Loading articles…</div>
       </div>
 
       <div style="text-align:center;margin-top:40px;">
-        <button class="btn btn-outline btn-lg" id="load-more-btn" onclick="loadMoreArticles()">Load More Articles</button>
+        <button class="btn btn-outline btn-lg" id="load-more-btn" onclick="loadMoreArticles()" style="display:none">Load More Articles</button>
       </div>
     </div>
 
@@ -205,50 +142,70 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
 <section class="newsletter" id="newsletter"></section>
 <footer class="footer" id="mainFooter"></footer>
 <script src="/assets/js/main.js"></script>
-<script>
-const MORE_ARTICLES = [
-  { id: 'ladakh-guide', img: '⛰️', bg: 'linear-gradient(135deg,#fccb90,#d57eeb)', cat: 'Adventure', title: 'The Ultimate Ladakh Road Trip Guide 2025', desc: 'Everything you need to know about permits, best routes, accommodation and what to pack for Ladakh.', date: 'Apr 15, 2025', read: '9 min read', author: 'Vikram S.' },
-  { id: 'bali-honeymoon', img: '🌸', bg: 'linear-gradient(135deg,#a18cd1,#fbc2eb)', cat: 'Honeymoon', title: 'Bali for Honeymooners: Best Villas & Hidden Spots', desc: 'From Ubud rice terraces to Seminyak sunsets — the perfect Bali honeymoon itinerary for Indian couples.', date: 'Apr 8, 2025', read: '7 min read', author: 'Priya A.' },
-  { id: 'winter-spiti', img: '🏔️', bg: 'linear-gradient(135deg,#89f7fe,#66a6ff)', cat: 'Off-Beat', title: 'Spiti Valley in Winter: A Guide to the Frozen Frontier', desc: 'Most people visit Spiti in summer — but winter reveals a magical, snow-covered world few ever see.', date: 'Mar 22, 2025', read: '8 min read', author: 'Arjun M.' },
-  { id: 'thailand-budget', img: '🗼', bg: 'linear-gradient(135deg,#4facfe,#00f2fe)', cat: 'Budget Travel', title: 'Thailand Under ₹50,000 — The Real Budget Guide', desc: 'Flights, accommodation, food and experiences — how to do an amazing 7-day Thailand trip on a tight budget.', date: 'Mar 10, 2025', read: '11 min read', author: 'Meera K.' },
-  { id: 'coorg-monsoon', img: '☕', bg: 'linear-gradient(135deg,#134e5e,#71b280)', cat: 'Monsoon', title: 'Why Coorg in Monsoon is Actually Magical', desc: 'Contrary to popular advice, the monsoon transforms Coorg\'s coffee estates and waterfalls into something extraordinary.', date: 'Feb 28, 2025', read: '6 min read', author: 'Rahul P.' },
-  { id: 'andaman-dive', img: '🐠', bg: 'linear-gradient(135deg,#a1c4fd,#c2e9fb)', cat: 'Water Sports', title: 'Scuba Diving in Andamans: Beginner\'s Complete Guide', desc: 'Everything from choosing a dive school to the best dive sites — your first underwater adventure awaits.', date: 'Feb 14, 2025', read: '10 min read', author: 'Kavita R.' },
-];
+<script type="module">
+import { supabase } from '/assets/js/supabase.js';
 
-let moreLoaded = false;
-function loadMoreArticles() {
-  if (moreLoaded) {
-    document.getElementById('load-more-btn').textContent = 'No more articles';
-    document.getElementById('load-more-btn').disabled = true;
-    return;
-  }
-  const btn = document.getElementById('load-more-btn');
-  btn.textContent = 'Loading...';
-  btn.disabled = true;
-  setTimeout(() => {
-    const grid = document.querySelector('.blog-grid-secondary') || document.querySelector('.blog-main');
-    const container = grid || document.querySelector('.container');
-    const newHTML = MORE_ARTICLES.map((a, i) => `
-      <a href="/pages/blog-post.html?id=${a.id}" class="blog-card reveal" style="transition-delay:${i*60}ms">
-        <div class="blog-thumb" style="background:${a.bg}"><span style="font-size:3rem">${a.img}</span></div>
-        <div class="blog-body">
-          <div class="blog-cat">${a.cat}</div>
-          <h3 class="blog-title">${a.title}</h3>
-          <p class="blog-desc">${a.desc}</p>
-          <div class="blog-meta"><span>📅 ${a.date}</span><span>⏱ ${a.read}</span><span>✍️ ${a.author}</span></div>
-        </div>
-      </a>`).join('');
-    const wrapper = document.createElement('div');
-    wrapper.style.cssText = 'display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-bottom:2rem';
-    wrapper.innerHTML = newHTML;
-    btn.parentElement.insertBefore(wrapper, btn);
-    // Trigger reveal
-    setTimeout(() => wrapper.querySelectorAll('.reveal').forEach(el => el.classList.add('visible')), 100);
-    moreLoaded = true;
-    btn.textContent = 'All Articles Loaded ✓';
-    btn.style.opacity = '.5';
-    btn.disabled = true;
-  }, 600);
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function fmtDate(d) { try { return new Date(d).toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'}); } catch(_) { return ''; } }
+
+function cardHTML(p, i) {
+  const featured = p.is_featured;
+  return `
+    <a href="/pages/blog-post.html?id=${encodeURIComponent(p.slug)}" class="blog-card${featured?' blog-card-featured':''} reveal" style="transition-delay:${i*60}ms">
+      <div class="blog-img${featured?' blog-img-featured':''}" style="background:${p.bg_gradient||'linear-gradient(135deg,#667eea,#764ba2)'}">
+        ${p.emoji||'🗺️'}<div class="blog-cat"><span class="badge ${p.badge_class||'badge-gold'}">${esc(p.category||'Guide')}</span></div>
+      </div>
+      <div class="blog-body">
+        <div class="blog-meta"><span>📅 ${fmtDate(p.published_at)}</span><span>✍️ ${esc(p.author||'ZoomFly Team')}</span><span>⏱ ${esc(p.read_time||'5 min read')}</span></div>
+        <div class="blog-title${featured?' blog-title-lg':''}">${esc(p.title)}</div>
+        <div class="blog-excerpt">${esc(p.excerpt||'')}</div>
+        <span class="blog-read-more">${featured?'Read Full Guide →':'Read More →'}</span>
+      </div>
+    </a>`;
 }
+
+function recentPostHTML(p) {
+  return `
+    <div class="recent-post">
+      <div class="recent-thumb" style="background:${p.bg_gradient||'linear-gradient(135deg,#667eea,#764ba2)'}">${p.emoji||'🗺️'}</div>
+      <div><div class="recent-title">${esc(p.title)}</div><div class="recent-date">${fmtDate(p.published_at)}</div></div>
+    </div>`;
+}
+
+(async () => {
+  const grid = document.getElementById('blogGrid');
+  const loadMoreBtn = document.getElementById('load-more-btn');
+  try {
+    const { data, error } = await supabase
+      .from('blog_posts')
+      .select('*')
+      .eq('is_published', true)
+      .order('is_featured', { ascending: false })
+      .order('published_at', { ascending: false });
+    if (error) throw error;
+
+    if (!data?.length) {
+      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px 0;color:var(--text-muted)">No articles published yet — check back soon!</div>';
+      return;
+    }
+
+    grid.innerHTML = data.map((p, i) => cardHTML(p, i)).join('');
+
+    // Populate "Recent Posts" widget (3rd sidebar-widget) with the 3 newest posts
+    const widgets = document.querySelectorAll('.sidebar-widget');
+    const recentWidget = [...widgets].find(w => w.querySelector('h4')?.textContent.includes('Recent Posts'));
+    if (recentWidget) {
+      const existing = recentWidget.querySelectorAll('.recent-post');
+      existing.forEach(el => el.remove());
+      recentWidget.insertAdjacentHTML('beforeend', data.slice(0,3).map(recentPostHTML).join(''));
+    }
+
+    setTimeout(() => grid.querySelectorAll('.reveal').forEach(el => el.classList.add('visible')), 50);
+  } catch(e) {
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px 0;color:var(--text-muted)">Couldn\'t load articles right now. Please try again shortly.</div>';
+    console.error('Failed to load blog posts:', e);
+  }
+  if (loadMoreBtn) loadMoreBtn.remove(); // all published posts are already shown above
+})();
 </script>
 </html>

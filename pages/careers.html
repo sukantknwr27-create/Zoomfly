@@ -53,7 +53,7 @@
         <div style="font-size:.7rem;color:rgba(255,255,255,.5);font-family:'Space Grotesk',system-ui;text-transform:uppercase;letter-spacing:.06em">Team Members</div>
       </div>
       <div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:12px 22px;text-align:center">
-        <div style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600;color:#fff;">12+</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600;color:#fff;" id="openRolesCount">12+</div>
         <div style="font-size:.7rem;color:rgba(255,255,255,.5);font-family:'Space Grotesk',system-ui;text-transform:uppercase;letter-spacing:.06em">Open Roles</div>
       </div>
       <div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:12px 22px;text-align:center">
@@ -89,49 +89,8 @@
   </div>
 </section>
 
-<div class="jobs-grid">
-  <div class="job-card">
-    <div class="job-dept">🛠 Technology</div>
-    <div class="job-title">Senior Full-Stack Developer</div>
-    <div class="job-meta"><span>📍 Delhi / Remote</span><span>⏱ Full-time</span><span>💰 ₹18–28 LPA</span></div>
-    <div class="job-desc">Build and scale ZoomFly's booking platform using modern JavaScript frameworks. Work on high-impact features used by thousands daily.</div>
-    <button class="btn-apply" onclick="location.href='mailto:careers@zoomfly.in?subject=Application: Senior Full-Stack Developer'">Apply Now →</button>
-  </div>
-  <div class="job-card">
-    <div class="job-dept">✈ Travel</div>
-    <div class="job-title">Senior Travel Consultant</div>
-    <div class="job-meta"><span>📍 Delhi / Hybrid</span><span>⏱ Full-time</span><span>💰 ₹6–10 LPA</span></div>
-    <div class="job-desc">Curate personalised itineraries for high-value clients. Leverage deep destination knowledge to deliver exceptional travel experiences.</div>
-    <button class="btn-apply" onclick="location.href='mailto:careers@zoomfly.in?subject=Application: Senior Travel Consultant'">Apply Now →</button>
-  </div>
-  <div class="job-card">
-    <div class="job-dept">📣 Marketing</div>
-    <div class="job-title">Performance Marketing Manager</div>
-    <div class="job-meta"><span>📍 Delhi</span><span>⏱ Full-time</span><span>💰 ₹10–16 LPA</span></div>
-    <div class="job-desc">Own acquisition across Google, Meta, and programmatic channels. Drive down CAC while scaling revenue for India's fastest-growing travel brand.</div>
-    <button class="btn-apply" onclick="location.href='mailto:careers@zoomfly.in?subject=Application: Performance Marketing Manager'">Apply Now →</button>
-  </div>
-  <div class="job-card">
-    <div class="job-dept">🎨 Design</div>
-    <div class="job-title">UI/UX Product Designer</div>
-    <div class="job-meta"><span>📍 Remote</span><span>⏱ Full-time</span><span>💰 ₹8–14 LPA</span></div>
-    <div class="job-desc">Design intuitive, beautiful travel booking experiences. Own the design system and collaborate closely with engineering on shipping features.</div>
-    <button class="btn-apply" onclick="location.href='mailto:careers@zoomfly.in?subject=Application: UI/UX Product Designer'">Apply Now →</button>
-  </div>
-  <div class="job-card">
-    <div class="job-dept">🤝 Operations</div>
-    <div class="job-title">Customer Experience Lead</div>
-    <div class="job-meta"><span>📍 Delhi</span><span>⏱ Full-time</span><span>💰 ₹5–8 LPA</span></div>
-    <div class="job-desc">Champion traveller satisfaction. Handle escalations, optimise support flows, and ensure every ZoomFly customer has a 5-star experience.</div>
-    <button class="btn-apply" onclick="location.href='mailto:careers@zoomfly.in?subject=Application: Customer Experience Lead'">Apply Now →</button>
-  </div>
-  <div class="job-card">
-    <div class="job-dept">📊 Data</div>
-    <div class="job-title">Data Analyst — Growth</div>
-    <div class="job-meta"><span>📍 Delhi / Remote</span><span>⏱ Full-time</span><span>💰 ₹8–14 LPA</span></div>
-    <div class="job-desc">Turn booking data into actionable insights. Build dashboards, run experiments, and drive growth decisions across product and marketing teams.</div>
-    <button class="btn-apply" onclick="location.href='mailto:careers@zoomfly.in?subject=Application: Data Analyst Growth'">Apply Now →</button>
-  </div>
+<div class="jobs-grid" id="jobsGrid">
+  <div style="grid-column:1/-1;text-align:center;padding:40px 0;color:#8896AB">Loading open positions…</div>
 </div>
 
 <!-- CTA -->
@@ -145,5 +104,42 @@
 <footer class="footer" id="mainFooter"></footer>
 
 <script type="module" src="/assets/js/main.js"></script>
+<script type="module">
+import { supabase } from '/assets/js/supabase.js';
+
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+(async () => {
+  const grid = document.getElementById('jobsGrid');
+  try {
+    const { data, error } = await supabase
+      .from('job_openings')
+      .select('*')
+      .eq('is_active', true)
+      .order('sort_order');
+    if (error) throw error;
+
+    const countEl = document.getElementById('openRolesCount');
+    if (countEl) countEl.textContent = (data?.length || 0) + '+';
+
+    if (!data?.length) {
+      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px 0;color:#8896AB">No open positions right now — check back soon, or send us your CV below!</div>';
+      return;
+    }
+
+    grid.innerHTML = data.map(j => `
+      <div class="job-card">
+        <div class="job-dept">${esc(j.department_icon||'💼')} ${esc(j.department||'General')}</div>
+        <div class="job-title">${esc(j.title)}</div>
+        <div class="job-meta"><span>📍 ${esc(j.location||'Delhi')}</span><span>⏱ ${esc(j.job_type||'Full-time')}</span>${j.salary_range?`<span>💰 ${esc(j.salary_range)}</span>`:''}</div>
+        <div class="job-desc">${esc(j.description||'')}</div>
+        <button class="btn-apply" onclick="location.href='mailto:careers@zoomfly.in?subject=${encodeURIComponent('Application: '+j.title)}'">Apply Now →</button>
+      </div>`).join('');
+  } catch (e) {
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px 0;color:#8896AB">Couldn\'t load open positions right now. Please try again shortly.</div>';
+    console.error('Failed to load job openings:', e);
+  }
+})();
+</script>
 </body>
 </html>

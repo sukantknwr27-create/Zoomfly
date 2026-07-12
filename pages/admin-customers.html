@@ -278,6 +278,13 @@ setTimeout(function() {
       <button onclick="sendBroadcast()" class="btn-primary">Send Now</button>
     </div>
     <div id="bc-msg" style="font-size:.82rem;margin-top:8px;min-height:18px"></div>
+
+    <div style="margin-top:18px;padding-top:14px;border-top:1px solid #e2e8f0">
+      <h4 style="font-size:.85rem;font-weight:700;margin-bottom:10px;color:#0f1923">📜 Recent Broadcasts</h4>
+      <div id="bc-history" style="max-height:220px;overflow-y:auto;display:flex;flex-direction:column;gap:8px">
+        <div style="font-size:.8rem;color:rgba(255,255,255,0.52)">Loading history...</div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -542,8 +549,26 @@ window.createManualBooking = async () => {
 };
 
 // ── BROADCAST ────────────────────────────────────────────────
-window.openBroadcast = () => document.getElementById('broadcast-modal').classList.add('show');
+window.openBroadcast = () => { document.getElementById('broadcast-modal').classList.add('show'); loadBroadcastHistory(); };
 window.closeBroadcast = () => { document.getElementById('broadcast-modal').classList.remove('show'); document.getElementById('bc-msg').textContent=''; };
+
+async function loadBroadcastHistory() {
+  const el = document.getElementById('bc-history');
+  try {
+    const { data, error } = await supabase.from('broadcasts').select('*').order('sent_at', { ascending: false }).limit(10);
+    if (error) throw error;
+    if (!data?.length) { el.innerHTML = '<div style="font-size:.8rem;color:rgba(255,255,255,0.52)">No broadcasts sent yet.</div>'; return; }
+    el.innerHTML = data.map(b => `
+      <div style="background:#f8fafc;border-radius:8px;padding:10px 12px;font-size:.8rem">
+        <div style="display:flex;justify-content:space-between;align-items:start;gap:8px">
+          <strong style="color:#0f1923">${esc(b.subject)}</strong>
+          <span style="font-size:.68rem;color:rgba(255,255,255,0.52);white-space:nowrap">${new Date(b.sent_at).toLocaleDateString('en-IN',{day:'numeric',month:'short'})}</span>
+        </div>
+        <div style="color:#4A5568;margin-top:3px">${esc((b.message||'').slice(0,90))}${(b.message||'').length>90?'…':''}</div>
+        <div style="margin-top:4px;font-size:.72rem;color:#8896AB">📤 ${esc((b.recipient_type||'').replace(/_/g,' '))}${b.recipient_count?` · ${b.recipient_count} recipients`:''}</div>
+      </div>`).join('');
+  } catch(e) { el.innerHTML = '<div style="font-size:.8rem;color:#dc2626">Failed to load history: '+esc(e.message)+'</div>'; }
+}
 
 window.previewBroadcast = () => {
   const msg = document.getElementById('bc-message').value.replace('{name}','Priya');
@@ -572,6 +597,7 @@ window.sendBroadcast = async () => {
     });
     closeBroadcast();
     showToast(`✅ Broadcast sent to ${recType.replace(/_/g,' ')}`);
+    loadBroadcastHistory();
   } catch(e) {
     msgEl.style.color='#dc2626'; msgEl.textContent='Error: '+e.message;
     btn.textContent='Send Now'; btn.disabled=false;

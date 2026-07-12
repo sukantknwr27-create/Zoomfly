@@ -63,6 +63,47 @@
     .sc-num{font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:700;color:#0C1B33;line-height:1;margin-bottom:4px;}
     .sc-label{font-size:0.78rem;color:var(--light);}
 
+    /* TABS */
+    .page-tabs{display:flex;gap:6px;margin-bottom:24px;border-bottom:1px solid var(--border);padding-bottom:0;}
+    .ptab{padding:10px 20px;font-size:0.88rem;font-weight:600;color:var(--light);cursor:pointer;
+      border-bottom:2px solid transparent;margin-bottom:-1px;transition:all 0.2s;}
+    .ptab:hover{color:#0C1B33;}
+    .ptab.active{color:var(--primary);border-bottom-color:var(--primary);}
+    .tab-section{display:none;}
+    .tab-section.active{display:block;}
+
+    /* PAYOUT CARD */
+    .payout-card{background:var(--white);border-radius:14px;border:1px solid var(--border);
+      padding:20px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,0.04);
+      display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+    .pc-info .pci-name{font-weight:700;font-size:0.92rem;color:#0C1B33;}
+    .pc-info .pci-period{font-size:0.75rem;color:var(--light);margin-top:2px;}
+    .pc-amount{text-align:right;}
+    .pca-gross{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:#0C1B33;}
+    .pca-net{font-size:0.82rem;font-weight:700;color:var(--green);margin-top:2px;}
+    .pca-count{font-size:0.72rem;color:var(--light);}
+    .payout-status{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;
+      border-radius:20px;font-size:0.72rem;font-weight:700;}
+    .po-pending{background:rgba(245,158,11,0.1);color:#92400e;}
+    .po-processing{background:rgba(26,115,232,0.1);color:#1d4ed8;}
+    .po-paid{background:rgba(34,197,94,0.1);color:#166534;}
+    .po-failed{background:rgba(239,68,68,0.1);color:#991b1b;}
+    .po-on_hold{background:rgba(100,116,139,0.1);color:#334155;}
+    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:500;
+      display:none;align-items:center;justify-content:center;}
+    .modal-overlay.open{display:flex;}
+    .modal-box{background:var(--white);border-radius:16px;padding:24px;width:440px;max-width:92vw;
+      max-height:88vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.25);}
+    .modal-box h2{font-family:'Playfair Display',serif;font-size:1.1rem;color:#0C1B33;margin-bottom:16px;}
+    .m-field{margin-bottom:14px;}
+    .m-field label{font-size:0.78rem;font-weight:700;display:block;margin-bottom:5px;color:var(--text);}
+    .m-field input,.m-field select,.m-field textarea{width:100%;padding:9px 12px;border:1.5px solid var(--border);
+      border-radius:8px;font-family:inherit;font-size:0.85rem;outline:none;}
+    .m-actions{display:flex;gap:10px;margin-top:18px;}
+    .m-btn{flex:1;padding:11px;border-radius:9px;border:none;font-weight:700;font-size:0.85rem;cursor:pointer;}
+    .m-btn-save{background:var(--primary);color:#0C1B33;}
+    .m-btn-cancel{background:var(--bg);color:var(--text);border:1.5px solid var(--border);}
+
     /* FILTERS */
     .filters-bar{background:var(--white);border:1px solid var(--border);border-radius:14px;
       padding:14px 18px;margin-bottom:20px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
@@ -245,6 +286,15 @@ setTimeout(function() {
 
   <div class="content">
 
+    <!-- TABS -->
+    <div class="page-tabs">
+      <div class="ptab active" onclick="switchPageTab('vendors',this)">All Vendors</div>
+      <div class="ptab"        onclick="switchPageTab('payouts',this)">Payouts</div>
+    </div>
+
+    <!-- VENDORS TAB -->
+    <div class="tab-section active" id="tab-vendors">
+
     <!-- STATS -->
     <div class="stat-row">
       <div class="stat-card sc-pending">
@@ -299,6 +349,78 @@ setTimeout(function() {
       </div>
     </div>
 
+    </div>
+
+    <!-- PAYOUTS TAB -->
+    <div class="tab-section" id="tab-payouts">
+      <div class="stat-row" style="grid-template-columns:repeat(3,1fr);">
+        <div class="stat-card sc-pending">
+          <div class="sc-icon">⏳</div>
+          <div class="sc-num" id="p-pending-amt">₹0</div>
+          <div class="sc-label">Pending / Processing</div>
+        </div>
+        <div class="stat-card sc-active">
+          <div class="sc-icon">✅</div>
+          <div class="sc-num" id="p-paid-amt">₹0</div>
+          <div class="sc-label">Paid (All Time)</div>
+        </div>
+        <div class="stat-card sc-listings">
+          <div class="sc-icon">📋</div>
+          <div class="sc-num" id="p-count">0</div>
+          <div class="sc-label">Total Payout Records</div>
+        </div>
+      </div>
+
+      <div class="table-wrap" style="margin-bottom:0;">
+        <div class="table-header">
+          <div class="table-title">Vendor Payouts</div>
+          <button class="tb-btn" onclick="openPayoutModal()">➕ New Payout</button>
+        </div>
+        <div id="payouts-list" style="padding:16px 20px;">
+          <div class="empty"><div class="empty-icon">⏳</div><h3 style="color:#0C1B33;">Loading payouts...</h3></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- PAYOUT MODAL -->
+<div class="modal-overlay" id="payout-modal-overlay" onclick="if(event.target===this)closePayoutModal()">
+  <div class="modal-box">
+    <h2 id="payout-modal-title">New Vendor Payout</h2>
+    <input type="hidden" id="po-id"/>
+    <div class="m-field">
+      <label>Vendor</label>
+      <select id="po-vendor"><option value="">Select vendor...</option></select>
+    </div>
+    <div class="m-field"><label>Gross Amount (₹)</label><input type="number" id="po-amount" placeholder="e.g. 25000"/></div>
+    <div class="m-field"><label>ZoomFly Commission (₹)</label><input type="number" id="po-commission" placeholder="e.g. 2500"/></div>
+    <div class="m-field"><label>Net Payable (₹) — auto-calculated</label><input type="number" id="po-net" readonly style="background:var(--bg)"/></div>
+    <div class="m-field"><label>Booking Count</label><input type="number" id="po-booking-count" value="1"/></div>
+    <div class="m-field">
+      <label>Period</label>
+      <div style="display:flex;gap:8px;">
+        <input type="date" id="po-period-start" style="flex:1"/>
+        <input type="date" id="po-period-end" style="flex:1"/>
+      </div>
+    </div>
+    <div class="m-field">
+      <label>Status</label>
+      <select id="po-status">
+        <option value="pending">⏳ Pending</option>
+        <option value="processing">🔄 Processing</option>
+        <option value="paid">✅ Paid</option>
+        <option value="failed">❌ Failed</option>
+        <option value="on_hold">⛔ On Hold</option>
+      </select>
+    </div>
+    <div class="m-field"><label>UTR Number (once paid)</label><input type="text" id="po-utr" placeholder="Bank reference number"/></div>
+    <div class="m-field"><label>Notes</label><textarea id="po-notes" rows="2"></textarea></div>
+    <div class="m-actions">
+      <button class="m-btn m-btn-cancel" onclick="closePayoutModal()">Cancel</button>
+      <button class="m-btn m-btn-save" onclick="savePayout()">💾 Save Payout</button>
+    </div>
   </div>
 </div>
 
@@ -549,6 +671,158 @@ window.exportCSV = () => {
   a.click(); URL.revokeObjectURL(a.href);
   showToast('📥 CSV exported');
 };
+
+// ── PAYOUTS ────────────────────────────────────────────────
+let allPayouts = [];
+let payoutsLoaded = false;
+
+window.switchPageTab = (tab, el) => {
+  document.querySelectorAll('.ptab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-section').forEach(s=>s.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('tab-'+tab).classList.add('active');
+  if (tab === 'payouts' && !payoutsLoaded) loadPayouts();
+};
+
+window.loadPayouts = async function() {
+  const { data, error } = await supabase
+    .from('vendor_payouts')
+    .select('*, vendors(business_name)')
+    .order('created_at', { ascending: false });
+  if (error) { showToast('Error loading payouts: '+error.message,'error'); return; }
+  allPayouts = data || [];
+  payoutsLoaded = true;
+  renderPayouts();
+};
+
+function renderPayouts() {
+  const pending = allPayouts.filter(p=>['pending','processing'].includes(p.payout_status)).reduce((s,p)=>s+parseFloat(p.net_amount||0),0);
+  const paid    = allPayouts.filter(p=>p.payout_status==='paid').reduce((s,p)=>s+parseFloat(p.net_amount||0),0);
+  document.getElementById('p-pending-amt').textContent = '₹'+fmtAmt(pending);
+  document.getElementById('p-paid-amt').textContent    = '₹'+fmtAmt(paid);
+  document.getElementById('p-count').textContent       = allPayouts.length;
+
+  const el = document.getElementById('payouts-list');
+  if (!allPayouts.length) {
+    el.innerHTML = `<div class="empty"><div class="empty-icon">💳</div><h3 style="color:#0C1B33;">No payouts yet</h3><p>Click "New Payout" to record one.</p></div>`;
+    return;
+  }
+  el.innerHTML = allPayouts.map(p => `
+    <div class="payout-card">
+      <div class="pc-info">
+        <div class="pci-name">${esc(p.vendors?.business_name || 'Unknown vendor')}</div>
+        <div class="pci-period">${fmtDate(p.period_start)} – ${fmtDate(p.period_end)} · ${p.booking_count||0} booking(s)${p.utr_number ? ' · UTR: '+esc(p.utr_number) : ''}</div>
+      </div>
+      <div class="pc-amount">
+        <div class="pca-gross">₹${fmtAmt(p.net_amount)}</div>
+        <div class="pca-count">Gross ₹${fmtAmt(p.amount)} − Comm ₹${fmtAmt(p.commission)}</div>
+      </div>
+      <span class="payout-status po-${p.payout_status}">${payoutStatusLabel(p.payout_status)}</span>
+      <div style="display:flex;gap:6px;">
+        ${p.payout_status!=='paid' ? `<button class="pay-btn" onclick="markPayoutPaid('${p.id}')">✅ Mark Paid</button>` : ''}
+        <button class="act-btn act-view" onclick="editPayout('${p.id}')">✏️</button>
+        <button class="act-btn act-reject" onclick="deletePayout('${p.id}')">🗑</button>
+      </div>
+    </div>`).join('');
+}
+
+window.openPayoutModal = async () => {
+  document.getElementById('po-id').value = '';
+  document.getElementById('payout-modal-title').textContent = 'New Vendor Payout';
+  ['po-amount','po-commission','po-net','po-utr','po-notes','po-period-start','po-period-end'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('po-booking-count').value = 1;
+  document.getElementById('po-status').value = 'pending';
+  const vSel = document.getElementById('po-vendor');
+  if (vSel.options.length <= 1) {
+    const activeVendors = allVendors.filter(v=>v.status==='active');
+    vSel.innerHTML = '<option value="">Select vendor...</option>' + activeVendors.map(v=>`<option value="${v.id}">${esc(v.business_name)}</option>`).join('');
+  }
+  document.getElementById('payout-modal-overlay').classList.add('open');
+};
+
+window.closePayoutModal = () => document.getElementById('payout-modal-overlay').classList.remove('open');
+
+window.editPayout = (id) => {
+  const p = allPayouts.find(x=>x.id===id);
+  if (!p) return;
+  document.getElementById('po-id').value = p.id;
+  document.getElementById('payout-modal-title').textContent = 'Edit Vendor Payout';
+  const vSel = document.getElementById('po-vendor');
+  if (vSel.options.length <= 1) {
+    const activeVendors = allVendors.filter(v=>v.status==='active' || v.id===p.vendor_id);
+    vSel.innerHTML = '<option value="">Select vendor...</option>' + activeVendors.map(v=>`<option value="${v.id}">${esc(v.business_name)}</option>`).join('');
+  }
+  vSel.value = p.vendor_id;
+  document.getElementById('po-amount').value = p.amount;
+  document.getElementById('po-commission').value = p.commission;
+  document.getElementById('po-net').value = p.net_amount;
+  document.getElementById('po-booking-count').value = p.booking_count || 1;
+  document.getElementById('po-period-start').value = p.period_start || '';
+  document.getElementById('po-period-end').value = p.period_end || '';
+  document.getElementById('po-status').value = p.payout_status;
+  document.getElementById('po-utr').value = p.utr_number || '';
+  document.getElementById('po-notes').value = p.notes || '';
+  document.getElementById('payout-modal-overlay').classList.add('open');
+};
+
+// auto-calc net amount
+['po-amount','po-commission'].forEach(id => {
+  document.addEventListener('input', (e) => {
+    if (e.target?.id === 'po-amount' || e.target?.id === 'po-commission') {
+      const gross = parseFloat(document.getElementById('po-amount').value)||0;
+      const comm  = parseFloat(document.getElementById('po-commission').value)||0;
+      document.getElementById('po-net').value = (gross-comm).toFixed(2);
+    }
+  });
+});
+
+window.savePayout = async () => {
+  const id       = document.getElementById('po-id').value;
+  const vendorId = document.getElementById('po-vendor').value;
+  const amount   = parseFloat(document.getElementById('po-amount').value)||0;
+  const comm     = parseFloat(document.getElementById('po-commission').value)||0;
+  if (!vendorId) { showToast('Select a vendor', 'error'); return; }
+  if (!amount)   { showToast('Enter a gross amount', 'error'); return; }
+  const payload = {
+    vendor_id: vendorId,
+    amount, commission: comm, net_amount: amount-comm,
+    booking_count: parseInt(document.getElementById('po-booking-count').value)||1,
+    period_start: document.getElementById('po-period-start').value || null,
+    period_end: document.getElementById('po-period-end').value || null,
+    payout_status: document.getElementById('po-status').value,
+    utr_number: document.getElementById('po-utr').value.trim() || null,
+    notes: document.getElementById('po-notes').value.trim() || null,
+    payout_date: document.getElementById('po-status').value==='paid' ? new Date().toISOString().split('T')[0] : null
+  };
+  const { error } = id
+    ? await supabase.from('vendor_payouts').update(payload).eq('id', id)
+    : await supabase.from('vendor_payouts').insert(payload);
+  if (error) { showToast('Error: '+error.message, 'error'); return; }
+  closePayoutModal();
+  showToast(id ? 'Payout updated ✅' : 'Payout created ✅');
+  loadPayouts();
+};
+
+window.markPayoutPaid = async (id) => {
+  const utr = prompt('UTR / bank reference number for this payout:');
+  if (utr === null) return;
+  const { error } = await supabase.from('vendor_payouts').update({
+    payout_status: 'paid', utr_number: utr || null, payout_date: new Date().toISOString().split('T')[0]
+  }).eq('id', id);
+  if (error) { showToast('Error: '+error.message, 'error'); return; }
+  showToast('Payout marked as paid ✅');
+  loadPayouts();
+};
+
+window.deletePayout = async (id) => {
+  if (!confirm('Delete this payout record? This cannot be undone.')) return;
+  const { error } = await supabase.from('vendor_payouts').delete().eq('id', id);
+  if (error) { showToast('Error: '+error.message, 'error'); return; }
+  showToast('Payout deleted');
+  loadPayouts();
+};
+
+function payoutStatusLabel(s){ return{pending:'⏳ Pending',processing:'🔄 Processing',paid:'✅ Paid',failed:'❌ Failed',on_hold:'⛔ On Hold'}[s]||s||'—'; }
 
 window.doLogout = async () => { try { await signOut(); } catch(_) {} window.location.replace('/pages/admin-login.html'); };
 

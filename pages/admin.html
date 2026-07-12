@@ -159,6 +159,8 @@ setTimeout(function() {
     <div class="nav-item" onclick="show('customers',this)"><span class="icon">👥</span> Customers</div>
     <div class="nav-item" onclick="show('subscribers',this)"><span class="icon">📧</span> Email Subscribers</div>
     <div class="nav-item" onclick="show('testimonials',this)"><span class="icon">⭐</span> Testimonials</div>
+    <div class="nav-item" onclick="show('reviews',this)"><span class="icon">📝</span> Reviews <span class="badge" id="rev-badge">0</span></div>
+    <div class="nav-item" onclick="show('messages-inbox',this)"><span class="icon">💬</span> Messages <span class="badge" id="msg-badge">0</span></div>
     <div class="sb-sec" style="margin-top:.5rem">Travel Partners</div>
     <div class="nav-item" onclick="show('travel-partners',this)"><span class="icon">🤝</span> Travel Partners</div>
     <div class="nav-item" onclick="show('loyalty',this)"><span class="icon">⭐</span> Loyalty Points</div>
@@ -168,7 +170,11 @@ setTimeout(function() {
     <div class="nav-item" onclick="show('buses',this)"><span class="icon">🚌</span> Bus Routes</div>
     <div class="nav-item" onclick="show('cabs',this)"><span class="icon">🚕</span> Cab Services</div>
     <div class="nav-item" onclick="show('flights-mgmt',this)"><span class="icon">✈️</span> Flights</div>
+    <div class="nav-item" onclick="show('trains',this)"><span class="icon">🚆</span> Trains</div>
     <div class="nav-item" onclick="show('offers',this)"><span class="icon">🎁</span> Offers & Promos</div>
+    <div class="nav-item" onclick="show('blog',this)"><span class="icon">📰</span> Blog</div>
+    <div class="nav-item" onclick="show('faq',this)"><span class="icon">❓</span> FAQ</div>
+    <div class="nav-item" onclick="show('careers',this)"><span class="icon">💼</span> Careers</div>
     <div class="sb-sec" style="margin-top:.5rem">Settings</div>
     <div class="nav-item" onclick="show('site-settings',this)"><span class="icon">⚙️</span> Site Settings</div>
     <div class="sb-sec" style="margin-top:.5rem">Other</div>
@@ -375,6 +381,42 @@ setTimeout(function() {
         </div>
       </div>
     </div>
+    <!-- REVIEWS -->
+    <div class="section" id="section-reviews">
+      <div class="table-card">
+        <div class="table-hdr">
+          <h3>📝 Customer Reviews</h3>
+          <input class="tsearch" placeholder="Search reviews..." oninput="filterTbl('rev-tbody',this.value)"/>
+        </div>
+        <div class="loading" id="rev-load"><div class="spinner"></div></div>
+        <table><thead><tr><th>Rating</th><th>Title</th><th>Review</th><th>On</th><th>Verified</th><th>Status</th><th>Actions</th></tr></thead><tbody id="rev-tbody"></tbody></table>
+      </div>
+    </div>
+
+    <!-- MESSAGES INBOX -->
+    <div class="section" id="section-messages-inbox">
+      <div class="table-card">
+        <div class="table-hdr"><h3>💬 Customer Messages</h3></div>
+        <div class="loading" id="msg-load"><div class="spinner"></div></div>
+        <table><thead><tr><th>Booking Ref</th><th>Customer</th><th>Last Message</th><th>When</th><th>Unread</th><th>Actions</th></tr></thead><tbody id="msg-tbody"></tbody></table>
+      </div>
+    </div>
+
+    <!-- Message Thread Modal -->
+    <div id="msg-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999;align-items:center;justify-content:center">
+      <div style="background:#fff;border-radius:16px;padding:1.5rem;max-width:520px;width:92%;max-height:85vh;display:flex;flex-direction:column">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+          <h3 id="msg-modal-title">Conversation</h3>
+          <button onclick="document.getElementById('msg-modal').style.display='none'" style="background:none;border:none;font-size:1.2rem;cursor:pointer;color:#64748b">✕</button>
+        </div>
+        <div id="msg-thread" style="flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding:.5rem;background:#f8fafc;border-radius:8px;margin-bottom:1rem;min-height:200px;max-height:400px"></div>
+        <div style="display:flex;gap:8px">
+          <textarea id="msg-reply" rows="2" placeholder="Type a reply..." style="flex:1;padding:.6rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;resize:vertical"></textarea>
+          <button onclick="sendAdminReply()" style="padding:.6rem 1.1rem;background:#C9922A;color:#0C1B33;border:none;border-radius:8px;font-weight:700;cursor:pointer;align-self:flex-end">Send</button>
+        </div>
+      </div>
+    </div>
+
     <div class="section" id="section-subscribers">
       <div class="table-card">
         <div class="table-hdr">
@@ -428,6 +470,16 @@ setTimeout(function() {
         <div class="loading" id="flight-load"><div class="spinner"></div></div>
         <table><thead><tr><th>Customer</th><th>Destination</th><th>Date</th><th>Travellers</th><th>Budget</th><th>Status</th><th>Actions</th></tr></thead>
         <tbody id="flight-tbody"></tbody></table>
+      </div>
+    </div>
+
+    <!-- TRAINS -->
+    <div class="section" id="section-trains">
+      <div class="table-card">
+        <div class="table-hdr"><h3>🚆 Train Enquiries</h3><input class="tsearch" placeholder="Search stations..." oninput="filterTbl('train-tbody',this.value)"/></div>
+        <div class="loading" id="train-load"><div class="spinner"></div></div>
+        <table><thead><tr><th>From</th><th>To</th><th>Travel Date</th><th>Quota</th><th>Passengers</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody id="train-tbody"></tbody></table>
       </div>
     </div>
 
@@ -560,6 +612,128 @@ setTimeout(function() {
       </div>
     </div>
 
+    <!-- BLOG -->
+    <div class="section" id="section-blog">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem">
+        <h3 style="font-size:1rem;font-weight:700">📰 Blog Posts</h3>
+        <button class="btn-add" onclick="openAddBlogPost()">+ New Post</button>
+      </div>
+      <div class="loading" id="blog-load"><div class="spinner"></div></div>
+      <div class="table-card">
+        <table><thead><tr><th>Title</th><th>Category</th><th>Author</th><th>Featured</th><th>Published</th><th>Actions</th></tr></thead><tbody id="blog-tbody"></tbody></table>
+      </div>
+    </div>
+
+    <!-- Blog Post Modal -->
+    <div id="blog-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999;align-items:center;justify-content:center">
+      <div style="background:#fff;border-radius:16px;padding:2rem;max-width:640px;width:92%;max-height:90vh;overflow-y:auto">
+        <h3 style="margin-bottom:1.5rem">Add / Edit Blog Post</h3>
+        <input type="hidden" id="bp-id"/>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+          <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Title *</label><input id="bp-title" oninput="autoSlug()" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px"/></div>
+          <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Slug (URL) *</label><input id="bp-slug" placeholder="my-post-title" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:monospace"/></div>
+        </div>
+        <div style="margin-bottom:1rem"><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Excerpt (shown on listing card)</label><textarea id="bp-excerpt" rows="2" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit"></textarea></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1rem">
+          <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Emoji</label><input id="bp-emoji" placeholder="🏔️" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px"/></div>
+          <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Category</label><input id="bp-category" placeholder="Guide" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px"/></div>
+          <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Badge Color</label>
+            <select id="bp-badge" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px">
+              <option value="badge-gold">Gold</option><option value="badge-blue">Blue</option><option value="badge-green">Green</option>
+            </select>
+          </div>
+        </div>
+        <div style="margin-bottom:1rem"><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Background Gradient (CSS)</label><input id="bp-bg" placeholder="linear-gradient(135deg,#667eea,#764ba2)" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:monospace;font-size:.8rem"/></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+          <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Author</label><input id="bp-author" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px"/></div>
+          <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Read Time</label><input id="bp-readtime" placeholder="8 min read" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px"/></div>
+        </div>
+        <div style="margin-bottom:1rem"><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Tags (comma-separated)</label><input id="bp-tags" placeholder="Manali, Himachal, Guide" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px"/></div>
+        <div style="margin-bottom:1rem"><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Body (HTML) *</label><textarea id="bp-body" rows="8" placeholder="<p>Article content...</p><h2>Section heading</h2><p>More content...</p>" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:monospace;font-size:.8rem;resize:vertical"></textarea></div>
+        <div style="display:flex;gap:1.5rem;margin-bottom:1rem">
+          <label style="display:flex;align-items:center;gap:.5rem;font-size:.85rem;cursor:pointer"><input type="checkbox" id="bp-featured"/> Featured (large card)</label>
+          <label style="display:flex;align-items:center;gap:.5rem;font-size:.85rem;cursor:pointer"><input type="checkbox" id="bp-published" checked/> Published</label>
+        </div>
+        <div style="display:flex;gap:.75rem;justify-content:flex-end">
+          <button onclick="document.getElementById('blog-modal').style.display='none'" style="padding:.65rem 1.25rem;border:1.5px solid #e2e8f0;border-radius:8px;cursor:pointer;background:none">Cancel</button>
+          <button onclick="saveBlogPost()" style="padding:.65rem 1.25rem;background:#C9922A;color:#0C1B33;border:none;border-radius:8px;font-weight:700;cursor:pointer">Save Post</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="section" id="section-faq">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem">
+        <h3 style="font-size:1rem;font-weight:700">❓ FAQ Management</h3>
+        <button class="btn-add" onclick="openAddFaq()">+ New Question</button>
+      </div>
+      <div class="loading" id="faq-load"><div class="spinner"></div></div>
+      <div class="table-card">
+        <table><thead><tr><th>Section</th><th>Question</th><th>Order</th><th>Published</th><th>Actions</th></tr></thead><tbody id="faq-tbody"></tbody></table>
+      </div>
+    </div>
+
+    <!-- FAQ Modal -->
+    <div id="faq-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999;align-items:center;justify-content:center">
+      <div style="background:#fff;border-radius:16px;padding:2rem;max-width:560px;width:92%;max-height:90vh;overflow-y:auto">
+        <h3 style="margin-bottom:1.5rem">Add / Edit FAQ</h3>
+        <input type="hidden" id="fq-id"/>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+          <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Section Key *</label><input id="fq-section" placeholder="booking" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:monospace"/></div>
+          <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Section Label *</label><input id="fq-section-label" placeholder="📋 Booking Process" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px"/></div>
+        </div>
+        <div style="margin-bottom:1rem"><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Question *</label><input id="fq-question" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px"/></div>
+        <div style="margin-bottom:1rem"><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Answer *</label><textarea id="fq-answer" rows="4" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;resize:vertical"></textarea></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+          <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Sort Order (within section)</label><input id="fq-order" type="number" value="0" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px"/></div>
+          <div style="display:flex;align-items:flex-end"><label style="display:flex;align-items:center;gap:.5rem;font-size:.85rem;cursor:pointer;padding-bottom:.65rem"><input type="checkbox" id="fq-published" checked/> Published</label></div>
+        </div>
+        <div style="display:flex;gap:.75rem;justify-content:flex-end">
+          <button onclick="document.getElementById('faq-modal').style.display='none'" style="padding:.65rem 1.25rem;border:1.5px solid #e2e8f0;border-radius:8px;cursor:pointer;background:none">Cancel</button>
+          <button onclick="saveFaq()" style="padding:.65rem 1.25rem;background:#C9922A;color:#0C1B33;border:none;border-radius:8px;font-weight:700;cursor:pointer">Save FAQ</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CAREERS -->
+    <div class="section" id="section-careers">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem">
+        <h3 style="font-size:1rem;font-weight:700">💼 Job Openings</h3>
+        <button class="btn-add" onclick="openAddJob()">+ New Job</button>
+      </div>
+      <div class="loading" id="job-load"><div class="spinner"></div></div>
+      <div class="table-card">
+        <table><thead><tr><th>Title</th><th>Department</th><th>Location</th><th>Salary</th><th>Active</th><th>Actions</th></tr></thead><tbody id="job-tbody"></tbody></table>
+      </div>
+    </div>
+
+    <!-- Job Modal -->
+    <div id="job-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999;align-items:center;justify-content:center">
+      <div style="background:#fff;border-radius:16px;padding:2rem;max-width:560px;width:92%;max-height:90vh;overflow-y:auto">
+        <h3 style="margin-bottom:1.5rem">Add / Edit Job Opening</h3>
+        <input type="hidden" id="jb-id"/>
+        <div style="margin-bottom:1rem"><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Job Title *</label><input id="jb-title" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px"/></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+          <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Department</label><input id="jb-dept" placeholder="Technology" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px"/></div>
+          <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Department Icon</label><input id="jb-icon" placeholder="🛠" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px"/></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+          <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Location</label><input id="jb-location" placeholder="Delhi / Remote" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px"/></div>
+          <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Job Type</label><input id="jb-type" placeholder="Full-time" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px"/></div>
+        </div>
+        <div style="margin-bottom:1rem"><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Salary Range</label><input id="jb-salary" placeholder="₹18–28 LPA" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px"/></div>
+        <div style="margin-bottom:1rem"><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Description</label><textarea id="jb-desc" rows="3" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;resize:vertical"></textarea></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+          <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Sort Order</label><input id="jb-order" type="number" value="0" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px"/></div>
+          <div style="display:flex;align-items:flex-end"><label style="display:flex;align-items:center;gap:.5rem;font-size:.85rem;cursor:pointer;padding-bottom:.65rem"><input type="checkbox" id="jb-active" checked/> Active (visible on site)</label></div>
+        </div>
+        <div style="display:flex;gap:.75rem;justify-content:flex-end">
+          <button onclick="document.getElementById('job-modal').style.display='none'" style="padding:.65rem 1.25rem;border:1.5px solid #e2e8f0;border-radius:8px;cursor:pointer;background:none">Cancel</button>
+          <button onclick="saveJob()" style="padding:.65rem 1.25rem;background:#C9922A;color:#0C1B33;border:none;border-radius:8px;font-weight:700;cursor:pointer">Save Job</button>
+        </div>
+      </div>
+    </div>
+
     <!-- SITE SETTINGS -->
     <div class="section" id="section-site-settings">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
@@ -582,7 +756,6 @@ setTimeout(function() {
               <div style="font-size:.72rem;color:#94a3b8;margin-top:3px">Upload your logo to any image host (e.g. ImgBB, Cloudinary) and paste the URL here</div></div>
             <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">🌐 Favicon URL</label>
               <input id="ss-favicon" placeholder="https://www.zoomfly.in/assets/favicon.ico" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit"/></div>
-            <button onclick="saveSettings()" style="padding:.75rem;background:#C9922A;color:#0C1B33;border:none;border-radius:8px;font-weight:700;cursor:pointer;margin-top:.5rem;width:100%">💾 Save Company Settings</button>
           </div>
         </div>
 
@@ -604,6 +777,44 @@ setTimeout(function() {
               <button onclick="window.open('/pages/'+document.getElementById('page-select').value+'.html','_blank')" style="padding:.75rem 1rem;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:8px;cursor:pointer">👁 Preview</button>
             </div>
             <div id="page-save-msg" style="font-size:.82rem;margin-top:6px;min-height:18px"></div>
+          </div>
+        </div>
+
+        <div class="table-card" style="margin-top:16px">
+          <h3 style="margin-bottom:1.25rem">🏠 Homepage Hero</h3>
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Hero Title</label>
+              <input id="ss-hero-title" placeholder="Where will you wander next?" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit"/></div>
+            <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Hero Subtitle</label>
+              <textarea id="ss-hero-subtitle" rows="2" placeholder="Curated tours, seamless flights, handpicked hotels — crafted for travellers who expect more than ordinary." style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;resize:vertical"></textarea></div>
+            <div style="font-size:.72rem;color:#94a3b8">Shown at the top of the homepage. Note: editing the title replaces the styled two-line headline with plain text — leave blank to keep the designed default.</div>
+          </div>
+        </div>
+
+        <div class="table-card" style="margin-top:16px">
+          <h3 style="margin-bottom:1.25rem">🔍 SEO Defaults</h3>
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Default Meta Title</label>
+              <input id="ss-meta-title" placeholder="ZoomFly — Book Flights, Hotels, Packages, Buses & Cabs" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit"/></div>
+            <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Default Meta Description</label>
+              <textarea id="ss-meta-desc" rows="2" placeholder="India's all-in-one travel booking platform..." style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;resize:vertical"></textarea></div>
+            <div style="font-size:.72rem;color:#94a3b8">Used as the fallback title/description for the homepage. Individual pages that already set their own title/description are unaffected.</div>
+          </div>
+        </div>
+
+        <div class="table-card" style="margin-top:16px">
+          <h3 style="margin-bottom:1.25rem">📱 Social Links</h3>
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Instagram URL</label>
+              <input id="ss-instagram" placeholder="https://www.instagram.com/zoomfly.in" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit"/></div>
+            <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Facebook URL</label>
+              <input id="ss-facebook" placeholder="https://www.facebook.com/zoomfly.in" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit"/></div>
+            <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Twitter / X URL</label>
+              <input id="ss-twitter" placeholder="https://x.com/zoomfly_in" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit"/></div>
+            <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">YouTube URL</label>
+              <input id="ss-youtube" placeholder="https://youtube.com/@zoomfly" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit"/></div>
+            <button onclick="saveSettings()" style="padding:.75rem;background:#C9922A;color:#0C1B33;border:none;border-radius:8px;font-weight:700;cursor:pointer;margin-top:.5rem;width:100%">💾 Save All Settings</button>
+            <div style="font-size:.72rem;color:#94a3b8">One Save button updates everything on this page — Company Info, Homepage Hero, SEO Defaults, and Social Links together.</div>
           </div>
         </div>
 
@@ -1048,12 +1259,314 @@ window.deletePromo = async (id) => {
   loadPromos();
 };
 
+// ── BLOG POSTS ───────────────────────────────────────────────
+let allBlogPosts = [];
+
+function autoSlug() {
+  // Only auto-fill the slug while adding a new post (id field empty)
+  // and only if the user hasn't already typed a custom slug.
+  if (document.getElementById('bp-id').value) return;
+  const slugField = document.getElementById('bp-slug');
+  if (slugField.dataset.touched === '1') return;
+  const title = document.getElementById('bp-title').value;
+  slugField.value = title.toLowerCase().trim()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-');
+}
+
+async function loadBlogPosts() {
+  document.getElementById('blog-load').style.display = 'block';
+  const tbody = document.getElementById('blog-tbody');
+  try {
+    const { data, error } = await supabase.from('blog_posts').select('*').order('published_at', { ascending: false });
+    if (error) throw error;
+    allBlogPosts = data || [];
+    document.getElementById('blog-load').style.display = 'none';
+    if (!data?.length) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:2rem;color:#94a3b8">No blog posts yet. Click "+ New Post" to add one.</td></tr>'; return; }
+    tbody.innerHTML = data.map(p => `
+      <tr>
+        <td><strong>${esc(p.title)}</strong><br/><span style="font-size:.72rem;color:#94a3b8;font-family:monospace">/${esc(p.slug)}</span></td>
+        <td style="font-size:.78rem">${esc(p.category||'—')}</td>
+        <td style="font-size:.78rem">${esc(p.author||'—')}</td>
+        <td>${p.is_featured ? '⭐' : '—'}</td>
+        <td>${pill(p.is_published ? 'active' : 'inactive')}</td>
+        <td style="display:flex;gap:6px">
+          <button onclick="editBlogPost('${p.id}')" style="padding:4px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:.75rem;cursor:pointer;background:#fff">✏️ Edit</button>
+          <button onclick="toggleBlogPublish('${p.id}',${p.is_published})" style="padding:4px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:.75rem;cursor:pointer;background:#fff">${p.is_published?'🙈 Unpublish':'👁 Publish'}</button>
+          <button onclick="deleteBlogPost('${p.id}')" style="padding:4px 10px;border:1px solid #fee2e2;border-radius:6px;font-size:.75rem;cursor:pointer;color:#991b1b;background:#fff">🗑 Delete</button>
+        </td>
+      </tr>`).join('');
+  } catch(e) { document.getElementById('blog-load').style.display='none'; toast('Failed to load blog posts: ' + e.message, 'error'); }
+}
+
+window.openAddBlogPost = () => {
+  document.getElementById('bp-id').value = '';
+  ['bp-title','bp-slug','bp-excerpt','bp-emoji','bp-category','bp-bg','bp-author','bp-readtime','bp-tags','bp-body'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('bp-slug').dataset.touched = '0';
+  document.getElementById('bp-badge').value = 'badge-gold';
+  document.getElementById('bp-emoji').value = '🗺️';
+  document.getElementById('bp-bg').value = 'linear-gradient(135deg,#667eea,#764ba2)';
+  document.getElementById('bp-author').value = 'ZoomFly Team';
+  document.getElementById('bp-readtime').value = '5 min read';
+  document.getElementById('bp-featured').checked = false;
+  document.getElementById('bp-published').checked = true;
+  document.getElementById('blog-modal').style.display = 'flex';
+};
+
+window.editBlogPost = (id) => {
+  const p = allBlogPosts.find(x=>x.id===id);
+  if (!p) return;
+  document.getElementById('bp-id').value = p.id;
+  document.getElementById('bp-title').value = p.title || '';
+  document.getElementById('bp-slug').value = p.slug || '';
+  document.getElementById('bp-slug').dataset.touched = '1';
+  document.getElementById('bp-excerpt').value = p.excerpt || '';
+  document.getElementById('bp-emoji').value = p.emoji || '';
+  document.getElementById('bp-category').value = p.category || '';
+  document.getElementById('bp-badge').value = p.badge_class || 'badge-gold';
+  document.getElementById('bp-bg').value = p.bg_gradient || '';
+  document.getElementById('bp-author').value = p.author || '';
+  document.getElementById('bp-readtime').value = p.read_time || '';
+  document.getElementById('bp-tags').value = (p.tags||[]).join(', ');
+  document.getElementById('bp-body').value = p.body || '';
+  document.getElementById('bp-featured').checked = !!p.is_featured;
+  document.getElementById('bp-published').checked = !!p.is_published;
+  document.getElementById('blog-modal').style.display = 'flex';
+};
+
+window.saveBlogPost = async () => {
+  const id = document.getElementById('bp-id').value;
+  const title = document.getElementById('bp-title').value.trim();
+  const slug  = document.getElementById('bp-slug').value.trim().toLowerCase().replace(/[^a-z0-9-]/g,'');
+  const body  = document.getElementById('bp-body').value.trim();
+  if (!title || !slug || !body) { toast('Title, slug, and body are required', 'error'); return; }
+  const payload = {
+    title, slug, body,
+    excerpt: document.getElementById('bp-excerpt').value.trim() || null,
+    emoji: document.getElementById('bp-emoji').value.trim() || '🗺️',
+    category: document.getElementById('bp-category').value.trim() || 'Guide',
+    badge_class: document.getElementById('bp-badge').value,
+    bg_gradient: document.getElementById('bp-bg').value.trim() || 'linear-gradient(135deg,#667eea,#764ba2)',
+    author: document.getElementById('bp-author').value.trim() || 'ZoomFly Team',
+    read_time: document.getElementById('bp-readtime').value.trim() || '5 min read',
+    tags: document.getElementById('bp-tags').value.split(',').map(t=>t.trim()).filter(Boolean),
+    is_featured: document.getElementById('bp-featured').checked,
+    is_published: document.getElementById('bp-published').checked,
+    updated_at: new Date().toISOString()
+  };
+  const { error } = id
+    ? await supabase.from('blog_posts').update(payload).eq('id', id)
+    : await supabase.from('blog_posts').insert({ ...payload, published_at: new Date().toISOString() });
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
+  document.getElementById('blog-modal').style.display = 'none';
+  toast(id ? 'Blog post updated ✅' : 'Blog post published ✅');
+  loadBlogPosts();
+};
+
+window.toggleBlogPublish = async (id, current) => {
+  const { error } = await supabase.from('blog_posts').update({ is_published: !current }).eq('id', id);
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
+  toast(current ? 'Post unpublished' : 'Post published');
+  loadBlogPosts();
+};
+
+window.deleteBlogPost = async (id) => {
+  if (!confirm('Delete this blog post? This cannot be undone.')) return;
+  const { error } = await supabase.from('blog_posts').delete().eq('id', id);
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
+  toast('Blog post deleted');
+  loadBlogPosts();
+};
+
+// ── FAQ MANAGEMENT ───────────────────────────────────────────
+let allFaqs = [];
+
+async function loadFaqs() {
+  document.getElementById('faq-load').style.display = 'block';
+  const tbody = document.getElementById('faq-tbody');
+  try {
+    const { data, error } = await supabase.from('faqs').select('*').order('section').order('sort_order');
+    if (error) throw error;
+    allFaqs = data || [];
+    document.getElementById('faq-load').style.display = 'none';
+    if (!data?.length) { tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:2rem;color:#94a3b8">No FAQs yet. Click "+ New Question" to add one.</td></tr>'; return; }
+    tbody.innerHTML = data.map(f => `
+      <tr>
+        <td style="font-size:.78rem">${esc(f.section_label)}</td>
+        <td><strong style="font-size:.85rem">${esc(f.question)}</strong></td>
+        <td>${f.sort_order}</td>
+        <td>${pill(f.is_published ? 'active' : 'inactive')}</td>
+        <td style="display:flex;gap:6px">
+          <button onclick="editFaq('${f.id}')" style="padding:4px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:.75rem;cursor:pointer;background:#fff">✏️ Edit</button>
+          <button onclick="toggleFaqPublish('${f.id}',${f.is_published})" style="padding:4px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:.75rem;cursor:pointer;background:#fff">${f.is_published?'🙈 Hide':'👁 Show'}</button>
+          <button onclick="deleteFaq('${f.id}')" style="padding:4px 10px;border:1px solid #fee2e2;border-radius:6px;font-size:.75rem;cursor:pointer;color:#991b1b;background:#fff">🗑 Delete</button>
+        </td>
+      </tr>`).join('');
+  } catch(e) { document.getElementById('faq-load').style.display='none'; toast('Failed to load FAQs: ' + e.message, 'error'); }
+}
+
+window.openAddFaq = () => {
+  document.getElementById('fq-id').value = '';
+  ['fq-section','fq-section-label','fq-question','fq-answer'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('fq-order').value = 0;
+  document.getElementById('fq-published').checked = true;
+  document.getElementById('faq-modal').style.display = 'flex';
+};
+
+window.editFaq = (id) => {
+  const f = allFaqs.find(x=>x.id===id);
+  if (!f) return;
+  document.getElementById('fq-id').value = f.id;
+  document.getElementById('fq-section').value = f.section || '';
+  document.getElementById('fq-section-label').value = f.section_label || '';
+  document.getElementById('fq-question').value = f.question || '';
+  document.getElementById('fq-answer').value = f.answer || '';
+  document.getElementById('fq-order').value = f.sort_order || 0;
+  document.getElementById('fq-published').checked = !!f.is_published;
+  document.getElementById('faq-modal').style.display = 'flex';
+};
+
+window.saveFaq = async () => {
+  const id = document.getElementById('fq-id').value;
+  const section = document.getElementById('fq-section').value.trim().toLowerCase().replace(/\s+/g,'-');
+  const sectionLabel = document.getElementById('fq-section-label').value.trim();
+  const question = document.getElementById('fq-question').value.trim();
+  const answer = document.getElementById('fq-answer').value.trim();
+  if (!section || !sectionLabel || !question || !answer) { toast('All fields except sort order are required', 'error'); return; }
+  const payload = {
+    section, section_label: sectionLabel, question, answer,
+    sort_order: parseInt(document.getElementById('fq-order').value)||0,
+    is_published: document.getElementById('fq-published').checked,
+    updated_at: new Date().toISOString()
+  };
+  const { error } = id
+    ? await supabase.from('faqs').update(payload).eq('id', id)
+    : await supabase.from('faqs').insert(payload);
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
+  document.getElementById('faq-modal').style.display = 'none';
+  toast(id ? 'FAQ updated ✅' : 'FAQ added ✅');
+  loadFaqs();
+};
+
+window.toggleFaqPublish = async (id, current) => {
+  const { error } = await supabase.from('faqs').update({ is_published: !current }).eq('id', id);
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
+  toast(current ? 'FAQ hidden' : 'FAQ shown');
+  loadFaqs();
+};
+
+window.deleteFaq = async (id) => {
+  if (!confirm('Delete this FAQ?')) return;
+  const { error } = await supabase.from('faqs').delete().eq('id', id);
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
+  toast('FAQ deleted');
+  loadFaqs();
+};
+
+// ── CAREERS / JOB OPENINGS ────────────────────────────────────
+let allJobs = [];
+
+async function loadJobs() {
+  document.getElementById('job-load').style.display = 'block';
+  const tbody = document.getElementById('job-tbody');
+  try {
+    const { data, error } = await supabase.from('job_openings').select('*').order('sort_order');
+    if (error) throw error;
+    allJobs = data || [];
+    document.getElementById('job-load').style.display = 'none';
+    if (!data?.length) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:2rem;color:#94a3b8">No job openings yet. Click "+ New Job" to add one.</td></tr>'; return; }
+    tbody.innerHTML = data.map(j => `
+      <tr>
+        <td><strong>${esc(j.title)}</strong></td>
+        <td style="font-size:.78rem">${esc(j.department_icon||'')} ${esc(j.department||'—')}</td>
+        <td style="font-size:.78rem">${esc(j.location||'—')}</td>
+        <td style="font-size:.78rem">${esc(j.salary_range||'—')}</td>
+        <td>${pill(j.is_active ? 'active' : 'inactive')}</td>
+        <td style="display:flex;gap:6px">
+          <button onclick="editJob('${j.id}')" style="padding:4px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:.75rem;cursor:pointer;background:#fff">✏️ Edit</button>
+          <button onclick="toggleJobActive('${j.id}',${j.is_active})" style="padding:4px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:.75rem;cursor:pointer;background:#fff">${j.is_active?'🙈 Close':'👁 Reopen'}</button>
+          <button onclick="deleteJob('${j.id}')" style="padding:4px 10px;border:1px solid #fee2e2;border-radius:6px;font-size:.75rem;cursor:pointer;color:#991b1b;background:#fff">🗑 Delete</button>
+        </td>
+      </tr>`).join('');
+  } catch(e) { document.getElementById('job-load').style.display='none'; toast('Failed to load job openings: ' + e.message, 'error'); }
+}
+
+window.openAddJob = () => {
+  document.getElementById('jb-id').value = '';
+  ['jb-title','jb-dept','jb-icon','jb-location','jb-type','jb-salary','jb-desc'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('jb-order').value = 0;
+  document.getElementById('jb-active').checked = true;
+  document.getElementById('job-modal').style.display = 'flex';
+};
+
+window.editJob = (id) => {
+  const j = allJobs.find(x=>x.id===id);
+  if (!j) return;
+  document.getElementById('jb-id').value = j.id;
+  document.getElementById('jb-title').value = j.title || '';
+  document.getElementById('jb-dept').value = j.department || '';
+  document.getElementById('jb-icon').value = j.department_icon || '';
+  document.getElementById('jb-location').value = j.location || '';
+  document.getElementById('jb-type').value = j.job_type || '';
+  document.getElementById('jb-salary').value = j.salary_range || '';
+  document.getElementById('jb-desc').value = j.description || '';
+  document.getElementById('jb-order').value = j.sort_order || 0;
+  document.getElementById('jb-active').checked = !!j.is_active;
+  document.getElementById('job-modal').style.display = 'flex';
+};
+
+window.saveJob = async () => {
+  const id = document.getElementById('jb-id').value;
+  const title = document.getElementById('jb-title').value.trim();
+  if (!title) { toast('Job title is required', 'error'); return; }
+  const payload = {
+    title,
+    department: document.getElementById('jb-dept').value.trim() || 'General',
+    department_icon: document.getElementById('jb-icon').value.trim() || '💼',
+    location: document.getElementById('jb-location').value.trim() || 'Delhi',
+    job_type: document.getElementById('jb-type').value.trim() || 'Full-time',
+    salary_range: document.getElementById('jb-salary').value.trim() || null,
+    description: document.getElementById('jb-desc').value.trim() || null,
+    sort_order: parseInt(document.getElementById('jb-order').value)||0,
+    is_active: document.getElementById('jb-active').checked,
+    updated_at: new Date().toISOString()
+  };
+  const { error } = id
+    ? await supabase.from('job_openings').update(payload).eq('id', id)
+    : await supabase.from('job_openings').insert(payload);
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
+  document.getElementById('job-modal').style.display = 'none';
+  toast(id ? 'Job updated ✅' : 'Job posted ✅');
+  loadJobs();
+};
+
+window.toggleJobActive = async (id, current) => {
+  const { error } = await supabase.from('job_openings').update({ is_active: !current }).eq('id', id);
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
+  toast(current ? 'Job closed' : 'Job reopened');
+  loadJobs();
+};
+
+window.deleteJob = async (id) => {
+  if (!confirm('Delete this job opening?')) return;
+  const { error } = await supabase.from('job_openings').delete().eq('id', id);
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
+  toast('Job deleted');
+  loadJobs();
+};
 
 // ── SITE SETTINGS ────────────────────────────────────────────
 
 window.saveSettings = async () => {
   const btn = document.querySelector('button[onclick="saveSettings()"]');
   if (btn) { btn.textContent = '⏳ Saving...'; btn.disabled = true; }
+  // NOTE: these column names must match public.site_settings exactly
+  // (see 03_zoomfly_site_settings_fix.sql) — a previous version of this
+  // function used company_name/support_phone/support_email before those
+  // columns existed anywhere in the schema, so every save silently
+  // failed and fell back to localStorage-only. Fixed now that the
+  // migration adds the real columns.
   const settings = {
     id: 1,
     company_name:    document.getElementById('ss-name')?.value    || 'ZoomFly Travel Services',
@@ -1063,6 +1576,14 @@ window.saveSettings = async () => {
     whatsapp_number: document.getElementById('ss-wa')?.value      || '',
     logo_url:        document.getElementById('ss-logo')?.value    || '',
     favicon_url:     document.getElementById('ss-favicon')?.value || '',
+    homepage_hero_title:    document.getElementById('ss-hero-title')?.value    || '',
+    homepage_hero_subtitle: document.getElementById('ss-hero-subtitle')?.value || '',
+    meta_title:       document.getElementById('ss-meta-title')?.value || '',
+    meta_description: document.getElementById('ss-meta-desc')?.value  || '',
+    social_instagram: document.getElementById('ss-instagram')?.value  || '',
+    social_facebook:  document.getElementById('ss-facebook')?.value   || '',
+    social_twitter:   document.getElementById('ss-twitter')?.value    || '',
+    social_youtube:   document.getElementById('ss-youtube')?.value    || '',
     updated_at:      new Date().toISOString(),
   };
   try {
@@ -1072,9 +1593,9 @@ window.saveSettings = async () => {
   } catch(e) {
     // Fallback: save to localStorage so settings aren't lost
     localStorage.setItem('zf_site_settings', JSON.stringify(settings));
-    toast('Saved locally (create site_settings table in Supabase for persistence)');
+    toast('Save failed — run 03_zoomfly_site_settings_fix.sql first. Error: ' + e.message, 'error');
   } finally {
-    if (btn) { btn.textContent = '💾 Save Company Settings'; btn.disabled = false; }
+    if (btn) { btn.textContent = '💾 Save All Settings'; btn.disabled = false; }
   }
 };
 
@@ -1090,6 +1611,14 @@ window.loadSiteSettings = async () => {
       if (document.getElementById('ss-wa'))      document.getElementById('ss-wa').value      = data.whatsapp_number || '';
       if (document.getElementById('ss-logo'))    document.getElementById('ss-logo').value    = data.logo_url        || '';
       if (document.getElementById('ss-favicon')) document.getElementById('ss-favicon').value = data.favicon_url     || '';
+      if (document.getElementById('ss-hero-title'))    document.getElementById('ss-hero-title').value    = data.homepage_hero_title    || '';
+      if (document.getElementById('ss-hero-subtitle')) document.getElementById('ss-hero-subtitle').value = data.homepage_hero_subtitle || '';
+      if (document.getElementById('ss-meta-title')) document.getElementById('ss-meta-title').value = data.meta_title || '';
+      if (document.getElementById('ss-meta-desc'))  document.getElementById('ss-meta-desc').value  = data.meta_description || '';
+      if (document.getElementById('ss-instagram')) document.getElementById('ss-instagram').value = data.social_instagram || '';
+      if (document.getElementById('ss-facebook'))  document.getElementById('ss-facebook').value  = data.social_facebook  || '';
+      if (document.getElementById('ss-twitter'))   document.getElementById('ss-twitter').value   = data.social_twitter   || '';
+      if (document.getElementById('ss-youtube'))   document.getElementById('ss-youtube').value   = data.social_youtube   || '';
     }
   } catch(_) {
     // Try localStorage fallback
@@ -1331,6 +1860,173 @@ window.markFlightDone = async (id) => {
   toast('Marked as done'); loadFlightEnquiries();
 };
 
+// ── TRAIN ENQUIRIES ────────────────────────────────────────────
+// These live in their own dedicated table (train_enquiries), unlike
+// flights which are filtered out of the general `enquiries` table.
+async function loadTrainEnquiries() {
+  document.getElementById('train-load').style.display = 'block';
+  const tbody = document.getElementById('train-tbody');
+  try {
+    const { data, error } = await supabase
+      .from('train_enquiries')
+      .select('*')
+      .order('created_at',{ascending:false})
+      .limit(100);
+    if (error) throw error;
+    document.getElementById('train-load').style.display = 'none';
+    if (!data?.length) { tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#94a3b8;padding:2rem">No train enquiries yet.</td></tr>'; return; }
+    tbody.innerHTML = data.map(t => `<tr>
+        <td><strong>${esc(t.from_station||'—')}</strong></td>
+        <td>${esc(t.to_station||'—')}</td>
+        <td>${t.travel_date?new Date(t.travel_date).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}):'—'}</td>
+        <td>${esc(t.quota||'GN')}</td>
+        <td>${t.passengers||1}</td>
+        <td>${pill(t.status||'new')}</td>
+        <td style="display:flex;gap:6px">
+          <button onclick="markTrainDone('${t.id}')" style="padding:4px 10px;border:1px solid #dcfce7;border-radius:6px;font-size:.75rem;cursor:pointer;color:#15803d;background:#fff">✓ Done</button>
+        </td>
+      </tr>`).join('');
+  } catch(e) { document.getElementById('train-load').style.display='none'; toast('Failed to load train enquiries: ' + e.message,'error'); }
+}
+
+window.markTrainDone = async (id) => {
+  await supabase.from('train_enquiries').update({status:'closed'}).eq('id',id);
+  toast('Marked as done'); loadTrainEnquiries();
+};
+
+// ── REVIEWS (moderation) ───────────────────────────────────────
+// Separate from `testimonials` (which are hand-curated marketing
+// quotes) — `reviews` are customer-submitted ratings tied to a
+// booking/package/hotel. Admin can publish/unpublish or delete, but
+// not author new ones.
+async function loadReviews() {
+  document.getElementById('rev-load').style.display = 'block';
+  const tbody = document.getElementById('rev-tbody');
+  try {
+    const { data, error } = await supabase
+      .from('reviews')
+      .select('*, profiles(full_name), packages(title), hotels(name)')
+      .order('created_at',{ascending:false})
+      .limit(200);
+    if (error) throw error;
+    document.getElementById('rev-load').style.display = 'none';
+    document.getElementById('rev-badge').textContent = (data||[]).filter(r=>!r.is_published).length || '';
+    if (!data?.length) { tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#94a3b8;padding:2rem">No reviews yet.</td></tr>'; return; }
+    tbody.innerHTML = data.map(r => `<tr>
+        <td>${'★'.repeat(r.rating||0)}${'☆'.repeat(5-(r.rating||0))}</td>
+        <td><strong>${esc(r.title||'—')}</strong><br/><span style="font-size:.75rem;color:#94a3b8">${esc(r.profiles?.full_name||'Guest')}</span></td>
+        <td style="max-width:280px;font-size:.8rem;color:#475569">${esc((r.body||'').slice(0,120))}${(r.body||'').length>120?'…':''}</td>
+        <td style="font-size:.78rem">${esc(r.packages?.title || r.hotels?.name || '—')}</td>
+        <td>${r.is_verified ? '✅' : '—'}</td>
+        <td>${pill(r.is_published ? 'active' : 'inactive')}</td>
+        <td style="display:flex;gap:6px">
+          <button onclick="toggleReview('${r.id}',${r.is_published})" style="padding:4px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:.75rem;cursor:pointer;background:#fff">${r.is_published ? '🙈 Unpublish' : '👁 Publish'}</button>
+          <button onclick="deleteReview('${r.id}')" style="padding:4px 10px;border:1px solid #fee2e2;border-radius:6px;font-size:.75rem;cursor:pointer;color:#991b1b;background:#fff">🗑 Delete</button>
+        </td>
+      </tr>`).join('');
+  } catch(e) { document.getElementById('rev-load').style.display='none'; toast('Failed to load reviews: ' + e.message,'error'); }
+}
+
+window.toggleReview = async (id, current) => {
+  const { error } = await supabase.from('reviews').update({ is_published: !current }).eq('id', id);
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
+  toast(current ? 'Review unpublished' : 'Review published');
+  loadReviews();
+};
+
+window.deleteReview = async (id) => {
+  if (!confirm('Delete this review permanently?')) return;
+  const { error } = await supabase.from('reviews').delete().eq('id', id);
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
+  toast('Review deleted'); loadReviews();
+};
+
+// ── MESSAGES INBOX ─────────────────────────────────────────────
+let messageThreads = {}; // booking_id -> array of messages, newest last
+let currentThreadBookingId = null;
+
+async function loadMessagesInbox() {
+  document.getElementById('msg-load').style.display = 'block';
+  const tbody = document.getElementById('msg-tbody');
+  try {
+    const { data, error } = await supabase
+      .from('messages')
+      .select('*, bookings(booking_ref, guest_name)')
+      .order('created_at', { ascending: true })
+      .limit(500);
+    if (error) throw error;
+    document.getElementById('msg-load').style.display = 'none';
+
+    // Group into threads keyed by booking_id
+    messageThreads = {};
+    for (const m of (data||[])) {
+      if (!m.booking_id) continue;
+      if (!messageThreads[m.booking_id]) messageThreads[m.booking_id] = [];
+      messageThreads[m.booking_id].push(m);
+    }
+
+    const threadList = Object.entries(messageThreads).map(([bookingId, msgs]) => {
+      const last = msgs[msgs.length - 1];
+      const unread = msgs.filter(m => m.sender_type === 'customer' && !m.is_read).length;
+      return { bookingId, last, unread, booking: last.bookings };
+    }).sort((a,b) => new Date(b.last.created_at) - new Date(a.last.created_at));
+
+    const totalUnread = threadList.reduce((s,t)=>s+t.unread,0);
+    document.getElementById('msg-badge').textContent = totalUnread || '';
+
+    if (!threadList.length) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:2rem;color:#94a3b8">No customer messages yet.</td></tr>'; return; }
+
+    tbody.innerHTML = threadList.map(t => `
+      <tr>
+        <td style="font-family:monospace;font-weight:700;color:#C9922A">${esc(t.booking?.booking_ref||'—')}</td>
+        <td><strong>${esc(t.booking?.guest_name||'Guest')}</strong></td>
+        <td style="max-width:260px;font-size:.8rem;color:#475569">${esc((t.last.body||'').slice(0,80))}${(t.last.body||'').length>80?'…':''}</td>
+        <td style="font-size:.75rem;color:#94a3b8">${new Date(t.last.created_at).toLocaleString('en-IN',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}</td>
+        <td>${t.unread ? `<span style="background:#ef4444;color:#fff;border-radius:10px;padding:2px 8px;font-size:.72rem;font-weight:700">${t.unread}</span>` : '—'}</td>
+        <td><button onclick="viewThread('${t.bookingId}')" style="padding:4px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:.75rem;cursor:pointer;background:#fff">💬 View & Reply</button></td>
+      </tr>`).join('');
+  } catch(e) { document.getElementById('msg-load').style.display='none'; toast('Failed to load messages: ' + e.message, 'error'); }
+}
+
+window.viewThread = async (bookingId) => {
+  currentThreadBookingId = bookingId;
+  const msgs = messageThreads[bookingId] || [];
+  const bookingRef = msgs[0]?.bookings?.booking_ref || '—';
+  document.getElementById('msg-modal-title').textContent = `Conversation — ${bookingRef}`;
+  document.getElementById('msg-thread').innerHTML = msgs.map(m => `
+    <div style="align-self:${m.sender_type==='admin'?'flex-end':'flex-start'};max-width:80%;background:${m.sender_type==='admin'?'#C9922A':'#fff'};color:${m.sender_type==='admin'?'#0C1B33':'#1e293b'};padding:8px 12px;border-radius:10px;border:1px solid #e2e8f0;font-size:.85rem">
+      ${esc(m.body)}
+      <div style="font-size:.68rem;opacity:.6;margin-top:3px">${m.sender_type==='admin'?'You':'Customer'} · ${new Date(m.created_at).toLocaleString('en-IN',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}</div>
+    </div>`).join('');
+  document.getElementById('msg-reply').value = '';
+  document.getElementById('msg-modal').style.display = 'flex';
+
+  // Mark unread customer messages in this thread as read
+  const unreadIds = msgs.filter(m => m.sender_type === 'customer' && !m.is_read).map(m => m.id);
+  if (unreadIds.length) {
+    await supabase.from('messages').update({ is_read: true }).in('id', unreadIds);
+    loadMessagesInbox();
+  }
+};
+
+window.sendAdminReply = async () => {
+  const body = document.getElementById('msg-reply').value.trim();
+  if (!body || !currentThreadBookingId) return;
+  const { data: { user } } = await supabase.auth.getUser();
+  const { error } = await supabase.from('messages').insert({
+    booking_id: currentThreadBookingId,
+    sender_id: user?.id || null,
+    sender_type: 'admin',
+    body,
+    is_read: true
+  });
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
+  document.getElementById('msg-reply').value = '';
+  toast('Reply sent ✅');
+  await loadMessagesInbox();
+  viewThread(currentThreadBookingId);
+};
+
 // ── PARTNER APPROVAL (issue 11) ───────────────────────────────
 window.approvePartner = async (id, type, email, name) => {
   const table = type === 'agent' ? 'agents' : 'vendors';
@@ -1427,11 +2123,12 @@ window.show = (id, el) => {
   const titles={
     overview:'Overview', enquiries:'Enquiries', bookings:'Bookings',
     packages:'Packages', vendors:'Vendors', customers:'Customers',
-    subscribers:'Email Subscribers', testimonials:'Testimonials',
-    buses:'Bus Routes', cabs:'Cab Services', 'flights-mgmt':'Flights',
+    subscribers:'Email Subscribers', testimonials:'Testimonials', reviews:'Reviews', 'messages-inbox':'Messages',
+    buses:'Bus Routes', cabs:'Cab Services', 'flights-mgmt':'Flights', trains:'Trains',
     'travel-partners':'Travel Partners', loyalty:'Loyalty Points',
     hotels:'Hotels', destinations:'Destinations',
-    offers:'Offers & Promos', 'site-settings':'Site Settings'
+    offers:'Offers & Promos', blog:'Blog', faq:'FAQ', careers:'Careers',
+    'site-settings':'Site Settings'
   };
   document.getElementById('page-title').textContent = titles[id] || id;
   if(id==='enquiries')       loadEnquiries();
@@ -1441,15 +2138,21 @@ window.show = (id, el) => {
   if(id==='customers')       loadCustomers();
   if(id==='subscribers')     loadSubscribers();
   if(id==='testimonials')    loadTestimonials();
+  if(id==='reviews')         loadReviews();
+  if(id==='messages-inbox')  loadMessagesInbox();
   if(id==='buses')           loadBuses();
   if(id==='cabs')            loadCabs();
   if(id==='flights-mgmt')    loadFlightEnquiries();
+  if(id==='trains')          loadTrainEnquiries();
   if(id==='travel-partners') loadTravelPartners();
   if(id==='site-settings')   {window.loadSiteSettings(); loadPageContent(); }
   if(id==='loyalty')         loadLoyalty();
   if(id==='hotels')          loadHotels();
   if(id==='destinations')    loadDestinations();
   if(id==='offers')          loadPromos();
+  if(id==='blog')            loadBlogPosts();
+  if(id==='faq')             loadFaqs();
+  if(id==='careers')         loadJobs();
 };
 
 // HTML-escape helper — prevents XSS when injecting DB values into innerHTML
