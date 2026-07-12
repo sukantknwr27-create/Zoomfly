@@ -31,7 +31,7 @@
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"TravelAgency","name":"ZoomFly","url":"https://www.zoomfly.in/","telephone":"+91-80761-36300","email":"hello@zoomfly.in","address":{"@type":"PostalAddress","streetAddress":"Connaught Place","addressLocality":"New Delhi","postalCode":"110001","addressCountry":"IN"},"aggregateRating":{"@type":"AggregateRating","ratingValue":"4.9","reviewCount":"5000"}}</script>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{--primary:#0057FF;--primary-dark:#0041CC;--primary-light:#EEF3FF;--accent:#FF6B35;--text:#111827;--muted:#6B7280;--light:#9CA3AF;--bg:#fff;--bg2:#F9FAFB;--border:#E5E7EB;--success:#059669;--shadow-sm:0 1px 3px rgba(0,0,0,.06);--shadow:0 4px 16px rgba(0,0,0,.08);--shadow-lg:0 16px 48px rgba(0,0,0,.12);--r:16px;--r2:10px;--font:'Segoe UI',system-ui,sans-serif}
+    :root{--primary:#0057FF;--primary-dark:#0041CC;--primary-light:#EEF3FF;--accent:#C9922A;--accent-dark:#B37F1C;--text:#111827;--muted:#6B7280;--light:#9CA3AF;--bg:#fff;--bg2:#F9FAFB;--border:#E5E7EB;--success:#059669;--shadow-sm:0 1px 3px rgba(0,0,0,.06);--shadow:0 4px 16px rgba(0,0,0,.08);--shadow-lg:0 16px 48px rgba(0,0,0,.12);--r:16px;--r2:10px;--font:'Segoe UI',system-ui,sans-serif}
     html{scroll-behavior:smooth}
     body{font-family:var(--font);color:var(--text);background:var(--bg)}
     a{text-decoration:none;color:inherit}
@@ -55,7 +55,7 @@
     .hero h1{font-size:3.5rem;font-weight:900;line-height:1.12;letter-spacing:-2px;margin-bottom:1.25rem}.hero h1 em{font-style:normal;color:#60a5fa}
     .hero p{font-size:1.1rem;opacity:.8;max-width:540px;margin:0 auto 2.5rem;line-height:1.7}
     .hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:3.5rem}
-    .btn-hp{padding:.9rem 2.25rem;background:var(--accent);color:white;border-radius:50px;font-weight:700;font-size:1rem;transition:all .2s;box-shadow:0 4px 16px rgba(255,107,53,.4)}.btn-hp:hover{background:#e55a25;transform:translateY(-2px);color:white}
+    .btn-hp{padding:.9rem 2.25rem;background:var(--accent);color:white;border-radius:50px;font-weight:700;font-size:1rem;transition:all .2s;box-shadow:0 4px 16px rgba(201,146,42,.35)}.btn-hp:hover{background:var(--accent-dark);transform:translateY(-2px);color:white}
     .btn-hs{padding:.9rem 2.25rem;background:rgba(255,255,255,.12);color:white;border:1.5px solid rgba(255,255,255,.3);border-radius:50px;font-weight:600;font-size:1rem;transition:all .2s}.btn-hs:hover{background:rgba(255,255,255,.2);color:white}
     .hero-stats{display:flex;justify-content:center;gap:3rem;padding-top:2.5rem;border-top:1px solid rgba(255,255,255,.12);flex-wrap:wrap;gap:2rem}
     .hstat strong{display:block;font-size:1.75rem;font-weight:800}.hstat span{font-size:.78rem;opacity:.65}
@@ -89,7 +89,7 @@
     .pkg-card{background:white;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;cursor:pointer;box-shadow:var(--shadow-sm);transition:box-shadow .25s,transform .25s;display:flex;flex-direction:column}.pkg-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-5px)}
     .pkg-thumb{height:200px;display:flex;align-items:center;justify-content:center;font-size:5rem;position:relative}
     .thumb-em{transition:transform .4s}.pkg-card:hover .thumb-em{transform:scale(1.08)}
-    .pkg-badge{position:absolute;top:.75rem;left:.75rem;padding:.25rem .7rem;border-radius:50px;font-size:.7rem;font-weight:700}
+    .pkg-badge{position:absolute;top:.75rem;left:.75rem;padding:.25rem .7rem;border-radius:50px;font-size:.7rem;font-weight:700;background:var(--accent);color:#fff}
     .badge-bestseller{background:var(--accent);color:white}.badge-trending{background:#7C3AED;color:white}.badge-new{background:var(--success);color:white}
     .pkg-body{padding:1.25rem;flex:1;display:flex;flex-direction:column}
     .pkg-tags{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.5rem}
@@ -144,7 +144,7 @@
     .faq-item.open .faq-a{max-height:200px;padding:1rem 1.25rem}
     .faq-chv{transition:transform .3s;color:var(--light)}.faq-item.open .faq-chv{transform:rotate(180deg)}
     /* CTA */
-    .cta-section{background:linear-gradient(135deg,var(--accent),#e55a25);padding:4rem 2rem;text-align:center;color:white}
+    .cta-section{background:linear-gradient(135deg,var(--accent),var(--accent-dark));padding:4rem 2rem;text-align:center;color:white}
     .cta-section h2{font-size:2rem;font-weight:800;margin-bottom:.75rem}
     .cta-section p{font-size:1rem;opacity:.85;margin-bottom:2rem}
     .cta-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
@@ -165,7 +165,7 @@
     .m-footer{padding:1.25rem 1.75rem;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
     .m-price .amt{font-size:1.75rem;font-weight:800;color:var(--primary)}.m-price .per{font-size:.78rem;color:var(--muted)}
     .m-cta{display:flex;gap:.75rem}
-    .btn-book{padding:.75rem 1.75rem;background:var(--accent);color:white;border:none;border-radius:50px;font-size:.95rem;font-weight:700;cursor:pointer;transition:background .2s}.btn-book:hover{background:#e55a25}
+    .btn-book{padding:.75rem 1.75rem;background:var(--accent);color:white;border:none;border-radius:50px;font-size:.95rem;font-weight:700;cursor:pointer;transition:background .2s}.btn-book:hover{background:var(--accent-dark)}
     .btn-wa-m{padding:.75rem 1.25rem;background:#25D366;color:white;border:none;border-radius:50px;font-size:.875rem;font-weight:600;cursor:pointer}.btn-wa-m:hover{background:#1db954}
     /* FOOTER */
     footer{background:#0f172a;color:#94a3b8;padding:3.5rem 2rem 2rem}
@@ -534,7 +534,7 @@ function renderPkgs(pkgs) {
     <div class="pkg-card" onclick="openModal('${p.id}')">
       <div class="pkg-thumb" style="background:${p.bg_gradient||'linear-gradient(135deg,#667eea,#764ba2)'}">
         <span class="thumb-em">${p.emoji||'🗺️'}</span>
-        ${p.badge?`<span class="pkg-badge badge-${p.badge}">${p.badge_label||p.badge}</span>`:''}
+        ${p.badge?`<span class="pkg-badge badge-${p.badge.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'')}">${p.badge_label||p.badge}</span>`:''}
       </div>
       <div class="pkg-body">
         <div class="pkg-tags">${(p.tags||[]).slice(0,3).map(t=>`<span class="pkg-tag">${t}</span>`).join('')}</div>
