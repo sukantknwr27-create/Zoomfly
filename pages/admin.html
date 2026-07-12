@@ -552,8 +552,20 @@ setTimeout(function() {
             <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Emoji</label>
               <input id="dest-emoji" placeholder="🏖️" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px"/></div>
           </div>
-          <div style="margin-bottom:1.5rem">
-            <label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Image URL (optional)</label>
+          <div style="margin-bottom:1rem">
+            <label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">📸 Photo (optional — leave blank to use emoji)</label>
+            <div style="border:2px dashed #e2e8f0;border-radius:10px;padding:12px;text-align:center;cursor:pointer;background:#fafafa"
+                 onclick="document.getElementById('dest-img-upload').click()"
+                 ondragover="event.preventDefault();this.style.borderColor='#1a73e8'"
+                 ondragleave="this.style.borderColor='#e2e8f0'"
+                 ondrop="handleSingleImgDrop(event,'destinations',{statusId:'dest-img-status',previewId:'dest-img-preview',hiddenId:'dest-image'})">
+              <div id="dest-img-preview" style="margin-bottom:4px"></div>
+              <div style="font-size:.75rem;color:#94a3b8">📁 Click or drag & drop a photo — max 2MB</div>
+              <input type="file" id="dest-img-upload" accept="image/*" style="display:none"
+                     onchange="handleSingleImgUpload(this.files,'destinations',{statusId:'dest-img-status',previewId:'dest-img-preview',hiddenId:'dest-image'})"/>
+            </div>
+            <div id="dest-img-status" style="font-size:.72rem;color:#94a3b8;margin-top:3px;margin-bottom:8px"></div>
+            <label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Or paste an Image URL</label>
             <input id="dest-image" placeholder="https://... (leave blank to use emoji)" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px"/>
           </div>
           <div id="dest-modal-msg" style="font-size:.8rem;margin-bottom:1rem;color:#dc2626"></div>
@@ -642,6 +654,21 @@ setTimeout(function() {
               <option value="badge-gold">Gold</option><option value="badge-blue">Blue</option><option value="badge-green">Green</option>
             </select>
           </div>
+        </div>
+        <div style="margin-bottom:1rem">
+          <label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">📸 Cover Photo (optional — leave blank to use emoji + gradient below)</label>
+          <div style="border:2px dashed #e2e8f0;border-radius:10px;padding:14px;text-align:center;cursor:pointer;background:#fafafa"
+               onclick="document.getElementById('bp-cover-upload').click()"
+               ondragover="event.preventDefault();this.style.borderColor='#1a73e8'"
+               ondragleave="this.style.borderColor='#e2e8f0'"
+               ondrop="handleSingleImgDrop(event,'blog',{statusId:'bp-cover-status',previewId:'bp-cover-preview',hiddenId:'bp-cover-image'})">
+            <div id="bp-cover-preview" style="margin-bottom:6px"></div>
+            <div style="font-size:.8rem;color:#94a3b8">📁 Click to upload or drag & drop — JPG/PNG/WebP, max 2MB</div>
+            <input type="file" id="bp-cover-upload" accept="image/*" style="display:none"
+                   onchange="handleSingleImgUpload(this.files,'blog',{statusId:'bp-cover-status',previewId:'bp-cover-preview',hiddenId:'bp-cover-image'})"/>
+          </div>
+          <input type="hidden" id="bp-cover-image"/>
+          <div id="bp-cover-status" style="font-size:.75rem;color:#94a3b8;margin-top:4px"></div>
         </div>
         <div style="margin-bottom:1rem"><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Background Gradient (CSS)</label><input id="bp-bg" placeholder="linear-gradient(135deg,#667eea,#764ba2)" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:monospace;font-size:.8rem"/></div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
@@ -1025,7 +1052,19 @@ window.openAddHotel = async () => {
         <input id="h-price" type="number" placeholder="3500" style="width:100%;padding:.6rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit"/></div>
     </div>
     <div style="margin-bottom:10px">
-      <label style="font-size:.72rem;font-weight:700;display:block;margin-bottom:4px">Image URL (optional)</label>
+      <label style="font-size:.72rem;font-weight:700;display:block;margin-bottom:4px">📸 Photo (optional)</label>
+      <div style="border:2px dashed #e2e8f0;border-radius:10px;padding:12px;text-align:center;cursor:pointer;background:#fff"
+           onclick="document.getElementById('h-img-upload').click()"
+           ondragover="event.preventDefault();this.style.borderColor='#1a73e8'"
+           ondragleave="this.style.borderColor='#e2e8f0'"
+           ondrop="handleSingleImgDrop(event,'hotels',{statusId:'h-img-status',previewId:'h-img-preview',hiddenId:'h-img'})">
+        <div id="h-img-preview" style="margin-bottom:4px"></div>
+        <div style="font-size:.75rem;color:#94a3b8">📁 Click or drag & drop a photo — max 2MB</div>
+        <input type="file" id="h-img-upload" accept="image/*" style="display:none"
+               onchange="handleSingleImgUpload(this.files,'hotels',{statusId:'h-img-status',previewId:'h-img-preview',hiddenId:'h-img'})"/>
+      </div>
+      <div id="h-img-status" style="font-size:.72rem;color:#94a3b8;margin-top:3px"></div>
+      <label style="font-size:.72rem;font-weight:700;display:block;margin:8px 0 4px">Or paste an Image URL</label>
       <input id="h-img" placeholder="https://images.unsplash.com/photo-xxx" style="width:100%;padding:.6rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit"/>
     </div>
     <div style="display:flex;gap:8px">
@@ -1099,6 +1138,8 @@ window.openAddDestination = () => {
   document.getElementById('dest-country').value = '';
   document.getElementById('dest-emoji').value = '';
   document.getElementById('dest-image').value = '';
+  document.getElementById('dest-img-preview').innerHTML = '';
+  document.getElementById('dest-img-status').textContent = '';
   document.getElementById('dest-modal-msg').textContent = '';
   document.getElementById('dest-modal').style.display = 'flex';
 };
@@ -1114,6 +1155,9 @@ window.editDestination = async (id) => {
   document.getElementById('dest-country').value = d.country || '';
   document.getElementById('dest-emoji').value = d.emoji || '';
   document.getElementById('dest-image').value = d.image_url || '';
+  document.getElementById('dest-img-preview').innerHTML = d.image_url
+    ? `<img src="${esc(d.image_url)}" style="width:100%;max-width:200px;height:110px;object-fit:cover;border-radius:8px;border:1.5px solid #e2e8f0"/>` : '';
+  document.getElementById('dest-img-status').textContent = '';
   document.getElementById('dest-modal-msg').textContent = '';
   document.getElementById('dest-modal').style.display = 'flex';
 };
@@ -1286,7 +1330,7 @@ async function loadBlogPosts() {
     if (!data?.length) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:2rem;color:#94a3b8">No blog posts yet. Click "+ New Post" to add one.</td></tr>'; return; }
     tbody.innerHTML = data.map(p => `
       <tr>
-        <td><strong>${esc(p.title)}</strong><br/><span style="font-size:.72rem;color:#94a3b8;font-family:monospace">/${esc(p.slug)}</span></td>
+        <td>${p.cover_image_url ? `<img src="${esc(p.cover_image_url)}" style="width:44px;height:34px;object-fit:cover;border-radius:5px;vertical-align:middle;margin-right:8px"/>` : `<span style="font-size:1.2rem;margin-right:8px">${esc(p.emoji||'🗺️')}</span>`}<strong>${esc(p.title)}</strong><br/><span style="font-size:.72rem;color:#94a3b8;font-family:monospace;margin-left:${p.cover_image_url?'52px':'28px'}">/${esc(p.slug)}</span></td>
         <td style="font-size:.78rem">${esc(p.category||'—')}</td>
         <td style="font-size:.78rem">${esc(p.author||'—')}</td>
         <td>${p.is_featured ? '⭐' : '—'}</td>
@@ -1302,7 +1346,7 @@ async function loadBlogPosts() {
 
 window.openAddBlogPost = () => {
   document.getElementById('bp-id').value = '';
-  ['bp-title','bp-slug','bp-excerpt','bp-emoji','bp-category','bp-bg','bp-author','bp-readtime','bp-tags','bp-body'].forEach(id=>document.getElementById(id).value='');
+  ['bp-title','bp-slug','bp-excerpt','bp-emoji','bp-category','bp-bg','bp-author','bp-readtime','bp-tags','bp-body','bp-cover-image'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('bp-slug').dataset.touched = '0';
   document.getElementById('bp-badge').value = 'badge-gold';
   document.getElementById('bp-emoji').value = '🗺️';
@@ -1311,6 +1355,8 @@ window.openAddBlogPost = () => {
   document.getElementById('bp-readtime').value = '5 min read';
   document.getElementById('bp-featured').checked = false;
   document.getElementById('bp-published').checked = true;
+  document.getElementById('bp-cover-preview').innerHTML = '';
+  document.getElementById('bp-cover-status').textContent = '';
   document.getElementById('blog-modal').style.display = 'flex';
 };
 
@@ -1332,6 +1378,10 @@ window.editBlogPost = (id) => {
   document.getElementById('bp-body').value = p.body || '';
   document.getElementById('bp-featured').checked = !!p.is_featured;
   document.getElementById('bp-published').checked = !!p.is_published;
+  document.getElementById('bp-cover-image').value = p.cover_image_url || '';
+  document.getElementById('bp-cover-preview').innerHTML = p.cover_image_url
+    ? `<img src="${esc(p.cover_image_url)}" style="width:100%;max-width:220px;height:120px;object-fit:cover;border-radius:8px;border:1.5px solid #e2e8f0"/>` : '';
+  document.getElementById('bp-cover-status').textContent = '';
   document.getElementById('blog-modal').style.display = 'flex';
 };
 
@@ -1348,6 +1398,7 @@ window.saveBlogPost = async () => {
     category: document.getElementById('bp-category').value.trim() || 'Guide',
     badge_class: document.getElementById('bp-badge').value,
     bg_gradient: document.getElementById('bp-bg').value.trim() || 'linear-gradient(135deg,#667eea,#764ba2)',
+    cover_image_url: document.getElementById('bp-cover-image').value.trim() || null,
     author: document.getElementById('bp-author').value.trim() || 'ZoomFly Team',
     read_time: document.getElementById('bp-readtime').value.trim() || '5 min read',
     tags: document.getElementById('bp-tags').value.split(',').map(t=>t.trim()).filter(Boolean),
@@ -2101,6 +2152,45 @@ window.removeUploadedImg = (url, container) => {
   container.remove();
   const status = document.getElementById('pm-img-status');
   if (status) status.textContent = uploadedImageUrls.length ? `✅ ${uploadedImageUrls.length} photo(s) uploaded` : '';
+};
+
+// ── GENERIC SINGLE-IMAGE UPLOAD (Blog / Hotels / Destinations) ──
+// Shared by any modal that needs exactly one cover photo, as opposed
+// to the multi-photo package dropzone above. `cfg` points at the
+// specific DOM ids for whichever modal is calling it.
+async function uploadSingleImage(file, folder, cfg) {
+  const status  = document.getElementById(cfg.statusId);
+  const preview = document.getElementById(cfg.previewId);
+  const hidden  = document.getElementById(cfg.hiddenId);
+  if (!file) return;
+  if (file.size > 2 * 1024 * 1024) {
+    status.textContent = '❌ Image too large (max 2MB)';
+    status.style.color = '#dc2626';
+    return;
+  }
+  status.textContent = '⏳ Uploading...';
+  status.style.color = '#64748b';
+  try {
+    const ext  = file.name.split('.').pop();
+    const path = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+    const { error } = await supabase.storage.from('zoomfly-images').upload(path, file, { cacheControl: '3600', upsert: false });
+    if (error) throw error;
+    const { data: urlData } = supabase.storage.from('zoomfly-images').getPublicUrl(path);
+    hidden.value = urlData.publicUrl;
+    if (preview) preview.innerHTML = `<img src="${urlData.publicUrl}" style="width:100%;max-width:220px;height:120px;object-fit:cover;border-radius:8px;border:1.5px solid #e2e8f0"/>`;
+    status.textContent = '✅ Photo uploaded';
+    status.style.color = '#059669';
+  } catch (e) {
+    status.textContent = `❌ Upload failed: ${e.message}. You can paste a URL directly instead.`;
+    status.style.color = '#dc2626';
+  }
+}
+
+window.handleSingleImgUpload = (files, folder, cfg) => uploadSingleImage(files?.[0], folder, cfg);
+window.handleSingleImgDrop = (e, folder, cfg) => {
+  e.preventDefault();
+  e.currentTarget.style.borderColor = '#e2e8f0';
+  uploadSingleImage(e.dataTransfer.files?.[0], folder, cfg);
 };
 
 // Clear images when opening add modal
