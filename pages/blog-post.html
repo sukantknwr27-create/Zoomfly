@@ -153,8 +153,13 @@ function fmtDate(d) { try { return new Date(d).toLocaleDateString('en-IN',{day:'
 
   document.getElementById('pageTitle').textContent = post.title + ' — ZoomFly Blog';
   document.getElementById('breadTitle').textContent = post.title.substring(0,40) + '...';
-  document.getElementById('postHero').style.background = post.bg_gradient || 'linear-gradient(135deg,#667eea,#764ba2)';
-  document.getElementById('postEmoji').textContent = post.emoji || '🗺️';
+  if (post.cover_image_url) {
+    document.getElementById('postHero').style.background = `url('${post.cover_image_url}') center/cover no-repeat`;
+    document.getElementById('postEmoji').style.display = 'none';
+  } else {
+    document.getElementById('postHero').style.background = post.bg_gradient || 'linear-gradient(135deg,#667eea,#764ba2)';
+    document.getElementById('postEmoji').textContent = post.emoji || '🗺️';
+  }
   document.getElementById('postCat').className = 'badge ' + (post.badge_class || 'badge-gold');
   document.getElementById('postCat').textContent = post.category || 'Guide';
   document.getElementById('postTitle').textContent = post.title;
