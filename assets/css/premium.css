@@ -275,40 +275,30 @@ input, select, textarea { font-family: inherit; }
 }
 
 
-/* Light nav — applied on ALL pages (homepage + inner pages), per 2026 redesign */
+/* Dark nav — applied on ALL pages (homepage + inner pages), matches mockup */
 .nav-dark,
-.nav-dark.scrolled,
-.nav,
-.nav.scrolled {
-  background: rgba(255, 255, 255, 0.98) !important;
-  backdrop-filter: blur(20px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
-  box-shadow: 0 1px 0 rgba(12,27,51,0.06), 0 4px 24px rgba(12,27,51,0.08) !important;
+.nav-dark.scrolled {
+  background: rgba(10, 22, 45, 0.97) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.06), 0 4px 24px rgba(0,0,0,0.28) !important;
 }
-.nav-dark .logo-zoom, .nav .logo-zoom  { color: #0C1B33 !important; }
-.nav-dark .logo-fly, .nav .logo-fly   { color: var(--gold, #C9922A) !important; }
-.nav-dark .logo-plane, .nav .logo-plane { color: var(--gold, #C9922A) !important; }
+.nav-dark .logo-zoom  { color: #ffffff !important; }
+.nav-dark .logo-fly   { color: var(--gold-light, #E8B84B) !important; }
+.nav-dark .logo-plane { color: var(--gold-light, #E8B84B) !important; }
 .nav-dark .nav-links a,
-.nav-dark .nav-links button,
-.nav .nav-links a,
-.nav .nav-links button { color: #33415C !important; }
+.nav-dark .nav-links button { color: rgba(255,255,255,0.82) !important; }
 .nav-dark .nav-links a:hover,
-.nav-dark .nav-links button:hover,
-.nav .nav-links a:hover,
-.nav .nav-links button:hover { color: var(--gold, #C9922A) !important; }
-.nav-dark .hamburger span, .nav .hamburger span { background: #0C1B33 !important; }
-/* phone number + Sign In outline need dark ink on the light bar */
-.nav-dark #nav-auth-area a[href^="tel:"],
-.nav #nav-auth-area a[href^="tel:"],
-.nav-dark .nav-inner > div:last-child > a[href^="tel:"],
-.nav .nav-inner > div:last-child > a[href^="tel:"] { color: #33415C !important; }
-.nav-dark #nav-login-btn, .nav #nav-login-btn {
-  border-color: rgba(12,27,51,0.28) !important;
-  color: #0C1B33 !important;
+.nav-dark .nav-links button:hover { color: var(--gold-light, #E8B84B) !important; }
+.nav-dark .hamburger span { background: #ffffff !important; }
+.nav-dark #nav-auth-area a[href^="tel:"] { color: rgba(255,255,255,0.82) !important; }
+.nav-dark #nav-login-btn {
+  border-color: rgba(255,255,255,0.32) !important;
+  color: #ffffff !important;
 }
-.nav-dark #nav-login-btn:hover, .nav #nav-login-btn:hover {
-  border-color: rgba(12,27,51,0.55) !important;
-  background: rgba(12,27,51,0.05) !important;
+.nav-dark #nav-login-btn:hover {
+  border-color: rgba(255,255,255,0.65) !important;
+  background: rgba(255,255,255,0.08) !important;
 }
 
 /* Hamburger */
