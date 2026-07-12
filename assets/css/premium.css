@@ -1279,6 +1279,12 @@ input, select, textarea { font-family: inherit; }
   /* Phone number takes real estate — drop it before Sign In/Book Now get squeezed */
   .nav-inner > div > a[href^="tel:"] { display: none; }
 }
+@media (max-width: 640px) {
+  /* But bring back just the icon — a tap-to-call icon costs almost no space
+     and is more useful than the printed number on a phone screen anyway */
+  .nav-inner > div > a[href^="tel:"] { display: flex !important; }
+  .nav-inner > div > a[href^="tel:"] .tel-text { display: none; }
+}
 @media (max-width: 980px) {
   .nav-links a[data-page="trains"],
   .nav-links a[data-page="destinations"] { display: none; }
