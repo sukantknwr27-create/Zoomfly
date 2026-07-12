@@ -167,7 +167,7 @@ function _navFallbackHTML() {
       <a href="/pages/contact.html"     data-page="services"    style="padding:6px 9px;font-family:'Space Grotesk',system-ui;font-size:.8rem;font-weight:600;color:inherit;text-decoration:none;white-space:nowrap">Services</a>
     </nav>
     <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;min-width:fit-content">
-      <a href="tel:+918076136300" style="font-family:'Space Grotesk',system-ui;font-size:.75rem;font-weight:600;color:rgba(255,255,255,.82);text-decoration:none;white-space:nowrap">📞 +91 8076136300</a>
+      <a href="tel:+918076136300" style="display:flex;align-items:center;gap:5px;font-family:'Space Grotesk',system-ui;font-size:.75rem;font-weight:600;color:rgba(255,255,255,.82);text-decoration:none;white-space:nowrap"><span aria-hidden="true">📞</span><span class="tel-text">+91 8076136300</span></a>
       <div id="nav-auth-area" style="display:flex;align-items:center;gap:8px">
         <a href="/pages/login.html" id="nav-login-btn"
            style="display:flex;align-items:center;gap:5px;padding:7px 16px;border:1.5px solid rgba(255,255,255,0.32);border-radius:50px;font-family:'Space Grotesk',system-ui;font-size:.78rem;font-weight:600;color:rgba(255,255,255,.88);text-decoration:none;white-space:nowrap">
