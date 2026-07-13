@@ -641,7 +641,7 @@ window.doLogout = async () => { try { await signOut(); } catch(_) {} window.loca
 
 // ── Helpers ────────────────────────────────────────────────
 function fmtAmt(n){return parseFloat(n||0).toLocaleString('en-IN',{minimumFractionDigits:0,maximumFractionDigits:2});}
-function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function esc(s) { return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 function capitalize(s){return s?s.charAt(0).toUpperCase()+s.slice(1):'—';}
 function tierLabel(t){return{associate:'🤝 Associate',senior:'⭐ Senior',elite:'💎 Elite'}[t]||capitalize(t);}
 function sanitizePhone(p){let ph=String(p||'').replace(/\D/g,'');if(ph.length===10)ph='91'+ph;return ph||WA_ADMIN;}
