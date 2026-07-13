@@ -579,7 +579,7 @@ function fmt(n) {
 }
 
 // tourCard() still works — now accepts a DB row shape OR old shape
-function esc(s) { return String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function esc(s) { return String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
 
 function tourCard(p, delay = 0) {
   // DB rows use snake_case; old hardcoded data used camelCase — support both
