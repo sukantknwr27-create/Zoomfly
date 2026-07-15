@@ -56,12 +56,14 @@ serve(async (req) => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
     );
 
-    // Authenticate user
+    // Identify the caller if there is one — may be null. Guest checkout
+    // (no account) is a supported flow on payment.html, so this can't
+    // require a logged-in user unconditionally; ownership is instead
+    // enforced below only for bookings that actually have an owner.
     const authHeader = req.headers.get('Authorization');
-    const { data: { user }, error: authError } = await supabase.auth.getUser(
-      authHeader?.replace('Bearer ', '') || ''
-    );
-    if (authError || !user) throw new Error('Unauthorized');
+    const { data: { user } } = await supabase.auth
+      .getUser(authHeader?.replace('Bearer ', '') || '')
+      .catch(() => ({ data: { user: null } }));
 
     // Verify Razorpay signature
     const keySecret = Deno.env.get('RAZORPAY_KEY_SECRET')!;
@@ -74,7 +76,7 @@ serve(async (req) => {
     // Fetch booking and verify it belongs to the authenticated user
     const { data: booking } = await supabase.from('bookings').select('*').eq('id', booking_id).single();
     if (!booking) throw new Error('Booking not found');
-    if (booking.user_id && booking.user_id !== user.id) {
+    if (booking.user_id && booking.user_id !== user?.id) {
       throw new Error('Unauthorized: booking does not belong to this user');
     }
 

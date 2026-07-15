@@ -56,23 +56,33 @@ serve(async (req) => {
     // function, with the service role) and Razorpay's webhook can
     // set — never the browser.
     const { booking_id, currency = 'INR' } = await req.json();
+    if (!booking_id) throw new Error('booking_id is required');
 
-    // Verify user is authenticated
     const supabase = createClient(
       Deno.env.get('SUPABASE_URL')!,
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
     );
 
+    // Identify the caller if there is one — may be null, and that's fine.
+    // Guest checkout (no account) is a supported flow on payment.html, so
+    // this can't require a logged-in user unconditionally.
     const authHeader = req.headers.get('Authorization');
-    const { data: { user }, error: authError } = await supabase.auth.getUser(
-      authHeader?.replace('Bearer ', '') || ''
-    );
-    if (authError || !user) throw new Error('Unauthorized');
+    const { data: { user } } = await supabase.auth
+      .getUser(authHeader?.replace('Bearer ', '') || '')
+      .catch(() => ({ data: { user: null } }));
 
-    // Verify booking belongs to user
     const { data: booking, error: bookingError } = await supabase
-      .from('bookings').select('*').eq('id', booking_id).eq('user_id', user.id).single();
+      .from('bookings').select('*').eq('id', booking_id).single();
     if (bookingError || !booking) throw new Error('Booking not found');
+
+    // If this booking belongs to a registered account, only that account
+    // may create a payment order for it. Guest bookings (user_id null)
+    // have no owner to check against — the booking_id itself (only ever
+    // handed to whoever just created it) is the credential, same trust
+    // model as get-guest-booking's booking_ref+email.
+    if (booking.user_id && booking.user_id !== user?.id) {
+      throw new Error('Unauthorized');
+    }
 
     if (booking.payment_status === 'paid') {
       throw new Error('This booking has already been paid for.');
@@ -103,7 +113,7 @@ serve(async (req) => {
           amount: Math.round(amount * 100), // Razorpay uses paise
           currency,
           receipt: booking.booking_ref,
-          notes: { booking_id, user_id: user.id }
+          notes: { booking_id, user_id: user?.id || null }
         }),
       });
     } finally {
@@ -120,7 +130,7 @@ serve(async (req) => {
     // Save order to payments table
     await supabase.from('payments').insert({
       booking_id,
-      user_id: user.id,
+      user_id: user?.id || null,
       razorpay_order_id: order.id,
       amount,
       currency,
