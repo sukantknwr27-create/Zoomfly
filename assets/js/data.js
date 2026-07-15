@@ -75,7 +75,7 @@ export const BUS_CITIES = [
   // South India
   'Bengaluru', 'Mysore', 'Coorg', 'Ooty', 'Kodaikanal', 'Hassan', 'Hampi', 'Chikmagalur',
   'Chennai', 'Mahabalipuram', 'Pondicherry', 'Tirupati', 'Madurai', 'Coimbatore', 'Salem', 'Vellore',
-  'Hyderabad', 'Warangal', 'Vijayawada', 'Visakhapatnam', 'Tirupati',
+  'Hyderabad', 'Warangal', 'Vijayawada', 'Visakhapatnam',
   'Kochi', 'Thiruvananthapuram', 'Kozhikode', 'Thrissur', 'Alleppey', 'Munnar', 'Wayanad',
   // East India
   'Kolkata', 'Darjeeling', 'Siliguri', 'Gangtok', 'Puri', 'Bhubaneswar', 'Konark',

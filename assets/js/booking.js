@@ -49,8 +49,9 @@ function _buildWAMessage(type, booking, f) {
     `📞 Phone: ${booking.customer_phone}`,
     `💰 Amount: ₹${Number(booking.total_amount).toLocaleString('en-IN')}`,
   ];
-  if (f.travel_date || f.depart_date || f.start_date || f.check_in) {
-    lines.push(`📅 Date: ${f.travel_date || f.depart_date || f.start_date || f.check_in}`);
+  const travelDate = f.travel_date || f.depart_date || f.start_date || f.check_in || f.date || f.pickup_date;
+  if (travelDate) {
+    lines.push(`📅 Date: ${travelDate}`);
   }
   if (f.special_requests) lines.push(`📝 Notes: ${f.special_requests}`);
   lines.push(`\nPlease confirm this booking.`);

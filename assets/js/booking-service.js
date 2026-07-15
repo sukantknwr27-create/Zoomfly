@@ -108,10 +108,10 @@ export async function confirmPayment(bookingId, razorpayResponse, method = 'upi'
 
 // ─── BUILD PAYLOAD (form data → DB row) ──────────────────────
 export function buildPayload(serviceType, f) {
-  const base  = parseFloat(f.base_amount   || f.price || 0);
-  const tax   = parseFloat(f.tax_amount    || (base * CONFIG.gst_rate));
-  const disc  = parseFloat(f.discount_amount || 0);
-  const total = parseFloat(f.total_amount  || (base + tax - disc));
+  const base  = parseFloat(f.base_amount   ?? f.price ?? 0);
+  const tax   = parseFloat(f.tax_amount    ?? (base * CONFIG.gst_rate));
+  const disc  = parseFloat(f.discount_amount ?? 0);
+  const total = parseFloat(f.total_amount  ?? (base + tax - disc));
 
   return {
     service_type:      serviceType,
@@ -143,8 +143,8 @@ function _buildServiceName(type, f) {
     case 'flight':  return `${f.from || f.origin} → ${f.to || f.destination}`;
     case 'hotel':   return f.hotel_name || f.property_name || 'Hotel Booking';
     case 'package': return f.package_name || f.tour_name   || 'Tour Package';
-    case 'bus':     return `${f.from_city} → ${f.to_city}`;
-    case 'cab':     return `${f.pickup_location} → ${f.drop_location || 'Drop'}`;
+    case 'bus':     return `${f.from_city || f.from} → ${f.to_city || f.to}`;
+    case 'cab':     return `${f.pickup_location || f.pickup} → ${f.drop_location || f.drop || 'Drop'}`;
     default:        return 'Travel Booking';
   }
 }
@@ -154,10 +154,10 @@ function _buildTravelDetails(type, f) {
     case 'flight': return {
       origin:        f.from         || f.origin,
       destination:   f.to           || f.destination,
-      depart_date:   f.depart_date  || f.travel_date,
+      depart_date:   f.depart_date  || f.travel_date || f.date,
       return_date:   f.return_date  || null,
       trip_type:     f.trip_type    || 'oneway',
-      cabin_class:   f.cabin_class  || 'economy',
+      cabin_class:   f.cabin_class  || f.travel_class || 'economy',
       airline:       f.airline      || null,
       flight_number: f.flight_number || null,
     };
@@ -168,7 +168,7 @@ function _buildTravelDetails(type, f) {
       check_out:     f.check_out    || f.checkout,
       nights:        _calcNights(f.check_in || f.checkin, f.check_out || f.checkout),
       room_type:     f.room_type    || 'standard',
-      rooms:         parseInt(f.rooms || 1),
+      rooms:         parseInt(f.rooms || f.num_rooms || 1),
     };
     case 'package': return {
       package_id:    f.package_id   || f.tour_id,
@@ -178,21 +178,24 @@ function _buildTravelDetails(type, f) {
       duration:      f.duration     || null,
     };
     case 'bus': return {
-      from_city:     f.from_city,
-      to_city:       f.to_city,
-      travel_date:   f.travel_date,
+      from_city:     f.from_city   || f.from,
+      to_city:       f.to_city     || f.to,
+      travel_date:   f.travel_date || f.date,
       departure_time: f.departure_time || null,
+      arrival_time:   f.arrival_time   || null,
       bus_type:      f.bus_type     || 'ac_sleeper',
-      seats:         f.seats        || [],
+      seats:         f.seats        || f.seat_numbers || [],
       operator:      f.operator     || null,
     };
     case 'cab': return {
-      pickup_location: f.pickup_location,
-      drop_location:   f.drop_location,
+      pickup_location: f.pickup_location || f.pickup,
+      drop_location:   f.drop_location   || f.drop,
       pickup_date:     f.pickup_date || f.travel_date,
       pickup_time:     f.pickup_time || null,
       cab_type:        f.cab_type    || 'sedan',
-      trip_type:       f.cab_trip_type || 'oneway',
+      trip_type:       f.cab_trip_type || f.trip_type || 'oneway',
+      passengers:      f.passengers  || null,
+      luggage:         f.luggage     || null,
     };
     default: return f;
   }

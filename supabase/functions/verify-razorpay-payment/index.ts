@@ -223,6 +223,22 @@ serve(async (req) => {
 
     if (updateError) throw updateError;
 
+    // Award loyalty points now that the booking is genuinely paid — non-fatal:
+    // a points-award failure shouldn't fail an already-successful payment.
+    if (updatedBooking.user_id) {
+      try {
+        const { error: loyaltyError } = await supabase.rpc('earn_booking_points', {
+          p_user_id: updatedBooking.user_id,
+          p_booking_id: updatedBooking.id,
+          p_booking_ref: updatedBooking.booking_ref,
+          p_amount_paid: updatedBooking.total_amount,
+        });
+        if (loyaltyError) console.error('[verify-razorpay] Loyalty award failed:', loyaltyError.message);
+      } catch (loyaltyErr) {
+        console.error('[verify-razorpay] Loyalty award threw:', loyaltyErr);
+      }
+    }
+
     // Send confirmation email — non-fatal: log failure but don't fail the payment
     try {
       const { error: emailError } = await supabase.functions.invoke('send-booking-email', {

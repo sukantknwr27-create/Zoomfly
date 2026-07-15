@@ -909,16 +909,16 @@ window.downloadGSTInvoice = (b) => {
   const td    = b.travel_details || {};
 
   const serviceDesc = [
-    td.origin && td.destination ? td.origin + " to " + td.destination : "",
-    td.check_in  ? "Check-in: " + td.check_in  : "",
-    td.start_date ? "Travel: " + td.start_date  : "",
+    td.origin && td.destination ? esc(td.origin) + " to " + esc(td.destination) : "",
+    td.check_in  ? "Check-in: " + esc(td.check_in)  : "",
+    td.start_date ? "Travel: " + esc(td.start_date)  : "",
     b.num_adults ? b.num_adults + " Adult" + (b.num_adults > 1 ? "s" : "") : "",
   ].filter(Boolean).join(" | ");
 
   const fmt = n => parseFloat(n || 0).toLocaleString("en-IN", {minimumFractionDigits:2});
 
   const html = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/>
-<title>Invoice ${b.booking_ref} — ZoomFly</title>
+<title>Invoice ${esc(b.booking_ref)} — ZoomFly</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:Arial,sans-serif;font-size:13px;color:#1e293b;background:#fff;padding:40px}
@@ -956,7 +956,7 @@ td{padding:11px 12px;border-bottom:1px solid #f1f5f9;font-size:13px}
   </div>
   <div class="inv-title">
     <h1>TAX INVOICE</h1>
-    <div class="ref">${b.booking_ref}</div>
+    <div class="ref">${esc(b.booking_ref)}</div>
     <div style="font-size:12px;color:#64748b;margin-top:8px;text-align:right">
       <strong>Date:</strong> ${invoiceDate}<br/>
     </div>
@@ -965,13 +965,13 @@ td{padding:11px 12px;border-bottom:1px solid #f1f5f9;font-size:13px}
 
 <div class="grid2">
   <div class="meta"><h4>Bill To</h4><p>
-    <strong>${b.customer_name || "Customer"}</strong><br/>
-    ${b.customer_email || ""}<br/>${b.customer_phone || ""}
+    <strong>${esc(b.customer_name) || "Customer"}</strong><br/>
+    ${esc(b.customer_email)}<br/>${esc(b.customer_phone)}
   </p></div>
   <div class="meta" style="text-align:right"><h4>Payment Info</h4><p>
     <span class="badge">PAID ✓</span><br/>
-    <strong>Method:</strong> ${(b.payment_method || "Online").toUpperCase()}<br/>
-    <strong>ID:</strong> ${b.payment_id || b.razorpay_order_id || "—"}
+    <strong>Method:</strong> ${esc((b.payment_method || "Online").toUpperCase())}<br/>
+    <strong>ID:</strong> ${esc(b.payment_id || b.razorpay_order_id) || "—"}
   </p></div>
 </div>
 
@@ -980,12 +980,12 @@ td{padding:11px 12px;border-bottom:1px solid #f1f5f9;font-size:13px}
   <tbody>
     <tr>
       <td>1</td>
-      <td><strong>${b.service_name || "Travel Service"}</strong><br/>
+      <td><strong>${esc(b.service_name) || "Travel Service"}</strong><br/>
         <span style="font-size:11px;color:#64748b">${serviceDesc}</span></td>
       <td>998551</td>
       <td class="ar">₹${fmt(base)}</td>
     </tr>
-    ${disc > 0 ? `<tr><td></td><td style="color:#15803d">Discount${b.promo_code ? " (" + b.promo_code + ")" : ""}</td><td></td><td class="ar" style="color:#15803d">-₹${fmt(disc)}</td></tr>` : ""}
+    ${disc > 0 ? `<tr><td></td><td style="color:#15803d">Discount${b.promo_code ? " (" + esc(b.promo_code) + ")" : ""}</td><td></td><td class="ar" style="color:#15803d">-₹${fmt(disc)}</td></tr>` : ""}
   </tbody>
 </table>
 

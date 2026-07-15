@@ -26,6 +26,13 @@ function _fmtDate(d) {
   } catch { return d; }
 }
 
+// booking.service_name and error messages can originate from
+// customer-typed form fields (e.g. hotel name, pickup location) —
+// escape before interpolating into innerHTML.
+function _esc(s) {
+  return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
 // ─── MODAL BASE ───────────────────────────────────────────────
 function _modal(id, content) {
   document.getElementById(id)?.remove();
@@ -84,7 +91,7 @@ export function showBookingSuccess(booking) {
       <div style="display:flex;justify-content:space-between;padding:8px 0;
                   border-bottom:1px solid #f1f5f9;font-size:.85rem">
         <span style="color:#64748b">Service</span>
-        <span style="font-weight:600;color:#2d3748">${booking.service_name}</span>
+        <span style="font-weight:600;color:#2d3748">${_esc(booking.service_name)}</span>
       </div>
       <div style="display:flex;justify-content:space-between;padding:8px 0;
                   border-bottom:1px solid #f1f5f9;font-size:.85rem">
@@ -123,7 +130,7 @@ export function showBookingError(message) {
       Booking Failed
     </h2>
     <p style="color:#64748b;font-size:.88rem;margin-bottom:20px;line-height:1.6">
-      ${message || 'Something went wrong. Please try again or contact us on WhatsApp.'}
+      ${_esc(message) || 'Something went wrong. Please try again or contact us on WhatsApp.'}
     </p>
 
     <a href="https://wa.me/${WA}" target="_blank" rel="noopener"

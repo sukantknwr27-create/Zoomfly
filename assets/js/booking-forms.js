@@ -194,6 +194,11 @@ function initHotelBookingForm() {
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const btn = form.querySelector('[type="submit"]');
+
+    const contactOk = validateContactFields(form);
+    const rangeOk    = validateDateRange(form, '[name="check_in"], #check-in', '[name="check_out"], #check-out');
+    if (!contactOk || !rangeOk) return;
+
     setLoading(btn, true);
 
     try {
@@ -267,6 +272,11 @@ function initPackageBookingForm() {
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const btn = form.querySelector('[type="submit"]');
+
+    const contactOk = validateContactFields(form);
+    const dateOk    = validateDateField(form, '[name="start_date"], #travel-date', 'Travel date');
+    if (!contactOk || !dateOk) return;
+
     setLoading(btn, true);
 
     try {
@@ -313,6 +323,11 @@ function initBusBookingForm() {
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const btn = form.querySelector('[type="submit"]');
+
+    const contactOk = validateContactFields(form);
+    const dateOk    = validateDateField(form, '[name="date"], #bus-date', 'Travel date');
+    if (!contactOk || !dateOk) return;
+
     setLoading(btn, true);
 
     try {
@@ -376,6 +391,11 @@ function initCabBookingForm() {
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const btn = form.querySelector('[type="submit"]');
+
+    const contactOk = validateContactFields(form);
+    const dateOk    = validateDateField(form, '[name="date"], #cab-date', 'Pickup date');
+    if (!contactOk || !dateOk) return;
+
     setLoading(btn, true);
 
     try {
@@ -409,26 +429,6 @@ function initCabBookingForm() {
       setLoading(btn, false);
     }
   });
-}
-
-
-// ============================================================
-//  LOADING STATE HELPER
-// ============================================================
-function setLoading(btn, isLoading) {
-  if (!btn) return;
-  if (isLoading) {
-    btn.dataset.originalText = btn.textContent;
-    btn.textContent = 'Processing...';
-    btn.disabled = true;
-    btn.style.opacity = '0.7';
-    btn.style.cursor  = 'not-allowed';
-  } else {
-    btn.textContent = btn.dataset.originalText || 'Book Now';
-    btn.disabled    = false;
-    btn.style.opacity = '1';
-    btn.style.cursor  = 'pointer';
-  }
 }
 
 

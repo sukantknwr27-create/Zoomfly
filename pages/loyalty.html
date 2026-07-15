@@ -663,20 +663,19 @@ window.confirmRedeem = async (serviceType) => {
   btn.disabled    = true;
 
   try {
-    const { error } = await supabase.from('loyalty_transactions').insert({
-      account_id:  currentAccount.id,
-      txn_type:    'redeem',
-      points:      -pts,
-      description: `Redeemed for ${serviceType} discount${refInp ? ' · Ref: ' + refInp : ''}`,
-      service_type: serviceType,
-      booking_ref:  refInp || null,
+    // Redeeming is done via the redeem_loyalty_points() RPC, not a raw
+    // table insert/update — RLS has no INSERT policy for loyalty_transactions
+    // and a column-pinning trigger reverts direct balance updates, so the
+    // old direct-write version here always silently failed to actually
+    // change anything. The RPC is SECURITY DEFINER and re-validates the
+    // balance/minimum server-side.
+    const { data: result, error } = await supabase.rpc('redeem_loyalty_points', {
+      p_user_id:     currentAccount.user_id,
+      p_points:      pts,
+      p_booking_ref: refInp || null,
     });
     if (error) throw error;
-
-    // Update local balance
-    await supabase.from('loyalty_accounts')
-      .update({ points_balance: currentAccount.points_balance - pts })
-      .eq('id', currentAccount.id);
+    if (result?.error) throw new Error(result.error);
 
     document.getElementById('redeem-modal').remove();
     showToast('🎉 ' + pts.toLocaleString('en-IN') + ' points redeemed — ₹' + Math.floor(pts*.25).toLocaleString('en-IN') + ' off your booking!');

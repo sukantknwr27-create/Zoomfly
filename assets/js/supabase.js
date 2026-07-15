@@ -215,10 +215,11 @@ export async function createBooking(bookingData) {
   const { data, error } = await supabase.from('bookings').insert(payload).select().single();
   if (error) throw error;
   if (!data?.booking_ref) throw new Error('Booking created but no booking reference was returned. Please contact support.');
-  // Award loyalty points
-  if (user && data.total_amount > 0) {
-    await awardLoyaltyPoints(user.id, Math.floor(data.total_amount / 100), data.id).catch(() => {});
-  }
+  // Loyalty points are awarded server-side once the booking is actually
+  // paid (see verify-razorpay-payment edge function) — not here, where
+  // the booking row is still payment_status:'pending'. Awarding on
+  // creation would credit points for bookings nobody ever paid for, and
+  // earn_booking_points() rejects unpaid bookings anyway.
   return data;
 }
 
@@ -386,17 +387,20 @@ export async function bookTrain(trainData) {
 }
 
 // ── LOYALTY ──────────────────────────────────────────────
-export async function awardLoyaltyPoints(userId, points, bookingId) {
-  const { data: acct } = await supabase.from('loyalty_accounts').select('*').eq('user_id', userId).single();
-  if (!acct) return;
-  await supabase.from('loyalty_accounts').update({
-    points_balance: (acct.points_balance || 0) + points,
-    total_points_earned: (acct.total_points_earned || 0) + points,
-  }).eq('user_id', userId);
-  await supabase.from('loyalty_transactions').insert({
-    account_id: acct.id, txn_type: 'earn', points,
-    description: `Earned for booking`, booking_id: bookingId
+// Earning is done via the earn_booking_points() RPC, not raw table writes —
+// RLS has no INSERT policy for loyalty_transactions and a column-pinning
+// trigger reverts direct balance updates, so a direct .update()/.insert()
+// here would silently do nothing. The RPC is SECURITY DEFINER and
+// re-validates that the booking is real, paid, and owned by this user.
+export async function awardLoyaltyPoints(userId, amountPaid, bookingId, bookingRef) {
+  const { data, error } = await supabase.rpc('earn_booking_points', {
+    p_user_id: userId,
+    p_booking_id: bookingId,
+    p_booking_ref: bookingRef || '',
+    p_amount_paid: amountPaid,
   });
+  if (error) throw error;
+  return data;
 }
 
 export async function validatePromoCode(code, orderAmount) {
