@@ -1,7 +1,11 @@
 // ============================================================
 // ZoomFly — Supabase Client (COMPLETE v4)
 // ============================================================
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+// Self-hosted instead of loaded from a CDN — see assets/js/vendor/supabase-js.esm.min.js
+// for why (a CDN outage or blocked host used to take down every page's
+// login/booking/payment/admin flow with no fallback, since this import
+// failing aborts the whole module and nothing after it runs).
+import { createClient } from './vendor/supabase-js.esm.min.js';
 
 const SUPABASE_URL  = 'https://ndaurluolurdljrjbxii.supabase.co';
 const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kYXVybHVvbHVyZGxqcmpieGlpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MDY2MzksImV4cCI6MjA5MzQ4MjYzOX0.JsZXOof19JkyX7asJQ7EtoaBKqURJUYzVqXQIenCzjQ';
