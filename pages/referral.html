@@ -353,54 +353,75 @@ async function init() {
 
 async function loadReferralData(user) {
   try {
-    // Get loyalty account for referral code
-    const { data: acct } = await supabase
+    // Get loyalty account for referral code — there is no separate
+    // `referrals` table; the whole referral system lives in
+    // loyalty_accounts (referral_code/referral_count) and
+    // loyalty_transactions (one 'earn_referral' row per successful
+    // referral), via the award_referral_bonus() RPC.
+    let { data: acct } = await supabase
       .from('loyalty_accounts')
       .select('*')
       .eq('user_id', user.id)
       .single();
+
+    if (!acct) {
+      // No loyalty account yet (e.g. this user has never opened
+      // loyalty.html, which is what normally creates one on first
+      // visit). Without a real, persisted row here, the "referral code"
+      // shown below would be a client-side-only value nobody could
+      // ever actually redeem — so create the account first.
+      const { data: newAcct } = await supabase.rpc('award_signup_bonus', {
+        p_user_id: user.id,
+        p_name: user.user_metadata?.full_name || user.email,
+        p_email: user.email,
+        p_phone: user.user_metadata?.phone || null,
+      });
+      acct = newAcct;
+    }
 
     userRef = acct?.referral_code || generateCode(user);
 
     const refLink = `https://www.zoomfly.in/?ref=${userRef}`;
     document.getElementById('refLinkDisplay').textContent = refLink;
 
-    // Load referral stats
-    const { data: refs } = await supabase
-      .from('referrals')
+    // Load referral stats from loyalty_transactions — each successful
+    // referral produces exactly one txn_type:'earn_referral' row on the
+    // referrer's own account (no per-friend name/email is ever stored,
+    // since award_referral_bonus() never received that identifying
+    // info in the first place).
+    const { data: refTxns } = await supabase
+      .from('loyalty_transactions')
       .select('*')
-      .eq('referrer_id', user.id)
+      .eq('account_id', acct?.id)
+      .eq('txn_type', 'earn_referral')
       .order('created_at', { ascending: false });
 
-    const total     = refs?.length || 0;
-    const converted = refs?.filter(r => r.status === 'converted').length || 0;
-    const earned    = converted * 500;
+    const total  = acct?.referral_count || 0;
+    const earned = (refTxns || []).reduce((s, t) => s + (t.points || 0), 0);
 
     document.getElementById('statRefs').textContent      = total;
-    document.getElementById('statConverted').textContent = converted;
-    document.getElementById('statEarned').textContent    = `₹${earned.toLocaleString('en-IN')}`;
+    document.getElementById('statConverted').textContent = total;
+    document.getElementById('statEarned').textContent    = `${earned.toLocaleString('en-IN')} pts`;
 
     // Render history
-    if (refs?.length) {
-      document.getElementById('refHistory').innerHTML = refs.map(r => `
+    if (refTxns?.length) {
+      document.getElementById('refHistory').innerHTML = refTxns.map(t => `
         <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;
                     padding:14px 16px;margin-bottom:8px;display:flex;
                     justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
           <div>
             <div style="font-weight:600;font-size:.88rem;color:#0f1923;">
-              ${r.referee_name || r.referee_email || 'Friend'}
+              A friend joined ZoomFly
             </div>
             <div style="font-size:.75rem;color:#94a3b8;margin-top:2px;">
-              ${new Date(r.created_at).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})}
+              ${new Date(t.created_at).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})}
             </div>
           </div>
           <div style="display:flex;align-items:center;gap:10px;">
-            <span style="font-size:.75rem;padding:3px 10px;border-radius:20px;font-weight:600;
-              background:${r.status==='converted'?'#dcfce7':r.status==='signed_up'?'#fef3c7':'#f1f5f9'};
-              color:${r.status==='converted'?'#15803d':r.status==='signed_up'?'#92400e':'#64748b'};">
-              ${r.status === 'converted' ? '✅ Booked' : r.status === 'signed_up' ? '⏳ Signed up' : '📨 Invited'}
+            <span style="font-size:.75rem;padding:3px 10px;border-radius:20px;font-weight:600;background:#dcfce7;color:#15803d;">
+              ✅ Joined
             </span>
-            ${r.status === 'converted' ? `<span style="font-weight:700;color:var(--blue);font-size:.9rem;">+₹500</span>` : ''}
+            <span style="font-weight:700;color:var(--blue);font-size:.9rem;">+${t.points} pts</span>
           </div>
         </div>`).join('');
     }

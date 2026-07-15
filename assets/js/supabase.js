@@ -79,12 +79,17 @@ export async function signUp({ email, password, fullName, phone }) {
     options: { data: { full_name: fullName, phone } }
   });
   if (error) throw error;
-  // Track referral if present
+  // Track referral if present. There is no `referrals` table — referrals
+  // are tracked entirely through loyalty_accounts (referral_code,
+  // referred_by, referral_count) and loyalty_transactions, via this RPC.
+  // (A prior version of this function inserted into a `referrals` table
+  // that was never actually created by any migration, so every referral
+  // silently failed to record and neither side ever got their bonus.)
   const ref = sessionStorage.getItem('zf_ref');
   if (ref && data.user) {
-    await supabase.from('referrals').insert({
-      referee_id: data.user.id, referee_email: email,
-      referee_name: fullName, referral_code: ref, status: 'signed_up'
+    await supabase.rpc('award_referral_bonus', {
+      p_referrer_code: ref,
+      p_new_user_id: data.user.id,
     }).catch(() => {});
   }
   return data;
