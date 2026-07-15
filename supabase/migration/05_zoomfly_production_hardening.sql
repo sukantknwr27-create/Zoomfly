@@ -21,6 +21,17 @@
 --      only SELECT and admin-ALL exist.
 --   5. promo_codes / offers had no upper bound on discount_value when
 --      discount_type='percentage'.
+--   6. blog_posts / faqs / job_openings all have RLS enabled but NO
+--      policies at all (02_zoomfly_content_cms.sql enables RLS on each
+--      but never adds a policy) — Postgres default-denies everything
+--      on a table with RLS on and zero policies, for every role except
+--      service_role. That breaks both directions at once: blog.html,
+--      blog-post.html, faq.html and careers.html can't read this
+--      content at all (public pages render empty), and admin.html's
+--      Blog/FAQ/Careers management tabs can't read OR write it either
+--      (every insert/update/delete silently fails as a permission
+--      error). Fixed with the same public-read/admin-write pattern
+--      already used for destinations/testimonials.
 -- ============================================================
 
 -- ── 1. Pin privileged columns on INSERT, not just UPDATE ─────
@@ -120,3 +131,25 @@ ALTER TABLE public.promo_codes ADD CONSTRAINT promo_codes_pct_range
 ALTER TABLE public.offers DROP CONSTRAINT IF EXISTS offers_pct_range;
 ALTER TABLE public.offers ADD CONSTRAINT offers_pct_range
   CHECK (discount_type <> 'percentage' OR (discount_value >= 0 AND discount_value <= 100));
+
+-- ── 6. blog_posts / faqs / job_openings — RLS enabled, zero policies ──
+DROP POLICY IF EXISTS "blog_posts_public_read" ON public.blog_posts;
+CREATE POLICY "blog_posts_public_read" ON public.blog_posts FOR SELECT USING (
+  is_published = TRUE OR public.is_admin()
+);
+DROP POLICY IF EXISTS "blog_posts_admin_write" ON public.blog_posts;
+CREATE POLICY "blog_posts_admin_write" ON public.blog_posts FOR ALL USING (public.is_admin()) WITH CHECK (public.is_admin());
+
+DROP POLICY IF EXISTS "faqs_public_read" ON public.faqs;
+CREATE POLICY "faqs_public_read" ON public.faqs FOR SELECT USING (
+  is_published = TRUE OR public.is_admin()
+);
+DROP POLICY IF EXISTS "faqs_admin_write" ON public.faqs;
+CREATE POLICY "faqs_admin_write" ON public.faqs FOR ALL USING (public.is_admin()) WITH CHECK (public.is_admin());
+
+DROP POLICY IF EXISTS "job_openings_public_read" ON public.job_openings;
+CREATE POLICY "job_openings_public_read" ON public.job_openings FOR SELECT USING (
+  is_active = TRUE OR public.is_admin()
+);
+DROP POLICY IF EXISTS "job_openings_admin_write" ON public.job_openings;
+CREATE POLICY "job_openings_admin_write" ON public.job_openings FOR ALL USING (public.is_admin()) WITH CHECK (public.is_admin());
