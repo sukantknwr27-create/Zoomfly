@@ -606,44 +606,62 @@ window.processPayment = async () => {
         : 'Still verifying the price for this booking — please try again in a moment.');
       return;
     }
-    try {
-      const { RAZORPAY_KEY_ID } = await import('../assets/js/supabase.js');
-      const razorKey = RAZORPAY_KEY_ID || 'rzp_test_YOUR_KEY_HERE';
-      if (!razorKey || razorKey.includes('YOUR_KEY')) {
-        console.warn('[ZoomFly] Razorpay key not configured. Update RAZORPAY_KEY_ID in supabase.js. Falling back to WhatsApp booking.');
-      }
+    const { RAZORPAY_KEY_ID } = await import('../assets/js/supabase.js');
+    const razorKey = RAZORPAY_KEY_ID || 'rzp_test_YOUR_KEY_HERE';
 
-      // If Razorpay key not configured, fall through to WhatsApp booking
-      if (razorKey && !razorKey.includes('YOUR_KEY') && window.Razorpay) {
+    if (razorKey && !razorKey.includes('YOUR_KEY') && window.Razorpay) {
+      // This branch creates its own booking below, so on any failure it
+      // must NOT fall through to the manual-booking code further down —
+      // that would create a second, duplicate booking row for the same
+      // attempt. Always `return` after this block, success or failure.
+      try {
+        const { createBooking, supabase } = await import('../assets/js/supabase.js');
+
+        // Step 1: create the booking first. create-razorpay-order needs
+        // a real booking row (with a server-trusted total_amount) to
+        // mint a Razorpay order against — and verify-razorpay-payment
+        // checks the eventual payment against this same booking_id.
+        const booking = await createBooking({
+          service_type: bookingType, service_name: itemName,
+          service_id: serviceId,
+          package_id: bookingType === 'package' ? serviceId : null,
+          hotel_id:   bookingType === 'hotel'   ? serviceId : null,
+          customer_name: name, customer_email: email,
+          customer_phone: phone.replace(/\D/g,''),
+          num_adults: parseInt(document.getElementById('g-pax').value) || 2,
+          special_requests: document.getElementById('g-note').value,
+          base_amount: basePerPerson * numPersons, discount_amount: discount,
+          tax_amount: tax, total_amount: total,
+          currency: 'INR', payment_method: 'razorpay', status: 'pending',
+          payment_status: 'pending',
+        });
+
+        // Step 2: mint a real Razorpay order for this exact booking — its
+        // amount comes from the booking row server-side, never from this
+        // page's own `total`. Without this, Razorpay checkout runs in
+        // amount-only mode with no order_id, and verify-razorpay-payment
+        // below would reject every payment (it requires the booking's
+        // razorpay_order_id to match, which is only ever set here).
+        const { data: orderData, error: orderError } = await supabase.functions.invoke(
+          'create-razorpay-order',
+          { body: { booking_id: booking.id, currency: 'INR' } }
+        );
+        if (orderError || !orderData?.razorpay_order_id) {
+          throw new Error(orderData?.error || orderError?.message || 'Could not start payment. Please try again.');
+        }
+
         const options = {
           key: razorKey,
-          amount: total * 100, // in paise
-          currency: 'INR',
+          order_id: orderData.razorpay_order_id,
+          amount: orderData.amount,
+          currency: orderData.currency || 'INR',
           name: 'ZoomFly',
           description: itemName,
           prefill: { name, email, contact: phone.replace(/\D/g,'') },
           theme: { color: '#C9922A' },
           handler: async (response) => {
             try {
-              // Step 1: Create a pending booking in DB first
-              const { createBooking, supabase } = await import('../assets/js/supabase.js');
-              const booking = await createBooking({
-                service_type: bookingType, service_name: itemName,
-                service_id: serviceId,
-                package_id: bookingType === 'package' ? serviceId : null,
-                hotel_id:   bookingType === 'hotel'   ? serviceId : null,
-                customer_name: name, customer_email: email,
-                customer_phone: phone.replace(/\D/g,''),
-                num_adults: parseInt(document.getElementById('g-pax').value) || 2,
-                special_requests: document.getElementById('g-note').value,
-                base_amount: basePerPerson * numPersons, discount_amount: discount,
-                tax_amount: tax, total_amount: total,
-                currency: 'INR', payment_method: 'razorpay', status: 'pending',
-                payment_status: 'pending',
-                razorpay_order_id: response.razorpay_order_id,
-              });
-
-              // Step 2: Verify signature server-side — NEVER mark paid from the browser
+              // Verify signature server-side — NEVER mark paid from the browser
               const { data: verified, error: verifyError } = await supabase.functions.invoke(
                 'verify-razorpay-payment',
                 {
@@ -672,9 +690,18 @@ window.processPayment = async () => {
           modal: { ondismiss: () => { btn.disabled = false; btn.innerHTML = `🔒 Pay Securely Now — ₹${total.toLocaleString('en-IN')}`; } }
         };
         new window.Razorpay(options).open();
-        return;
+      } catch(e) {
+        console.error('[ZoomFly Payment] Could not start Razorpay checkout:', e);
+        btn.disabled  = false;
+        btn.innerHTML = `🔒 Pay Securely Now — ₹${total.toLocaleString('en-IN')}`;
+        alert('We could not start secure payment (' + e.message + '). Your booking request has been saved — please contact us on WhatsApp and our team will confirm payment manually.');
       }
-    } catch(e) { /* fall through to manual booking */ }
+      return;
+    }
+    // Razorpay key not configured / script not loaded — no booking has
+    // been created yet in this branch, so it's safe to fall through to
+    // the manual-booking flow below.
+    console.warn('[ZoomFly] Razorpay key not configured. Update RAZORPAY_KEY_ID in supabase.js. Falling back to WhatsApp booking.');
   }
 
   // For NEFT/bank transfer or fallback
