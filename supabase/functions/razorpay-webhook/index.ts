@@ -70,7 +70,7 @@ serve(async (req) => {
       // are flagged for manual review instead of silently confirmed.
       const { data: candidates } = await supabase
         .from('bookings')
-        .select('id, total_amount, base_amount, num_adults, package_id, hotel_id, payment_status')
+        .select('id, user_id, booking_ref, total_amount, base_amount, num_adults, package_id, hotel_id, payment_status')
         .eq('razorpay_order_id', payment.order_id);
 
       for (const b of candidates || []) {
@@ -117,6 +117,22 @@ serve(async (req) => {
           paid_at: new Date().toISOString(),
           razorpay_payment_id: payment.id,
         }).eq('id', b.id);
+
+        // Award loyalty points now that the booking is genuinely paid —
+        // non-fatal, and skipped if verify-razorpay-payment already did it
+        // for this booking (earn_booking_points has no idempotency guard
+        // of its own, but the client-side verify call and this webhook
+        // race for the same `payment_status==='paid'` transition above,
+        // so only one of them will ever reach this point per booking).
+        if (b.user_id) {
+          const { error: loyaltyError } = await supabase.rpc('earn_booking_points', {
+            p_user_id: b.user_id,
+            p_booking_id: b.id,
+            p_booking_ref: b.booking_ref,
+            p_amount_paid: b.total_amount,
+          });
+          if (loyaltyError) console.error('[razorpay-webhook] Loyalty award failed:', loyaltyError.message);
+        }
       }
     }
 

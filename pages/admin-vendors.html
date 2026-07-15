@@ -837,15 +837,16 @@ function svcIcon(t){ return{hotel:'🏨',bus:'🚌',cab:'🚖',package:'🧳',fl
 function statusLabel(s){ return{pending:'⏳ Pending',active:'✅ Active',suspended:'⛔ Suspended',rejected:'❌ Rejected'}[s]||s||'—'; }
 function showToast(msg,type='success'){ const t=document.getElementById('toast'); t.textContent=msg; t.style.background=type==='error'?'#ef4444':'#0C1B33'; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3000); }
 
-// ── Realtime ───────────────────────────────────────────────
-supabase.channel('vendor-changes')
-  .on('postgres_changes',{event:'*',schema:'public',table:'vendors'},()=>loadVendors())
-  .subscribe();
-
 // ── Init ───────────────────────────────────────────────────
 (async()=>{ const ok = await requireAdmin(); if(!ok)return;
   const _ov = document.getElementById('auth-loading'); if (_ov) _ov.style.display='none';
-  if(ok) await loadVendors(); })();
+  await loadVendors();
+
+  // Realtime — started only after the admin guard passes.
+  supabase.channel('vendor-changes')
+    .on('postgres_changes',{event:'*',schema:'public',table:'vendors'},()=>loadVendors())
+    .subscribe();
+})();
 </script>
 </body>
 </html>

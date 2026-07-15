@@ -127,15 +127,15 @@ function customerBody(type, b) {
       `✈️ *FLIGHT BOOKING REQUEST*`,
       ``,
       `🛫 *Route*`,
-      `   ${td.from_city || td.from || '—'} (${td.from || ''}) → ${td.to_city || td.to || '—'} (${td.to || ''})`,
+      `   ${td.from_city || td.from || td.origin || '—'} → ${td.to_city || td.to || td.destination || '—'}`,
       ``,
       `📅 *Travel Details*`,
-      `   Departure : ${fmtDate(td.date)}`,
-      td.return_date
+      `   Departure : ${fmtDate(td.date || td.depart_date)}`,
+      (td.return_date)
         ? `   Return    : ${fmtDate(td.return_date)}`
         : null,
-      `   Trip Type : ${td.trip_type === 'round_trip' ? '🔄 Round Trip' : '➡️ One Way'}`,
-      `   Cabin     : ${capitalize(td.class || 'Economy')}`,
+      `   Trip Type : ${(td.trip_type === 'round_trip' || td.trip_type === 'roundtrip') ? '🔄 Round Trip' : '➡️ One Way'}`,
+      `   Cabin     : ${capitalize(td.class || td.cabin_class || 'Economy')}`,
       ``,
       `👥 *Travellers*`,
       `   Adults   : ${b.num_adults || 1}`,
@@ -168,15 +168,15 @@ function customerBody(type, b) {
       `🏨 *HOTEL BOOKING REQUEST*`,
       ``,
       `🏩 *Property*`,
-      `   ${td.hotel_name || '—'}`,
-      `   📍 ${td.city || '—'}`,
+      `   ${td.hotel_name || td.property_name || '—'}`,
+      `   📍 ${td.city || td.location || '—'}`,
       ``,
       `📅 *Stay Details*`,
-      `   Check-in  : ${fmtDate(td.check_in)}`,
-      `   Check-out : ${fmtDate(td.check_out)}`,
-      `   Nights    : ${td.nights || calcNights(td.check_in, td.check_out)}`,
+      `   Check-in  : ${fmtDate(td.check_in || td.checkin_date)}`,
+      `   Check-out : ${fmtDate(td.check_out || td.checkout_date)}`,
+      `   Nights    : ${td.nights || calcNights(td.check_in || td.checkin_date, td.check_out || td.checkout_date)}`,
       `   Room Type : ${td.room_type || 'Standard'}`,
-      `   Rooms     : ${td.num_rooms || 1}`,
+      `   Rooms     : ${td.num_rooms || td.rooms || 1}`,
       ``,
       `👥 *Guests*`,
       `   Adults   : ${b.num_adults || 1}`,
@@ -212,7 +212,7 @@ function customerBody(type, b) {
       td.duration ? `   ⏱️ Duration : ${td.duration}` : null,
       ``,
       `📅 *Travel Dates*`,
-      `   Departure : ${fmtDate(td.start_date)}`,
+      `   Departure : ${fmtDate(td.start_date || td.travel_date)}`,
       td.end_date ? `   Return    : ${fmtDate(td.end_date)}` : null,
       ``,
       `👥 *Travellers*`,
@@ -249,16 +249,16 @@ function customerBody(type, b) {
       `🚌 *BUS BOOKING REQUEST*`,
       ``,
       `🛣️ *Route*`,
-      `   ${td.from || '—'} → ${td.to || '—'}`,
+      `   ${td.from || td.from_city || '—'} → ${td.to || td.to_city || '—'}`,
       ``,
       `📅 *Journey Details*`,
-      `   Date       : ${fmtDate(td.date)}`,
+      `   Date       : ${fmtDate(td.date || td.travel_date)}`,
       td.departure_time ? `   Departure  : ${td.departure_time}` : null,
       td.arrival_time   ? `   Arrival    : ${td.arrival_time}`   : null,
       td.operator   ? `   Operator   : ${td.operator}`   : null,
       td.bus_type   ? `   Bus Type   : ${td.bus_type}`   : null,
-      td.seat_numbers?.length > 0
-        ? `   Seats      : ${td.seat_numbers.join(', ')}`
+      (td.seat_numbers || td.seats)?.length > 0
+        ? `   Seats      : ${(td.seat_numbers || td.seats).join(', ')}`
         : null,
       ``,
       `👥 *Passengers*`,
@@ -287,8 +287,8 @@ function customerBody(type, b) {
       `🚖 *CAB BOOKING REQUEST*`,
       ``,
       `📍 *Journey*`,
-      `   Pickup : ${td.from || '—'}`,
-      `   Drop   : ${td.to   || '—'}`,
+      `   Pickup : ${td.from || td.pickup_location || '—'}`,
+      `   Drop   : ${td.to   || td.drop_location   || '—'}`,
       ``,
       `📅 *Pickup Details*`,
       `   Date     : ${fmtDate(td.pickup_date)}`,
@@ -377,33 +377,33 @@ function buildAdminMessage(type, b) {
 function buildAdminTravelSummary(type, td, b) {
   switch (type) {
     case 'flight': return [
-      `   Route : ${td.from || '—'} → ${td.to || '—'}`,
-      `   Date  : ${fmtDate(td.date)}`,
+      `   Route : ${td.from || td.origin || '—'} → ${td.to || td.destination || '—'}`,
+      `   Date  : ${fmtDate(td.date || td.depart_date)}`,
       td.return_date ? `   Ret   : ${fmtDate(td.return_date)}` : null,
       `   Pax   : ${b.num_adults}A ${b.num_children}C ${b.num_infants}I`,
-      `   Class : ${td.class || 'economy'}`,
+      `   Class : ${td.class || td.cabin_class || 'economy'}`,
     ];
     case 'hotel': return [
-      `   Hotel : ${td.hotel_name || '—'}, ${td.city || '—'}`,
-      `   In    : ${fmtDate(td.check_in)} → Out: ${fmtDate(td.check_out)}`,
-      `   Room  : ${td.room_type} × ${td.num_rooms || 1}`,
+      `   Hotel : ${td.hotel_name || td.property_name || '—'}, ${td.city || td.location || '—'}`,
+      `   In    : ${fmtDate(td.check_in || td.checkin_date)} → Out: ${fmtDate(td.check_out || td.checkout_date)}`,
+      `   Room  : ${td.room_type} × ${td.num_rooms || td.rooms || 1}`,
       `   Nights: ${td.nights || '—'}`,
     ];
     case 'package': return [
       `   Pkg   : ${td.package_name || '—'}`,
       `   Dest  : ${td.destination || '—'}`,
-      `   Dates : ${fmtDate(td.start_date)} → ${fmtDate(td.end_date)}`,
+      `   Dates : ${fmtDate(td.start_date || td.travel_date)} → ${fmtDate(td.end_date)}`,
       `   Pax   : ${b.num_adults}A ${b.num_children}C`,
     ];
     case 'bus': return [
-      `   Route : ${td.from || '—'} → ${td.to || '—'}`,
-      `   Date  : ${fmtDate(td.date)} @ ${td.departure_time || '—'}`,
-      `   Seats : ${td.seat_numbers?.join(', ') || '—'}`,
+      `   Route : ${td.from || td.from_city || '—'} → ${td.to || td.to_city || '—'}`,
+      `   Date  : ${fmtDate(td.date || td.travel_date)} @ ${td.departure_time || '—'}`,
+      `   Seats : ${(td.seat_numbers || td.seats)?.join(', ') || '—'}`,
       `   Pax   : ${b.num_adults}A ${b.num_children}C`,
     ];
     case 'cab': return [
-      `   Pickup: ${td.from || '—'}`,
-      `   Drop  : ${td.to   || '—'}`,
+      `   Pickup: ${td.from || td.pickup_location || '—'}`,
+      `   Drop  : ${td.to   || td.drop_location   || '—'}`,
       `   Date  : ${fmtDate(td.pickup_date)} @ ${td.pickup_time || '—'}`,
       `   Cab   : ${td.cab_type || 'Sedan'}`,
     ];
@@ -413,7 +413,7 @@ function buildAdminTravelSummary(type, td, b) {
 
 function getUrgencyFlag(b) {
   const td = b.travel_details || {};
-  const travelDate = td.date || td.check_in || td.start_date || td.pickup_date;
+  const travelDate = td.date || td.depart_date || td.check_in || td.checkin_date || td.start_date || td.travel_date || td.pickup_date;
   if (!travelDate) return `🟡 *Priority: Normal*`;
   const daysAway = Math.round((new Date(travelDate) - new Date()) / 86400000);
   if (daysAway <= 1)  return `🔴 *Priority: URGENT — Travel in ${daysAway <= 0 ? 'Today!' : '1 day!'}*`;
@@ -436,7 +436,7 @@ function buildStatusUpdateMessage(booking, newStatus, note) {
     refunded:   { emoji: '💰', label: 'REFUNDED',   msg: 'Your refund has been processed and will reflect in your account within 3–5 business days.' },
   };
 
-  const s = statusMap[newStatus] || { emoji: 'ℹ️', label: newStatus.toUpperCase(), msg: '' };
+  const s = statusMap[newStatus] || { emoji: 'ℹ️', label: (newStatus || 'UPDATED').toUpperCase(), msg: '' };
 
   return [
     `${s.emoji} *ZoomFly Booking Update*`,
@@ -614,7 +614,7 @@ ${escHtml(customer)}
           📋 Copy Customer Message
         </button>
         <textarea id="customer-msg-${booking.booking_ref}"
-          style="position:absolute;left:-9999px;">${customer}</textarea>
+          style="position:absolute;left:-9999px;">${escHtml(customer)}</textarea>
       </div>
 
       <div>
@@ -633,7 +633,7 @@ ${escHtml(admin)}
           📋 Copy Admin Alert
         </button>
         <textarea id="admin-msg-${booking.booking_ref}"
-          style="position:absolute;left:-9999px;">${admin}</textarea>
+          style="position:absolute;left:-9999px;">${escHtml(admin)}</textarea>
       </div>
 
     </div>

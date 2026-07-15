@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         grid.innerHTML = data.map((p,i) => tourCard(p, i*80)).join('');
         if (typeof initReveal === 'function') initReveal();
       }
-    } catch(_) { /* keep static */ }
+    } catch(e) { console.warn('[home] packages fetch failed, using static list:', e?.message); }
   }
 
   // ── Destinations grid ──────────────────────────────────────
@@ -66,8 +66,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         onclick="window.location='/pages/packages.html'">
         <div class="dest-overlay" style="background:linear-gradient(to top,rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.1) 60%)"></div>
         <div class="dest-info">
-          <div class="dest-name">${d.name}</div>
-          <div class="dest-tagline">${d.tagline}</div>
+          <div class="dest-name">${esc(d.name)}</div>
+          <div class="dest-tagline">${esc(d.tagline)}</div>
           <div class="dest-price">From ₹${d.from.toLocaleString('en-IN')}</div>
         </div>
       </div>`;

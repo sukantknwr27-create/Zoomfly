@@ -1083,19 +1083,20 @@ function showToast(msg, type = 'success') {
   setTimeout(() => t.classList.remove('show'), 3000);
 }
 
-// ── Realtime subscription ──────────────────────────────────
-supabase.channel('bookings-changes')
-  .on('postgres_changes', { event:'*', schema:'public', table:'bookings' }, () => {
-    loadBookings();
-  })
-  .subscribe();
-
 // ── Init ───────────────────────────────────────────────────
 (async () => {
   const ok = await requireAdmin();
   if (!ok) return;
   const _ov = document.getElementById('auth-loading'); if (_ov) _ov.style.display='none';
   await loadBookings();
+
+  // Realtime subscription — started only after the admin guard passes,
+  // so a non-admin visitor never opens a live subscription to this table.
+  supabase.channel('bookings-changes')
+    .on('postgres_changes', { event:'*', schema:'public', table:'bookings' }, () => {
+      loadBookings();
+    })
+    .subscribe();
 })();
 </script>
 

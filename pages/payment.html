@@ -293,6 +293,14 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
 <script type="module">
 import { createBooking, getUser } from '../assets/js/supabase.js';
 
+// These come straight from the URL — an attacker can send a victim a
+// direct link with arbitrary values (e.g. ?bg="><img src=x onerror=...>),
+// so anything derived from them must be escaped before it's ever placed
+// into innerHTML below (see renderSummary()).
+function esc(s) {
+  return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
 // Read booking params from URL
 const params = new URLSearchParams(window.location.search);
 const bookingType = params.get('type') || 'package';
@@ -311,6 +319,7 @@ const itemBg = params.get('bg') || 'linear-gradient(135deg,#667eea,#764ba2)';
 const nights = params.get('nights') || '5N';
 const serviceId = params.get('id') || null;
 const roomName  = params.get('room') || null;
+const paymentLinkRef = params.get('ref') || null;
 
 // `amount` from the URL is only a placeholder for the first paint.
 // If we have a service_id, the real price is fetched from the DB
@@ -328,9 +337,16 @@ let selectedMethod = 'whatsapp'; // shared across the page; updated when user pi
 // Prices used to travel to this page as a URL query param, which
 // anyone could edit before the page loaded. If we have a service_id
 // (set by packages.html / hotels.html), we look the real price up
-// from the database here and replace basePerPerson with it. Online
-// payment (Razorpay) is disabled until this resolves successfully.
-let priceVerified = !serviceId; // no service_id (old/direct link) = nothing to verify against
+// from the database here and replace basePerPerson with it. If we
+// have a `ref` (an admin-generated payment link — see
+// admin.generatePaymentLink()/createPaymentLink()), we look the real
+// amount up from the payment_links table instead, via the
+// get-payment-link function (payment_links isn't directly readable by
+// a guest recipient — RLS scopes it to the owner/admin — so this
+// function is the guest-safe read path, keyed on possession of the
+// unguessable link id). Online payment (Razorpay) is disabled until
+// whichever check applies resolves successfully.
+let priceVerified = !serviceId && !paymentLinkRef; // plain direct link, nothing to verify against
 let priceCheckFailed = false;
 
 async function verifyPriceFromServer() {
@@ -357,6 +373,29 @@ async function verifyPriceFromServer() {
   }
 }
 verifyPriceFromServer();
+
+async function verifyPaymentLinkFromServer() {
+  if (!paymentLinkRef) return;
+  const payBtn = document.getElementById('pay-btn');
+  if (payBtn) { payBtn.disabled = true; payBtn.innerHTML = '<div class="spin"></div> Verifying payment link…'; }
+  try {
+    const { supabase } = await import('../assets/js/supabase.js');
+    const { data, error } = await supabase.functions.invoke('get-payment-link', {
+      body: { id: paymentLinkRef },
+    });
+    if (error || data?.error || !data?.amount) {
+      throw new Error(data?.error || error?.message || 'This payment link could not be verified.');
+    }
+    basePerPerson = data.amount; // link amount is a fixed total — numPersons stays at its default of 1
+    priceVerified = true;
+  } catch (e) {
+    console.warn('[ZoomFly Payment] Could not verify payment link server-side:', e.message);
+    priceCheckFailed = true;
+  } finally {
+    if (payBtn) { payBtn.disabled = false; renderSummary(); }
+  }
+}
+verifyPaymentLinkFromServer();
 
 
 // ── ADD-ON / UPSELL TOGGLES ────────────────────────────────
@@ -449,8 +488,8 @@ function renderSummary() {
 
   document.getElementById('order-items').innerHTML = `
     <div class="order-item">
-      <div class="oi-thumb" style="background:${itemBg}">${itemEmoji}</div>
-      <div class="oi-info"><strong>${itemName}</strong><span>${unitLabel}</span></div>
+      <div class="oi-thumb" style="background:${esc(itemBg)}">${esc(itemEmoji)}</div>
+      <div class="oi-info"><strong>${esc(itemName)}</strong><span>${esc(unitLabel)}</span></div>
       <div class="oi-price">₹${rawBase.toLocaleString('en-IN')}</div>
     </div>`;
 
