@@ -715,8 +715,8 @@ window.exitPopupSubscribe = async (e) => {
   const msg   = document.getElementById('exit-popup-msg');
   if (!email) return;
   try {
-    const { supabase: sb } = await import('/assets/js/supabase.js');
-    await sb.from('newsletter').insert({ email, source: 'exit_intent' });
+    const { subscribeNewsletter } = await import('/assets/js/supabase.js');
+    await subscribeNewsletter(email, 'exit_intent');
   } catch(_) {}
   msg.textContent = '🎉 Deal unlocked! Code FIRST10 saved to your clipboard.';
   navigator.clipboard.writeText('FIRST10').catch(()=>{});

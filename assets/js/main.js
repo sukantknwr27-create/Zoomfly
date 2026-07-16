@@ -657,6 +657,19 @@ function handleEnquiry(formEl, successMsg = "✅ Enquiry sent! We'll call you wi
   });
 }
 
+// ─── REFERRAL CODE CAPTURE ───
+// Shared referral links point at the homepage (https://www.zoomfly.in/?ref=CODE),
+// but only referral.html itself was capturing the ?ref= param into
+// sessionStorage — meaning a friend who actually clicked a shared link
+// and landed here never had their referrer's code recorded, so
+// signUp()'s referral bonus (assets/js/supabase.js) never had anything
+// to read at signup time. main.js loads on every page, so capture it
+// here regardless of which page the link actually lands on.
+(function captureReferralCode() {
+  const ref = new URLSearchParams(location.search).get('ref');
+  if (ref) sessionStorage.setItem('zf_ref', ref);
+})();
+
 // ─── INIT ───
 document.addEventListener('DOMContentLoaded', async () => {
   window._zfRenderNav = renderNav;   // expose for supabase.js loadNav delegation (Fix #5, #7)
