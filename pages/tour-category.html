@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Tour Categories — ZoomFly</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,600&family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"/>
+  <link rel="stylesheet" href="/assets/css/main.css"/>
+  <link rel="stylesheet" href="/assets/css/premium.css"/>
+  <link rel="stylesheet" href="/assets/css/pages.css"/>
+  <style>
+    body{font-family:'Inter',system-ui;background:#F3F2EE;color:#1C2340}
+    .cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:18px;max-width:1200px;margin:0 auto;padding:64px 28px}
+    .cat-card{background:#fff;border:1px solid #E4E8EF;border-radius:16px;padding:28px 20px;text-align:center;cursor:pointer;transition:all .28s}
+    .cat-card:hover{box-shadow:0 12px 40px rgba(12,27,51,.12);transform:translateY(-5px);border-color:rgba(201,146,42,.3)}
+    .cat-icon{font-size:2.6rem;margin-bottom:14px}
+    .cat-name{font-family:'Space Grotesk',system-ui;font-size:.95rem;font-weight:700;margin-bottom:6px;color:#1C2340}
+    .cat-count{font-size:.75rem;color:#8896AB;margin-bottom:14px}
+    .cat-link{display:inline-flex;align-items:center;gap:5px;font-family:'Space Grotesk',system-ui;font-size:.78rem;font-weight:700;color:#C9922A}
+  </style>
+</head>
+<body data-page="tours">
+<header class="nav" id="mainNav"></header>
+<section style="background:linear-gradient(145deg,#0C1B33 0%,#1a2d4a 45%,#1e3a6e 100%);padding:110px 2rem 60px;text-align:center;position:relative;overflow:hidden;">
+  <div style="position:absolute;inset:0;background-image:radial-gradient(circle at 1px 1px,rgba(255,255,255,.04) 1px,transparent 0);background-size:38px 38px;pointer-events:none;"></div>
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 60% 40%,rgba(201,146,42,.10),transparent 60%);pointer-events:none;"></div>
+  <div style="position:relative;z-index:2;">
+    <div style="display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:100px;padding:6px 18px;font-family:'Space Grotesk',system-ui;font-size:.72rem;font-weight:500;color:rgba(255,255,255,.82);margin-bottom:18px;">🗺 Explore by Category</div>
+    <h1 style="font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,5vw,3.5rem);font-weight:600;color:#fff;line-height:1.1;letter-spacing:-.02em;margin-bottom:12px;">Find the Perfect<br><em style="font-style:italic;color:#E8B84B">Tour for You</em></h1>
+    <p style="color:rgba(255,255,255,.65);font-size:1rem;max-width:500px;margin:0 auto;">Browse by travel style, interest or destination type.</p>
+  </div>
+</section>
+<div class="cat-grid">
+  <div class="cat-card" onclick="location.href='/pages/packages.html?filter=beach'"><div class="cat-icon">🏖️</div><div class="cat-name">Beach Holidays</div><div class="cat-count">42 Packages</div><div class="cat-link">Explore →</div></div>
+  <div class="cat-card" onclick="location.href='/pages/packages.html?filter=mountains'"><div class="cat-icon">🏔️</div><div class="cat-name">Hill Stations</div><div class="cat-count">38 Packages</div><div class="cat-link">Explore →</div></div>
+  <div class="cat-card" onclick="location.href='/pages/packages.html?filter=international'"><div class="cat-icon">🌏</div><div class="cat-name">International</div><div class="cat-count">55 Packages</div><div class="cat-link">Explore →</div></div>
+  <div class="cat-card" onclick="location.href='/pages/packages.html?filter=honeymoon'"><div class="cat-icon">💑</div><div class="cat-name">Honeymoon</div><div class="cat-count">28 Packages</div><div class="cat-link">Explore →</div></div>
+  <div class="cat-card" onclick="location.href='/pages/packages.html?filter=family'"><div class="cat-icon">👨‍👩‍👧‍👦</div><div class="cat-name">Family Tours</div><div class="cat-count">34 Packages</div><div class="cat-link">Explore →</div></div>
+  <div class="cat-card" onclick="location.href='/pages/packages.html?filter=adventure'"><div class="cat-icon">🧗</div><div class="cat-name">Adventure</div><div class="cat-count">22 Packages</div><div class="cat-link">Explore →</div></div>
+  <div class="cat-card" onclick="location.href='/pages/packages.html?filter=wildlife'"><div class="cat-icon">🦁</div><div class="cat-name">Wildlife & Safari</div><div class="cat-count">16 Packages</div><div class="cat-link">Explore →</div></div>
+  <div class="cat-card" onclick="location.href='/pages/packages.html?filter=pilgrimage'"><div class="cat-icon">🛕</div><div class="cat-name">Pilgrimage</div><div class="cat-count">19 Packages</div><div class="cat-link">Explore →</div></div>
+  <div class="cat-card" onclick="location.href='/pages/packages.html?filter=cruise'"><div class="cat-icon">🚢</div><div class="cat-name">Cruise</div><div class="cat-count">12 Packages</div><div class="cat-link">Explore →</div></div>
+  <div class="cat-card" onclick="location.href='/pages/packages.html?filter=weekend'"><div class="cat-icon">🌅</div><div class="cat-name">Weekend Getaways</div><div class="cat-count">47 Packages</div><div class="cat-link">Explore →</div></div>
+  <div class="cat-card" onclick="location.href='/pages/packages.html?filter=heritage'"><div class="cat-icon">🏰</div><div class="cat-name">Heritage & Culture</div><div class="cat-count">25 Packages</div><div class="cat-link">Explore →</div></div>
+  <div class="cat-card" onclick="location.href='/pages/packages.html?filter=group'"><div class="cat-icon">👥</div><div class="cat-name">Group Tours</div><div class="cat-count">31 Packages</div><div class="cat-link">Explore →</div></div>
+</div>
+<section class="newsletter" id="newsletter"></section>
+<footer class="footer" id="mainFooter"></footer>
+<script type="module" src="/assets/js/main.js"></script>
+</body>
+</html>

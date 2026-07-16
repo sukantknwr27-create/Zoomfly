@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,600&family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <meta charset="UTF-8"/>
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"/>
+  <link rel="shortcut icon" href="/assets/favicon.svg"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title id="pageTitle">Blog — ZoomFly</title>
+  <link rel="stylesheet" href="/assets/css/main.css"/>
+<link rel="stylesheet" href="/assets/css/premium.css"/>
+<link rel="stylesheet" href="/assets/css/pages.css"/>
+  <style>
+    .post-layout{display:grid;grid-template-columns:1fr 300px;gap:48px;padding:70px 0 100px;align-items:start;}
+    .post-hero{height:400px;display:flex;align-items:center;justify-content:center;font-size:7rem;border-radius:24px;margin-bottom:40px;position:relative;}
+    .post-hero-overlay{position:absolute;inset:0;border-radius:24px;background:linear-gradient(to top,rgba(0,0,0,0.5),transparent);}
+    .post-meta{display:flex;gap:20px;flex-wrap:wrap;font-size:0.82rem;color:var(--text-muted);margin-bottom:28px;padding-bottom:20px;border-bottom:2px solid var(--border);}
+    .post-body h2{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;margin:36px 0 14px;}
+    .post-body h3{font-size:1.1rem;font-weight:700;margin:24px 0 10px;}
+    .post-body p{font-size:0.95rem;color:#374151;line-height:1.85;margin-bottom:18px;}
+    .post-body ul,.post-body ol{margin:0 0 18px 20px;display:flex;flex-direction:column;gap:8px;}
+    .post-body li{font-size:0.92rem;color:#374151;line-height:1.65;}
+    .post-body .tip-box{background:rgba(27,79,138,0.06);border-left:4px solid var(--blue);padding:16px 20px;border-radius:0 var(--radius-sm) var(--radius-sm) 0;margin:24px 0;}
+    .post-body .tip-box p{margin:0;font-size:0.88rem;}
+    .post-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:36px;padding-top:20px;border-top:1px solid var(--border);}
+    .post-tag{background:var(--sand);padding:5px 14px;border-radius:100px;font-size:0.78rem;font-weight:500;}
+    .author-box{background:var(--sand);border-radius:var(--radius);padding:24px;margin-top:36px;display:flex;gap:18px;align-items:center;}
+    .author-avatar{width:64px;height:64px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-weight:700;flex-shrink:0;}
+    .share-btns{display:flex;gap:10px;margin-top:28px;}
+    .share-btn{padding:10px 20px;border-radius:100px;font-size:0.82rem;font-weight:600;border:2px solid var(--border);cursor:pointer;transition:all 0.2s;}
+    .share-btn:hover{border-color:var(--blue);color:var(--blue);}
+    .sidebar-widget{background:#fff;border-radius:var(--radius);border:1px solid var(--border);padding:24px;margin-bottom:24px;}
+    .sidebar-widget h4{font-weight:700;font-size:0.95rem;margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid var(--border);}
+    @media(max-width:1024px){.post-layout{grid-template-columns:1fr;}}
+    @media(max-width:600px){.post-hero{height:240px;font-size:4rem;}}
+  </style>
+<script>
+window.SUPABASE_URL="https://ndaurluolurdljrjbxii.supabase.co";
+window.SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kYXVybHVvbHVyZGxqcmpieGlpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MDY2MzksImV4cCI6MjA5MzQ4MjYzOX0.JsZXOof19JkyX7asJQ7EtoaBKqURJUYzVqXQIenCzjQ";
+window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/);return m?m[1]:null;};
+</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"ZoomFly","url":"https://www.zoomfly.in","logo":"https://www.zoomfly.in/assets/logo.svg","sameAs":["https://www.instagram.com/zoomfly.in"]}</script>
+<script id="blog-schema" type="application/ld+json">{}</script>
+</head>
+<body data-page="blog">
+<header class="nav" id="mainNav"></header>
+
+<div style="padding-top:72px;"></div>
+
+<div class="container">
+  <div style="padding:28px 0 0;">
+    <div class="breadcrumb" style="justify-content:flex-start;margin-bottom:0;font-size:0.82rem;color:var(--text-muted);">
+      <a href="/index.html" style="color:var(--text-muted)">Home</a><span>›</span>
+      <a href="/pages/blog.html" style="color:var(--text-muted)">Blog</a><span>›</span>
+      <span id="breadTitle">Article</span>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="post-layout">
+    <div>
+      <div class="post-hero" id="postHero" style="background:linear-gradient(135deg,#667eea,#764ba2)">
+        <span id="postEmoji">🏔️</span>
+        <div class="post-hero-overlay"></div>
+      </div>
+
+      <span class="badge badge-gold" id="postCat" style="margin-bottom:14px;display:inline-block;">Guide</span>
+      <h1 id="postTitle" style="font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,2.6rem);font-weight:700;line-height:1.25;margin-bottom:20px;"></h1>
+
+      <div class="post-meta" id="postMeta">
+        <span>📅 <span id="postDate"></span></span>
+        <span>✍️ <span id="postAuthor"></span></span>
+        <span>⏱ <span id="postReadTime"></span></span>
+        <span>📂 <span id="postCategory"></span></span>
+      </div>
+
+      <div class="post-body" id="postBody"></div>
+
+      <div class="post-tags" id="postTags"></div>
+
+      <div class="author-box">
+        <div class="author-avatar" id="authorAvatar">AK</div>
+        <div>
+          <strong id="authorName">Aakash Kumar</strong>
+          <p style="font-size:0.84rem;color:var(--text-muted);margin-top:4px;" id="authorBio">Founder of ZoomFly and passionate traveller who has visited 30+ countries and every state in India.</p>
+        </div>
+      </div>
+
+      <div class="share-btns">
+        <span style="font-size:0.85rem;font-weight:600;align-self:center;">Share:</span>
+        <button class="share-btn" onclick="alert('Sharing on WhatsApp...')">💬 WhatsApp</button>
+        <button class="share-btn" onclick="alert('Sharing on Facebook...')">💙 Facebook</button>
+        <button class="share-btn" onclick="navigator.clipboard.writeText(location.href);alert('Link copied!')">🔗 Copy Link</button>
+      </div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <aside style="position:sticky;top:90px;">
+      <div style="background:var(--blue);border-radius:var(--radius);padding:28px;text-align:center;margin-bottom:24px;">
+        <div style="font-size:2rem;margin-bottom:10px;">✈</div>
+        <h4 style="color:#fff;margin-bottom:8px;font-size:1rem;">Plan This Trip</h4>
+        <p style="color:rgba(255,255,255,0.75);font-size:0.82rem;margin-bottom:16px;">Browse curated packages for this destination.</p>
+        <a href="/pages/packages.html" class="btn btn-white btn-sm" style="width:100%;text-align:center;">View Packages</a>
+      </div>
+
+      <div class="sidebar-widget">
+        <h4>📖 More Articles</h4>
+        <div style="display:flex;flex-direction:column;gap:12px;" id="moreArticlesList"></div>
+      </div>
+
+      <div class="sidebar-widget">
+        <h4>📞 Talk to an Expert</h4>
+        <p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:14px;">Need help planning? Our travel experts are available 9AM–8PM.</p>
+        <a href="tel:+918076136300" class="btn btn-primary btn-sm" style="width:100%;text-align:center;margin-bottom:8px;">📞 Call Now</a>
+        <a href="https://wa.me/918076136300" class="btn btn-whatsapp btn-sm" style="width:100%;text-align:center;" target="_blank">💬 WhatsApp</a>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<section class="newsletter" id="newsletter"></section>
+<footer class="footer" id="mainFooter"></footer>
+<script src="/assets/js/main.js"></script>
+<script type="module">
+import { supabase } from '/assets/js/supabase.js';
+
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function fmtDate(d) { try { return new Date(d).toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'}); } catch(_) { return ''; } }
+
+(async () => {
+  const params = new URLSearchParams(window.location.search);
+  const slug = params.get('id') || 'manali-guide';
+
+  const { data: post, error } = await supabase
+    .from('blog_posts')
+    .select('*')
+    .eq('slug', slug)
+    .eq('is_published', true)
+    .maybeSingle();
+
+  if (error || !post) {
+    document.getElementById('postTitle').textContent = 'Article Not Found';
+    document.getElementById('postBody').innerHTML = '<p>Sorry, we couldn\'t find that article. It may have been unpublished or the link is incorrect.</p><p><a href="/pages/blog.html" style="color:var(--blue);font-weight:600;">← Back to Blog</a></p>';
+    document.getElementById('postMeta')?.remove();
+    document.getElementById('postTags')?.remove();
+    document.querySelector('.author-box')?.remove();
+    document.querySelector('.share-btns')?.remove();
+    console.error('Blog post not found or unpublished:', slug, error);
+    return;
+  }
+
+  document.getElementById('pageTitle').textContent = post.title + ' — ZoomFly Blog';
+  document.getElementById('breadTitle').textContent = post.title.substring(0,40) + '...';
+  if (post.cover_image_url) {
+    document.getElementById('postHero').style.background = `url('${post.cover_image_url}') center/cover no-repeat`;
+    document.getElementById('postEmoji').style.display = 'none';
+  } else {
+    document.getElementById('postHero').style.background = post.bg_gradient || 'linear-gradient(135deg,#667eea,#764ba2)';
+    document.getElementById('postEmoji').textContent = post.emoji || '🗺️';
+  }
+  document.getElementById('postCat').className = 'badge ' + (post.badge_class || 'badge-gold');
+  document.getElementById('postCat').textContent = post.category || 'Guide';
+  document.getElementById('postTitle').textContent = post.title;
+  document.getElementById('postDate').textContent = fmtDate(post.published_at);
+  document.getElementById('postAuthor').textContent = post.author || 'ZoomFly Team';
+  document.getElementById('postReadTime').textContent = post.read_time || '5 min read';
+  document.getElementById('postCategory').textContent = post.category || 'Guide';
+  // post.body is authored by admins only (RLS: only is_admin() can write blog_posts) — safe to render as HTML.
+  document.getElementById('postBody').innerHTML = post.body;
+  document.getElementById('postTags').innerHTML = (post.tags||[]).map(t => `<span class="post-tag">${esc(t)}</span>`).join('');
+  document.getElementById('authorName').textContent = post.author || 'ZoomFly Team';
+  document.getElementById('authorAvatar').textContent = (post.author||'ZF').split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase();
+
+  // ── "More Articles" sidebar — 3 other published posts ──────
+  const { data: others } = await supabase
+    .from('blog_posts')
+    .select('slug,title,emoji')
+    .eq('is_published', true)
+    .neq('slug', slug)
+    .order('published_at', { ascending: false })
+    .limit(3);
+  const moreList = document.getElementById('moreArticlesList');
+  if (moreList && others?.length) {
+    moreList.innerHTML = others.map(o => `
+      <a href="/pages/blog-post.html?id=${encodeURIComponent(o.slug)}" style="display:flex;gap:10px;align-items:center;text-decoration:none;color:inherit;font-size:0.83rem;font-weight:500;">
+        <span style="font-size:1.4rem;">${o.emoji||'🗺️'}</span>${esc(o.title)}
+      </a>`).join('');
+  }
+
+  // ── BlogPosting Schema ───────────────────────────────────
+  const blogSchema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": post.title,
+    "description": post.excerpt || post.title,
+    "image": `https://www.zoomfly.in/assets/og-image.jpg`,
+    "author": { "@type": "Person", "name": post.author || 'ZoomFly Team' },
+    "publisher": {
+      "@type": "Organization",
+      "name": "ZoomFly",
+      "logo": { "@type": "ImageObject", "url": "https://www.zoomfly.in/assets/logo.svg" }
+    },
+    "datePublished": post.published_at,
+    "dateModified": post.updated_at || post.published_at,
+    "mainEntityOfPage": { "@type": "WebPage", "@id": window.location.href },
+    "keywords": (post.tags || []).join(', ')
+  };
+  const schemaEl = document.getElementById('blog-schema');
+  if (schemaEl) schemaEl.textContent = JSON.stringify(blogSchema);
+})();
+</script>
+</body>
+</html>

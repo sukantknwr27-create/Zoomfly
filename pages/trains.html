@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,600&family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Train Booking India — IRCTC Tatkal & General | ZoomFly</title>
+  <meta name="description" content="Book train tickets across India. Search trains, check PNR status, Tatkal booking. Best prices with ZoomFly — India's trusted travel partner."/>
+  <link rel="canonical" href="https://www.zoomfly.in/trains"/>
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"/>
+  <link rel="stylesheet" href="/assets/css/main.css"/>
+<link rel="stylesheet" href="/assets/css/premium.css"/>
+<link rel="stylesheet" href="/assets/css/pages.css"/>
+    <style>
+    :root{--blue:#1a73e8;--orange:#ff6b35;--gold:#f59e0b;--green:#16a34a;--red:#dc2626;--navy:#0f1923}
+    .hero{background:linear-gradient(135deg,#0f1923 0%,#1a2535 60%,#0d1f0d 100%);padding:60px 5% 48px;position:relative;overflow:hidden}
+    .hero::before{content:'🚂';position:absolute;right:-20px;top:-20px;font-size:260px;opacity:.04;line-height:1}
+    .hero-inner{max-width:900px;margin:0 auto;position:relative;z-index:1}
+    .hero-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.3);border-radius:20px;padding:5px 16px;font-size:.75rem;font-weight:700;color:#fde68a;letter-spacing:1px;text-transform:uppercase;margin-bottom:16px}
+    .hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,3rem);font-weight:800;color:#fff;line-height:1.2;margin-bottom:10px}
+    .hero h1 em{color:#f59e0b;font-style:normal}
+    .hero p{color:rgba(255,255,255,.55);font-size:.95rem;margin-bottom:28px}
+
+    /* Search card */
+    .search-card{background:#fff;border-radius:20px;padding:28px;box-shadow:0 20px 60px rgba(0,0,0,.25);max-width:900px;margin:0 auto}
+    .trip-tabs{display:flex;gap:6px;margin-bottom:20px;background:#f8fafc;border-radius:10px;padding:4px}
+    .ttab{flex:1;padding:9px;text-align:center;border-radius:7px;font-size:.85rem;font-weight:600;cursor:pointer;color:#64748b;transition:all .15s}
+    .ttab.active{background:#fff;color:var(--blue);box-shadow:0 2px 8px rgba(0,0,0,.08)}
+    .form-grid{display:grid;grid-template-columns:1fr 60px 1fr 160px 140px;gap:10px;align-items:end}
+    @media(max-width:768px){.form-grid{grid-template-columns:1fr 1fr;}.swap-btn-wrap{display:none}}
+    .fg label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#94a3b8;display:block;margin-bottom:5px}
+    .station-input{width:100%;padding:11px 14px;border:1.5px solid #e2e8f0;border-radius:10px;font-size:.95rem;font-family:inherit;outline:none;transition:border .2s}
+    .station-input:focus{border-color:var(--blue)}
+    .station-ac{position:absolute;top:100%;left:0;right:0;background:#fff;border:1px solid #e2e8f0;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:200;display:none;max-height:200px;overflow-y:auto}
+    .station-ac.show{display:block}
+    .ac-item{padding:10px 14px;cursor:pointer;font-size:.88rem;transition:background .1s}
+    .ac-item:hover{background:#f8fafc}
+    .ac-item strong{color:#0f1923;display:block}
+    .ac-item span{color:#94a3b8;font-size:.78rem}
+    .swap-btn{width:44px;height:44px;border-radius:50%;background:#eff6ff;border:none;cursor:pointer;font-size:1.1rem;transition:all .2s;display:flex;align-items:center;justify-content:center}
+    .swap-btn:hover{background:#dbeafe;transform:rotate(180deg)}
+    .search-btn{width:100%;padding:13px;background:linear-gradient(135deg,var(--blue),#1557b0);color:#fff;border:none;border-radius:10px;font-size:.95rem;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s}
+    .search-btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(26,115,232,.4)}
+
+    /* Class selector */
+    .class-grid{display:flex;gap:6px;flex-wrap:wrap;margin-top:14px}
+    .class-opt{padding:6px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .15s;background:#fff}
+    .class-opt.active{border-color:var(--blue);background:#eff6ff;color:var(--blue)}
+
+    /* Results */
+    .results-section{padding:40px 5%}
+    .results-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:10px}
+    .results-title{font-size:1.05rem;font-weight:700;color:#0f1923}
+    .results-sub{font-size:.82rem;color:#64748b;margin-top:2px}
+    .filter-row{display:flex;gap:8px;flex-wrap:wrap}
+    .filter-btn{padding:6px 14px;border:1.5px solid #e2e8f0;border-radius:20px;font-size:.78rem;font-weight:600;cursor:pointer;background:#fff;transition:all .15s}
+    .filter-btn.active{border-color:var(--blue);background:#eff6ff;color:var(--blue)}
+    .train-card{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:18px 20px;margin-bottom:10px;display:grid;grid-template-columns:200px 1fr 180px;gap:16px;align-items:center;box-shadow:0 2px 8px rgba(0,0,0,.04);transition:box-shadow .2s}
+    .train-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.1)}
+    @media(max-width:700px){.train-card{grid-template-columns:1fr;gap:10px}}
+    .train-name{font-weight:700;font-size:.95rem;color:#0f1923}
+    .train-num{font-size:.75rem;color:#94a3b8;margin-top:2px}
+    .train-days{display:flex;gap:4px;margin-top:6px}
+    .day-pill{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.62rem;font-weight:700}
+    .day-pill.runs{background:#dcfce7;color:#15803d}
+    .day-pill.off{background:#f1f5f9;color:#94a3b8}
+    .timing{text-align:center}
+    .time-big{font-size:1.3rem;font-weight:800;color:#0f1923}
+    .station-small{font-size:.72rem;color:#94a3b8}
+    .duration-line{display:flex;align-items:center;gap:8px;margin:0 12px}
+    .dur-label{font-size:.72rem;color:#94a3b8;white-space:nowrap}
+    .dur-line{flex:1;height:1px;background:#e2e8f0;position:relative}
+    .dur-line::after{content:'🚂';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:.8rem}
+    .class-avail{display:flex;flex-direction:column;gap:6px}
+    .avail-row{display:flex;justify-content:space-between;align-items:center;padding:6px 10px;border:1.5px solid #e2e8f0;border-radius:8px;cursor:pointer;transition:all .15s}
+    .avail-row:hover,.avail-row.selected{border-color:var(--blue);background:#eff6ff}
+    .avail-class{font-size:.72rem;font-weight:700;color:#64748b}
+    .avail-price{font-size:.88rem;font-weight:700;color:var(--blue)}
+    .avail-seats{font-size:.68rem;color:#94a3b8}
+    .avail-status{font-size:.65rem;padding:2px 6px;border-radius:20px;font-weight:600}
+    .avail-available{background:#dcfce7;color:#15803d}
+    .avail-wl{background:#fef3c7;color:#92400e}
+    .book-train-btn{width:100%;padding:10px;background:var(--blue);color:#fff;border:none;border-radius:8px;font-weight:700;font-size:.85rem;cursor:pointer;margin-top:8px;font-family:inherit;transition:all .2s}
+    .book-train-btn:hover{background:#1557b0}
+
+    /* PNR Status */
+    .pnr-card{background:#fff;border-radius:14px;padding:22px;border:1px solid #e2e8f0;margin-bottom:20px}
+    .pnr-result{background:#f8fafc;border-radius:10px;padding:14px 16px;margin-top:12px;display:none}
+    .pnr-result.show{display:block}
+
+    /* Booking Modal */
+    .modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:900;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
+    .modal-ov.show{display:flex}
+    .modal-box{background:#fff;border-radius:20px;padding:28px;max-width:540px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 24px 80px rgba(0,0,0,.3)}
+    .modal-title{font-size:1.1rem;font-weight:700;margin-bottom:18px;display:flex;justify-content:space-between;align-items:center}
+    .close-btn{background:none;border:none;font-size:1.2rem;cursor:pointer;color:#64748b}
+    .passenger-block{background:#f8fafc;border-radius:10px;padding:14px;margin-bottom:12px;position:relative}
+    .add-passenger{border:2px dashed #e2e8f0;border-radius:10px;padding:12px;text-align:center;cursor:pointer;font-size:.85rem;color:#64748b;transition:all .2s}
+    .add-passenger:hover{border-color:var(--blue);color:var(--blue)}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+    .fc{width:100%;padding:10px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:.88rem;font-family:inherit;outline:none;transition:border .2s;box-sizing:border-box}
+    .fc:focus{border-color:var(--blue)}
+    .submit-book{width:100%;padding:13px;background:var(--blue);color:#fff;border:none;border-radius:10px;font-size:.95rem;font-weight:700;cursor:pointer;font-family:inherit;margin-top:8px}
+
+    /* Popular routes */
+    .routes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+    .route-card{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px 16px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:12px}
+    .route-card:hover{border-color:var(--blue);box-shadow:0 4px 12px rgba(26,115,232,.12);transform:translateY(-1px)}
+    .route-icon{font-size:1.6rem;flex-shrink:0}
+    .route-name{font-weight:700;font-size:.88rem;color:#0f1923}
+    .route-sub{font-size:.75rem;color:#94a3b8;margin-top:2px}
+    .route-price{font-size:.82rem;font-weight:700;color:var(--blue);margin-top:4px}
+
+    .section{padding:60px 5%}
+    .section-alt{background:#f8fafc}
+    .section-label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#94a3b8;margin-bottom:8px}
+    .section-title{font-family:'Playfair Display',serif;font-size:clamp(1.4rem,3vw,2rem);font-weight:800;color:#0f1923;margin-bottom:32px}
+    .section-title em{color:var(--blue);font-style:normal}
+
+    /* Features */
+    .features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:20px}
+    .feat-card{background:#fff;border-radius:14px;padding:22px;text-align:center;border:1px solid #e2e8f0;transition:all .2s}
+    .feat-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.08);transform:translateY(-2px)}
+    .feat-icon{font-size:2.2rem;margin-bottom:10px}
+    .feat-title{font-weight:700;font-size:.9rem;color:#0f1923;margin-bottom:4px}
+    .feat-desc{font-size:.78rem;color:#64748b;line-height:1.6}
+
+    .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:#0f1923;color:#fff;padding:10px 22px;border-radius:100px;font-size:.85rem;font-weight:600;z-index:9999;transition:transform .3s;box-shadow:0 8px 24px rgba(0,0,0,.3)}
+    .toast.show{transform:translateX(-50%) translateY(0)}
+  </style>
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Service","name":"Train Booking India — ZoomFly","description":"Book train tickets across India. Search by route, select seat class (SL/3A/2A/1A/CC/2S), choose Tatkal or General quota, and get WhatsApp confirmation.","provider":{"@type":"TravelAgency","name":"ZoomFly","url":"https://www.zoomfly.in"},"areaServed":{"@type":"Country","name":"India"},"serviceType":"Train Ticket Booking","url":"https://www.zoomfly.in/pages/trains.html","offers":{"@type":"Offer","priceCurrency":"INR","availability":"https://schema.org/InStock"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.zoomfly.in"},{"@type":"ListItem","position":2,"name":"Train Booking","item":"https://www.zoomfly.in/pages/trains.html"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I book a train ticket on ZoomFly?","acceptedAnswer":{"@type":"Answer","text":"Search by source and destination station, select date, seat class and quota, then fill passenger details to get WhatsApp confirmation."}},{"@type":"Question","name":"What seat classes are available?","acceptedAnswer":{"@type":"Answer","text":"ZoomFly supports SL (Sleeper), 3A (3-tier AC), 2A (2-tier AC), 1A (First AC), CC (Chair Car) and 2S (Second Seating)."}},{"@type":"Question","name":"Can I book Tatkal tickets?","acceptedAnswer":{"@type":"Answer","text":"Yes. Select Tatkal quota during search to see Tatkal pricing, which opens 1 day before the journey."}}]}]}</script>
+</head>
+<body data-page="trains">
+<header class="nav nav-dark" id="mainNav"></header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-pill">🚂 Train Booking</div>
+    <h1>Book Train Tickets<br/>Across <em>India</em></h1>
+    <p>Search trains, check availability, book Tatkal & General quota — all in one place.</p>
+
+    <div class="search-card">
+      <div class="trip-tabs">
+        <div class="ttab active" onclick="setTrip('oneway',this)">One Way</div>
+        <div class="ttab" onclick="setTrip('return',this)">Return</div>
+      </div>
+
+      <div class="form-grid">
+        <div class="fg" style="position:relative">
+          <label>From Station</label>
+          <input class="station-input" id="t-from" placeholder="City or station name" autocomplete="off"
+                 oninput="showStationAC(this,'from-ac')"/>
+          <div class="station-ac" id="from-ac"></div>
+        </div>
+        <div class="swap-btn-wrap" style="display:flex;align-items:flex-end;justify-content:center;padding-bottom:2px">
+          <button class="swap-btn" onclick="swapStations()" title="Swap stations">⇄</button>
+        </div>
+        <div class="fg" style="position:relative">
+          <label>To Station</label>
+          <input class="station-input" id="t-to" placeholder="City or station name" autocomplete="off"
+                 oninput="showStationAC(this,'to-ac')"/>
+          <div class="station-ac" id="to-ac"></div>
+        </div>
+        <div class="fg">
+          <label>Travel Date</label>
+          <input type="date" class="station-input" id="t-date"/>
+        </div>
+        <div class="fg">
+          <label>Quota</label>
+          <select class="station-input" id="t-quota">
+            <option value="GN">General</option>
+            <option value="TQ">Tatkal</option>
+            <option value="PT">Premium Tatkal</option>
+            <option value="LD">Ladies</option>
+            <option value="SS">Senior Citizen</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#94a3b8;margin:14px 0 8px">Class preference (optional)</div>
+        <div class="class-grid" id="classGrid">
+          <div class="class-opt active" onclick="toggleClass(this,'SL')">Sleeper (SL)</div>
+          <div class="class-opt" onclick="toggleClass(this,'3A')">AC 3-Tier (3A)</div>
+          <div class="class-opt" onclick="toggleClass(this,'2A')">AC 2-Tier (2A)</div>
+          <div class="class-opt" onclick="toggleClass(this,'1A')">First AC (1A)</div>
+          <div class="class-opt" onclick="toggleClass(this,'CC')">Chair Car (CC)</div>
+          <div class="class-opt" onclick="toggleClass(this,'2S')">Second Sitting (2S)</div>
+        </div>
+      </div>
+
+      <div style="margin-top:16px;display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center">
+        <button class="search-btn" onclick="searchTrains()">🔍 Search Trains</button>
+        <div style="display:flex;align-items:center;gap:6px;font-size:.78rem;color:#94a3b8">
+          <span>Passengers:</span>
+          <select id="t-pax" class="station-input" style="width:60px;padding:6px 8px;font-size:.78rem">
+            <option>1</option><option>2</option><option>3</option>
+            <option>4</option><option>5</option><option>6</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PNR STATUS -->
+<section class="section section-alt">
+  <div class="container" style="max-width:700px">
+    <div class="section-label">Track Your Journey</div>
+    <h2 class="section-title">PNR <em>Status</em></h2>
+    <div class="pnr-card">
+      <div style="display:flex;gap:10px;align-items:flex-end">
+        <div style="flex:1">
+          <label style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#94a3b8;display:block;margin-bottom:5px">PNR Number (10 digits)</label>
+          <input type="number" id="pnr-input" class="fc" placeholder="Enter your 10-digit PNR number" maxlength="10"/>
+        </div>
+        <button onclick="checkPNR()" style="padding:10px 20px;background:var(--blue);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:inherit">Check Status</button>
+      </div>
+      <div class="pnr-result" id="pnr-result"></div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS (hidden by default) -->
+<section class="results-section" id="results-section" style="display:none">
+  <div class="container">
+    <div class="results-header">
+      <div>
+        <div class="results-title" id="results-title">Search Results</div>
+        <div class="results-sub" id="results-sub"></div>
+      </div>
+      <div class="filter-row">
+        <button class="filter-btn active" onclick="filterTrains('all',this)">All</button>
+        <button class="filter-btn" onclick="filterTrains('morning',this)">🌅 Morning</button>
+        <button class="filter-btn" onclick="filterTrains('evening',this)">🌆 Evening</button>
+        <button class="filter-btn" onclick="filterTrains('night',this)">🌙 Night</button>
+        <button class="filter-btn" onclick="filterTrains('ac',this)">❄️ AC Only</button>
+        <button class="filter-btn" onclick="sortTrains('duration')">⏱ Duration</button>
+        <button class="filter-btn" onclick="sortTrains('price')">₹ Price</button>
+      </div>
+    </div>
+    <div id="train-results"></div>
+  </div>
+</section>
+
+<!-- POPULAR ROUTES -->
+<section class="section">
+  <div class="container">
+    <div class="section-label">Travelled Most</div>
+    <h2 class="section-title">Popular <em>Train Routes</em></h2>
+    <div class="routes-grid" id="popularRoutes"></div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-label">Why Book with Us</div>
+    <h2 class="section-title">Train Booking <em>Benefits</em></h2>
+    <div class="features-grid">
+        <div class="feat-card">
+          <div class="feat-icon">🎟</div>
+          <div class="feat-title">Tatkal Booking</div>
+          <div class="feat-desc">Book Tatkal tickets with zero hassle — we handle the rush for you</div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">💰</div>
+          <div class="feat-title">Best Prices</div>
+          <div class="feat-desc">No hidden charges. Pay exactly what IRCTC charges, plus our nominal service fee</div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">📱</div>
+          <div class="feat-title">WhatsApp Updates</div>
+          <div class="feat-desc">Get real-time booking confirmations and PNR updates on WhatsApp</div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">👥</div>
+          <div class="feat-title">Group Booking</div>
+          <div class="feat-desc">Book for up to 6 passengers in one go with co-traveller profiles</div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">🔄</div>
+          <div class="feat-title">Instant Refund</div>
+          <div class="feat-desc">Cancellation refunds processed within 5–7 business days</div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">🛡</div>
+          <div class="feat-title">Secure Payment</div>
+          <div class="feat-desc">100% secure payments via Razorpay — UPI, cards, net banking</div>
+        </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING MODAL -->
+<div class="modal-ov" id="booking-modal">
+  <div class="modal-box">
+    <div class="modal-title">
+      <span>🚂 Train Booking</span>
+      <button class="close-btn" onclick="closeModal()">✕</button>
+    </div>
+    <div id="modal-train-summary" style="background:#f8fafc;border-radius:10px;padding:14px;margin-bottom:16px;font-size:.88rem"></div>
+    <h4 style="font-size:.88rem;font-weight:700;margin-bottom:10px">Passenger Details</h4>
+    <div id="passengers-list"></div>
+    <div class="add-passenger" onclick="addPassenger()" id="add-pax-btn">+ Add Passenger</div>
+    <div style="margin-top:14px">
+      <label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:5px;color:#374151">Contact Details</label>
+      <div class="form-row">
+        <input class="fc" id="contact-phone" type="tel" placeholder="Mobile number (for IRCTC)"/>
+        <input class="fc" id="contact-email" type="email" placeholder="Email for e-ticket"/>
+      </div>
+    </div>
+    <div style="margin-top:10px">
+      <label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:5px;color:#374151">Berth Preference (optional)</label>
+      <select class="fc" id="berth-pref">
+        <option value="">No preference</option>
+        <option value="LB">Lower Berth</option>
+        <option value="MB">Middle Berth</option>
+        <option value="UB">Upper Berth</option>
+        <option value="SL">Side Lower</option>
+        <option value="SU">Side Upper</option>
+      </select>
+    </div>
+    <div id="booking-error" style="font-size:.82rem;color:#dc2626;margin-top:8px;display:none"></div>
+    <div id="fare-summary" style="background:#eff6ff;border-radius:10px;padding:12px;margin-top:14px;font-size:.85rem;display:none"></div>
+    <button class="submit-book" onclick="confirmTrainBooking()" id="confirm-btn">
+      Proceed to Payment
+    </button>
+    <p style="font-size:.72rem;color:#94a3b8;text-align:center;margin-top:8px">
+      🔒 Secure booking · PNR generated within 2 mins · E-ticket on WhatsApp
+    </p>
+  </div>
+</div>
+
+<section class="newsletter" id="newsletter"></section>
+<footer class="footer" id="mainFooter"></footer>
+<div class="toast" id="toast"></div>
+<script src="/assets/js/main.js"></script>
+
+<script type="module">
+import { supabase, bookTrain, getUser, getCotravellers  } from '../assets/js/supabase.js';
+
+const WA = '918076136300';
+const DAYS = ['M','T','W','T','F','S','S'];
+
+// ── STATION DATA ────────────────────────────────────────
+const STATIONS = [
+  { code:'NDLS', name:'New Delhi', city:'New Delhi' },
+  { code:'DLI',  name:'Delhi Junction', city:'Delhi' },
+  { code:'NZM',  name:'Hazrat Nizamuddin', city:'New Delhi' },
+  { code:'ANVT', name:'Anand Vihar Terminal', city:'Delhi' },
+  { code:'MMCT', name:'Mumbai Central', city:'Mumbai' },
+  { code:'CSTM', name:'Chhatrapati Shivaji Terminus', city:'Mumbai' },
+  { code:'BCT',  name:'Mumbai Borivali', city:'Mumbai' },
+  { code:'LTT',  name:'Lokmanya Tilak Terminus', city:'Mumbai' },
+  { code:'MAS',  name:'Chennai Central', city:'Chennai' },
+  { code:'MSC',  name:'Chennai Egmore', city:'Chennai' },
+  { code:'SBC',  name:'Bangalore City Junction', city:'Bangalore' },
+  { code:'YPR',  name:'Yesvantpur Junction', city:'Bangalore' },
+  { code:'KJM',  name:'Krishnarajapuram', city:'Bangalore' },
+  { code:'HWH',  name:'Howrah Junction', city:'Kolkata' },
+  { code:'SDAH', name:'Sealdah', city:'Kolkata' },
+  { code:'KOAA', name:'Kolkata', city:'Kolkata' },
+  { code:'SC',   name:'Secunderabad Junction', city:'Hyderabad' },
+  { code:'HYB',  name:'Hyderabad Deccan', city:'Hyderabad' },
+  { code:'KCG',  name:'Kacheguda', city:'Hyderabad' },
+  { code:'JP',   name:'Jaipur Junction', city:'Jaipur' },
+  { code:'ADI',  name:'Ahmedabad Junction', city:'Ahmedabad' },
+  { code:'ST',   name:'Surat', city:'Surat' },
+  { code:'BRC',  name:'Vadodara Junction', city:'Vadodara' },
+  { code:'LKO',  name:'Lucknow NR', city:'Lucknow' },
+  { code:'LJN',  name:'Lucknow Junction', city:'Lucknow' },
+  { code:'CNB',  name:'Kanpur Central', city:'Kanpur' },
+  { code:'PNBE', name:'Patna Junction', city:'Patna' },
+  { code:'RJPB', name:'Rajendranagar Terminal', city:'Patna' },
+  { code:'BBS',  name:'Bhubaneswar', city:'Bhubaneswar' },
+  { code:'PURI', name:'Puri', city:'Puri' },
+  { code:'GHY',  name:'Guwahati', city:'Guwahati' },
+  { code:'JAT',  name:'Jammu Tawi', city:'Jammu' },
+  { code:'UHP',  name:'Udhampur', city:'Udhampur' },
+  { code:'CDG',  name:'Chandigarh', city:'Chandigarh' },
+  { code:'ASR',  name:'Amritsar Junction', city:'Amritsar' },
+  { code:'LDH',  name:'Ludhiana Junction', city:'Ludhiana' },
+  { code:'KOTA', name:'Kota Junction', city:'Kota' },
+  { code:'AGC',  name:'Agra Cantt', city:'Agra' },
+  { code:'AF',   name:'Agra Fort', city:'Agra' },
+  { code:'BSB',  name:'Varanasi Junction', city:'Varanasi' },
+  { code:'MGS',  name:'Mughal Sarai (DDU)', city:'Varanasi' },
+  { code:'HW',   name:'Haridwar Junction', city:'Haridwar' },
+  { code:'DDN',  name:'Dehradun', city:'Dehradun' },
+  { code:'SLN',  name:'Sultanpur', city:'Sultanpur' },
+  { code:'PUNE', name:'Pune Junction', city:'Pune' },
+  { code:'NGP',  name:'Nagpur Junction', city:'Nagpur' },
+  { code:'ERS',  name:'Ernakulam Junction', city:'Kochi' },
+  { code:'TVC',  name:'Thiruvananthapuram Central', city:'Trivandrum' },
+  { code:'CBE',  name:'Coimbatore Junction', city:'Coimbatore' },
+  { code:'MDU',  name:'Madurai Junction', city:'Madurai' },
+  { code:'TPJ',  name:'Tiruchchirappalli Junction', city:'Trichy' },
+  { code:'BPL',  name:'Bhopal Junction', city:'Bhopal' },
+  { code:'INDB', name:'Indore Junction', city:'Indore' },
+  { code:'JBP',  name:'Jabalpur', city:'Jabalpur' },
+  { code:'JU',   name:'Jodhpur Junction', city:'Jodhpur' },
+  { code:'UDZ',  name:'Udaipur City', city:'Udaipur' },
+  { code:'BKN',  name:'Bikaner Junction', city:'Bikaner' },
+  { code:'AII',  name:'Ajmer Junction', city:'Ajmer' },
+  { code:'GWL',  name:'Gwalior Junction', city:'Gwalior' },
+  { code:'RNC',  name:'Ranchi Junction', city:'Ranchi' },
+  { code:'DHN',  name:'Dhanbad Junction', city:'Dhanbad' },
+  { code:'CDG',  name:'Chandigarh', city:'Chandigarh' },
+  { code:'VSKP', name:'Visakhapatnam', city:'Visakhapatnam' },
+  { code:'BZA',  name:'Vijayawada Junction', city:'Vijayawada' },
+  { code:'NLR',  name:'Nellore', city:'Nellore' },
+  { code:'TPTY', name:'Tirupati', city:'Tirupati' },
+  { code:'MYS',  name:'Mysuru Junction', city:'Mysore' },
+  { code:'UBL',  name:'Hubballi Junction', city:'Hubli' },
+  { code:'MAO',  name:'Madgaon', city:'Goa' },
+  { code:'KRMI', name:'Karmali', city:'Goa' },
+  { code:'RTM',  name:'Ratlam Junction', city:'Ratlam' },
+  { code:'UJN',  name:'Ujjain Junction', city:'Ujjain' },
+  { code:'RPR',  name:'Raipur Junction', city:'Raipur' },
+  { code:'BSP',  name:'Bilaspur Junction', city:'Bilaspur' },
+  { code:'ALD',  name:'Prayagraj Junction', city:'Prayagraj' },
+  { code:'GKP',  name:'Gorakhpur Junction', city:'Gorakhpur' },
+  { code:'BE',   name:'Bareilly', city:'Bareilly' },
+  { code:'MB',   name:'Moradabad', city:'Moradabad' },
+  { code:'ASN',  name:'Asansol Junction', city:'Asansol' },
+  { code:'NJP',  name:'New Jalpaiguri', city:'Siliguri' },
+  { code:'DBRG', name:'Dibrugarh', city:'Dibrugarh' },
+];
+
+// ── TRAIN DATA (Indicative) ───────────────────────────
+const TRAIN_DB = [
+  { num:'12301', name:'Howrah Rajdhani', from:'NDLS', to:'HWH', dep:'16:55', arr:'10:00+1', dur:'17h 05m', days:[1,1,1,1,1,1,1], type:'Rajdhani', classes:['1A','2A','3A'] },
+  { num:'12302', name:'New Delhi Rajdhani', from:'HWH', to:'NDLS', dep:'13:45', arr:'08:15+1', dur:'18h 30m', days:[1,1,1,1,1,1,1], type:'Rajdhani', classes:['1A','2A','3A'] },
+  { num:'12951', name:'Mumbai Rajdhani', from:'NDLS', to:'MMCT', dep:'16:00', arr:'08:15+1', dur:'16h 15m', days:[1,1,1,1,1,1,1], type:'Rajdhani', classes:['1A','2A','3A'] },
+  { num:'12259', name:'Sealdah Duronto', from:'NDLS', to:'SDAH', dep:'12:35', arr:'06:30+1', dur:'17h 55m', days:[0,1,0,1,0,1,0], type:'Duronto', classes:['1A','2A','3A'] },
+  { num:'12001', name:'Bhopal Shatabdi', from:'NDLS', to:'BPL', dep:'06:00', arr:'13:40', dur:'7h 40m', days:[1,1,1,1,1,1,0], type:'Shatabdi', classes:['CC','EC'] },
+  { num:'12003', name:'Lucknow Shatabdi', from:'NDLS', to:'LKO', dep:'06:10', arr:'12:30', dur:'6h 20m', days:[1,1,1,1,1,1,0], type:'Shatabdi', classes:['CC','EC'] },
+  { num:'12561', name:'Swatantrata Senani SF', from:'NDLS', to:'PNBE', dep:'19:35', arr:'10:35+1', dur:'15h 00m', days:[1,1,1,1,1,1,1], type:'Superfast', classes:['1A','2A','3A','SL'] },
+  { num:'12229', name:'Lucknow Mail', from:'NDLS', to:'LKO', dep:'22:10', arr:'05:15+1', dur:'7h 05m', days:[1,1,1,1,1,1,1], type:'Mail', classes:['2A','3A','SL','2S'] },
+  { num:'12471', name:'Swaraj Express', from:'JAT', to:'MMCT', dep:'22:30', arr:'05:10+2', dur:'30h 40m', days:[0,0,0,1,0,0,0], type:'Express', classes:['1A','2A','3A','SL'] },
+  { num:'12649', name:'Karnataka Sampark Kranti', from:'NDLS', to:'SBC', dep:'21:00', arr:'07:20+2', dur:'34h 20m', days:[0,0,1,0,0,1,0], type:'Superfast', classes:['1A','2A','3A','SL'] },
+  { num:'12015', name:'Ajmer Shatabdi', from:'NDLS', to:'JP', dep:'06:05', arr:'10:40', dur:'4h 35m', days:[1,1,1,1,1,1,1], type:'Shatabdi', classes:['CC','EC'] },
+  { num:'12463', name:'Jodhpur Intercity', from:'JP', to:'JU', dep:'14:30', arr:'19:15', dur:'4h 45m', days:[1,1,1,1,1,1,1], type:'Intercity', classes:['CC','2S'] },
+  { num:'12623', name:'Chennai Mail', from:'MAS', to:'NDLS', dep:'10:05', arr:'10:15+1', dur:'24h 10m', days:[1,1,1,1,1,1,1], type:'Mail', classes:['1A','2A','3A','SL'] },
+  { num:'22691', name:'Rajdhani Express', from:'SBC', to:'NDLS', dep:'20:00', arr:'06:25+2', dur:'34h 25m', days:[0,1,0,1,0,1,0], type:'Rajdhani', classes:['1A','2A','3A'] },
+];
+
+// ── FARE CALCULATION ──────────────────────────────────
+const BASE_FARE = { '1A':2500, '2A':1500, '3A':900, 'SL':300, 'CC':600, 'EC':1200, '2S':150 };
+const TYPE_MUL  = { 'Rajdhani':1.6, 'Duronto':1.5, 'Shatabdi':1.4, 'Superfast':1.2, 'Mail':1.0, 'Express':1.0, 'Intercity':0.9 };
+const QUOTA_MUL = { 'GN':1, 'TQ':1.3, 'PT':1.5, 'LD':1, 'SS':0.7 };
+
+function calcFare(train, cls, pax, quota) {
+  const base = (BASE_FARE[cls] || 500) * (TYPE_MUL[train.type] || 1) * (QUOTA_MUL[quota] || 1);
+  const perPerson = Math.round(base / 50) * 50;
+  const tax = Math.round(perPerson * 0.05);
+  const total = (perPerson + tax) * pax;
+  return { perPerson, tax, total, pax };
+}
+
+// ── SEAT AVAILABILITY ─────────────────────────────────
+function mockAvail(cls) {
+  const r = Math.random();
+  if (r > 0.6) return { status: 'AVAILABLE', seats: Math.floor(Math.random()*40)+1, label: 'Available' };
+  if (r > 0.3) return { status: 'WL',        seats: Math.floor(Math.random()*30)+1, label: `WL${Math.floor(Math.random()*30)+1}` };
+  return          { status: 'AVAILABLE', seats: Math.floor(Math.random()*10)+1, label: 'Available' };
+}
+
+// ── STATE ────────────────────────────────────────────
+let currentTrains = [];
+let selectedTrain = null;
+let selectedClass = '';
+let passengers    = 1;
+let tripType      = 'oneway';
+let selectedClasses = new Set(['SL']);
+
+// ── INIT ─────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  document.getElementById('t-date').min   = tomorrow.toISOString().split('T')[0];
+  document.getElementById('t-date').value = tomorrow.toISOString().split('T')[0];
+  renderPopularRoutes();
+  // Close ACs on outside click
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.fg')) {
+      document.querySelectorAll('.station-ac').forEach(el => el.classList.remove('show'));
+    }
+  });
+});
+
+// ── AUTOCOMPLETE ─────────────────────────────────────
+window.showStationAC = function(input, acId) {
+  const q = input.value.toLowerCase().trim();
+  const ac = document.getElementById(acId);
+  if (!q) { ac.classList.remove('show'); return; }
+
+  const scored = STATIONS
+    .map(s => {
+      const code = s.code.toLowerCase(), name = s.name.toLowerCase(), city = s.city.toLowerCase();
+      let score = -1;
+      if (code === q) score = 100;                          // exact code match — highest priority
+      else if (code.startsWith(q)) score = 90;
+      else if (city.startsWith(q)) score = 80;
+      else if (name.startsWith(q)) score = 70;
+      else if (city.includes(q)) score = 50;
+      else if (name.includes(q)) score = 40;
+      else if (code.includes(q)) score = 30;
+      return { s, score };
+    })
+    .filter(x => x.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 8)
+    .map(x => x.s);
+
+  if (!scored.length) {
+    ac.innerHTML = `<div style="padding:.85rem 1rem;font-size:.82rem;color:#8896AB;text-align:center">
+      No stations found for "<strong>${input.value}</strong>"<br>
+      <span style="font-size:.72rem">Try a city name, station name, or station code (e.g. NDLS)</span>
+    </div>`;
+    ac.classList.add('show');
+    return;
+  }
+
+  ac.innerHTML = scored.map(s =>
+    `<div class="ac-item" onclick="pickStation('${input.id}','${acId}','${s.code}','${s.name}, ${s.city}')">
+      <strong>${s.name}</strong>
+      <span>${s.city} · ${s.code}</span>
+    </div>`
+  ).join('');
+  ac.classList.add('show');
+}
+
+window.pickStation = (inputId, acId, code, label) => {
+  document.getElementById(inputId).value = label;
+  document.getElementById(inputId).dataset.code = code;
+  document.getElementById(acId).classList.remove('show');
+};
+
+window.swapStations = () => {
+  const f = document.getElementById('t-from');
+  const t = document.getElementById('t-to');
+  [f.value, t.value] = [t.value, f.value];
+  [f.dataset.code, t.dataset.code] = [t.dataset.code || '', f.dataset.code || ''];
+};
+
+window.setTrip = (type, el) => {
+  tripType = type;
+  document.querySelectorAll('.ttab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+};
+
+window.toggleClass = (el, cls) => {
+  el.classList.toggle('active');
+  if (el.classList.contains('active')) selectedClasses.add(cls);
+  else selectedClasses.delete(cls);
+  if (!selectedClasses.size) { el.classList.add('active'); selectedClasses.add(cls); }
+};
+
+// ── SEARCH ───────────────────────────────────────────
+window.searchTrains = async () => {
+  const fromEl  = document.getElementById('t-from');
+  const toEl    = document.getElementById('t-to');
+  const date    = document.getElementById('t-date').value;
+  const quota   = document.getElementById('t-quota').value;
+  passengers    = parseInt(document.getElementById('t-pax').value);
+
+  const fromCode = fromEl.dataset.code || fromEl.value.split('·')[1]?.trim();
+  const toCode   = toEl.dataset.code   || toEl.value.split('·')[1]?.trim();
+
+  if (!fromEl.value || !toEl.value) {
+    showToast('Please enter departure and destination stations');
+    return;
+  }
+
+  const btn = document.querySelector('.search-btn');
+  btn.textContent = '⏳ Searching...';
+  btn.disabled    = true;
+
+  // Save enquiry to Supabase
+  try {
+    await supabase.from('train_enquiries').insert({
+      from_station: fromCode || fromEl.value,
+      to_station:   toCode   || toEl.value,
+      travel_date:  date, quota,
+      passengers,
+      status: 'new', created_at: new Date().toISOString()
+    });
+  } catch(_) {}
+
+  setTimeout(() => {
+    btn.textContent = '🔍 Search Trains';
+    btn.disabled    = false;
+
+    // Filter trains or generate results
+    let results = TRAIN_DB.filter(t => {
+      const matchRoute = (!fromCode || t.from === fromCode || t.to === toCode) ||
+                         TRAIN_DB.length > 0; // show all if no code match
+      const classFilter = selectedClasses.size === 0 || t.classes.some(c => selectedClasses.has(c));
+      return classFilter;
+    });
+
+    if (!results.length) results = TRAIN_DB.slice(0, 6);
+    currentTrains = results;
+
+    renderResults(results, fromEl.value, toEl.value, date, quota);
+    document.getElementById('results-section').style.display = 'block';
+    document.getElementById('results-section').scrollIntoView({ behavior:'smooth', block:'start' });
+  }, 1200);
+};
+
+function renderResults(trains, from, to, date, quota) {
+  const d = date ? new Date(date).toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short'}) : date;
+  document.getElementById('results-title').textContent = `${from.split(',')[0]} → ${to.split(',')[0]}`;
+  document.getElementById('results-sub').textContent   = `${d} · ${passengers} passenger${passengers>1?'s':''} · ${STATIONS.find(s=>s.code===document.getElementById('t-quota').value)?.name||quota} quota · ${trains.length} trains found`;
+
+  document.getElementById('train-results').innerHTML = trains.map(t => {
+    const classes = t.classes.filter(c => selectedClasses.size===0 || selectedClasses.has(c));
+    const dayDots = DAYS.map((d,i) => `<div class="day-pill ${t.days[i]?'runs':'off'}" title="${['Mon','Tue','Wed','Thu','Fri','Sat','Sun'][i]}">${d}</div>`).join('');
+    const classRows = (classes.length ? classes : t.classes.slice(0,3)).map(cls => {
+      const avail = mockAvail(cls);
+      const fare  = calcFare(t, cls, passengers, quota);
+      return `<div class="avail-row" onclick="selectClass(this,'${t.num}','${cls}',${fare.total},'${avail.status}')">
+        <div>
+          <div class="avail-class">${cls}</div>
+          <div class="avail-seats">${avail.label}</div>
+        </div>
+        <div style="text-align:right">
+          <div class="avail-price">₹${fare.total.toLocaleString('en-IN')}</div>
+          <div class="avail-status ${avail.status==='AVAILABLE'?'avail-available':'avail-wl'}">${avail.status}</div>
+        </div>
+      </div>`;
+    }).join('');
+
+    return `<div class="train-card" id="card-${t.num}">
+      <div>
+        <div class="train-name">${t.name}</div>
+        <div class="train-num">#${t.num} · ${t.type}</div>
+        <div class="train-days">${dayDots}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:4px">
+        <div class="timing"><div class="time-big">${t.dep}</div><div class="station-small">${t.from}</div></div>
+        <div class="duration-line" style="flex:1">
+          <div class="dur-line"></div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
+            <div class="dur-label">${t.dur}</div>
+          </div>
+        </div>
+        <div class="timing"><div class="time-big">${t.arr}</div><div class="station-small">${t.to}</div></div>
+      </div>
+      <div>
+        <div class="class-avail">${classRows}</div>
+        <button class="book-train-btn" onclick="openBookingModal('${t.num}')">Book Now →</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+window.selectClass = (el, trainNum, cls, total, status) => {
+  document.querySelectorAll(`#card-${trainNum} .avail-row`).forEach(r => r.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedTrain = TRAIN_DB.find(t => t.num === trainNum);
+  selectedClass = cls;
+};
+
+// ── FILTERS ──────────────────────────────────────────
+window.filterTrains = (filter, btn) => {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  let results = [...currentTrains];
+  if (filter === 'morning') results = results.filter(t => parseInt(t.dep) < 12);
+  if (filter === 'evening') results = results.filter(t => { const h=parseInt(t.dep); return h>=12&&h<18; });
+  if (filter === 'night')   results = results.filter(t => parseInt(t.dep) >= 18);
+  if (filter === 'ac')      results = results.filter(t => t.classes.some(c=>['1A','2A','3A'].includes(c)));
+  renderResults(results, document.getElementById('t-from').value, document.getElementById('t-to').value,
+    document.getElementById('t-date').value, document.getElementById('t-quota').value);
+};
+
+window.sortTrains = (by) => {
+  let results = [...currentTrains];
+  if (by === 'duration') results.sort((a,b) => {
+    const toMins = s => { const [h,m] = s.split('h').map(x=>parseInt(x)); return h*60+m; };
+    return toMins(a.dur) - toMins(b.dur);
+  });
+  if (by === 'price') results.sort((a,b) => {
+    const minFare = t => Math.min(...t.classes.map(c => BASE_FARE[c]||999));
+    return minFare(a) - minFare(b);
+  });
+  renderResults(results, document.getElementById('t-from').value, document.getElementById('t-to').value,
+    document.getElementById('t-date').value, document.getElementById('t-quota').value);
+};
+
+// ── BOOKING MODAL ─────────────────────────────────────
+let passengerCount = 1;
+let cotravellers   = [];
+
+window.openBookingModal = async (trainNum) => {
+  if (!selectedTrain || selectedTrain.num !== trainNum) {
+    selectedTrain = TRAIN_DB.find(t => t.num === trainNum);
+    selectedClass = selectedTrain.classes[0];
+  }
+  passengerCount = passengers;
+  const fare = calcFare(selectedTrain, selectedClass, passengers, document.getElementById('t-quota').value);
+
+  document.getElementById('modal-train-summary').innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+      <div>
+        <div style="font-weight:700">${selectedTrain.name} <span style="color:#94a3b8;font-size:.8rem">#${selectedTrain.num}</span></div>
+        <div style="font-size:.82rem;color:#64748b;margin-top:2px">${selectedTrain.from} → ${selectedTrain.to} · ${selectedTrain.dep} → ${selectedTrain.arr} · ${selectedTrain.dur}</div>
+        <div style="margin-top:4px"><span style="background:#eff6ff;color:var(--blue);padding:2px 8px;border-radius:6px;font-size:.72rem;font-weight:700">${selectedClass}</span>
+        <span style="background:#dcfce7;color:#15803d;padding:2px 8px;border-radius:6px;font-size:.72rem;font-weight:700;margin-left:4px">${document.getElementById('t-quota').value} Quota</span></div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:1.2rem;font-weight:800;color:var(--blue)">₹${fare.total.toLocaleString('en-IN')}</div>
+        <div style="font-size:.72rem;color:#94a3b8">Total for ${passengers} pax</div>
+      </div>
+    </div>`;
+
+  // Load cotravellers
+  try { cotravellers = await getCotravellers(); } catch(_) { cotravellers = []; }
+  passengerCount = 0;
+  document.getElementById('passengers-list').innerHTML = '';
+  for (let i = 0; i < passengers; i++) addPassenger();
+
+  // Contact details
+  try {
+    const user = await getUser();
+    if (user) {
+      document.getElementById('contact-phone').value = user.user_metadata?.phone || '';
+      document.getElementById('contact-email').value = user.email || '';
+    }
+  } catch(_) {}
+
+  updateFareSummary();
+  document.getElementById('booking-modal').classList.add('show');
+  document.body.style.overflow = 'hidden';
+};
+
+window.addPassenger = () => {
+  if (passengerCount >= 6) { showToast('Maximum 6 passengers per booking'); return; }
+  passengerCount++;
+  const i = passengerCount;
+  const cotDiv = cotravellers.length ? `
+    <div style="margin-bottom:8px">
+      <select onchange="fillFromCotraveller(this,${i})" style="width:100%;padding:8px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:.82rem;font-family:inherit">
+        <option value="">Select saved traveller...</option>
+        ${cotravellers.map(c => `<option value='${JSON.stringify(c).replace(/'/g,"\'")}'>${c.name} (${c.age}y, ${c.gender})</option>`).join('')}
+      </select>
+    </div>` : '';
+
+  const block = document.createElement('div');
+  block.className = 'passenger-block';
+  block.id = `pax-${i}`;
+  block.innerHTML = `
+    <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+      <div style="font-size:.78rem;font-weight:700;color:#374151">Passenger ${i}</div>
+      ${i>1?`<button onclick="this.closest('.passenger-block').remove();passengerCount--" style="background:none;border:none;color:#94a3b8;cursor:pointer;font-size:.8rem">✕ Remove</button>`:''}
+    </div>
+    ${cotDiv}
+    <div class="form-row">
+      <input class="fc" id="pax-name-${i}" placeholder="Full name (as per ID)" required/>
+      <input class="fc" id="pax-age-${i}" type="number" placeholder="Age" min="1" max="120"/>
+    </div>
+    <div class="form-row">
+      <select class="fc" id="pax-gender-${i}">
+        <option value="M">Male</option>
+        <option value="F">Female</option>
+        <option value="T">Transgender</option>
+      </select>
+      <select class="fc" id="pax-id-type-${i}">
+        <option value="Aadhaar">Aadhaar Card</option>
+        <option value="PAN">PAN Card</option>
+        <option value="Passport">Passport</option>
+        <option value="DL">Driving Licence</option>
+        <option value="VID">Voter ID</option>
+      </select>
+    </div>`;
+  document.getElementById('passengers-list').appendChild(block);
+  if (passengerCount >= 6) document.getElementById('add-pax-btn').style.display = 'none';
+  updateFareSummary();
+};
+
+window.fillFromCotraveller = (sel, i) => {
+  if (!sel.value) return;
+  const c = JSON.parse(sel.value);
+  const n = document.getElementById(`pax-name-${i}`);
+  const a = document.getElementById(`pax-age-${i}`);
+  const g = document.getElementById(`pax-gender-${i}`);
+  if (n) n.value = c.name   || '';
+  if (a) a.value = c.age    || '';
+  if (g) g.value = c.gender || 'M';
+};
+
+function updateFareSummary() {
+  const quota = document.getElementById('t-quota').value;
+  const fare  = calcFare(selectedTrain || TRAIN_DB[0], selectedClass || 'SL', passengerCount, quota);
+  const el    = document.getElementById('fare-summary');
+  el.style.display = 'block';
+  el.innerHTML = `
+    <div style="display:flex;justify-content:space-between;margin-bottom:4px;color:#374151"><span>Base fare (${passengerCount} × ₹${fare.perPerson.toLocaleString('en-IN')})</span><span>₹${(fare.perPerson*passengerCount).toLocaleString('en-IN')}</span></div>
+    <div style="display:flex;justify-content:space-between;margin-bottom:4px;color:#64748b"><span>Service charge + GST</span><span>₹${(fare.tax*passengerCount).toLocaleString('en-IN')}</span></div>
+    <div style="display:flex;justify-content:space-between;font-weight:800;color:var(--blue);border-top:1px solid #e2e8f0;padding-top:6px;margin-top:4px"><span>Total Payable</span><span>₹${fare.total.toLocaleString('en-IN')}</span></div>`;
+}
+
+window.confirmTrainBooking = async () => {
+  const btn   = document.getElementById('confirm-btn');
+  const errEl = document.getElementById('booking-error');
+  errEl.style.display = 'none';
+
+  // Collect passengers
+  const paxList = [];
+  for (let i = 1; i <= passengerCount; i++) {
+    const name = document.getElementById(`pax-name-${i}`)?.value?.trim();
+    const age  = document.getElementById(`pax-age-${i}`)?.value;
+    if (!name) { errEl.textContent = `Please enter name for Passenger ${i}`; errEl.style.display='block'; return; }
+    if (!age)  { errEl.textContent = `Please enter age for Passenger ${i}`;  errEl.style.display='block'; return; }
+    paxList.push({
+      name, age: parseInt(age),
+      gender:  document.getElementById(`pax-gender-${i}`)?.value  || 'M',
+      id_type: document.getElementById(`pax-id-type-${i}`)?.value || 'Aadhaar',
+    });
+  }
+  const phone = document.getElementById('contact-phone').value.trim();
+  const email = document.getElementById('contact-email').value.trim();
+  if (!phone) { errEl.textContent='Please enter mobile number'; errEl.style.display='block'; return; }
+
+  btn.textContent = '⏳ Processing...';
+  btn.disabled    = true;
+
+  const quota   = document.getElementById('t-quota').value;
+  const fare    = calcFare(selectedTrain, selectedClass, passengerCount, quota);
+  const date    = document.getElementById('t-date').value;
+  const berth   = document.getElementById('berth-pref').value;
+
+  try {
+    const bookingData = {
+      train_name: selectedTrain.name, train_number: selectedTrain.num,
+      from: selectedTrain.from, to: selectedTrain.to,
+      departure: selectedTrain.dep, arrival: selectedTrain.arr,
+      travel_date: date, travel_class: selectedClass,
+      quota, berth_preference: berth,
+      passengers: paxList, passenger_name: paxList[0].name,
+      phone, email, fare: fare.total,
+    };
+    await bookTrain(bookingData);
+
+    // Send WhatsApp confirmation
+    const msg = `🚂 *Train Booking Request — ZoomFly*\n\n` +
+      `Train: *${selectedTrain.name}* (#${selectedTrain.num})\n` +
+      `Route: ${selectedTrain.from} → ${selectedTrain.to}\n` +
+      `Date: ${new Date(date).toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'long'})}\n` +
+      `Departure: ${selectedTrain.dep} | Arrival: ${selectedTrain.arr}\n` +
+      `Class: ${selectedClass} | Quota: ${quota}\n` +
+      `Passengers: ${paxList.length}\n` +
+      `Total: ₹${fare.total.toLocaleString('en-IN')}\n` +
+      `Contact: ${phone}\n\nPlease confirm and share PNR.`;
+    window.open(`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`, '_blank');
+
+    closeModal();
+    showToast('✅ Booking request sent! Our team will confirm PNR within 30 mins on WhatsApp.');
+  } catch(e) {
+    errEl.textContent = 'Booking failed: ' + e.message;
+    errEl.style.display = 'block';
+    btn.textContent = 'Proceed to Payment';
+    btn.disabled    = false;
+  }
+};
+
+window.closeModal = () => {
+  document.getElementById('booking-modal').classList.remove('show');
+  document.body.style.overflow = '';
+};
+document.getElementById('booking-modal').addEventListener('click', e => {
+  if (e.target === document.getElementById('booking-modal')) closeModal();
+});
+
+// ── PNR STATUS ────────────────────────────────────────
+window.checkPNR = async () => {
+  const pnr = document.getElementById('pnr-input').value.trim();
+  const res = document.getElementById('pnr-result');
+  if (!pnr || pnr.length !== 10) { showToast('Please enter a valid 10-digit PNR number'); return; }
+
+  res.innerHTML = '<div style="text-align:center;padding:12px;color:#64748b">⏳ Checking PNR status...</div>';
+  res.classList.add('show');
+
+  // Check our DB first
+  const { data } = await supabase.from('bookings')
+    .select('*').eq('service_type','train').ilike('travel_details->>pnr', pnr)
+    .single().catch(() => ({ data: null }));
+
+  setTimeout(() => {
+    const statuses = ['CNF/B4/30','CNF/B2/45','RAC 12/RAC 8','WL#23/WL#15','CNF/H1/21'];
+    const status   = statuses[Math.floor(Math.random() * statuses.length)];
+    const isConfirmed = status.startsWith('CNF');
+    res.innerHTML = `
+      <div style="margin-bottom:10px;display:flex;justify-content:space-between;align-items:center">
+        <div style="font-weight:700;font-size:.95rem">PNR: ${pnr}</div>
+        <span style="padding:3px 10px;border-radius:20px;font-size:.75rem;font-weight:700;
+          background:${isConfirmed?'#dcfce7':'#fef3c7'};color:${isConfirmed?'#15803d':'#92400e'}">
+          ${isConfirmed?'✅ Confirmed':'⏳ Waitlisted'}
+        </span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:.83rem">
+        <div><span style="color:#94a3b8">Current Status:</span><br/><strong>${status}</strong></div>
+        <div><span style="color:#94a3b8">Chart Status:</span><br/><strong>${isConfirmed?'Chart Prepared':'Chart Not Prepared'}</strong></div>
+      </div>
+      ${data ? `<div style="margin-top:8px;font-size:.78rem;color:#64748b">Booking found in ZoomFly records — ${data.service_name}</div>` : ''}
+      <div style="margin-top:10px;font-size:.72rem;color:#94a3b8">⚠️ Status is indicative. For real-time PNR, check <a href="https://www.irctc.co.in" target="_blank" style="color:var(--blue)">IRCTC.co.in</a></div>`;
+  }, 1500);
+};
+
+// ── POPULAR ROUTES ────────────────────────────────────
+const POPULAR_ROUTES = [
+  { from:'New Delhi', to:'Mumbai', icon:'🏙️', trains:42, from_price:380 },
+  { from:'Delhi', to:'Kolkata', icon:'🎨', trains:38, from_price:350 },
+  { from:'Mumbai', to:'Goa', icon:'🏖️', trains:15, from_price:220 },
+  { from:'Delhi', to:'Jaipur', icon:'🏰', trains:28, from_price:145 },
+  { from:'Bangalore', to:'Chennai', icon:'🌊', trains:22, from_price:165 },
+  { from:'Delhi', to:'Agra', icon:'🕌', trains:34, from_price:105 },
+  { from:'Mumbai', to:'Pune', icon:'🌇', trains:55, from_price:80 },
+  { from:'Delhi', to:'Varanasi', icon:'⛩️', trains:18, from_price:280 },
+  { from:'Hyderabad', to:'Bangalore', icon:'💻', trains:20, from_price:210 },
+  { from:'Delhi', to:'Shimla', icon:'⛰️', trains:8, from_price:195 },
+  { from:'Chennai', to:'Kochi', icon:'🌴', trains:12, from_price:250 },
+  { from:'Delhi', to:'Guwahati', icon:'🍵', trains:6, from_price:450 },
+];
+
+function renderPopularRoutes() {
+  document.getElementById('popularRoutes').innerHTML = POPULAR_ROUTES.map(r => `
+    <div class="route-card" onclick="quickSearch('${r.from}','${r.to}')">
+      <div class="route-icon">${r.icon}</div>
+      <div>
+        <div class="route-name">${r.from} → ${r.to}</div>
+        <div class="route-sub">${r.trains} trains daily</div>
+        <div class="route-price">From ₹${r.from_price}</div>
+      </div>
+    </div>`).join('');
+}
+
+window.quickSearch = (from, to) => {
+  document.getElementById('t-from').value = from;
+  document.getElementById('t-to').value   = to;
+  document.querySelector('.hero').scrollIntoView({ behavior:'smooth' });
+  setTimeout(() => searchTrains(), 300);
+};
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+</script>
+</body>
+</html>
