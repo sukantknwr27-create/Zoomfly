@@ -79,15 +79,17 @@ export async function signUp({ email, password, fullName, phone }) {
     options: { data: { full_name: fullName, phone } }
   });
   if (error) throw error;
-  // Track referral if present. There is no `referrals` table — referrals
-  // are tracked entirely through loyalty_accounts (referral_code,
-  // referred_by, referral_count) and loyalty_transactions, via this RPC.
-  // (A prior version of this function inserted into a `referrals` table
-  // that was never actually created by any migration, so every referral
-  // silently failed to record and neither side ever got their bonus.)
+  // Link the referral if present — this only records who referred whom
+  // (loyalty_accounts.referred_by). The actual 500/250-point bonus is
+  // awarded later, at the referee's first qualifying (>= ₹5,000)
+  // booking, inside earn_booking_points() — matching what referral.html
+  // has always advertised ("...when they make their first booking").
+  // There is no `referrals` table — a prior version of this function
+  // inserted into one that was never actually created by any migration,
+  // so every referral silently failed to record at all.
   const ref = sessionStorage.getItem('zf_ref');
   if (ref && data.user) {
-    await supabase.rpc('award_referral_bonus', {
+    await supabase.rpc('link_referral', {
       p_referrer_code: ref,
       p_new_user_id: data.user.id,
     }).catch(() => {});
