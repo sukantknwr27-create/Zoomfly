@@ -1372,8 +1372,8 @@ CREATE POLICY "hotels_admin_write" ON public.hotels FOR ALL USING (public.is_adm
 CREATE POLICY "bookings_public_insert" ON public.bookings FOR INSERT WITH CHECK (TRUE);
 CREATE POLICY "bookings_select" ON public.bookings FOR SELECT USING (
   user_id = auth.uid()
-  OR guest_email  = (SELECT email FROM auth.users WHERE id = auth.uid())
-  OR customer_email = (SELECT email FROM auth.users WHERE id = auth.uid())
+  OR guest_email  = (auth.jwt() ->> 'email')
+  OR customer_email = (auth.jwt() ->> 'email')
   OR public.is_admin()
 );
 CREATE POLICY "bookings_update_own_or_admin" ON public.bookings FOR UPDATE USING (
@@ -1384,8 +1384,8 @@ CREATE POLICY "bookings_admin_delete" ON public.bookings FOR DELETE USING (publi
 -- ENQUIRIES
 CREATE POLICY "enquiries_public_insert" ON public.enquiries FOR INSERT WITH CHECK (TRUE);
 CREATE POLICY "enquiries_select" ON public.enquiries FOR SELECT USING (
-  email = (SELECT email FROM auth.users WHERE id = auth.uid())
-  OR guest_email = (SELECT email FROM auth.users WHERE id = auth.uid())
+  email = (auth.jwt() ->> 'email')
+  OR guest_email = (auth.jwt() ->> 'email')
   OR public.is_admin()
 );
 CREATE POLICY "enquiries_admin_update" ON public.enquiries FOR UPDATE USING (public.is_admin());
