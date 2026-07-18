@@ -131,9 +131,20 @@ export async function getUser() {
 export async function getProfile() {
   const user = await getUser();
   if (!user) return null;
-  const { data, error } = await supabase.from('profiles').select('*').eq('id', user.id).single();
+  const { data, error } = await supabase.from('profiles').select('*').eq('id', user.id).maybeSingle();
   if (error) throw error;
-  return data;
+  if (data) return data;
+  // Self-heal: no profile row exists for this authenticated user (e.g.
+  // the account was created directly in Supabase Auth rather than
+  // through the app's signup flow, so the on_auth_user_created trigger
+  // never ran). Previously this fell through to .single() throwing
+  // "Cannot coerce the result to a single JSON object" — which is what
+  // surfaced as the broadcast-send error in admin. Create the row now.
+  const { data: created, error: createErr } = await supabase.from('profiles')
+    .insert({ id: user.id, full_name: user.user_metadata?.full_name || user.email?.split('@')[0] || 'User', role: user.app_metadata?.role || 'customer' })
+    .select().maybeSingle();
+  if (createErr) { console.warn('[getProfile] could not self-heal missing profile row:', createErr.message); return null; }
+  return created;
 }
 
 export async function updateProfile(updates) {
@@ -473,9 +484,20 @@ export async function submitReview({ packageId, hotelId, bookingId, rating, titl
 }
 
 // ── VENDOR / AGENT REGISTRATION ──────────────────────────
+// Maps the public form's business_type labels (Hotel/Bus/Tour/Cab) to
+// the vendor_type values the admin panel's filters/stats expect.
+const _VENDOR_TYPE_MAP = { hotel: 'hotel', bus: 'bus', tour: 'tour_operator', cab: 'cab' };
+
 export async function registerVendor(vendorData) {
   const user = await getUser();
-  const { data, error } = await supabase.from('vendors').insert({ ...vendorData, user_id: user?.id || null }).select().single();
+  const { business_type, owner_name, ...rest } = vendorData;
+  const { data, error } = await supabase.from('vendors').insert({
+    ...rest,
+    business_type, owner_name,                                   // legacy columns, kept for back-compat
+    vendor_type: _VENDOR_TYPE_MAP[(business_type||'').toLowerCase()] || 'hotel',
+    contact_name: owner_name || '',
+    user_id: user?.id || null,
+  }).select().single();
   if (error) throw error;
   return data;
 }

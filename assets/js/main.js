@@ -11,6 +11,9 @@ const ZF = {
   whatsapp:  '918076136300',
   address:   'Connaught Place, New Delhi – 110001',
   faviconUrl: '',
+  companyName: '',
+  logoUrl: '',
+  gstin: '',
   social: { instagram: '', facebook: '', twitter: '', youtube: '' },
   // destinations used only for homepage hero cards — NOT for packages page
   destinations: [
@@ -43,6 +46,9 @@ async function _loadSiteSettingsIntoZF() {
     if (data.whatsapp_number) ZF.whatsapp = data.whatsapp_number;
     if (data.address)         ZF.address  = data.address;
     if (data.favicon_url)     ZF.faviconUrl = data.favicon_url;
+    if (data.company_name)    ZF.companyName = data.company_name;
+    if (data.logo_url)        ZF.logoUrl = data.logo_url;
+    if (data.gstin)           ZF.gstin = data.gstin;
     ZF.social = {
       instagram: data.social_instagram || '',
       facebook:  data.social_facebook  || '',
@@ -327,11 +333,12 @@ function renderFooter() {
     <!-- COL 1: Brand -->
     <div class="zf-footer-brand">
       <a href="/" class="logo" style="margin-bottom:14px;display:inline-flex">
+        ${ZF.logoUrl ? `<img src="${ZF.logoUrl}" alt="${ZF.companyName||'ZoomFly'}" style="height:28px;width:auto;display:block">` : `
         <span class="logo-zoom">Zoom</span><span class="logo-fly">Fly</span>
         <svg class="logo-plane" viewBox="0 0 24 24" fill="none" style="width:16px;height:16px;margin-left:4px;color:var(--gold-light,#E8B84B)">
           <path d="M21 3L3 10.5L10 13.5L13 21L21 3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
           <path d="M10 13.5L14 10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-        </svg>
+        </svg>`}
       </a>
       <p style="color:rgba(255,255,255,0.48);font-size:.82rem;line-height:1.75;max-width:220px;margin-bottom:18px;">
         India's trusted travel partner since 2018. Crafting unforgettable journeys for thousands of happy travellers.
@@ -425,6 +432,7 @@ function renderFooter() {
           <span>📍</span>
           <span>${ZF.address}</span>
         </div>
+        ${ZF.gstin ? `<div style="font-size:.72rem;color:rgba(255,255,255,0.35);">GSTIN: ${ZF.gstin}</div>` : ''}
         <div>
           <a href="https://wa.me/${ZF.whatsapp}" style="display:flex;align-items:center;gap:7px;color:rgba(255,255,255,0.7);font-size:.82rem;text-decoration:none;">
             <span>💬</span> WhatsApp Chat
@@ -488,7 +496,7 @@ function renderFooter() {
   <!-- BOTTOM BAR -->
   <div style="padding:16px 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
     <div style="display:flex;align-items:center;gap:6px;">
-      <span style="font-size:.78rem;color:rgba(255,255,255,0.28);">© ${yr} ZoomFly. All rights reserved.</span>
+      <span style="font-size:.78rem;color:rgba(255,255,255,0.28);">© ${yr} ${ZF.companyName || 'ZoomFly'}. All rights reserved.</span>
       <span style="color:rgba(255,255,255,0.15);margin:0 2px">·</span>
       <span style="font-size:.75rem;color:rgba(255,255,255,0.22);">Made with ❤️ in India</span>
     </div>
@@ -684,6 +692,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     const telText = a.querySelector('.tel-text');
     if (telText) telText.textContent = ZF.phone; else a.textContent = '📞 ' + ZF.phone;
   });
+  // nav.html hardcodes a text/SVG logo mark too — swap it for the
+  // admin-uploaded logo image if one has been set in Site Settings.
+  if (ZF.logoUrl) {
+    document.querySelectorAll('#mainNav a.logo').forEach(a => {
+      a.innerHTML = `<img src="${ZF.logoUrl}" alt="${ZF.companyName || 'ZoomFly'}" style="height:28px;width:auto;display:block">`;
+    });
+  }
   renderFooter();
   renderNewsletter();
   renderWA();
