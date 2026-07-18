@@ -415,11 +415,15 @@ setTimeout(function() {
     <div class="section" id="section-vendors">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:10px">
         <h3 style="font-size:1rem;font-weight:700">🤝 Vendor Management</h3>
-        <button class="btn-add" style="background:#16a34a;color:#fff" onclick="exportVendorsCSV()">⬇ Export CSV</button>
+        <div style="display:flex;gap:8px">
+          <button class="btn-add" onclick="openAddVendorModal()">+ Add Vendor</button>
+          <button class="btn-add" style="background:#16a34a;color:#fff" onclick="exportVendorsCSV()">⬇ Export CSV</button>
+        </div>
       </div>
       <div style="display:flex;gap:4px;margin-bottom:16px;border-bottom:2px solid #e2e8f0">
         <button class="ptab active" onclick="switchVendorPageTab('vendors',this)" style="padding:10px 16px;font-size:.85rem;font-weight:600;cursor:pointer;border:none;background:none;border-bottom:3px solid #C9922A;color:#C9922A;margin-bottom:-2px">Vendors</button>
         <button class="ptab" onclick="switchVendorPageTab('payouts',this)" style="padding:10px 16px;font-size:.85rem;font-weight:600;cursor:pointer;border:none;background:none;border-bottom:3px solid transparent;color:#64748b;margin-bottom:-2px">Payouts</button>
+        <button class="ptab" onclick="switchVendorPageTab('commission',this)" style="padding:10px 16px;font-size:.85rem;font-weight:600;cursor:pointer;border:none;background:none;border-bottom:3px solid transparent;color:#64748b;margin-bottom:-2px">Commission Structure</button>
       </div>
 
       <div class="vtab-section active" id="vtab-vendors">
@@ -454,6 +458,16 @@ setTimeout(function() {
         <div class="table-card">
           <div class="table-hdr"><h3>Vendor Payouts</h3><button class="btn-add" onclick="openPayoutModal()">+ New Payout</button></div>
           <div id="vp-list" style="padding:16px"></div>
+        </div>
+      </div>
+
+      <div class="vtab-section" id="vtab-commission" style="display:none">
+        <div style="background:rgba(20,184,166,0.06);border:1px solid rgba(20,184,166,0.2);border-radius:12px;padding:14px 18px;margin-bottom:16px;font-size:.85rem">
+          💡 These rows feed the "Transparent Commission Structure" table shown publicly on <strong>/pages/vendor.html</strong>. Edit and save — changes go live immediately.
+        </div>
+        <div class="table-card">
+          <div class="table-hdr"><h3>Commission Rates by Partner Type</h3><button class="btn-add" onclick="saveCommissionRates()">💾 Save Changes</button></div>
+          <div id="commission-rates-list" style="padding:16px">Loading...</div>
         </div>
       </div>
     </div>
@@ -514,6 +528,7 @@ setTimeout(function() {
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:10px">
         <h3 style="font-size:1rem;font-weight:700">👤 Agent Management</h3>
         <div style="display:flex;gap:8px">
+          <button class="btn-add" onclick="openAddAgentModal()">+ Add Agent</button>
           <button class="btn-add" style="background:#16a34a;color:#fff" onclick="exportAgentsCSV()">⬇ Export CSV</button>
           <button class="btn-add" onclick="loadAgents()">🔄 Refresh</button>
         </div>
@@ -694,6 +709,90 @@ setTimeout(function() {
             <div style="font-size:.8rem;color:#94a3b8">Loading history...</div>
           </div>
         </div>
+      </div>
+    </div>
+
+    <!-- Add Vendor Modal (manual admin entry) —
+         Writes to the exact same public.vendors columns as the public
+         Partner-With-Us form (registerVendor() in supabase.js), so a
+         vendor added here behaves identically — shows correctly in
+         filters/stats, and if you later invite them to create a login
+         and set user_id to match, their vendor-portal.html view will
+         show this same record. -->
+    <div id="add-vendor-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999;align-items:center;justify-content:center;padding:20px">
+      <div style="background:#fff;border-radius:16px;padding:24px;max-width:560px;width:100%;max-height:90vh;overflow-y:auto">
+        <div style="display:flex;justify-content:space-between;margin-bottom:18px">
+          <h3 style="font-size:1rem;font-weight:700">🤝 Add Vendor Manually</h3>
+          <button onclick="closeAddVendorModal()" style="background:none;border:none;cursor:pointer;color:#4A5568;font-size:1rem">✕</button>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div><label style="font-size:.72rem;font-weight:700;text-transform:uppercase;display:block;margin-bottom:4px">Business Name *</label>
+            <input id="av-name" placeholder="Sunshine Hotel" style="width:100%;padding:9px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;box-sizing:border-box"/></div>
+          <div><label style="font-size:.72rem;font-weight:700;text-transform:uppercase;display:block;margin-bottom:4px">Business Type *</label>
+            <select id="av-type" style="width:100%;padding:9px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit">
+              <option value="hotel">🏨 Hotel / Resort</option><option value="bus">🚌 Bus Operator</option>
+              <option value="tour_operator">🗺 Tour Operator</option><option value="cab">🚗 Cab / Transfer</option>
+            </select></div>
+          <div><label style="font-size:.72rem;font-weight:700;text-transform:uppercase;display:block;margin-bottom:4px">Owner / Contact Name *</label>
+            <input id="av-owner" placeholder="Rajesh Kumar" style="width:100%;padding:9px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;box-sizing:border-box"/></div>
+          <div><label style="font-size:.72rem;font-weight:700;text-transform:uppercase;display:block;margin-bottom:4px">City / Location *</label>
+            <input id="av-city" placeholder="Manali, HP" style="width:100%;padding:9px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;box-sizing:border-box"/></div>
+          <div><label style="font-size:.72rem;font-weight:700;text-transform:uppercase;display:block;margin-bottom:4px">Phone *</label>
+            <input id="av-phone" placeholder="+91 8076136300" style="width:100%;padding:9px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;box-sizing:border-box"/></div>
+          <div><label style="font-size:.72rem;font-weight:700;text-transform:uppercase;display:block;margin-bottom:4px">Email *</label>
+            <input id="av-email" placeholder="info@business.com" style="width:100%;padding:9px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;box-sizing:border-box"/></div>
+          <div><label style="font-size:.72rem;font-weight:700;text-transform:uppercase;display:block;margin-bottom:4px">GSTIN (optional)</label>
+            <input id="av-gstin" placeholder="22AAAAA0000A1Z5" style="width:100%;padding:9px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;box-sizing:border-box"/></div>
+          <div><label style="font-size:.72rem;font-weight:700;text-transform:uppercase;display:block;margin-bottom:4px">Commission Rate %</label>
+            <input id="av-commission" type="number" step="0.5" min="0" max="100" value="10" style="width:100%;padding:9px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;box-sizing:border-box"/></div>
+          <div style="grid-column:1/-1"><label style="font-size:.72rem;font-weight:700;text-transform:uppercase;display:block;margin-bottom:4px">Status</label>
+            <select id="av-status" style="width:100%;padding:9px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit">
+              <option value="active">✅ Active (verified — go live immediately)</option>
+              <option value="pending">⏳ Pending (needs review first)</option>
+            </select></div>
+          <div style="grid-column:1/-1"><label style="font-size:.72rem;font-weight:700;text-transform:uppercase;display:block;margin-bottom:4px">Notes</label>
+            <textarea id="av-notes" rows="2" placeholder="Internal note — e.g. onboarded via phone call" style="width:100%;padding:9px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;box-sizing:border-box"></textarea></div>
+        </div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:16px">
+          <button onclick="closeAddVendorModal()" style="padding:9px 18px;border:1.5px solid #e2e8f0;border-radius:8px;cursor:pointer;background:#fff;font-family:inherit">Cancel</button>
+          <button onclick="submitAddVendor()" style="background:#C9922A;color:#0C1B33;border:none;border-radius:8px;padding:9px 18px;font-weight:700;cursor:pointer">Add Vendor</button>
+        </div>
+        <div id="av-msg" style="font-size:.82rem;margin-top:8px;min-height:18px;color:#dc2626"></div>
+      </div>
+    </div>
+
+    <!-- Add Agent Modal (manual admin entry) —
+         Writes to the exact same public.agents columns as
+         agent-portal.html's self-registration flow, so a manually
+         added agent works identically (same tier/status defaults,
+         same agent_code format) if they're later given portal login. -->
+    <div id="add-agent-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999;align-items:center;justify-content:center;padding:20px">
+      <div style="background:#fff;border-radius:16px;padding:24px;max-width:520px;width:100%;max-height:90vh;overflow-y:auto">
+        <div style="display:flex;justify-content:space-between;margin-bottom:18px">
+          <h3 style="font-size:1rem;font-weight:700">👤 Add Agent Manually</h3>
+          <button onclick="closeAddAgentModal()" style="background:none;border:none;cursor:pointer;color:#4A5568;font-size:1rem">✕</button>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div style="grid-column:1/-1"><label style="font-size:.72rem;font-weight:700;text-transform:uppercase;display:block;margin-bottom:4px">Full Name *</label>
+            <input id="aa-name" placeholder="Priya Sharma" style="width:100%;padding:9px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;box-sizing:border-box"/></div>
+          <div><label style="font-size:.72rem;font-weight:700;text-transform:uppercase;display:block;margin-bottom:4px">Phone *</label>
+            <input id="aa-phone" placeholder="+91 8076136300" style="width:100%;padding:9px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;box-sizing:border-box"/></div>
+          <div><label style="font-size:.72rem;font-weight:700;text-transform:uppercase;display:block;margin-bottom:4px">Email *</label>
+            <input id="aa-email" placeholder="agent@example.com" style="width:100%;padding:9px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;box-sizing:border-box"/></div>
+          <div><label style="font-size:.72rem;font-weight:700;text-transform:uppercase;display:block;margin-bottom:4px">City</label>
+            <input id="aa-city" placeholder="Jaipur" style="width:100%;padding:9px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;box-sizing:border-box"/></div>
+          <div><label style="font-size:.72rem;font-weight:700;text-transform:uppercase;display:block;margin-bottom:4px">Tier</label>
+            <select id="aa-tier" style="width:100%;padding:9px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit">
+              <option value="associate">🤝 Associate</option><option value="senior">⭐ Senior</option><option value="elite">💎 Elite</option>
+            </select></div>
+          <div style="grid-column:1/-1"><label style="font-size:.72rem;font-weight:700;text-transform:uppercase;display:block;margin-bottom:4px">Experience</label>
+            <input id="aa-exp" placeholder="e.g. 3 years in travel sales" style="width:100%;padding:9px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;box-sizing:border-box"/></div>
+        </div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:16px">
+          <button onclick="closeAddAgentModal()" style="padding:9px 18px;border:1.5px solid #e2e8f0;border-radius:8px;cursor:pointer;background:#fff;font-family:inherit">Cancel</button>
+          <button onclick="submitAddAgent()" style="background:#C9922A;color:#0C1B33;border:none;border-radius:8px;padding:9px 18px;font-weight:700;cursor:pointer">Add Agent</button>
+        </div>
+        <div id="aa-msg" style="font-size:.82rem;margin-top:8px;min-height:18px;color:#dc2626"></div>
       </div>
     </div>
 
@@ -2517,8 +2616,15 @@ async function initReminders() {
 }
 
 async function loadReminderBookings() {
-  const { data } = await supabase.from('bookings').select('id,booking_ref,service_name,customer_name,customer_phone,travel_date,return_date,status,num_adults').in('status', ['confirmed','completed']).order('travel_date', { ascending: true });
-  rmAllBookings = data || [];
+  // NOTE: `return_date` does not exist on public.bookings (it's
+  // `checkout_date` for hotel-type bookings) — selecting the wrong
+  // column name made PostgREST reject the whole query with a 400,
+  // which is what showed up as the two red "Bad Request" errors on
+  // this tab. checkout_date is used where present; buildReminderQueue()
+  // already falls back to travel_date+3 days when it's empty.
+  const { data, error } = await supabase.from('bookings').select('id,booking_ref,service_name,customer_name,customer_phone,travel_date,checkout_date,status,num_adults').in('status', ['confirmed','completed']).order('travel_date', { ascending: true });
+  if (error) { console.warn('[Reminders] Could not load bookings:', error.message); rmAllBookings = []; return; }
+  rmAllBookings = (data || []).map(b => ({ ...b, return_date: b.checkout_date }));
 }
 
 function renderReminderStats() {
@@ -4273,6 +4379,49 @@ window.switchVendorPageTab = (tab, el) => {
   el.classList.add('active'); el.style.borderBottomColor = '#C9922A'; el.style.color = '#C9922A';
   document.getElementById('vtab-'+tab).style.display = 'block';
   if (tab === 'payouts' && !vendorPayoutsLoaded) loadVendorPayouts();
+  if (tab === 'commission' && !commissionRatesLoaded) loadCommissionRates();
+};
+
+// ── COMMISSION STRUCTURE (feeds public vendor.html) ─────────────
+let commissionRatesLoaded = false;
+let commissionRatesData = [];
+window.loadCommissionRates = async () => {
+  const el = document.getElementById('commission-rates-list');
+  try {
+    const { data, error } = await supabase.from('commission_rates').select('*').order('sort_order', { ascending: true });
+    if (error) throw error;
+    commissionRatesData = data || [];
+    commissionRatesLoaded = true;
+    renderCommissionRates();
+  } catch(e) {
+    el.innerHTML = `<div style="color:#dc2626;font-size:.85rem">Could not load commission rates: ${esc(e.message)}. Run the latest migration (10_zoomfly_round6_fixes.sql) if this table doesn't exist yet.</div>`;
+  }
+};
+function renderCommissionRates() {
+  const el = document.getElementById('commission-rates-list');
+  if (!commissionRatesData.length) { el.innerHTML = '<div style="color:#94a3b8;font-size:.85rem">No commission rate rows yet.</div>'; return; }
+  el.innerHTML = `<table><thead><tr><th>Partner Type</th><th>Commission Range</th><th>Payout</th><th>Method</th><th>Min Payout (₹)</th></tr></thead>
+    <tbody>${commissionRatesData.map((r,i) => `
+      <tr>
+        <td><input data-i="${i}" data-f="partner_type" value="${esc(r.partner_type)}" style="width:100%;padding:6px 8px;border:1.5px solid #e2e8f0;border-radius:6px;font-family:inherit"/></td>
+        <td style="display:flex;gap:4px;align-items:center">
+          <input type="number" step="0.5" data-i="${i}" data-f="commission_min" value="${r.commission_min}" style="width:60px;padding:6px 8px;border:1.5px solid #e2e8f0;border-radius:6px"/>–
+          <input type="number" step="0.5" data-i="${i}" data-f="commission_max" value="${r.commission_max}" style="width:60px;padding:6px 8px;border:1.5px solid #e2e8f0;border-radius:6px"/>%
+        </td>
+        <td><input data-i="${i}" data-f="payout_frequency" value="${esc(r.payout_frequency||'Weekly')}" style="width:100%;padding:6px 8px;border:1.5px solid #e2e8f0;border-radius:6px;font-family:inherit"/></td>
+        <td><input data-i="${i}" data-f="payout_method" value="${esc(r.payout_method||'NEFT / UPI')}" style="width:100%;padding:6px 8px;border:1.5px solid #e2e8f0;border-radius:6px;font-family:inherit"/></td>
+        <td><input type="number" data-i="${i}" data-f="min_payout" value="${r.min_payout}" style="width:100%;padding:6px 8px;border:1.5px solid #e2e8f0;border-radius:6px"/></td>
+      </tr>`).join('')}</tbody></table>`;
+  el.querySelectorAll('input').forEach(inp => inp.addEventListener('input', () => {
+    commissionRatesData[+inp.dataset.i][inp.dataset.f] = inp.type === 'number' ? parseFloat(inp.value)||0 : inp.value;
+  }));
+}
+window.saveCommissionRates = async () => {
+  try {
+    const { error } = await supabase.from('commission_rates').upsert(commissionRatesData);
+    if (error) throw error;
+    toast('Commission rates saved ✅ — live on /pages/vendor.html');
+  } catch(e) { toast('Save failed: ' + e.message, 'error'); }
 };
 
 window.loadVendorPayouts = async () => {
@@ -4880,6 +5029,81 @@ window.createManualBooking = async () => {
     toast(`Booking created — Ref: ${ref}`);
     loadCustomers();
   } catch(e) { msg.textContent = 'Error: ' + e.message; }
+};
+
+// ── ADD VENDOR (manual admin entry) ─────────────────────────────
+const _VENDOR_TYPE_LABEL = { hotel:'Hotel', bus:'Bus', tour_operator:'Tour', cab:'Cab' };
+window.openAddVendorModal = () => {
+  ['av-name','av-owner','av-city','av-phone','av-email','av-gstin','av-notes'].forEach(id => { const el=document.getElementById(id); if (el) el.value=''; });
+  document.getElementById('av-commission').value = '10';
+  document.getElementById('av-status').value = 'active';
+  document.getElementById('av-msg').textContent = '';
+  document.getElementById('add-vendor-modal').style.display = 'flex';
+};
+window.closeAddVendorModal = () => { document.getElementById('add-vendor-modal').style.display = 'none'; };
+
+window.submitAddVendor = async () => {
+  const msgEl = document.getElementById('av-msg');
+  const business_name = document.getElementById('av-name').value.trim();
+  const vendor_type    = document.getElementById('av-type').value;
+  const owner_name     = document.getElementById('av-owner').value.trim();
+  const city           = document.getElementById('av-city').value.trim();
+  const phone          = document.getElementById('av-phone').value.trim();
+  const email          = document.getElementById('av-email').value.trim();
+  if (!business_name || !owner_name || !city || !phone || !email) { msgEl.textContent = 'Please fill all required (*) fields'; return; }
+  try {
+    // Same public.vendors columns as registerVendor() in supabase.js
+    // (the public Partner-With-Us form) — new + legacy columns both
+    // set so this record behaves identically either way it was added.
+    const { error } = await supabase.from('vendors').insert({
+      business_name, vendor_type, business_type: _VENDOR_TYPE_LABEL[vendor_type] || vendor_type,
+      owner_name, contact_name: owner_name,
+      city, phone, email,
+      gstin: document.getElementById('av-gstin').value.trim() || null,
+      commission_rate: parseFloat(document.getElementById('av-commission').value) || 10,
+      status: document.getElementById('av-status').value,
+      notes: document.getElementById('av-notes').value.trim() || null,
+      approved_at: document.getElementById('av-status').value === 'active' ? new Date().toISOString() : null,
+      approved_by: document.getElementById('av-status').value === 'active' ? 'admin (manual entry)' : null,
+    });
+    if (error) throw error;
+    closeAddVendorModal();
+    toast('Vendor added ✅');
+    loadVendors();
+  } catch(e) { msgEl.textContent = 'Error: ' + e.message; }
+};
+
+// ── ADD AGENT (manual admin entry) ──────────────────────────────
+window.openAddAgentModal = () => {
+  ['aa-name','aa-phone','aa-email','aa-city','aa-exp'].forEach(id => { const el=document.getElementById(id); if (el) el.value=''; });
+  document.getElementById('aa-tier').value = 'associate';
+  document.getElementById('aa-msg').textContent = '';
+  document.getElementById('add-agent-modal').style.display = 'flex';
+};
+window.closeAddAgentModal = () => { document.getElementById('add-agent-modal').style.display = 'none'; };
+
+window.submitAddAgent = async () => {
+  const msgEl = document.getElementById('aa-msg');
+  const full_name = document.getElementById('aa-name').value.trim();
+  const phone      = document.getElementById('aa-phone').value.trim();
+  const email      = document.getElementById('aa-email').value.trim();
+  if (!full_name || !phone || !email) { msgEl.textContent = 'Please fill all required (*) fields'; return; }
+  try {
+    // Same public.agents columns/defaults as the self-registration flow
+    // in agent-portal.html, including the ZFA###### code format, so a
+    // manually added agent is indistinguishable from a self-signed-up one.
+    const agent_code = 'ZFA' + Math.random().toString(36).slice(2,8).toUpperCase();
+    const { error } = await supabase.from('agents').insert({
+      full_name, phone, email,
+      city: document.getElementById('aa-city').value.trim() || null,
+      experience: document.getElementById('aa-exp').value.trim() || null,
+      agent_code, tier: document.getElementById('aa-tier').value, status: 'active',
+    });
+    if (error) throw error;
+    closeAddAgentModal();
+    toast('Agent added ✅ — code ' + agent_code);
+    loadAgents();
+  } catch(e) { msgEl.textContent = 'Error: ' + e.message; }
 };
 
 // ── BROADCAST ───────────────────────────────────────────────────

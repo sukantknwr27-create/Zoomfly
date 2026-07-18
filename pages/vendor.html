@@ -137,10 +137,10 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
   <h2 class="stitle">Built for <em>Every Travel Business</em></h2>
   <p class="ssub">Whether you run a small guesthouse or a fleet of buses.</p>
   <div class="partner-grid">
-    <div class="pc"><div class="icon">🏨</div><h3>Hotels & Resorts</h3><p>List rooms, set pricing and manage availability.</p><span class="comm">12–15% commission</span></div>
-    <div class="pc"><div class="icon">🚌</div><h3>Bus Operators</h3><p>Fill seats on popular routes with ZoomFly's demand network.</p><span class="comm">8–10% commission</span></div>
-    <div class="pc"><div class="icon">🗺</div><h3>Tour Operators</h3><p>List your itineraries and day tours on our marketplace.</p><span class="comm">15–20% commission</span></div>
-    <div class="pc"><div class="icon">🚗</div><h3>Cab & Transfer</h3><p>Airport transfers, outstation cabs and local sightseeing.</p><span class="comm">10–12% commission</span></div>
+    <div class="pc"><div class="icon">🏨</div><h3>Hotels & Resorts</h3><p>List rooms, set pricing and manage availability.</p><span class="comm" id="comm-card-0">12–15% commission</span></div>
+    <div class="pc"><div class="icon">🚌</div><h3>Bus Operators</h3><p>Fill seats on popular routes with ZoomFly's demand network.</p><span class="comm" id="comm-card-1">8–10% commission</span></div>
+    <div class="pc"><div class="icon">🗺</div><h3>Tour Operators</h3><p>List your itineraries and day tours on our marketplace.</p><span class="comm" id="comm-card-2">15–20% commission</span></div>
+    <div class="pc"><div class="icon">🚗</div><h3>Cab & Transfer</h3><p>Airport transfers, outstation cabs and local sightseeing.</p><span class="comm" id="comm-card-3">10–12% commission</span></div>
   </div>
 </section>
 
@@ -160,7 +160,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
   <div style="text-align:center;margin-bottom:2.5rem"><div class="slbl">Earnings</div><h2 class="stitle">Transparent <em>Commission Structure</em></h2></div>
   <table class="comm-table">
     <thead><tr><th>Partner Type</th><th>Commission</th><th>Payout</th><th>Method</th><th>Min Payout</th></tr></thead>
-    <tbody>
+    <tbody id="comm-tbody">
       <tr><td>🏨 Hotels & Resorts</td><td><strong>12–15%</strong></td><td><span class="pb">Weekly</span></td><td>NEFT / UPI</td><td>₹1,000</td></tr>
       <tr><td>🚌 Bus Operators</td><td><strong>8–10%</strong></td><td><span class="pb">Weekly</span></td><td>NEFT / UPI</td><td>₹500</td></tr>
       <tr><td>🗺 Tour Operators</td><td><strong>15–20%</strong></td><td><span class="pb">Weekly</span></td><td>NEFT / UPI</td><td>₹1,500</td></tr>
@@ -346,7 +346,24 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
 
 <script src="/assets/js/main.js"></script>
 <script type="module">
-import { registerVendor } from '../assets/js/supabase.js';
+import { registerVendor, supabase } from '../assets/js/supabase.js';
+
+// ── Commission structure — was hardcoded here, so changing rates in
+// admin never actually changed what partners saw on this page. Now
+// pulled live from public.commission_rates (managed in Admin →
+// Vendors → Commission Structure). Falls back to the static rows
+// already in the HTML if the table is empty or not migrated yet.
+(async () => {
+  try {
+    const { data, error } = await supabase.from('commission_rates').select('*').order('sort_order', { ascending: true });
+    if (error || !data?.length) return;
+    document.getElementById('comm-tbody').innerHTML = data.map(r => `
+      <tr><td>${r.partner_type}</td><td><strong>${r.commission_min}–${r.commission_max}%</strong></td>
+        <td><span class="pb">${r.payout_frequency||'Weekly'}</span></td><td>${r.payout_method||'NEFT / UPI'}</td>
+        <td>₹${Number(r.min_payout||0).toLocaleString('en-IN')}</td></tr>`).join('');
+    data.slice(0,4).forEach((r,i) => { const el = document.getElementById('comm-card-'+i); if (el) el.textContent = `${r.commission_min}–${r.commission_max}% commission`; });
+  } catch(_) { /* keep static defaults */ }
+})();
 
 let selBizType = '';
 window.selType = (el) => {
