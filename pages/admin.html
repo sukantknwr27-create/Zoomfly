@@ -164,7 +164,7 @@ setTimeout(function() {
     <div class="nav-item" onclick="show('reviews',this)"><span class="icon">📝</span> Reviews <span class="badge" id="rev-badge">0</span></div>
     <div class="nav-item" onclick="show('messages-inbox',this)"><span class="icon">💬</span> Messages <span class="badge" id="msg-badge">0</span></div>
     <div class="sb-sec" style="margin-top:.5rem">Travel Partners</div>
-    <div class="nav-item" onclick="show('travel-partners',this)"><span class="icon">🤝</span> Travel Partners</div>
+    <div class="nav-item" onclick="show('commissions',this)"><span class="icon">💰</span> Commission Management</div>
     <div class="nav-item" onclick="show('loyalty',this)"><span class="icon">⭐</span> Loyalty Points</div>
     <div class="sb-sec" style="margin-top:.5rem">Content</div>
     <div class="nav-item" onclick="show('hotels',this)"><span class="icon">🏨</span> Hotels</div>
@@ -199,7 +199,7 @@ setTimeout(function() {
     <div class="topbar-right">
       <div class="live-badge"><span class="live-dot"></span> Live</div>
       <div class="notif">🔔<span class="notif-dot"></span></div>
-      <button class="btn-add" onclick="show('packages',document.querySelectorAll('.nav-item')[3]);openAddPackage()">+ Add Package</button>
+      <button class="btn-add" onclick="show('packages');openAddPackage()">+ Add Package</button>
     </div>
   </div>
   <div class="content">
@@ -905,20 +905,44 @@ setTimeout(function() {
       </div>
     </div>
 
-    <!-- TRAVEL PARTNERS -->
-    <div class="section" id="section-travel-partners">
+    <!-- COMMISSION MANAGEMENT -->
+    <div class="section" id="section-commissions">
+      <div class="stat-cards" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:16px">
+        <div class="stat-card"><div class="stat-val" id="cm-s-earned" style="color:#16a34a">—</div><div class="stat-lbl">Total Agent Commission Earned</div></div>
+        <div class="stat-card"><div class="stat-val" id="cm-s-paid">—</div><div class="stat-lbl">Total Agent Commission Paid</div></div>
+        <div class="stat-card"><div class="stat-val" id="cm-s-pending" style="color:#f59e0b">—</div><div class="stat-lbl">Pending Agent Commission</div></div>
+        <div class="stat-card"><div class="stat-val" id="cm-s-vendor" style="color:#1d4ed8">—</div><div class="stat-lbl">Vendor Commission Accrued</div></div>
+      </div>
+
+      <div class="table-card" style="margin-bottom:16px">
+        <div class="table-hdr"><h3>Commission Rates by Vendor</h3><span id="cm-v-count" style="font-size:.8rem;color:#94a3b8"></span></div>
+        <table><thead><tr><th>Vendor</th><th>Type</th><th>Total Revenue</th><th>Rate</th><th>Commission Accrued</th><th>Actions</th></tr></thead>
+        <tbody id="cm-vendor-tbody"></tbody></table>
+      </div>
+
+      <div class="table-card" style="margin-bottom:16px">
+        <div class="table-hdr"><h3>Commission Rates by Agent</h3><span id="cm-a-count" style="font-size:.8rem;color:#94a3b8"></span></div>
+        <table><thead><tr><th>Agent</th><th>Tier</th><th>Rate</th><th>Earned</th><th>Paid</th><th>Actions</th></tr></thead>
+        <tbody id="cm-agent-tbody"></tbody></table>
+      </div>
+
       <div class="table-card">
         <div class="table-hdr">
-          <h3>🤝 Travel Partners</h3>
-          <div style="display:flex;gap:.75rem;">
-            <input class="tsearch" placeholder="Search partners..." oninput="filterTbl('partners-tbody',this.value)"/>
-            <a href="#" onclick="show('agents');return false" class="btn-add" style="text-decoration:none">Manage Agents →</a>
-            <a href="#" onclick="show('vendors');return false" class="btn-add" style="text-decoration:none">Manage Vendors →</a>
+          <h3>Agent Commission Ledger</h3>
+          <div style="display:flex;gap:.6rem">
+            <select id="cm-status-filter" onchange="loadCommissionLedger()" style="padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:.82rem;font-family:inherit">
+              <option value="">All Statuses</option>
+              <option value="pending">Pending</option>
+              <option value="earned">Earned (unpaid)</option>
+              <option value="paid">Paid</option>
+              <option value="void">Void</option>
+            </select>
+            <button class="btn-add" onclick="loadCommissionLedger()">🔄 Refresh</button>
           </div>
         </div>
-        <div class="loading" id="partners-load"><div class="spinner"></div></div>
-        <table><thead><tr><th>Name</th><th>Type</th><th>Email</th><th>Phone</th><th>Status</th><th>Actions</th></tr></thead>
-        <tbody id="partners-tbody"></tbody></table>
+        <div class="loading" id="cm-ledger-load"><div class="spinner"></div></div>
+        <table><thead><tr><th>Agent</th><th>Booking Ref</th><th>Booking Amount</th><th>Rate</th><th>Commission</th><th>Status</th><th>Date</th></tr></thead>
+        <tbody id="cm-ledger-tbody"></tbody></table>
       </div>
     </div>
 
@@ -967,7 +991,7 @@ setTimeout(function() {
 
       <!-- Add/Edit Destination Modal -->
       <div id="dest-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999;align-items:center;justify-content:center">
-        <div style="background:#fff;border-radius:16px;padding:2rem;max-width:480px;width:90%">
+        <div style="background:#fff;border-radius:16px;padding:2rem;max-width:480px;width:90%;max-height:90vh;overflow-y:auto">
           <h3 style="margin-bottom:1.5rem" id="dest-modal-title">Add Destination</h3>
           <input type="hidden" id="dest-id"/>
           <div style="margin-bottom:1rem">
@@ -1509,9 +1533,9 @@ Book now: https://www.zoomfly.in/pages/packages.html — ZoomFly Team ✈️</te
         <div class="table-card">
           <h3 style="margin-bottom:1.25rem">🔗 Quick Links</h3>
           <div style="display:flex;flex-direction:column;gap:10px;">
-            <button onclick="show('bookings',document.querySelectorAll('.nav-item')[2])" style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:#f8fafc;border-radius:10px;color:#0f1923;border:1px solid #e2e8f0;cursor:pointer;width:100%;font-family:inherit;font-size:.88rem;text-align:left">🗓 All Bookings</button>
-            <button onclick="show('vendors',document.querySelectorAll('.nav-item')[5])" style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:#f8fafc;border-radius:10px;color:#0f1923;border:1px solid #e2e8f0;cursor:pointer;width:100%;font-family:inherit;font-size:.88rem;text-align:left">🤝 Vendor Applications</button>
-            <button onclick="show('travel-partners',document.querySelectorAll('.nav-item')[13])" style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:#f8fafc;border-radius:10px;color:#0f1923;border:1px solid #e2e8f0;cursor:pointer;width:100%;font-family:inherit;font-size:.88rem;text-align:left">👤 Travel Partners (Agents & Vendors)</button>
+            <button onclick="show('bookings')" style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:#f8fafc;border-radius:10px;color:#0f1923;border:1px solid #e2e8f0;cursor:pointer;width:100%;font-family:inherit;font-size:.88rem;text-align:left">🗓 All Bookings</button>
+            <button onclick="show('vendors')" style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:#f8fafc;border-radius:10px;color:#0f1923;border:1px solid #e2e8f0;cursor:pointer;width:100%;font-family:inherit;font-size:.88rem;text-align:left">🤝 Vendor Applications</button>
+            <button onclick="show('agents')" style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:#f8fafc;border-radius:10px;color:#0f1923;border:1px solid #e2e8f0;cursor:pointer;width:100%;font-family:inherit;font-size:.88rem;text-align:left">👤 Agent Applications</button>
             <a href="#" onclick="show('wa-templates');return false" style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:#f8fafc;border-radius:10px;text-decoration:none;color:#0f1923;border:1px solid #e2e8f0;">💬 WhatsApp Templates</a>
             <a href="#" onclick="show('workflow');return false" style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:#f8fafc;border-radius:10px;text-decoration:none;color:#0f1923;border:1px solid #e2e8f0;">⚙️ Workflow</a>
             <a href="#" onclick="show('reminders');return false" style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:#f8fafc;border-radius:10px;text-decoration:none;color:#0f1923;border:1px solid #e2e8f0;">📬 Reminders</a>
@@ -1551,42 +1575,97 @@ window.doLogout = async () => { await signOut('/pages/admin-login.html'); };
 const _ov = document.getElementById('auth-loading'); if (_ov) _ov.style.display='none';
 
 
-// ── TRAVEL PARTNERS ──────────────────────────────────────────
-async function loadTravelPartners() {
-  const load = document.getElementById('partners-load');
-  const tbody = document.getElementById('partners-tbody');
-  load.style.display = 'block';
+// ── COMMISSION MANAGEMENT ─────────────────────────────────────
+async function loadCommissionsPage() {
   try {
-    const [agentRes, vendorRes] = await Promise.allSettled([
-      supabase.from('agents').select('*').order('created_at',{ascending:false}).limit(50),
-      supabase.from('vendors').select('*').order('created_at',{ascending:false}).limit(50),
+    const [vendorRes, agentRes, commRes] = await Promise.allSettled([
+      supabase.from('vendors').select('*').order('total_revenue', { ascending: false }),
+      supabase.from('agents').select('*').order('total_commission_earned', { ascending: false }),
+      supabase.from('agent_commissions').select('*'),
     ]);
-    const agents  = agentRes.status  === 'fulfilled' ? (agentRes.value.data  || []) : [];
     const vendors = vendorRes.status === 'fulfilled' ? (vendorRes.value.data || []) : [];
-    const all = [
-      ...agents.map(a => ({...a, _type:'Agent'})),
-      ...vendors.map(v => ({...v, _type:'Vendor', name: v.business_name || v.name})),
-    ];
-    load.style.display = 'none';
-    if (!all.length) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#94a3b8;padding:2rem">No partners found</td></tr>'; return; }
-    tbody.innerHTML = all.map(p => `<tr>
-      <td><strong>${esc(p.name || p.full_name || '—')}</strong></td>
-      <td><span style="padding:2px 8px;background:#eff6ff;color:#1d4ed8;border-radius:20px;font-size:.72rem;font-weight:600">${p._type}</span></td>
-      <td>${esc(p.email || '—')}</td>
-      <td>${esc(p.phone || '—')}</td>
-      <td><span style="padding:2px 8px;border-radius:20px;font-size:.72rem;font-weight:600;background:${p.status==='active'?'#dcfce7':'#f1f5f9'};color:${p.status==='active'?'#15803d':'#64748b'}">${p.status||'pending'}</span></td>
-      <td><button onclick="togglePartnerStatus('${p.id}','${p._type.toLowerCase()}','${p.status}')" style="padding:4px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:.75rem;cursor:pointer;background:#fff">${p.status==='active'?'Suspend':'Activate'}</button></td>
-    </tr>`).join('');
-  } catch(e) { load.style.display='none'; toast('Failed to load partners','error'); }
+    const agents  = agentRes.status  === 'fulfilled' ? (agentRes.value.data  || []) : [];
+    const comms   = commRes.status   === 'fulfilled' ? (commRes.value.data   || []) : [];
+
+    const totalEarned  = agents.reduce((s,a) => s+parseFloat(a.total_commission_earned||0), 0);
+    const totalPaid    = agents.reduce((s,a) => s+parseFloat(a.total_commission_paid||0), 0);
+    const totalPending = Math.max(0, totalEarned - totalPaid);
+    const vendorComm   = vendors.reduce((s,v) => s+parseFloat(v.total_revenue||0)*((v.commission_rate??10)/100), 0);
+    document.getElementById('cm-s-earned').textContent  = '₹'+fmtAmt(totalEarned);
+    document.getElementById('cm-s-paid').textContent    = '₹'+fmtAmt(totalPaid);
+    document.getElementById('cm-s-pending').textContent = '₹'+fmtAmt(totalPending);
+    document.getElementById('cm-s-vendor').textContent  = '₹'+fmtAmt(vendorComm);
+
+    document.getElementById('cm-v-count').textContent = vendors.length + ' vendors';
+    document.getElementById('cm-vendor-tbody').innerHTML = vendors.length ? vendors.map(v => `
+      <tr>
+        <td><strong>${esc(v.business_name||'—')}</strong></td>
+        <td>${esc(vTypeLabel ? vTypeLabel(v.vendor_type) : (v.vendor_type||'—'))}</td>
+        <td>₹${fmtAmt(v.total_revenue)}</td>
+        <td><input type="number" id="cm-v-rate-${v.id}" value="${v.commission_rate??10}" min="0" max="100" step="0.5" style="width:80px;padding:.4rem;border:1.5px solid #e2e8f0;border-radius:6px"/>%</td>
+        <td>₹${fmtAmt(parseFloat(v.total_revenue||0)*((v.commission_rate??10)/100))}</td>
+        <td><button class="bs bd" onclick="updateVendorCommissionInline('${v.id}')">Save</button></td>
+      </tr>`).join('') : '<tr><td colspan="6" style="text-align:center;color:#94a3b8;padding:2rem">No vendors yet.</td></tr>';
+
+    document.getElementById('cm-a-count').textContent = agents.length + ' agents';
+    document.getElementById('cm-agent-tbody').innerHTML = agents.length ? agents.map(a => `
+      <tr>
+        <td><strong>${esc(a.full_name||'—')}</strong></td>
+        <td>${agTierLabel ? agTierLabel(a.tier) : (a.tier||'—')}</td>
+        <td><input type="number" id="cm-a-rate-${a.id}" value="${a.commission_rate??5}" min="0" max="100" step="0.5" style="width:80px;padding:.4rem;border:1.5px solid #e2e8f0;border-radius:6px"/>%</td>
+        <td>₹${fmtAmt(a.total_commission_earned)}</td>
+        <td>₹${fmtAmt(a.total_commission_paid)}</td>
+        <td><button class="bs bd" onclick="updateAgentCommissionInline('${a.id}')">Save</button></td>
+      </tr>`).join('') : '<tr><td colspan="6" style="text-align:center;color:#94a3b8;padding:2rem">No agents yet.</td></tr>';
+
+    window._cmComms = comms;
+    window._cmAgentsById = Object.fromEntries(agents.map(a => [a.id, a.full_name]));
+    loadCommissionLedger();
+  } catch(e) { toast('Failed to load commission data: ' + e.message, 'error'); }
 }
 
-window.togglePartnerStatus = async (id, type, current) => {
-  const newStatus = current === 'active' ? 'suspended' : 'active';
-  const table = type === 'agent' ? 'agents' : 'vendors';
-  const { error } = await supabase.from(table).update({ status: newStatus }).eq('id', id);
-  if (error) { toast('Error: ' + error.message, 'error'); return; }
-  loadTravelPartners();
-  toast('Status updated');
+window.updateVendorCommissionInline = async (id) => {
+  const rate = parseFloat(document.getElementById('cm-v-rate-'+id)?.value);
+  if (isNaN(rate) || rate < 0 || rate > 100) { toast('Enter a valid rate between 0 and 100', 'error'); return; }
+  try {
+    const { error } = await supabase.from('vendors').update({ commission_rate: rate }).eq('id', id);
+    if (error) throw error;
+    toast('Vendor commission rate updated');
+    loadCommissionsPage();
+  } catch(e) { toast('Error: ' + e.message, 'error'); }
+};
+
+window.updateAgentCommissionInline = async (id) => {
+  const rate = parseFloat(document.getElementById('cm-a-rate-'+id)?.value);
+  if (isNaN(rate) || rate < 0 || rate > 100) { toast('Enter a valid rate between 0 and 100', 'error'); return; }
+  try {
+    const { error } = await supabase.from('agents').update({ commission_rate: rate }).eq('id', id);
+    if (error) throw error;
+    toast('Agent commission rate updated');
+    loadCommissionsPage();
+  } catch(e) { toast('Error: ' + e.message, 'error'); }
+};
+
+window.loadCommissionLedger = () => {
+  const load = document.getElementById('cm-ledger-load');
+  const tbody = document.getElementById('cm-ledger-tbody');
+  const filter = document.getElementById('cm-status-filter')?.value || '';
+  load.style.display = 'block';
+  let rows = window._cmComms || [];
+  if (filter) rows = rows.filter(c => c.status === filter);
+  rows = [...rows].sort((a,b) => new Date(b.created_at) - new Date(a.created_at)).slice(0, 200);
+  load.style.display = 'none';
+  const byId = window._cmAgentsById || {};
+  tbody.innerHTML = rows.length ? rows.map(c => `
+    <tr>
+      <td>${esc(byId[c.agent_id] || '—')}</td>
+      <td style="font-family:monospace">${esc(c.booking_ref||'—')}</td>
+      <td>₹${fmtAmt(c.booking_amount)}</td>
+      <td>${c.commission_rate||0}%</td>
+      <td style="font-weight:700;color:#16a34a">₹${fmtAmt(c.commission_amount)}</td>
+      <td>${pill(c.status)}</td>
+      <td style="font-size:.75rem;color:var(--muted)">${new Date(c.created_at).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})}</td>
+    </tr>`).join('') : '<tr><td colspan="7" style="text-align:center;color:#94a3b8;padding:2rem">No commission records found.</td></tr>';
 };
 
 // ── LOYALTY ──────────────────────────────────────────────────
@@ -3047,7 +3126,7 @@ window.approvePartner = async (id, type, email, name) => {
   const msg = `Hi ${name}! 🎉 Your application as a ZoomFly ${type} partner has been APPROVED. You can now log in to your partner portal and start earning commissions. Welcome aboard! — ZoomFly Team`;
   window.open('https://wa.me/' + email.replace(/\D/g,'') + '?text=' + encodeURIComponent(msg), '_blank');
   toast('Partner approved and notified');
-  loadTravelPartners();
+  if (table === 'agents') loadAgents(); else loadVendors();
 };
 
 // ── IMAGE UPLOAD TO SUPABASE STORAGE ─────────────────────────
@@ -3169,13 +3248,17 @@ window.show = (id, el) => {
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
   document.getElementById('section-'+id).classList.add('active');
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  // Look up the matching sidebar item by its id rather than trusting a
+  // hardcoded index (nav-item positions shift whenever items are added/
+  // removed, which was silently highlighting the wrong sidebar entry).
+  if (!el) el = document.querySelector(`.nav-item[onclick*="'${id}'"]`);
   el?.classList.add('active');
   const titles={
     overview:'Overview', enquiries:'Enquiries', bookings:'Bookings',
     packages:'Packages', vendors:'Vendors', customers:'Customers', agents:'Agents', workflow:'Workflow',
     subscribers:'Email Subscribers', testimonials:'Testimonials', reviews:'Reviews', 'messages-inbox':'Messages',
     buses:'Bus Routes', cabs:'Cab Services', 'flights-mgmt':'Flights', trains:'Trains',
-    'travel-partners':'Travel Partners', loyalty:'Loyalty Points',
+    commissions:'Commission Management', loyalty:'Loyalty Points',
     hotels:'Hotels', destinations:'Destinations',
     offers:'Offers & Promos', 'wa-templates':'WhatsApp Templates', blog:'Blog', faq:'FAQ', careers:'Careers',
     'site-settings':'Site Settings', reminders:'Reminders'
@@ -3196,8 +3279,8 @@ window.show = (id, el) => {
   if(id==='cabs')            loadCabs();
   if(id==='flights-mgmt')    loadFlightEnquiries();
   if(id==='trains')          loadTrainEnquiries();
-  if(id==='travel-partners') loadTravelPartners();
   if(id==='site-settings')   {window.loadSiteSettings(); loadPageContent(); }
+  if(id==='commissions')     loadCommissionsPage();
   if(id==='reminders')       initReminders();
   if(id==='loyalty')         loadLoyalty();
   if(id==='hotels')          loadHotels();
@@ -4065,7 +4148,12 @@ window.openVDrawer = (id) => {
     <div style="font-size:.8rem;font-weight:700;text-transform:uppercase;color:#94a3b8;margin-bottom:8px">Performance</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px">
       ${info('Total Bookings', String(v.total_bookings||0))}${info('Confirmed', String(v.confirmed_bookings||0))}
-      ${info('Total Revenue', '₹'+fmtAmt(v.total_revenue))}${info('Commission (10%)', '₹'+fmtAmt(parseFloat(v.total_revenue||0)*0.1))}
+      ${info('Total Revenue', '₹'+fmtAmt(v.total_revenue))}${info('Commission ('+(v.commission_rate??10)+'%)', '₹'+fmtAmt(parseFloat(v.total_revenue||0)*((v.commission_rate??10)/100)))}
+    </div>
+    <div style="font-size:.8rem;font-weight:700;text-transform:uppercase;color:#94a3b8;margin-bottom:8px">Commission Rate</div>
+    <div style="display:flex;gap:8px;align-items:center;margin-bottom:20px">
+      <input type="number" id="v-comm-rate" value="${v.commission_rate??10}" min="0" max="100" step="0.5" style="width:100px;padding:.5rem;border:1.5px solid #e2e8f0;border-radius:8px"/><span>%</span>
+      <button class="bs bd" onclick="updateVendorCommission('${v.id}')">Save Rate</button>
     </div>
     <div style="font-size:.8rem;font-weight:700;text-transform:uppercase;color:#94a3b8;margin-bottom:8px">Bank Details</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px">
@@ -4124,6 +4212,20 @@ window.rejectVendor = async (id) => {
     }
     closeVDrawer(); renderVendorStats(); renderVendorTable();
     toast('Vendor rejected');
+  } catch(e) { toast('Error: ' + e.message, 'error'); }
+};
+
+window.updateVendorCommission = async (id) => {
+  const input = document.getElementById('v-comm-rate');
+  const rate = parseFloat(input?.value);
+  if (isNaN(rate) || rate < 0 || rate > 100) { toast('Enter a valid rate between 0 and 100', 'error'); return; }
+  try {
+    const { error } = await supabase.from('vendors').update({ commission_rate: rate }).eq('id', id);
+    if (error) throw error;
+    const v = allVendorsFull.find(x => x.id===id);
+    if (v) v.commission_rate = rate;
+    toast('Commission rate updated');
+    openVDrawer(id);
   } catch(e) { toast('Error: ' + e.message, 'error'); }
 };
 
@@ -4465,6 +4567,11 @@ window.openAgDrawer = (id) => {
       ${info('Total Earned', '₹'+fmtAmt(comm))}${info('Total Paid', '₹'+fmtAmt(paid))}
       ${info('Pending', '₹'+fmtAmt(pend))}${info('Affiliate Clicks', String(a.affiliate_clicks||0))}
     </div>
+    <div style="font-size:.8rem;font-weight:700;text-transform:uppercase;color:#94a3b8;margin-bottom:8px">Commission Rate</div>
+    <div style="display:flex;gap:8px;align-items:center;margin-bottom:20px">
+      <input type="number" id="ag-comm-rate" value="${a.commission_rate??5}" min="0" max="100" step="0.5" style="width:100px;padding:.5rem;border:1.5px solid #e2e8f0;border-radius:8px"/><span>%</span>
+      <button class="bs bd" onclick="updateAgentCommission('${a.id}')">Save Rate</button>
+    </div>
     <div style="font-size:.8rem;font-weight:700;text-transform:uppercase;color:#94a3b8;margin-bottom:8px">Bank Details</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px">
       ${info('Account Name', esc(a.bank_acc_name||'—'))}${info('Account No', a.bank_acc_num ? '••••'+esc(a.bank_acc_num.slice(-4)) : '—')}
@@ -4490,6 +4597,20 @@ window.openAgDrawer = (id) => {
 window.closeAgDrawer = () => {
   document.getElementById('ag-drawer-overlay').style.display = 'none';
   document.getElementById('ag-drawer').style.transform = 'translateX(100%)';
+};
+
+window.updateAgentCommission = async (id) => {
+  const input = document.getElementById('ag-comm-rate');
+  const rate = parseFloat(input?.value);
+  if (isNaN(rate) || rate < 0 || rate > 100) { toast('Enter a valid rate between 0 and 100', 'error'); return; }
+  try {
+    const { error } = await supabase.from('agents').update({ commission_rate: rate }).eq('id', id);
+    if (error) throw error;
+    const a = allAgentsFull.find(x => x.id===id);
+    if (a) a.commission_rate = rate;
+    toast('Commission rate updated');
+    openAgDrawer(id);
+  } catch(e) { toast('Error: ' + e.message, 'error'); }
 };
 
 // ── AGENT ACTIONS ────────────────────────────────────────────
