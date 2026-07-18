@@ -683,25 +683,52 @@ document.querySelectorAll('input[type=date]').forEach(i=>i.min=new Date().toISOS
 loadHomePkgs();
 
 // ── EXIT INTENT POPUP ────────────────────────────────────
+// The code shown here used to be hardcoded as "FIRST10" in the HTML
+// below, so deactivating every promo code in Admin → Offers & Promos
+// had no effect — the popup kept advertising a dead code forever.
+// Now it pulls the best currently-active code from promo_codes and
+// simply doesn't show itself if none are active.
 let exitShown = false;
+let _exitPopupCode = null;
 const exitDismissed = sessionStorage.getItem('zf_exit_dismissed');
 
+async function _loadExitPopupCode() {
+  try {
+    const { data } = await supabase.from('promo_codes').select('code,discount_type,discount_value')
+      .eq('is_active', true)
+      .or(`valid_until.is.null,valid_until.gte.${new Date().toISOString().slice(0,10)}`)
+      .order('discount_value', { ascending: false })
+      .limit(1);
+    if (data && data[0]) _exitPopupCode = data[0];
+  } catch(_) { /* no active promo — popup just won't show */ }
+}
+
 if (!exitDismissed) {
-  document.addEventListener('mouseleave', (e) => {
-    if (e.clientY < 10 && !exitShown) {
-      exitShown = true;
-      setTimeout(() => {
+  _loadExitPopupCode().then(() => {
+    if (!_exitPopupCode) return; // nothing active — don't advertise anything
+    const codeEl = document.getElementById('exit-popup-code');
+    const dealEl = document.getElementById('exit-popup-deal');
+    if (codeEl) codeEl.textContent = _exitPopupCode.code;
+    if (dealEl) dealEl.innerHTML = _exitPopupCode.discount_type === 'percentage'
+      ? `Get <strong>${_exitPopupCode.discount_value}% OFF</strong> your first booking`
+      : `Get <strong>₹${_exitPopupCode.discount_value} OFF</strong> your first booking`;
+
+    document.addEventListener('mouseleave', (e) => {
+      if (e.clientY < 10 && !exitShown) {
+        exitShown = true;
+        setTimeout(() => {
+          document.getElementById('exit-popup').style.display = 'flex';
+        }, 200);
+      }
+    });
+    // Mobile: show after 45 seconds of browsing
+    setTimeout(() => {
+      if (!exitShown) {
+        exitShown = true;
         document.getElementById('exit-popup').style.display = 'flex';
-      }, 200);
-    }
+      }
+    }, 45000);
   });
-  // Mobile: show after 45 seconds of browsing
-  setTimeout(() => {
-    if (!exitShown) {
-      exitShown = true;
-      document.getElementById('exit-popup').style.display = 'flex';
-    }
-  }, 45000);
 }
 
 window.closeExitPopup = () => {
@@ -718,8 +745,9 @@ window.exitPopupSubscribe = async (e) => {
     const { subscribeNewsletter } = await import('/assets/js/supabase.js');
     await subscribeNewsletter(email, 'exit_intent');
   } catch(_) {}
-  msg.textContent = '🎉 Deal unlocked! Code FIRST10 saved to your clipboard.';
-  navigator.clipboard.writeText('FIRST10').catch(()=>{});
+  const code = _exitPopupCode?.code || '';
+  msg.textContent = code ? `🎉 Deal unlocked! Code ${code} saved to your clipboard.` : '🎉 You\'re subscribed! Watch your inbox for deals.';
+  if (code) navigator.clipboard.writeText(code).catch(()=>{});
   setTimeout(closeExitPopup, 3000);
 };
 
@@ -783,12 +811,12 @@ loadRecentActivity().then(() => {
     <div style="background:linear-gradient(135deg,#1a73e8,#0d47a1);padding:32px;text-align:center;color:#fff">
       <div style="font-size:2.5rem;margin-bottom:10px">✈️</div>
       <div style="font-size:1.2rem;font-weight:800;margin-bottom:6px">Wait! Don't Miss Out</div>
-      <div style="font-size:.9rem;opacity:.8">Get <strong>10% OFF</strong> your first booking</div>
+      <div style="font-size:.9rem;opacity:.8" id="exit-popup-deal">Get <strong>10% OFF</strong> your first booking</div>
     </div>
     <div style="padding:24px">
       <div style="text-align:center;margin-bottom:16px">
         <div style="font-size:.88rem;color:#374151;margin-bottom:4px">Use code at checkout:</div>
-        <div style="font-family:monospace;font-size:1.4rem;font-weight:800;color:#1a73e8;background:#eff6ff;padding:8px 20px;border-radius:10px;display:inline-block;letter-spacing:2px">FIRST10</div>
+        <div style="font-family:monospace;font-size:1.4rem;font-weight:800;color:#1a73e8;background:#eff6ff;padding:8px 20px;border-radius:10px;display:inline-block;letter-spacing:2px" id="exit-popup-code">FIRST10</div>
       </div>
       <form onsubmit="exitPopupSubscribe(event)" style="display:flex;gap:8px;margin-bottom:12px">
         <input type="email" id="exit-email" placeholder="Enter your email for the deal" required
