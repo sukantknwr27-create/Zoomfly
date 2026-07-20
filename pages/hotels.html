@@ -429,22 +429,20 @@ window.openModal = (id) => {
       <button class="btn-sec-m" onclick="window.open('https://wa.me/918076136300?text=Hi!+I+want+to+book+${encodeURIComponent(selHotel.name)}','_blank')">💬 WhatsApp</button>
       <button class="btn-primary-m" onclick="goMs(2)">Select Room →</button>
     </div>`;
-  // Rooms — generate defaults if hotel has none defined
+  // Rooms — only show rooms the hotel actually has defined. No invented room types.
   const rawRooms = Array.isArray(selHotel.rooms) ? selHotel.rooms
     : (typeof selHotel.rooms === 'string' && selHotel.rooms ? JSON.parse(selHotel.rooms) : []);
-  const basePrice = Number(selHotel.price_per_night) || 3500;
-  const rooms = rawRooms.length ? rawRooms : [
-    { name: 'Standard Room', info: 'Comfortable room with essential amenities, great value stay', price: basePrice },
-    { name: 'Deluxe Room', info: 'Spacious room with premium furnishings and better views', price: Math.round(basePrice * 1.4) },
-    { name: 'Suite', info: 'Luxurious suite with separate living area and premium service', price: Math.round(basePrice * 1.9) },
-  ];
+  const rooms = rawRooms;
   selHotel._rooms = rooms;
   document.getElementById('ms2-name').textContent = selHotel.name + ' · ' + selHotel.location; // textContent — already safe
-  document.getElementById('room-cards').innerHTML = rooms.map((r, i) => `
+  document.getElementById('room-cards').innerHTML = rooms.length ? rooms.map((r, i) => `
     <div class="room-card" onclick="selectRoom(${i})" id="rc-${i}">
       <div><div class="rn">${esc(r.name)}</div><div class="ri">${esc(r.info)}</div></div>
       <div style="text-align:right"><div class="rp">₹${Number(r.price).toLocaleString('en-IN')}</div><div class="rpp">/night</div></div>
-    </div>`).join('');
+    </div>`).join('') : `
+    <div style="padding:2rem 1rem;text-align:center;color:var(--text-muted);font-size:.9rem;line-height:1.6">
+      Room options for this hotel are being finalized.<br/>Message us on WhatsApp to check live availability and rates.
+    </div>`;
   document.getElementById('modal-ov').classList.add('open');
   document.body.style.overflow='hidden';
   const today=new Date().toISOString().split('T')[0];
@@ -461,7 +459,7 @@ window.selectRoom = (i) => {
 
 function buildSum() {
   const rooms = selHotel._rooms || [];
-  const room = selRoom || rooms[0] || { name: 'Standard Room', price: selHotel.price_per_night };
+  const room = selRoom || rooms[0] || { name: 'Room', price: selHotel.price_per_night };
   const ci = document.getElementById('b-ci').value, co = document.getElementById('b-co').value;
   let nights = 1;
   if (ci && co) { const d = (new Date(co) - new Date(ci)) / 86400000; if (d > 0) nights = d; }
@@ -496,7 +494,7 @@ window.confirmBooking = async () => {
           service_type:'hotel', service_id:selHotel.id, service_name:selHotel.name,
           customer_name: fn+' '+(document.getElementById('b-ln').value.trim()),
           customer_email:em, customer_phone:ph,
-          travel_details: { checkin_date: ci||null, checkout_date: co||null, nights, room_type: room?.name || 'Standard', num_rooms: 1 },
+          travel_details: { checkin_date: ci||null, checkout_date: co||null, nights, room_type: room?.name || 'Room', num_rooms: 1 },
           num_adults:1,
           special_requests:document.getElementById('b-sr').value,
           base_amount:amount, total_amount:amount, tax_amount:0, discount_amount:0
