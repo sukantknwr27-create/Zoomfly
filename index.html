@@ -242,7 +242,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
 
   <div class="hero-content" style="position:relative;z-index:3">
     <div class="hero-badge">
-      <span style="color:#F59E0B">★★★★★</span>&nbsp; India's #1 Rated Travel Platform &nbsp;·&nbsp; 4.9 / 5
+      <span style="color:#F59E0B">✦</span>&nbsp; Newly Launched &nbsp;·&nbsp; Built by Travelers, for Travelers
     </div>
 
     <h1 id="heroTitle">
@@ -261,10 +261,10 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
     </div>
 
     <div class="hero-stats">
-      <div class="hstat"><strong>5,000+</strong><span>Happy Travellers</span></div>
       <div class="hstat"><strong>200+</strong><span>Tour Packages</span></div>
       <div class="hstat"><strong>50+</strong><span>Destinations</span></div>
-      <div class="hstat"><strong>4.9★</strong><span>Avg Rating</span></div>
+      <div class="hstat"><strong>100%</strong><span>Secure Payments</span></div>
+      <div class="hstat"><strong>24/7</strong><span>Customer Support</span></div>
     </div>
   </div>
 </section>
@@ -350,7 +350,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
 <!-- PACKAGES -->
 <section style="background:white">
   <div class="sw">
-    <div class="sh"><div class="slbl">Popular Packages</div><h2 class="stitle">Handpicked <em>Tour Packages</em></h2><p class="ssub">Our most-booked trips, loved by thousands of travellers.</p></div>
+    <div class="sh"><div class="slbl">Popular Packages</div><h2 class="stitle">Handpicked <em>Tour Packages</em></h2><p class="ssub">Curated trips designed for travellers who want more than the ordinary.</p></div>
     <div class="pkg-grid" id="home-pkgs">
       <div class="pkg-loading"><div class="spinner"></div><p>Loading packages...</p></div>
     </div>
@@ -412,16 +412,16 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
       </div>
     </div>
     <div class="why-stats">
-      <div class="wstat"><strong>5,000+</strong><span>Happy Travellers</span></div>
-      <div class="wstat"><strong>4.9★</strong><span>Average Rating</span></div>
       <div class="wstat"><strong>200+</strong><span>Tour Packages</span></div>
-      <div class="wstat"><strong>6+</strong><span>Years Experience</span></div>
+      <div class="wstat"><strong>100%</strong><span>Secure & Verified Payments</span></div>
+      <div class="wstat"><strong>24/7</strong><span>Customer Support</span></div>
+      <div class="wstat"><strong>Instant</strong><span>E-Ticket Confirmation</span></div>
     </div>
   </div>
 </section>
 
 <!-- TESTIMONIALS -->
-<section class="test-section">
+<section class="test-section" id="test-section">
   <div class="test-inner">
     <div class="sh"><div class="slbl">Traveller Stories</div><h2 class="stitle">What Our Guests <em>Say</em></h2></div>
     <div class="test-grid" id="test-grid"></div>
@@ -451,7 +451,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
       <div class="newsletter-text">
         <div class="zf-eyebrow">Travel Deals</div>
         <h3>Get the best deals,<br><em>before anyone else</em></h3>
-        <p>Join 12,000+ travellers getting exclusive offers every week.</p>
+        <p>Get exclusive offers delivered straight to your inbox every week.</p>
       </div>
       <form class="newsletter-form" onsubmit="handleNewsletter(event)">
         <input type="email" placeholder="Your email address" required aria-label="Email for newsletter"/>
@@ -535,12 +535,12 @@ window.doSearch = (type) => {
 let allPkgs = [];
 // ── Static packages shown immediately — no loading spinner ──
 const STATIC_PKGS = [
-  { id:'goa-beach',     title:'Goa Beach Escape',       emoji:'🏖️', bg_gradient:'linear-gradient(135deg,#667eea,#764ba2)', price:6999,  old_price:8999,  rating:4.8, review_count:324, duration_days:4, nights:3, destination:'Goa', badge:'Best Seller',    type:'domestic' },
-  { id:'manali-snow',   title:'Manali Snow Adventure',   emoji:'🏔️', bg_gradient:'linear-gradient(135deg,#f093fb,#f5576c)', price:10499, old_price:13999, rating:4.9, review_count:218, duration_days:6, nights:5, destination:'Manali', badge:'Top Rated',   type:'domestic' },
-  { id:'kerala-tour',   title:'Kerala Backwaters Tour',  emoji:'🌴', bg_gradient:'linear-gradient(135deg,#4facfe,#00f2fe)', price:9999,  old_price:12499, rating:4.7, review_count:189, duration_days:5, nights:4, destination:'Kerala', badge:'Trending',    type:'domestic' },
-  { id:'rajasthan-royal',title:'Royal Rajasthan Circuit',emoji:'🏰', bg_gradient:'linear-gradient(135deg,#fa709a,#fee140)', price:12999, old_price:16999, rating:4.8, review_count:156, duration_days:7, nights:6, destination:'Rajasthan', badge:'Heritage', type:'domestic' },
-  { id:'bali-dream',    title:'Bali Dream Holiday',      emoji:'🌸', bg_gradient:'linear-gradient(135deg,#a1c4fd,#c2e9fb)', price:42999, old_price:54999, rating:4.9, review_count:412, duration_days:7, nights:6, destination:'Bali', badge:'International',  type:'international' },
-  { id:'andaman-pearl', title:'Andaman Pearl Islands',   emoji:'🐠', bg_gradient:'linear-gradient(135deg,#43e97b,#38f9d7)', price:14999, old_price:18999, rating:4.7, review_count:203, duration_days:5, nights:4, destination:'Andaman', badge:'Island Life',  type:'domestic' },
+  { id:'goa-beach',     title:'Goa Beach Escape',       emoji:'🏖️', bg_gradient:'linear-gradient(135deg,#667eea,#764ba2)', price:6999,  old_price:8999,  duration_days:4, nights:3, destination:'Goa', type:'domestic' },
+  { id:'manali-snow',   title:'Manali Snow Adventure',   emoji:'🏔️', bg_gradient:'linear-gradient(135deg,#f093fb,#f5576c)', price:10499, old_price:13999, duration_days:6, nights:5, destination:'Manali', type:'domestic' },
+  { id:'kerala-tour',   title:'Kerala Backwaters Tour',  emoji:'🌴', bg_gradient:'linear-gradient(135deg,#4facfe,#00f2fe)', price:9999,  old_price:12499, duration_days:5, nights:4, destination:'Kerala', type:'domestic' },
+  { id:'rajasthan-royal',title:'Royal Rajasthan Circuit',emoji:'🏰', bg_gradient:'linear-gradient(135deg,#fa709a,#fee140)', price:12999, old_price:16999, duration_days:7, nights:6, destination:'Rajasthan', type:'domestic' },
+  { id:'bali-dream',    title:'Bali Dream Holiday',      emoji:'🌸', bg_gradient:'linear-gradient(135deg,#a1c4fd,#c2e9fb)', price:42999, old_price:54999, duration_days:7, nights:6, destination:'Bali', type:'international' },
+  { id:'andaman-pearl', title:'Andaman Pearl Islands',   emoji:'🐠', bg_gradient:'linear-gradient(135deg,#43e97b,#38f9d7)', price:14999, old_price:18999, duration_days:5, nights:4, destination:'Andaman', type:'domestic' },
 ];
 
 async function loadHomePkgs() {
@@ -572,7 +572,7 @@ function renderPkgs(pkgs) {
         <div class="pkg-desc">${p.description||''}</div>
         <div class="pkg-footer">
           <div class="pkg-price"><div class="lbl">From</div><div class="amt">₹${Number(p.price).toLocaleString('en-IN')}</div><div class="old">₹${Number(p.old_price||p.price).toLocaleString('en-IN')}</div></div>
-          <div class="pkg-rating"><span class="star">★</span>${p.rating} <span style="font-size:.7rem;color:var(--light)">(${p.review_count})</span></div>
+          ${p.rating ? `<div class="pkg-rating"><span class="star">★</span>${p.rating} <span style="font-size:.7rem;color:var(--light)">(${p.review_count||0})</span></div>` : ''}
         </div>
         <button class="btn-pkg" onclick="event.stopPropagation();openModal('${p.id}')">View Details →</button>
       </div>
@@ -586,7 +586,7 @@ window.openModal = (id) => {
   document.getElementById('m-thumb').innerHTML=`<button class="m-close" onclick="closeModal()">✕</button><span style="font-size:7rem">${p.emoji||'🗺️'}</span>`;
   document.getElementById('m-body').innerHTML=`
     <h2>${p.title}</h2>
-    <div class="m-meta"><span>📅 ${p.duration_days} Days / ${p.nights} Nights</span><span>⭐ ${p.rating} (${p.review_count} reviews)</span><span>${p.type==='international'?'🌍 International':'🇮🇳 Domestic'}</span></div>
+    <div class="m-meta"><span>📅 ${p.duration_days} Days / ${p.nights} Nights</span>${p.rating ? `<span>⭐ ${p.rating} (${p.review_count||0} reviews)</span>` : ''}<span>${p.type==='international'?'🌍 International':'🇮🇳 Domestic'}</span></div>
     <p class="m-desc">${p.description||''}</p>
     ${(p.inclusions||[]).length?`<div style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--light);margin-bottom:.75rem">What's Included</div><div class="m-inc-grid">${p.inclusions.map(i=>`<div class="m-inc">${i}</div>`).join('')}</div>`:''}`;
   document.getElementById('m-footer').innerHTML=`
@@ -601,17 +601,8 @@ window.openModal = (id) => {
 window.closeModal=()=>{document.getElementById('modal-ov').classList.remove('open');document.body.style.overflow='';};
 document.addEventListener('keydown',e=>{if(e.key==='Escape')window.closeModal();});
 
-// ── Testimonials — loads from Supabase, falls back to static, auto-rotates ──
-const STATIC_TESTIMONIALS = [
-  {stars:5,text:'Booked the Manali package — everything was perfect. Hotel, transfers, the Rohtang trip — ZoomFly handled every detail flawlessly.',name:'Rohit Verma',city:'Hyderabad',trip:'Manali Snow Escape',avatar:'#0057FF',initials:'RV'},
-  {stars:5,text:'Our Bali honeymoon was an absolute dream. The private villa, couples spa and romantic beach dinner — all arranged perfectly.',name:'Priya & Arjun Singh',city:'Mumbai',trip:'Bali Honeymoon',avatar:'#f77062',initials:'PA'},
-  {stars:5,text:'Incredible value for money. Kerala backwaters on a private houseboat was a bucket-list experience. Team was available on WhatsApp throughout.',name:'Kavita Nair',city:'Bengaluru',trip:'Kerala Backwaters',avatar:'#43e97b',initials:'KN'},
-  {stars:5,text:'Ladakh Grand Tour was life-changing. The permits, camping, jeep safari — flawlessly organised. Will book again for Spiti!',name:'Aditya Sharma',city:'Delhi',trip:'Ladakh Grand Tour',avatar:'#764ba2',initials:'AS'},
-  {stars:5,text:'Rajasthan package exceeded all expectations. Heritage hotels, camel safari, amazing food — worth every rupee.',name:'Sunita & Rakesh Gupta',city:'Jaipur',trip:'Rajasthan Royal Tour',avatar:'#fa709a',initials:'SR'},
-  {stars:4,text:'Great Goa package for our group of 8. All transfers were on time, hotel was excellent and the water sports were amazing!',name:'Manish Patel',city:'Ahmedabad',trip:'Goa Beach Bliss',avatar:'#f6d365',initials:'MP'},
-];
-
-let allTestimonials = [...STATIC_TESTIMONIALS];
+// ── Testimonials — loads from Supabase only. Section stays hidden until real reviews exist. ──
+let allTestimonials = [];
 let testPage = 0;
 const TESTS_PER_PAGE = 3;
 
@@ -637,6 +628,13 @@ function showTestPage(page) {
 
 // Auto-rotate every 5 seconds
 function startTestRotation() {
+  const section = document.getElementById('test-section');
+  if (!allTestimonials.length) {
+    // No real reviews yet — hide the whole section rather than show invented ones
+    if (section) section.style.display = 'none';
+    return;
+  }
+  if (section) section.style.display = '';
   showTestPage(0);
   setInterval(() => {
     const maxPage = Math.ceil(allTestimonials.length / TESTS_PER_PAGE) - 1;
@@ -651,10 +649,10 @@ function startTestRotation() {
   }, 5000);
 }
 
-// Try loading from Supabase
+// Load real reviews from Supabase only
 import('./assets/js/supabase.js').then(({ supabase }) => {
   supabase.from('testimonials').select('*').eq('is_active', true).order('created_at', { ascending: false }).then(({ data }) => {
-    if (data && data.length) allTestimonials = [...data, ...STATIC_TESTIMONIALS];
+    if (data && data.length) allTestimonials = [...data];
     startTestRotation();
   }).catch(() => startTestRotation());
 }).catch(() => startTestRotation());
