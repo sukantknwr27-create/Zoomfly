@@ -341,15 +341,15 @@ function renderFooter() {
         </svg>`}
       </a>
       <p style="color:rgba(255,255,255,0.48);font-size:.82rem;line-height:1.75;max-width:220px;margin-bottom:18px;">
-        India's trusted travel partner since 2018. Crafting unforgettable journeys for thousands of happy travellers.
+        India's newest travel platform, crafting unforgettable journeys tailored to how you want to explore.
       </p>
       <!-- Trust badges -->
       <div style="display:flex;flex-direction:column;gap:7px;margin-bottom:20px;">
         <div style="display:flex;align-items:center;gap:8px;font-size:.75rem;color:rgba(255,255,255,0.55);">
-          <span style="color:#F59E0B">★</span> <strong style="color:rgba(255,255,255,0.75)">4.9/5 Google Rating</strong> — Based on 500+ Reviews
+          <span style="color:#F59E0B">✦</span> <strong style="color:rgba(255,255,255,0.75)">Verified Payments</strong> Powered by Razorpay
         </div>
         <div style="display:flex;align-items:center;gap:8px;font-size:.75rem;color:rgba(255,255,255,0.55);">
-          <span>🧳</span> <strong style="color:rgba(255,255,255,0.75)">5,000+ Happy Travellers</strong> Trusted by thousands
+          <span>🕐</span> <strong style="color:rgba(255,255,255,0.75)">24/7 Support</strong> Always here to help
         </div>
         <div style="display:flex;align-items:center;gap:8px;font-size:.75rem;color:rgba(255,255,255,0.55);">
           <span>🗺️</span> <strong style="color:rgba(255,255,255,0.75)">200+ Tour Packages</strong> Handpicked experiences
@@ -358,7 +358,7 @@ function renderFooter() {
           <span>🌍</span> <strong style="color:rgba(255,255,255,0.75)">50+ Destinations</strong> India &amp; International
         </div>
         <div style="display:flex;align-items:center;gap:8px;font-size:.75rem;color:rgba(255,255,255,0.55);">
-          <span>📅</span> <strong style="color:rgba(255,255,255,0.75)">Since 2018</strong> 6+ years of excellence
+          <span>📅</span> <strong style="color:rgba(255,255,255,0.75)">Launched 2026</strong> Built for the modern traveller
         </div>
       </div>
       <!-- Social links -->
@@ -476,16 +476,16 @@ function renderFooter() {
         <div style="font-family:'Space Grotesk',system-ui;font-size:.62rem;color:rgba(255,255,255,.35);font-weight:600;">SSL Secured<br>256-bit SSL</div>
       </div>
       <div style="text-align:center;">
-        <div style="font-size:1.1rem;margin-bottom:2px;">✈</div>
-        <div style="font-family:'Space Grotesk',system-ui;font-size:.62rem;color:rgba(255,255,255,.35);font-weight:600;">IATA Affiliated<br>Member 2024</div>
+        <div style="font-size:1.1rem;margin-bottom:2px;">💳</div>
+        <div style="font-family:'Space Grotesk',system-ui;font-size:.62rem;color:rgba(255,255,255,.35);font-weight:600;">Payments by<br>Razorpay</div>
       </div>
       <div style="text-align:center;">
         <div style="font-size:1.1rem;margin-bottom:2px;">🛡</div>
-        <div style="font-family:'Space Grotesk',system-ui;font-size:.62rem;color:rgba(255,255,255,.35);font-weight:600;">RBI Compliant<br>Payment Gateway</div>
+        <div style="font-family:'Space Grotesk',system-ui;font-size:.62rem;color:rgba(255,255,255,.35);font-weight:600;">Data Protected<br>Privacy First</div>
       </div>
       <div style="text-align:center;">
-        <div style="font-size:1.1rem;margin-bottom:2px;">⭐</div>
-        <div style="font-family:'Space Grotesk',system-ui;font-size:.62rem;color:rgba(255,255,255,.35);font-weight:600;">4.9/5 ★★★★★<br>Google Reviews</div>
+        <div style="font-size:1.1rem;margin-bottom:2px;">📞</div>
+        <div style="font-family:'Space Grotesk',system-ui;font-size:.62rem;color:rgba(255,255,255,.35);font-weight:600;">24/7<br>Customer Support</div>
       </div>
     </div>
   </div>
@@ -530,7 +530,7 @@ function renderNewsletter() {
       <div class="newsletter-text">
         <div class="section-label">Stay Updated</div>
         <h3>Get <em>Exclusive Deals</em> &amp; Travel Tips</h3>
-        <p>Join 12,000+ travellers getting the best offers every week.</p>
+        <p>Get the best offers delivered straight to your inbox every week.</p>
       </div>
       <form class="newsletter-form" onsubmit="handleNewsletter(event)">
         <input type="email" placeholder="Enter your email address" required />
