@@ -1936,15 +1936,129 @@ window.submitAddHotel = async () => {
   toast('Hotel added ✅'); document.getElementById('hotel-add-form')?.remove(); loadHotels();
 };
 
+// ── ROOM ROW HELPERS (used inside hotel edit form) ────────────
+function roomRowHtml(r, i) {
+  return `<div class="room-row" data-idx="${i}" style="border:1.5px solid #e2e8f0;border-radius:8px;padding:12px;margin-bottom:8px;position:relative;background:#fff">
+    <button onclick="removeRoomRow(${i})" style="position:absolute;top:8px;right:8px;background:none;border:none;color:#dc2626;font-weight:700;cursor:pointer;font-size:.9rem">✕</button>
+    <div style="display:grid;grid-template-columns:1fr 120px;gap:8px;margin-bottom:8px">
+      <div><label style="font-size:.68rem;font-weight:700;display:block;margin-bottom:3px">Room Name *</label>
+        <input class="room-name" placeholder="e.g. Deluxe Room" value="${esc(r.name||'')}" style="width:100%;padding:.5rem;border:1.5px solid #e2e8f0;border-radius:6px;font-family:inherit;box-sizing:border-box"/></div>
+      <div><label style="font-size:.68rem;font-weight:700;display:block;margin-bottom:3px">Price/Night (₹) *</label>
+        <input class="room-price" type="number" placeholder="3500" value="${r.price||''}" style="width:100%;padding:.5rem;border:1.5px solid #e2e8f0;border-radius:6px;font-family:inherit;box-sizing:border-box"/></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 140px;gap:8px">
+      <div><label style="font-size:.68rem;font-weight:700;display:block;margin-bottom:3px">Description</label>
+        <input class="room-info" placeholder="Short description of this room" value="${esc(r.info||'')}" style="width:100%;padding:.5rem;border:1.5px solid #e2e8f0;border-radius:6px;font-family:inherit;box-sizing:border-box"/></div>
+      <div><label style="font-size:.68rem;font-weight:700;display:block;margin-bottom:3px">Max Guests</label>
+        <input class="room-capacity" type="number" placeholder="2" value="${r.capacity||''}" style="width:100%;padding:.5rem;border:1.5px solid #e2e8f0;border-radius:6px;font-family:inherit;box-sizing:border-box"/></div>
+    </div>
+  </div>`;
+}
+
+let _editingRooms = [];
+
+function renderRoomRows() {
+  const wrap = document.getElementById('h-rooms-wrap');
+  if (!wrap) return;
+  wrap.innerHTML = _editingRooms.length
+    ? _editingRooms.map((r,i) => roomRowHtml(r,i)).join('')
+    : '<div style="font-size:.78rem;color:#94a3b8;padding:8px 0">No rooms added yet — click "+ Add Room" below. Until at least one room is added, guests booking this hotel will see a "finalizing rooms" message instead of options.</div>';
+}
+
+window.addRoomRow = () => {
+  _editingRooms.push({ name:'', info:'', price:'', capacity:'' });
+  renderRoomRows();
+};
+
+window.removeRoomRow = (i) => {
+  _editingRooms.splice(i, 1);
+  renderRoomRows();
+};
+
+function collectRoomRows() {
+  const rows = document.querySelectorAll('#h-rooms-wrap .room-row');
+  const rooms = [];
+  rows.forEach(row => {
+    const name = row.querySelector('.room-name')?.value?.trim();
+    const price = parseFloat(row.querySelector('.room-price')?.value || '0');
+    const info = row.querySelector('.room-info')?.value?.trim() || '';
+    const capacity = row.querySelector('.room-capacity')?.value?.trim() || '';
+    if (name && price) rooms.push({ name, price, info, capacity });
+  });
+  return rooms;
+}
+
 window.editHotel = async (id) => {
   const { data: h, error: fetchErr } = await supabase.from('hotels').select('*').eq('id', id).maybeSingle();
   if (fetchErr || !h) { toast('Could not load hotel: ' + (fetchErr?.message || 'not found'), 'error'); return; }
-  const name = prompt('Hotel name:', h.name); if (!name) return;
-  const city = prompt('Location:', h.location || h.city);
-  const price = parseInt(prompt('Price per night:', h.price_per_night) || h.price_per_night);
-  const { error } = await supabase.from('hotels').update({ name, location: city, city, price_per_night: price }).eq('id', id);
+
+  // Remove any existing edit form first
+  document.getElementById('hotel-edit-form')?.remove();
+  document.getElementById('hotel-add-form')?.remove();
+
+  _editingRooms = Array.isArray(h.rooms) ? [...h.rooms]
+    : (typeof h.rooms === 'string' && h.rooms ? JSON.parse(h.rooms) : []);
+
+  const form = document.createElement('div');
+  form.id = 'hotel-edit-form';
+  form.style.cssText = 'background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:12px;padding:18px;margin-bottom:16px';
+  form.innerHTML = `
+    <h4 style="font-size:.88rem;font-weight:700;margin-bottom:12px">Edit Hotel — ${esc(h.name)}</h4>
+    <div style="display:grid;grid-template-columns:1fr 1fr 80px 120px;gap:10px;margin-bottom:10px">
+      <div><label style="font-size:.72rem;font-weight:700;display:block;margin-bottom:4px">Hotel Name *</label>
+        <input id="he-name" value="${esc(h.name||'')}" style="width:100%;padding:.6rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;box-sizing:border-box"/></div>
+      <div><label style="font-size:.72rem;font-weight:700;display:block;margin-bottom:4px">City *</label>
+        <input id="he-city" value="${esc(h.location||h.city||'')}" style="width:100%;padding:.6rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;box-sizing:border-box"/></div>
+      <div><label style="font-size:.72rem;font-weight:700;display:block;margin-bottom:4px">Stars</label>
+        <select id="he-stars" style="width:100%;padding:.6rem;border:1.5px solid #e2e8f0;border-radius:8px">
+          ${[5,4,3,2,1].map(s=>`<option value="${s}" ${h.stars==s?'selected':''}>${s}</option>`).join('')}
+        </select></div>
+      <div><label style="font-size:.72rem;font-weight:700;display:block;margin-bottom:4px">Base Price/Night (₹)</label>
+        <input id="he-price" type="number" value="${h.price_per_night||''}" style="width:100%;padding:.6rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;box-sizing:border-box"/></div>
+    </div>
+    <div style="margin-bottom:10px">
+      <label style="font-size:.72rem;font-weight:700;display:block;margin-bottom:4px">Description</label>
+      <textarea id="he-desc" rows="2" style="width:100%;padding:.6rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;box-sizing:border-box;resize:vertical">${esc(h.description||'')}</textarea>
+    </div>
+    <div style="margin-bottom:10px">
+      <label style="font-size:.72rem;font-weight:700;display:block;margin-bottom:4px">Amenities (comma separated)</label>
+      <input id="he-amenities" value="${(h.amenities||[]).join(', ')}" placeholder="AC, WiFi, Pool, Breakfast" style="width:100%;padding:.6rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;box-sizing:border-box"/>
+    </div>
+    <div style="margin-bottom:14px">
+      <label style="font-size:.72rem;font-weight:700;display:block;margin-bottom:4px">Image URL</label>
+      <input id="he-img" value="${esc(h.image_url||'')}" placeholder="https://images.unsplash.com/photo-xxx" style="width:100%;padding:.6rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;box-sizing:border-box"/>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+      <label style="font-size:.8rem;font-weight:700">🛏️ Rooms</label>
+      <button onclick="addRoomRow()" style="background:#fff;border:1.5px solid #C9922A;color:#C9922A;border-radius:6px;padding:5px 12px;font-size:.75rem;font-weight:700;cursor:pointer">+ Add Room</button>
+    </div>
+    <div id="h-rooms-wrap" style="margin-bottom:14px"></div>
+    <div style="display:flex;gap:8px">
+      <button onclick="submitEditHotel('${h.id}')" style="background:#C9922A;color:#0C1B33;border:none;border-radius:8px;padding:8px 20px;font-weight:700;cursor:pointer">Save Changes</button>
+      <button onclick="document.getElementById('hotel-edit-form').remove()" style="background:none;border:1.5px solid #e2e8f0;border-radius:8px;padding:8px 16px;cursor:pointer">Cancel</button>
+    </div>`;
+  document.querySelector('#section-hotels .table-card').prepend(form);
+  renderRoomRows();
+};
+
+window.submitEditHotel = async (id) => {
+  const name = document.getElementById('he-name')?.value?.trim();
+  const city = document.getElementById('he-city')?.value?.trim();
+  const stars = parseInt(document.getElementById('he-stars')?.value || '3');
+  const price = parseFloat(document.getElementById('he-price')?.value || '0');
+  const desc = document.getElementById('he-desc')?.value?.trim() || null;
+  const amenities = document.getElementById('he-amenities')?.value?.split(',').map(a=>a.trim()).filter(Boolean);
+  const img = document.getElementById('he-img')?.value?.trim() || null;
+  const rooms = collectRoomRows();
+  if (!name || !city) { toast('Hotel name and city are required', 'error'); return; }
+  const { error } = await supabase.from('hotels').update({
+    name, location: city, city, stars, price_per_night: price,
+    description: desc, amenities, image_url: img, rooms,
+  }).eq('id', id);
   if (error) { toast('Error: ' + error.message, 'error'); return; }
-  toast('Hotel updated'); loadHotels();
+  toast(`Hotel updated — ${rooms.length} room${rooms.length!==1?'s':''} saved ✅`);
+  document.getElementById('hotel-edit-form')?.remove();
+  loadHotels();
 };
 
 window.deleteHotel = async (id) => {
@@ -4267,7 +4381,15 @@ window.openVDrawer = (id) => {
       ${info('IFSC', esc(v.bank_ifsc||'—'))}${info('Bank', esc(v.bank_name||'—'))}
     </div>
     ${v.listings?.length ? `<div style="font-size:.8rem;font-weight:700;text-transform:uppercase;color:#94a3b8;margin-bottom:8px">Listings (${v.listings.length})</div>` +
-      v.listings.map(l => `<div style="background:#f8fafc;border-radius:8px;padding:10px 12px;margin-bottom:6px;font-size:.85rem"><div style="font-weight:600">${svcIcon(l.type)} ${esc(l.name)}</div><div style="font-size:.75rem;color:#94a3b8">📍 ${esc(l.city||'')} · ₹${fmtAmt(l.price)}/${esc(l.per||'night')} · ${esc(l.capacity||'')}</div></div>`).join('') : ''}
+      v.listings.map((l,li) => `<div style="background:#f8fafc;border-radius:8px;padding:10px 12px;margin-bottom:6px;font-size:.85rem">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">
+          <div><div style="font-weight:600">${svcIcon(l.type)} ${esc(l.name)}</div><div style="font-size:.75rem;color:#94a3b8">📍 ${esc(l.city||'')} · ₹${fmtAmt(l.price)}/${esc(l.per||'night')} · ${esc(l.capacity||'')}</div></div>
+          ${l.type==='hotel' ? (l.published_hotel_id
+            ? `<span style="font-size:.7rem;font-weight:700;color:#16a34a;white-space:nowrap">✓ Published</span>`
+            : `<button onclick="publishListingAsRoom('${v.id}',${li})" style="background:#fff;border:1.5px solid #C9922A;color:#C9922A;border-radius:6px;padding:4px 10px;font-size:.72rem;font-weight:700;cursor:pointer;white-space:nowrap">📤 Publish as Room</button>`
+          ) : ''}
+        </div>
+      </div>`).join('') : ''}
     <textarea id="v-admin-note" placeholder="Add admin note (for approval/rejection reason)..." style="width:100%;padding:9px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;box-sizing:border-box;margin-top:12px" rows="2"></textarea>
   `;
   document.getElementById('v-drawer-foot').innerHTML = v.status==='pending' ? `
@@ -4283,6 +4405,47 @@ window.openVDrawer = (id) => {
 window.closeVDrawer = () => {
   document.getElementById('v-drawer-overlay').style.display = 'none';
   document.getElementById('v-drawer').style.transform = 'translateX(100%)';
+};
+
+// ── PUBLISH VENDOR LISTING AS A REAL BOOKABLE ROOM ────────────
+// Vendor "Add Listing" submissions live on vendors.listings and are NOT
+// visible to customers until an admin reviews and publishes them here —
+// this appends the listing into the target hotel's own `rooms` field,
+// which is what hotels.html actually reads from when customers book.
+window.publishListingAsRoom = async (vendorId, listingIdx) => {
+  const v = allVendorsFull.find(x => x.id === vendorId);
+  const listing = v?.listings?.[listingIdx];
+  if (!listing) { toast('Listing not found', 'error'); return; }
+
+  const { data: hotels, error: hErr } = await supabase.from('hotels').select('id,name,location,city').order('name');
+  if (hErr) { toast('Could not load hotels: ' + hErr.message, 'error'); return; }
+  if (!hotels?.length) { toast('No hotels exist yet — add the hotel first, then publish this listing to it.', 'error'); return; }
+
+  const cityMatch = hotels.filter(h => (h.location||h.city||'').toLowerCase().includes((listing.city||'').toLowerCase()));
+  const ordered = [...cityMatch, ...hotels.filter(h => !cityMatch.includes(h))];
+  const listText = ordered.map((h, i) => `${i+1}. ${h.name} — ${h.location||h.city||''}`).join('\n');
+  const pick = prompt(`Publish "${listing.name}" as a room on which hotel?\n\n${listText}\n\nEnter the number:`);
+  if (!pick) return;
+  const idx = parseInt(pick) - 1;
+  const target = ordered[idx];
+  if (!target) { toast('Invalid selection', 'error'); return; }
+
+  const { data: fullHotel, error: fhErr } = await supabase.from('hotels').select('rooms').eq('id', target.id).maybeSingle();
+  if (fhErr) { toast('Error: ' + fhErr.message, 'error'); return; }
+  const existingRooms = Array.isArray(fullHotel.rooms) ? fullHotel.rooms : [];
+  const newRoom = { name: listing.name, info: listing.description || '', price: listing.price, capacity: listing.capacity || '', vendor_id: vendorId };
+  const { error: updErr } = await supabase.from('hotels').update({ rooms: [...existingRooms, newRoom] }).eq('id', target.id);
+  if (updErr) { toast('Error publishing room: ' + updErr.message, 'error'); return; }
+
+  // Mark the listing as published so admin doesn't publish it twice
+  const updatedListings = [...v.listings];
+  updatedListings[listingIdx] = { ...listing, published_hotel_id: target.id };
+  const { error: vErr } = await supabase.from('vendors').update({ listings: updatedListings }).eq('id', vendorId);
+  if (vErr) { toast('Room published, but failed to mark listing as published: ' + vErr.message, 'error'); }
+
+  v.listings = updatedListings;
+  toast(`"${listing.name}" is now live as a room on ${target.name} ✅`);
+  openVDrawer(vendorId);
 };
 
 // ── VENDOR ACTIONS ───────────────────────────────────────────
