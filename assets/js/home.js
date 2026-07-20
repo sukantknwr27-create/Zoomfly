@@ -2,19 +2,16 @@
 // Loads packages/testimonials from Supabase with static fallback
 
 const STATIC_PKGS = [
-  { id:'goa-beach',      title:'Goa Beach Escape',        emoji:'🏖️', bg_gradient:'linear-gradient(135deg,#667eea,#764ba2)', price:6999,  old_price:8999,  rating:4.8, review_count:324, duration_days:4, nights:3, destination:'Goa',       badge:'Best Seller'   },
-  { id:'manali-snow',    title:'Manali Snow Adventure',    emoji:'🏔️', bg_gradient:'linear-gradient(135deg,#f093fb,#f5576c)', price:10499, old_price:13999, rating:4.9, review_count:218, duration_days:6, nights:5, destination:'Manali',    badge:'Top Rated'     },
-  { id:'kerala-tour',    title:'Kerala Backwaters Tour',   emoji:'🌴', bg_gradient:'linear-gradient(135deg,#4facfe,#00f2fe)', price:9999,  old_price:12499, rating:4.7, review_count:189, duration_days:5, nights:4, destination:'Kerala',    badge:'Trending'      },
-  { id:'rajasthan-royal',title:'Royal Rajasthan Circuit',  emoji:'🏰', bg_gradient:'linear-gradient(135deg,#fa709a,#fee140)', price:12999, old_price:16999, rating:4.8, review_count:156, duration_days:7, nights:6, destination:'Rajasthan', badge:'Heritage'      },
-  { id:'bali-dream',     title:'Bali Dream Holiday',       emoji:'🌸', bg_gradient:'linear-gradient(135deg,#a1c4fd,#c2e9fb)', price:42999, old_price:54999, rating:4.9, review_count:412, duration_days:7, nights:6, destination:'Bali',      badge:'International' },
-  { id:'andaman-pearl',  title:'Andaman Pearl Islands',    emoji:'🐠', bg_gradient:'linear-gradient(135deg,#43e97b,#38f9d7)', price:14999, old_price:18999, rating:4.7, review_count:203, duration_days:5, nights:4, destination:'Andaman',   badge:'Island Life'   },
+  { id:'goa-beach',      title:'Goa Beach Escape',        emoji:'🏖️', bg_gradient:'linear-gradient(135deg,#667eea,#764ba2)', price:6999,  old_price:8999,  duration_days:4, nights:3, destination:'Goa' },
+  { id:'manali-snow',    title:'Manali Snow Adventure',    emoji:'🏔️', bg_gradient:'linear-gradient(135deg,#f093fb,#f5576c)', price:10499, old_price:13999, duration_days:6, nights:5, destination:'Manali' },
+  { id:'kerala-tour',    title:'Kerala Backwaters Tour',   emoji:'🌴', bg_gradient:'linear-gradient(135deg,#4facfe,#00f2fe)', price:9999,  old_price:12499, duration_days:5, nights:4, destination:'Kerala' },
+  { id:'rajasthan-royal',title:'Royal Rajasthan Circuit',  emoji:'🏰', bg_gradient:'linear-gradient(135deg,#fa709a,#fee140)', price:12999, old_price:16999, duration_days:7, nights:6, destination:'Rajasthan' },
+  { id:'bali-dream',     title:'Bali Dream Holiday',       emoji:'🌸', bg_gradient:'linear-gradient(135deg,#a1c4fd,#c2e9fb)', price:42999, old_price:54999, duration_days:7, nights:6, destination:'Bali' },
+  { id:'andaman-pearl',  title:'Andaman Pearl Islands',    emoji:'🐠', bg_gradient:'linear-gradient(135deg,#43e97b,#38f9d7)', price:14999, old_price:18999, duration_days:5, nights:4, destination:'Andaman' },
 ];
 
-const STATIC_TESTIMONIALS = [
-  { rating:5, text:'Absolutely amazing experience! ZoomFly organised everything perfectly. Our Manali trip was a dream come true. Will book again!', name:'Priya Sharma', location:'Delhi', package:'Manali Snow Adventure', avatar:'🙋‍♀️' },
-  { rating:5, text:'Best travel agency in India. The Goa package was spot on — hotel, transfers, sightseeing, everything was seamless. Thank you ZoomFly!', name:'Rahul Mehta', location:'Mumbai', package:'Goa Beach Escape', avatar:'🙋‍♂️' },
-  { rating:5, text:'Booked Kerala trip for our honeymoon through ZoomFly. The team was so helpful and the experience was magical. Highly recommended!', name:'Anjali & Vikram', location:'Bangalore', package:'Kerala Backwaters', avatar:'👫' },
-];
+// No static testimonials — only real, Supabase-sourced reviews are shown.
+const STATIC_TESTIMONIALS = [];
 
 const DEST_IMAGES = {
   'Goa':       'https://images.unsplash.com/photo-1512343879522-8a4df9a27b14?w=600&h=400&fit=crop&auto=format',
