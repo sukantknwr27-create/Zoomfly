@@ -16,7 +16,7 @@
     /* Hero */
     .ref-hero{background:linear-gradient(135deg,#0f1923 0%,#1a2535 55%,#1a1a0f 100%);
       padding:80px 5% 72px;position:relative;overflow:hidden;text-align:center;}
-    .ref-hero::before{content:'🎁';position:absolute;font-size:320px;right:-40px;top:-40px;
+    .ref-hero::before{content:'';position:absolute;font-size:320px;right:-40px;top:-40px;
       opacity:.04;line-height:1;}
     .ref-hero-inner{max-width:700px;margin:0 auto;position:relative;z-index:1;}
     .hero-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(245,158,11,.15);
@@ -127,7 +127,7 @@
 <!-- HERO -->
 <section class="ref-hero">
   <div class="ref-hero-inner">
-    <div class="hero-pill">🎁 Referral Program</div>
+    <div class="hero-pill">Referral Program</div>
     <h1>Refer Friends,<br/>Earn <em>Travel Credits</em></h1>
     <p>Share ZoomFly with your friends and family. You earn when they book — no limits, no expiry on credits.</p>
 
@@ -172,19 +172,19 @@
     <div class="steps-grid">
       <div class="step-card">
         <div class="step-num">1</div>
-        <div class="step-icon">🔗</div>
+        <div class="step-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div>
         <div class="step-title">Get Your Link</div>
         <div class="step-desc">Sign in to ZoomFly and copy your unique referral link or code from your dashboard.</div>
       </div>
       <div class="step-card">
         <div class="step-num">2</div>
-        <div class="step-icon">📤</div>
+        <div class="step-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div>
         <div class="step-title">Share It</div>
         <div class="step-desc">Send your link via WhatsApp, Instagram, email, or anywhere. Your friend signs up using it.</div>
       </div>
       <div class="step-card">
         <div class="step-num">3</div>
-        <div class="step-icon">💰</div>
+        <div class="step-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><path d="M9 14V4a2 2 0 0 1 4 0v10M9 14a2 2 0 1 0 4 0M9 14H5a2 2 0 0 0-2 2v1a5 5 0 0 0 5 5h8a5 5 0 0 0 5-5v-1a2 2 0 0 0-2-2h-4"/></svg></div>
         <div class="step-title">Both Earn</div>
         <div class="step-desc">When they make their first booking (min ₹5,000), you get 500 ZoomFly Points and they get 250 points.</div>
       </div>
@@ -198,7 +198,7 @@
 
     <!-- Logged-out state -->
     <div id="loggedOutCard" style="text-align:center;padding:40px 20px;">
-      <div style="font-size:3rem;margin-bottom:16px;">🔐</div>
+      <div style="font-size:3rem;margin-bottom:16px;"></div>
       <h3 style="font-family:'Playfair Display',serif;font-size:1.4rem;margin-bottom:8px;color:#0f1923;">
         Sign in to get your referral code
       </h3>
@@ -227,10 +227,10 @@
 
         <div class="share-row">
           <button class="share-btn share-wa" onclick="shareWhatsApp()">
-            💬 WhatsApp
+             WhatsApp
           </button>
           <button class="share-btn share-copy" onclick="copyMessage()">
-            📋 Copy Message
+             Copy Message
           </button>
         </div>
 
@@ -419,7 +419,7 @@ async function loadReferralData(user) {
           </div>
           <div style="display:flex;align-items:center;gap:10px;">
             <span style="font-size:.75rem;padding:3px 10px;border-radius:20px;font-weight:600;background:#dcfce7;color:#15803d;">
-              ✅ Joined
+               Joined
             </span>
             <span style="font-weight:700;color:var(--blue);font-size:.9rem;">+${t.points} pts</span>
           </div>
@@ -442,19 +442,19 @@ function generateCode(user) {
 // ── Share actions ────────────────────────────────────────
 window.copyLink = () => {
   const link = document.getElementById('refLinkDisplay').textContent;
-  navigator.clipboard.writeText(link).then(() => showToast('🔗 Link copied to clipboard!'));
+  navigator.clipboard.writeText(link).then(() => showToast('Link copied to clipboard!'));
 };
 
 window.shareWhatsApp = () => {
   const link = document.getElementById('refLinkDisplay').textContent;
-  const msg  = `✈️ Hey! I've been using *ZoomFly* for booking travel — flights, hotels, packages at great prices.\n\nSign up with my link and get *250 ZoomFly Points* on your first booking:\n${link}\n\nHappy travels! 🌍`;
+  const msg  = `Hey! I've been using *ZoomFly* for booking travel — flights, hotels, packages at great prices.\n\nSign up with my link and get *250 ZoomFly Points* on your first booking:\n${link}\n\nHappy travels!`;
   window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
 };
 
 window.copyMessage = () => {
   const link = document.getElementById('refLinkDisplay').textContent;
-  const msg  = `✈️ Hey! I've been using ZoomFly for booking travel — flights, hotels, packages at great prices.\n\nSign up with my link and get 250 ZoomFly Points on your first booking:\n${link}`;
-  navigator.clipboard.writeText(msg).then(() => showToast('📋 Message copied!'));
+  const msg  = `Hey! I've been using ZoomFly for booking travel — flights, hotels, packages at great prices.\n\nSign up with my link and get 250 ZoomFly Points on your first booking:\n${link}`;
+  navigator.clipboard.writeText(msg).then(() => showToast('Message copied!'));
 };
 
 // ── FAQ accordion ────────────────────────────────────────

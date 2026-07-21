@@ -130,7 +130,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
 <body>
 
 <nav>
-  <a href="../index.html" class="nav-logo">Zoom<span>Fly</span> ✈</a>
+  <a href="../index.html" class="nav-logo">Zoom<span>Fly</span></a>
   <div class="nav-right">
     <div class="user-pill">
       <div class="user-avatar" id="nav-avatar">?</div>
@@ -150,12 +150,12 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
       <div class="user-since" id="profile-since"></div>
     </div>
     <div class="dash-nav">
-      <div class="dash-nav-item active" onclick="showSection('overview',this)"><span class="icon">📊</span> Overview</div>
-      <div class="dash-nav-item" onclick="showSection('bookings',this)"><span class="icon">🗓</span> My Bookings <span class="count" id="booking-count">0</span></div>
-      <div class="dash-nav-item" onclick="showSection('wishlist',this)"><span class="icon">❤️</span> Wishlist</div>
-      <div class="dash-nav-item" onclick="showSection('profile',this)"><span class="icon">👤</span> Profile</div>
-      <div class="dash-nav-item" onclick="window.location.href='packages.html'"><span class="icon">🗺</span> Browse Packages</div>
-      <div class="dash-nav-item" onclick="window.location.href='contact.html'"><span class="icon">📩</span> Get a Quote</div>
+      <div class="dash-nav-item active" onclick="showSection('overview',this)"><span class="icon"></span> Overview</div>
+      <div class="dash-nav-item" onclick="showSection('bookings',this)"><span class="icon"></span> My Bookings <span class="count" id="booking-count">0</span></div>
+      <div class="dash-nav-item" onclick="showSection('wishlist',this)"><span class="icon"></span> Wishlist</div>
+      <div class="dash-nav-item" onclick="showSection('profile',this)"><span class="icon"></span> Profile</div>
+      <div class="dash-nav-item" onclick="window.location.href='packages.html'"><span class="icon"></span> Browse Packages</div>
+      <div class="dash-nav-item" onclick="window.location.href='contact.html'"><span class="icon"></span> Get a Quote</div>
     </div>
   </aside>
 
@@ -165,9 +165,9 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
     <!-- OVERVIEW -->
     <div class="section active" id="section-overview">
       <div class="stats-row">
-        <div class="stat-card"><div class="stat-icon">🗓</div><div class="stat-val" id="stat-bookings">—</div><div class="stat-lbl">Total Bookings</div></div>
-        <div class="stat-card"><div class="stat-icon">💰</div><div class="stat-val" id="stat-spent">—</div><div class="stat-lbl">Total Spent</div></div>
-        <div class="stat-card"><div class="stat-icon">❤️</div><div class="stat-val" id="stat-wishlist">—</div><div class="stat-lbl">Saved Packages</div></div>
+        <div class="stat-card"><div class="stat-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div><div class="stat-val" id="stat-bookings">—</div><div class="stat-lbl">Total Bookings</div></div>
+        <div class="stat-card"><div class="stat-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div><div class="stat-val" id="stat-spent">—</div><div class="stat-lbl">Total Spent</div></div>
+        <div class="stat-card"><div class="stat-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><path d="M9 14V4a2 2 0 0 1 4 0v10M9 14a2 2 0 1 0 4 0M9 14H5a2 2 0 0 0-2 2v1a5 5 0 0 0 5 5h8a5 5 0 0 0 5-5v-1a2 2 0 0 0-2-2h-4"/></svg></div><div class="stat-val" id="stat-wishlist">—</div><div class="stat-lbl">Saved Packages</div></div>
       </div>
 
       <div class="sec-hdr"><h2>Recent Bookings</h2><a href="#" onclick="showSection('bookings',document.querySelector('[onclick*=bookings]'))" style="font-size:0.8rem;color:var(--primary);font-weight:600">View All →</a></div>
@@ -198,7 +198,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
               <span id="big-avatar-initials">?</span>
               <img id="big-avatar-img" src="" alt="" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:50%"/>
             </div>
-            <label for="photo-upload" style="position:absolute;bottom:0;right:0;width:26px;height:26px;background:var(--primary);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;border:2px solid white" title="Upload photo">📷</label>
+            <label for="photo-upload" style="position:absolute;bottom:0;right:0;width:26px;height:26px;background:var(--primary);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;border:2px solid white" title="Upload photo"></label>
             <input type="file" id="photo-upload" accept="image/*" style="display:none" onchange="handlePhotoUpload(this)"/>
             <input type="hidden" id="p-avatar"/>
           </div>
@@ -220,13 +220,13 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
           <label>Gender</label>
           <div style="display:flex;gap:0.75rem;margin-top:0.35rem">
             <button type="button" class="gender-btn" id="g-male" onclick="selectGender('male')" style="flex:1;padding:0.7rem;border:2px solid var(--border);border-radius:10px;background:white;cursor:pointer;font-size:0.9rem;font-weight:600;display:flex;align-items:center;justify-content:center;gap:0.5rem;transition:all 0.2s">
-              👨 Male
+               Male
             </button>
             <button type="button" class="gender-btn" id="g-female" onclick="selectGender('female')" style="flex:1;padding:0.7rem;border:2px solid var(--border);border-radius:10px;background:white;cursor:pointer;font-size:0.9rem;font-weight:600;display:flex;align-items:center;justify-content:center;gap:0.5rem;transition:all 0.2s">
-              👩 Female
+               Female
             </button>
             <button type="button" class="gender-btn" id="g-other" onclick="selectGender('other')" style="flex:1;padding:0.7rem;border:2px solid var(--border);border-radius:10px;background:white;cursor:pointer;font-size:0.9rem;font-weight:600;display:flex;align-items:center;justify-content:center;gap:0.5rem;transition:all 0.2s">
-              🧑 Other
+               Other
             </button>
           </div>
         </div>
@@ -242,8 +242,8 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
         </div>
 
         <div style="display:flex;gap:1rem;margin-top:0.5rem">
-          <button class="btn-save" onclick="saveProfile()">💾 Save Changes</button>
-          <button class="btn-save" onclick="doLogout()" style="background:var(--error)">🚪 Log Out</button>
+          <button class="btn-save" onclick="saveProfile()">Save Changes</button>
+          <button class="btn-save" onclick="doLogout()" style="background:var(--error)">Log Out</button>
         </div>
       </div>
     </div>
@@ -311,19 +311,27 @@ function renderStats() {
 }
 
 function bookingCard(b, showCancel = true) {
-  const emoji = b.packages?.emoji || b.hotels?.emoji || '🗓';
+  const typeIcons = {
+    package: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0C1B33" stroke-width="1.5"><path d="M21 8 12 3 3 8l9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8M12 13v8"/></svg>',
+    hotel:   '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0C1B33" stroke-width="1.5"><path d="M3 21V7a2 2 0 0 1 2-2h4v16M15 21V9a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v12M3 21h18M9 8h.01M9 12h.01M9 16h.01"/></svg>',
+    flight:  '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0C1B33" stroke-width="1.5"><path d="M17.8 19.2 16 11l3.5-3.5c.6-.6.9-1.5.7-2.3-.2-.9-.9-1.5-1.7-1.7-.8-.2-1.7.1-2.3.7L13 7.5 4.8 5.7c-.5-.1-1 0-1.3.4l-.6.6c-.4.4-.3 1 .2 1.3L9 10.9l-3 3-2.3-.5c-.3-.1-.6 0-.8.2l-.4.4c-.3.3-.3.9.1 1.1l3.4 2 2 3.4c.2.4.8.4 1.1.1l.4-.4c.2-.2.3-.5.2-.8l-.5-2.3 3-3 2.9 6.8c.3.5.9.6 1.3.2l.6-.6c.4-.3.5-.8.4-1.3z"/></svg>',
+    bus:     '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0C1B33" stroke-width="1.5"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M3 12h18M7 20v-3M17 20v-3"/></svg>',
+    cab:     '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0C1B33" stroke-width="1.5"><path d="M5 17h14M5 17a2 2 0 1 1-4 0 2 2 0 0 1 4 0zM19 17a2 2 0 1 0 4 0 2 2 0 0 0-4 0zM3 17V11l2-5h14l2 5v6"/></svg>',
+    train:   '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0C1B33" stroke-width="1.5"><rect x="5" y="3" width="14" height="12" rx="3"/><path d="M5 11h14M8 19l-2 3M16 19l2 3"/></svg>',
+  };
+  const icon = typeIcons[b.booking_type] || typeIcons.package;
   const title = b.packages?.title || b.hotels?.name || `${b.booking_type} Booking`;
   const bg = b.booking_type === 'package' ? '#F5E6C4' : '#ECFDF5';
   const statusCls = { confirmed:'s-confirmed', pending:'s-pending', cancelled:'s-cancelled' }[b.status] || 's-pending';
   const date = b.travel_date || b.checkin_date || b.created_at;
   return `
   <div class="booking-card">
-    <div class="booking-emoji" style="background:${bg}">${emoji}</div>
+    <div class="booking-emoji" style="background:${bg}">${icon}</div>
     <div class="booking-info">
       <div class="booking-title">${title}</div>
       <div class="booking-meta">
-        <span>📅 ${date ? new Date(date).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}) : '—'}</span>
-        <span>👥 ${b.num_guests} guest${b.num_guests!==1?'s':''}</span>
+        <span>${date ? new Date(date).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}) : '—'}</span>
+        <span>${b.num_guests} guest${b.num_guests!==1?'s':''}</span>
         <span class="booking-ref">${b.booking_ref}</span>
       </div>
       ${showCancel && b.status === 'confirmed' ? `<button class="btn-cancel-booking" onclick="window.cancelBook('${b.id}')">Cancel Booking</button>` : ''}
@@ -338,7 +346,7 @@ function bookingCard(b, showCancel = true) {
 function renderRecentBookings() {
   const wrap = document.getElementById('recent-bookings-wrap');
   if (!bookings.length) {
-    wrap.innerHTML = `<div class="empty"><div class="icon">🗓</div><h3>No bookings yet</h3><p>Your confirmed trips will appear here.</p><a href="packages.html" class="btn-explore">Browse Packages</a></div>`;
+    wrap.innerHTML = `<div class="empty"><div class="icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div><h3>No bookings yet</h3><p>Your confirmed trips will appear here.</p><a href="packages.html" class="btn-explore">Browse Packages</a></div>`;
     return;
   }
   wrap.innerHTML = bookings.slice(0,3).map(b => bookingCard(b, false)).join('');
@@ -347,7 +355,7 @@ function renderRecentBookings() {
 function renderBookings() {
   const wrap = document.getElementById('bookings-wrap');
   if (!bookings.length) {
-    wrap.innerHTML = `<div class="empty"><div class="icon">🗓</div><h3>No bookings yet</h3><p>Time to plan your first trip!</p><a href="packages.html" class="btn-explore">Browse Packages</a></div>`;
+    wrap.innerHTML = `<div class="empty"><div class="icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div><h3>No bookings yet</h3><p>Time to plan your first trip!</p><a href="packages.html" class="btn-explore">Browse Packages</a></div>`;
     return;
   }
   wrap.innerHTML = bookings.map(b => bookingCard(b)).join('');
@@ -356,13 +364,13 @@ function renderBookings() {
 function renderWishlist() {
   const wrap = document.getElementById('wishlist-wrap');
   if (!wishlist.length) {
-    wrap.innerHTML = `<div class="empty"><div class="icon">❤️</div><h3>No saved packages</h3><p>Tap the heart icon on any package to save it here.</p><a href="packages.html" class="btn-explore">Browse Packages</a></div>`;
+    wrap.innerHTML = `<div class="empty"><div class="icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><path d="M9 14V4a2 2 0 0 1 4 0v10M9 14a2 2 0 1 0 4 0M9 14H5a2 2 0 0 0-2 2v1a5 5 0 0 0 5 5h8a5 5 0 0 0 5-5v-1a2 2 0 0 0-2-2h-4"/></svg></div><h3>No saved packages</h3><p>Tap the heart icon on any package to save it here.</p><a href="packages.html" class="btn-explore">Browse Packages</a></div>`;
     return;
   }
   wrap.innerHTML = `<div class="wishlist-grid">${wishlist.map(p=>`
     <div class="wish-card">
       <div class="wish-thumb" style="background:${p.bg_gradient}">
-        ${p.emoji}
+        ${(p.photos&&p.photos[0])||p.image_url ? `<img src="${(p.photos&&p.photos[0])||p.image_url}" alt="${p.title||''}" style="width:100%;height:100%;object-fit:cover" onerror="this.remove()"/>` : ''}
         <button class="wish-remove" onclick="window.removeWish('${p.id}')">✕</button>
       </div>
       <div class="wish-body">
@@ -484,7 +492,7 @@ window.selectGender = (g) => {
 window.saveProfile = async () => {
   const btn = document.querySelector('button[onclick="saveProfile()"]');
   const orig = btn?.textContent;
-  if (btn) { btn.textContent = '⏳ Saving...'; btn.disabled = true; }
+  if (btn) { btn.textContent = 'Saving...'; btn.disabled = true; }
   try {
     const updates = {
       full_name:  document.getElementById('p-name')?.value?.trim()   || '',
@@ -501,7 +509,7 @@ window.saveProfile = async () => {
     await updateProfile(updates);
     profile = await getProfile();
     renderNav();
-    if (btn) { btn.textContent = '✅ Saved!'; btn.style.background = '#059669'; }
+    if (btn) { btn.textContent = 'Saved!'; btn.style.background = '#059669'; }
     setTimeout(() => {
       if (btn) { btn.textContent = orig; btn.style.background = ''; btn.disabled = false; }
     }, 2500);

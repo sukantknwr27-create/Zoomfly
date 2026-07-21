@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Vendor Partner Portal | ZoomFly</title>
   <meta name="description" content="Join ZoomFly's vendor network. Register your hotel, cab service or activity as a partner and reach travellers planning their next trip."/>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✈️</text></svg>"/>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'></text></svg>"/>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,600&family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <style>
     :root {
@@ -320,7 +320,7 @@
 <div id="view-auth">
   <div class="auth-card">
     <div class="ac-header">
-      <div class="ac-icon">🏨</div>
+      <div class="ac-icon"><svg width="37" height="37" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div>
       <h1>ZoomFly Vendor Portal</h1>
       <p>Manage your listings, enquiries &amp; earnings</p>
     </div>
@@ -372,10 +372,10 @@
         <label class="form-label">Vendor Type</label>
         <select class="form-select" id="r-type">
           <option value="">Select type...</option>
-          <option value="hotel">🏨 Hotel / Resort</option>
-          <option value="bus">🚌 Bus Operator</option>
-          <option value="cab">🚖 Cab / Transfer Provider</option>
-          <option value="tour_operator">🧳 Tour Operator</option>
+          <option value="hotel">Hotel / Resort</option>
+          <option value="bus">Bus Operator</option>
+          <option value="cab">Cab / Transfer Provider</option>
+          <option value="tour_operator">Tour Operator</option>
         </select>
       </div>
       <div class="form-row">
@@ -405,7 +405,7 @@
   <!-- SIDEBAR -->
   <aside class="sidebar">
     <div class="sb-logo">
-      <div class="sb-logo-icon">🏨</div>
+      <div class="sb-logo-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div>
       <div>
         <div class="sb-logo-text">ZoomFly</div>
         <div class="sb-logo-sub">Vendor Portal</div>
@@ -414,18 +414,18 @@
     <div class="sb-vendor-info">
       <div class="svi-name" id="sb-bname">Loading...</div>
       <div class="svi-type" id="sb-vtype"></div>
-      <span class="svi-badge badge-active" id="sb-status">✅ Active</span>
+      <span class="svi-badge badge-active" id="sb-status">Active</span>
     </div>
     <div class="sb-nav">
-      <button class="sb-link active" onclick="showSection('dashboard',this)"><span class="sb-icon">📊</span> Dashboard</button>
-      <button class="sb-link"        onclick="showSection('enquiries',this)"><span class="sb-icon">📋</span> Enquiries <span class="sb-count" id="enq-count">0</span></button>
-      <button class="sb-link"        onclick="showSection('listings', this)"><span class="sb-icon">🏷️</span> My Listings</button>
-      <button class="sb-link"        onclick="showSection('earnings', this)"><span class="sb-icon">💰</span> Earnings</button>
-      <button class="sb-link"        onclick="showSection('profile',  this)"><span class="sb-icon">👤</span> Profile</button>
+      <button class="sb-link active" onclick="showSection('dashboard',this)"><span class="sb-icon"></span> Dashboard</button>
+      <button class="sb-link"        onclick="showSection('enquiries',this)"><span class="sb-icon"></span> Enquiries <span class="sb-count" id="enq-count">0</span></button>
+      <button class="sb-link"        onclick="showSection('listings', this)"><span class="sb-icon"></span> My Listings</button>
+      <button class="sb-link"        onclick="showSection('earnings', this)"><span class="sb-icon"></span> Earnings</button>
+      <button class="sb-link"        onclick="showSection('profile',  this)"><span class="sb-icon"></span> Profile</button>
     </div>
     <div class="sb-bottom">
-      <a href="/index.html" class="sb-link"><span class="sb-icon">🌐</span> View ZoomFly</a>
-      <button class="sb-link" onclick="doLogout()"><span class="sb-icon">🚪</span> Sign Out</button>
+      <a href="/index.html" class="sb-link"><span class="sb-icon"></span> View ZoomFly</a>
+      <button class="sb-link" onclick="doLogout()"><span class="sb-icon"></span> Sign Out</button>
     </div>
   </aside>
 
@@ -439,7 +439,7 @@
         <div class="topbar-sub"  id="topbar-sub">Welcome back</div>
       </div>
       <div class="tb-actions">
-        <button class="tb-btn" onclick="loadAll()">🔄 Refresh</button>
+        <button class="tb-btn" onclick="loadAll()">Refresh</button>
         <button class="tb-btn teal" onclick="openListingModal()">+ Add Listing</button>
       </div>
     </div>
@@ -448,22 +448,22 @@
     <div class="section active" id="sec-dashboard">
       <div class="stat-grid">
         <div class="stat-card sc-enquiries">
-          <div class="sc-icon">📋</div>
+          <div class="sc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><path d="M12 2l1.6 5.5L19 9l-5.4 1.5L12 16l-1.6-5.5L5 9l5.4-1.5z"/></svg></div>
           <div class="sc-num" id="ds-enquiries">0</div>
           <div class="sc-label">New Enquiries</div>
         </div>
         <div class="stat-card sc-confirmed">
-          <div class="sc-icon">✅</div>
+          <div class="sc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div>
           <div class="sc-num" id="ds-confirmed">0</div>
           <div class="sc-label">Confirmed Bookings</div>
         </div>
         <div class="stat-card sc-revenue">
-          <div class="sc-icon">💰</div>
+          <div class="sc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div>
           <div class="sc-num" id="ds-revenue">₹0</div>
           <div class="sc-label">This Month's Revenue</div>
         </div>
         <div class="stat-card sc-rating">
-          <div class="sc-icon">⭐</div>
+          <div class="sc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div>
           <div class="sc-num" id="ds-listings">0</div>
           <div class="sc-label">Active Listings</div>
         </div>
@@ -471,22 +471,22 @@
 
       <div class="quick-actions">
         <div class="qa-btn" onclick="showSection('enquiries',null)">
-          <div class="qa-icon">📋</div>
+          <div class="qa-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div>
           <div class="qa-label">View Enquiries</div>
           <div class="qa-sub">Respond to bookings</div>
         </div>
         <div class="qa-btn" onclick="openListingModal()">
-          <div class="qa-icon">➕</div>
+          <div class="qa-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div>
           <div class="qa-label">Add Listing</div>
           <div class="qa-sub">Hotel, cab, bus, tour</div>
         </div>
         <div class="qa-btn" onclick="showSection('earnings',null)">
-          <div class="qa-icon">📈</div>
+          <div class="qa-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><path d="M9 14V4a2 2 0 0 1 4 0v10M9 14a2 2 0 1 0 4 0M9 14H5a2 2 0 0 0-2 2v1a5 5 0 0 0 5 5h8a5 5 0 0 0 5-5v-1a2 2 0 0 0-2-2h-4"/></svg></div>
           <div class="qa-label">View Earnings</div>
           <div class="qa-sub">Revenue & payouts</div>
         </div>
         <div class="qa-btn" onclick="openWASupport()">
-          <div class="qa-icon">💬</div>
+          <div class="qa-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></div>
           <div class="qa-label">ZoomFly Support</div>
           <div class="qa-sub">WhatsApp us</div>
         </div>
@@ -499,7 +499,7 @@
           <button class="card-action" onclick="showSection('enquiries',null)">View All →</button>
         </div>
         <div id="recent-table">
-          <div class="empty"><div class="empty-icon">⏳</div><h3>Loading...</h3></div>
+          <div class="empty"><h3>Loading...</h3></div>
         </div>
       </div>
     </div>
@@ -507,13 +507,13 @@
     <!-- ── ENQUIRIES ── -->
     <div class="section" id="sec-enquiries">
       <div class="filters-bar">
-        <div class="f-search">🔍<input type="text" id="enq-search" placeholder="Search ref, customer..." oninput="renderEnquiries()"/></div>
+        <div class="f-search"><input type="text" id="enq-search" placeholder="Search ref, customer..." oninput="renderEnquiries()"/></div>
         <select class="f-select" id="enq-status" onchange="renderEnquiries()">
           <option value="">All Statuses</option>
-          <option value="pending">⏳ Pending</option>
-          <option value="confirmed">✅ Confirmed</option>
-          <option value="completed">🎉 Completed</option>
-          <option value="cancelled">❌ Cancelled</option>
+          <option value="pending">Pending</option>
+          <option value="confirmed">Confirmed</option>
+          <option value="completed">Completed</option>
+          <option value="cancelled">Cancelled</option>
         </select>
         <select class="f-select" id="enq-date" onchange="renderEnquiries()">
           <option value="">All Time</option>
@@ -523,7 +523,7 @@
         </select>
       </div>
       <div id="enquiries-list">
-        <div class="empty"><div class="empty-icon">⏳</div><h3>Loading enquiries...</h3></div>
+        <div class="empty"><h3>Loading enquiries...</h3></div>
       </div>
     </div>
 
@@ -537,7 +537,7 @@
         <button class="tb-btn teal" onclick="openListingModal()">+ Add New Listing</button>
       </div>
       <div id="listings-list">
-        <div class="empty"><div class="empty-icon">⏳</div><h3>Loading listings...</h3></div>
+        <div class="empty"><h3>Loading listings...</h3></div>
       </div>
     </div>
 
@@ -571,7 +571,7 @@
           <div class="card-title">Earnings Breakdown</div>
         </div>
         <div id="earnings-table">
-          <div class="empty"><div class="empty-icon">📊</div><h3>No earnings data yet</h3><p>Confirmed bookings will appear here.</p></div>
+          <div class="empty"><h3>No earnings data yet</h3><p>Confirmed bookings will appear here.</p></div>
         </div>
       </div>
 
@@ -580,12 +580,12 @@
           <div class="card-title">Payout History</div>
         </div>
         <div id="payout-history-table">
-          <div class="empty"><div class="empty-icon">💳</div><h3>Loading payout history...</h3></div>
+          <div class="empty"><h3>Loading payout history...</h3></div>
         </div>
       </div>
 
       <div style="background:rgba(20,184,166,0.06);border:1px solid rgba(20,184,166,0.2);border-radius:12px;padding:18px 20px;margin-top:20px;">
-        <div style="font-weight:700;color:#0f766e;margin-bottom:6px;">💳 Payout Information</div>
+        <div style="font-weight:700;color:#0f766e;margin-bottom:6px;">Payout Information</div>
         <div style="font-size:0.85rem;color:var(--light);line-height:1.7;">
           Payouts are processed on the <strong>1st and 15th</strong> of every month via NEFT/RTGS to your registered bank account.
           Minimum payout threshold: <strong>₹500</strong>. For payout queries, WhatsApp us at <strong>+91 8076136300</strong>.
@@ -606,10 +606,10 @@
             <div class="form-group">
               <label class="form-label">Vendor Type</label>
               <select class="form-select" id="p-vtype">
-                <option value="hotel">🏨 Hotel / Resort</option>
-                <option value="bus">🚌 Bus Operator</option>
-                <option value="cab">🚖 Cab Provider</option>
-                <option value="tour_operator">🧳 Tour Operator</option>
+                <option value="hotel">Hotel / Resort</option>
+                <option value="bus">Bus Operator</option>
+                <option value="cab">Cab Provider</option>
+                <option value="tour_operator">Tour Operator</option>
               </select>
             </div>
           </div>
@@ -638,7 +638,7 @@
             <textarea class="form-input" id="p-desc" rows="3" style="resize:vertical;"
               placeholder="Brief description of your services..."></textarea>
           </div>
-          <button class="tb-btn teal" onclick="saveProfile()" style="padding:11px 24px;">💾 Save Profile</button>
+          <button class="tb-btn teal" onclick="saveProfile()" style="padding:11px 24px;">Save Profile</button>
         </div>
 
         <div class="profile-card">
@@ -659,7 +659,7 @@
             <label class="form-label">Bank Name</label>
             <input class="form-input" type="text" id="p-bank" placeholder="State Bank of India"/>
           </div>
-          <button class="tb-btn teal" onclick="saveBankDetails()" style="padding:11px 24px;">💾 Save Bank Details</button>
+          <button class="tb-btn teal" onclick="saveBankDetails()" style="padding:11px 24px;">Save Bank Details</button>
         </div>
 
         <div class="profile-card">
@@ -709,10 +709,10 @@
         <div class="form-group">
           <label class="form-label">Service Type</label>
           <select class="form-select" id="lst-type">
-            <option value="hotel">🏨 Hotel Room</option>
-            <option value="bus">🚌 Bus Route</option>
-            <option value="cab">🚖 Cab Service</option>
-            <option value="package">🧳 Tour Package</option>
+            <option value="hotel">Hotel Room</option>
+            <option value="bus">Bus Route</option>
+            <option value="cab">Cab Service</option>
+            <option value="package">Tour Package</option>
           </select>
         </div>
         <div class="form-group">
@@ -762,7 +762,7 @@
     </div>
     <div class="modal-foot">
       <button class="modal-btn mb-cancel" onclick="closeListingModal()">Cancel</button>
-      <button class="modal-btn mb-save"   onclick="saveListing()">💾 Save Listing</button>
+      <button class="modal-btn mb-save"   onclick="saveListing()">Save Listing</button>
     </div>
   </div>
 </div>
@@ -869,7 +869,7 @@ window.doRegister = async () => {
         }]);
       } catch(dbErr){ console.warn('Vendor profile error (non-fatal):', dbErr.message); }
     }
-    showMsg(msg,'✅ Account created! Check your email to verify. Our team will approve your vendor account within 24 hours.','success');
+    showMsg(msg,'Account created! Check your email to verify. Our team will approve your vendor account within 24 hours.','success');
   }
   btn.disabled=false; btn.textContent='Register as Vendor';
 };
@@ -879,7 +879,7 @@ window.doForgot = async () => {
   const msg   = document.getElementById('login-msg');
   if (!email) { showMsg(msg,'Enter your email above.','error'); return; }
   const { error } = await supabase.auth.resetPasswordForEmail(email);
-  showMsg(msg, error ? error.message : '✅ Reset email sent to '+email, error?'error':'success');
+  showMsg(msg, error ? error.message : 'Reset email sent to '+email, error?'error':'success');
 };
 
 window.doLogout = async () => { await supabase.auth.signOut({ scope: 'global' }).then(() => { Object.keys(localStorage).forEach(k=>{ if(k.startsWith('sb-'))localStorage.removeItem(k); }); window.location.replace('/pages/login.html'); }).catch(()=>{ window.location.replace('/pages/login.html'); }); };
@@ -914,7 +914,7 @@ async function loadVendorProfile() {
   if (data) {
     document.getElementById('sb-bname').textContent = data.business_name || 'My Business';
     document.getElementById('sb-vtype').textContent = typeLabel(data.vendor_type);
-    document.getElementById('sb-status').textContent = data.status==='active' ? '✅ Active' : '⏳ Pending Approval';
+    document.getElementById('sb-status').textContent = data.status==='active' ? 'Active' : 'Pending Approval';
     document.getElementById('sb-status').className = 'svi-badge ' + (data.status==='active'?'badge-active':'badge-pending');
     // Prefill profile form
     setVal('p-bname',  data.business_name);
@@ -967,15 +967,15 @@ function renderPayoutHistory(payouts) {
   const el = document.getElementById('payout-history-table');
   if (!el) return;
   if (!payouts.length) {
-    el.innerHTML = `<div class="empty"><div class="empty-icon">💳</div><h3>No payouts yet</h3><p>Once ZoomFly processes your first payout, it will appear here with the bank reference (UTR) number.</p></div>`;
+    el.innerHTML = `<div class="empty"><h3>No payouts yet</h3><p>Once ZoomFly processes your first payout, it will appear here with the bank reference (UTR) number.</p></div>`;
     return;
   }
   const statusBadge = s => ({
-    paid:       '<span style="color:#16a34a;font-weight:700;">✅ Paid</span>',
-    processing: '<span style="color:#d97706;font-weight:700;">⏳ Processing</span>',
-    pending:    '<span style="color:#64748b;font-weight:700;">🕒 Pending</span>',
-    on_hold:    '<span style="color:#dc2626;font-weight:700;">⏸ On Hold</span>',
-    failed:     '<span style="color:#dc2626;font-weight:700;">❌ Failed</span>',
+    paid:       '<span style="color:#16a34a;font-weight:700;">Paid</span>',
+    processing: '<span style="color:#d97706;font-weight:700;">Processing</span>',
+    pending:    '<span style="color:#64748b;font-weight:700;">Pending</span>',
+    on_hold:    '<span style="color:#dc2626;font-weight:700;">On Hold</span>',
+    failed:     '<span style="color:#dc2626;font-weight:700;">Failed</span>',
   }[s] || s);
   el.innerHTML = `
     <table style="width:100%;border-collapse:collapse;font-size:.85rem;">
@@ -1022,7 +1022,7 @@ function renderDashboard() {
   const recent = allEnquiries.slice(0,5);
   if (recent.length===0) {
     document.getElementById('recent-table').innerHTML =
-      `<div class="empty"><div class="empty-icon">📋</div><h3>No enquiries yet</h3><p>Bookings will appear here once customers book your services.</p></div>`;
+      `<div class="empty"><h3>No enquiries yet</h3><p>Bookings will appear here once customers book your services.</p></div>`;
     return;
   }
   document.getElementById('recent-table').innerHTML = `
@@ -1063,7 +1063,7 @@ window.renderEnquiries = function() {
 
   const list = document.getElementById('enquiries-list');
   if (filtered.length===0) {
-    list.innerHTML=`<div class="empty"><div class="empty-icon">📋</div><h3>No enquiries found</h3><p>Try adjusting your filters.</p></div>`;
+    list.innerHTML=`<div class="empty"><h3>No enquiries found</h3><p>Try adjusting your filters.</p></div>`;
     return;
   }
 
@@ -1077,7 +1077,7 @@ window.renderEnquiries = function() {
             <div>
               <div class="enq-ref">${esc(b.booking_ref)}</div>
               <div class="enq-service">${esc(b.service_name)}</div>
-              <div class="enq-customer">👤 ${esc(b.customer_name)} · 📞 ${esc(b.customer_phone)} · ${timeAgo(b.created_at)}</div>
+              <div class="enq-customer">${esc(b.customer_name)} ·  ${esc(b.customer_phone)} · ${timeAgo(b.created_at)}</div>
             </div>
           </div>
           <div class="enq-right">
@@ -1109,12 +1109,12 @@ window.renderEnquiries = function() {
             </div>
           </div>
           <div class="enq-actions">
-            ${b.status==='pending'?`<button class="enq-btn eb-confirm" onclick="confirmEnquiry('${b.id}')">✅ Confirm Booking</button>`:''}
+            ${b.status==='pending'?`<button class="enq-btn eb-confirm" onclick="confirmEnquiry('${b.id}')">Confirm Booking</button>`:''}
             <button class="enq-btn eb-wa"
               onclick="waCustomer('${esc(b.customer_whatsapp||b.customer_phone)}','${esc(b.booking_ref)}','${esc(b.customer_name)}')">
-              💬 WhatsApp Customer
+               WhatsApp Customer
             </button>
-            ${b.status==='pending'?`<button class="enq-btn eb-decline" onclick="declineEnquiry('${b.id}')">❌ Decline</button>`:''}
+            ${b.status==='pending'?`<button class="enq-btn eb-decline" onclick="declineEnquiry('${b.id}')">Decline</button>`:''}
           </div>
         </div>
       </div>`;
@@ -1144,12 +1144,12 @@ window.confirmEnquiry = async (id) => {
   const idx = allEnquiries.findIndex(b=>b.id===id);
   if (idx!==-1) allEnquiries[idx].status='confirmed';
   renderDashboard(); renderEnquiries();
-  showToast('✅ Booking confirmed!');
+  showToast('Booking confirmed!');
   // WhatsApp the customer
   const b = allEnquiries.find(b=>b.id===id);
   if (b) {
     const ph  = sanitizePhone(b.customer_whatsapp||b.customer_phone);
-    const msg = `✅ *Booking Confirmed!*\n\nRef: *${b.booking_ref}*\nService: ${b.service_name}\nAmount: ₹${fmtAmt(b.total_amount)}\n\nYour booking is confirmed. Please contact us for any queries.\n\n📞 +91 ${WA_ADMIN.slice(2)}`;
+    const msg = `*Booking Confirmed!*\n\nRef: *${b.booking_ref}*\nService: ${b.service_name}\nAmount: ₹${fmtAmt(b.total_amount)}\n\nYour booking is confirmed. Please contact us for any queries.\n\n +91 ${WA_ADMIN.slice(2)}`;
     if (confirm('Send confirmation to customer via WhatsApp?'))
       window.open(`https://wa.me/${ph}?text=${encodeURIComponent(msg)}`, '_blank');
   }
@@ -1168,7 +1168,7 @@ window.declineEnquiry = async (id) => {
 function renderListings() {
   const list = document.getElementById('listings-list');
   if (allListings.length===0){
-    list.innerHTML=`<div class="empty"><div class="empty-icon">🏷️</div><h3>No listings yet</h3><p>Add your first listing to appear on ZoomFly.</p></div>`;
+    list.innerHTML=`<div class="empty"><h3>No listings yet</h3><p>Add your first listing to appear on ZoomFly.</p></div>`;
     return;
   }
   list.innerHTML = allListings.map((l,i)=>`
@@ -1176,14 +1176,14 @@ function renderListings() {
       <div class="lc-icon">${svcIcon(l.type)}</div>
       <div class="lc-info">
         <div class="lc-name">${esc(l.name)}</div>
-        <div class="lc-meta">${svcIcon(l.type)} ${typeLabel(l.type)} · 📍 ${esc(l.city||'')}</div>
+        <div class="lc-meta">${svcIcon(l.type)} ${typeLabel(l.type)} ·  ${esc(l.city||'')}</div>
         ${l.amenities?.length?`<div class="lc-tags">${l.amenities.slice(0,4).map(a=>`<span class="lc-tag">${esc(a.trim())}</span>`).join('')}</div>`:''}
       </div>
       <div class="lc-right">
         <div class="lc-price">₹${fmtAmt(l.price)} <span>/ ${l.per||'night'}</span></div>
         <div class="lc-actions">
-          <button class="lc-btn" onclick="editListing(${i})">✏️ Edit</button>
-          <button class="lc-btn danger" onclick="deleteListing(${i})">🗑️</button>
+          <button class="lc-btn" onclick="editListing(${i})">Edit</button>
+          <button class="lc-btn danger" onclick="deleteListing(${i})"></button>
         </div>
       </div>
     </div>`).join('');
@@ -1234,7 +1234,7 @@ window.saveListing = async () => {
   if (error){ showToast('Error: '+error.message,'error'); return; }
   renderListings();
   closeListingModal();
-  showToast('✅ Listing saved!');
+  showToast('Listing saved!');
 };
 
 window.deleteListing = async (idx) => {
@@ -1263,7 +1263,7 @@ function renderEarnings() {
 
   const el = document.getElementById('earnings-table');
   if (paid.length===0){
-    el.innerHTML=`<div class="empty"><div class="empty-icon">📊</div><h3>No earnings yet</h3><p>Confirmed bookings will appear here.</p></div>`;
+    el.innerHTML=`<div class="empty"><h3>No earnings yet</h3><p>Confirmed bookings will appear here.</p></div>`;
     return;
   }
   el.innerHTML=`
@@ -1294,7 +1294,7 @@ window.saveProfile = async () => {
     description:   document.getElementById('p-desc').value,
     vendor_type:   document.getElementById('p-vtype').value,
   }).eq('user_id', currentUser.id);
-  showToast(error ? 'Error: '+error.message : '✅ Profile saved!', error?'error':'success');
+  showToast(error ? 'Error: '+error.message : 'Profile saved!', error?'error':'success');
   if (!error) loadVendorProfile();
 };
 
@@ -1305,7 +1305,7 @@ window.saveBankDetails = async () => {
     bank_ifsc:     document.getElementById('p-ifsc').value,
     bank_name:     document.getElementById('p-bank').value,
   }).eq('user_id', currentUser.id);
-  showToast(error ? 'Error: '+error.message : '✅ Bank details saved!', error?'error':'success');
+  showToast(error ? 'Error: '+error.message : 'Bank details saved!', error?'error':'success');
 };
 
 // ── SECTION NAV ───────────────────────────────────────────
@@ -1337,9 +1337,9 @@ function fmtAmt(n){ return parseFloat(n||0).toLocaleString('en-IN',{minimumFract
 function fmtDate(d){ if(!d)return'—'; try{return new Date(d).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});}catch(_){return d;} }
 function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 function capitalize(s){ return s?s.charAt(0).toUpperCase()+s.slice(1):'—'; }
-function svcIcon(t){ return{flight:'✈️',hotel:'🏨',package:'🧳',bus:'🚌',cab:'🚖'}[t]||'📦'; }
+function svcIcon(t){ return{flight:'',hotel:'',package:'',bus:'',cab:''}[t]||''; }
 function typeLabel(t){ return{hotel:'Hotel/Resort',bus:'Bus Operator',cab:'Cab Provider',tour_operator:'Tour Operator'}[t]||capitalize(t); }
-function statusLabel(s){ return{pending:'⏳ Pending',confirmed:'✅ Confirmed',processing:'⚙️ Processing',completed:'🎉 Completed',cancelled:'❌ Cancelled'}[s]||capitalize(s); }
+function statusLabel(s){ return{pending:'Pending',confirmed:'Confirmed',processing:'Processing',completed:'Completed',cancelled:'Cancelled'}[s]||capitalize(s); }
 function sanitizePhone(p){ let ph=String(p||'').replace(/\D/g,''); if(ph.length===10)ph='91'+ph; return ph||WA_ADMIN; }
 function timeAgo(d){ if(!d)return''; const m=Math.round((Date.now()-new Date(d))/60000); if(m<1)return'just now'; if(m<60)return m+'m ago'; if(m<1440)return Math.floor(m/60)+'h ago'; return Math.floor(m/1440)+'d ago'; }
 function showMsg(el,msg,type){ el.textContent=msg; el.className='auth-msg show '+type; setTimeout(()=>el.className='auth-msg',7000); }

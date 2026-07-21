@@ -95,14 +95,14 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
 </head>
 <body>
 <nav>
-  <a href="/index.html" class="logo">Zoom<span>Fly</span> ✈</a>
-  <div class="secure-badge">🔒 <span>100% Secure</span> Checkout</div>
+  <a href="/index.html" class="logo">Zoom<span>Fly</span></a>
+  <div class="secure-badge"><span>100% Secure</span> Checkout</div>
 </nav>
 
 <div class="wrap">
   <!-- Left: Checkout form -->
   <div class="left-col">
-    <div class="col-head">🧾 Guest & Booking Details</div>
+    <div class="col-head">Guest & Booking Details</div>
     <div class="col-body">
       <div class="guest-section">
         <h3>Lead Passenger</h3>
@@ -127,7 +127,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
       <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px">
         <label style="display:flex;align-items:center;gap:12px;padding:13px 15px;border:1.5px solid var(--border);border-radius:var(--r2);cursor:pointer;transition:border .15s" onmouseover="this.style.borderColor='var(--primary)'" onmouseout="if(!document.getElementById('add-insurance').checked)this.style.borderColor='var(--border)'">
           <input type="checkbox" id="add-insurance" onchange="toggleAddon('insurance',this,499)" style="width:16px;height:16px;accent-color:#1a73e8;flex-shrink:0"/>
-          <div style="font-size:1.1rem;flex-shrink:0">🛡</div>
+          <div style="font-size:1.1rem;flex-shrink:0"></div>
           <div style="flex:1">
             <div style="font-weight:700;font-size:.85rem">Travel Insurance</div>
             <div style="font-size:.73rem;color:var(--muted)">Medical ₹5L · Trip cancellation ₹50K · Baggage ₹25K</div>
@@ -136,7 +136,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
         </label>
         <label id="visa-upsell" style="display:flex;align-items:center;gap:12px;padding:13px 15px;border:1.5px solid var(--border);border-radius:var(--r2);cursor:pointer;transition:border .15s" onmouseover="this.style.borderColor='var(--primary)'" onmouseout="if(!document.getElementById('add-visa').checked)this.style.borderColor='var(--border)'">
           <input type="checkbox" id="add-visa" onchange="toggleAddon('visa',this,2999)" style="width:16px;height:16px;accent-color:#1a73e8;flex-shrink:0"/>
-          <div style="font-size:1.1rem;flex-shrink:0">📋</div>
+          <div style="font-size:1.1rem;flex-shrink:0"></div>
           <div style="flex:1">
             <div style="font-weight:700;font-size:.85rem">Visa Assistance</div>
             <div style="font-size:.73rem;color:var(--muted)">Expert support · Document checklist · Embassy booking</div>
@@ -152,7 +152,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
         <div class="method-opt selected" onclick="selectMethod(this,'razorpay')">
           <div class="method-head">
             <div class="method-radio"></div>
-            <div class="method-icon">💳</div>
+            <div class="method-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><path d="M5 17h14M5 17a2 2 0 1 1-4 0 2 2 0 0 1 4 0zM19 17a2 2 0 1 0 4 0 2 2 0 0 0-4 0zM3 17V11l2-5h14l2 5v6"/></svg></div>
             <div class="method-label"><strong>Credit / Debit Card</strong><span>Visa, Mastercard, Rupay, Amex</span></div>
             <div class="method-badges"><span class="mbadge">Visa</span><span class="mbadge">MC</span></div>
           </div>
@@ -170,13 +170,13 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
         <div class="method-opt" onclick="selectMethod(this,'upi')">
           <div class="method-head">
             <div class="method-radio"></div>
-            <div class="method-icon">📱</div>
+            <div class="method-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18"/><path d="M7 15h3"/></svg></div>
             <div class="method-label"><strong>UPI</strong><span>GPay, PhonePe, Paytm, BHIM</span></div>
             <div class="method-badges"><span class="mbadge">Instant</span></div>
           </div>
           <div class="method-body">
             <div class="fg"><label>UPI ID</label><input class="fc" id="upi-id" placeholder="yourname@upi or phone@paytm"/></div>
-            <div class="upi-note">💡 After clicking Pay, a collect request will be sent to your UPI app. Open the app to approve within 5 minutes.</div>
+            <div class="upi-note">After clicking Pay, a collect request will be sent to your UPI app. Open the app to approve within 5 minutes.</div>
           </div>
         </div>
 
@@ -184,7 +184,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
         <div class="method-opt" onclick="selectMethod(this,'netbanking')">
           <div class="method-head">
             <div class="method-radio"></div>
-            <div class="method-icon">🏦</div>
+            <div class="method-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div>
             <div class="method-label"><strong>Net Banking</strong><span>All major Indian banks</span></div>
           </div>
           <div class="method-body">
@@ -203,7 +203,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
         <div class="method-opt" onclick="selectMethod(this,'neft')">
           <div class="method-head">
             <div class="method-radio"></div>
-            <div class="method-icon">🔁</div>
+            <div class="method-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div>
             <div class="method-label"><strong>NEFT / RTGS / Bank Transfer</strong><span>Transfer directly to our account</span></div>
           </div>
           <div class="method-body">
@@ -222,7 +222,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
         <div class="method-opt" onclick="selectMethod(this,'emi');renderEMIBreakdown()">
           <div class="method-head">
             <div class="method-radio"></div>
-            <div class="method-icon">📅</div>
+            <div class="method-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><path d="M9 14V4a2 2 0 0 1 4 0v10M9 14a2 2 0 1 0 4 0M9 14H5a2 2 0 0 0-2 2v1a5 5 0 0 0 5 5h8a5 5 0 0 0 5-5v-1a2 2 0 0 0-2-2h-4"/></svg></div>
             <div class="method-label"><strong>EMI (No Cost)</strong><span>3, 6 or 12-month 0% EMI on orders ₹10,000+</span></div>
             <div class="method-badges"><span class="mbadge">0% Interest</span></div>
           </div>
@@ -255,19 +255,19 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
       </div>
 
       <button class="btn-pay" id="pay-btn" onclick="processPayment()">
-        🔒 Pay Securely Now — <span id="pay-amount">₹0</span>
+         Pay Securely Now — <span id="pay-amount">₹0</span>
       </button>
       <div class="trust-row">
-        <div class="tbadge">🔒 SSL Encrypted</div>
-        <div class="tbadge">✅ PCI DSS Compliant</div>
-        <div class="tbadge">🛡️ 100% Money-back Guarantee</div>
+        <div class="tbadge">SSL Encrypted</div>
+        <div class="tbadge">PCI DSS Compliant</div>
+        <div class="tbadge">100% Money-back Guarantee</div>
       </div>
     </div>
   </div>
 
   <!-- Right: Order summary -->
   <div class="right-col">
-    <div class="col-head">🛒 Order Summary</div>
+    <div class="col-head">Order Summary</div>
     <div class="col-body">
       <div id="order-items">
         <!-- Populated by JS from URL params -->
@@ -280,7 +280,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
 <!-- Success overlay -->
 <div class="success-overlay" id="success-overlay">
   <div class="success-card">
-    <div class="success-icon">✅</div>
+    <div class="success-icon"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div>
     <h2>Booking Confirmed!</h2>
     <p>Your booking has been received. Our team will contact you within 2 hours to confirm all details.</p>
     <div class="booking-ref" id="booking-ref">Booking Ref: ZF-XXXXXX</div>
@@ -305,7 +305,7 @@ function esc(s) {
 const params = new URLSearchParams(window.location.search);
 const bookingType = params.get('type') || 'package';
 const itemName = params.get('name') || 'Tour Package';
-const itemEmoji = params.get('emoji') || '🗺️';
+const itemPhoto = params.get('photo') || '';
 const itemBg = params.get('bg') || 'linear-gradient(135deg,#667eea,#764ba2)';
 // Pre-fill user data if logged in
 (async () => {
@@ -488,7 +488,7 @@ function renderSummary() {
 
   document.getElementById('order-items').innerHTML = `
     <div class="order-item">
-      <div class="oi-thumb" style="background:${esc(itemBg)}">${esc(itemEmoji)}</div>
+      <div class="oi-thumb" style="background:${esc(itemBg)}">${itemPhoto ? `<img src="${esc(itemPhoto)}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:inherit" onerror="this.remove()"/>` : ''}</div>
       <div class="oi-info"><strong>${esc(itemName)}</strong><span>${esc(unitLabel)}</span></div>
       <div class="oi-price">₹${rawBase.toLocaleString('en-IN')}</div>
     </div>`;
@@ -525,7 +525,7 @@ window.applyPromo = async () => {
 
   msg.style.display   = 'block';
   msg.style.color     = '#64748b';
-  msg.textContent     = '⏳ Checking code...';
+  msg.textContent     = 'Checking code...';
   if (btn) { btn.disabled = true; btn.textContent = '...'; }
 
   const { rawBase } = calcAmounts();
@@ -544,11 +544,11 @@ window.applyPromo = async () => {
     }
 
     msg.style.color = '#059669';
-    msg.textContent = `✅ "${code}" applied — You save ₹${discount.toLocaleString('en-IN')}`;
+    msg.textContent = `"${code}" applied — You save ₹${discount.toLocaleString('en-IN')}`;
   } catch (err) {
     discount = 0;
     msg.style.color = '#DC2626';
-    msg.textContent = `❌ ${err.message || 'Invalid or expired promo code.'}`;
+    msg.textContent = `${err.message || 'Invalid or expired promo code.'}`;
   } finally {
     if (btn) { btn.disabled = false; btn.textContent = 'Apply'; }
   }
@@ -589,7 +589,7 @@ window.processPayment = async () => {
   if (!phone) formErrors.push('Phone number is required');
   if (formErrors.length) {
     btn.disabled  = false;
-    btn.innerHTML = `🔒 Pay Securely Now — ₹${total.toLocaleString('en-IN')}`;
+    btn.innerHTML = `Pay Securely Now — ₹${total.toLocaleString('en-IN')}`;
     alert('Please fill in:\n' + formErrors.join('\n'));
     return;
   }
@@ -600,7 +600,7 @@ window.processPayment = async () => {
   if (['razorpay','upi','netbanking','emi'].includes(selectedMethod)) {
     if (!priceVerified) {
       btn.disabled  = false;
-      btn.innerHTML = `🔒 Pay Securely Now — ₹${total.toLocaleString('en-IN')}`;
+      btn.innerHTML = `Pay Securely Now — ₹${total.toLocaleString('en-IN')}`;
       alert(priceCheckFailed
         ? 'We could not verify the current price for this booking. Please go back and click "Book Now" again, or use Bank Transfer / WhatsApp to book — our team will confirm pricing manually.'
         : 'Still verifying the price for this booking — please try again in a moment.');
@@ -687,13 +687,13 @@ window.processPayment = async () => {
             }
             document.getElementById('success-overlay').classList.add('show');
           },
-          modal: { ondismiss: () => { btn.disabled = false; btn.innerHTML = `🔒 Pay Securely Now — ₹${total.toLocaleString('en-IN')}`; } }
+          modal: { ondismiss: () => { btn.disabled = false; btn.innerHTML = `Pay Securely Now — ₹${total.toLocaleString('en-IN')}`; } }
         };
         new window.Razorpay(options).open();
       } catch(e) {
         console.error('[ZoomFly Payment] Could not start Razorpay checkout:', e);
         btn.disabled  = false;
-        btn.innerHTML = `🔒 Pay Securely Now — ₹${total.toLocaleString('en-IN')}`;
+        btn.innerHTML = `Pay Securely Now — ₹${total.toLocaleString('en-IN')}`;
         alert('We could not start secure payment (' + e.message + '). Your booking request has been saved — please contact us on WhatsApp and our team will confirm payment manually.');
       }
       return;
@@ -728,12 +728,12 @@ window.processPayment = async () => {
       'Booking could not be saved. Please contact us on WhatsApp so we can confirm manually.';
     document.getElementById('success-overlay').classList.add('show');
     btn.disabled = false;
-    btn.innerHTML = `🔒 Pay Securely Now — ₹${total.toLocaleString('en-IN')}`;
+    btn.innerHTML = `Pay Securely Now — ₹${total.toLocaleString('en-IN')}`;
     return;
   }
   document.getElementById('success-overlay').classList.add('show');
   btn.disabled = false;
-  btn.innerHTML = `🔒 Pay Securely Now — ₹${total.toLocaleString('en-IN')}`;
+  btn.innerHTML = `Pay Securely Now — ₹${total.toLocaleString('en-IN')}`;
 };
 </script>
 

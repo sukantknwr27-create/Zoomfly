@@ -93,10 +93,10 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
 <div class="container">
   <div class="search-card">
     <div class="tabs-row">
-      <button class="cab-tab active" onclick="switchTab('airport',this)">✈️ Airport Transfer</button>
-      <button class="cab-tab" onclick="switchTab('outstation',this)">🛣️ Outstation</button>
-      <button class="cab-tab" onclick="switchTab('local',this)">🏙️ Local/City</button>
-      <button class="cab-tab" onclick="switchTab('hills',this)">🏔️ Hill Station</button>
+      <button class="cab-tab active" onclick="switchTab('airport',this)">Airport Transfer</button>
+      <button class="cab-tab" onclick="switchTab('outstation',this)">Outstation</button>
+      <button class="cab-tab" onclick="switchTab('local',this)">Local/City</button>
+      <button class="cab-tab" onclick="switchTab('hills',this)">Hill Station</button>
     </div>
 
     <!-- Airport Transfer -->
@@ -105,7 +105,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
         <div class="fg"><label>Airport</label><input class="fc" id="a-airport" placeholder="e.g. Indira Gandhi International" value="Indira Gandhi International, Delhi"/></div>
         <div class="fg"><label>Your Hotel / Address</label><input class="fc" id="a-hotel" placeholder="Hotel name or full address"/></div>
         <div class="fg"><label>Date & Time</label><input type="datetime-local" class="fc" id="a-date"/></div>
-        <button class="btn-search" onclick="bookCab('airport')">Get Quote 🚗</button>
+        <button class="btn-search" onclick="bookCab('airport')">Get Quote</button>
       </div>
     </div>
 
@@ -118,7 +118,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
           <select class="fc" id="o-type"><option>One Way</option><option>Round Trip</option></select>
         </div>
         <div class="fg"><label>Travel Date</label><input type="date" class="fc" id="o-date"/></div>
-        <button class="btn-search" onclick="bookCab('outstation')">Get Quote 🚗</button>
+        <button class="btn-search" onclick="bookCab('outstation')">Get Quote</button>
       </div>
     </div>
 
@@ -134,7 +134,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
           </select>
         </div>
         <div class="fg"><label>Date</label><input type="date" class="fc" id="l-date"/></div>
-        <button class="btn-search" onclick="bookCab('local')">Get Quote 🚗</button>
+        <button class="btn-search" onclick="bookCab('local')">Get Quote</button>
       </div>
     </div>
 
@@ -144,7 +144,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
         <div class="fg"><label>Base City</label><input class="fc" id="h-from" placeholder="e.g. Chandigarh" value="Chandigarh"/></div>
         <div class="fg"><label>Hill Destination</label><input class="fc" id="h-to" placeholder="e.g. Manali, Shimla, Mussoorie"/></div>
         <div class="fg"><label>Travel Date</label><input type="date" class="fc" id="h-date"/></div>
-        <button class="btn-search" onclick="bookCab('hills')">Get Quote 🚗</button>
+        <button class="btn-search" onclick="bookCab('hills')">Get Quote</button>
       </div>
     </div>
   </div>
@@ -159,25 +159,25 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
   </div>
   <div class="cab-types">
     <div class="cab-card reveal" onclick="quickBook('Hatchback (Economy)')">
-      <div class="cicon">🚗</div>
+      <div class="cicon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div>
       <h3>Hatchback</h3>
       <p>Economical choice for short trips & airport transfers. Fits 4 passengers.</p>
       <div class="price-tag">From ₹12/km</div>
     </div>
     <div class="cab-card reveal" style="transition-delay:80ms" onclick="quickBook('Sedan (Comfort)')">
-      <div class="cicon">🚙</div>
+      <div class="cicon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div>
       <h3>Sedan</h3>
       <p>Comfortable ride for city use & outstation trips. Fits 4 passengers + luggage.</p>
       <div class="price-tag">From ₹15/km</div>
     </div>
     <div class="cab-card reveal" style="transition-delay:160ms" onclick="quickBook('SUV / MUV (Premium)')">
-      <div class="cicon">🚐</div>
+      <div class="cicon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div>
       <h3>SUV / MUV</h3>
       <p>Spacious SUV for families & hill roads. Fits 6–7 passengers comfortably.</p>
       <div class="price-tag">From ₹20/km</div>
     </div>
     <div class="cab-card reveal" style="transition-delay:240ms" onclick="quickBook('Tempo Traveller (Group)')">
-      <div class="cicon">🚌</div>
+      <div class="cicon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
       <h3>Tempo Traveller</h3>
       <p>Best for group trips & pilgrimages. Fits 9–14 passengers with luggage.</p>
       <div class="price-tag">From ₹30/km</div>
@@ -194,39 +194,39 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
     </div>
     <div class="routes-grid" id="routes-grid-cab">
       <div class="route-item reveal" onclick="routeBook('Delhi','Agra')">
-        <div class="ri-left"><strong>Delhi → Agra</strong><span>🕐 3.5 hrs · 230 km · Hatchback/Sedan</span></div>
+        <div class="ri-left"><strong>Delhi → Agra</strong><span>3.5 hrs · 230 km · Hatchback/Sedan</span></div>
         <div class="ri-right"><div class="price">₹2,800</div><small>one way</small></div>
       </div>
       <div class="route-item reveal" style="transition-delay:60ms" onclick="routeBook('Delhi','Jaipur')">
-        <div class="ri-left"><strong>Delhi → Jaipur</strong><span>🕐 5 hrs · 280 km · Sedan/SUV</span></div>
+        <div class="ri-left"><strong>Delhi → Jaipur</strong><span>5 hrs · 280 km · Sedan/SUV</span></div>
         <div class="ri-right"><div class="price">₹3,500</div><small>one way</small></div>
       </div>
       <div class="route-item reveal" style="transition-delay:120ms" onclick="routeBook('Chandigarh','Manali')">
-        <div class="ri-left"><strong>Chandigarh → Manali</strong><span>🕐 8 hrs · 310 km · SUV</span></div>
+        <div class="ri-left"><strong>Chandigarh → Manali</strong><span>8 hrs · 310 km · SUV</span></div>
         <div class="ri-right"><div class="price">₹6,500</div><small>one way</small></div>
       </div>
       <div class="route-item reveal" style="transition-delay:180ms" onclick="routeBook('Mumbai','Pune')">
-        <div class="ri-left"><strong>Mumbai → Pune</strong><span>🕐 3 hrs · 150 km · Sedan</span></div>
+        <div class="ri-left"><strong>Mumbai → Pune</strong><span>3 hrs · 150 km · Sedan</span></div>
         <div class="ri-right"><div class="price">₹2,200</div><small>one way</small></div>
       </div>
       <div class="route-item reveal" style="transition-delay:240ms" onclick="routeBook('Bangalore','Mysore')">
-        <div class="ri-left"><strong>Bangalore → Mysore</strong><span>🕐 3 hrs · 145 km · Sedan</span></div>
+        <div class="ri-left"><strong>Bangalore → Mysore</strong><span>3 hrs · 145 km · Sedan</span></div>
         <div class="ri-right"><div class="price">₹2,000</div><small>one way</small></div>
       </div>
       <div class="route-item reveal" style="transition-delay:300ms" onclick="routeBook('Haridwar','Kedarnath')">
-        <div class="ri-left"><strong>Haridwar → Kedarnath</strong><span>🕐 9 hrs · 220 km · SUV</span></div>
+        <div class="ri-left"><strong>Haridwar → Kedarnath</strong><span>9 hrs · 220 km · SUV</span></div>
         <div class="ri-right"><div class="price">₹7,000</div><small>one way</small></div>
       </div>
       <div class="route-item reveal" style="transition-delay:360ms" onclick="routeBook('Delhi','Shimla')">
-        <div class="ri-left"><strong>Delhi → Shimla</strong><span>🕐 6 hrs · 350 km · SUV</span></div>
+        <div class="ri-left"><strong>Delhi → Shimla</strong><span>6 hrs · 350 km · SUV</span></div>
         <div class="ri-right"><div class="price">₹5,500</div><small>one way</small></div>
       </div>
       <div class="route-item reveal" style="transition-delay:420ms" onclick="routeBook('Kochi','Munnar')">
-        <div class="ri-left"><strong>Kochi → Munnar</strong><span>🕐 4 hrs · 130 km · Sedan/SUV</span></div>
+        <div class="ri-left"><strong>Kochi → Munnar</strong><span>4 hrs · 130 km · Sedan/SUV</span></div>
         <div class="ri-right"><div class="price">₹2,800</div><small>one way</small></div>
       </div>
       <div class="route-item reveal" style="transition-delay:480ms" onclick="routeBook('Kolkata','Darjeeling')">
-        <div class="ri-left"><strong>Kolkata → Darjeeling</strong><span>🕐 10 hrs · 580 km · SUV</span></div>
+        <div class="ri-left"><strong>Kolkata → Darjeeling</strong><span>10 hrs · 580 km · SUV</span></div>
         <div class="ri-right"><div class="price">₹9,000</div><small>one way</small></div>
       </div>
     </div>
@@ -240,22 +240,22 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
     <h2 class="section-title">Safe, Reliable <em>& Affordable</em></h2>
   </div>
   <div class="why-grid">
-    <div class="why-card reveal"><div class="wicon">✅</div><h4>Verified Drivers</h4><p>All drivers are police-verified, trained in customer service and carry valid commercial licences.</p></div>
-    <div class="why-card reveal" style="transition-delay:80ms"><div class="wicon">📍</div><h4>Live GPS Tracking</h4><p>Track your cab in real-time. Trip details shared with your emergency contact automatically.</p></div>
-    <div class="why-card reveal" style="transition-delay:160ms"><div class="wicon">💰</div><h4>Transparent Pricing</h4><p>No hidden charges. Price includes tolls, driver allowance and fuel. Final price confirmed upfront.</p></div>
-    <div class="why-card reveal" style="transition-delay:240ms"><div class="wicon">🕐</div><h4>24/7 Availability</h4><p>Round-the-clock availability for airport pickups and early morning departures. Never miss a flight.</p></div>
-    <div class="why-card reveal" style="transition-delay:320ms"><div class="wicon">🚗</div><h4>Well-Maintained Fleet</h4><p>Regular serviced vehicles. AC, clean interiors, water bottle and phone charger provided on request.</p></div>
-    <div class="why-card reveal" style="transition-delay:400ms"><div class="wicon">🤝</div><h4>Instant Confirmation</h4><p>WhatsApp booking confirmation within 15 minutes. Driver details shared 1 hour before pickup.</p></div>
+    <div class="why-card reveal"><div class="wicon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div><h4>Verified Drivers</h4><p>All drivers are police-verified, trained in customer service and carry valid commercial licences.</p></div>
+    <div class="why-card reveal" style="transition-delay:80ms"><div class="wicon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div><h4>Live GPS Tracking</h4><p>Track your cab in real-time. Trip details shared with your emergency contact automatically.</p></div>
+    <div class="why-card reveal" style="transition-delay:160ms"><div class="wicon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div><h4>Transparent Pricing</h4><p>No hidden charges. Price includes tolls, driver allowance and fuel. Final price confirmed upfront.</p></div>
+    <div class="why-card reveal" style="transition-delay:240ms"><div class="wicon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></div><h4>24/7 Availability</h4><p>Round-the-clock availability for airport pickups and early morning departures. Never miss a flight.</p></div>
+    <div class="why-card reveal" style="transition-delay:320ms"><div class="wicon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div><h4>Well-Maintained Fleet</h4><p>Regular serviced vehicles. AC, clean interiors, water bottle and phone charger provided on request.</p></div>
+    <div class="why-card reveal" style="transition-delay:400ms"><div class="wicon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div><h4>Instant Confirmation</h4><p>WhatsApp booking confirmation within 15 minutes. Driver details shared 1 hour before pickup.</p></div>
   </div>
 </div>
 
 <!-- CTA -->
 <section class="cta-strip">
-  <h2>Ready to Book Your Cab? 🚗</h2>
+  <h2>Ready to Book Your Cab?</h2>
   <p>Get an instant quote via WhatsApp or call us. We confirm within 15 minutes — guaranteed.</p>
   <div class="cta-btns">
-    <a href="https://wa.me/918076136300?text=Hi%20ZoomFly!%20I%20want%20to%20book%20a%20cab.%20Please%20share%20details." class="btn-wa-lg" target="_blank">💬 WhatsApp for Instant Quote</a>
-    <a href="tel:+918076136300" class="btn-call-lg">📞 Call +91 80761 36300</a>
+    <a href="https://wa.me/918076136300?text=Hi%20ZoomFly!%20I%20want%20to%20book%20a%20cab.%20Please%20share%20details." class="btn-wa-lg" target="_blank">WhatsApp for Instant Quote</a>
+    <a href="tel:+918076136300" class="btn-call-lg">Call +91 80761 36300</a>
   </div>
 </section>
 
@@ -279,7 +279,7 @@ const acT = {};
     if (!grid) return;
     grid.innerHTML = data.map(r => `
       <div class="route-item reveal active" onclick="routeBook('${r.from_location.replace(/'/g,"\\'")}','${r.to_location.replace(/'/g,"\\'")}')">
-        <div class="ri-left"><strong>${r.from_location} → ${r.to_location}</strong><span>🕐 ${r.duration_hours ? r.duration_hours + ' hrs' : ''} · ${r.cab_type}</span></div>
+        <div class="ri-left"><strong>${r.from_location} → ${r.to_location}</strong><span>${r.duration_hours ? r.duration_hours + ' hrs' : ''} · ${r.cab_type}</span></div>
         <div class="ri-right"><div class="price">₹${Number(r.price).toLocaleString('en-IN')}</div><small>one way</small></div>
       </div>`).join('');
   } catch (e) {
@@ -302,7 +302,7 @@ window.showCityAC = (inputId, dropId) => {
     `<div style="padding:.55rem 1rem;cursor:pointer;font-size:.85rem;border-bottom:1px solid #f1f5f9"
       onmouseover="this.style.background='#F5E6C4'" onmouseout="this.style.background=''"
       onmousedown="document.getElementById('${inputId}').value='${c}';document.getElementById('${dropId}').style.display='none'">
-      📍 ${c}</div>`).join('');
+       ${c}</div>`).join('');
   drop.style.display = 'block';
 };
 
@@ -344,7 +344,7 @@ window.switchTab = function(tab, el) {
 };
 
 window.bookCab = function(type) {
-  let msg = 'Hi ZoomFly! 🚗 I want to book a cab.\n';
+  let msg = 'Hi ZoomFly!  I want to book a cab.\n';
   if (type === 'airport') {
     const airport = document.getElementById('a-airport').value;
     const hotel = document.getElementById('a-hotel').value;
@@ -376,12 +376,12 @@ window.bookCab = function(type) {
 }
 
 window.quickBook = function(cabType) {
-  const msg = `Hi ZoomFly! 🚗 I want to book a ${cabType}. Please share pricing and availability for my trip.`;
+  const msg = `Hi ZoomFly!  I want to book a ${cabType}. Please share pricing and availability for my trip.`;
   window.open('https://wa.me/918076136300?text=' + encodeURIComponent(msg), '_blank');
 }
 
 window.routeBook = function(from, to) {
-  const msg = `Hi ZoomFly! 🚗 I want to book a cab from ${from} to ${to}. Please share pricing and availability.`;
+  const msg = `Hi ZoomFly!  I want to book a cab from ${from} to ${to}. Please share pricing and availability.`;
   window.open('https://wa.me/918076136300?text=' + encodeURIComponent(msg), '_blank');
 }
 

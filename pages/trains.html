@@ -16,7 +16,7 @@
     <style>
     :root{--blue:#1a73e8;--orange:#ff6b35;--gold:#f59e0b;--green:#16a34a;--red:#dc2626;--navy:#0f1923}
     .hero{background:linear-gradient(135deg,#0f1923 0%,#1a2535 60%,#0d1f0d 100%);padding:60px 5% 48px;position:relative;overflow:hidden}
-    .hero::before{content:'🚂';position:absolute;right:-20px;top:-20px;font-size:260px;opacity:.04;line-height:1}
+    .hero::before{content:'';position:absolute;right:-20px;top:-20px;font-size:260px;opacity:.04;line-height:1}
     .hero-inner{max-width:900px;margin:0 auto;position:relative;z-index:1}
     .hero-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.3);border-radius:20px;padding:5px 16px;font-size:.75rem;font-weight:700;color:#fde68a;letter-spacing:1px;text-transform:uppercase;margin-bottom:16px}
     .hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,3rem);font-weight:800;color:#fff;line-height:1.2;margin-bottom:10px}
@@ -72,7 +72,7 @@
     .duration-line{display:flex;align-items:center;gap:8px;margin:0 12px}
     .dur-label{font-size:.72rem;color:#94a3b8;white-space:nowrap}
     .dur-line{flex:1;height:1px;background:#e2e8f0;position:relative}
-    .dur-line::after{content:'🚂';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:.8rem}
+    .dur-line::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:.8rem}
     .class-avail{display:flex;flex-direction:column;gap:6px}
     .avail-row{display:flex;justify-content:space-between;align-items:center;padding:6px 10px;border:1.5px solid #e2e8f0;border-radius:8px;cursor:pointer;transition:all .15s}
     .avail-row:hover,.avail-row.selected{border-color:var(--blue);background:#eff6ff}
@@ -138,7 +138,7 @@
 <!-- HERO -->
 <section class="hero">
   <div class="hero-inner">
-    <div class="hero-pill">🚂 Train Booking</div>
+    <div class="hero-pill">Train Booking</div>
     <h1>Book Train Tickets<br/>Across <em>India</em></h1>
     <p>Search trains, check availability, book Tatkal & General quota — all in one place.</p>
 
@@ -193,7 +193,7 @@
       </div>
 
       <div style="margin-top:16px;display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center">
-        <button class="search-btn" onclick="searchTrains()">🔍 Search Trains</button>
+        <button class="search-btn" onclick="searchTrains()">Search Trains</button>
         <div style="display:flex;align-items:center;gap:6px;font-size:.78rem;color:#94a3b8">
           <span>Passengers:</span>
           <select id="t-pax" class="station-input" style="width:60px;padding:6px 8px;font-size:.78rem">
@@ -234,11 +234,11 @@
       </div>
       <div class="filter-row">
         <button class="filter-btn active" onclick="filterTrains('all',this)">All</button>
-        <button class="filter-btn" onclick="filterTrains('morning',this)">🌅 Morning</button>
-        <button class="filter-btn" onclick="filterTrains('evening',this)">🌆 Evening</button>
-        <button class="filter-btn" onclick="filterTrains('night',this)">🌙 Night</button>
-        <button class="filter-btn" onclick="filterTrains('ac',this)">❄️ AC Only</button>
-        <button class="filter-btn" onclick="sortTrains('duration')">⏱ Duration</button>
+        <button class="filter-btn" onclick="filterTrains('morning',this)">Morning</button>
+        <button class="filter-btn" onclick="filterTrains('evening',this)">Evening</button>
+        <button class="filter-btn" onclick="filterTrains('night',this)">Night</button>
+        <button class="filter-btn" onclick="filterTrains('ac',this)">AC Only</button>
+        <button class="filter-btn" onclick="sortTrains('duration')">Duration</button>
         <button class="filter-btn" onclick="sortTrains('price')">₹ Price</button>
       </div>
     </div>
@@ -262,32 +262,32 @@
     <h2 class="section-title">Train Booking <em>Benefits</em></h2>
     <div class="features-grid">
         <div class="feat-card">
-          <div class="feat-icon">🎟</div>
+          <div class="feat-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/><path d="M12 2v2M2 12h2M12 22v-2M22 12h-2"/></svg></div>
           <div class="feat-title">Tatkal Booking</div>
           <div class="feat-desc">Book Tatkal tickets with zero hassle — we handle the rush for you</div>
         </div>
         <div class="feat-card">
-          <div class="feat-icon">💰</div>
+          <div class="feat-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><path d="M9 14V4a2 2 0 0 1 4 0v10M9 14a2 2 0 1 0 4 0M9 14H5a2 2 0 0 0-2 2v1a5 5 0 0 0 5 5h8a5 5 0 0 0 5-5v-1a2 2 0 0 0-2-2h-4"/></svg></div>
           <div class="feat-title">Best Prices</div>
           <div class="feat-desc">No hidden charges. Pay exactly what IRCTC charges, plus our nominal service fee</div>
         </div>
         <div class="feat-card">
-          <div class="feat-icon">📱</div>
+          <div class="feat-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#25D366" stroke-width="1.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div>
           <div class="feat-title">WhatsApp Updates</div>
           <div class="feat-desc">Get real-time booking confirmations and PNR updates on WhatsApp</div>
         </div>
         <div class="feat-card">
-          <div class="feat-icon">👥</div>
+          <div class="feat-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
           <div class="feat-title">Group Booking</div>
           <div class="feat-desc">Book for up to 6 passengers in one go with co-traveller profiles</div>
         </div>
         <div class="feat-card">
-          <div class="feat-icon">🔄</div>
+          <div class="feat-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 5v5h5"/></svg></div>
           <div class="feat-title">Instant Refund</div>
           <div class="feat-desc">Cancellation refunds processed within 5–7 business days</div>
         </div>
         <div class="feat-card">
-          <div class="feat-icon">🛡</div>
+          <div class="feat-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18"/><path d="M7 15h3"/></svg></div>
           <div class="feat-title">Secure Payment</div>
           <div class="feat-desc">100% secure payments via Razorpay — UPI, cards, net banking</div>
         </div>
@@ -299,7 +299,7 @@
 <div class="modal-ov" id="booking-modal">
   <div class="modal-box">
     <div class="modal-title">
-      <span>🚂 Train Booking</span>
+      <span>Train Booking</span>
       <button class="close-btn" onclick="closeModal()">✕</button>
     </div>
     <div id="modal-train-summary" style="background:#f8fafc;border-radius:10px;padding:14px;margin-bottom:16px;font-size:.88rem"></div>
@@ -330,7 +330,7 @@
       Proceed to Payment
     </button>
     <p style="font-size:.72rem;color:#94a3b8;text-align:center;margin-top:8px">
-      🔒 Secure booking · PNR generated within 2 mins · E-ticket on WhatsApp
+       Secure booking · PNR generated within 2 mins · E-ticket on WhatsApp
     </p>
   </div>
 </div>
@@ -578,7 +578,7 @@ window.searchTrains = async () => {
   }
 
   const btn = document.querySelector('.search-btn');
-  btn.textContent = '⏳ Searching...';
+  btn.textContent = 'Searching...';
   btn.disabled    = true;
 
   // Save enquiry to Supabase
@@ -593,7 +593,7 @@ window.searchTrains = async () => {
   } catch(_) {}
 
   setTimeout(() => {
-    btn.textContent = '🔍 Search Trains';
+    btn.textContent = 'Search Trains';
     btn.disabled    = false;
 
     // Filter trains or generate results
@@ -828,7 +828,7 @@ window.confirmTrainBooking = async () => {
   const email = document.getElementById('contact-email').value.trim();
   if (!phone) { errEl.textContent='Please enter mobile number'; errEl.style.display='block'; return; }
 
-  btn.textContent = '⏳ Processing...';
+  btn.textContent = 'Processing...';
   btn.disabled    = true;
 
   const quota   = document.getElementById('t-quota').value;
@@ -849,7 +849,7 @@ window.confirmTrainBooking = async () => {
     await bookTrain(bookingData);
 
     // Send WhatsApp confirmation
-    const msg = `🚂 *Train Booking Request — ZoomFly*\n\n` +
+    const msg = `*Train Booking Request — ZoomFly*\n\n` +
       `Train: *${selectedTrain.name}* (#${selectedTrain.num})\n` +
       `Route: ${selectedTrain.from} → ${selectedTrain.to}\n` +
       `Date: ${new Date(date).toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'long'})}\n` +
@@ -861,7 +861,7 @@ window.confirmTrainBooking = async () => {
     window.open(`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`, '_blank');
 
     closeModal();
-    showToast('✅ Booking request sent! Our team will confirm PNR within 30 mins on WhatsApp.');
+    showToast('Booking request sent! Our team will confirm PNR within 30 mins on WhatsApp.');
   } catch(e) {
     errEl.textContent = 'Booking failed: ' + e.message;
     errEl.style.display = 'block';
@@ -884,7 +884,7 @@ window.checkPNR = async () => {
   const res = document.getElementById('pnr-result');
   if (!pnr || pnr.length !== 10) { showToast('Please enter a valid 10-digit PNR number'); return; }
 
-  res.innerHTML = '<div style="text-align:center;padding:12px;color:#64748b">⏳ Checking PNR status...</div>';
+  res.innerHTML = '<div style="text-align:center;padding:12px;color:#64748b">Checking PNR status...</div>';
   res.classList.add('show');
 
   // Check our DB first
@@ -901,7 +901,7 @@ window.checkPNR = async () => {
         <div style="font-weight:700;font-size:.95rem">PNR: ${pnr}</div>
         <span style="padding:3px 10px;border-radius:20px;font-size:.75rem;font-weight:700;
           background:${isConfirmed?'#dcfce7':'#fef3c7'};color:${isConfirmed?'#15803d':'#92400e'}">
-          ${isConfirmed?'✅ Confirmed':'⏳ Waitlisted'}
+          ${isConfirmed?'Confirmed':'Waitlisted'}
         </span>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:.83rem">
@@ -909,30 +909,29 @@ window.checkPNR = async () => {
         <div><span style="color:#94a3b8">Chart Status:</span><br/><strong>${isConfirmed?'Chart Prepared':'Chart Not Prepared'}</strong></div>
       </div>
       ${data ? `<div style="margin-top:8px;font-size:.78rem;color:#64748b">Booking found in ZoomFly records — ${data.service_name}</div>` : ''}
-      <div style="margin-top:10px;font-size:.72rem;color:#94a3b8">⚠️ Status is indicative. For real-time PNR, check <a href="https://www.irctc.co.in" target="_blank" style="color:var(--blue)">IRCTC.co.in</a></div>`;
+      <div style="margin-top:10px;font-size:.72rem;color:#94a3b8">Status is indicative. For real-time PNR, check <a href="https://www.irctc.co.in" target="_blank" style="color:var(--blue)">IRCTC.co.in</a></div>`;
   }, 1500);
 };
 
 // ── POPULAR ROUTES ────────────────────────────────────
 const POPULAR_ROUTES = [
-  { from:'New Delhi', to:'Mumbai', icon:'🏙️', trains:42, from_price:380 },
-  { from:'Delhi', to:'Kolkata', icon:'🎨', trains:38, from_price:350 },
-  { from:'Mumbai', to:'Goa', icon:'🏖️', trains:15, from_price:220 },
-  { from:'Delhi', to:'Jaipur', icon:'🏰', trains:28, from_price:145 },
-  { from:'Bangalore', to:'Chennai', icon:'🌊', trains:22, from_price:165 },
-  { from:'Delhi', to:'Agra', icon:'🕌', trains:34, from_price:105 },
-  { from:'Mumbai', to:'Pune', icon:'🌇', trains:55, from_price:80 },
-  { from:'Delhi', to:'Varanasi', icon:'⛩️', trains:18, from_price:280 },
-  { from:'Hyderabad', to:'Bangalore', icon:'💻', trains:20, from_price:210 },
-  { from:'Delhi', to:'Shimla', icon:'⛰️', trains:8, from_price:195 },
-  { from:'Chennai', to:'Kochi', icon:'🌴', trains:12, from_price:250 },
-  { from:'Delhi', to:'Guwahati', icon:'🍵', trains:6, from_price:450 },
+  { from:'New Delhi', to:'Mumbai', trains:42, from_price:380 },
+  { from:'Delhi', to:'Kolkata', trains:38, from_price:350 },
+  { from:'Mumbai', to:'Goa', trains:15, from_price:220 },
+  { from:'Delhi', to:'Jaipur', trains:28, from_price:145 },
+  { from:'Bangalore', to:'Chennai', trains:22, from_price:165 },
+  { from:'Delhi', to:'Agra', trains:34, from_price:105 },
+  { from:'Mumbai', to:'Pune', trains:55, from_price:80 },
+  { from:'Delhi', to:'Varanasi', trains:18, from_price:280 },
+  { from:'Hyderabad', to:'Bangalore', trains:20, from_price:210 },
+  { from:'Delhi', to:'Shimla', trains:8, from_price:195 },
+  { from:'Chennai', to:'Kochi', trains:12, from_price:250 },
+  { from:'Delhi', to:'Guwahati', trains:6, from_price:450 },
 ];
 
 function renderPopularRoutes() {
   document.getElementById('popularRoutes').innerHTML = POPULAR_ROUTES.map(r => `
     <div class="route-card" onclick="quickSearch('${r.from}','${r.to}')">
-      <div class="route-icon">${r.icon}</div>
       <div>
         <div class="route-name">${r.from} → ${r.to}</div>
         <div class="route-sub">${r.trains} trains daily</div>

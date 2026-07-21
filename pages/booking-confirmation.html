@@ -4,7 +4,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Booking Confirmed — ZoomFly</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✈️</text></svg>"/>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'></text></svg>"/>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,600&family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <style>
     :root {
@@ -236,7 +236,7 @@
 
 <nav>
   <a href="/index.html" class="logo">
-    <div class="logo-icon">✈️</div>
+    <div class="logo-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div>
     <div class="logo-text">Zoom<span>Fly</span></div>
   </a>
 </nav>
@@ -248,7 +248,7 @@
 
     <!-- Header -->
     <div class="status-header">
-      <div class="status-icon" id="status-icon">✅</div>
+      <div class="status-icon" id="status-icon"></div>
       <h1 id="status-heading">Booking Request Received!</h1>
       <p id="status-subtext">Your booking has been submitted successfully.<br/>Our team will confirm within <strong style="color:#fff;">30 minutes</strong>.</p>
     </div>
@@ -280,21 +280,21 @@
           </div>
         </div>
         <div class="tl-item">
-          <div class="tl-dot active">⏳</div>
+          <div class="tl-dot active"></div>
           <div class="tl-content">
             <div class="tl-title">Team Review & Confirmation</div>
             <div class="tl-sub">We'll confirm availability and send you details via WhatsApp within 30 minutes</div>
           </div>
         </div>
         <div class="tl-item">
-          <div class="tl-dot waiting">💳</div>
+          <div class="tl-dot waiting"></div>
           <div class="tl-content">
             <div class="tl-title">Payment & Final Confirmation</div>
             <div class="tl-sub">Complete payment to lock your booking</div>
           </div>
         </div>
         <div class="tl-item">
-          <div class="tl-dot waiting">🎫</div>
+          <div class="tl-dot waiting"></div>
           <div class="tl-content">
             <div class="tl-title">e-Ticket / Voucher Issued</div>
             <div class="tl-sub">Receive your travel documents via WhatsApp and email</div>
@@ -308,10 +308,10 @@
     <div class="divider"></div>
     <div class="actions">
       <a id="wa-btn" href="#" target="_blank" class="btn btn-whatsapp">
-        💬 Open WhatsApp Conversation
+         Open WhatsApp Conversation
       </a>
       <a href="/index.html" class="btn btn-outline">
-        🏠 Back to Home
+         Back to Home
       </a>
     </div>
 
@@ -319,7 +319,7 @@
 
   <!-- HELP STRIP -->
   <div class="help-strip">
-    <div class="help-icon">🤝</div>
+    <div class="help-icon"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></div>
     <div class="help-text">
       <div class="ht-title">Need help with your booking?</div>
       <div class="ht-sub">
@@ -331,7 +331,7 @@
 
   <!-- TRACK BOOKING -->
   <div class="track-card">
-    <h3>🔍 Track Another Booking</h3>
+    <h3>Track Another Booking</h3>
     <p>Enter your booking reference and the email used to book.</p>
     <div class="track-form">
       <input
@@ -437,11 +437,11 @@
 
   function formatStatus(status) {
     const map = {
-      pending:   `<span class="status-badge badge-pending">⏳ Pending</span>`,
-      confirmed: `<span class="status-badge badge-confirmed">✅ Confirmed</span>`,
-      cancelled: `<span class="status-badge badge-cancelled">❌ Cancelled</span>`,
-      completed: `<span class="status-badge badge-confirmed">🎉 Completed</span>`,
-      refunded:  `<span class="status-badge badge-pending">💰 Refunded</span>`,
+      pending:   `<span class="status-badge badge-pending">Pending</span>`,
+      confirmed: `<span class="status-badge badge-confirmed">Confirmed</span>`,
+      cancelled: `<span class="status-badge badge-cancelled">Cancelled</span>`,
+      completed: `<span class="status-badge badge-confirmed">Completed</span>`,
+      refunded:  `<span class="status-badge badge-pending">Refunded</span>`,
     };
     return map[status] || `<span class="status-badge badge-pending">${status}</span>`;
   }
@@ -464,7 +464,7 @@
     if (!email) { emailInput.focus(); return; }
 
     result.style.display = 'block';
-    result.innerHTML = '<span style="color:#64748b;font-size:0.85rem;">🔍 Looking up booking...</span>';
+    result.innerHTML = '<span style="color:#64748b;font-size:0.85rem;">Looking up booking...</span>';
 
     try {
       const b = await getBookingByRef(ref, email);
@@ -496,7 +496,7 @@
     } catch(err) {
       result.innerHTML = `
         <div style="color:#991b1b;font-size:0.85rem;">
-          ❌ Booking not found. Please check the reference number or
+           Booking not found. Please check the reference number or
           <a href="https://wa.me/${WA_NUMBER}" target="_blank"
             style="color:#1a73e8;">contact us on WhatsApp</a>.
         </div>

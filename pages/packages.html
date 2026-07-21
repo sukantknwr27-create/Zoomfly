@@ -133,15 +133,15 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
 <div class="page-hero">
   <h1>Our <em>Tour Packages</em></h1>
   <p>200+ handcrafted itineraries — from quick weekend escapes to 14-day international holidays</p>
-  <div class="search-wrap"><input type="text" id="search-inp" placeholder="Search destinations, packages..."/><span class="si">🔍</span></div>
+  <div class="search-wrap"><input type="text" id="search-inp" placeholder="Search destinations, packages..."/><span class="si"></span></div>
 </div>
 
 <div class="layout">
   <aside class="sidebar">
     <div class="filter-card">
-      <div class="fhdr"><h3>🔧 Filters</h3><button class="freset" id="reset-btn">Reset All</button></div>
-      <div class="fsec"><h4>Trip Type</h4><div class="pill-g" id="f-type"><span class="pill active" data-v="all">All</span><span class="pill" data-v="domestic">🇮🇳 Domestic</span><span class="pill" data-v="international">✈ International</span></div></div>
-      <div class="fsec"><h4>Category</h4><div class="pill-g" id="f-cat"><span class="pill active" data-v="all">All</span><span class="pill" data-v="beach">🏖 Beach</span><span class="pill" data-v="adventure">🏔 Adventure</span><span class="pill" data-v="nature">🌿 Nature</span><span class="pill" data-v="heritage">🏰 Heritage</span><span class="pill" data-v="honeymoon">💑 Honeymoon</span><span class="pill" data-v="wildlife">🦁 Wildlife</span><span class="pill" data-v="spiritual">🕌 Spiritual</span></div></div>
+      <div class="fhdr"><h3>Filters</h3><button class="freset" id="reset-btn">Reset All</button></div>
+      <div class="fsec"><h4>Trip Type</h4><div class="pill-g" id="f-type"><span class="pill active" data-v="all">All</span><span class="pill" data-v="domestic">Domestic</span><span class="pill" data-v="international">International</span></div></div>
+      <div class="fsec"><h4>Category</h4><div class="pill-g" id="f-cat"><span class="pill active" data-v="all">All</span><span class="pill" data-v="beach">Beach</span><span class="pill" data-v="adventure">Adventure</span><span class="pill" data-v="nature">Nature</span><span class="pill" data-v="heritage">Heritage</span><span class="pill" data-v="honeymoon">Honeymoon</span><span class="pill" data-v="wildlife">Wildlife</span><span class="pill" data-v="spiritual">Spiritual</span></div></div>
       <div class="fsec"><h4>Duration</h4><div class="pill-g" id="f-dur"><span class="pill active" data-v="all">All</span><span class="pill" data-v="short">Upto 4 Days</span><span class="pill" data-v="medium">5–7 Days</span><span class="pill" data-v="long">8+ Days</span></div></div>
       <div class="fsec"><h4>Max Budget (per person)</h4><div class="range-labels"><span>₹5,000</span><span>₹75,000+</span></div><input type="range" id="budget-r" min="5000" max="75000" step="1000" value="75000"/><div class="range-val" id="budget-lbl">No limit</div></div>
       <div class="fsec"><h4>Rating</h4><div class="pill-g" id="f-rating"><span class="pill active" data-v="all">All</span><span class="pill" data-v="4.5">4.5★+</span><span class="pill" data-v="4.8">4.8★+</span></div></div>
@@ -155,7 +155,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
     <div id="pkg-grid" class="pkg-grid">
       <div class="loading" style="grid-column:1/-1"><div class="spinner"></div><p>Loading packages...</p></div>
     </div>
-    <div class="no-results" id="no-res" style="display:none"><div class="icon">🔍</div><h3>No packages found</h3><p>Try adjusting your filters.</p></div>
+    <div class="no-results" id="no-res" style="display:none"><div class="icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div><h3>No packages found</h3><p>Try adjusting your filters.</p></div>
   </div>
 </div>
 
@@ -164,7 +164,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
      background:#fff;border-top:2px solid #1a73e8;box-shadow:0 -8px 32px rgba(0,0,0,.15);
      padding:14px 20px;transition:transform .3s;">
   <div style="max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
-    <div style="font-weight:700;font-size:.88rem;color:#1a73e8;white-space:nowrap;">⚖️ Compare</div>
+    <div style="font-weight:700;font-size:.88rem;color:#1a73e8;white-space:nowrap;">Compare</div>
     <div id="compare-slots" style="display:flex;gap:10px;flex:1;flex-wrap:wrap;"></div>
     <div style="display:flex;gap:8px;flex-shrink:0;">
       <button onclick="runCompare()"
@@ -183,7 +183,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
   <div style="max-width:1100px;margin:40px auto;background:#fff;border-radius:20px;
        padding:32px;box-shadow:0 24px 80px rgba(0,0,0,.25);">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
-      <h2 style="font-size:1.3rem;font-weight:700;">⚖️ Package Comparison</h2>
+      <h2 style="font-size:1.3rem;font-weight:700;">Package Comparison</h2>
       <button onclick="closeCompareModal()"
         style="background:none;border:none;font-size:1.2rem;cursor:pointer;color:#64748b;">✕</button>
     </div>
@@ -220,14 +220,14 @@ let searchTerm = '';
 // Load packages from Supabase
 // Static fallback packages
 const STATIC_PACKAGES = [
-  {id:'manali-snow-escape',title:'Manali Snow Escape',type:'domestic',category:'adventure',emoji:'🏔️',bg_gradient:'linear-gradient(135deg,#667eea,#764ba2)',badge:'bestseller',badge_label:'Best Seller',duration_days:6,nights:5,price:12499,old_price:14999,rating:4.9,review_count:312,is_active:true,tags:['Himachal Pradesh','Adventure','Snow'],description:'Snow, adventure & mountain magic in the lap of the Himalayas.',inclusions:['Hotel Stay','Breakfast & Dinner','Sightseeing','Airport Transfers','Travel Insurance']},
-  {id:'goa-beach-bliss',title:'Goa Beach Bliss',type:'domestic',category:'beach',emoji:'🏖️',bg_gradient:'linear-gradient(135deg,#f6d365,#fda085)',badge:'trending',badge_label:'Trending',duration_days:5,nights:4,price:8999,old_price:10999,rating:4.8,review_count:541,is_active:true,tags:['Goa','Beach','Party'],description:'Sun, sand & sunsets — Goa at its vibrant best.',inclusions:['4-Star Hotel','Breakfast','Airport Transfers','North & South Goa Tour','Water Sports Pass']},
-  {id:'kerala-backwaters',title:'Kerala Backwaters',type:'domestic',category:'nature',emoji:'🌴',bg_gradient:'linear-gradient(135deg,#43e97b,#38f9d7)',badge:'new',badge_label:'New',duration_days:7,nights:6,price:15499,old_price:18999,rating:4.9,review_count:278,is_active:true,tags:['Kerala','Nature','Houseboat'],description:"God's Own Country — backwaters, beaches & wildlife.",inclusions:['Hotels & Houseboat','All Meals on Houseboat','Sightseeing','Airport Transfers','Kathakali Show']},
-  {id:'rajasthan-royal-tour',title:'Rajasthan Royal Tour',type:'domestic',category:'heritage',emoji:'🏰',bg_gradient:'linear-gradient(135deg,#fa709a,#fee140)',badge:'popular',badge_label:'Popular',duration_days:8,nights:7,price:18999,old_price:22999,rating:4.7,review_count:189,is_active:true,tags:['Rajasthan','Heritage','Culture'],description:'Forts, palaces & golden deserts of Royal Rajasthan.',inclusions:['Heritage Hotels','Breakfast & Dinner','AC Vehicle','Camel Safari','Entrance Fees']},
-  {id:'bangkok-explorer',title:'Bangkok Explorer',type:'international',category:'international',emoji:'🗼',bg_gradient:'linear-gradient(135deg,#4facfe,#00f2fe)',badge:'international',badge_label:'International',duration_days:6,nights:5,price:32999,old_price:38999,rating:4.8,review_count:423,is_active:true,tags:['Thailand','International','City'],description:'Temples, street food & islands — Bangkok & beyond.',inclusions:['4-Star Hotel','Breakfast','Return Flights','Visa Assistance','City Tour','Island Hopping']},
-  {id:'bali-romance',title:'Bali Romance Package',type:'international',category:'honeymoon',emoji:'🌸',bg_gradient:'linear-gradient(135deg,#a18cd1,#fbc2eb)',badge:'honeymoon',badge_label:'Honeymoon',duration_days:7,nights:6,price:55999,old_price:64999,rating:5.0,review_count:167,is_active:true,tags:['Bali','Honeymoon','Luxury'],description:'Private pool villas, couples spa & Bali magic.',inclusions:['Private Pool Villa','All Meals','Return Flights','Airport Transfers','Couples Spa','Sunset Dinner']},
-  {id:'andaman-island-escape',title:'Andaman Island Escape',type:'domestic',category:'beach',emoji:'🐠',bg_gradient:'linear-gradient(135deg,#a1c4fd,#c2e9fb)',badge:'popular',badge_label:'Popular',duration_days:6,nights:5,price:19999,old_price:24999,rating:4.8,review_count:203,is_active:true,tags:['Andaman','Beach','Diving'],description:'Crystal-clear waters & coral reefs of the Andamans.',inclusions:['Hotel & Resort','Breakfast','Flights from Chennai','Ferry Tickets','Scuba Diving','Glass Bottom Boat']},
-  {id:'darjeeling-tea-trails',title:'Darjeeling Tea Trails',type:'domestic',category:'nature',emoji:'🍵',bg_gradient:'linear-gradient(135deg,#43e97b,#38f9d7)',badge:'new',badge_label:'New',duration_days:5,nights:4,price:10499,old_price:12999,rating:4.6,review_count:142,is_active:true,tags:['West Bengal','Nature','Tea'],description:'Toy trains, tea gardens & Himalayan sunrises.',inclusions:['Boutique Tea Estate Hotel','All Meals','Toy Train Ride','Tea Tasting','Sightseeing']},
+  {id:'manali-snow-escape',title:'Manali Snow Escape',type:'domestic',category:'adventure',emoji:'',bg_gradient:'linear-gradient(135deg,#667eea,#764ba2)',badge:'bestseller',badge_label:'Best Seller',duration_days:6,nights:5,price:12499,old_price:14999,rating:4.9,review_count:312,is_active:true,tags:['Himachal Pradesh','Adventure','Snow'],description:'Snow, adventure & mountain magic in the lap of the Himalayas.',inclusions:['Hotel Stay','Breakfast & Dinner','Sightseeing','Airport Transfers','Travel Insurance']},
+  {id:'goa-beach-bliss',title:'Goa Beach Bliss',type:'domestic',category:'beach',emoji:'',bg_gradient:'linear-gradient(135deg,#f6d365,#fda085)',badge:'trending',badge_label:'Trending',duration_days:5,nights:4,price:8999,old_price:10999,rating:4.8,review_count:541,is_active:true,tags:['Goa','Beach','Party'],description:'Sun, sand & sunsets — Goa at its vibrant best.',inclusions:['4-Star Hotel','Breakfast','Airport Transfers','North & South Goa Tour','Water Sports Pass']},
+  {id:'kerala-backwaters',title:'Kerala Backwaters',type:'domestic',category:'nature',emoji:'',bg_gradient:'linear-gradient(135deg,#43e97b,#38f9d7)',badge:'new',badge_label:'New',duration_days:7,nights:6,price:15499,old_price:18999,rating:4.9,review_count:278,is_active:true,tags:['Kerala','Nature','Houseboat'],description:"God's Own Country — backwaters, beaches & wildlife.",inclusions:['Hotels & Houseboat','All Meals on Houseboat','Sightseeing','Airport Transfers','Kathakali Show']},
+  {id:'rajasthan-royal-tour',title:'Rajasthan Royal Tour',type:'domestic',category:'heritage',emoji:'',bg_gradient:'linear-gradient(135deg,#fa709a,#fee140)',badge:'popular',badge_label:'Popular',duration_days:8,nights:7,price:18999,old_price:22999,rating:4.7,review_count:189,is_active:true,tags:['Rajasthan','Heritage','Culture'],description:'Forts, palaces & golden deserts of Royal Rajasthan.',inclusions:['Heritage Hotels','Breakfast & Dinner','AC Vehicle','Camel Safari','Entrance Fees']},
+  {id:'bangkok-explorer',title:'Bangkok Explorer',type:'international',category:'international',emoji:'',bg_gradient:'linear-gradient(135deg,#4facfe,#00f2fe)',badge:'international',badge_label:'International',duration_days:6,nights:5,price:32999,old_price:38999,rating:4.8,review_count:423,is_active:true,tags:['Thailand','International','City'],description:'Temples, street food & islands — Bangkok & beyond.',inclusions:['4-Star Hotel','Breakfast','Return Flights','Visa Assistance','City Tour','Island Hopping']},
+  {id:'bali-romance',title:'Bali Romance Package',type:'international',category:'honeymoon',emoji:'',bg_gradient:'linear-gradient(135deg,#a18cd1,#fbc2eb)',badge:'honeymoon',badge_label:'Honeymoon',duration_days:7,nights:6,price:55999,old_price:64999,rating:5.0,review_count:167,is_active:true,tags:['Bali','Honeymoon','Luxury'],description:'Private pool villas, couples spa & Bali magic.',inclusions:['Private Pool Villa','All Meals','Return Flights','Airport Transfers','Couples Spa','Sunset Dinner']},
+  {id:'andaman-island-escape',title:'Andaman Island Escape',type:'domestic',category:'beach',emoji:'',bg_gradient:'linear-gradient(135deg,#a1c4fd,#c2e9fb)',badge:'popular',badge_label:'Popular',duration_days:6,nights:5,price:19999,old_price:24999,rating:4.8,review_count:203,is_active:true,tags:['Andaman','Beach','Diving'],description:'Crystal-clear waters & coral reefs of the Andamans.',inclusions:['Hotel & Resort','Breakfast','Flights from Chennai','Ferry Tickets','Scuba Diving','Glass Bottom Boat']},
+  {id:'darjeeling-tea-trails',title:'Darjeeling Tea Trails',type:'domestic',category:'nature',emoji:'',bg_gradient:'linear-gradient(135deg,#43e97b,#38f9d7)',badge:'new',badge_label:'New',duration_days:5,nights:4,price:10499,old_price:12999,rating:4.6,review_count:142,is_active:true,tags:['West Bengal','Nature','Tea'],description:'Toy trains, tea gardens & Himalayan sunrises.',inclusions:['Boutique Tea Estate Hotel','All Meals','Toy Train Ride','Tea Tasting','Sightseeing']},
 ];
 
 async function loadPackages() {
@@ -281,9 +281,9 @@ function renderCards(data) {
     return `
     <div class="pkg-card" onclick="openModal('${p.id}')">
       <div class="pkg-thumb" style="background:${p.bg_gradient||'linear-gradient(135deg,#667eea,#764ba2)'}">
-        <span class="thumb-em">${p.emoji||'🗺️'}</span>
+        ${(p.photos&&p.photos[0])||p.image_url ? `<img src="${esc((p.photos&&p.photos[0])||p.image_url)}" alt="${esc(p.title||'')}" style="width:100%;height:100%;object-fit:cover" onerror="this.remove()"/>` : ''}
         ${p.badge?`<span class="pkg-badge ${badgeClass}">${esc(p.badge_label||p.badge)}</span>`:''}
-        <button class="pkg-wish ${liked?'liked':''}" onclick="toggleWish(event,'${p.id}')" title="Save">${liked?'❤️':'🤍'}</button>
+        <button class="pkg-wish ${liked?'liked':''}" onclick="toggleWish(event,'${p.id}')" title="Save"><svg width="16" height="16" viewBox="0 0 24 24" fill="${liked?'#e11d48':'none'}" stroke="${liked?'#e11d48':'#64748b'}" stroke-width="2"><path d="M12 21s-6.7-4.35-9.5-8.5C.7 9.2 1.9 5 5.6 5c2 0 3.4 1.1 4.4 2.5C11 6.1 12.4 5 14.4 5c3.7 0 4.9 4.2 3.1 7.5C18.7 16.65 12 21 12 21z"/></svg></button>
       </div>
       <div class="pkg-body">
         <div class="pkg-tags">${tags.map(t=>`<span class="pkg-tag">${esc(t)}</span>`).join('')}</div>
@@ -301,7 +301,7 @@ function renderCards(data) {
             id="cmp-btn-${p.id}"
             onmouseover="this.style.borderColor='#1a73e8';this.style.color='#1a73e8'"
             onmouseout="this.style.borderColor='var(--border)';this.style.color='inherit'">
-            ⚖️ Compare
+             Compare
           </button>
         </div>
       </div>
@@ -326,10 +326,10 @@ window.openModal = (id) => {
   const p = allPkgs.find(x => x.id === id); if(!p) return;
   const itin = Array.isArray(p.itinerary) ? p.itinerary : (typeof p.itinerary === 'string' ? JSON.parse(p.itinerary) : []);
   document.getElementById('m-thumb').style.background = p.bg_gradient||'linear-gradient(135deg,#667eea,#764ba2)';
-  document.getElementById('m-thumb').innerHTML = `<button class="m-close" onclick="closeModal()">✕</button><span style="font-size:7rem">${p.emoji||'🗺️'}</span>`;
+  document.getElementById('m-thumb').innerHTML = `<button class="m-close" onclick="closeModal()">✕</button>${(p.photos&&p.photos[0])||p.image_url ? `<img src="${esc((p.photos&&p.photos[0])||p.image_url)}" alt="${esc(p.title||'')}" style="width:100%;height:100%;object-fit:cover;border-radius:inherit"/>` : ''}`;
   document.getElementById('m-body').innerHTML = `
     <h2>${esc(p.title)}</h2>
-    <div class="m-meta"><span>📅 ${p.duration_days} Days / ${p.nights} Nights</span><span>⭐ ${p.rating} (${p.review_count} reviews)</span><span>🗺 ${p.type==='international'?'International':'Domestic'}</span></div>
+    <div class="m-meta"><span>${p.duration_days} Days / ${p.nights} Nights</span><span>${p.rating} (${p.review_count} reviews)</span><span>${p.type==='international'?'International':'Domestic'}</span></div>
     <p style="font-size:.875rem;color:var(--text-muted);line-height:1.65">${esc(p.description||'')}</p>
     ${itin.length?`<div class="sec-title">Itinerary</div><ul class="itinerary">${itin.map(d=>`<li><strong>${esc(d.day)}: ${esc(d.title)}</strong>${esc(d.desc)}</li>`).join('')}</ul>`:''}
     ${(p.inclusions||[]).length?`<div class="sec-title">What's Included</div><div class="inc-grid">${p.inclusions.map(i=>`<div class="inc-item"><span style="color:var(--success)">✓</span>${esc(i)}</div>`).join('')}</div>`:''}
@@ -337,8 +337,8 @@ window.openModal = (id) => {
   document.getElementById('m-footer').innerHTML = `
     <div class="m-price"><div class="amt">₹${Number(p.price).toLocaleString('en-IN')}</div><div class="per">/person <s style="color:var(--text-light)">₹${Number(p.old_price||p.price).toLocaleString('en-IN')}</s></div></div>
     <div class="m-cta">
-      <button class="btn-wa-m" onclick="window.open('https://wa.me/918076136300?text=Hi!+Interested+in+${encodeURIComponent(p.title)}','_blank')">💬 WhatsApp</button>
-      <button class="btn-book" onclick="window.location.href='/pages/payment.html?type=package&id=${p.id}&name=${encodeURIComponent(p.title)}&emoji=${encodeURIComponent(p.emoji||'🗺️')}&amount=${p.price}&nights=${p.nights||5}N'">Book Now →</button>
+      <button class="btn-wa-m" onclick="window.open('https://wa.me/918076136300?text=Hi!+Interested+in+${encodeURIComponent(p.title)}','_blank')">WhatsApp</button>
+      <button class="btn-book" onclick="window.location.href='/pages/payment.html?type=package&id=${p.id}&name=${encodeURIComponent(p.title)}&photo=${encodeURIComponent((p.photos&&p.photos[0])||p.image_url||'')}&amount=${p.price}&nights=${p.nights||5}N'">Book Now →</button>
     </div>`;
   document.getElementById('modal-ov').classList.add('open');
   document.body.style.overflow='hidden';
@@ -393,7 +393,7 @@ window.addToCompare = (e, id) => {
     // Already added — remove
     compareList = compareList.filter(p => p.id !== id);
     const btn = document.getElementById('cmp-btn-' + id);
-    if (btn) { btn.textContent = '⚖️ Compare'; btn.style.background = '#fff'; }
+    if (btn) { btn.textContent = 'Compare'; btn.style.background = '#fff'; }
   } else {
     if (compareList.length >= 3) {
       alert('You can compare up to 3 packages at a time. Remove one first.');
@@ -416,7 +416,7 @@ function renderCompareTray() {
   slots.innerHTML = compareList.map(p => `
     <div style="display:flex;align-items:center;gap:8px;background:#f8fafc;
                 border:1px solid #e2e8f0;border-radius:8px;padding:6px 12px;">
-      <span>${p.emoji || '🗺️'}</span>
+      ${(p.photos&&p.photos[0])||p.image_url ? `<img src="${esc((p.photos&&p.photos[0])||p.image_url)}" alt="" style="width:24px;height:24px;object-fit:cover;border-radius:4px;flex-shrink:0"/>` : ''}
       <span style="font-size:.82rem;font-weight:600;color:#0f1923;max-width:120px;
                    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(p.title)}</span>
       <span style="font-size:.82rem;font-weight:700;color:#1a73e8;">₹${Number(p.price).toLocaleString('en-IN')}</span>
@@ -434,7 +434,7 @@ window.runCompare = () => {
     { label:'Duration',     fn: p => p.duration_days ? `${p.duration_days}D / ${p.nights}N` : (p.duration||'—') },
     { label:'Rating',       fn: p => `${'★'.repeat(Math.floor(p.rating||0))} ${p.rating||'—'}` },
     { label:'Reviews',      fn: p => `${p.review_count || 0} reviews` },
-    { label:'Type',         fn: p => p.type === 'international' ? '🌍 International' : '🇮🇳 Domestic' },
+    { label:'Type',         fn: p => p.type === 'international' ? 'International' : 'Domestic' },
     { label:'Category',     fn: p => (p.category||'—').charAt(0).toUpperCase() + (p.category||'').slice(1) },
     { label:'Inclusions',   fn: p => (p.inclusions||[]).slice(0,4).map(i=>`<li style="font-size:.78rem">${i}</li>`).join('') },
     { label:'Best For',     fn: p => (p.tags||[]).join(', ') || '—' },
@@ -449,10 +449,10 @@ window.runCompare = () => {
         ${compareList.map(p => `
           <th style="text-align:left;padding:10px 14px;width:${colW};">
             <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
-              <span style="font-size:1.4rem;">${p.emoji||'🗺️'}</span>
+              ${(p.photos&&p.photos[0])||p.image_url ? `<img src="${esc((p.photos&&p.photos[0])||p.image_url)}" alt="" style="width:28px;height:28px;object-fit:cover;border-radius:5px;flex-shrink:0"/>` : ''}
               <span style="font-weight:700;color:#0f1923;">${esc(p.title)}</span>
             </div>
-            <div style="font-size:.72rem;color:#94a3b8;">📍 ${p.destination||p.dest||''}</div>
+            <div style="font-size:.72rem;color:#94a3b8;">${p.destination||p.dest||''}</div>
           </th>`).join('')}
       </tr>
     </thead>
@@ -487,7 +487,7 @@ window.closeCompareModal = () => {
 window.clearCompare = () => {
   compareList = [];
   document.querySelectorAll('[id^="cmp-btn-"]').forEach(btn => {
-    btn.textContent = '⚖️ Compare';
+    btn.textContent = 'Compare';
     btn.style.background = '#fff';
     btn.style.color = 'inherit';
   });
@@ -531,7 +531,7 @@ if (searchInp) {
                transition:background .1s;"
         onmouseover="this.style.background='#f8fafc'"
         onmouseout="this.style.background='#fff'">
-        🏖️ ${d}
+         ${d}
       </div>`
     ).join('');
     acDrop.style.display = 'block';

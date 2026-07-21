@@ -95,9 +95,9 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
   <!-- gold glow -->
   <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 70% 30%,rgba(201,146,42,.09),transparent 60%);pointer-events:none;"></div>
   <!-- airplane silhouette -->
-  <div style="position:absolute;top:32%;right:8%;font-size:7rem;opacity:.06;transform:rotate(-20deg);pointer-events:none;z-index:0;">✈</div>
+  <div style="position:absolute;top:32%;right:8%;font-size:7rem;opacity:.06;transform:rotate(-20deg);pointer-events:none;z-index:0;"></div>
   <div style="position:relative;z-index:2;">
-    <div style="display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:100px;padding:6px 18px;font-family:'Space Grotesk',system-ui;font-size:.72rem;font-weight:500;color:rgba(255,255,255,.82);margin-bottom:18px;letter-spacing:.03em;">✈ Flight Booking</div>
+    <div style="display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:100px;padding:6px 18px;font-family:'Space Grotesk',system-ui;font-size:.72rem;font-weight:500;color:rgba(255,255,255,.82);margin-bottom:18px;letter-spacing:.03em;">Flight Booking</div>
     <div class="breadcrumb" style="justify-content:center;margin-bottom:16px;"><a href="/" style="color:rgba(255,255,255,.55)">Home</a><span style="color:rgba(255,255,255,.3);margin:0 6px">›</span><span style="color:rgba(255,255,255,.8)">Flights</span></div>
     <h1 style="font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(2.2rem,5vw,3.5rem);font-weight:600;color:#fff;line-height:1.1;letter-spacing:-.02em;margin-bottom:12px;">Book Flights <em style="font-style:italic;color:#E8B84B">Across the World</em></h1>
     <p style="color:rgba(255,255,255,.65);font-size:1rem;max-width:500px;margin:0 auto;">Best fares on 500+ routes — domestic &amp; international, with instant e-ticket.</p>
@@ -107,9 +107,9 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
 <div class="search-wrap">
   <div class="search-card">
     <div class="trip-tabs">
-      <button class="ttab active" id="tab-one-way" onclick="setTripType('one-way',this)">✈ One Way</button>
-      <button class="ttab" id="tab-round" onclick="setTripType('round',this)">🔄 Round Trip</button>
-      <button class="ttab" id="tab-multi" onclick="setTripType('multi',this)">🗺 Multi City</button>
+      <button class="ttab active" id="tab-one-way" onclick="setTripType('one-way',this)">One Way</button>
+      <button class="ttab" id="tab-round" onclick="setTripType('round',this)">Round Trip</button>
+      <button class="ttab" id="tab-multi" onclick="setTripType('multi',this)">Multi City</button>
     </div>
     <div class="search-body">
       <!-- One Way & Round Trip -->
@@ -137,7 +137,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
               <option>1 Adult · First Class</option><option>Family (2+2) · Economy</option>
             </select>
           </div>
-          <button class="btn-search" onclick="searchFlights()">🔍 Search</button>
+          <button class="btn-search" onclick="searchFlights()">Search</button>
         </div>
       </div>
 
@@ -152,7 +152,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
               <option>1 Adult · Business</option><option>2 Adults · Business</option>
             </select>
           </div>
-          <button class="btn-search" onclick="searchMultiCity()">🔍 Search Multi-City</button>
+          <button class="btn-search" onclick="searchMultiCity()">Search Multi-City</button>
         </div>
       </div>
     </div>
@@ -175,40 +175,40 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
   <div class="section-label">Popular Routes</div>
   <h2 class="section-title">Top <em>Flight Routes</em></h2>
   <div class="route-cards">
-    <div class="route-card reveal" onclick="quickRoute('Delhi (DEL)','Mumbai (BOM)')"><div class="route-icon">✈️</div><div class="route-from">Delhi</div><div class="route-arrow">→</div><div class="route-to">Mumbai</div><div class="route-price">From ₹2,499</div><div class="route-airline">IndiGo · Air India</div></div>
-    <div class="route-card reveal" style="transition-delay:60ms" onclick="quickRoute('Mumbai (BOM)','Goa (GOI)')"><div class="route-icon">✈️</div><div class="route-from">Mumbai</div><div class="route-arrow">→</div><div class="route-to">Goa</div><div class="route-price">From ₹1,899</div><div class="route-airline">SpiceJet · IndiGo</div></div>
-    <div class="route-card reveal" style="transition-delay:120ms" onclick="quickRoute('Delhi (DEL)','Bangkok (BKK)')"><div class="route-icon">✈️</div><div class="route-from">Delhi</div><div class="route-arrow">→</div><div class="route-to">Bangkok</div><div class="route-price">From ₹8,999</div><div class="route-airline">Thai · Air Asia</div></div>
-    <div class="route-card reveal" style="transition-delay:180ms" onclick="quickRoute('Bengaluru (BLR)','Bali (DPS)')"><div class="route-icon">✈️</div><div class="route-from">Bangalore</div><div class="route-arrow">→</div><div class="route-to">Bali</div><div class="route-price">From ₹14,499</div><div class="route-airline">AirAsia · Scoot</div></div>
-    <div class="route-card reveal" style="transition-delay:240ms" onclick="quickRoute('Kolkata (CCU)','Port Blair (IXZ)')"><div class="route-icon">✈️</div><div class="route-from">Kolkata</div><div class="route-arrow">→</div><div class="route-to">Port Blair</div><div class="route-price">From ₹3,299</div><div class="route-airline">IndiGo · Air India</div></div>
-    <div class="route-card reveal" style="transition-delay:300ms" onclick="quickRoute('Chennai (MAA)','Dubai (DXB)')"><div class="route-icon">✈️</div><div class="route-from">Chennai</div><div class="route-arrow">→</div><div class="route-to">Dubai</div><div class="route-price">From ₹11,299</div><div class="route-airline">Emirates · IndiGo</div></div>
-    <div class="route-card reveal" style="transition-delay:360ms" onclick="quickRoute('Delhi (DEL)','Leh / Ladakh (IXL)')"><div class="route-icon">✈️</div><div class="route-from">Delhi</div><div class="route-arrow">→</div><div class="route-to">Leh / Ladakh</div><div class="route-price">From ₹4,499</div><div class="route-airline">Air India · IndiGo</div></div>
-    <div class="route-card reveal" style="transition-delay:420ms" onclick="quickRoute('Hyderabad (HYD)','Singapore (SIN)')"><div class="route-icon">✈️</div><div class="route-from">Hyderabad</div><div class="route-arrow">→</div><div class="route-to">Singapore</div><div class="route-price">From ₹12,799</div><div class="route-airline">Singapore · Scoot</div></div>
+    <div class="route-card reveal" onclick="quickRoute('Delhi (DEL)','Mumbai (BOM)')"><div class="route-icon"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div><div class="route-from">Delhi</div><div class="route-arrow">→</div><div class="route-to">Mumbai</div><div class="route-price">From ₹2,499</div><div class="route-airline">IndiGo · Air India</div></div>
+    <div class="route-card reveal" style="transition-delay:60ms" onclick="quickRoute('Mumbai (BOM)','Goa (GOI)')"><div class="route-icon"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div><div class="route-from">Mumbai</div><div class="route-arrow">→</div><div class="route-to">Goa</div><div class="route-price">From ₹1,899</div><div class="route-airline">SpiceJet · IndiGo</div></div>
+    <div class="route-card reveal" style="transition-delay:120ms" onclick="quickRoute('Delhi (DEL)','Bangkok (BKK)')"><div class="route-icon"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div><div class="route-from">Delhi</div><div class="route-arrow">→</div><div class="route-to">Bangkok</div><div class="route-price">From ₹8,999</div><div class="route-airline">Thai · Air Asia</div></div>
+    <div class="route-card reveal" style="transition-delay:180ms" onclick="quickRoute('Bengaluru (BLR)','Bali (DPS)')"><div class="route-icon"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div><div class="route-from">Bangalore</div><div class="route-arrow">→</div><div class="route-to">Bali</div><div class="route-price">From ₹14,499</div><div class="route-airline">AirAsia · Scoot</div></div>
+    <div class="route-card reveal" style="transition-delay:240ms" onclick="quickRoute('Kolkata (CCU)','Port Blair (IXZ)')"><div class="route-icon"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div><div class="route-from">Kolkata</div><div class="route-arrow">→</div><div class="route-to">Port Blair</div><div class="route-price">From ₹3,299</div><div class="route-airline">IndiGo · Air India</div></div>
+    <div class="route-card reveal" style="transition-delay:300ms" onclick="quickRoute('Chennai (MAA)','Dubai (DXB)')"><div class="route-icon"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div><div class="route-from">Chennai</div><div class="route-arrow">→</div><div class="route-to">Dubai</div><div class="route-price">From ₹11,299</div><div class="route-airline">Emirates · IndiGo</div></div>
+    <div class="route-card reveal" style="transition-delay:360ms" onclick="quickRoute('Delhi (DEL)','Leh / Ladakh (IXL)')"><div class="route-icon"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div><div class="route-from">Delhi</div><div class="route-arrow">→</div><div class="route-to">Leh / Ladakh</div><div class="route-price">From ₹4,499</div><div class="route-airline">Air India · IndiGo</div></div>
+    <div class="route-card reveal" style="transition-delay:420ms" onclick="quickRoute('Hyderabad (HYD)','Singapore (SIN)')"><div class="route-icon"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div><div class="route-from">Hyderabad</div><div class="route-arrow">→</div><div class="route-to">Singapore</div><div class="route-price">From ₹12,799</div><div class="route-airline">Singapore · Scoot</div></div>
   </div>
 
   <div style="text-align:center;margin:3rem 0">
     <div class="section-label" style="margin-bottom:.75rem">Partner Airlines</div>
     <div class="airline-logos">
-      <div class="airline-pill">✈ IndiGo</div><div class="airline-pill">✈ Air India</div><div class="airline-pill">✈ SpiceJet</div>
-      <div class="airline-pill">✈ Vistara</div><div class="airline-pill">✈ Emirates</div><div class="airline-pill">✈ Thai Airways</div>
-      <div class="airline-pill">✈ Singapore Airlines</div><div class="airline-pill">✈ AirAsia</div><div class="airline-pill">✈ Scoot</div>
+      <div class="airline-pill">IndiGo</div><div class="airline-pill">Air India</div><div class="airline-pill">SpiceJet</div>
+      <div class="airline-pill">Vistara</div><div class="airline-pill">Emirates</div><div class="airline-pill">Thai Airways</div>
+      <div class="airline-pill">Singapore Airlines</div><div class="airline-pill">AirAsia</div><div class="airline-pill">Scoot</div>
     </div>
   </div>
 
   <div class="section-label">Smart Tips</div>
   <h2 class="section-title">Get the <em>Best Flight Deals</em></h2>
   <div class="tips-grid" style="margin-bottom:3.5rem">
-    <div class="tip-card reveal"><div class="tip-icon">📅</div><h4>Book 6–8 Weeks Ahead</h4><p>Domestic flights are cheapest 6–8 weeks in advance. International fares dip 2–3 months ahead.</p></div>
-    <div class="tip-card reveal" style="transition-delay:80ms"><div class="tip-icon">🌙</div><h4>Fly on Tuesday / Wednesday</h4><p>Mid-week departures are typically 15–25% cheaper than weekend flights on most routes.</p></div>
-    <div class="tip-card reveal" style="transition-delay:160ms"><div class="tip-icon">🔔</div><h4>Set a Fare Alert</h4><p>WhatsApp our team to set a fare alert — we'll notify you the moment prices drop on your route.</p></div>
+    <div class="tip-card reveal"><div class="tip-icon"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div><h4>Book 6–8 Weeks Ahead</h4><p>Domestic flights are cheapest 6–8 weeks in advance. International fares dip 2–3 months ahead.</p></div>
+    <div class="tip-card reveal" style="transition-delay:80ms"><div class="tip-icon"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div><h4>Fly on Tuesday / Wednesday</h4><p>Mid-week departures are typically 15–25% cheaper than weekend flights on most routes.</p></div>
+    <div class="tip-card reveal" style="transition-delay:160ms"><div class="tip-icon"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div><h4>Set a Fare Alert</h4><p>WhatsApp our team to set a fare alert — we'll notify you the moment prices drop on your route.</p></div>
   </div>
 </div>
 
 <section class="cta-strip">
-  <h2>Need Help Booking? ✈️</h2>
+  <h2>Need Help Booking?</h2>
   <p>Our flight experts find you the best fares. Available 9 AM – 10 PM daily.</p>
   <div class="cta-btns">
-    <a href="https://wa.me/918076136300?text=Hi%20ZoomFly!%20I%20need%20help%20booking%20a%20flight." class="btn-wa-lg" target="_blank">💬 WhatsApp Us</a>
-    <a href="tel:+918076136300" class="btn-call-lg">📞 Call +91 80761 36300</a>
+    <a href="https://wa.me/918076136300?text=Hi%20ZoomFly!%20I%20need%20help%20booking%20a%20flight." class="btn-wa-lg" target="_blank">WhatsApp Us</a>
+    <a href="tel:+918076136300" class="btn-call-lg">Call +91 80761 36300</a>
   </div>
 </section>
 
@@ -317,15 +317,15 @@ window.addMCRow = (fromVal = '', toVal = '') => {
 
 // ── AIRLINES DATA ─────────────────────────────────────────
 const AIRLINES = [
-  { code:'6E', name:'IndiGo',            logo:'✈' },
-  { code:'AI', name:'Air India',          logo:'✈' },
-  { code:'SG', name:'SpiceJet',           logo:'✈' },
-  { code:'UK', name:'Vistara',            logo:'✈' },
-  { code:'G8', name:'Go First',           logo:'✈' },
-  { code:'IX', name:'Air Asia India',     logo:'✈' },
-  { code:'EK', name:'Emirates',           logo:'✈' },
-  { code:'TG', name:'Thai Airways',       logo:'✈' },
-  { code:'SQ', name:'Singapore Airlines', logo:'✈' },
+  { code:'6E', name:'IndiGo',            logo:'' },
+  { code:'AI', name:'Air India',          logo:'' },
+  { code:'SG', name:'SpiceJet',           logo:'' },
+  { code:'UK', name:'Vistara',            logo:'' },
+  { code:'G8', name:'Go First',           logo:'' },
+  { code:'IX', name:'Air Asia India',     logo:'' },
+  { code:'EK', name:'Emirates',           logo:'' },
+  { code:'TG', name:'Thai Airways',       logo:'' },
+  { code:'SQ', name:'Singapore Airlines', logo:'' },
 ];
 
 // ── GENERATE REALISTIC-LOOKING FLIGHT RESULTS ─────────────
@@ -378,11 +378,11 @@ window.searchFlights = () => {
   if (!dep)  { document.getElementById('depDate').focus();  return; }
 
   const btn = document.querySelector('.btn-search');
-  btn.textContent = '⏳ Searching...';
+  btn.textContent = 'Searching...';
   btn.disabled    = true;
 
   setTimeout(() => {
-    btn.textContent = '🔍 Search';
+    btn.textContent = 'Search';
     btn.disabled    = false;
 
     const flights = generateFlights(from, to, dep, cls);
@@ -468,7 +468,7 @@ function renderFlightResults(flights, from, to, dep, pax, cls) {
 }
 
 window.bookFlight = (airline, flightNo, dep, arr, total, from, to) => {
-  const msg = `Hi ZoomFly! ✈️ I'd like to book this flight:\n\n` +
+  const msg = `Hi ZoomFly!  I'd like to book this flight:\n\n` +
     `Flight: *${airline} ${flightNo}*\nRoute: ${from} → ${to}\nTime: ${dep} → ${arr}\nTotal: ₹${total.toLocaleString('en-IN')}\n\nPlease confirm availability and proceed with booking.`;
   window.open('https://wa.me/918076136300?text=' + encodeURIComponent(msg), '_blank');
 };
@@ -487,7 +487,7 @@ window.searchMultiCity = () => {
   });
   if (!legs.length) { alert('Please fill in at least one route'); return; }
   const cls = document.getElementById('mc-class').value;
-  const msg = `Hi ZoomFly! ✈️ Multi-City Flight Request\n${legs.join('\n')}\nClass: ${cls}\nPlease share best fares.`;
+  const msg = `Hi ZoomFly!  Multi-City Flight Request\n${legs.join('\n')}\nClass: ${cls}\nPlease share best fares.`;
   window.open('https://wa.me/918076136300?text=' + encodeURIComponent(msg), '_blank');
 };
 

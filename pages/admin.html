@@ -128,7 +128,7 @@ window.openTestiModal = function(){};
 <body>
 <!-- Auth loading overlay — hidden once auth passes -->
 <div id="auth-loading" style="position:fixed;inset:0;background:#0C1B33;display:flex;align-items:center;justify-content:center;z-index:9999;flex-direction:column;gap:16px">
-  <div style="font-family:'Space Grotesk',system-ui;font-size:1.3rem;font-weight:700;color:#fff">Zoom<span style="color:#E8B84B">Fly</span> ✈</div>
+  <div style="font-family:'Space Grotesk',system-ui;font-size:1.3rem;font-weight:700;color:#fff">Zoom<span style="color:#E8B84B">Fly</span></div>
   <div style="width:36px;height:36px;border:3px solid rgba(255,255,255,0.15);border-top-color:#C9922A;border-radius:50%;animation:authSpin .7s linear infinite"></div>
   <div style="font-size:.8rem;color:rgba(255,255,255,0.5);font-family:'Inter',system-ui">Verifying access…</div>
 </div>
@@ -147,43 +147,43 @@ setTimeout(function() {
 </script>
 
 <aside class="sidebar">
-  <div class="sb-logo"><h1>Zoom<span>Fly</span> ✈</h1><p>Admin Dashboard</p></div>
+  <div class="sb-logo"><h1>Zoom<span>Fly</span></h1><p>Admin Dashboard</p></div>
   <nav class="sb-nav">
     <div class="sb-sec">Main</div>
-    <div class="nav-item active" onclick="show('overview',this)"><span class="icon">📊</span> Overview</div>
-    <div class="nav-item" onclick="show('enquiries',this)"><span class="icon">📩</span> Enquiries <span class="badge" id="enq-badge">0</span></div>
-    <div class="nav-item" onclick="show('bookings',this)"><span class="icon">🗓</span> Bookings</div>
-    <div class="nav-item" onclick="show('workflow',this)"><span class="icon">🔄</span> Workflow</div>
+    <div class="nav-item active" onclick="show('overview',this)"><span class="icon"></span> Overview</div>
+    <div class="nav-item" onclick="show('enquiries',this)"><span class="icon"></span> Enquiries <span class="badge" id="enq-badge">0</span></div>
+    <div class="nav-item" onclick="show('bookings',this)"><span class="icon"></span> Bookings</div>
+    <div class="nav-item" onclick="show('workflow',this)"><span class="icon"></span> Workflow</div>
     <div class="sb-sec" style="margin-top:.5rem">Manage</div>
-    <div class="nav-item" onclick="show('packages',this)"><span class="icon">🗺</span> Packages</div>
-    <div class="nav-item" onclick="show('vendors',this)"><span class="icon">🤝</span> Vendors</div>
-    <div class="nav-item" onclick="show('agents',this)"><span class="icon">👤</span> Agents</div>
-    <div class="nav-item" onclick="show('customers',this)"><span class="icon">👥</span> Customers</div>
-    <div class="nav-item" onclick="show('subscribers',this)"><span class="icon">📧</span> Email Subscribers</div>
-    <div class="nav-item" onclick="show('testimonials',this)"><span class="icon">⭐</span> Testimonials</div>
-    <div class="nav-item" onclick="show('reviews',this)"><span class="icon">📝</span> Reviews <span class="badge" id="rev-badge">0</span></div>
-    <div class="nav-item" onclick="show('messages-inbox',this)"><span class="icon">💬</span> Messages <span class="badge" id="msg-badge">0</span></div>
+    <div class="nav-item" onclick="show('packages',this)"><span class="icon"></span> Packages</div>
+    <div class="nav-item" onclick="show('vendors',this)"><span class="icon"></span> Vendors</div>
+    <div class="nav-item" onclick="show('agents',this)"><span class="icon"></span> Agents</div>
+    <div class="nav-item" onclick="show('customers',this)"><span class="icon"></span> Customers</div>
+    <div class="nav-item" onclick="show('subscribers',this)"><span class="icon"></span> Email Subscribers</div>
+    <div class="nav-item" onclick="show('testimonials',this)"><span class="icon"></span> Testimonials</div>
+    <div class="nav-item" onclick="show('reviews',this)"><span class="icon"></span> Reviews <span class="badge" id="rev-badge">0</span></div>
+    <div class="nav-item" onclick="show('messages-inbox',this)"><span class="icon"></span> Messages <span class="badge" id="msg-badge">0</span></div>
     <div class="sb-sec" style="margin-top:.5rem">Travel Partners</div>
-    <div class="nav-item" onclick="show('commissions',this)"><span class="icon">💰</span> Commission Management</div>
-    <div class="nav-item" onclick="show('loyalty',this)"><span class="icon">⭐</span> Loyalty Points</div>
+    <div class="nav-item" onclick="show('commissions',this)"><span class="icon"></span> Commission Management</div>
+    <div class="nav-item" onclick="show('loyalty',this)"><span class="icon"></span> Loyalty Points</div>
     <div class="sb-sec" style="margin-top:.5rem">Content</div>
-    <div class="nav-item" onclick="show('hotels',this)"><span class="icon">🏨</span> Hotels</div>
-    <div class="nav-item" onclick="show('destinations',this)"><span class="icon">🗺️</span> Destinations</div>
-    <div class="nav-item" onclick="show('buses',this)"><span class="icon">🚌</span> Bus Routes</div>
-    <div class="nav-item" onclick="show('cabs',this)"><span class="icon">🚕</span> Cab Services</div>
-    <div class="nav-item" onclick="show('flights-mgmt',this)"><span class="icon">✈️</span> Flights</div>
-    <div class="nav-item" onclick="show('trains',this)"><span class="icon">🚆</span> Trains</div>
-    <div class="nav-item" onclick="show('offers',this)"><span class="icon">🎁</span> Offers & Promos</div>
-    <div class="nav-item" onclick="show('wa-templates',this)"><span class="icon">💬</span> WhatsApp Templates</div>
-    <div class="nav-item" onclick="show('blog',this)"><span class="icon">📰</span> Blog</div>
-    <div class="nav-item" onclick="show('faq',this)"><span class="icon">❓</span> FAQ</div>
-    <div class="nav-item" onclick="show('careers',this)"><span class="icon">💼</span> Careers</div>
+    <div class="nav-item" onclick="show('hotels',this)"><span class="icon"></span> Hotels</div>
+    <div class="nav-item" onclick="show('destinations',this)"><span class="icon"></span> Destinations</div>
+    <div class="nav-item" onclick="show('buses',this)"><span class="icon"></span> Bus Routes</div>
+    <div class="nav-item" onclick="show('cabs',this)"><span class="icon"></span> Cab Services</div>
+    <div class="nav-item" onclick="show('flights-mgmt',this)"><span class="icon"></span> Flights</div>
+    <div class="nav-item" onclick="show('trains',this)"><span class="icon"></span> Trains</div>
+    <div class="nav-item" onclick="show('offers',this)"><span class="icon"></span> Offers & Promos</div>
+    <div class="nav-item" onclick="show('wa-templates',this)"><span class="icon"></span> WhatsApp Templates</div>
+    <div class="nav-item" onclick="show('blog',this)"><span class="icon"></span> Blog</div>
+    <div class="nav-item" onclick="show('faq',this)"><span class="icon"></span> FAQ</div>
+    <div class="nav-item" onclick="show('careers',this)"><span class="icon"></span> Careers</div>
     <div class="sb-sec" style="margin-top:.5rem">Settings</div>
-    <div class="nav-item" onclick="show('reminders',this)"><span class="icon">📬</span> Reminders</div>
-    <div class="nav-item" onclick="show('site-settings',this)"><span class="icon">⚙️</span> Site Settings</div>
+    <div class="nav-item" onclick="show('reminders',this)"><span class="icon"></span> Reminders</div>
+    <div class="nav-item" onclick="show('site-settings',this)"><span class="icon"></span> Site Settings</div>
     <div class="sb-sec" style="margin-top:.5rem">Other</div>
-    <div class="nav-item" onclick="window.open('../index.html','_blank')"><span class="icon">🌐</span> View Website</div>
-    <div class="nav-item" onclick="doLogout()"><span class="icon">🚪</span> Log Out</div>
+    <div class="nav-item" onclick="window.open('../index.html','_blank')"><span class="icon"></span> View Website</div>
+    <div class="nav-item" onclick="doLogout()"><span class="icon"></span> Log Out</div>
   </nav>
   <div class="sb-footer">
     <div class="admin-pill">
@@ -198,7 +198,7 @@ setTimeout(function() {
     <h2 id="page-title">Overview</h2>
     <div class="topbar-right">
       <div class="live-badge"><span class="live-dot"></span> Live</div>
-      <div class="notif">🔔<span class="notif-dot"></span></div>
+      <div class="notif"><span class="notif-dot"></span></div>
       <button class="btn-add" onclick="show('packages');openAddPackage()">+ Add Package</button>
     </div>
   </div>
@@ -207,10 +207,10 @@ setTimeout(function() {
     <!-- OVERVIEW -->
     <div class="section active" id="section-overview">
       <div class="stats-grid">
-        <div class="stat-card"><div class="stat-hdr"><div class="stat-icon" style="background:rgba(201,146,42,0.12)">💰</div><span class="stat-chg up">↑ 18%</span></div><div class="stat-val" id="s-revenue">—</div><div class="stat-lbl">Revenue This Month</div></div>
-        <div class="stat-card"><div class="stat-hdr"><div class="stat-icon" style="background:rgba(14,159,110,0.10)">🗓</div><span class="stat-chg up">↑ 12%</span></div><div class="stat-val" id="s-bookings">—</div><div class="stat-lbl">Total Bookings</div></div>
-        <div class="stat-card"><div class="stat-hdr"><div class="stat-icon" style="background:rgba(27,110,243,0.10)">📩</div><span class="stat-chg up">↑ 31%</span></div><div class="stat-val" id="s-enquiries">—</div><div class="stat-lbl">New Enquiries</div></div>
-        <div class="stat-card"><div class="stat-hdr"><div class="stat-icon" style="background:rgba(229,62,62,0.10)">👥</div><span class="stat-chg up">↑ 8%</span></div><div class="stat-val" id="s-customers">—</div><div class="stat-lbl">Total Customers</div></div>
+        <div class="stat-card"><div class="stat-hdr"><div class="stat-icon" style="background:rgba(201,146,42,0.12)"></div><span class="stat-chg up">↑ 18%</span></div><div class="stat-val" id="s-revenue">—</div><div class="stat-lbl">Revenue This Month</div></div>
+        <div class="stat-card"><div class="stat-hdr"><div class="stat-icon" style="background:rgba(14,159,110,0.10)"></div><span class="stat-chg up">↑ 12%</span></div><div class="stat-val" id="s-bookings">—</div><div class="stat-lbl">Total Bookings</div></div>
+        <div class="stat-card"><div class="stat-hdr"><div class="stat-icon" style="background:rgba(27,110,243,0.10)"></div><span class="stat-chg up">↑ 31%</span></div><div class="stat-val" id="s-enquiries">—</div><div class="stat-lbl">New Enquiries</div></div>
+        <div class="stat-card"><div class="stat-hdr"><div class="stat-icon" style="background:rgba(229,62,62,0.10)"></div><span class="stat-chg up">↑ 8%</span></div><div class="stat-val" id="s-customers">—</div><div class="stat-lbl">Total Customers</div></div>
       </div>
       <div class="chart-row">
         <div class="chart-card"><h3>Monthly Revenue (₹ Lakhs)</h3><div class="bar-chart" id="rev-chart"></div></div>
@@ -229,7 +229,7 @@ setTimeout(function() {
         </div>
       </div>
       <div class="table-card">
-        <div class="table-hdr"><h3>📩 Recent Enquiries</h3><button class="bs bv" onclick="show('enquiries',document.querySelector('[onclick*=enquiries]'))">View All</button></div>
+        <div class="table-hdr"><h3>Recent Enquiries</h3><button class="bs bv" onclick="show('enquiries',document.querySelector('[onclick*=enquiries]'))">View All</button></div>
         <div class="loading" id="ov-enq-load"><div class="spinner"></div></div>
         <table><thead><tr><th>Name</th><th>Interest</th><th>Contact</th><th>Time</th><th>Status</th><th>Action</th></tr></thead><tbody id="ov-enq-tbody"></tbody></table>
       </div>
@@ -238,7 +238,7 @@ setTimeout(function() {
     <!-- ENQUIRIES -->
     <div class="section" id="section-enquiries">
       <div class="table-card">
-        <div class="table-hdr"><h3>📩 All Enquiries</h3><input class="tsearch" placeholder="Search name, destination..." oninput="filterTbl('enq-tbody',this.value)"/></div>
+        <div class="table-hdr"><h3>All Enquiries</h3><input class="tsearch" placeholder="Search name, destination..." oninput="filterTbl('enq-tbody',this.value)"/></div>
         <div class="loading" id="enq-load"><div class="spinner"></div></div>
         <table><thead><tr><th>Name</th><th>Phone</th><th>Email</th><th>Interest</th><th>Destination</th><th>Travellers</th><th>Budget</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead><tbody id="enq-tbody"></tbody></table>
       </div>
@@ -247,10 +247,10 @@ setTimeout(function() {
     <!-- BOOKINGS -->
     <div class="section" id="section-bookings">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:10px">
-        <h3 style="font-size:1rem;font-weight:700">🗓 All Bookings</h3>
+        <h3 style="font-size:1rem;font-weight:700">All Bookings</h3>
         <div style="display:flex;gap:8px">
-          <button class="btn-add" style="background:#16a34a;color:#fff" onclick="exportBookingsCSV()">⬇ Export CSV</button>
-          <button class="btn-add" onclick="loadBookings()">🔄 Refresh</button>
+          <button class="btn-add" style="background:#16a34a;color:#fff" onclick="exportBookingsCSV()">Export CSV</button>
+          <button class="btn-add" onclick="loadBookings()">Refresh</button>
         </div>
       </div>
       <div class="stats-grid" style="grid-template-columns:repeat(5,1fr);margin-bottom:16px">
@@ -263,16 +263,16 @@ setTimeout(function() {
       <div style="display:flex;gap:8px;align-items:center;margin-bottom:14px;flex-wrap:wrap">
         <input class="tsearch" placeholder="Search by name, ref, email, phone..." id="bk-search-inp" oninput="filterBookingsFull()" style="flex:1;min-width:200px"/>
         <select id="bk-filter-service" onchange="filterBookingsFull()" style="padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:.82rem;font-family:inherit">
-          <option value="">All Services</option><option value="flight">✈️ Flights</option><option value="hotel">🏨 Hotels</option>
-          <option value="package">🧳 Packages</option><option value="bus">🚌 Buses</option><option value="cab">🚖 Cabs</option>
+          <option value="">All Services</option><option value="flight">Flights</option><option value="hotel">Hotels</option>
+          <option value="package">Packages</option><option value="bus">Buses</option><option value="cab">Cabs</option>
         </select>
         <select id="bk-filter-status" onchange="filterBookingsFull()" style="padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:.82rem;font-family:inherit">
-          <option value="">All Statuses</option><option value="pending">⏳ Pending</option><option value="confirmed">✅ Confirmed</option>
-          <option value="processing">⚙️ Processing</option><option value="completed">🎉 Completed</option><option value="cancelled">❌ Cancelled</option><option value="refunded">💰 Refunded</option>
+          <option value="">All Statuses</option><option value="pending">Pending</option><option value="confirmed">Confirmed</option>
+          <option value="processing">Processing</option><option value="completed">Completed</option><option value="cancelled">Cancelled</option><option value="refunded">Refunded</option>
         </select>
         <select id="bk-filter-payment" onchange="filterBookingsFull()" style="padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:.82rem;font-family:inherit">
-          <option value="">All Payments</option><option value="paid">✅ Paid</option><option value="pending">⏳ Pending</option>
-          <option value="refunded">💰 Refunded</option><option value="failed">❌ Failed</option>
+          <option value="">All Payments</option><option value="paid">Paid</option><option value="pending">Pending</option>
+          <option value="refunded">Refunded</option><option value="failed">Failed</option>
         </select>
         <select id="bk-filter-date" onchange="filterBookingsFull()" style="padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:.82rem;font-family:inherit">
           <option value="">All Time</option><option value="today">Today</option><option value="week">This Week</option><option value="month">This Month</option>
@@ -303,12 +303,12 @@ setTimeout(function() {
         <h3 style="font-size:1rem;font-weight:700;margin-bottom:6px">Update Booking Status</h3>
         <p id="bk-modal-booking-info" style="font-size:.82rem;color:#64748b;margin-bottom:14px">Select new status and optional note.</p>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px" id="bk-modal-status-grid">
-          <button class="bk-status-btn" onclick="selectBkModalStatus('confirmed',this)" style="padding:9px;border:1.5px solid #e2e8f0;border-radius:8px;cursor:pointer;background:#fff;font-family:inherit">✅ Confirmed</button>
-          <button class="bk-status-btn" onclick="selectBkModalStatus('processing',this)" style="padding:9px;border:1.5px solid #e2e8f0;border-radius:8px;cursor:pointer;background:#fff;font-family:inherit">⚙️ Processing</button>
-          <button class="bk-status-btn" onclick="selectBkModalStatus('completed',this)" style="padding:9px;border:1.5px solid #e2e8f0;border-radius:8px;cursor:pointer;background:#fff;font-family:inherit">🎉 Completed</button>
-          <button class="bk-status-btn" onclick="selectBkModalStatus('cancelled',this)" style="padding:9px;border:1.5px solid #e2e8f0;border-radius:8px;cursor:pointer;background:#fff;font-family:inherit">❌ Cancelled</button>
-          <button class="bk-status-btn" onclick="selectBkModalStatus('refunded',this)" style="padding:9px;border:1.5px solid #e2e8f0;border-radius:8px;cursor:pointer;background:#fff;font-family:inherit">💰 Refunded</button>
-          <button class="bk-status-btn" onclick="selectBkModalStatus('failed',this)" style="padding:9px;border:1.5px solid #e2e8f0;border-radius:8px;cursor:pointer;background:#fff;font-family:inherit">🚫 Failed</button>
+          <button class="bk-status-btn" onclick="selectBkModalStatus('confirmed',this)" style="padding:9px;border:1.5px solid #e2e8f0;border-radius:8px;cursor:pointer;background:#fff;font-family:inherit">Confirmed</button>
+          <button class="bk-status-btn" onclick="selectBkModalStatus('processing',this)" style="padding:9px;border:1.5px solid #e2e8f0;border-radius:8px;cursor:pointer;background:#fff;font-family:inherit">Processing</button>
+          <button class="bk-status-btn" onclick="selectBkModalStatus('completed',this)" style="padding:9px;border:1.5px solid #e2e8f0;border-radius:8px;cursor:pointer;background:#fff;font-family:inherit">Completed</button>
+          <button class="bk-status-btn" onclick="selectBkModalStatus('cancelled',this)" style="padding:9px;border:1.5px solid #e2e8f0;border-radius:8px;cursor:pointer;background:#fff;font-family:inherit">Cancelled</button>
+          <button class="bk-status-btn" onclick="selectBkModalStatus('refunded',this)" style="padding:9px;border:1.5px solid #e2e8f0;border-radius:8px;cursor:pointer;background:#fff;font-family:inherit">Refunded</button>
+          <button class="bk-status-btn" onclick="selectBkModalStatus('failed',this)" style="padding:9px;border:1.5px solid #e2e8f0;border-radius:8px;cursor:pointer;background:#fff;font-family:inherit">Failed</button>
         </div>
         <textarea id="bk-modal-note" placeholder="Optional note (sent to customer via WhatsApp)..." style="width:100%;padding:9px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;box-sizing:border-box;margin-bottom:12px" rows="2"></textarea>
         <div style="display:flex;gap:8px;justify-content:flex-end">
@@ -322,7 +322,7 @@ setTimeout(function() {
     <div class="section" id="section-workflow">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:10px">
         <div>
-          <h3 style="font-size:1rem;font-weight:700">🔄 Booking Workflow</h3>
+          <h3 style="font-size:1rem;font-weight:700">Booking Workflow</h3>
           <div style="font-size:.8rem;color:#94a3b8" id="wf-topbar-sub">Click bookings through stages · Live updates</div>
         </div>
         <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
@@ -330,19 +330,19 @@ setTimeout(function() {
             <div style="display:flex;align-items:center;gap:5px"><div style="width:9px;height:9px;border-radius:50%;background:#ef4444"></div>Urgent (today)</div>
             <div style="display:flex;align-items:center;gap:5px"><div style="width:9px;height:9px;border-radius:50%;background:#E8B84B"></div>High (≤3 days)</div>
           </div>
-          <button class="btn-add" onclick="loadWorkflow()">🔄 Refresh</button>
+          <button class="btn-add" onclick="loadWorkflow()">Refresh</button>
         </div>
       </div>
       <div style="display:flex;gap:8px;align-items:center;margin-bottom:14px;flex-wrap:wrap">
         <input class="tsearch" placeholder="Search name, ref, phone..." id="wf-search-inp" oninput="applyWorkflowFilters()" style="flex:1;min-width:200px"/>
         <select id="wf-svc-filter" onchange="applyWorkflowFilters()" style="padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:.82rem;font-family:inherit">
-          <option value="">All Services</option><option value="flight">✈️ Flight</option><option value="hotel">🏨 Hotel</option><option value="package">🧳 Package</option><option value="bus">🚌 Bus</option><option value="cab">🚖 Cab</option>
+          <option value="">All Services</option><option value="flight">Flight</option><option value="hotel">Hotel</option><option value="package">Package</option><option value="bus">Bus</option><option value="cab">Cab</option>
         </select>
         <select id="wf-date-filter" onchange="applyWorkflowFilters()" style="padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:.82rem;font-family:inherit">
           <option value="">All Time</option><option value="today">Today</option><option value="week">This Week</option><option value="month">This Month</option>
         </select>
         <select id="wf-pay-filter" onchange="applyWorkflowFilters()" style="padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:.82rem;font-family:inherit">
-          <option value="">All Payments</option><option value="paid">✅ Paid</option><option value="pending">⏳ Unpaid</option>
+          <option value="">All Payments</option><option value="paid">Paid</option><option value="pending">Unpaid</option>
         </select>
       </div>
       <div class="loading" id="wf-load"><div class="spinner"></div></div>
@@ -352,9 +352,9 @@ setTimeout(function() {
     <!-- PACKAGES -->
     <div class="section" id="section-packages">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;flex-wrap:wrap;gap:10px">
-        <h3 style="font-size:1rem;font-weight:700">🗺 Package Management</h3>
+        <h3 style="font-size:1rem;font-weight:700">Package Management</h3>
         <div style="display:flex;gap:8px">
-          <button class="btn-add" style="background:#16a34a;color:#fff" onclick="exportPackagesCSV()">⬇ Export CSV</button>
+          <button class="btn-add" style="background:#16a34a;color:#fff" onclick="exportPackagesCSV()">Export CSV</button>
           <button class="btn-add" onclick="openAddPackage()">+ Add Package</button>
         </div>
       </div>
@@ -381,7 +381,7 @@ setTimeout(function() {
     <div id="avail-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:999;align-items:center;justify-content:center;padding:20px">
       <div style="background:#fff;border-radius:16px;padding:1.5rem;max-width:380px;width:100%">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-          <h3 style="font-size:.95rem;font-weight:700" id="avail-modal-title">📆 Availability</h3>
+          <h3 style="font-size:.95rem;font-weight:700" id="avail-modal-title">Availability</h3>
           <button onclick="closeAvailModal()" style="background:none;border:none;cursor:pointer;font-size:1rem">✕</button>
         </div>
         <div style="font-size:.8rem;color:#64748b;margin-bottom:12px">Click dates to block/unblock. Blocked dates won't be bookable.</div>
@@ -414,10 +414,10 @@ setTimeout(function() {
     <!-- VENDORS -->
     <div class="section" id="section-vendors">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:10px">
-        <h3 style="font-size:1rem;font-weight:700">🤝 Vendor Management</h3>
+        <h3 style="font-size:1rem;font-weight:700">Vendor Management</h3>
         <div style="display:flex;gap:8px">
           <button class="btn-add" onclick="openAddVendorModal()">+ Add Vendor</button>
-          <button class="btn-add" style="background:#16a34a;color:#fff" onclick="exportVendorsCSV()">⬇ Export CSV</button>
+          <button class="btn-add" style="background:#16a34a;color:#fff" onclick="exportVendorsCSV()">Export CSV</button>
         </div>
       </div>
       <div style="display:flex;gap:4px;margin-bottom:16px;border-bottom:2px solid #e2e8f0">
@@ -436,10 +436,10 @@ setTimeout(function() {
         <div style="display:flex;gap:8px;align-items:center;margin-bottom:14px;flex-wrap:wrap">
           <input class="tsearch" placeholder="Search name, email, city..." id="v-search-inp" oninput="renderVendorTable()" style="flex:1;min-width:200px"/>
           <select id="v-filter-status" onchange="renderVendorTable()" style="padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:.82rem;font-family:inherit">
-            <option value="">All Statuses</option><option value="pending">⏳ Pending</option><option value="active">✅ Active</option><option value="suspended">⛔ Suspended</option><option value="rejected">❌ Rejected</option>
+            <option value="">All Statuses</option><option value="pending">Pending</option><option value="active">Active</option><option value="suspended">Suspended</option><option value="rejected">Rejected</option>
           </select>
           <select id="v-filter-type" onchange="renderVendorTable()" style="padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:.82rem;font-family:inherit">
-            <option value="">All Types</option><option value="hotel">🏨 Hotel</option><option value="bus">🚌 Bus</option><option value="cab">🚖 Cab</option><option value="tour_operator">🧳 Tour Operator</option>
+            <option value="">All Types</option><option value="hotel">Hotel</option><option value="bus">Bus</option><option value="cab">Cab</option><option value="tour_operator">Tour Operator</option>
           </select>
         </div>
         <div class="table-card">
@@ -463,10 +463,10 @@ setTimeout(function() {
 
       <div class="vtab-section" id="vtab-commission" style="display:none">
         <div style="background:rgba(20,184,166,0.06);border:1px solid rgba(20,184,166,0.2);border-radius:12px;padding:14px 18px;margin-bottom:16px;font-size:.85rem">
-          💡 These rows feed the "Transparent Commission Structure" table shown publicly on <strong>/pages/vendor.html</strong>. Edit and save — changes go live immediately.
+           These rows feed the "Transparent Commission Structure" table shown publicly on <strong>/pages/vendor.html</strong>. Edit and save — changes go live immediately.
         </div>
         <div class="table-card">
-          <div class="table-hdr"><h3>Commission Rates by Partner Type</h3><button class="btn-add" onclick="saveCommissionRates()">💾 Save Changes</button></div>
+          <div class="table-hdr"><h3>Commission Rates by Partner Type</h3><button class="btn-add" onclick="saveCommissionRates()">Save Changes</button></div>
           <div id="commission-rates-list" style="padding:16px">Loading...</div>
         </div>
       </div>
@@ -526,11 +526,11 @@ setTimeout(function() {
     <!-- AGENTS -->
     <div class="section" id="section-agents">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:10px">
-        <h3 style="font-size:1rem;font-weight:700">👤 Agent Management</h3>
+        <h3 style="font-size:1rem;font-weight:700">Agent Management</h3>
         <div style="display:flex;gap:8px">
           <button class="btn-add" onclick="openAddAgentModal()">+ Add Agent</button>
-          <button class="btn-add" style="background:#16a34a;color:#fff" onclick="exportAgentsCSV()">⬇ Export CSV</button>
-          <button class="btn-add" onclick="loadAgents()">🔄 Refresh</button>
+          <button class="btn-add" style="background:#16a34a;color:#fff" onclick="exportAgentsCSV()">Export CSV</button>
+          <button class="btn-add" onclick="loadAgents()">Refresh</button>
         </div>
       </div>
       <div class="stats-grid" style="margin-bottom:16px">
@@ -549,10 +549,10 @@ setTimeout(function() {
         <div style="display:flex;gap:8px;align-items:center;margin-bottom:14px;flex-wrap:wrap">
           <input class="tsearch" placeholder="Search name, email, code, city..." id="ag-search-inp" oninput="renderAgentsTable()" style="flex:1;min-width:200px"/>
           <select id="ag-filter-tier" onchange="renderAgentsTable()" style="padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:.82rem;font-family:inherit">
-            <option value="">All Tiers</option><option value="associate">🤝 Associate</option><option value="senior">⭐ Senior</option><option value="elite">💎 Elite</option>
+            <option value="">All Tiers</option><option value="associate">Associate</option><option value="senior">Senior</option><option value="elite">Elite</option>
           </select>
           <select id="ag-filter-status" onchange="renderAgentsTable()" style="padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:.82rem;font-family:inherit">
-            <option value="">All Statuses</option><option value="active">✅ Active</option><option value="pending">⏳ Pending</option><option value="suspended">⛔ Suspended</option>
+            <option value="">All Statuses</option><option value="active">Active</option><option value="pending">Pending</option><option value="suspended">Suspended</option>
           </select>
         </div>
         <div class="table-card">
@@ -564,7 +564,7 @@ setTimeout(function() {
 
       <div class="atab-section" id="atab-payouts" style="display:none">
         <div style="background:rgba(20,184,166,0.06);border:1px solid rgba(20,184,166,0.2);border-radius:12px;padding:16px 20px;margin-bottom:20px;font-size:.85rem">
-          💳 Payouts are processed on the <strong>1st and 15th</strong> of every month. Minimum payout: <strong>₹500</strong>. TDS of 5% is deducted for payouts over ₹5,000.
+           Payouts are processed on the <strong>1st and 15th</strong> of every month. Minimum payout: <strong>₹500</strong>. TDS of 5% is deducted for payouts over ₹5,000.
         </div>
         <div class="table-card"><div id="ag-payouts-list" style="padding:16px"></div></div>
       </div>
@@ -572,7 +572,7 @@ setTimeout(function() {
       <div class="atab-section" id="atab-leaderboard" style="display:none">
         <div id="ag-top3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px"></div>
         <div class="table-card">
-          <div class="table-hdr"><h3>🏆 Full Leaderboard</h3></div>
+          <div class="table-hdr"><h3>Full Leaderboard</h3></div>
           <div id="ag-leaderboard-table"></div>
         </div>
       </div>
@@ -592,11 +592,11 @@ setTimeout(function() {
     <!-- CUSTOMERS -->
     <div class="section" id="section-customers">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:10px">
-        <h3 style="font-size:1rem;font-weight:700">👥 Customer Management</h3>
+        <h3 style="font-size:1rem;font-weight:700">Customer Management</h3>
         <div style="display:flex;gap:8px">
           <button class="btn-add" onclick="openManualBooking()">+ Manual Booking</button>
-          <button class="btn-add" style="background:#16a34a;color:#fff" onclick="exportCustomersCSV()">⬇ Export CSV</button>
-          <button class="btn-add" style="background:#f59e0b;color:#000" onclick="openBroadcast()">📢 Broadcast</button>
+          <button class="btn-add" style="background:#16a34a;color:#fff" onclick="exportCustomersCSV()">Export CSV</button>
+          <button class="btn-add" style="background:#f59e0b;color:#000" onclick="openBroadcast()">Broadcast</button>
         </div>
       </div>
       <div class="stats-grid" style="margin-bottom:16px">
@@ -637,7 +637,7 @@ setTimeout(function() {
     <div id="manual-booking-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999;align-items:center;justify-content:center;padding:20px">
       <div style="background:#fff;border-radius:16px;padding:24px;max-width:520px;width:100%;max-height:90vh;overflow-y:auto">
         <div style="display:flex;justify-content:space-between;margin-bottom:18px">
-          <h3 style="font-size:1rem;font-weight:700">📋 Create Manual Booking</h3>
+          <h3 style="font-size:1rem;font-weight:700">Create Manual Booking</h3>
           <button onclick="closeManualBooking()" style="background:none;border:none;cursor:pointer;color:#4A5568;font-size:1rem">✕</button>
         </div>
         <div style="margin-bottom:10px"><label style="font-size:.72rem;font-weight:700;text-transform:uppercase;display:block;margin-bottom:4px">Service Type</label>
@@ -683,7 +683,7 @@ setTimeout(function() {
     <div id="broadcast-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999;align-items:center;justify-content:center;padding:20px">
       <div style="background:#fff;border-radius:16px;padding:24px;max-width:520px;width:100%;max-height:90vh;overflow-y:auto">
         <div style="display:flex;justify-content:space-between;margin-bottom:18px">
-          <h3 style="font-size:1rem;font-weight:700">📢 Send Broadcast</h3>
+          <h3 style="font-size:1rem;font-weight:700">Send Broadcast</h3>
           <button onclick="closeBroadcast()" style="background:none;border:none;cursor:pointer;color:#4A5568;font-size:1rem">✕</button>
         </div>
         <div style="margin-bottom:10px"><label style="font-size:.72rem;font-weight:700;text-transform:uppercase;display:block;margin-bottom:4px">Recipients</label>
@@ -704,7 +704,7 @@ setTimeout(function() {
         </div>
         <div id="bc-msg" style="font-size:.82rem;margin-top:8px;min-height:18px;color:#dc2626"></div>
         <div style="margin-top:18px;padding-top:14px;border-top:1px solid #e2e8f0">
-          <h4 style="font-size:.85rem;font-weight:700;margin-bottom:10px">📜 Recent Broadcasts</h4>
+          <h4 style="font-size:.85rem;font-weight:700;margin-bottom:10px">Recent Broadcasts</h4>
           <div id="bc-history" style="max-height:220px;overflow-y:auto;display:flex;flex-direction:column;gap:8px">
             <div style="font-size:.8rem;color:#94a3b8">Loading history...</div>
           </div>
@@ -722,7 +722,7 @@ setTimeout(function() {
     <div id="add-vendor-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999;align-items:center;justify-content:center;padding:20px">
       <div style="background:#fff;border-radius:16px;padding:24px;max-width:560px;width:100%;max-height:90vh;overflow-y:auto">
         <div style="display:flex;justify-content:space-between;margin-bottom:18px">
-          <h3 style="font-size:1rem;font-weight:700">🤝 Add Vendor Manually</h3>
+          <h3 style="font-size:1rem;font-weight:700">Add Vendor Manually</h3>
           <button onclick="closeAddVendorModal()" style="background:none;border:none;cursor:pointer;color:#4A5568;font-size:1rem">✕</button>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
@@ -730,8 +730,8 @@ setTimeout(function() {
             <input id="av-name" placeholder="Sunshine Hotel" style="width:100%;padding:9px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;box-sizing:border-box"/></div>
           <div><label style="font-size:.72rem;font-weight:700;text-transform:uppercase;display:block;margin-bottom:4px">Business Type *</label>
             <select id="av-type" style="width:100%;padding:9px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit">
-              <option value="hotel">🏨 Hotel / Resort</option><option value="bus">🚌 Bus Operator</option>
-              <option value="tour_operator">🗺 Tour Operator</option><option value="cab">🚗 Cab / Transfer</option>
+              <option value="hotel">Hotel / Resort</option><option value="bus">Bus Operator</option>
+              <option value="tour_operator">Tour Operator</option><option value="cab">Cab / Transfer</option>
             </select></div>
           <div><label style="font-size:.72rem;font-weight:700;text-transform:uppercase;display:block;margin-bottom:4px">Owner / Contact Name *</label>
             <input id="av-owner" placeholder="Rajesh Kumar" style="width:100%;padding:9px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;box-sizing:border-box"/></div>
@@ -747,8 +747,8 @@ setTimeout(function() {
             <input id="av-commission" type="number" step="0.5" min="0" max="100" value="10" style="width:100%;padding:9px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;box-sizing:border-box"/></div>
           <div style="grid-column:1/-1"><label style="font-size:.72rem;font-weight:700;text-transform:uppercase;display:block;margin-bottom:4px">Status</label>
             <select id="av-status" style="width:100%;padding:9px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit">
-              <option value="active">✅ Active (verified — go live immediately)</option>
-              <option value="pending">⏳ Pending (needs review first)</option>
+              <option value="active">Active (verified — go live immediately)</option>
+              <option value="pending">Pending (needs review first)</option>
             </select></div>
           <div style="grid-column:1/-1"><label style="font-size:.72rem;font-weight:700;text-transform:uppercase;display:block;margin-bottom:4px">Notes</label>
             <textarea id="av-notes" rows="2" placeholder="Internal note — e.g. onboarded via phone call" style="width:100%;padding:9px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;box-sizing:border-box"></textarea></div>
@@ -769,7 +769,7 @@ setTimeout(function() {
     <div id="add-agent-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999;align-items:center;justify-content:center;padding:20px">
       <div style="background:#fff;border-radius:16px;padding:24px;max-width:520px;width:100%;max-height:90vh;overflow-y:auto">
         <div style="display:flex;justify-content:space-between;margin-bottom:18px">
-          <h3 style="font-size:1rem;font-weight:700">👤 Add Agent Manually</h3>
+          <h3 style="font-size:1rem;font-weight:700">Add Agent Manually</h3>
           <button onclick="closeAddAgentModal()" style="background:none;border:none;cursor:pointer;color:#4A5568;font-size:1rem">✕</button>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
@@ -783,7 +783,7 @@ setTimeout(function() {
             <input id="aa-city" placeholder="Jaipur" style="width:100%;padding:9px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;box-sizing:border-box"/></div>
           <div><label style="font-size:.72rem;font-weight:700;text-transform:uppercase;display:block;margin-bottom:4px">Tier</label>
             <select id="aa-tier" style="width:100%;padding:9px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit">
-              <option value="associate">🤝 Associate</option><option value="senior">⭐ Senior</option><option value="elite">💎 Elite</option>
+              <option value="associate">Associate</option><option value="senior">Senior</option><option value="elite">Elite</option>
             </select></div>
           <div style="grid-column:1/-1"><label style="font-size:.72rem;font-weight:700;text-transform:uppercase;display:block;margin-bottom:4px">Experience</label>
             <input id="aa-exp" placeholder="e.g. 3 years in travel sales" style="width:100%;padding:9px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;box-sizing:border-box"/></div>
@@ -799,13 +799,13 @@ setTimeout(function() {
     <!-- PACKAGE MODAL -->
     <div id="pkg-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:999;align-items:flex-start;justify-content:center;padding:2rem;overflow-y:auto">
       <div style="background:#fff;border-radius:16px;padding:2rem;max-width:640px;width:100%;margin:auto">
-        <h3 style="margin-bottom:1.5rem;font-size:1.1rem">📦 <span id="pkg-modal-title">Add New Package</span></h3>
+        <h3 style="margin-bottom:1.5rem;font-size:1.1rem"><span id="pkg-modal-title">Add New Package</span></h3>
         <input type="hidden" id="pm-id"/>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
           <div><label style="font-size:.75rem;font-weight:700;display:block;margin-bottom:.35rem">Package Name *</label><input id="pm-title" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;box-sizing:border-box" placeholder="Manali Snow Escape"/></div>
           <div><label style="font-size:.75rem;font-weight:700;display:block;margin-bottom:.35rem">Slug (URL) *</label><input id="pm-slug" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;box-sizing:border-box" placeholder="manali-snow-escape"/></div>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr 80px;gap:1rem;margin-bottom:1rem">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
           <div><label style="font-size:.75rem;font-weight:700;display:block;margin-bottom:.35rem">Type</label>
             <select id="pm-type" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit">
               <option value="domestic">Domestic</option><option value="international">International</option>
@@ -817,7 +817,6 @@ setTimeout(function() {
               <option>honeymoon</option><option>family</option><option>spiritual</option><option>wildlife</option><option>international</option>
             </select>
           </div>
-          <div><label style="font-size:.75rem;font-weight:700;display:block;margin-bottom:.35rem">Emoji</label><input id="pm-emoji" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;font-size:1.2rem;box-sizing:border-box" placeholder="🏔️" value="🗺️"/></div>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:1rem;margin-bottom:1rem">
           <div><label style="font-size:.75rem;font-weight:700;display:block;margin-bottom:.35rem">Price (₹) *</label><input type="number" id="pm-price" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;box-sizing:border-box" placeholder="12499"/></div>
@@ -829,7 +828,7 @@ setTimeout(function() {
         <div style="margin-bottom:1rem"><label style="font-size:.75rem;font-weight:700;display:block;margin-bottom:.35rem">Inclusions (comma-separated)</label><input id="pm-inclusions" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;box-sizing:border-box" placeholder="Hotel Stay, Breakfast, Sightseeing, Airport Transfers"/></div>
         <div style="margin-bottom:1rem"><label style="font-size:.75rem;font-weight:700;display:block;margin-bottom:.35rem">Exclusions (comma-separated)</label><input id="pm-exclusions" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;box-sizing:border-box" placeholder="Airfare, Personal Expenses, Tips"/></div>
         <div style="margin-bottom:1rem">
-          <label style="font-size:.75rem;font-weight:700;display:block;margin-bottom:.35rem">📸 Package Photos</label>
+          <label style="font-size:.75rem;font-weight:700;display:block;margin-bottom:.35rem">Package Photos</label>
           <div style="border:2px dashed #e2e8f0;border-radius:10px;padding:16px;text-align:center;cursor:pointer;transition:all .2s;background:#fafafa"
                onclick="document.getElementById('pm-img-upload').click()"
                ondragover="event.preventDefault();this.style.borderColor='#1a73e8'"
@@ -837,7 +836,7 @@ setTimeout(function() {
                ondrop="handleImgDrop(event)">
             <div id="pm-img-preview" style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:8px"></div>
             <div style="font-size:.85rem;color:#94a3b8">
-              <span style="font-size:1.4rem;display:block;margin-bottom:4px">📁</span>
+              <span style="font-size:1.4rem;display:block;margin-bottom:4px"></span>
               Click to upload photos or drag & drop<br/>
               <span style="font-size:.75rem">JPG, PNG, WebP — max 2MB each</span>
             </div>
@@ -846,9 +845,14 @@ setTimeout(function() {
           </div>
           <input type="hidden" id="pm-images" />
           <div id="pm-img-status" style="font-size:.75rem;color:#94a3b8;margin-top:4px"></div>
+          <div style="display:flex;gap:8px;margin-top:10px" onclick="event.stopPropagation()">
+            <input type="url" id="pm-img-url" placeholder="Paste photo URL (https://...)" style="flex:1;padding:.6rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;font-size:.85rem;box-sizing:border-box"
+                   onkeydown="if(event.key==='Enter'){event.preventDefault();addImageByUrl();}"/>
+            <button type="button" onclick="addImageByUrl()" style="padding:.6rem 1rem;background:#0C1B33;color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit;font-size:.8rem;white-space:nowrap">Add URL</button>
+          </div>
         </div>
         <div style="margin-bottom:1rem">
-          <label style="font-size:.75rem;font-weight:700;display:block;margin-bottom:.35rem">📅 Itinerary (one line per day — Day Title: Description)</label>
+          <label style="font-size:.75rem;font-weight:700;display:block;margin-bottom:.35rem">Itinerary (one line per day — Day Title: Description)</label>
           <textarea id="pm-itinerary" rows="5" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;resize:vertical;box-sizing:border-box;font-size:.85rem" placeholder="Day 1 - Arrival & Welcome: Arrive at destination airport. Hotel check-in. Evening at leisure.&#10;Day 2 - City Tour: Morning sightseeing. Lunch included. Evening cultural show.&#10;Day 3 - Adventure Day: Full day activity. Return by evening."></textarea>
           <div style="font-size:.72rem;color:#94a3b8;margin-top:4px">Format: Day Title: Description (one day per line)</div>
         </div>
@@ -861,7 +865,7 @@ setTimeout(function() {
         </div>
         <div style="display:flex;gap:.75rem;justify-content:flex-end">
           <button onclick="document.getElementById('pkg-modal').style.display='none'" style="padding:.65rem 1.25rem;border:1.5px solid #e2e8f0;border-radius:8px;cursor:pointer;background:none;font-family:inherit">Cancel</button>
-          <button onclick="savePackage()" style="padding:.65rem 1.5rem;background:#C9922A;color:#0C1B33;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit">💾 Save Package</button>
+          <button onclick="savePackage()" style="padding:.65rem 1.5rem;background:#C9922A;color:#0C1B33;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit">Save Package</button>
         </div>
       </div>
     </div>
@@ -870,7 +874,7 @@ setTimeout(function() {
     <div class="section" id="section-testimonials">
       <div class="table-card">
         <div class="table-hdr">
-          <h3>⭐ Testimonials</h3>
+          <h3>Testimonials</h3>
           <button class="btn-add" onclick="openAddTestimonial()">+ Add Testimonial</button>
         </div>
         <p style="font-size:.78rem;color:#94a3b8;margin:-8px 0 12px">Hand-written marketing quotes you write yourself — for real customer feedback, see <a href="#" onclick="show('reviews');return false" style="color:#C9922A">Reviews</a>.</p>
@@ -905,7 +909,7 @@ setTimeout(function() {
     <div class="section" id="section-reviews">
       <div class="table-card">
         <div class="table-hdr">
-          <h3>📝 Customer Reviews</h3>
+          <h3>Customer Reviews</h3>
           <input class="tsearch" placeholder="Search reviews..." oninput="filterTbl('rev-tbody',this.value)"/>
         </div>
         <p style="font-size:.78rem;color:#94a3b8;margin:-8px 0 12px">Ratings actually submitted by customers, for you to moderate/publish — for your own marketing quotes, see <a href="#" onclick="show('testimonials');return false" style="color:#C9922A">Testimonials</a>.</p>
@@ -917,7 +921,7 @@ setTimeout(function() {
     <!-- MESSAGES INBOX -->
     <div class="section" id="section-messages-inbox">
       <div class="table-card">
-        <div class="table-hdr"><h3>💬 Customer Messages</h3></div>
+        <div class="table-hdr"><h3>Customer Messages</h3></div>
         <div class="loading" id="msg-load"><div class="spinner"></div></div>
         <table><thead><tr><th>Booking Ref</th><th>Customer</th><th>Last Message</th><th>When</th><th>Unread</th><th>Actions</th></tr></thead><tbody id="msg-tbody"></tbody></table>
       </div>
@@ -941,10 +945,10 @@ setTimeout(function() {
     <div class="section" id="section-subscribers">
       <div class="table-card">
         <div class="table-hdr">
-          <h3>📧 Email Subscribers</h3>
+          <h3>Email Subscribers</h3>
           <div style="display:flex;gap:.75rem;align-items:center">
             <input class="tsearch" placeholder="Search email..." oninput="filterTbl('sub-tbody',this.value)"/>
-            <button class="btn-add" onclick="exportSubscribers()">⬇ Export CSV</button>
+            <button class="btn-add" onclick="exportSubscribers()">Export CSV</button>
           </div>
         </div>
         <div class="loading" id="sub-load"><div class="spinner"></div></div>
@@ -957,7 +961,7 @@ setTimeout(function() {
     <div class="section" id="section-buses">
       <div class="table-card">
         <div class="table-hdr">
-          <h3>🚌 Bus Routes</h3>
+          <h3>Bus Routes</h3>
           <button class="btn-add" onclick="openAddBus()">+ Add Route</button>
         </div>
         <div class="loading" id="bus-load"><div class="spinner"></div></div>
@@ -970,7 +974,7 @@ setTimeout(function() {
     <div class="section" id="section-cabs">
       <div class="table-card">
         <div class="table-hdr">
-          <h3>🚕 Cab Services</h3>
+          <h3>Cab Services</h3>
           <button class="btn-add" onclick="openAddCab()">+ Add Cab</button>
         </div>
         <div class="loading" id="cab-load"><div class="spinner"></div></div>
@@ -983,7 +987,7 @@ setTimeout(function() {
     <div class="section" id="section-flights-mgmt">
       <div class="table-card">
         <div class="table-hdr">
-          <h3>✈️ Flight Enquiries</h3>
+          <h3>Flight Enquiries</h3>
           <div style="font-size:.82rem;color:#64748b;font-weight:400">
             Flight bookings submitted via the search form
           </div>
@@ -997,7 +1001,7 @@ setTimeout(function() {
     <!-- TRAINS -->
     <div class="section" id="section-trains">
       <div class="table-card">
-        <div class="table-hdr"><h3>🚆 Train Enquiries</h3><input class="tsearch" placeholder="Search stations..." oninput="filterTbl('train-tbody',this.value)"/></div>
+        <div class="table-hdr"><h3>Train Enquiries</h3><input class="tsearch" placeholder="Search stations..." oninput="filterTbl('train-tbody',this.value)"/></div>
         <div class="loading" id="train-load"><div class="spinner"></div></div>
         <table><thead><tr><th>From</th><th>To</th><th>Travel Date</th><th>Quota</th><th>Passengers</th><th>Status</th><th>Actions</th></tr></thead>
         <tbody id="train-tbody"></tbody></table>
@@ -1036,7 +1040,7 @@ setTimeout(function() {
               <option value="paid">Paid</option>
               <option value="void">Void</option>
             </select>
-            <button class="btn-add" onclick="loadCommissionLedger()">🔄 Refresh</button>
+            <button class="btn-add" onclick="loadCommissionLedger()">Refresh</button>
           </div>
         </div>
         <div class="loading" id="cm-ledger-load"><div class="spinner"></div></div>
@@ -1049,7 +1053,7 @@ setTimeout(function() {
     <div class="section" id="section-loyalty">
       <div class="table-card">
         <div class="table-hdr">
-          <h3>⭐ Loyalty Points</h3>
+          <h3>Loyalty Points</h3>
           <input class="tsearch" placeholder="Search by email..." oninput="filterTbl('loyalty-tbody',this.value)"/>
         </div>
         <div class="loading" id="loyalty-load"><div class="spinner"></div></div>
@@ -1068,7 +1072,7 @@ setTimeout(function() {
       </div>
       <div class="table-card">
         <div class="table-hdr">
-          <h3>🏨 Hotels</h3>
+          <h3>Hotels</h3>
           <button class="btn-add" onclick="openAddHotel()">+ Add Hotel</button>
         </div>
         <div class="loading" id="hotels-load"><div class="spinner"></div></div>
@@ -1081,7 +1085,7 @@ setTimeout(function() {
     <div class="section" id="section-destinations">
       <div class="table-card">
         <div class="table-hdr">
-          <h3>🗺️ Destinations</h3>
+          <h3>Destinations</h3>
           <button class="btn-add" onclick="openAddDestination()">+ Add Destination</button>
         </div>
         <div class="loading" id="dest-load"><div class="spinner"></div></div>
@@ -1103,14 +1107,12 @@ setTimeout(function() {
             <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">State (domestic only)</label>
               <input id="dest-state" placeholder="Goa" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px"/></div>
           </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
-            <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Emoji</label>
-              <input id="dest-emoji" placeholder="🏖️" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px"/></div>
-            <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Type</label>
-              <select id="dest-type" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px">
-                <option value="domestic">Domestic</option>
-                <option value="international">International</option>
-              </select></div>
+          <div style="margin-bottom:1rem">
+            <label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Type</label>
+            <select id="dest-type" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px">
+              <option value="domestic">Domestic</option>
+              <option value="international">International</option>
+            </select>
           </div>
           <div style="margin-bottom:1rem">
             <label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Tagline</label>
@@ -1133,20 +1135,20 @@ setTimeout(function() {
             <textarea id="dest-desc" rows="3" placeholder="Short description shown on the destination card..." style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit"></textarea>
           </div>
           <div style="margin-bottom:1rem">
-            <label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">📸 Photo (optional — leave blank to use emoji)</label>
+            <label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Photo</label>
             <div style="border:2px dashed #e2e8f0;border-radius:10px;padding:12px;text-align:center;cursor:pointer;background:#fafafa"
                  onclick="document.getElementById('dest-img-upload').click()"
                  ondragover="event.preventDefault();this.style.borderColor='#1a73e8'"
                  ondragleave="this.style.borderColor='#e2e8f0'"
                  ondrop="handleSingleImgDrop(event,'destinations',{statusId:'dest-img-status',previewId:'dest-img-preview',hiddenId:'dest-image'})">
               <div id="dest-img-preview" style="margin-bottom:4px"></div>
-              <div style="font-size:.75rem;color:#94a3b8">📁 Click or drag & drop a photo — max 2MB</div>
+              <div style="font-size:.75rem;color:#94a3b8">Click or drag & drop a photo — max 2MB</div>
               <input type="file" id="dest-img-upload" accept="image/*" style="display:none"
                      onchange="handleSingleImgUpload(this.files,'destinations',{statusId:'dest-img-status',previewId:'dest-img-preview',hiddenId:'dest-image'})"/>
             </div>
             <div id="dest-img-status" style="font-size:.72rem;color:#94a3b8;margin-top:3px;margin-bottom:8px"></div>
             <label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Or paste an Image URL</label>
-            <input id="dest-image" placeholder="https://... (leave blank to use emoji)" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px"/>
+            <input id="dest-image" placeholder="https://..." style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px"/>
           </div>
           <div id="dest-modal-msg" style="font-size:.8rem;margin-bottom:1rem;color:#dc2626"></div>
           <div style="display:flex;gap:.6rem;justify-content:flex-end">
@@ -1162,7 +1164,7 @@ setTimeout(function() {
     <div class="section" id="section-offers">
       <div class="table-card">
         <div class="table-hdr">
-          <h3>🎁 Offers & Promo Codes</h3>
+          <h3>Offers & Promo Codes</h3>
           <button class="btn-add" onclick="openAddPromo()">+ Add Promo Code</button>
         </div>
         <div class="loading" id="promo-load"><div class="spinner"></div></div>
@@ -1206,43 +1208,43 @@ setTimeout(function() {
 
     <!-- WHATSAPP TEMPLATES -->
     <div class="section" id="section-wa-templates">
-      <h3 style="font-size:1rem;font-weight:700;margin-bottom:.25rem">💬 WhatsApp Message Templates</h3>
+      <h3 style="font-size:1rem;font-weight:700;margin-bottom:.25rem">WhatsApp Message Templates</h3>
       <p style="font-size:.85rem;color:#64748b;margin-bottom:1.25rem">Preview, copy, and send structured WhatsApp messages for any booking type (uses sample data for preview).</p>
       <div style="display:flex;gap:6px;margin-bottom:1.25rem;flex-wrap:wrap">
-        <button class="wa-tpl-tab active" onclick="switchWaService('flight',this)" style="padding:8px 16px;border:1.5px solid #e2e8f0;border-radius:20px;cursor:pointer;background:#C9922A;color:#0C1B33;font-weight:700;font-size:.82rem">✈️ Flight</button>
-        <button class="wa-tpl-tab" onclick="switchWaService('hotel',this)" style="padding:8px 16px;border:1.5px solid #e2e8f0;border-radius:20px;cursor:pointer;background:#fff;font-size:.82rem">🏨 Hotel</button>
-        <button class="wa-tpl-tab" onclick="switchWaService('package',this)" style="padding:8px 16px;border:1.5px solid #e2e8f0;border-radius:20px;cursor:pointer;background:#fff;font-size:.82rem">🧳 Package</button>
-        <button class="wa-tpl-tab" onclick="switchWaService('bus',this)" style="padding:8px 16px;border:1.5px solid #e2e8f0;border-radius:20px;cursor:pointer;background:#fff;font-size:.82rem">🚌 Bus</button>
-        <button class="wa-tpl-tab" onclick="switchWaService('cab',this)" style="padding:8px 16px;border:1.5px solid #e2e8f0;border-radius:20px;cursor:pointer;background:#fff;font-size:.82rem">🚖 Cab</button>
+        <button class="wa-tpl-tab active" onclick="switchWaService('flight',this)" style="padding:8px 16px;border:1.5px solid #e2e8f0;border-radius:20px;cursor:pointer;background:#C9922A;color:#0C1B33;font-weight:700;font-size:.82rem">Flight</button>
+        <button class="wa-tpl-tab" onclick="switchWaService('hotel',this)" style="padding:8px 16px;border:1.5px solid #e2e8f0;border-radius:20px;cursor:pointer;background:#fff;font-size:.82rem">Hotel</button>
+        <button class="wa-tpl-tab" onclick="switchWaService('package',this)" style="padding:8px 16px;border:1.5px solid #e2e8f0;border-radius:20px;cursor:pointer;background:#fff;font-size:.82rem">Package</button>
+        <button class="wa-tpl-tab" onclick="switchWaService('bus',this)" style="padding:8px 16px;border:1.5px solid #e2e8f0;border-radius:20px;cursor:pointer;background:#fff;font-size:.82rem">Bus</button>
+        <button class="wa-tpl-tab" onclick="switchWaService('cab',this)" style="padding:8px 16px;border:1.5px solid #e2e8f0;border-radius:20px;cursor:pointer;background:#fff;font-size:.82rem">Cab</button>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px">
         <div class="table-card" style="padding:16px">
-          <div style="font-weight:700;font-size:.88rem;margin-bottom:10px">📲 Customer Message <span style="font-size:.68rem;font-weight:600;color:#16a34a;background:#dcfce7;padding:2px 8px;border-radius:10px;margin-left:6px">Sent by ZoomFly → Customer</span></div>
+          <div style="font-weight:700;font-size:.88rem;margin-bottom:10px">Customer Message <span style="font-size:.68rem;font-weight:600;color:#16a34a;background:#dcfce7;padding:2px 8px;border-radius:10px;margin-left:6px">Sent by ZoomFly → Customer</span></div>
           <div id="wa-customer-preview" style="background:#dcf8c6;border-radius:8px;padding:12px;font-size:.82rem;white-space:pre-wrap;min-height:120px;font-family:monospace">Loading...</div>
           <div style="display:flex;gap:8px;margin-top:10px">
-            <button class="btn-add" onclick="copyWaMsg('customer')">📋 Copy</button>
-            <button class="btn-add" style="background:#25D366;color:#fff" onclick="sendWaCustomer()">💬 Open in WhatsApp</button>
+            <button class="btn-add" onclick="copyWaMsg('customer')">Copy</button>
+            <button class="btn-add" style="background:#25D366;color:#fff" onclick="sendWaCustomer()">Open in WhatsApp</button>
           </div>
         </div>
         <div class="table-card" style="padding:16px">
-          <div style="font-weight:700;font-size:.88rem;margin-bottom:10px">🔔 Admin Alert <span style="font-size:.68rem;font-weight:600;color:#1d4ed8;background:#eff6ff;padding:2px 8px;border-radius:10px;margin-left:6px">Sent to Admin Team</span></div>
+          <div style="font-weight:700;font-size:.88rem;margin-bottom:10px">Admin Alert <span style="font-size:.68rem;font-weight:600;color:#1d4ed8;background:#eff6ff;padding:2px 8px;border-radius:10px;margin-left:6px">Sent to Admin Team</span></div>
           <div id="wa-admin-preview" style="background:#f1f5f9;border-radius:8px;padding:12px;font-size:.82rem;white-space:pre-wrap;min-height:120px;font-family:monospace">Loading...</div>
           <div style="display:flex;gap:8px;margin-top:10px">
-            <button class="btn-add" onclick="copyWaMsg('admin')">📋 Copy</button>
-            <button class="btn-add" onclick="sendWaAdmin()">🔔 Send to Admin</button>
+            <button class="btn-add" onclick="copyWaMsg('admin')">Copy</button>
+            <button class="btn-add" onclick="sendWaAdmin()">Send to Admin</button>
           </div>
         </div>
       </div>
       <div class="table-card" style="padding:16px">
-        <div style="font-weight:700;font-size:.9rem;margin-bottom:4px">⚡ Quick Send — Status Updates</div>
+        <div style="font-weight:700;font-size:.9rem;margin-bottom:4px">Quick Send — Status Updates</div>
         <div style="font-size:.8rem;color:#64748b;margin-bottom:12px">Send pre-built status messages to the sample customer with one click (for testing wording — use the Bookings tab to message a real customer).</div>
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px">
-          <button class="btn-add" onclick="sendWaStatus('confirmed')">✅ Booking Confirmed</button>
-          <button class="btn-add" onclick="sendWaStatus('processing')">⚙️ Being Processed</button>
-          <button class="btn-add" onclick="sendWaStatus('payment_confirmed')">💳 Payment Received</button>
-          <button class="btn-add" onclick="sendWaStatus('completed')">🎉 Journey Complete</button>
-          <button class="btn-add" onclick="sendWaStatus('cancelled')">❌ Booking Cancelled</button>
-          <button class="btn-add" onclick="sendWaStatus('refunded')">💰 Refund Processed</button>
+          <button class="btn-add" onclick="sendWaStatus('confirmed')">Booking Confirmed</button>
+          <button class="btn-add" onclick="sendWaStatus('processing')">Being Processed</button>
+          <button class="btn-add" onclick="sendWaStatus('payment_confirmed')">Payment Received</button>
+          <button class="btn-add" onclick="sendWaStatus('completed')">Journey Complete</button>
+          <button class="btn-add" onclick="sendWaStatus('cancelled')">Booking Cancelled</button>
+          <button class="btn-add" onclick="sendWaStatus('refunded')">Refund Processed</button>
         </div>
         <textarea id="wa-status-note" placeholder="Optional: Add a note to the status message (e.g. 'Your cab will arrive at 2:30 PM')..." style="width:100%;padding:9px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;box-sizing:border-box" rows="2"></textarea>
       </div>
@@ -1251,7 +1253,7 @@ setTimeout(function() {
     <!-- BLOG -->
     <div class="section" id="section-blog">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem">
-        <h3 style="font-size:1rem;font-weight:700">📰 Blog Posts</h3>
+        <h3 style="font-size:1rem;font-weight:700">Blog Posts</h3>
         <button class="btn-add" onclick="openAddBlogPost()">+ New Post</button>
       </div>
       <div class="loading" id="blog-load"><div class="spinner"></div></div>
@@ -1270,8 +1272,7 @@ setTimeout(function() {
           <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Slug (URL) *</label><input id="bp-slug" placeholder="my-post-title" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:monospace"/></div>
         </div>
         <div style="margin-bottom:1rem"><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Excerpt (shown on listing card)</label><textarea id="bp-excerpt" rows="2" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit"></textarea></div>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1rem">
-          <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Emoji</label><input id="bp-emoji" placeholder="🏔️" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px"/></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
           <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Category</label><input id="bp-category" placeholder="Guide" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px"/></div>
           <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Badge Color</label>
             <select id="bp-badge" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px">
@@ -1280,19 +1281,20 @@ setTimeout(function() {
           </div>
         </div>
         <div style="margin-bottom:1rem">
-          <label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">📸 Cover Photo (optional — leave blank to use emoji + gradient below)</label>
+          <label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Cover Photo</label>
           <div style="border:2px dashed #e2e8f0;border-radius:10px;padding:14px;text-align:center;cursor:pointer;background:#fafafa"
                onclick="document.getElementById('bp-cover-upload').click()"
                ondragover="event.preventDefault();this.style.borderColor='#1a73e8'"
                ondragleave="this.style.borderColor='#e2e8f0'"
                ondrop="handleSingleImgDrop(event,'blog',{statusId:'bp-cover-status',previewId:'bp-cover-preview',hiddenId:'bp-cover-image'})">
             <div id="bp-cover-preview" style="margin-bottom:6px"></div>
-            <div style="font-size:.8rem;color:#94a3b8">📁 Click to upload or drag & drop — JPG/PNG/WebP, max 2MB</div>
+            <div style="font-size:.8rem;color:#94a3b8">Click to upload or drag & drop — JPG/PNG/WebP, max 2MB</div>
             <input type="file" id="bp-cover-upload" accept="image/*" style="display:none"
                    onchange="handleSingleImgUpload(this.files,'blog',{statusId:'bp-cover-status',previewId:'bp-cover-preview',hiddenId:'bp-cover-image'})"/>
           </div>
-          <input type="hidden" id="bp-cover-image"/>
           <div id="bp-cover-status" style="font-size:.75rem;color:#94a3b8;margin-top:4px"></div>
+          <label style="font-size:.78rem;font-weight:700;display:block;margin:8px 0 .4rem">Or paste an Image URL</label>
+          <input id="bp-cover-image" placeholder="https://..." style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px"/>
         </div>
         <div style="margin-bottom:1rem"><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Background Gradient (CSS)</label><input id="bp-bg" placeholder="linear-gradient(135deg,#667eea,#764ba2)" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:monospace;font-size:.8rem"/></div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
@@ -1315,7 +1317,7 @@ setTimeout(function() {
     <!-- FAQ -->
     <div class="section" id="section-faq">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem">
-        <h3 style="font-size:1rem;font-weight:700">❓ FAQ Management</h3>
+        <h3 style="font-size:1rem;font-weight:700">FAQ Management</h3>
         <button class="btn-add" onclick="openAddFaq()">+ New Question</button>
       </div>
       <div class="loading" id="faq-load"><div class="spinner"></div></div>
@@ -1331,7 +1333,7 @@ setTimeout(function() {
         <input type="hidden" id="fq-id"/>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
           <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Section Key *</label><input id="fq-section" placeholder="booking" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:monospace"/></div>
-          <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Section Label *</label><input id="fq-section-label" placeholder="📋 Booking Process" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px"/></div>
+          <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Section Label *</label><input id="fq-section-label" placeholder="Booking Process" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px"/></div>
         </div>
         <div style="margin-bottom:1rem"><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Question *</label><input id="fq-question" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px"/></div>
         <div style="margin-bottom:1rem"><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Answer *</label><textarea id="fq-answer" rows="4" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;resize:vertical"></textarea></div>
@@ -1349,7 +1351,7 @@ setTimeout(function() {
     <!-- CAREERS -->
     <div class="section" id="section-careers">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem">
-        <h3 style="font-size:1rem;font-weight:700">💼 Job Openings</h3>
+        <h3 style="font-size:1rem;font-weight:700">Job Openings</h3>
         <button class="btn-add" onclick="openAddJob()">+ New Job</button>
       </div>
       <div class="loading" id="job-load"><div class="spinner"></div></div>
@@ -1366,7 +1368,7 @@ setTimeout(function() {
         <div style="margin-bottom:1rem"><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Job Title *</label><input id="jb-title" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px"/></div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
           <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Department</label><input id="jb-dept" placeholder="Technology" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px"/></div>
-          <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Department Icon</label><input id="jb-icon" placeholder="🛠" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px"/></div>
+          <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Department Icon</label><input id="jb-icon" placeholder="" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px"/></div>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
           <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Location</label><input id="jb-location" placeholder="Delhi / Remote" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px"/></div>
@@ -1387,7 +1389,7 @@ setTimeout(function() {
 
     <!-- REMINDERS -->
     <div class="section" id="section-reminders">
-      <h3 style="font-size:1rem;font-weight:700;margin-bottom:.25rem">📬 Reminders & Follow-ups</h3>
+      <h3 style="font-size:1rem;font-weight:700;margin-bottom:.25rem">Reminders & Follow-ups</h3>
       <p style="font-size:.85rem;color:#64748b;margin-bottom:1.25rem">Automated pre-trip reminders and post-trip follow-up messages</p>
       <div class="stats-grid" style="margin-bottom:16px">
         <div class="stat-card"><div class="stat-val" id="rm-stat-today">—</div><div class="stat-lbl">Reminders Dispatched</div></div>
@@ -1397,93 +1399,93 @@ setTimeout(function() {
       </div>
       <div style="background:linear-gradient(135deg,#fffaf0,#fef3c7);border:1px solid #fde68a;border-radius:14px;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:20px">
         <div>
-          <h3 style="font-size:.95rem;font-weight:700;color:#92400e;margin-bottom:2px">🤖 Run Reminder Engine</h3>
+          <h3 style="font-size:.95rem;font-weight:700;color:#92400e;margin-bottom:2px">Run Reminder Engine</h3>
           <p style="font-size:.8rem;color:#a16207;margin:0">Scans all bookings and sends due reminders via WhatsApp. Run daily or schedule via cron.</p>
         </div>
         <div style="display:flex;gap:8px">
-          <button class="btn-add" onclick="runReminderEngine('pre')">▶ Pre-trip</button>
-          <button class="btn-add" style="background:#16a34a;color:#fff" onclick="runReminderEngine('post')">▶ Post-trip</button>
-          <button class="btn-add" style="background:#7c3aed;color:#fff" onclick="runReminderEngine('all')">▶ Run All</button>
+          <button class="btn-add" onclick="runReminderEngine('pre')">Pre-trip</button>
+          <button class="btn-add" style="background:#16a34a;color:#fff" onclick="runReminderEngine('post')">Post-trip</button>
+          <button class="btn-add" style="background:#7c3aed;color:#fff" onclick="runReminderEngine('all')">Run All</button>
         </div>
       </div>
       <div style="display:flex;gap:4px;margin-bottom:16px;border-bottom:2px solid #e2e8f0">
-        <button class="ptab active" onclick="switchReminderTab('queue',this)" style="padding:10px 16px;font-size:.85rem;font-weight:600;cursor:pointer;border:none;background:none;border-bottom:3px solid #C9922A;color:#C9922A;margin-bottom:-2px">📋 Queue</button>
-        <button class="ptab" onclick="switchReminderTab('history',this)" style="padding:10px 16px;font-size:.85rem;font-weight:600;cursor:pointer;border:none;background:none;border-bottom:3px solid transparent;color:#64748b;margin-bottom:-2px">📜 History</button>
-        <button class="ptab" onclick="switchReminderTab('templates',this)" style="padding:10px 16px;font-size:.85rem;font-weight:600;cursor:pointer;border:none;background:none;border-bottom:3px solid transparent;color:#64748b;margin-bottom:-2px">✏️ Templates</button>
-        <button class="ptab" onclick="switchReminderTab('schedule',this)" style="padding:10px 16px;font-size:.85rem;font-weight:600;cursor:pointer;border:none;background:none;border-bottom:3px solid transparent;color:#64748b;margin-bottom:-2px">⚙️ Schedule</button>
+        <button class="ptab active" onclick="switchReminderTab('queue',this)" style="padding:10px 16px;font-size:.85rem;font-weight:600;cursor:pointer;border:none;background:none;border-bottom:3px solid #C9922A;color:#C9922A;margin-bottom:-2px">Queue</button>
+        <button class="ptab" onclick="switchReminderTab('history',this)" style="padding:10px 16px;font-size:.85rem;font-weight:600;cursor:pointer;border:none;background:none;border-bottom:3px solid transparent;color:#64748b;margin-bottom:-2px">History</button>
+        <button class="ptab" onclick="switchReminderTab('templates',this)" style="padding:10px 16px;font-size:.85rem;font-weight:600;cursor:pointer;border:none;background:none;border-bottom:3px solid transparent;color:#64748b;margin-bottom:-2px">Templates</button>
+        <button class="ptab" onclick="switchReminderTab('schedule',this)" style="padding:10px 16px;font-size:.85rem;font-weight:600;cursor:pointer;border:none;background:none;border-bottom:3px solid transparent;color:#64748b;margin-bottom:-2px">Schedule</button>
       </div>
 
       <div class="rtab-section active" id="rtab-queue">
         <div class="table-card">
-          <div class="table-hdr"><h3>Pending Reminders</h3><button class="btn-add" onclick="loadReminderQueue()">🔄 Refresh</button></div>
+          <div class="table-hdr"><h3>Pending Reminders</h3><button class="btn-add" onclick="loadReminderQueue()">Refresh</button></div>
           <div id="rm-queue-table" style="padding:16px"></div>
         </div>
       </div>
 
       <div class="rtab-section" id="rtab-history" style="display:none">
         <div class="table-card">
-          <div class="table-hdr"><h3>Sent Reminders</h3><button class="btn-add" onclick="exportReminderHistory()">⬇ Export CSV</button></div>
+          <div class="table-hdr"><h3>Sent Reminders</h3><button class="btn-add" onclick="exportReminderHistory()">Export CSV</button></div>
           <div id="rm-history-table" style="padding:16px"></div>
         </div>
       </div>
 
       <div class="rtab-section" id="rtab-templates" style="display:none">
         <div class="table-card">
-          <div class="table-hdr"><h3>Message Templates</h3><button class="btn-add" onclick="saveReminderTemplates()">💾 Save Templates</button></div>
+          <div class="table-hdr"><h3>Message Templates</h3><button class="btn-add" onclick="saveReminderTemplates()">Save Templates</button></div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;padding:20px">
             <div>
-              <h4 style="font-size:.875rem;font-weight:700;margin-bottom:2px">📅 7 Days Before Trip</h4>
+              <h4 style="font-size:.875rem;font-weight:700;margin-bottom:2px">7 Days Before Trip</h4>
               <p style="font-size:.78rem;color:#64748b;margin-bottom:10px">Sent 7 days before travel date · {name} {destination} {date} {ref}</p>
-              <textarea id="rm-tpl-7day" rows="6" style="width:100%;padding:10px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:.82rem;font-family:inherit;box-sizing:border-box">Hi {name}! 🎉 Your trip to *{destination}* is just 7 days away!
+              <textarea id="rm-tpl-7day" rows="6" style="width:100%;padding:10px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:.82rem;font-family:inherit;box-sizing:border-box">Hi {name}!  Your trip to *{destination}* is just 7 days away!
 
-📅 Travel Date: {date}
-📋 Booking Ref: {ref}
+Travel Date: {date}
+Booking Ref: {ref}
 
 Quick checklist:
-✅ Documents ready (Aadhaar/Passport)
-✅ Packing started
-✅ Emergency contacts noted
+Documents ready (Aadhaar/Passport)
+Packing started
+Emergency contacts noted
 
-Need any help? Reply here or call us at +91 80761 36300. Have a great trip! ✈️ — ZoomFly</textarea>
+Need any help? Reply here or call us at +91 80761 36300. Have a great trip!  — ZoomFly</textarea>
             </div>
             <div>
-              <h4 style="font-size:.875rem;font-weight:700;margin-bottom:2px">🌅 1 Day Before Trip</h4>
+              <h4 style="font-size:.875rem;font-weight:700;margin-bottom:2px">1 Day Before Trip</h4>
               <p style="font-size:.78rem;color:#64748b;margin-bottom:10px">Sent 1 day before travel date · {name} {destination} {date} {pickup}</p>
-              <textarea id="rm-tpl-1day" rows="6" style="width:100%;padding:10px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:.82rem;font-family:inherit;box-sizing:border-box">Hi {name}! 🌟 Your *{destination}* adventure begins TOMORROW!
+              <textarea id="rm-tpl-1day" rows="6" style="width:100%;padding:10px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:.82rem;font-family:inherit;box-sizing:border-box">Hi {name}!  Your *{destination}* adventure begins TOMORROW!
 
-🗓 Date: {date}
-🚗 Pickup: {pickup}
+Date: {date}
+Pickup: {pickup}
 
 Last-minute reminders:
 • Charge your phone & camera
 • Keep documents handy
 • Download offline maps
 
-We're excited for you! Safe travels! 🙏 — ZoomFly Team</textarea>
+We're excited for you! Safe travels!  — ZoomFly Team</textarea>
             </div>
             <div>
-              <h4 style="font-size:.875rem;font-weight:700;margin-bottom:2px">⭐ Post-trip Follow-up (Day 1)</h4>
+              <h4 style="font-size:.875rem;font-weight:700;margin-bottom:2px">Post-trip Follow-up (Day 1)</h4>
               <p style="font-size:.78rem;color:#64748b;margin-bottom:10px">Sent 1 day after return · {name} {destination} {review_link}</p>
-              <textarea id="rm-tpl-post1" rows="6" style="width:100%;padding:10px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:.82rem;font-family:inherit;box-sizing:border-box">Hi {name}! Welcome back from *{destination}*! 🏡
+              <textarea id="rm-tpl-post1" rows="6" style="width:100%;padding:10px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:.82rem;font-family:inherit;box-sizing:border-box">Hi {name}! Welcome back from *{destination}*!
 
 We hope you had an amazing experience. Your feedback helps us serve you better.
 
-⭐ Rate your trip: {review_link}
+Rate your trip: {review_link}
 
-It only takes 30 seconds and means the world to us. Thank you for choosing ZoomFly! 🙏</textarea>
+It only takes 30 seconds and means the world to us. Thank you for choosing ZoomFly!</textarea>
             </div>
             <div>
-              <h4 style="font-size:.875rem;font-weight:700;margin-bottom:2px">🎁 Post-trip Offer (Day 7)</h4>
+              <h4 style="font-size:.875rem;font-weight:700;margin-bottom:2px">Post-trip Offer (Day 7)</h4>
               <p style="font-size:.78rem;color:#64748b;margin-bottom:10px">Sent 7 days after return · {name} {next_dest} {discount}</p>
-              <textarea id="rm-tpl-post7" rows="6" style="width:100%;padding:10px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:.82rem;font-family:inherit;box-sizing:border-box">Hi {name}! 🎊 Ready for your next adventure?
+              <textarea id="rm-tpl-post7" rows="6" style="width:100%;padding:10px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:.82rem;font-family:inherit;box-sizing:border-box">Hi {name}!  Ready for your next adventure?
 
 As a valued ZoomFly traveller, you get *{discount}% OFF* on your next booking!
 
-🌟 Trending now: {next_dest}
+Trending now: {next_dest}
 
 Use code *COMEBACK{discount}* at checkout. Valid for 30 days.
 
-Book now: https://www.zoomfly.in/pages/packages.html — ZoomFly Team ✈️</textarea>
+Book now: https://www.zoomfly.in/pages/packages.html — ZoomFly Team</textarea>
             </div>
           </div>
         </div>
@@ -1491,7 +1493,7 @@ Book now: https://www.zoomfly.in/pages/packages.html — ZoomFly Team ✈️</te
 
       <div class="rtab-section" id="rtab-schedule" style="display:none">
         <div class="table-card">
-          <div class="table-hdr"><h3>Schedule Configuration</h3><button class="btn-add" onclick="saveReminderSchedule()">💾 Save Schedule</button></div>
+          <div class="table-hdr"><h3>Schedule Configuration</h3><button class="btn-add" onclick="saveReminderSchedule()">Save Schedule</button></div>
           <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding:20px">
             <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:6px">Pre-trip reminder 1</label>
               <select id="rm-cfg-pre1" style="width:100%;padding:8px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit">
@@ -1516,7 +1518,7 @@ Book now: https://www.zoomfly.in/pages/packages.html — ZoomFly Team ✈️</te
           </div>
           <div style="padding:0 20px 20px">
             <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:14px;font-size:.82rem;color:#4A5568;line-height:1.7">
-              <strong>🤖 Automation tip:</strong> To run these reminders automatically every day, add a cron job on your server:<br>
+              <strong>Automation tip:</strong> To run these reminders automatically every day, add a cron job on your server:<br>
               <code style="background:#e2e8f0;padding:2px 6px;border-radius:4px;font-size:.8rem">0 10 * * * curl https://www.zoomfly.in/api/run-reminders</code><br>
               Or use a service like <strong>Vercel Cron</strong>, <strong>GitHub Actions</strong>, or <strong>Supabase Edge Functions</strong> scheduled trigger.
             </div>
@@ -1530,7 +1532,7 @@ Book now: https://www.zoomfly.in/pages/packages.html — ZoomFly Team ✈️</te
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
 
         <div class="table-card">
-          <h3 style="margin-bottom:1.25rem">🏢 Company Info</h3>
+          <h3 style="margin-bottom:1.25rem">Company Info</h3>
           <div style="display:flex;flex-direction:column;gap:12px;">
             <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Company Name</label>
               <input id="ss-name" value="ZoomFly Travel Services" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit"/></div>
@@ -1542,27 +1544,27 @@ Book now: https://www.zoomfly.in/pages/packages.html — ZoomFly Team ✈️</te
               <input id="ss-email" value="hello@zoomfly.in" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit"/></div>
             <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">WhatsApp Number</label>
               <input id="ss-wa" value="918076136300" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit"/></div>
-            <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">📸 Logo</label>
+            <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Logo</label>
               <input id="ss-logo" placeholder="https://www.zoomfly.in/assets/logo.png" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;margin-bottom:8px"/>
               <div style="display:flex;align-items:center;gap:12px">
                 <div id="ss-logo-preview">${''}</div>
                 <label style="font-size:.78rem;font-weight:600;padding:.5rem .9rem;border:1.5px dashed #C9922A;border-radius:8px;cursor:pointer;color:#C9922A;background:#fffaf0"
                        ondragover="event.preventDefault()"
                        ondrop="handleSingleImgDrop(event,'logos',{statusId:'ss-logo-status',previewId:'ss-logo-preview',hiddenId:'ss-logo'})">
-                  ⬆ Upload logo file
+                   Upload logo file
                   <input type="file" accept="image/*" style="display:none" onchange="handleSingleImgUpload(this.files,'logos',{statusId:'ss-logo-status',previewId:'ss-logo-preview',hiddenId:'ss-logo'})"/>
                 </label>
                 <span id="ss-logo-status" style="font-size:.72rem;color:#94a3b8"></span>
               </div>
               <div style="font-size:.72rem;color:#94a3b8;margin-top:3px">Upload a file directly, or paste a hosted image URL (ImgBB, Cloudinary, etc.) above.</div></div>
-            <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">🌐 Favicon</label>
+            <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Favicon</label>
               <input id="ss-favicon" placeholder="https://www.zoomfly.in/assets/favicon.ico" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;margin-bottom:8px"/>
               <div style="display:flex;align-items:center;gap:12px">
                 <div id="ss-favicon-preview"></div>
                 <label style="font-size:.78rem;font-weight:600;padding:.5rem .9rem;border:1.5px dashed #C9922A;border-radius:8px;cursor:pointer;color:#C9922A;background:#fffaf0"
                        ondragover="event.preventDefault()"
                        ondrop="handleSingleImgDrop(event,'logos',{statusId:'ss-favicon-status',previewId:'ss-favicon-preview',hiddenId:'ss-favicon'})">
-                  ⬆ Upload favicon file
+                   Upload favicon file
                   <input type="file" accept="image/*" style="display:none" onchange="handleSingleImgUpload(this.files,'logos',{statusId:'ss-favicon-status',previewId:'ss-favicon-preview',hiddenId:'ss-favicon'})"/>
                 </label>
                 <span id="ss-favicon-status" style="font-size:.72rem;color:#94a3b8"></span>
@@ -1571,7 +1573,7 @@ Book now: https://www.zoomfly.in/pages/packages.html — ZoomFly Team ✈️</te
         </div>
 
         <div class="table-card" style="margin-top:16px">
-          <h3 style="margin-bottom:1.25rem">📄 Page Content</h3>
+          <h3 style="margin-bottom:1.25rem">Page Content</h3>
           <div style="margin-bottom:12px">
             <label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Page to Edit</label>
             <select id="page-select" onchange="loadPageContent()" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;margin-bottom:10px">
@@ -1584,15 +1586,15 @@ Book now: https://www.zoomfly.in/pages/packages.html — ZoomFly Team ✈️</te
             <div style="font-size:.78rem;color:#64748b;margin-bottom:8px">Edit the content below, then click Save. Changes reflect instantly on the live page.</div>
             <textarea id="page-content-editor" rows="10" style="width:100%;padding:.75rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:monospace;font-size:.82rem;resize:vertical;box-sizing:border-box" placeholder="Loading page content..."></textarea>
             <div style="display:flex;gap:8px;margin-top:8px">
-              <button onclick="savePageContent()" style="flex:1;padding:.75rem;background:#C9922A;color:#0C1B33;border:none;border-radius:8px;font-weight:700;cursor:pointer">💾 Save Page Content</button>
-              <button onclick="window.open('/pages/'+document.getElementById('page-select').value+'.html','_blank')" style="padding:.75rem 1rem;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:8px;cursor:pointer">👁 Preview</button>
+              <button onclick="savePageContent()" style="flex:1;padding:.75rem;background:#C9922A;color:#0C1B33;border:none;border-radius:8px;font-weight:700;cursor:pointer">Save Page Content</button>
+              <button onclick="window.open('/pages/'+document.getElementById('page-select').value+'.html','_blank')" style="padding:.75rem 1rem;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:8px;cursor:pointer">Preview</button>
             </div>
             <div id="page-save-msg" style="font-size:.82rem;margin-top:6px;min-height:18px"></div>
           </div>
         </div>
 
         <div class="table-card" style="margin-top:16px">
-          <h3 style="margin-bottom:1.25rem">🏠 Homepage Hero</h3>
+          <h3 style="margin-bottom:1.25rem">Homepage Hero</h3>
           <div style="display:flex;flex-direction:column;gap:12px;">
             <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Hero Title</label>
               <input id="ss-hero-title" placeholder="Where will you wander next?" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit"/></div>
@@ -1603,7 +1605,7 @@ Book now: https://www.zoomfly.in/pages/packages.html — ZoomFly Team ✈️</te
         </div>
 
         <div class="table-card" style="margin-top:16px">
-          <h3 style="margin-bottom:1.25rem">🔍 SEO Defaults</h3>
+          <h3 style="margin-bottom:1.25rem">SEO Defaults</h3>
           <div style="display:flex;flex-direction:column;gap:12px;">
             <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Default Meta Title</label>
               <input id="ss-meta-title" placeholder="ZoomFly — Book Flights, Hotels, Packages, Buses & Cabs" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit"/></div>
@@ -1614,7 +1616,7 @@ Book now: https://www.zoomfly.in/pages/packages.html — ZoomFly Team ✈️</te
         </div>
 
         <div class="table-card" style="margin-top:16px">
-          <h3 style="margin-bottom:1.25rem">📱 Social Links</h3>
+          <h3 style="margin-bottom:1.25rem">Social Links</h3>
           <div style="display:flex;flex-direction:column;gap:12px;">
             <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Instagram URL</label>
               <input id="ss-instagram" placeholder="https://www.instagram.com/zoomfly.in" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit"/></div>
@@ -1624,23 +1626,23 @@ Book now: https://www.zoomfly.in/pages/packages.html — ZoomFly Team ✈️</te
               <input id="ss-twitter" placeholder="https://x.com/zoomfly_in" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit"/></div>
             <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">YouTube URL</label>
               <input id="ss-youtube" placeholder="https://youtube.com/@zoomfly" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit"/></div>
-            <button onclick="saveSettings()" style="padding:.75rem;background:#C9922A;color:#0C1B33;border:none;border-radius:8px;font-weight:700;cursor:pointer;margin-top:.5rem;width:100%">💾 Save All Settings</button>
+            <button onclick="saveSettings()" style="padding:.75rem;background:#C9922A;color:#0C1B33;border:none;border-radius:8px;font-weight:700;cursor:pointer;margin-top:.5rem;width:100%">Save All Settings</button>
             <div style="font-size:.72rem;color:#94a3b8">One Save button updates everything on this page — Company Info, Homepage Hero, SEO Defaults, and Social Links together.</div>
           </div>
         </div>
 
         <div class="table-card">
-          <h3 style="margin-bottom:1.25rem">🔗 Quick Links</h3>
+          <h3 style="margin-bottom:1.25rem">Quick Links</h3>
           <div style="display:flex;flex-direction:column;gap:10px;">
-            <button onclick="show('bookings')" style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:#f8fafc;border-radius:10px;color:#0f1923;border:1px solid #e2e8f0;cursor:pointer;width:100%;font-family:inherit;font-size:.88rem;text-align:left">🗓 All Bookings</button>
-            <button onclick="show('vendors')" style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:#f8fafc;border-radius:10px;color:#0f1923;border:1px solid #e2e8f0;cursor:pointer;width:100%;font-family:inherit;font-size:.88rem;text-align:left">🤝 Vendor Applications</button>
-            <button onclick="show('agents')" style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:#f8fafc;border-radius:10px;color:#0f1923;border:1px solid #e2e8f0;cursor:pointer;width:100%;font-family:inherit;font-size:.88rem;text-align:left">👤 Agent Applications</button>
-            <a href="#" onclick="show('wa-templates');return false" style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:#f8fafc;border-radius:10px;text-decoration:none;color:#0f1923;border:1px solid #e2e8f0;">💬 WhatsApp Templates</a>
-            <a href="#" onclick="show('workflow');return false" style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:#f8fafc;border-radius:10px;text-decoration:none;color:#0f1923;border:1px solid #e2e8f0;">⚙️ Workflow</a>
-            <a href="#" onclick="show('reminders');return false" style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:#f8fafc;border-radius:10px;text-decoration:none;color:#0f1923;border:1px solid #e2e8f0;">📬 Reminders</a>
+            <button onclick="show('bookings')" style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:#f8fafc;border-radius:10px;color:#0f1923;border:1px solid #e2e8f0;cursor:pointer;width:100%;font-family:inherit;font-size:.88rem;text-align:left">All Bookings</button>
+            <button onclick="show('vendors')" style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:#f8fafc;border-radius:10px;color:#0f1923;border:1px solid #e2e8f0;cursor:pointer;width:100%;font-family:inherit;font-size:.88rem;text-align:left">Vendor Applications</button>
+            <button onclick="show('agents')" style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:#f8fafc;border-radius:10px;color:#0f1923;border:1px solid #e2e8f0;cursor:pointer;width:100%;font-family:inherit;font-size:.88rem;text-align:left">Agent Applications</button>
+            <a href="#" onclick="show('wa-templates');return false" style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:#f8fafc;border-radius:10px;text-decoration:none;color:#0f1923;border:1px solid #e2e8f0;">WhatsApp Templates</a>
+            <a href="#" onclick="show('workflow');return false" style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:#f8fafc;border-radius:10px;text-decoration:none;color:#0f1923;border:1px solid #e2e8f0;">Workflow</a>
+            <a href="#" onclick="show('reminders');return false" style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:#f8fafc;border-radius:10px;text-decoration:none;color:#0f1923;border:1px solid #e2e8f0;">Reminders</a>
           </div>
           <div style="margin-top:20px;padding:14px;background:#fef3c7;border-radius:10px;font-size:.82rem;color:#92400e;">
-            💡 Everything — bookings, agent commissions, WhatsApp templates, and more — is managed right here in this dashboard now.
+             Everything — bookings, agent commissions, WhatsApp templates, and more — is managed right here in this dashboard now.
           </div>
         </div>
 
@@ -1832,7 +1834,7 @@ async function loadHotels() {
       // Table doesn't exist yet
       tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:2rem">
         <div style="font-size:.88rem;color:#92400e;background:#fef3c7;border-radius:10px;padding:14px 16px;display:inline-block">
-          ⚠️ Hotels table not created yet.<br/>
+           Hotels table not created yet.<br/>
           <strong>Run this SQL in Supabase:</strong><br/>
           <code style="font-size:.75rem;display:block;margin-top:6px;text-align:left;background:#fff;padding:8px;border-radius:6px">
             CREATE TABLE hotels (id uuid DEFAULT gen_random_uuid() PRIMARY KEY,<br/>
@@ -1902,14 +1904,14 @@ window.openAddHotel = async () => {
         <input id="h-price" type="number" placeholder="3500" style="width:100%;padding:.6rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit"/></div>
     </div>
     <div style="margin-bottom:10px">
-      <label style="font-size:.72rem;font-weight:700;display:block;margin-bottom:4px">📸 Photo (optional)</label>
+      <label style="font-size:.72rem;font-weight:700;display:block;margin-bottom:4px">Photo (optional)</label>
       <div style="border:2px dashed #e2e8f0;border-radius:10px;padding:12px;text-align:center;cursor:pointer;background:#fff"
            onclick="document.getElementById('h-img-upload').click()"
            ondragover="event.preventDefault();this.style.borderColor='#1a73e8'"
            ondragleave="this.style.borderColor='#e2e8f0'"
            ondrop="handleSingleImgDrop(event,'hotels',{statusId:'h-img-status',previewId:'h-img-preview',hiddenId:'h-img'})">
         <div id="h-img-preview" style="margin-bottom:4px"></div>
-        <div style="font-size:.75rem;color:#94a3b8">📁 Click or drag & drop a photo — max 2MB</div>
+        <div style="font-size:.75rem;color:#94a3b8">Click or drag & drop a photo — max 2MB</div>
         <input type="file" id="h-img-upload" accept="image/*" style="display:none"
                onchange="handleSingleImgUpload(this.files,'hotels',{statusId:'h-img-status',previewId:'h-img-preview',hiddenId:'h-img'})"/>
       </div>
@@ -1933,7 +1935,7 @@ window.submitAddHotel = async () => {
   if (!name || !city) { toast('Hotel name and city are required','error'); return; }
   const { error } = await supabase.from('hotels').insert({ name, location: city, city, stars, price_per_night: price, image_url: img, is_active: true });
   if (error) { toast('Error: ' + error.message, 'error'); return; }
-  toast('Hotel added ✅'); document.getElementById('hotel-add-form')?.remove(); loadHotels();
+  toast('Hotel added'); document.getElementById('hotel-add-form')?.remove(); loadHotels();
 };
 
 // ── ROOM ROW HELPERS (used inside hotel edit form) ────────────
@@ -2029,7 +2031,7 @@ window.editHotel = async (id) => {
       <input id="he-img" value="${esc(h.image_url||'')}" placeholder="https://images.unsplash.com/photo-xxx" style="width:100%;padding:.6rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;box-sizing:border-box"/>
     </div>
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
-      <label style="font-size:.8rem;font-weight:700">🛏️ Rooms</label>
+      <label style="font-size:.8rem;font-weight:700">Rooms</label>
       <button onclick="addRoomRow()" style="background:#fff;border:1.5px solid #C9922A;color:#C9922A;border-radius:6px;padding:5px 12px;font-size:.75rem;font-weight:700;cursor:pointer">+ Add Room</button>
     </div>
     <div id="h-rooms-wrap" style="margin-bottom:14px"></div>
@@ -2056,7 +2058,7 @@ window.submitEditHotel = async (id) => {
     description: desc, amenities, image_url: img, rooms,
   }).eq('id', id);
   if (error) { toast('Error: ' + error.message, 'error'); return; }
-  toast(`Hotel updated — ${rooms.length} room${rooms.length!==1?'s':''} saved ✅`);
+  toast(`Hotel updated — ${rooms.length} room${rooms.length!==1?'s':''} saved`);
   document.getElementById('hotel-edit-form')?.remove();
   loadHotels();
 };
@@ -2084,7 +2086,7 @@ async function loadDestinations() {
       <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px;position:relative;">
         ${d.image_url
           ? `<img src="${d.image_url}" style="width:100%;height:110px;object-fit:cover;border-radius:8px;margin-bottom:10px" onerror="this.style.display='none'"/>`
-          : `<div style="width:100%;height:110px;background:${d.bg_gradient||'linear-gradient(135deg,#4facfe,#00f2fe)'};border-radius:8px;margin-bottom:10px;display:flex;align-items:center;justify-content:center;font-size:2.5rem">${d.emoji||'🏖️'}</div>`}
+          : `<div style="width:100%;height:110px;background:${d.bg_gradient||'linear-gradient(135deg,#4facfe,#00f2fe)'};border-radius:8px;margin-bottom:10px"></div>`}
         <div style="font-weight:700;font-size:.9rem;margin-bottom:4px">${esc(d.name)}</div>
         <div style="font-size:.78rem;color:#64748b;margin-bottom:10px">${esc(d.tagline || d.country || d.dest_type || '')}${d.from_price ? ' · From ₹'+Number(d.from_price).toLocaleString('en-IN') : ''}</div>
         <div style="display:flex;gap:6px">
@@ -2101,7 +2103,6 @@ window.openAddDestination = () => {
   document.getElementById('dest-name').value = '';
   document.getElementById('dest-country').value = '';
   document.getElementById('dest-state').value = '';
-  document.getElementById('dest-emoji').value = '';
   document.getElementById('dest-type').value = 'domestic';
   document.getElementById('dest-tagline').value = '';
   document.getElementById('dest-price').value = '';
@@ -2126,7 +2127,6 @@ window.editDestination = async (id) => {
   document.getElementById('dest-name').value = d.name || '';
   document.getElementById('dest-country').value = d.country || '';
   document.getElementById('dest-state').value = d.state || '';
-  document.getElementById('dest-emoji').value = d.emoji || '';
   document.getElementById('dest-type').value = d.dest_type || 'domestic';
   document.getElementById('dest-tagline').value = d.tagline || '';
   document.getElementById('dest-price').value = d.from_price || '';
@@ -2147,7 +2147,7 @@ window.saveDestination = async () => {
   const name     = document.getElementById('dest-name').value.trim();
   const country  = document.getElementById('dest-country').value.trim() || 'India';
   const state    = document.getElementById('dest-state').value.trim() || null;
-  const emoji    = document.getElementById('dest-emoji').value.trim() || '🏖️';
+  const emoji    = '';
   const destType = document.getElementById('dest-type').value || 'domestic';
   const tagline  = document.getElementById('dest-tagline').value.trim() || null;
   const fromPrice= parseFloat(document.getElementById('dest-price').value) || 0;
@@ -2192,7 +2192,7 @@ async function loadPromos() {
     if (error?.code === '42P01') {
       tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:2rem">
         <div style="font-size:.88rem;color:#92400e;background:#fef3c7;border-radius:10px;padding:14px 16px;display:inline-block">
-          ⚠️ promo_codes table not created yet.<br/>
+           promo_codes table not created yet.<br/>
           <strong>Run this SQL in Supabase → SQL Editor:</strong><br/>
           <code style="font-size:.72rem;display:block;margin-top:6px;text-align:left;background:#fff;padding:8px;border-radius:6px">
             CREATE TABLE promo_codes (id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
@@ -2394,15 +2394,15 @@ async function loadBlogPosts() {
     if (!data?.length) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:2rem;color:#94a3b8">No blog posts yet. Click "+ New Post" to add one.</td></tr>'; return; }
     tbody.innerHTML = data.map(p => `
       <tr>
-        <td>${p.cover_image_url ? `<img src="${esc(p.cover_image_url)}" style="width:44px;height:34px;object-fit:cover;border-radius:5px;vertical-align:middle;margin-right:8px"/>` : `<span style="font-size:1.2rem;margin-right:8px">${esc(p.emoji||'🗺️')}</span>`}<strong>${esc(p.title)}</strong><br/><span style="font-size:.72rem;color:#94a3b8;font-family:monospace;margin-left:${p.cover_image_url?'52px':'28px'}">/${esc(p.slug)}</span></td>
+        <td>${p.cover_image_url ? `<img src="${esc(p.cover_image_url)}" style="width:44px;height:34px;object-fit:cover;border-radius:5px;vertical-align:middle;margin-right:8px"/>` : ''}<strong>${esc(p.title)}</strong><br/><span style="font-size:.72rem;color:#94a3b8;font-family:monospace;margin-left:${p.cover_image_url?'52px':'0'}">/${esc(p.slug)}</span></td>
         <td style="font-size:.78rem">${esc(p.category||'—')}</td>
         <td style="font-size:.78rem">${esc(p.author||'—')}</td>
-        <td>${p.is_featured ? '⭐' : '—'}</td>
+        <td>${p.is_featured ? '✓' : '—'}</td>
         <td>${pill(p.is_published ? 'active' : 'inactive')}</td>
         <td style="display:flex;gap:6px">
-          <button onclick="editBlogPost('${p.id}')" style="padding:4px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:.75rem;cursor:pointer;background:#fff">✏️ Edit</button>
-          <button onclick="toggleBlogPublish('${p.id}',${p.is_published})" style="padding:4px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:.75rem;cursor:pointer;background:#fff">${p.is_published?'🙈 Unpublish':'👁 Publish'}</button>
-          <button onclick="deleteBlogPost('${p.id}')" style="padding:4px 10px;border:1px solid #fee2e2;border-radius:6px;font-size:.75rem;cursor:pointer;color:#991b1b;background:#fff">🗑 Delete</button>
+          <button onclick="editBlogPost('${p.id}')" style="padding:4px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:.75rem;cursor:pointer;background:#fff">Edit</button>
+          <button onclick="toggleBlogPublish('${p.id}',${p.is_published})" style="padding:4px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:.75rem;cursor:pointer;background:#fff">${p.is_published?'Unpublish':'Publish'}</button>
+          <button onclick="deleteBlogPost('${p.id}')" style="padding:4px 10px;border:1px solid #fee2e2;border-radius:6px;font-size:.75rem;cursor:pointer;color:#991b1b;background:#fff">Delete</button>
         </td>
       </tr>`).join('');
   } catch(e) { document.getElementById('blog-load').style.display='none'; toast('Failed to load blog posts: ' + e.message, 'error'); }
@@ -2410,10 +2410,9 @@ async function loadBlogPosts() {
 
 window.openAddBlogPost = () => {
   document.getElementById('bp-id').value = '';
-  ['bp-title','bp-slug','bp-excerpt','bp-emoji','bp-category','bp-bg','bp-author','bp-readtime','bp-tags','bp-body','bp-cover-image'].forEach(id=>document.getElementById(id).value='');
+  ['bp-title','bp-slug','bp-excerpt','bp-category','bp-bg','bp-author','bp-readtime','bp-tags','bp-body','bp-cover-image'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('bp-slug').dataset.touched = '0';
   document.getElementById('bp-badge').value = 'badge-gold';
-  document.getElementById('bp-emoji').value = '🗺️';
   document.getElementById('bp-bg').value = 'linear-gradient(135deg,#667eea,#764ba2)';
   document.getElementById('bp-author').value = 'ZoomFly Team';
   document.getElementById('bp-readtime').value = '5 min read';
@@ -2432,7 +2431,6 @@ window.editBlogPost = (id) => {
   document.getElementById('bp-slug').value = p.slug || '';
   document.getElementById('bp-slug').dataset.touched = '1';
   document.getElementById('bp-excerpt').value = p.excerpt || '';
-  document.getElementById('bp-emoji').value = p.emoji || '';
   document.getElementById('bp-category').value = p.category || '';
   document.getElementById('bp-badge').value = p.badge_class || 'badge-gold';
   document.getElementById('bp-bg').value = p.bg_gradient || '';
@@ -2458,7 +2456,7 @@ window.saveBlogPost = async () => {
   const payload = {
     title, slug, body,
     excerpt: document.getElementById('bp-excerpt').value.trim() || null,
-    emoji: document.getElementById('bp-emoji').value.trim() || '🗺️',
+    emoji: '',
     category: document.getElementById('bp-category').value.trim() || 'Guide',
     badge_class: document.getElementById('bp-badge').value,
     bg_gradient: document.getElementById('bp-bg').value.trim() || 'linear-gradient(135deg,#667eea,#764ba2)',
@@ -2475,7 +2473,7 @@ window.saveBlogPost = async () => {
     : await supabase.from('blog_posts').insert({ ...payload, published_at: new Date().toISOString() });
   if (error) { toast('Error: ' + error.message, 'error'); return; }
   document.getElementById('blog-modal').style.display = 'none';
-  toast(id ? 'Blog post updated ✅' : 'Blog post published ✅');
+  toast(id ? 'Blog post updated' : 'Blog post published');
   loadBlogPosts();
 };
 
@@ -2513,9 +2511,9 @@ async function loadFaqs() {
         <td>${f.sort_order}</td>
         <td>${pill(f.is_published ? 'active' : 'inactive')}</td>
         <td style="display:flex;gap:6px">
-          <button onclick="editFaq('${f.id}')" style="padding:4px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:.75rem;cursor:pointer;background:#fff">✏️ Edit</button>
-          <button onclick="toggleFaqPublish('${f.id}',${f.is_published})" style="padding:4px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:.75rem;cursor:pointer;background:#fff">${f.is_published?'🙈 Hide':'👁 Show'}</button>
-          <button onclick="deleteFaq('${f.id}')" style="padding:4px 10px;border:1px solid #fee2e2;border-radius:6px;font-size:.75rem;cursor:pointer;color:#991b1b;background:#fff">🗑 Delete</button>
+          <button onclick="editFaq('${f.id}')" style="padding:4px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:.75rem;cursor:pointer;background:#fff">Edit</button>
+          <button onclick="toggleFaqPublish('${f.id}',${f.is_published})" style="padding:4px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:.75rem;cursor:pointer;background:#fff">${f.is_published?'Hide':'Show'}</button>
+          <button onclick="deleteFaq('${f.id}')" style="padding:4px 10px;border:1px solid #fee2e2;border-radius:6px;font-size:.75rem;cursor:pointer;color:#991b1b;background:#fff">Delete</button>
         </td>
       </tr>`).join('');
   } catch(e) { document.getElementById('faq-load').style.display='none'; toast('Failed to load FAQs: ' + e.message, 'error'); }
@@ -2560,7 +2558,7 @@ window.saveFaq = async () => {
     : await supabase.from('faqs').insert(payload);
   if (error) { toast('Error: ' + error.message, 'error'); return; }
   document.getElementById('faq-modal').style.display = 'none';
-  toast(id ? 'FAQ updated ✅' : 'FAQ added ✅');
+  toast(id ? 'FAQ updated' : 'FAQ added');
   loadFaqs();
 };
 
@@ -2599,9 +2597,9 @@ async function loadJobs() {
         <td style="font-size:.78rem">${esc(j.salary_range||'—')}</td>
         <td>${pill(j.is_active ? 'active' : 'inactive')}</td>
         <td style="display:flex;gap:6px">
-          <button onclick="editJob('${j.id}')" style="padding:4px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:.75rem;cursor:pointer;background:#fff">✏️ Edit</button>
-          <button onclick="toggleJobActive('${j.id}',${j.is_active})" style="padding:4px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:.75rem;cursor:pointer;background:#fff">${j.is_active?'🙈 Close':'👁 Reopen'}</button>
-          <button onclick="deleteJob('${j.id}')" style="padding:4px 10px;border:1px solid #fee2e2;border-radius:6px;font-size:.75rem;cursor:pointer;color:#991b1b;background:#fff">🗑 Delete</button>
+          <button onclick="editJob('${j.id}')" style="padding:4px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:.75rem;cursor:pointer;background:#fff">Edit</button>
+          <button onclick="toggleJobActive('${j.id}',${j.is_active})" style="padding:4px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:.75rem;cursor:pointer;background:#fff">${j.is_active?'Close':'Reopen'}</button>
+          <button onclick="deleteJob('${j.id}')" style="padding:4px 10px;border:1px solid #fee2e2;border-radius:6px;font-size:.75rem;cursor:pointer;color:#991b1b;background:#fff">Delete</button>
         </td>
       </tr>`).join('');
   } catch(e) { document.getElementById('job-load').style.display='none'; toast('Failed to load job openings: ' + e.message, 'error'); }
@@ -2638,7 +2636,7 @@ window.saveJob = async () => {
   const payload = {
     title,
     department: document.getElementById('jb-dept').value.trim() || 'General',
-    department_icon: document.getElementById('jb-icon').value.trim() || '💼',
+    department_icon: document.getElementById('jb-icon').value.trim() || '',
     location: document.getElementById('jb-location').value.trim() || 'Delhi',
     job_type: document.getElementById('jb-type').value.trim() || 'Full-time',
     salary_range: document.getElementById('jb-salary').value.trim() || null,
@@ -2652,7 +2650,7 @@ window.saveJob = async () => {
     : await supabase.from('job_openings').insert(payload);
   if (error) { toast('Error: ' + error.message, 'error'); return; }
   document.getElementById('job-modal').style.display = 'none';
-  toast(id ? 'Job updated ✅' : 'Job posted ✅');
+  toast(id ? 'Job updated' : 'Job posted');
   loadJobs();
 };
 
@@ -2675,7 +2673,7 @@ window.deleteJob = async (id) => {
 
 window.saveSettings = async () => {
   const btn = document.querySelector('button[onclick="saveSettings()"]');
-  if (btn) { btn.textContent = '⏳ Saving...'; btn.disabled = true; }
+  if (btn) { btn.textContent = 'Saving...'; btn.disabled = true; }
   // NOTE: these column names must match public.site_settings exactly
   // (see 03_zoomfly_site_settings_fix.sql) — a previous version of this
   // function used company_name/support_phone/support_email before those
@@ -2704,13 +2702,13 @@ window.saveSettings = async () => {
   try {
     const { error } = await supabase.from('site_settings').upsert(settings);
     if (error) throw error;
-    toast('Settings saved successfully ✅');
+    toast('Settings saved successfully');
   } catch(e) {
     // Fallback: save to localStorage so settings aren't lost
     localStorage.setItem('zf_site_settings', JSON.stringify(settings));
     toast('Save failed — run 03_zoomfly_site_settings_fix.sql first. Error: ' + e.message, 'error');
   } finally {
-    if (btn) { btn.textContent = '💾 Save All Settings'; btn.disabled = false; }
+    if (btn) { btn.textContent = 'Save All Settings'; btn.disabled = false; }
   }
 };
 
@@ -2784,7 +2782,7 @@ function buildReminderQueue() {
 window.loadReminderQueue = () => {
   const queue = buildReminderQueue();
   const el = document.getElementById('rm-queue-table');
-  if (!queue.length) { el.innerHTML = '<div style="text-align:center;padding:2rem;color:#94a3b8">✅ No pending reminders — all caught up!</div>'; return; }
+  if (!queue.length) { el.innerHTML = '<div style="text-align:center;padding:2rem;color:#94a3b8">No pending reminders — all caught up!</div>'; return; }
   el.innerHTML = `<table><thead><tr><th>Customer</th><th>Booking</th><th>Type</th><th>Trigger</th><th>Actions</th></tr></thead>
     <tbody>${queue.map(q => `
       <tr>
@@ -2793,7 +2791,7 @@ window.loadReminderQueue = () => {
         <td>${q.pre ? pill('pending').replace('Pending','Pre-trip') : pill('confirmed').replace('Confirmed','Post-trip')}</td>
         <td style="font-size:.82rem;color:#64748b">${q.label}</td>
         <td><div class="ab">
-          <button class="bs" style="color:#16a34a" onclick="sendReminderMsg('${q.booking.id}','${q.type}')">📱 Send WhatsApp</button>
+          <button class="bs" style="color:#16a34a" onclick="sendReminderMsg('${q.booking.id}','${q.type}')">Send WhatsApp</button>
           <button class="bs" onclick="skipReminderMsg('${q.booking.id}','${q.type}')">Skip</button>
         </div></td>
       </tr>`).join('')}</tbody></table>`;
@@ -2950,7 +2948,7 @@ window.loadPageContent = async () => {
   msg.textContent = '';
   const { data, error } = await supabase.from('page_contents')
     .select('content').eq('page_slug', page).maybeSingle();
-  if (error) { msg.style.color='#dc2626'; msg.textContent = '❌ Error loading: ' + error.message; }
+  if (error) { msg.style.color='#dc2626'; msg.textContent = 'Error loading: ' + error.message; }
   editor.value = data?.content || '(No content saved yet. Paste your HTML content here.)';
 };
 
@@ -2959,18 +2957,18 @@ window.savePageContent = async () => {
   const content = document.getElementById('page-content-editor').value;
   const msg     = document.getElementById('page-save-msg');
   const btn     = document.querySelector('button[onclick="savePageContent()"]');
-  if (btn) { btn.textContent = '⏳ Saving...'; btn.disabled = true; }
+  if (btn) { btn.textContent = 'Saving...'; btn.disabled = true; }
   const { error } = await supabase.from('page_contents').upsert({
     page_slug: page, content, updated_at: new Date().toISOString()
   }, { onConflict: 'page_slug' });
   if (error) {
     msg.style.color   = '#dc2626';
-    msg.textContent   = '❌ Error: ' + error.message;
+    msg.textContent   = 'Error: ' + error.message;
   } else {
     msg.style.color   = '#059669';
-    msg.textContent   = '✅ Content saved!';
+    msg.textContent   = 'Content saved!';
   }
-  if (btn) { btn.textContent = '💾 Save Page Content'; btn.disabled = false; }
+  if (btn) { btn.textContent = 'Save Page Content'; btn.disabled = false; }
 };
 
 // ── ADMIN CUSTOMERS PAGE ──────────────────────────────────────
@@ -3043,7 +3041,7 @@ window.submitAddBus = async () => {
     is_active: true,
   });
   if (error) { toast('Error: ' + error.message, 'error'); return; }
-  toast('Bus route added ✅'); document.getElementById('bus-add-form')?.remove(); loadBuses();
+  toast('Bus route added'); document.getElementById('bus-add-form')?.remove(); loadBuses();
 };
 
 window.deleteBus = async (id) => {
@@ -3115,7 +3113,7 @@ window.submitAddCab = async () => {
     is_active: true,
   });
   if (error) { toast('Error: ' + error.message, 'error'); return; }
-  toast('Cab service added ✅'); document.getElementById('cab-add-form')?.remove(); loadCabs();
+  toast('Cab service added'); document.getElementById('cab-add-form')?.remove(); loadCabs();
 };
 
 window.deleteCab = async (id) => {
@@ -3155,7 +3153,7 @@ async function loadFlightEnquiries() {
         <td>${esc(f.budget||'—')}</td>
         <td>${pill(f.status||'new')}</td>
         <td style="display:flex;gap:6px">
-          <button onclick="window.open('https://wa.me/${esc((f.phone||'').replace(/\D/g,''))}','_blank')" style="padding:4px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:.75rem;cursor:pointer;background:#fff">📞 Call</button>
+          <button onclick="window.open('https://wa.me/${esc((f.phone||'').replace(/\D/g,''))}','_blank')" style="padding:4px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:.75rem;cursor:pointer;background:#fff">Call</button>
           <button onclick="markFlightDone('${f.id}')" style="padding:4px 10px;border:1px solid #dcfce7;border-radius:6px;font-size:.75rem;cursor:pointer;color:#15803d;background:#fff">✓ Done</button>
         </td>
       </tr>`;
@@ -3227,11 +3225,11 @@ async function loadReviews() {
         <td><strong>${esc(r.title||'—')}</strong><br/><span style="font-size:.75rem;color:#94a3b8">${esc(r.profiles?.full_name||'Guest')}</span></td>
         <td style="max-width:280px;font-size:.8rem;color:#475569">${esc((r.body||'').slice(0,120))}${(r.body||'').length>120?'…':''}</td>
         <td style="font-size:.78rem">${esc(r.packages?.title || r.hotels?.name || '—')}</td>
-        <td>${r.is_verified ? '✅' : '—'}</td>
+        <td>${r.is_verified ? '✓' : '—'}</td>
         <td>${pill(r.is_published ? 'active' : 'inactive')}</td>
         <td style="display:flex;gap:6px">
-          <button onclick="toggleReview('${r.id}',${r.is_published})" style="padding:4px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:.75rem;cursor:pointer;background:#fff">${r.is_published ? '🙈 Unpublish' : '👁 Publish'}</button>
-          <button onclick="deleteReview('${r.id}')" style="padding:4px 10px;border:1px solid #fee2e2;border-radius:6px;font-size:.75rem;cursor:pointer;color:#991b1b;background:#fff">🗑 Delete</button>
+          <button onclick="toggleReview('${r.id}',${r.is_published})" style="padding:4px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:.75rem;cursor:pointer;background:#fff">${r.is_published ? 'Unpublish' : 'Publish'}</button>
+          <button onclick="deleteReview('${r.id}')" style="padding:4px 10px;border:1px solid #fee2e2;border-radius:6px;font-size:.75rem;cursor:pointer;color:#991b1b;background:#fff">Delete</button>
         </td>
       </tr>`).join('');
   } catch(e) { document.getElementById('rev-load').style.display='none'; toast('Failed to load reviews: ' + e.message,'error'); }
@@ -3293,7 +3291,7 @@ async function loadMessagesInbox() {
         <td style="max-width:260px;font-size:.8rem;color:#475569">${esc((t.last.body||'').slice(0,80))}${(t.last.body||'').length>80?'…':''}</td>
         <td style="font-size:.75rem;color:#94a3b8">${new Date(t.last.created_at).toLocaleString('en-IN',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}</td>
         <td>${t.unread ? `<span style="background:#ef4444;color:#fff;border-radius:10px;padding:2px 8px;font-size:.72rem;font-weight:700">${t.unread}</span>` : '—'}</td>
-        <td><button onclick="viewThread('${t.bookingId}')" style="padding:4px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:.75rem;cursor:pointer;background:#fff">💬 View & Reply</button></td>
+        <td><button onclick="viewThread('${t.bookingId}')" style="padding:4px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:.75rem;cursor:pointer;background:#fff">View & Reply</button></td>
       </tr>`).join('');
   } catch(e) { document.getElementById('msg-load').style.display='none'; toast('Failed to load messages: ' + e.message, 'error'); }
 }
@@ -3332,7 +3330,7 @@ window.sendAdminReply = async () => {
   });
   if (error) { toast('Error: ' + error.message, 'error'); return; }
   document.getElementById('msg-reply').value = '';
-  toast('Reply sent ✅');
+  toast('Reply sent');
   await loadMessagesInbox();
   viewThread(currentThreadBookingId);
 };
@@ -3343,7 +3341,7 @@ window.approvePartner = async (id, type, email, name) => {
   const { error } = await supabase.from(table).update({ status: 'active', approved_at: new Date().toISOString() }).eq('id', id);
   if (error) { toast('Error: ' + error.message, 'error'); return; }
   // Send approval notification via WhatsApp (no email service yet)
-  const msg = `Hi ${name}! 🎉 Your application as a ZoomFly ${type} partner has been APPROVED. You can now log in to your partner portal and start earning commissions. Welcome aboard! — ZoomFly Team`;
+  const msg = `Hi ${name}!  Your application as a ZoomFly ${type} partner has been APPROVED. You can now log in to your partner portal and start earning commissions. Welcome aboard! — ZoomFly Team`;
   window.open('https://wa.me/' + email.replace(/\D/g,'') + '?text=' + encodeURIComponent(msg), '_blank');
   toast('Partner approved and notified');
   if (table === 'agents') loadAgents(); else loadVendors();
@@ -3356,13 +3354,13 @@ window.handleImgUpload = async (files) => {
   if (!files?.length) return;
   const status = document.getElementById('pm-img-status');
   const preview = document.getElementById('pm-img-preview');
-  status.textContent = '⏳ Uploading...';
+  status.textContent = 'Uploading...';
   status.style.color = '#64748b';
   uploadedImageUrls = [...uploadedImageUrls]; // keep existing
 
   for (const file of Array.from(files)) {
     if (file.size > 2 * 1024 * 1024) {
-      status.textContent = `❌ ${file.name} is too large (max 2MB)`;
+      status.textContent = `${file.name} is too large (max 2MB)`;
       status.style.color = '#dc2626';
       continue;
     }
@@ -3386,7 +3384,7 @@ window.handleImgUpload = async (files) => {
           style="position:absolute;top:-6px;right:-6px;width:18px;height:18px;background:#dc2626;color:#fff;border:none;border-radius:50%;font-size:.6rem;cursor:pointer;display:flex;align-items:center;justify-content:center">✕</button>`;
       preview.appendChild(img);
     } catch(e) {
-      status.textContent = `❌ Upload failed: ${e.message}. Using URL input fallback.`;
+      status.textContent = `Upload failed: ${e.message}. Using URL input fallback.`;
       status.style.color = '#dc2626';
     }
   }
@@ -3394,7 +3392,7 @@ window.handleImgUpload = async (files) => {
   // Store URLs in hidden input
   document.getElementById('pm-images').value = uploadedImageUrls.join(',');
   status.textContent = uploadedImageUrls.length
-    ? `✅ ${uploadedImageUrls.length} photo${uploadedImageUrls.length > 1 ? 's' : ''} uploaded`
+    ? `${uploadedImageUrls.length} photo${uploadedImageUrls.length > 1 ? 's' : ''} uploaded`
     : '';
   status.style.color = '#059669';
 };
@@ -3410,7 +3408,33 @@ window.removeUploadedImg = (url, container) => {
   document.getElementById('pm-images').value = uploadedImageUrls.join(',');
   container.remove();
   const status = document.getElementById('pm-img-status');
-  if (status) status.textContent = uploadedImageUrls.length ? `✅ ${uploadedImageUrls.length} photo(s) uploaded` : '';
+  if (status) status.textContent = uploadedImageUrls.length ? `${uploadedImageUrls.length} photo(s) uploaded` : '';
+};
+
+window.addImageByUrl = () => {
+  const input = document.getElementById('pm-img-url');
+  const url = (input.value || '').trim();
+  if (!url) return;
+  try { new URL(url); } catch { toast('Enter a valid image URL', 'error'); return; }
+  if (uploadedImageUrls.includes(url)) { toast('That photo URL is already added', 'error'); input.value=''; return; }
+
+  uploadedImageUrls.push(url);
+  document.getElementById('pm-images').value = uploadedImageUrls.join(',');
+
+  const preview = document.getElementById('pm-img-preview');
+  const img = document.createElement('div');
+  img.style.cssText = 'position:relative;flex-shrink:0';
+  img.innerHTML = `<img src="${url}" style="width:80px;height:60px;object-fit:cover;border-radius:6px;border:1.5px solid #e2e8f0" onerror="this.parentElement.remove()"/>
+    <button onclick="removeUploadedImg('${url}',this.parentElement)"
+      style="position:absolute;top:-6px;right:-6px;width:18px;height:18px;background:#dc2626;color:#fff;border:none;border-radius:50%;font-size:.6rem;cursor:pointer;display:flex;align-items:center;justify-content:center">✕</button>`;
+  preview.appendChild(img);
+
+  const status = document.getElementById('pm-img-status');
+  if (status) {
+    status.textContent = `${uploadedImageUrls.length} photo${uploadedImageUrls.length > 1 ? 's' : ''} added`;
+    status.style.color = '#059669';
+  }
+  input.value = '';
 };
 
 // ── GENERIC SINGLE-IMAGE UPLOAD (Blog / Hotels / Destinations) ──
@@ -3423,11 +3447,11 @@ async function uploadSingleImage(file, folder, cfg) {
   const hidden  = document.getElementById(cfg.hiddenId);
   if (!file) return;
   if (file.size > 2 * 1024 * 1024) {
-    status.textContent = '❌ Image too large (max 2MB)';
+    status.textContent = 'Image too large (max 2MB)';
     status.style.color = '#dc2626';
     return;
   }
-  status.textContent = '⏳ Uploading...';
+  status.textContent = 'Uploading...';
   status.style.color = '#64748b';
   try {
     const ext  = file.name.split('.').pop();
@@ -3437,10 +3461,10 @@ async function uploadSingleImage(file, folder, cfg) {
     const { data: urlData } = supabase.storage.from('zoomfly-images').getPublicUrl(path);
     hidden.value = urlData.publicUrl;
     if (preview) preview.innerHTML = `<img src="${urlData.publicUrl}" style="width:100%;max-width:220px;height:120px;object-fit:cover;border-radius:8px;border:1.5px solid #e2e8f0"/>`;
-    status.textContent = '✅ Photo uploaded';
+    status.textContent = 'Photo uploaded';
     status.style.color = '#059669';
   } catch (e) {
-    status.textContent = `❌ Upload failed: ${e.message}. You can paste a URL directly instead.`;
+    status.textContent = `Upload failed: ${e.message}. You can paste a URL directly instead.`;
     status.style.color = '#dc2626';
   }
 }
@@ -3596,7 +3620,7 @@ async function loadOverviewEnquiries() {
         <td>${pill(e.status)}</td>
         <td><div class="ab">
           <button class="bs bd" onclick="resolveEnq('${e.id}')">✓ Done</button>
-          <button class="bs bv" onclick="window.open('https://wa.me/${esc(e.phone?.replace(/\D/g,''))}','_blank')">📞</button>
+          <button class="bs bv" onclick="window.open('https://wa.me/${esc(e.phone?.replace(/\D/g,''))}','_blank')"></button>
         </div></td>
       </tr>`).join('');
   } catch(e) { document.getElementById('ov-enq-load').style.display='none'; }
@@ -3622,7 +3646,7 @@ async function loadEnquiries() {
         <td>${pill(e.status)}</td>
         <td><div class="ab">
           <button class="bs bd" onclick="resolveEnq('${e.id}')">✓ Done</button>
-          <button class="bs bv" onclick="window.open('https://wa.me/${esc((e.phone||'').replace(/\D/g,''))}','_blank')">📞</button>
+          <button class="bs bv" onclick="window.open('https://wa.me/${esc((e.phone||'').replace(/\D/g,''))}','_blank')"></button>
         </div></td>
       </tr>`).join('');
   } catch(e) { load.style.display='none'; toast('Failed to load enquiries','error'); }
@@ -3726,9 +3750,9 @@ function renderBookingsTable() {
       <td>${pill(b.payment_status||'pending')}</td>
       <td>${pill(b.status)}</td>
       <td><div class="ab">
-        <button class="bs bv" onclick="openBkDrawer('${b.id}')">👁️</button>
-        <button class="bs" onclick="whatsappBkCustomer('${esc((b.customer_whatsapp||b.customer_phone||'').toString())}','${esc(b.booking_ref)}','${esc(b.customer_name||'')}')">💬</button>
-        <button class="bs" onclick="openBkStatusModal('${b.id}')">🔄</button>
+        <button class="bs bv" onclick="openBkDrawer('${b.id}')"></button>
+        <button class="bs" onclick="whatsappBkCustomer('${esc((b.customer_whatsapp||b.customer_phone||'').toString())}','${esc(b.booking_ref)}','${esc(b.customer_name||'')}')"></button>
+        <button class="bs" onclick="openBkStatusModal('${b.id}')"></button>
         ${b.status!=='cancelled' && b.status!=='completed' ? `<button class="bs" style="color:#dc2626" onclick="quickCancelBk('${b.id}')">✕</button>` : ''}
       </div></td>
     </tr>`).join('');
@@ -3793,10 +3817,10 @@ window.openBkDrawer = (bookingId) => {
       [...b.status_history].reverse().map(s => `<div style="display:flex;gap:10px;margin-bottom:8px;font-size:.82rem"><div style="width:8px;height:8px;border-radius:50%;background:#C9922A;margin-top:5px;flex-shrink:0"></div><div><div style="font-weight:700">${esc(s.status)}</div><div style="color:#94a3b8">${fmtDateTime(s.changed_at)}${s.note?' · '+esc(s.note):''}</div></div></div>`).join('') : ''}
   `;
   document.getElementById('bk-drawer-actions').innerHTML = `
-    <button class="btn-add" onclick="updateBkStatus('${b.id}','confirmed')">✅ Confirm</button>
-    <button class="btn-add" style="background:#25D366;color:#fff" onclick="whatsappBkCustomer('${esc((b.customer_whatsapp||b.customer_phone||'').toString())}','${esc(b.booking_ref)}','${esc(b.customer_name||'')}')">💬 WhatsApp</button>
-    <button class="btn-add" onclick="openBkStatusModal('${b.id}')">🔄 Update Status</button>
-    <button class="btn-add" style="background:#dc2626;color:#fff" onclick="quickCancelBk('${b.id}')">❌ Cancel</button>
+    <button class="btn-add" onclick="updateBkStatus('${b.id}','confirmed')">Confirm</button>
+    <button class="btn-add" style="background:#25D366;color:#fff" onclick="whatsappBkCustomer('${esc((b.customer_whatsapp||b.customer_phone||'').toString())}','${esc(b.booking_ref)}','${esc(b.customer_name||'')}')">WhatsApp</button>
+    <button class="btn-add" onclick="openBkStatusModal('${b.id}')">Update Status</button>
+    <button class="btn-add" style="background:#dc2626;color:#fff" onclick="quickCancelBk('${b.id}')">Cancel</button>
   `;
 };
 window.closeBkDrawer = () => {
@@ -3887,7 +3911,7 @@ function fmtAmt(n) { return parseFloat(n||0).toLocaleString('en-IN',{minimumFrac
 function fmtDate(d) { if(!d) return '—'; try { return new Date(d).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}); } catch(_) { return d; } }
 function fmtDateTime(d) { if(!d) return '—'; try { return new Date(d).toLocaleString('en-IN',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit',hour12:true}); } catch(_) { return d; } }
 function capitalize(s) { return s ? s.charAt(0).toUpperCase()+s.slice(1) : '—'; }
-function svcIcon(t) { return {flight:'✈️',hotel:'🏨',package:'🧳',bus:'🚌',cab:'🚖'}[t]||'📦'; }
+function svcIcon(t) { return {flight:'',hotel:'',package:'',bus:'',cab:''}[t]||''; }
 function sanitizeBkPhone(p) { if(!p) return WA_NUMBER; let ph = String(p).replace(/\D/g,''); if (ph.length===10) ph='91'+ph; return ph; }
 
 // ── WORKFLOW (KANBAN) ────────────────────────────────────────
@@ -3895,12 +3919,12 @@ function sanitizeBkPhone(p) { if(!p) return WA_NUMBER; let ph = String(p).replac
 // the Bookings tab above — this is just a different (pipeline) view
 // of the same underlying bookings.
 const WF_COLUMNS = [
-  { id:'pending',    label:'Pending',    icon:'⏳', next:['confirmed','cancelled'] },
-  { id:'confirmed',  label:'Confirmed',  icon:'✅', next:['processing','cancelled'] },
-  { id:'processing', label:'Processing', icon:'⚙️', next:['completed','cancelled'] },
-  { id:'completed',  label:'Completed',  icon:'🎉', next:[] },
-  { id:'cancelled',  label:'Cancelled',  icon:'❌', next:['refunded'] },
-  { id:'refunded',   label:'Refunded',   icon:'💰', next:[] },
+  { id:'pending',    label:'Pending',    next:['confirmed','cancelled'] },
+  { id:'confirmed',  label:'Confirmed',  next:['processing','cancelled'] },
+  { id:'processing', label:'Processing', next:['completed','cancelled'] },
+  { id:'completed',  label:'Completed',  next:[] },
+  { id:'cancelled',  label:'Cancelled',  next:['refunded'] },
+  { id:'refunded',   label:'Refunded',   next:[] },
 ];
 let wfFiltered = [];
 
@@ -3950,11 +3974,11 @@ function renderWorkflowBoard() {
     return `
       <div style="flex:0 0 260px;background:#f8fafc;border-radius:12px;padding:10px;max-height:calc(100vh - 320px);display:flex;flex-direction:column">
         <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 6px 10px;flex-shrink:0">
-          <div style="font-size:.85rem;font-weight:700">${col.icon} ${col.label} <span style="background:#e2e8f0;border-radius:10px;padding:1px 8px;font-size:.72rem;margin-left:4px">${cards.length}</span></div>
+          <div style="font-size:.85rem;font-weight:700">${col.label} <span style="background:#e2e8f0;border-radius:10px;padding:1px 8px;font-size:.72rem;margin-left:4px">${cards.length}</span></div>
           <div style="font-size:.72rem;color:#94a3b8">₹${fmtAmt(total)}</div>
         </div>
         <div style="overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:8px">
-          ${cards.length === 0 ? '<div style="text-align:center;padding:1.5rem 0;color:#94a3b8;font-size:.8rem">✨ No bookings</div>' : cards.map(b => renderWorkflowCard(b, col)).join('')}
+          ${cards.length === 0 ? '<div style="text-align:center;padding:1.5rem 0;color:#94a3b8;font-size:.8rem">No bookings</div>' : cards.map(b => renderWorkflowCard(b, col)).join('')}
         </div>
       </div>`;
   }).join('');
@@ -3979,7 +4003,7 @@ function renderWorkflowCard(b, col) {
         <span style="color:#94a3b8">${wfTimeAgo(b.created_at)}</span>
       </div>
       <div style="display:flex;gap:4px" onclick="event.stopPropagation()">
-        <button class="bs" onclick="whatsappBkCustomer('${esc((b.customer_whatsapp||b.customer_phone||'').toString())}','${esc(b.booking_ref)}','${esc(b.customer_name||'')}')">💬</button>
+        <button class="bs" onclick="whatsappBkCustomer('${esc((b.customer_whatsapp||b.customer_phone||'').toString())}','${esc(b.booking_ref)}','${esc(b.customer_name||'')}')"></button>
         ${next ? `<button class="bs" style="flex:1" onclick="wfMoveCard('${b.id}','${next}')">→ ${capitalize(next)}</button>` : ''}
       </div>
     </div>`;
@@ -3990,9 +4014,9 @@ function getWorkflowUrgency(b) {
   const d = td.date || td.check_in || td.start_date || td.pickup_date;
   if (!d) return { color:null, label:'' };
   const days = Math.round((new Date(d) - new Date()) / 86400000);
-  if (days <= 0) return { color:'#ef4444', label:'🔴 TODAY' };
-  if (days <= 1) return { color:'#ef4444', label:'🔴 TMRW' };
-  if (days <= 3) return { color:'#E8B84B', label:`🟠 ${days}d` };
+  if (days <= 0) return { color:'#ef4444', label:'TODAY' };
+  if (days <= 1) return { color:'#ef4444', label:'TMRW' };
+  if (days <= 3) return { color:'#E8B84B', label:`${days}d` };
   return { color:null, label:'' };
 }
 
@@ -4015,7 +4039,6 @@ function wfTimeAgo(d) {
 window.openAddPackage = () => {
   document.getElementById('pkg-modal-title').textContent = 'Add New Package';
   _origClearFields();
-  document.getElementById('pm-emoji').value = '🗺️';
   document.getElementById('pm-type').value = 'domestic';
   document.getElementById('pm-cat').value = 'adventure';
   document.getElementById('pm-price').value = '';
@@ -4036,7 +4059,6 @@ window.editPackage = async (id) => {
   document.getElementById('pm-slug').value = p.slug || '';
   document.getElementById('pm-type').value = p.type || 'domestic';
   document.getElementById('pm-cat').value = p.category || 'adventure';
-  document.getElementById('pm-emoji').value = p.emoji || '🗺️';
   document.getElementById('pm-price').value = p.price || '';
   document.getElementById('pm-old-price').value = p.old_price || '';
   document.getElementById('pm-days').value = p.duration_days || '';
@@ -4059,7 +4081,7 @@ window.editPackage = async (id) => {
       ).join('');
     }
     const stat = document.getElementById('pm-img-status');
-    if (stat && photos.length) stat.textContent = `✅ ${photos.length} photo(s) loaded`;
+    if (stat && photos.length) stat.textContent = `${photos.length} photo(s) loaded`;
   }
   if (document.getElementById('pm-itinerary') && p.itinerary) {
     document.getElementById('pm-itinerary').value = (p.itinerary || []).map(d => `${d.title||('Day '+d.day)}: ${d.desc||''}`).join('\n');
@@ -4095,7 +4117,7 @@ window.savePackage = async () => {
     title, slug, description: desc,
     type:          document.getElementById('pm-type').value,
     category:      document.getElementById('pm-cat').value,
-    emoji:         document.getElementById('pm-emoji').value || '🗺️',
+    emoji:         '',
     price,
     old_price:     parseFloat(document.getElementById('pm-old-price').value) || null,
     duration_days: parseInt(document.getElementById('pm-days').value)    || null,
@@ -4113,11 +4135,11 @@ window.savePackage = async () => {
     if (id) {
       const { error } = await supabase.from('packages').update(payload).eq('id', id);
       if (error) throw error;
-      toast('Package updated ✅');
+      toast('Package updated');
     } else {
       const { error } = await supabase.from('packages').insert(payload);
       if (error) throw error;
-      toast('Package added ✅');
+      toast('Package added');
     }
     document.getElementById('pkg-modal').style.display = 'none';
     loadPackages();
@@ -4197,7 +4219,7 @@ function renderPackagesGrid(data) {
   }
   grid.innerHTML = data.map(p => `
       <div class="pkg-card-admin">
-        <div class="pct" style="background:${p.bg_gradient || 'linear-gradient(135deg,#667eea,#764ba2)'}">${p.emoji || '🗺️'}</div>
+        <div class="pct" style="background:${p.bg_gradient || 'linear-gradient(135deg,#667eea,#764ba2)'}">${(p.photos&&p.photos[0])||p.image_url ? `<img src="${esc((p.photos&&p.photos[0])||p.image_url)}" alt="${esc(p.title||'')}" style="width:100%;height:100%;object-fit:cover" onerror="this.remove()"/>` : ''}</div>
         <div class="pcb">
           <div class="pcn">${esc(p.title)}</div>
           <div class="pcm" style="font-size:.73rem;color:var(--muted);margin:.2rem 0">${esc(p.category || '')} · ${esc(p.duration_days || '?')}D / ${esc(p.nights || '?')}N · ₹${Number(p.price).toLocaleString('en-IN')}</div>
@@ -4208,9 +4230,9 @@ function renderPackagesGrid(data) {
                 <input type="checkbox" ${p.is_active ? 'checked' : ''} onchange="togglePkg('${p.id}',this.checked)">
                 <span class="slider"></span>
               </label>
-              <button class="bs" title="Availability" onclick="openAvailModal('${p.id}')">📆</button>
-              <button class="bs be" onclick="editPackage('${p.id}')">✏️</button>
-              <button class="bs" style="color:#DC2626;border-color:#fecaca;background:#fff5f5" onclick="deletePackage('${p.id}','${(p.title||'').replace(/'/g,"\\'")}')">🗑</button>
+              <button class="bs" title="Availability" onclick="openAvailModal('${p.id}')"></button>
+              <button class="bs be" onclick="editPackage('${p.id}')"></button>
+              <button class="bs" style="color:#DC2626;border-color:#fecaca;background:#fff5f5" onclick="deletePackage('${p.id}','${(p.title||'').replace(/'/g,"\\'")}')"></button>
             </div>
           </div>
         </div>
@@ -4232,7 +4254,7 @@ window.openAvailModal = (pkgId) => {
   availBlockedDates = new Set(pkg.blocked_dates || []);
   availCalYear  = new Date().getFullYear();
   availCalMonth = new Date().getMonth();
-  document.getElementById('avail-modal-title').textContent = `📆 ${pkg.title} — Availability`;
+  document.getElementById('avail-modal-title').textContent = `${pkg.title} — Availability`;
   document.getElementById('avail-modal').style.display = 'flex';
   renderAvailCalendar();
 };
@@ -4328,16 +4350,16 @@ window.renderVendorTable = () => {
     <tr>
       <td><div style="font-weight:600">${esc(v.business_name)}</div><div style="font-size:.75rem;color:#94a3b8">${esc(v.email)}</div></td>
       <td>${vTypeIcon(v.vendor_type)} ${vTypeLabel(v.vendor_type)}</td>
-      <td style="font-size:.83rem">📍 ${esc(v.city||'—')}</td>
+      <td style="font-size:.83rem">${esc(v.city||'—')}</td>
       <td style="font-weight:700">${v.listings?.length||0}</td>
       <td style="font-weight:700">₹${fmtAmt(v.total_revenue)}</td>
       <td>${pill(v.status)}</td>
       <td style="font-size:.78rem;color:#94a3b8">${fmtDate(v.created_at)}</td>
       <td><div class="ab">
-        <button class="bs bv" onclick="openVDrawer('${v.id}')">👁️</button>
-        ${v.status==='pending'?`<button class="bs" style="color:#16a34a" onclick="approveVendor('${v.id}')">✅</button>`:''}
-        <button class="bs" onclick="waVendorContact('${esc(v.phone||'')}','${esc(v.business_name||'')}')">💬</button>
-        ${v.status==='active'?`<button class="bs" style="color:#f59e0b" onclick="suspendVendor('${v.id}')">⛔</button>`:''}
+        <button class="bs bv" onclick="openVDrawer('${v.id}')"></button>
+        ${v.status==='pending'?`<button class="bs" style="color:#16a34a" onclick="approveVendor('${v.id}')"></button>`:''}
+        <button class="bs" onclick="waVendorContact('${esc(v.phone||'')}','${esc(v.business_name||'')}')"></button>
+        ${v.status==='active'?`<button class="bs" style="color:#f59e0b" onclick="suspendVendor('${v.id}')"></button>`:''}
         ${v.status==='pending'?`<button class="bs" style="color:#dc2626" onclick="rejectVendor('${v.id}')">✕</button>`:''}
       </div></td>
     </tr>`).join('');
@@ -4353,7 +4375,7 @@ window.openVDrawer = (id) => {
   document.getElementById('v-drawer-overlay').style.display = 'block';
   document.getElementById('v-drawer').style.transform = 'translateX(0)';
   document.getElementById('v-drawer-body').innerHTML = `
-    <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">${pill(v.status)} ${v.is_featured?'<span class="pill p-approved">⭐ Featured</span>':''}</div>
+    <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">${pill(v.status)} ${v.is_featured?'<span class="pill p-approved">Featured</span>':''}</div>
     <div style="font-size:.8rem;font-weight:700;text-transform:uppercase;color:#94a3b8;margin-bottom:8px">Business Details</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px">
       ${info('Business', esc(v.business_name))}${info('Type', vTypeLabel(v.vendor_type))}
@@ -4383,24 +4405,24 @@ window.openVDrawer = (id) => {
     ${v.listings?.length ? `<div style="font-size:.8rem;font-weight:700;text-transform:uppercase;color:#94a3b8;margin-bottom:8px">Listings (${v.listings.length})</div>` +
       v.listings.map((l,li) => `<div style="background:#f8fafc;border-radius:8px;padding:10px 12px;margin-bottom:6px;font-size:.85rem">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">
-          <div><div style="font-weight:600">${svcIcon(l.type)} ${esc(l.name)}</div><div style="font-size:.75rem;color:#94a3b8">📍 ${esc(l.city||'')} · ₹${fmtAmt(l.price)}/${esc(l.per||'night')} · ${esc(l.capacity||'')}</div></div>
+          <div><div style="font-weight:600">${svcIcon(l.type)} ${esc(l.name)}</div><div style="font-size:.75rem;color:#94a3b8">${esc(l.city||'')} · ₹${fmtAmt(l.price)}/${esc(l.per||'night')} · ${esc(l.capacity||'')}</div></div>
           ${l.type==='hotel' ? (l.published_hotel_id
             ? `<span style="font-size:.7rem;font-weight:700;color:#16a34a;white-space:nowrap">✓ Published</span>`
-            : `<button onclick="publishListingAsRoom('${v.id}',${li})" style="background:#fff;border:1.5px solid #C9922A;color:#C9922A;border-radius:6px;padding:4px 10px;font-size:.72rem;font-weight:700;cursor:pointer;white-space:nowrap">📤 Publish as Room</button>`
+            : `<button onclick="publishListingAsRoom('${v.id}',${li})" style="background:#fff;border:1.5px solid #C9922A;color:#C9922A;border-radius:6px;padding:4px 10px;font-size:.72rem;font-weight:700;cursor:pointer;white-space:nowrap">Publish as Room</button>`
           ) : ''}
         </div>
       </div>`).join('') : ''}
     <textarea id="v-admin-note" placeholder="Add admin note (for approval/rejection reason)..." style="width:100%;padding:9px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;box-sizing:border-box;margin-top:12px" rows="2"></textarea>
   `;
   document.getElementById('v-drawer-foot').innerHTML = v.status==='pending' ? `
-      <button class="btn-add" style="background:#16a34a;color:#fff" onclick="approveVendor('${v.id}')">✅ Approve Vendor</button>
-      <button class="btn-add" style="background:#dc2626;color:#fff" onclick="rejectVendor('${v.id}')">❌ Reject</button>`
+      <button class="btn-add" style="background:#16a34a;color:#fff" onclick="approveVendor('${v.id}')">Approve Vendor</button>
+      <button class="btn-add" style="background:#dc2626;color:#fff" onclick="rejectVendor('${v.id}')">Reject</button>`
     : v.status==='active' ? `
-      <button class="btn-add" style="background:#25D366;color:#fff" onclick="waVendorContact('${esc(v.phone||'')}','${esc(v.business_name||'')}')">💬 WhatsApp</button>
-      <button class="btn-add" style="background:#f59e0b" onclick="suspendVendor('${v.id}')">⛔ Suspend</button>`
+      <button class="btn-add" style="background:#25D366;color:#fff" onclick="waVendorContact('${esc(v.phone||'')}','${esc(v.business_name||'')}')">WhatsApp</button>
+      <button class="btn-add" style="background:#f59e0b" onclick="suspendVendor('${v.id}')">Suspend</button>`
     : `
-      <button class="btn-add" style="background:#16a34a;color:#fff" onclick="approveVendor('${v.id}')">✅ Re-Activate</button>
-      <button class="btn-add" style="background:#25D366;color:#fff" onclick="waVendorContact('${esc(v.phone||'')}','${esc(v.business_name||'')}')">💬 WhatsApp</button>`;
+      <button class="btn-add" style="background:#16a34a;color:#fff" onclick="approveVendor('${v.id}')">Re-Activate</button>
+      <button class="btn-add" style="background:#25D366;color:#fff" onclick="waVendorContact('${esc(v.phone||'')}','${esc(v.business_name||'')}')">WhatsApp</button>`;
 };
 window.closeVDrawer = () => {
   document.getElementById('v-drawer-overlay').style.display = 'none';
@@ -4444,7 +4466,7 @@ window.publishListingAsRoom = async (vendorId, listingIdx) => {
   if (vErr) { toast('Room published, but failed to mark listing as published: ' + vErr.message, 'error'); }
 
   v.listings = updatedListings;
-  toast(`"${listing.name}" is now live as a room on ${target.name} ✅`);
+  toast(`"${listing.name}" is now live as a room on ${target.name}`);
   openVDrawer(vendorId);
 };
 
@@ -4529,7 +4551,7 @@ window.exportVendorsCSV = () => {
 };
 
 function vTypeLabel(t) { return {hotel:'Hotel',bus:'Bus Operator',cab:'Cab Provider',tour_operator:'Tour Operator',airline:'Airline'}[t]||t||'—'; }
-function vTypeIcon(t) { return {hotel:'🏨',bus:'🚌',cab:'🚖',tour_operator:'🧳',airline:'✈️'}[t]||'📦'; }
+function vTypeIcon(t) { return {hotel:'',bus:'',cab:'',tour_operator:'',airline:''}[t]||''; }
 function sanitizeVPhone(p) { let ph = String(p||'').replace(/\D/g,''); if (ph.length===10) ph='91'+ph; return ph || WA_NUMBER; }
 
 // ── VENDOR PAYOUTS ───────────────────────────────────────────
@@ -4583,7 +4605,7 @@ window.saveCommissionRates = async () => {
   try {
     const { error } = await supabase.from('commission_rates').upsert(commissionRatesData);
     if (error) throw error;
-    toast('Commission rates saved ✅ — live on /pages/vendor.html');
+    toast('Commission rates saved  — live on /pages/vendor.html');
   } catch(e) { toast('Save failed: ' + e.message, 'error'); }
 };
 
@@ -4617,13 +4639,13 @@ function renderVendorPayouts() {
       </div>
       ${vPayoutStatusPill(p.payout_status)}
       <div style="display:flex;gap:6px">
-        ${p.payout_status!=='paid' ? `<button class="bs" style="color:#16a34a" onclick="markPayoutPaid('${p.id}')">✅ Mark Paid</button>` : ''}
-        <button class="bs" onclick="editPayout('${p.id}')">✏️</button>
-        <button class="bs" style="color:#dc2626" onclick="deletePayout('${p.id}')">🗑</button>
+        ${p.payout_status!=='paid' ? `<button class="bs" style="color:#16a34a" onclick="markPayoutPaid('${p.id}')">Mark Paid</button>` : ''}
+        <button class="bs" onclick="editPayout('${p.id}')"></button>
+        <button class="bs" style="color:#dc2626" onclick="deletePayout('${p.id}')"></button>
       </div>
     </div>`).join('');
 }
-function vPayoutStatusPill(s) { const map={pending:'⏳ Pending',processing:'🔄 Processing',paid:'✅ Paid',failed:'❌ Failed',on_hold:'⛔ On Hold'}; return `<span class="pill p-pending">${map[s]||s||'—'}</span>`; }
+function vPayoutStatusPill(s) { const map={pending:'Pending',processing:'Processing',paid:'Paid',failed:'Failed',on_hold:'On Hold'}; return `<span class="pill p-pending">${map[s]||s||'—'}</span>`; }
 
 window.openPayoutModal = () => {
   document.getElementById('po-id').value = '';
@@ -4775,7 +4797,7 @@ window.renderAgentsTable = () => {
     return `<tr>
       <td><span style="font-family:monospace;font-weight:700;color:#C9922A">${esc(a.agent_code)}</span></td>
       <td><div style="font-weight:600">${esc(a.full_name)}</div><div style="font-size:.75rem;color:#94a3b8">${esc(a.email)}</div></td>
-      <td style="font-size:.83rem">📍 ${esc(a.city||'—')}</td>
+      <td style="font-size:.83rem">${esc(a.city||'—')}</td>
       <td>${agTierLabel(a.tier)}</td>
       <td style="font-weight:700">${a.confirmed_bookings||0}<span style="color:#94a3b8;font-weight:400">/${a.total_bookings||0}</span></td>
       <td style="font-weight:700">₹${fmtAmt(a.total_booking_value)}</td>
@@ -4783,10 +4805,10 @@ window.renderAgentsTable = () => {
       <td style="font-weight:700;color:${pend>0?'#f59e0b':'#94a3b8'}">₹${fmtAmt(pend)}</td>
       <td>${pill(a.status)}</td>
       <td><div class="ab">
-        <button class="bs bv" onclick="openAgDrawer('${a.id}')">👁️</button>
-        <button class="bs" style="color:#16a34a" onclick="processAgentPayout('${a.id}')">💳</button>
-        <button class="bs" onclick="waAgentContact('${esc(a.phone||'')}','${esc(a.full_name||'')}')">💬</button>
-        ${a.status==='active'?`<button class="bs" style="color:#f59e0b" onclick="suspendAgent('${a.id}')">⛔</button>`:''}
+        <button class="bs bv" onclick="openAgDrawer('${a.id}')"></button>
+        <button class="bs" style="color:#16a34a" onclick="processAgentPayout('${a.id}')"></button>
+        <button class="bs" onclick="waAgentContact('${esc(a.phone||'')}','${esc(a.full_name||'')}')"></button>
+        ${a.status==='active'?`<button class="bs" style="color:#f59e0b" onclick="suspendAgent('${a.id}')"></button>`:''}
       </div></td>
     </tr>`;
   }).join('');
@@ -4811,7 +4833,7 @@ function renderAgentPayouts() {
       <div>
         <div style="font-weight:600">${esc(a.full_name)}</div>
         <div style="font-size:.75rem;color:#94a3b8">${esc(a.agent_code)} · ${agTierLabel(a.tier)}</div>
-        <div style="font-size:.75rem;color:#94a3b8">${a.bank_name ? `🏦 ${esc(a.bank_name)} · ${a.bank_acc_num?'••••'+a.bank_acc_num.slice(-4):'No account'}` : '⚠️ Bank details not provided'}</div>
+        <div style="font-size:.75rem;color:#94a3b8">${a.bank_name ? `${esc(a.bank_name)} · ${a.bank_acc_num?'••••'+a.bank_acc_num.slice(-4):'No account'}` : 'Bank details not provided'}</div>
       </div>
       <div style="text-align:right">
         <div style="font-weight:700">₹${fmtAmt(gross)}</div>
@@ -4819,17 +4841,17 @@ function renderAgentPayouts() {
         <div style="font-size:.75rem;color:#16a34a">Net: ₹${fmtAmt(net)}</div>
         <div style="font-size:.72rem;color:#94a3b8">${cnt} booking${cnt!==1?'s':''}</div>
       </div>
-      <button class="btn-add" style="background:#16a34a;color:#fff" onclick="processAgentPayout('${a.id}')">💳 Pay ₹${fmtAmt(net)}</button>
+      <button class="btn-add" style="background:#16a34a;color:#fff" onclick="processAgentPayout('${a.id}')">Pay ₹${fmtAmt(net)}</button>
     </div>`;
   }).join('');
 }
 
 function renderAgentLeaderboard() {
   const sorted = [...allAgentsFull].filter(a => a.status==='active').sort((a,b) => parseFloat(b.total_commission_earned||0)-parseFloat(a.total_commission_earned||0));
-  const medals = ['🥇','🥈','🥉'];
+  const medals = ['','',''];
   document.getElementById('ag-top3').innerHTML = sorted.slice(0,3).map((a,i) => `
     <div class="stat-card" style="text-align:center">
-      <div style="font-size:1.6rem;margin-bottom:6px">${medals[i]||'🏅'}</div>
+      <div style="font-size:1.6rem;margin-bottom:6px">${medals[i]||''}</div>
       <div style="font-weight:700">${esc(a.full_name)}</div>
       <div style="font-size:.75rem;color:#94a3b8;margin-bottom:6px">${esc(a.agent_code)} · ${esc(a.city||'—')}</div>
       <div style="font-weight:800;color:#16a34a;font-size:1.1rem">₹${fmtAmt(a.total_commission_earned)}</div>
@@ -4840,7 +4862,7 @@ function renderAgentLeaderboard() {
     <tbody>${sorted.map((a,i) => `
       <tr>
         <td style="font-weight:700;color:#94a3b8">#${i+1}</td>
-        <td><div style="font-weight:600">${esc(a.full_name)}</div><div style="font-size:.72rem;color:#94a3b8">📍 ${esc(a.city||'—')}</div></td>
+        <td><div style="font-weight:600">${esc(a.full_name)}</div><div style="font-size:.72rem;color:#94a3b8">${esc(a.city||'—')}</div></td>
         <td style="font-family:monospace">${esc(a.agent_code)}</td>
         <td>${agTierLabel(a.tier)}</td>
         <td style="font-weight:700">${a.confirmed_bookings||0}</td>
@@ -4898,12 +4920,12 @@ window.openAgDrawer = (id) => {
       <div style="display:flex;justify-content:space-between;padding:4px 0"><span style="color:#94a3b8">Bookings included</span><span style="font-weight:700">${agentComms.length}</span></div>
     </div>
     <input id="ag-utr-input" placeholder="UTR number (bank transfer reference)" style="width:100%;padding:9px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;box-sizing:border-box"/>
-    ` : '<div style="text-align:center;padding:20px;color:#94a3b8"><div style="font-size:1.7rem">✅</div>No pending payout</div>'}
+    ` : '<div style="text-align:center;padding:20px;color:#94a3b8"><div style="font-size:1.7rem"></div>No pending payout</div>'}
   `;
   document.getElementById('ag-drawer-foot').innerHTML = `
-    ${pendAmt>=500?`<button class="btn-add" style="background:#16a34a;color:#fff" onclick="processAgentPayout('${a.id}',true)">💳 Process Payout ₹${fmtAmt(pendAmt-tds)}</button>`:''}
-    <button class="btn-add" style="background:#25D366;color:#fff" onclick="waAgentContact('${esc(a.phone||'')}','${esc(a.full_name||'')}')">💬</button>
-    ${a.status==='active'?`<button class="btn-add" style="background:#f59e0b" onclick="suspendAgent('${a.id}')">⛔</button>`:''}
+    ${pendAmt>=500?`<button class="btn-add" style="background:#16a34a;color:#fff" onclick="processAgentPayout('${a.id}',true)">Process Payout ₹${fmtAmt(pendAmt-tds)}</button>`:''}
+    <button class="btn-add" style="background:#25D366;color:#fff" onclick="waAgentContact('${esc(a.phone||'')}','${esc(a.full_name||'')}')"></button>
+    ${a.status==='active'?`<button class="btn-add" style="background:#f59e0b" onclick="suspendAgent('${a.id}')"></button>`:''}
   `;
 };
 window.closeAgDrawer = () => {
@@ -4990,7 +5012,7 @@ window.exportAgentsCSV = () => {
   toast('CSV exported');
 };
 
-function agTierLabel(t) { const map={associate:'🤝 Associate',senior:'⭐ Senior',elite:'💎 Elite'}; return `<span class="pill p-active">${map[t]||capitalize(t)}</span>`; }
+function agTierLabel(t) { const map={associate:'Associate',senior:'Senior',elite:'Elite'}; return `<span class="pill p-active">${map[t]||capitalize(t)}</span>`; }
 function sanitizeAgPhone(p) { let ph = String(p||'').replace(/\D/g,''); if (ph.length===10) ph='91'+ph; return ph || WA_NUMBER; }
 
 // ── CUSTOMERS ────────────────────────────────────────────────
@@ -5049,11 +5071,11 @@ function renderCustomerTable(customers) {
       <td><span style="font-weight:700;color:#C9922A">${c._booking_count}</span></td>
       <td><span style="font-weight:600">₹${c._total_spent.toLocaleString('en-IN')}</span></td>
       <td style="font-size:.78rem;color:#94a3b8">${new Date(c.created_at).toLocaleDateString('en-IN')}</td>
-      <td>${c._booking_count >= 3 ? pill('confirmed').replace('Confirmed','⭐ Loyal') : c._booking_count >= 1 ? pill('active').replace('Active','✓ Active') : pill('new').replace('New','New')}</td>
+      <td>${c._booking_count >= 3 ? pill('confirmed').replace('Confirmed','Loyal') : c._booking_count >= 1 ? pill('active').replace('Active','✓ Active') : pill('new').replace('New','New')}</td>
       <td>
         <div class="ab">
           <button class="bs bv" onclick="openCustPanel('${c.id}')">View</button>
-          <button class="bs" onclick="window.open('https://wa.me/${(c.phone||'').replace(/\\D/g,'')}')" ${!c.phone?'disabled':''}>💬 WA</button>
+          <button class="bs" onclick="window.open('https://wa.me/${(c.phone||'').replace(/\\D/g,'')}')" ${!c.phone?'disabled':''}>WA</button>
           <button class="bs" onclick="openManualBooking('${c.id}','${esc(c.full_name||'')}','${esc(c.phone||'')}','${esc(c.email||'')}')" style="color:#C9922A">+ Book</button>
         </div>
       </td>
@@ -5104,11 +5126,11 @@ function renderCustPanelBody(c) {
       <div><label style="font-size:.7rem;font-weight:700;text-transform:uppercase;color:#94a3b8;display:block;margin-bottom:3px">Joined</label><span style="font-size:.88rem;font-weight:600">${new Date(c.created_at).toLocaleDateString('en-IN')}</span></div>
     </div>
     <div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap">
-      ${c.phone?`<a href="tel:${esc(c.phone)}" class="bs" style="text-decoration:none">📞 Call</a>`:''}
-      ${c.phone?`<a href="https://wa.me/${esc(c.phone.replace(/\\D/g,''))}" target="_blank" class="bs" style="text-decoration:none">💬 WhatsApp</a>`:''}
-      ${c.email?`<a href="mailto:${esc(c.email)}" class="bs" style="text-decoration:none">✉️ Email</a>`:''}
+      ${c.phone?`<a href="tel:${esc(c.phone)}" class="bs" style="text-decoration:none">Call</a>`:''}
+      ${c.phone?`<a href="https://wa.me/${esc(c.phone.replace(/\\D/g,''))}" target="_blank" class="bs" style="text-decoration:none">WhatsApp</a>`:''}
+      ${c.email?`<a href="mailto:${esc(c.email)}" class="bs" style="text-decoration:none">Email</a>`:''}
       <button class="bs" onclick="openManualBooking('${c.id}','${esc(c.full_name||'')}','${esc(c.phone||'')}','${esc(c.email||'')}')" style="color:#C9922A">+ New Booking</button>
-      <button class="bs" onclick="generatePaymentLink('${c.id}','${esc(c.full_name||'')}','${esc(c.phone||'')}','${esc(c.email||'')}')">💳 Payment Link</button>
+      <button class="bs" onclick="generatePaymentLink('${c.id}','${esc(c.full_name||'')}','${esc(c.phone||'')}','${esc(c.email||'')}')">Payment Link</button>
     </div>
     <div style="font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#94a3b8;margin-bottom:10px">Booking History (${bks.length})</div>
     ${bks.length ? bks.map(b => `
@@ -5134,7 +5156,7 @@ window.generatePaymentLink = async (userId, name, phone, email) => {
     }).select().single();
     if (error) throw error;
     const link = `https://www.zoomfly.in/pages/payment.html?ref=${data.id}`;
-    const msg  = `Hi ${name}! 💳 Your payment link for *${desc}* (₹${Number(amount).toLocaleString('en-IN')}) is ready:\n\n${link}\n\nValid for 7 days. — ZoomFly Team`;
+    const msg  = `Hi ${name}!  Your payment link for *${desc}* (₹${Number(amount).toLocaleString('en-IN')}) is ready:\n\n${link}\n\nValid for 7 days. — ZoomFly Team`;
     await navigator.clipboard.writeText(link).catch(()=>{});
     if (phone) window.open(`https://wa.me/${phone.replace(/\D/g,'')}?text=${encodeURIComponent(msg)}`, '_blank');
     toast('Payment link created & copied' + (phone ? ' — WhatsApp opened' : ''));
@@ -5231,7 +5253,7 @@ window.submitAddVendor = async () => {
     });
     if (error) throw error;
     closeAddVendorModal();
-    toast('Vendor added ✅');
+    toast('Vendor added');
     loadVendors();
   } catch(e) { msgEl.textContent = 'Error: ' + e.message; }
 };
@@ -5264,7 +5286,7 @@ window.submitAddAgent = async () => {
     });
     if (error) throw error;
     closeAddAgentModal();
-    toast('Agent added ✅ — code ' + agent_code);
+    toast('Agent added  — code ' + agent_code);
     loadAgents();
   } catch(e) { msgEl.textContent = 'Error: ' + e.message; }
 };
@@ -5286,7 +5308,7 @@ async function loadBroadcastHistory() {
           <span style="font-size:.68rem;color:#94a3b8;white-space:nowrap">${new Date(b.sent_at).toLocaleDateString('en-IN',{day:'numeric',month:'short'})}</span>
         </div>
         <div style="color:#4A5568;margin-top:3px">${esc((b.message||'').slice(0,90))}${(b.message||'').length>90?'…':''}</div>
-        <div style="margin-top:4px;font-size:.72rem;color:#8896AB">📤 ${esc((b.recipient_type||'').replace(/_/g,' '))}${b.recipient_count?` · ${b.recipient_count} recipients`:''}</div>
+        <div style="margin-top:4px;font-size:.72rem;color:#8896AB">${esc((b.recipient_type||'').replace(/_/g,' '))}${b.recipient_count?` · ${b.recipient_count} recipients`:''}</div>
       </div>`).join('');
   } catch(e) { el.innerHTML = '<div style="font-size:.8rem;color:#dc2626">Failed to load history: '+esc(e.message)+'</div>'; }
 }
@@ -5351,9 +5373,9 @@ async function loadTestimonials() {
         <td>${'★'.repeat(t.stars || 5)}</td>
         <td>${pill(t.is_active ? 'active' : 'inactive')}</td>
         <td>
-          <button class="tbl-btn" onclick="editTestimonial('${t.id}','${(t.name||'').replace(/'/g,"\\'")}','${(t.city||'').replace(/'/g,"\\'")}','${(t.trip||'').replace(/'/g,"\\'")}',${t.stars},'${(t.text||'').replace(/'/g,"\\'").replace(/\n/g,' ')}')">✏️ Edit</button>
-          <button class="tbl-btn tbl-btn-del" onclick="deleteTestimonial('${t.id}')">🗑 Delete</button>
-          <button class="tbl-btn" onclick="toggleTestimonial('${t.id}',${t.is_active})">${t.is_active ? '🙈 Hide' : '👁 Show'}</button>
+          <button class="tbl-btn" onclick="editTestimonial('${t.id}','${(t.name||'').replace(/'/g,"\\'")}','${(t.city||'').replace(/'/g,"\\'")}','${(t.trip||'').replace(/'/g,"\\'")}',${t.stars},'${(t.text||'').replace(/'/g,"\\'").replace(/\n/g,' ')}')">Edit</button>
+          <button class="tbl-btn tbl-btn-del" onclick="deleteTestimonial('${t.id}')">Delete</button>
+          <button class="tbl-btn" onclick="toggleTestimonial('${t.id}',${t.is_active})">${t.is_active ? 'Hide' : 'Show'}</button>
         </td>
       </tr>`).join('');
   } catch(e) {
@@ -5399,7 +5421,7 @@ window.saveTestimonial = async () => {
     : await supabase.from('testimonials').insert(payload);
   if (error) { toast('Error: ' + error.message, 'error'); return; }
   document.getElementById('testi-modal').style.display = 'none';
-  toast(id ? 'Testimonial updated ✅' : 'Testimonial added ✅');
+  toast(id ? 'Testimonial updated' : 'Testimonial added');
   loadTestimonials();
 };
 
@@ -5432,7 +5454,7 @@ async function loadSubscribers() {
     if (error?.code === '42P01') {
       document.getElementById('sub-tbody').innerHTML = `<tr><td colspan="4" style="text-align:center;padding:2rem">
         <div style="font-size:.88rem;color:#92400e;background:#fef3c7;border-radius:10px;padding:14px 16px;display:inline-block">
-          ⚠️ newsletter_subscribers table missing.<br/>
+           newsletter_subscribers table missing.<br/>
           <strong>Run in Supabase SQL Editor:</strong><br/>
           <code style="font-size:.72rem;display:block;margin-top:6px;text-align:left;background:#fff;padding:8px;border-radius:6px">
             CREATE TABLE newsletter_subscribers (id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
@@ -5480,11 +5502,11 @@ window.resolveEnq = async (id) => {
 subscribeToEnquiries(payload => {
   const count=document.getElementById('enq-badge');
   count.textContent = parseInt(count.textContent||'0')+1;
-  toast(`🔔 New enquiry from ${payload.new?.name||'a customer'}`);
+  toast(`New enquiry from ${payload.new?.name||'a customer'}`);
   loadOverviewEnquiries(); loadStats();
 });
 subscribeToBookings(payload => {
-  if(payload.eventType==='INSERT') toast(`💰 New booking: ${payload.new?.booking_ref}`);
+  if(payload.eventType==='INSERT') toast(`New booking: ${payload.new?.booking_ref}`);
   loadStats();
 });
 

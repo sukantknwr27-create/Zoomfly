@@ -54,7 +54,7 @@
       <input id="sr-input" type="text" placeholder="Search destinations, packages..." value=""
         style="flex:1;min-width:220px;padding:12px 18px;border:1.5px solid rgba(255,255,255,.2);border-radius:100px;background:rgba(255,255,255,.08);backdrop-filter:blur(10px);color:#fff;font-family:'Inter',system-ui;font-size:.9rem;"
         onkeydown="if(event.key==='Enter')doSearch()"/>
-      <button onclick="doSearch()" style="padding:12px 28px;background:#C9922A;color:#0C1B33;border:none;border-radius:100px;font-family:'Space Grotesk',system-ui;font-weight:700;cursor:pointer;">Search 🔍</button>
+      <button onclick="doSearch()" style="padding:12px 28px;background:#C9922A;color:#0C1B33;border:none;border-radius:100px;font-family:'Space Grotesk',system-ui;font-weight:700;cursor:pointer;">Search</button>
     </div>
   </div>
 </section>
@@ -85,9 +85,9 @@
     </div>
     <div class="filter-section">
       <div class="filter-label">Rating</div>
-      <div class="filter-chip" onclick="toggleChip(this)">⭐⭐⭐⭐⭐ 5 Star</div>
-      <div class="filter-chip" onclick="toggleChip(this)">⭐⭐⭐⭐ 4+ Star</div>
-      <div class="filter-chip" onclick="toggleChip(this)">⭐⭐⭐ 3+ Star</div>
+      <div class="filter-chip" onclick="toggleChip(this)"> 5 Star</div>
+      <div class="filter-chip" onclick="toggleChip(this)"> 4+ Star</div>
+      <div class="filter-chip" onclick="toggleChip(this)"> 3+ Star</div>
     </div>
   </aside>
   <div>
@@ -96,9 +96,9 @@
       <select class="sort-sel"><option>Sort: Recommended</option><option>Price: Low to High</option><option>Price: High to Low</option><option>Rating: Best First</option></select>
     </div>
     <div class="sr-grid" id="sr-grid">
-      <div class="sr-card"><div class="sr-thumb" style="background:linear-gradient(145deg,#1a3a6b,#2d6bc4)">🏔️<span class="sr-badge">Bestseller</span></div><div class="sr-body"><div><div class="sr-tags"><span class="sr-tag">Hill Station</span><span class="sr-tag">5D/4N</span></div><div class="sr-title">Manali Snow Escape</div><div class="sr-meta"><span>✈ Flights + Hotel + Sightseeing</span><span>⭐ 4.9 (340)</span></div><div class="sr-desc">Snow peaks, river rafting & cozy cafes in the Kullu Valley. Perfect for adventure lovers.</div></div><div class="sr-footer"><div class="sr-price"><div class="lbl">Starting from</div><div class="amt">₹12,499 <span class="old">₹16,999</span></div></div><button class="btn-view" onclick="location.href='/pages/package-detail.html'">View Details</button></div></div></div>
-      <div class="sr-card"><div class="sr-thumb" style="background:linear-gradient(145deg,#1e6070,#2d9b8a)">🏖️</div><div class="sr-body"><div><div class="sr-tags"><span class="sr-tag">Beach</span><span class="sr-tag">4D/3N</span></div><div class="sr-title">Goa Beach Escape</div><div class="sr-meta"><span>✈ Flights + Hotel + Transfers</span><span>⭐ 4.8 (512)</span></div><div class="sr-desc">Golden sands, seafood & nightlife along the Konkan coast.</div></div><div class="sr-footer"><div class="sr-price"><div class="lbl">Starting from</div><div class="amt">₹8,999</div></div><button class="btn-view" onclick="location.href='/pages/package-detail.html'">View Details</button></div></div></div>
-      <div class="sr-card"><div class="sr-thumb" style="background:linear-gradient(145deg,#3a1a4a,#6a2d8a)">🌏<span class="sr-badge" style="background:#1B6EF3;color:#fff">International</span></div><div class="sr-body"><div><div class="sr-tags"><span class="sr-tag">International</span><span class="sr-tag">6D/5N</span></div><div class="sr-title">Bali Honeymoon Special</div><div class="sr-meta"><span>✈ Flights + Villa + Breakfast</span><span>⭐ 4.9 (204)</span></div><div class="sr-desc">Rice terraces, sea temples & luxury villas — romance at its finest.</div></div><div class="sr-footer"><div class="sr-price"><div class="lbl">Starting from</div><div class="amt">₹54,999</div></div><button class="btn-view" onclick="location.href='/pages/package-detail.html'">View Details</button></div></div></div>
+      <div class="sr-card"><div class="sr-thumb" style="background:linear-gradient(145deg,#1a3a6b,#2d6bc4)"><span class="sr-badge">Bestseller</span></div><div class="sr-body"><div><div class="sr-tags"><span class="sr-tag">Hill Station</span><span class="sr-tag">5D/4N</span></div><div class="sr-title">Manali Snow Escape</div><div class="sr-meta"><span>Flights + Hotel + Sightseeing</span><span>4.9 (340)</span></div><div class="sr-desc">Snow peaks, river rafting & cozy cafes in the Kullu Valley. Perfect for adventure lovers.</div></div><div class="sr-footer"><div class="sr-price"><div class="lbl">Starting from</div><div class="amt">₹12,499 <span class="old">₹16,999</span></div></div><button class="btn-view" onclick="location.href='/pages/package-detail.html'">View Details</button></div></div></div>
+      <div class="sr-card"><div class="sr-thumb" style="background:linear-gradient(145deg,#1e6070,#2d9b8a)"></div><div class="sr-body"><div><div class="sr-tags"><span class="sr-tag">Beach</span><span class="sr-tag">4D/3N</span></div><div class="sr-title">Goa Beach Escape</div><div class="sr-meta"><span>Flights + Hotel + Transfers</span><span>4.8 (512)</span></div><div class="sr-desc">Golden sands, seafood & nightlife along the Konkan coast.</div></div><div class="sr-footer"><div class="sr-price"><div class="lbl">Starting from</div><div class="amt">₹8,999</div></div><button class="btn-view" onclick="location.href='/pages/package-detail.html'">View Details</button></div></div></div>
+      <div class="sr-card"><div class="sr-thumb" style="background:linear-gradient(145deg,#3a1a4a,#6a2d8a)"><span class="sr-badge" style="background:#1B6EF3;color:#fff">International</span></div><div class="sr-body"><div><div class="sr-tags"><span class="sr-tag">International</span><span class="sr-tag">6D/5N</span></div><div class="sr-title">Bali Honeymoon Special</div><div class="sr-meta"><span>Flights + Villa + Breakfast</span><span>4.9 (204)</span></div><div class="sr-desc">Rice terraces, sea temples & luxury villas — romance at its finest.</div></div><div class="sr-footer"><div class="sr-price"><div class="lbl">Starting from</div><div class="amt">₹54,999</div></div><button class="btn-view" onclick="location.href='/pages/package-detail.html'">View Details</button></div></div></div>
     </div>
   </div>
 </div>

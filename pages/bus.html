@@ -77,27 +77,27 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
         <div id="bac-to" style="position:absolute;top:100%;left:0;right:0;background:#fff;border:1.5px solid #e2e8f0;border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:100;max-height:220px;overflow-y:auto;display:none;margin-top:3px"></div>
       </div>
       <div class="form-group" style="margin:0"><label>Travel Date</label><input type="date"/></div>
-      <button class="btn btn-primary btn-lg" onclick="searchBus()">Search Buses 🚌</button>
+      <button class="btn btn-primary btn-lg" onclick="searchBus()">Search Buses</button>
     </div>
   </div>
 
   <div class="bus-types">
-    <div class="bus-type-card reveal active"><div class="icon">❄️</div><h3>AC Seater</h3><p>Comfortable AC seater buses for shorter routes</p></div>
-    <div class="bus-type-card reveal" style="transition-delay:80ms"><div class="icon">🛏️</div><h3>AC Sleeper</h3><p>Fully flat sleeper berths for overnight journeys</p></div>
-    <div class="bus-type-card reveal" style="transition-delay:160ms"><div class="icon">🌙</div><h3>Non-AC Sleeper</h3><p>Budget-friendly sleeper option for long routes</p></div>
-    <div class="bus-type-card reveal" style="transition-delay:240ms"><div class="icon">👑</div><h3>Volvo / Luxury</h3><p>Premium Volvo multi-axle luxury coaches</p></div>
+    <div class="bus-type-card reveal active"><div class="icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div><h3>AC Seater</h3><p>Comfortable AC seater buses for shorter routes</p></div>
+    <div class="bus-type-card reveal" style="transition-delay:80ms"><div class="icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div><h3>AC Sleeper</h3><p>Fully flat sleeper berths for overnight journeys</p></div>
+    <div class="bus-type-card reveal" style="transition-delay:160ms"><div class="icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div><h3>Non-AC Sleeper</h3><p>Budget-friendly sleeper option for long routes</p></div>
+    <div class="bus-type-card reveal" style="transition-delay:240ms"><div class="icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div><h3>Volvo / Luxury</h3><p>Premium Volvo multi-axle luxury coaches</p></div>
   </div>
 
   <div style="margin-bottom:60px;">
     <div class="section-label">Top Routes</div>
     <h2 class="section-title">Popular <em>Bus Routes</em></h2>
     <div class="popular-routes-bus" id="popular-routes-bus">
-      <div class="bus-route reveal"><div class="bus-route-info"><strong>Delhi → Manali</strong><span>🕐 14 hrs · Volvo AC Sleeper</span></div><div class="bus-route-price">From ₹799<small>per seat</small></div></div>
-      <div class="bus-route reveal" style="transition-delay:80ms"><div class="bus-route-info"><strong>Mumbai → Goa</strong><span>🕐 9 hrs · AC Sleeper</span></div><div class="bus-route-price">From ₹650<small>per seat</small></div></div>
-      <div class="bus-route reveal" style="transition-delay:160ms"><div class="bus-route-info"><strong>Bangalore → Mysore</strong><span>🕐 3 hrs · AC Seater</span></div><div class="bus-route-price">From ₹220<small>per seat</small></div></div>
-      <div class="bus-route reveal" style="transition-delay:240ms"><div class="bus-route-info"><strong>Delhi → Jaipur</strong><span>🕐 5 hrs · Volvo AC Seater</span></div><div class="bus-route-price">From ₹349<small>per seat</small></div></div>
-      <div class="bus-route reveal" style="transition-delay:320ms"><div class="bus-route-info"><strong>Chennai → Coimbatore</strong><span>🕐 7 hrs · AC Sleeper</span></div><div class="bus-route-price">From ₹450<small>per seat</small></div></div>
-      <div class="bus-route reveal" style="transition-delay:400ms"><div class="bus-route-info"><strong>Hyderabad → Bangalore</strong><span>🕐 8 hrs · Volvo Sleeper</span></div><div class="bus-route-price">From ₹580<small>per seat</small></div></div>
+      <div class="bus-route reveal"><div class="bus-route-info"><strong>Delhi → Manali</strong><span>14 hrs · Volvo AC Sleeper</span></div><div class="bus-route-price">From ₹799<small>per seat</small></div></div>
+      <div class="bus-route reveal" style="transition-delay:80ms"><div class="bus-route-info"><strong>Mumbai → Goa</strong><span>9 hrs · AC Sleeper</span></div><div class="bus-route-price">From ₹650<small>per seat</small></div></div>
+      <div class="bus-route reveal" style="transition-delay:160ms"><div class="bus-route-info"><strong>Bangalore → Mysore</strong><span>3 hrs · AC Seater</span></div><div class="bus-route-price">From ₹220<small>per seat</small></div></div>
+      <div class="bus-route reveal" style="transition-delay:240ms"><div class="bus-route-info"><strong>Delhi → Jaipur</strong><span>5 hrs · Volvo AC Seater</span></div><div class="bus-route-price">From ₹349<small>per seat</small></div></div>
+      <div class="bus-route reveal" style="transition-delay:320ms"><div class="bus-route-info"><strong>Chennai → Coimbatore</strong><span>7 hrs · AC Sleeper</span></div><div class="bus-route-price">From ₹450<small>per seat</small></div></div>
+      <div class="bus-route reveal" style="transition-delay:400ms"><div class="bus-route-info"><strong>Hyderabad → Bangalore</strong><span>8 hrs · Volvo Sleeper</span></div><div class="bus-route-price">From ₹580<small>per seat</small></div></div>
     </div>
   </div>
 </div>
@@ -122,7 +122,7 @@ const acT = {};
     if (!grid) return;
     grid.innerHTML = data.map(r => `
       <div class="bus-route reveal active">
-        <div class="bus-route-info"><strong>${r.from_city} → ${r.to_city}</strong><span>🕐 ${r.duration || ''} · ${r.bus_type}</span></div>
+        <div class="bus-route-info"><strong>${r.from_city} → ${r.to_city}</strong><span>${r.duration || ''} · ${r.bus_type}</span></div>
         <div class="bus-route-price">From ₹${Number(r.price).toLocaleString('en-IN')}<small>per seat</small></div>
       </div>`).join('');
   } catch (e) {
@@ -144,7 +144,7 @@ window.showBusAC = (inputId, dropId) => {
     <div style="padding:.55rem 1rem;cursor:pointer;font-size:.85rem;border-bottom:1px solid #f1f5f9;transition:background .15s"
       onmouseover="this.style.background='#F5E6C4'" onmouseout="this.style.background=''"
       onmousedown="document.getElementById('${inputId}').value='${c}';document.getElementById('${dropId}').style.display='none'">
-      📍 ${c}
+       ${c}
     </div>`).join('');
   drop.style.display = 'block';
 };
@@ -161,14 +161,14 @@ window.searchBus = () => {
   const to = document.getElementById('bus-to').value || '';
   const date = document.querySelector('.bus-fields input[type="date"]')?.value || '';
   if (!to) { alert('Please enter destination city'); return; }
-  const msg = `Hi ZoomFly! 🚌 I want to book a bus.\nFrom: ${from}\nTo: ${to}${date ? '\nDate: ' + date : ''}\nPlease share availability and prices.`;
+  const msg = `Hi ZoomFly!  I want to book a bus.\nFrom: ${from}\nTo: ${to}${date ? '\nDate: ' + date : ''}\nPlease share availability and prices.`;
   window.open('https://wa.me/918076136300?text=' + encodeURIComponent(msg), '_blank');
 };
 
 document.querySelectorAll('.bus-route, .route-item').forEach(card => {
   card.addEventListener('click', function() {
     const text = this.textContent.trim().substring(0, 60);
-    const msg = `Hi ZoomFly! 🚌 I want to book a bus for the route: ${text}. Please share availability.`;
+    const msg = `Hi ZoomFly!  I want to book a bus for the route: ${text}. Please share availability.`;
     window.open('https://wa.me/918076136300?text=' + encodeURIComponent(msg), '_blank');
   });
 });

@@ -86,7 +86,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
     <!-- SIDEBAR -->
     <aside>
       <div class="sidebar-widget">
-        <h4>🔍 Search</h4>
+        <h4>Search</h4>
         <div style="display:flex;gap:8px;">
           <input type="text" placeholder="Search articles..." style="flex:1;padding:10px 14px;border:2px solid var(--border);border-radius:var(--radius-sm);outline:none;font-size:0.88rem;"/>
           <button class="btn btn-primary btn-sm">Go</button>
@@ -94,33 +94,33 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
       </div>
 
       <div class="sidebar-widget">
-        <h4>📂 Categories</h4>
-        <div class="cat-link"><span>🗺 Travel Guides</span><span class="cat-count">24</span></div>
-        <div class="cat-link"><span>💡 Travel Tips</span><span class="cat-count">18</span></div>
-        <div class="cat-link"><span>💕 Honeymoon</span><span class="cat-count">9</span></div>
-        <div class="cat-link"><span>🏔 Adventure</span><span class="cat-count">14</span></div>
-        <div class="cat-link"><span>✈ International</span><span class="cat-count">11</span></div>
-        <div class="cat-link"><span>💰 Budget Travel</span><span class="cat-count">8</span></div>
+        <h4>Categories</h4>
+        <div class="cat-link"><span>Travel Guides</span><span class="cat-count">24</span></div>
+        <div class="cat-link"><span>Travel Tips</span><span class="cat-count">18</span></div>
+        <div class="cat-link"><span>Honeymoon</span><span class="cat-count">9</span></div>
+        <div class="cat-link"><span>Adventure</span><span class="cat-count">14</span></div>
+        <div class="cat-link"><span>International</span><span class="cat-count">11</span></div>
+        <div class="cat-link"><span>Budget Travel</span><span class="cat-count">8</span></div>
       </div>
 
       <div class="sidebar-widget">
-        <h4>🔥 Recent Posts</h4>
+        <h4>Recent Posts</h4>
         <div class="recent-post">
-          <div class="recent-thumb" style="background:linear-gradient(135deg,#667eea,#764ba2)">🏔️</div>
+          <div class="recent-thumb" style="background:linear-gradient(135deg,#667eea,#764ba2)"></div>
           <div><div class="recent-title">Ultimate Manali Guide 2025</div><div class="recent-date">Mar 15, 2025</div></div>
         </div>
         <div class="recent-post">
-          <div class="recent-thumb" style="background:linear-gradient(135deg,#f6d365,#fda085)">🏖️</div>
+          <div class="recent-thumb" style="background:linear-gradient(135deg,#f6d365,#fda085)"></div>
           <div><div class="recent-title">Goa Off-Season: Why Go Now</div><div class="recent-date">Feb 28, 2025</div></div>
         </div>
         <div class="recent-post">
-          <div class="recent-thumb" style="background:linear-gradient(135deg,#43e97b,#38f9d7)">💰</div>
+          <div class="recent-thumb" style="background:linear-gradient(135deg,#43e97b,#38f9d7)"></div>
           <div><div class="recent-title">Budget Travel Hacks India</div><div class="recent-date">Feb 10, 2025</div></div>
         </div>
       </div>
 
       <div class="sidebar-widget">
-        <h4>🏷 Tags</h4>
+        <h4>Tags</h4>
         <div class="tags-cloud">
           <span class="tag-pill">Manali</span><span class="tag-pill">Goa</span><span class="tag-pill">Kerala</span>
           <span class="tag-pill">Rajasthan</span><span class="tag-pill">Bangkok</span><span class="tag-pill">Bali</span>
@@ -130,7 +130,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
       </div>
 
       <div style="background:var(--blue);border-radius:var(--radius);padding:28px;text-align:center;">
-        <div style="font-size:2rem;margin-bottom:12px;">✈</div>
+        <div style="font-size:2rem;margin-bottom:12px;"></div>
         <h4 style="color:#fff;font-size:1rem;margin-bottom:8px;">Ready to Travel?</h4>
         <p style="color:rgba(255,255,255,0.78);font-size:0.82rem;margin-bottom:18px;">Browse our 200+ curated packages and book your dream trip today.</p>
         <a href="/pages/packages.html" class="btn btn-white btn-sm" style="width:100%;text-align:center;">View Packages</a>
@@ -155,13 +155,13 @@ function cardHTML(p, i) {
         <div class="blog-cat"><span class="badge ${p.badge_class||'badge-gold'}">${esc(p.category||'Guide')}</span></div>
       </div>`
     : `<div class="blog-img${featured?' blog-img-featured':''}" style="background:${p.bg_gradient||'linear-gradient(135deg,#667eea,#764ba2)'}">
-        ${p.emoji||'🗺️'}<div class="blog-cat"><span class="badge ${p.badge_class||'badge-gold'}">${esc(p.category||'Guide')}</span></div>
+        <div class="blog-cat"><span class="badge ${p.badge_class||'badge-gold'}">${esc(p.category||'Guide')}</span></div>
       </div>`;
   return `
     <a href="/pages/blog-post.html?id=${encodeURIComponent(p.slug)}" class="blog-card${featured?' blog-card-featured':''} reveal" style="transition-delay:${i*60}ms">
       ${imgBlock}
       <div class="blog-body">
-        <div class="blog-meta"><span>📅 ${fmtDate(p.published_at)}</span><span>✍️ ${esc(p.author||'ZoomFly Team')}</span><span>⏱ ${esc(p.read_time||'5 min read')}</span></div>
+        <div class="blog-meta"><span>${fmtDate(p.published_at)}</span><span>${esc(p.author||'ZoomFly Team')}</span><span>${esc(p.read_time||'5 min read')}</span></div>
         <div class="blog-title${featured?' blog-title-lg':''}">${esc(p.title)}</div>
         <div class="blog-excerpt">${esc(p.excerpt||'')}</div>
         <span class="blog-read-more">${featured?'Read Full Guide →':'Read More →'}</span>
@@ -172,7 +172,7 @@ function cardHTML(p, i) {
 function recentPostHTML(p) {
   return `
     <div class="recent-post">
-      <div class="recent-thumb" style="background:${p.bg_gradient||'linear-gradient(135deg,#667eea,#764ba2)'}">${p.emoji||'🗺️'}</div>
+      <div class="recent-thumb" style="background:${p.bg_gradient||'linear-gradient(135deg,#667eea,#764ba2)'}">${p.cover_image_url ? `<img src="${esc(p.cover_image_url)}" alt="${esc(p.title||'')}" style="width:100%;height:100%;object-fit:cover"/>` : ''}</div>
       <div><div class="recent-title">${esc(p.title)}</div><div class="recent-date">${fmtDate(p.published_at)}</div></div>
     </div>`;
 }

@@ -108,7 +108,7 @@
 
 <div class="page-wrap">
   <div class="page-header">
-    <h1>💬 Messages</h1>
+    <h1>Messages</h1>
     <p>Chat with ZoomFly support about your bookings</p>
   </div>
 
@@ -116,20 +116,19 @@
     <!-- Thread list -->
     <div class="thread-list" id="threadList">
       <div class="thread-search">
-        <input type="text" id="threadSearch" placeholder="🔍 Search conversations..." oninput="filterThreads(this.value)"/>
+        <input type="text" id="threadSearch" placeholder="Search conversations..." oninput="filterThreads(this.value)"/>
       </div>
       <div class="threads" id="threads">
-        <div class="thread-empty">⏳ Loading conversations...</div>
+        <div class="thread-empty">Loading conversations...</div>
       </div>
     </div>
 
     <!-- Chat window -->
     <div class="chat-window" id="chatWindow">
       <div class="chat-empty" id="chatEmpty">
-        <div class="chat-empty-icon">💬</div>
         <h3>Your Messages</h3>
         <p>Select a conversation or start a new one by contacting support about a booking</p>
-        <button class="btn-primary" style="margin-top:8px" onclick="newConversation()">✉️ New Message</button>
+        <button class="btn-primary" style="margin-top:8px" onclick="newConversation()">New Message</button>
       </div>
     </div>
   </div>
@@ -265,8 +264,8 @@ function renderChatWindow(thread, msgs) {
         <div class="chat-header-sub">${thread?.service_name||''} · ${thread?.status||''}</div>
       </div>
       <div class="chat-header-actions">
-        <button class="chat-action-btn" onclick="window.open('https://wa.me/918076136300','_blank')">📱 WhatsApp</button>
-        <button class="chat-action-btn" onclick="window.location.href='/pages/my-bookings.html'">📋 Booking</button>
+        <button class="chat-action-btn" onclick="window.open('https://wa.me/918076136300','_blank')">WhatsApp</button>
+        <button class="chat-action-btn" onclick="window.location.href='/pages/my-bookings.html'">Booking</button>
       </div>
     </div>
     <div class="messages-body" id="messagesBody">
@@ -283,7 +282,6 @@ function renderChatWindow(thread, msgs) {
 
 function renderMessages(msgs) {
   if (!msgs.length) return `<div class="chat-empty" style="flex:1">
-    <div class="chat-empty-icon">👋</div>
     <h3>Start the conversation</h3>
     <p>Ask us anything about your booking — changes, queries, or special requests</p>
   </div>`;
@@ -353,7 +351,7 @@ window.sendMessage = async () => {
     content
   });
 
-  if (error) { showToast('❌ Failed to send message'); input.value = content; }
+  if (error) { showToast('Failed to send message'); input.value = content; }
   btn.disabled = false;
 };
 

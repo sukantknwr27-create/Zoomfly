@@ -4,7 +4,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>My Bookings — ZoomFly</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✈️</text></svg>"/>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'></text></svg>"/>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,600&family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <style>
     :root {
@@ -251,7 +251,7 @@
     <div class="auth-card">
 
       <div class="auth-header">
-        <div class="auth-icon">✈️</div>
+        <div class="auth-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div>
         <h2>My ZoomFly Account</h2>
         <p>Sign in to view and manage your bookings</p>
       </div>
@@ -305,7 +305,7 @@
 
       <!-- GUEST LOOKUP -->
       <div class="guest-lookup">
-        <h3>🔍 Track Without Account</h3>
+        <h3>Track Without Account</h3>
         <p>Enter your booking reference and the email used at booking to check status without logging in.</p>
         <div class="track-form">
           <input class="track-input" type="text" id="guest-ref" placeholder="ZF-FLT-20260509-0001"/>
@@ -347,7 +347,7 @@
 
     <!-- Track box -->
     <div class="track-box">
-      <h3>🔍 Track a Booking</h3>
+      <h3>Track a Booking</h3>
       <p>Enter any booking reference number to view its full details.</p>
       <div class="track-form">
         <input class="track-input" type="text" id="portal-track-input"
@@ -360,17 +360,16 @@
     <!-- Tabs -->
     <div class="portal-tabs">
       <div class="ptab active" onclick="filterTab('all',   this)">All <span class="ptab-count" id="tab-all">0</span></div>
-      <div class="ptab"        onclick="filterTab('pending',this)">⏳ Pending <span class="ptab-count" id="tab-pending">0</span></div>
-      <div class="ptab"        onclick="filterTab('confirmed',this)">✅ Confirmed <span class="ptab-count" id="tab-confirmed">0</span></div>
-      <div class="ptab"        onclick="filterTab('completed',this)">🎉 Completed <span class="ptab-count" id="tab-completed">0</span></div>
-      <div class="ptab"        onclick="filterTab('cancelled',this)">❌ Cancelled <span class="ptab-count" id="tab-cancelled">0</span></div>
-      <div class="ptab"        onclick="showWishlist(this)">❤️ Wishlist <span class="ptab-count" id="tab-wishlist">0</span></div>
+      <div class="ptab"        onclick="filterTab('pending',this)">Pending <span class="ptab-count" id="tab-pending">0</span></div>
+      <div class="ptab"        onclick="filterTab('confirmed',this)">Confirmed <span class="ptab-count" id="tab-confirmed">0</span></div>
+      <div class="ptab"        onclick="filterTab('completed',this)">Completed <span class="ptab-count" id="tab-completed">0</span></div>
+      <div class="ptab"        onclick="filterTab('cancelled',this)">Cancelled <span class="ptab-count" id="tab-cancelled">0</span></div>
+      <div class="ptab"        onclick="showWishlist(this)">Wishlist <span class="ptab-count" id="tab-wishlist">0</span></div>
     </div>
 
     <!-- Booking list -->
     <div class="booking-list" id="booking-list">
       <div class="empty">
-        <div class="empty-icon">⏳</div>
         <h3>Loading your bookings...</h3>
       </div>
     </div>
@@ -379,7 +378,6 @@
     <div id="wishlist-panel" style="display:none;">
       <div id="wishlist-list">
         <div class="empty">
-          <div class="empty-icon">🤍</div>
           <h3>Your wishlist is empty</h3>
           <p>Save packages you love to find them here.</p>
           <a href="/pages/packages.html" class="empty-btn">Browse Packages</a>
@@ -429,7 +427,7 @@ function showPortal(user) {
   const name  = user.user_metadata?.full_name || user.email.split('@')[0];
   const email = user.email;
 
-  document.getElementById('portal-greeting').textContent = `Welcome back, ${name.split(' ')[0]}! 👋`;
+  document.getElementById('portal-greeting').textContent = `Welcome back, ${name.split(' ')[0]}!`;
   document.getElementById('portal-email').textContent = email;
 }
 
@@ -491,7 +489,7 @@ window.handleForgotPassword = async () => {
     redirectTo: window.location.origin + '/my-bookings.html'
   });
   showMsg(document.getElementById('login-msg'),
-    error ? error.message : '✅ Reset link sent to ' + email,
+    error ? error.message : 'Reset link sent to ' + email,
     error ? 'error' : 'success');
 };
 
@@ -560,7 +558,7 @@ window.showWishlist = async (el) => {
   document.getElementById('wishlist-panel').style.display = '';
 
   const listEl = document.getElementById('wishlist-list');
-  listEl.innerHTML = '<div class="empty"><div class="empty-icon">⏳</div><h3>Loading wishlist...</h3></div>';
+  listEl.innerHTML = '<div class="empty"><h3>Loading wishlist...</h3></div>';
 
   try {
     const { data, error } = await supabase
@@ -570,9 +568,8 @@ window.showWishlist = async (el) => {
 
     if (error || !data?.length) {
       listEl.innerHTML = `<div class="empty">
-        <div class="empty-icon">🤍</div>
         <h3>Your wishlist is empty</h3>
-        <p>Tap the heart ❤️ on any package to save it here.</p>
+        <p>Tap the heart  on any package to save it here.</p>
         <a href="/pages/packages.html" class="empty-btn">Browse Packages</a>
       </div>`;
       document.getElementById('tab-wishlist').textContent = '0';
@@ -591,11 +588,11 @@ window.showWishlist = async (el) => {
           <div style="width:52px;height:52px;border-radius:10px;
                       background:${p.bg_gradient||p.bg||'linear-gradient(135deg,#4facfe,#00f2fe)'};
                       display:flex;align-items:center;justify-content:center;font-size:1.6rem;flex-shrink:0;">
-            ${p.emoji||'🗺️'}
+            ${(p.photos&&p.photos[0])||p.image_url ? `<img src="${esc((p.photos&&p.photos[0])||p.image_url)}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:10px"/>` : ''}
           </div>
           <div>
             <div style="font-weight:700;font-size:.95rem;color:var(--dark)">${esc(p.title||p.name||'Package')}</div>
-            <div style="font-size:.8rem;color:var(--light)">📍 ${esc(p.destination||p.dest||'')}</div>
+            <div style="font-size:.8rem;color:var(--light)">${esc(p.destination||p.dest||'')}</div>
             <div style="font-size:.88rem;font-weight:700;color:var(--primary);margin-top:3px">
               ₹${Number(price).toLocaleString('en-IN')}<span style="font-size:.72rem;font-weight:400;color:var(--light)">/person</span>
             </div>
@@ -605,23 +602,23 @@ window.showWishlist = async (el) => {
           <a href="/pages/package-detail.html?id=${slug}"
              class="action-btn ab-track" style="text-decoration:none">View Package</a>
           <button class="action-btn ab-cancel"
-            onclick="removeWish('${w.package_id}',this)">🗑 Remove</button>
+            onclick="removeWish('${w.package_id}',this)">Remove</button>
         </div>
       </div>`;
     }).join('');
   } catch(e) {
-    listEl.innerHTML = '<div class="empty"><div class="empty-icon">❌</div><h3>Failed to load wishlist</h3></div>';
+    listEl.innerHTML = '<div class="empty"><h3>Failed to load wishlist</h3></div>';
   }
 };
 
 window.removeWish = async (packageId, btn) => {
-  btn.disabled = true; btn.textContent = '⏳';
+  btn.disabled = true; btn.textContent = '';
   try {
     const uid = (await supabase.auth.getUser()).data.user.id;
     await supabase.from('wishlists').delete()
       .eq('user_id', uid).eq('package_id', packageId);
     btn.closest('div[style]').remove();
-  } catch { btn.disabled = false; btn.textContent = '🗑 Remove'; }
+  } catch { btn.disabled = false; btn.textContent = 'Remove'; }
 };
 
 function renderBookings() {
@@ -633,7 +630,6 @@ function renderBookings() {
   if (data.length === 0) {
     list.innerHTML = `
       <div class="empty">
-        <div class="empty-icon">${currentTab==='all'?'🧳':'🔍'}</div>
         <h3>${currentTab==='all' ? 'No bookings yet' : `No ${currentTab} bookings`}</h3>
         <p>${currentTab==='all' ? 'Start planning your next trip with ZoomFly!' : 'Try a different filter tab.'}</p>
         <a href="packages.html" class="empty-btn">Browse Packages</a>
@@ -714,21 +710,21 @@ function renderBookingCard(b) {
         <div class="bcard-actions">
           <button class="action-btn ab-wa"
             onclick="chatAboutBooking('${esc(b.customer_whatsapp||b.customer_phone||'')}','${esc(b.booking_ref)}')">
-            💬 Chat on WhatsApp
+             Chat on WhatsApp
           </button>
           ${['pending','confirmed'].includes(b.status) ? `
           <button class="action-btn ab-cancel"
             onclick="requestCancellation('${b.id}','${esc(b.booking_ref)}')">
-            ❌ Request Cancellation
+             Request Cancellation
           </button>` : ''}
           <button class="action-btn ab-track"
             onclick="copyRef('${esc(b.booking_ref)}')">
-            📋 Copy Ref
+             Copy Ref
           </button>
           ${b.payment_status === 'paid' ? `
           <button class="action-btn ab-track"
             onclick="downloadGSTInvoice(${JSON.stringify(b).replace(/`/g,"'")})">
-            🧾 GST Invoice
+             GST Invoice
           </button>` : ''}
         </div>
       </div>
@@ -781,13 +777,13 @@ window.guestLookup = async () => {
   const res   = document.getElementById('guest-result');
   if (!ref)   { res.innerHTML = '<div style="color:var(--red);font-size:0.83rem;">Please enter your booking reference.</div>'; return; }
   if (!email) { res.innerHTML = '<div style="color:var(--red);font-size:0.83rem;">Please enter the email used for this booking.</div>'; return; }
-  res.innerHTML = '<span style="color:var(--light);">🔍 Looking up...</span>';
+  res.innerHTML = '<span style="color:var(--light);">Looking up...</span>';
   try {
     const { data, error } = await supabase.functions.invoke('get-guest-booking', {
       body: { booking_ref: ref, email },
     });
     if (error || data?.error || !data?.booking) {
-      res.innerHTML = `<div style="color:var(--red);font-size:0.83rem;">❌ ${esc(data?.error || 'Booking not found. Please check the reference number and email.')} <a href="https://wa.me/${WA_NUMBER}" style="color:var(--primary);">Contact us</a></div>`;
+      res.innerHTML = `<div style="color:var(--red);font-size:0.83rem;">${esc(data?.error || 'Booking not found. Please check the reference number and email.')} <a href="https://wa.me/${WA_NUMBER}" style="color:var(--primary);">Contact us</a></div>`;
       return;
     }
     const b = data.booking;
@@ -806,7 +802,7 @@ window.guestLookup = async () => {
         </div>
       </div>`;
   } catch (e) {
-    res.innerHTML = `<div style="color:var(--red);font-size:0.83rem;">❌ Something went wrong. Please try again or <a href="https://wa.me/${WA_NUMBER}" style="color:var(--primary);">contact us</a>.</div>`;
+    res.innerHTML = `<div style="color:var(--red);font-size:0.83rem;">Something went wrong. Please try again or <a href="https://wa.me/${WA_NUMBER}" style="color:var(--primary);">contact us</a>.</div>`;
   }
 };
 
@@ -814,10 +810,10 @@ window.trackBooking = async () => {
   const ref = document.getElementById('portal-track-input').value.trim().toUpperCase();
   const res = document.getElementById('portal-track-result');
   if (!ref) return;
-  res.innerHTML = '<span style="color:var(--light);font-size:0.83rem;">🔍 Searching...</span>';
+  res.innerHTML = '<span style="color:var(--light);font-size:0.83rem;">Searching...</span>';
   const { data, error } = await supabase.from('bookings').select('*').eq('booking_ref', ref).single();
   if (error||!data) {
-    res.innerHTML = `<div style="color:var(--red);font-size:0.83rem;">❌ Not found — <a href="https://wa.me/${WA_NUMBER}" style="color:var(--primary);">contact support</a></div>`;
+    res.innerHTML = `<div style="color:var(--red);font-size:0.83rem;">Not found — <a href="https://wa.me/${WA_NUMBER}" style="color:var(--primary);">contact support</a></div>`;
     return;
   }
   res.innerHTML = `
@@ -842,12 +838,12 @@ window.requestCancellation = async (id, ref) => {
 
   // Show inline loading state
   const btn = document.querySelector(`[onclick*="${id}"]`);
-  if (btn) { btn.disabled = true; btn.textContent = '⏳ Cancelling...'; }
+  if (btn) { btn.disabled = true; btn.textContent = 'Cancelling...'; }
 
   try {
     const { cancelBooking } = await import('../assets/js/supabase.js');
     await cancelBooking(id, reason || 'Cancelled by customer');
-    showToast('✅ Booking cancelled successfully');
+    showToast('Booking cancelled successfully');
     // Refresh booking list
     setTimeout(() => loadBookings(), 800);
   } catch (err) {
@@ -856,7 +852,7 @@ window.requestCancellation = async (id, ref) => {
     window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
     showToast('Cancellation request sent via WhatsApp');
   } finally {
-    if (btn) { btn.disabled = false; btn.textContent = '❌ Request Cancellation'; }
+    if (btn) { btn.disabled = false; btn.textContent = 'Request Cancellation'; }
   }
 };
 
@@ -868,7 +864,7 @@ window.chatAboutBooking = (phone, ref) => {
 
 // ── Copy ref ───────────────────────────────────────────────
 window.copyRef = (ref) => {
-  navigator.clipboard.writeText(ref).then(()=>showToast('📋 Copied: '+ref));
+  navigator.clipboard.writeText(ref).then(()=>showToast('Copied: '+ref));
 };
 
 // ── Helpers ────────────────────────────────────────────────
@@ -879,11 +875,11 @@ function fmtDate(d){
   catch(_){return d;}
 }
 function capitalize(s){ return s?s.charAt(0).toUpperCase()+s.slice(1):'—'; }
-function svcIcon(t){ return{flight:'✈️',hotel:'🏨',package:'🧳',bus:'🚌',cab:'🚖'}[t]||'📦'; }
+function svcIcon(t){ return{flight:'',hotel:'',package:'',bus:'',cab:''}[t]||''; }
 function statusLabel(s){
-  return{pending:'⏳ Pending',confirmed:'✅ Confirmed',processing:'⚙️ Processing',
-    completed:'🎉 Completed',cancelled:'❌ Cancelled',refunded:'💰 Refunded',
-    failed:'🚫 Failed'}[s]||capitalize(s);
+  return{pending:'Pending',confirmed:'Confirmed',processing:'Processing',
+    completed:'Completed',cancelled:'Cancelled',refunded:'Refunded',
+    failed:'Failed'}[s]||capitalize(s);
 }
 function showMsg(el, msg, type){
   el.textContent=msg; el.className='auth-msg show '+type;
@@ -1005,7 +1001,7 @@ td{padding:11px 12px;border-bottom:1px solid #f1f5f9;font-size:13px}
   </table>
 </div>
 
-<button class="print-btn" onclick="window.print()">🖨 Print / Save as PDF</button>
+<button class="print-btn" onclick="window.print()">Print / Save as PDF</button>
 
 <div class="footer">
   <div>Thank you for booking with ZoomFly. Computer-generated invoice.</div>

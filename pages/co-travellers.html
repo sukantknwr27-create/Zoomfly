@@ -62,7 +62,7 @@
 
 <section class="hero">
   <div class="container">
-    <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.4);margin-bottom:8px">👥 My Account</div>
+    <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.4);margin-bottom:8px">My Account</div>
     <h1>Co-Travellers & Documents</h1>
     <p>Save frequent travel companions and documents for faster booking — no re-entering details every time.</p>
   </div>
@@ -74,11 +74,11 @@
     <!-- Co-Travellers -->
     <div class="card">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-        <h3 style="margin:0">👥 Saved Co-Travellers</h3>
+        <h3 style="margin:0">Saved Co-Travellers</h3>
         <span style="font-size:.78rem;color:#94a3b8" id="traveller-count"></span>
       </div>
       <div id="traveller-list">
-        <div class="empty-state"><div class="empty-icon">👤</div><div>Loading...</div></div>
+        <div class="empty-state"><div>Loading...</div></div>
       </div>
       <button class="add-card" onclick="openAddModal()">
         <div style="font-size:1.4rem;margin-bottom:4px">+</div>
@@ -90,25 +90,24 @@
     <!-- Travel Documents -->
     <div class="card">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-        <h3 style="margin:0">📄 Travel Documents</h3>
+        <h3 style="margin:0">Travel Documents</h3>
         <label style="display:inline-flex;align-items:center;gap:6px;padding:7px 14px;background:#eff6ff;color:#C9922A;border-radius:8px;cursor:pointer;font-size:.8rem;font-weight:700;border:1.5px solid #bfdbfe">
-          📎 Upload <input type="file" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="uploadDocument(this)"/>
+           Upload <input type="file" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="uploadDocument(this)"/>
         </label>
       </div>
       <div id="doc-list">
-        <div class="empty-state"><div class="empty-icon">📄</div><div>Loading...</div></div>
+        <div class="empty-state"><div>Loading...</div></div>
       </div>
     </div>
 
     <!-- Price Alerts -->
     <div class="card">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-        <h3 style="margin:0">🔔 Price Alerts</h3>
+        <h3 style="margin:0">Price Alerts</h3>
         <a href="/pages/packages.html" style="font-size:.8rem;color:#C9922A;text-decoration:none">Browse packages →</a>
       </div>
       <div id="alerts-list">
         <div class="empty-state">
-          <div class="empty-icon">🔔</div>
           <div style="font-weight:600;color:#374151;margin-bottom:4px">No price alerts set</div>
           <div style="font-size:.82rem">On any package page, click "Alert me when price drops" to get notified.</div>
         </div>
@@ -166,14 +165,14 @@ import { supabase, requireAuth, getCotravellers, saveCotraveller, deleteCotravel
 await requireAuth();
 
 const DOC_TYPES = [
-  {type:'passport',   icon:'📘', label:'Passport',          sub:'International travel essential'},
-  {type:'aadhaar',    icon:'🪪', label:'Aadhaar Card',       sub:'India domestic ID'},
-  {type:'pan',        icon:'💳', label:'PAN Card',           sub:'For international transactions'},
-  {type:'visa',       icon:'📋', label:'Visa / Permit',      sub:'Required for international trips'},
-  {type:'insurance',  icon:'🛡', label:'Travel Insurance',   sub:'Your safety net abroad'},
-  {type:'ticket',     icon:'🎫', label:'Flight Tickets',     sub:'E-ticket copies'},
-  {type:'hotel',      icon:'🏨', label:'Hotel Vouchers',     sub:'Booking confirmations'},
-  {type:'vaccination',icon:'💉', label:'Vaccination Cert',   sub:'COVID & other vaccines'},
+  {type:'passport',   icon:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0C1B33" stroke-width="1.5"><rect x="4" y="2" width="16" height="20" rx="2"/><circle cx="12" cy="10" r="3"/><path d="M8 17h8"/></svg>', label:'Passport',          sub:'International travel essential'},
+  {type:'aadhaar',    icon:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0C1B33" stroke-width="1.5"><rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="8" cy="12" r="2"/><path d="M13 10h6M13 14h4"/></svg>', label:'Aadhaar Card',       sub:'India domestic ID'},
+  {type:'pan',        icon:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0C1B33" stroke-width="1.5"><rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="8" cy="12" r="2"/><path d="M13 9h6M13 12h6M13 15h4"/></svg>', label:'PAN Card',           sub:'For international transactions'},
+  {type:'visa',       icon:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0C1B33" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h10M7 12h6"/><circle cx="16" cy="16" r="2.5"/></svg>', label:'Visa / Permit',      sub:'Required for international trips'},
+  {type:'insurance',  icon:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0C1B33" stroke-width="1.5"><path d="M12 2 4 5v6c0 5 3.4 8.7 8 10 4.6-1.3 8-5 8-10V5l-8-3z"/></svg>', label:'Travel Insurance',   sub:'Your safety net abroad'},
+  {type:'ticket',     icon:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0C1B33" stroke-width="1.5"><path d="M17.8 19.2 16 11l3.5-3.5c.6-.6.9-1.5.7-2.3-.2-.9-.9-1.5-1.7-1.7-.8-.2-1.7.1-2.3.7L13 7.5 4.8 5.7c-.5-.1-1 0-1.3.4l-.6.6c-.4.4-.3 1 .2 1.3L9 10.9l-3 3-2.3-.5c-.3-.1-.6 0-.8.2l-.4.4c-.3.3-.3.9.1 1.1l3.4 2 2 3.4c.2.4.8.4 1.1.1l.4-.4c.2-.2.3-.5.2-.8l-.5-2.3 3-3 2.9 6.8c.3.5.9.6 1.3.2l.6-.6c.4-.3.5-.8.4-1.3z"/></svg>', label:'Flight Tickets',     sub:'E-ticket copies'},
+  {type:'hotel',      icon:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0C1B33" stroke-width="1.5"><path d="M3 21V7a2 2 0 0 1 2-2h4v16M15 21V9a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v12M3 21h18M9 8h.01M9 12h.01M9 16h.01"/></svg>', label:'Hotel Vouchers',     sub:'Booking confirmations'},
+  {type:'vaccination',icon:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0C1B33" stroke-width="1.5"><path d="M13 2 3 12l4 4 10-10zM13 2l4 4M15 6l4 4M9 12l4 4M11 14l-3 3-2-2 3-3"/></svg>', label:'Vaccination Cert',   sub:'COVID & other vaccines'},
 ];
 
 let travellers = [];
@@ -196,7 +195,6 @@ function renderTravellers() {
 
   if (!travellers.length) {
     el.innerHTML = `<div class="empty-state">
-      <div class="empty-icon">👥</div>
       <div style="font-weight:600;color:#374151;margin-bottom:4px">No co-travellers saved yet</div>
       <div style="font-size:.82rem">Add family members to book group trips faster.</div>
     </div>`;
@@ -218,7 +216,7 @@ function renderTravellers() {
           ${ageLabel} ${ageLabel&&relLabel?'·':''} ${relLabel}
           ${t.gender?` · ${t.gender.charAt(0).toUpperCase()+t.gender.slice(1)}`:''}
           ${t.id_type?` · ${t.id_type.toUpperCase()}`:''}
-          ${passWarning?'<span style="color:#f59e0b;font-weight:700"> ⚠️ Passport expiring soon</span>':''}
+          ${passWarning?'<span style="color:#f59e0b;font-weight:700">  Passport expiring soon</span>':''}
         </div>
         <div style="display:flex;gap:5px;margin-top:6px">
           ${t.passport_no?`<span class="badge b-blue">Passport</span>`:''}
@@ -273,7 +271,7 @@ window.saveTraveller = async () => {
   const btn   = document.getElementById('save-btn');
   if (!name) { errEl.textContent='Full name is required'; return; }
 
-  btn.textContent='⏳ Saving...'; btn.disabled=true;
+  btn.textContent='Saving...'; btn.disabled=true;
   try {
     await saveCotraveller({
       id:              document.getElementById('edit-id').value || undefined,
@@ -288,7 +286,7 @@ window.saveTraveller = async () => {
       notes:           document.getElementById('t-notes').value.trim()||null,
     });
     closeModal();
-    showToast('✅ Co-traveller saved');
+    showToast('Co-traveller saved');
     await loadTravellers();
   } catch(e) {
     errEl.textContent = 'Error: '+e.message;
@@ -322,7 +320,7 @@ async function loadDocuments() {
       </div>
       ${doc ? `
         <div>
-          <div class="doc-status-uploaded">✅ Uploaded</div>
+          <div class="doc-status-uploaded">Uploaded</div>
           <a href="${doc.file_url}" target="_blank" style="font-size:.72rem;color:#C9922A;text-decoration:none">View →</a>
         </div>` : `
         <div class="doc-status-missing">Not uploaded</div>`}
@@ -337,7 +335,7 @@ async function loadDocuments() {
 window.uploadDocType = async (input, type, label) => {
   const file = input.files[0];
   if (!file) return;
-  showToast('⏳ Uploading...');
+  showToast('Uploading...');
   try {
     const ext  = file.name.split('.').pop();
     const path = `documents/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
@@ -345,7 +343,7 @@ window.uploadDocType = async (input, type, label) => {
     if (error) throw error;
     const { data } = supabase.storage.from('zoomfly-images').getPublicUrl(path);
     await saveTravelDocument({ doc_type: type, doc_name: label, file_url: data.publicUrl });
-    showToast(`✅ ${label} uploaded`);
+    showToast(`${label} uploaded`);
     await loadDocuments();
   } catch(e) { showToast('Upload failed: '+e.message); }
 };
@@ -354,7 +352,7 @@ window.uploadDocument = async (input) => {
   const file = input.files[0];
   if (!file) return;
   const label = prompt('Document name:', file.name.replace(/\.[^.]+$/,''))||file.name;
-  showToast('⏳ Uploading...');
+  showToast('Uploading...');
   try {
     const ext  = file.name.split('.').pop();
     const path = `documents/${Date.now()}.${ext}`;
@@ -362,7 +360,7 @@ window.uploadDocument = async (input) => {
     if (error) throw error;
     const { data } = supabase.storage.from('zoomfly-images').getPublicUrl(path);
     await saveTravelDocument({ doc_type:'other', doc_name:label, file_url:data.publicUrl });
-    showToast(`✅ ${label} uploaded`);
+    showToast(`${label} uploaded`);
     await loadDocuments();
   } catch(e) { showToast('Upload failed: '+e.message); }
 };
@@ -377,7 +375,7 @@ async function loadAlerts() {
   el.innerHTML = alerts.map(a => {
     const pkg = a.packages;
     return `<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:12px 14px;display:flex;align-items:center;gap:12px;margin-bottom:8px">
-      <div style="font-size:1.4rem">${pkg?.emoji||'🗺️'}</div>
+      <div style="width:32px;height:32px;flex-shrink:0;border-radius:6px;overflow:hidden;background:#e2e8f0">${(pkg?.photos&&pkg.photos[0])||pkg?.image_url ? `<img src="${esc((pkg.photos&&pkg.photos[0])||pkg.image_url)}" alt="" style="width:100%;height:100%;object-fit:cover"/>` : ''}</div>
       <div style="flex:1">
         <div style="font-weight:600;font-size:.88rem">${esc(pkg?.title||'Package')}</div>
         <div style="font-size:.75rem;color:#64748b;margin-top:2px">
