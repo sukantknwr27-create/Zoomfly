@@ -54,22 +54,46 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   // ── Destinations grid ──────────────────────────────────────
+  // Shows the hardcoded list instantly (so the section never looks empty
+  // while the network request is in flight), then swaps in whichever
+  // destinations the admin has actually marked "Show in homepage featured
+  // destinations grid" in Admin → Destinations, if any exist.
   const destGrid = document.getElementById('homeDestinations');
   if (destGrid && typeof ZF !== 'undefined') {
-    destGrid.innerHTML = ZF.destinations.map((d, i) => {
-      const imgUrl = DEST_IMAGES[d.name] || 'https://images.unsplash.com/photo-1488085061851-e0efdae7d6e3?w=600&h=400&fit=crop&auto=format';
+    const renderDestCard = (d, i) => {
+      const imgUrl = d.image || DEST_IMAGES[d.name] || 'https://images.unsplash.com/photo-1488085061851-e0efdae7d6e3?w=600&h=400&fit=crop&auto=format';
+      const href = '/pages/destinations.html';
       return `<div class="dest-card reveal ${i===0?'dest-large':''}"
         style="--bg:${d.bg};transition-delay:${i*60}ms;background-image:url('${imgUrl}');background-size:cover;background-position:center"
-        onclick="window.location='/pages/packages.html'">
+        onclick="window.location='${href}'">
         <div class="dest-overlay" style="background:linear-gradient(to top,rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.1) 60%)"></div>
         <div class="dest-info">
           <div class="dest-name">${esc(d.name)}</div>
-          <div class="dest-tagline">${esc(d.tagline)}</div>
-          <div class="dest-price">From ₹${d.from.toLocaleString('en-IN')}</div>
+          <div class="dest-tagline">${esc(d.tagline||'')}</div>
+          <div class="dest-price">From ₹${Number(d.from||0).toLocaleString('en-IN')}</div>
         </div>
       </div>`;
-    }).join('');
+    };
+
+    destGrid.innerHTML = ZF.destinations.map(renderDestCard).join('');
     if (typeof initReveal === 'function') initReveal();
+
+    try {
+      const { supabase } = await import('./supabase.js');
+      const { data } = await supabase
+        .from('destinations').select('*')
+        .eq('is_active', true).eq('is_featured', true)
+        .order('name').limit(8);
+      if (data?.length) {
+        const mapped = data.map(d => ({
+          id: d.id, name: d.name, tagline: d.tagline,
+          bg: d.bg_gradient || 'linear-gradient(160deg,#667eea,#764ba2)',
+          from: d.from_price, image: d.image_url,
+        }));
+        destGrid.innerHTML = mapped.map(renderDestCard).join('');
+        if (typeof initReveal === 'function') initReveal();
+      }
+    } catch(e) { console.warn('[home] destinations fetch failed, using static list:', e?.message); }
   }
 
   // ── Testimonials ───────────────────────────────────────────
