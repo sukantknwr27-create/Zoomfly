@@ -523,7 +523,7 @@ function renderPage(p) {
 
   // Highlights
   document.getElementById('highlightList').innerHTML = highlights.length
-    ? highlights.map(h => `<div style="display:flex;align-items:center;gap:10px;font-size:.9rem"><span></span><span>${esc(h)}</span></div>`).join('')
+    ? highlights.map(h => `<div style="display:flex;align-items:center;gap:10px;font-size:.9rem"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="2" style="flex-shrink:0"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg><span>${esc(h)}</span></div>`).join('')
     : '<p style="color:var(--text-muted)">Highlights coming soon.</p>';
 
   // Sidebar

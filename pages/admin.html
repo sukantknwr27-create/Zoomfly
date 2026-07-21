@@ -1150,6 +1150,10 @@ setTimeout(function() {
             <label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Or paste an Image URL</label>
             <input id="dest-image" placeholder="https://..." style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px"/>
           </div>
+          <div style="margin-bottom:1rem;display:flex;align-items:center;gap:8px">
+            <input type="checkbox" id="dest-featured" style="width:16px;height:16px;cursor:pointer"/>
+            <label for="dest-featured" style="font-size:.82rem;cursor:pointer">Show in homepage featured destinations grid</label>
+          </div>
           <div id="dest-modal-msg" style="font-size:.8rem;margin-bottom:1rem;color:#dc2626"></div>
           <div style="display:flex;gap:.6rem;justify-content:flex-end">
             <button onclick="closeDestModal()" style="background:none;border:1.5px solid #e2e8f0;border-radius:8px;padding:.65rem 1.2rem;cursor:pointer">Cancel</button>
@@ -1602,6 +1606,18 @@ Book now: https://www.zoomfly.in/pages/packages.html — ZoomFly Team</textarea>
               <textarea id="ss-hero-subtitle" rows="2" placeholder="Curated tours, seamless flights, handpicked hotels — crafted for travellers who expect more than ordinary." style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;resize:vertical"></textarea></div>
             <div style="font-size:.72rem;color:#94a3b8">Shown at the top of the homepage. Note: editing the title replaces the styled two-line headline with plain text — leave blank to keep the designed default.</div>
           </div>
+        </div>
+
+        <div class="table-card" style="margin-top:16px">
+          <h3 style="margin-bottom:.4rem">Hero Background Photos</h3>
+          <div style="font-size:.78rem;color:#64748b;margin-bottom:1rem">Add 2 or more photos to show a rotating carousel behind the homepage headline. Leave empty to keep the default gradient background.</div>
+          <div id="ss-hero-img-preview" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px"></div>
+          <div style="display:flex;gap:8px">
+            <input type="url" id="ss-hero-img-url" placeholder="Paste photo URL (https://...)" style="flex:1;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;font-size:.85rem"
+                   onkeydown="if(event.key==='Enter'){event.preventDefault();addHeroImage();}"/>
+            <button type="button" onclick="addHeroImage()" style="padding:.65rem 1.1rem;background:#0C1B33;color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit;font-size:.8rem;white-space:nowrap">Add URL</button>
+          </div>
+          <input type="hidden" id="ss-hero-images"/>
         </div>
 
         <div class="table-card" style="margin-top:16px">
@@ -2084,6 +2100,7 @@ async function loadDestinations() {
     }
     grid.innerHTML = data.map(d => `
       <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px;position:relative;">
+        ${d.is_featured ? `<span style="position:absolute;top:10px;right:10px;background:#C9922A;color:#fff;font-size:.65rem;font-weight:700;padding:2px 8px;border-radius:10px;z-index:1">★ Featured</span>` : ''}
         ${d.image_url
           ? `<img src="${d.image_url}" style="width:100%;height:110px;object-fit:cover;border-radius:8px;margin-bottom:10px" onerror="this.style.display='none'"/>`
           : `<div style="width:100%;height:110px;background:${d.bg_gradient||'linear-gradient(135deg,#4facfe,#00f2fe)'};border-radius:8px;margin-bottom:10px"></div>`}
@@ -2111,6 +2128,7 @@ window.openAddDestination = () => {
   document.getElementById('dest-tags').value = '';
   document.getElementById('dest-desc').value = '';
   document.getElementById('dest-image').value = '';
+  document.getElementById('dest-featured').checked = false;
   document.getElementById('dest-img-preview').innerHTML = '';
   document.getElementById('dest-img-status').textContent = '';
   document.getElementById('dest-modal-msg').textContent = '';
@@ -2135,6 +2153,7 @@ window.editDestination = async (id) => {
   document.getElementById('dest-tags').value = (d.tags || []).join(', ');
   document.getElementById('dest-desc').value = d.description || '';
   document.getElementById('dest-image').value = d.image_url || '';
+  document.getElementById('dest-featured').checked = !!d.is_featured;
   document.getElementById('dest-img-preview').innerHTML = d.image_url
     ? `<img src="${esc(d.image_url)}" style="width:100%;max-width:200px;height:110px;object-fit:cover;border-radius:8px;border:1.5px solid #e2e8f0"/>` : '';
   document.getElementById('dest-img-status').textContent = '';
@@ -2156,13 +2175,14 @@ window.saveDestination = async () => {
   const tags     = document.getElementById('dest-tags').value.split(',').map(s=>s.trim()).filter(Boolean);
   const description = document.getElementById('dest-desc').value.trim() || null;
   const imageUrl = document.getElementById('dest-image').value.trim() || null;
+  const isFeatured = document.getElementById('dest-featured').checked;
   const msg      = document.getElementById('dest-modal-msg');
   if (!name) { msg.textContent = 'Destination name is required.'; return; }
 
   const payload = {
     name, country, state, emoji, dest_type: destType, tagline,
     from_price: fromPrice, best_time: bestTime, categories, tags,
-    description, image_url: imageUrl,
+    description, image_url: imageUrl, is_featured: isFeatured,
   };
   const { error } = id
     ? await supabase.from('destinations').update(payload).eq('id', id)
@@ -2691,6 +2711,7 @@ window.saveSettings = async () => {
     favicon_url:     document.getElementById('ss-favicon')?.value || '',
     homepage_hero_title:    document.getElementById('ss-hero-title')?.value    || '',
     homepage_hero_subtitle: document.getElementById('ss-hero-subtitle')?.value || '',
+    homepage_hero_images:   (document.getElementById('ss-hero-images')?.value || '').split(',').map(s=>s.trim()).filter(Boolean),
     meta_title:       document.getElementById('ss-meta-title')?.value || '',
     meta_description: document.getElementById('ss-meta-desc')?.value  || '',
     social_instagram: document.getElementById('ss-instagram')?.value  || '',
@@ -2921,6 +2942,18 @@ window.loadSiteSettings = async () => {
         document.getElementById('ss-favicon-preview').innerHTML = `<img src="${data.favicon_url}" style="height:28px;width:28px;object-fit:contain;border-radius:6px;border:1.5px solid #e2e8f0"/>`;
       if (document.getElementById('ss-hero-title'))    document.getElementById('ss-hero-title').value    = data.homepage_hero_title    || '';
       if (document.getElementById('ss-hero-subtitle')) document.getElementById('ss-hero-subtitle').value = data.homepage_hero_subtitle || '';
+      if (Array.isArray(data.homepage_hero_images) && document.getElementById('ss-hero-images')) {
+        document.getElementById('ss-hero-images').value = data.homepage_hero_images.join(',');
+        const prev = document.getElementById('ss-hero-img-preview');
+        if (prev) {
+          prev.innerHTML = data.homepage_hero_images.map(url => `
+            <div style="position:relative;flex-shrink:0">
+              <img src="${url}" style="width:80px;height:50px;object-fit:cover;border-radius:6px;border:1.5px solid #e2e8f0" onerror="this.parentElement.remove()"/>
+              <button onclick="removeHeroImage('${url}',this.parentElement)"
+                style="position:absolute;top:-6px;right:-6px;width:18px;height:18px;background:#dc2626;color:#fff;border:none;border-radius:50%;font-size:.6rem;cursor:pointer;display:flex;align-items:center;justify-content:center">✕</button>
+            </div>`).join('');
+        }
+      }
       if (document.getElementById('ss-meta-title')) document.getElementById('ss-meta-title').value = data.meta_title || '';
       if (document.getElementById('ss-meta-desc'))  document.getElementById('ss-meta-desc').value  = data.meta_description || '';
       if (document.getElementById('ss-instagram')) document.getElementById('ss-instagram').value = data.social_instagram || '';
@@ -3409,6 +3442,34 @@ window.removeUploadedImg = (url, container) => {
   container.remove();
   const status = document.getElementById('pm-img-status');
   if (status) status.textContent = uploadedImageUrls.length ? `${uploadedImageUrls.length} photo(s) uploaded` : '';
+};
+
+window.removeHeroImage = (url, container) => {
+  const hidden = document.getElementById('ss-hero-images');
+  const urls = hidden.value.split(',').map(s=>s.trim()).filter(u => u && u !== url);
+  hidden.value = urls.join(',');
+  container.remove();
+};
+
+window.addHeroImage = () => {
+  const input = document.getElementById('ss-hero-img-url');
+  const url = (input.value || '').trim();
+  if (!url) return;
+  try { new URL(url); } catch { toast('Enter a valid image URL', 'error'); return; }
+  const hidden = document.getElementById('ss-hero-images');
+  const urls = hidden.value.split(',').map(s=>s.trim()).filter(Boolean);
+  if (urls.includes(url)) { toast('That photo URL is already added', 'error'); input.value=''; return; }
+  urls.push(url);
+  hidden.value = urls.join(',');
+
+  const preview = document.getElementById('ss-hero-img-preview');
+  const div = document.createElement('div');
+  div.style.cssText = 'position:relative;flex-shrink:0';
+  div.innerHTML = `<img src="${url}" style="width:80px;height:50px;object-fit:cover;border-radius:6px;border:1.5px solid #e2e8f0" onerror="this.parentElement.remove()"/>
+    <button onclick="removeHeroImage('${url}',this.parentElement)"
+      style="position:absolute;top:-6px;right:-6px;width:18px;height:18px;background:#dc2626;color:#fff;border:none;border-radius:50%;font-size:.6rem;cursor:pointer;display:flex;align-items:center;justify-content:center">✕</button>`;
+  preview.appendChild(div);
+  input.value = '';
 };
 
 window.addImageByUrl = () => {
