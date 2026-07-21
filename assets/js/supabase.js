@@ -347,7 +347,7 @@ export async function setPriceAlert(packageId, targetPrice) {
 export async function getPriceAlerts() {
   const user = await getUser();
   if (!user) return [];
-  const { data } = await supabase.from('price_alerts').select('*, packages(title,price,emoji)').eq('user_id', user.id).eq('is_active', true);
+  const { data } = await supabase.from('price_alerts').select('*, packages(title,price,photos,image_url)').eq('user_id', user.id).eq('is_active', true);
   return data || [];
 }
 
@@ -651,7 +651,7 @@ export async function loadNav(activePage = '') {
     if (!res.ok) throw new Error('nav fetch failed');
     nav.innerHTML = await res.text();
   } catch {
-    nav.innerHTML = '<nav style="background:#0C1B33;padding:14px 20px;display:flex;align-items:center;justify-content:space-between"><a href="/" style="color:#fff;font-weight:800;text-decoration:none;font-size:1.1rem">ZoomFly ✈</a></nav>';
+    nav.innerHTML = '<nav style="background:#0C1B33;padding:14px 20px;display:flex;align-items:center;justify-content:space-between"><a href="/" style="color:#fff;font-weight:800;text-decoration:none;font-size:1.1rem">ZoomFly</a></nav>';
   }
   if (activePage) {
     const link = nav.querySelector(`[data-page="${activePage}"]`);

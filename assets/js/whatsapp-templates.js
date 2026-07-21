@@ -96,25 +96,25 @@ function buildCustomerMessage(type, b) {
 
 function customerHeader(b) {
   return [
-    `✈️ *ZoomFly — Booking Request*`,
+    `*ZoomFly — Booking Request*`,
     `━━━━━━━━━━━━━━━━━━━━━━`,
-    `📋 Ref No: *${b.booking_ref}*`,
-    `🗓️ Submitted: ${fmtDateTime(b.created_at || new Date())}`,
+    `Ref No: *${b.booking_ref}*`,
+    `Submitted: ${fmtDateTime(b.created_at || new Date())}`,
   ].join('\n');
 }
 
 function customerFooter(b) {
   return [
     `━━━━━━━━━━━━━━━━━━━━━━`,
-    `⏳ *Status: Awaiting Confirmation*`,
+    `*Status: Awaiting Confirmation*`,
     ``,
     `Our team will confirm your booking within *30 minutes* during business hours.`,
     ``,
-    `📞 Questions? Call/WhatsApp: *+91 80761 36300*`,
-    `📧 Email: ${ZOOMFLY.admin_email}`,
-    `🌐 ${ZOOMFLY.website}`,
+    `Questions? Call/WhatsApp: *+91 80761 36300*`,
+    `Email: ${ZOOMFLY.admin_email}`,
+    `${ZOOMFLY.website}`,
     ``,
-    `_Thank you for choosing ZoomFly_ 🙏`,
+    `_Thank you for choosing ZoomFly_`,
   ].join('\n');
 }
 
@@ -124,30 +124,30 @@ function customerBody(type, b) {
 
     // ── FLIGHT ───────────────────────────────────────────────
     case 'flight': return [
-      `✈️ *FLIGHT BOOKING REQUEST*`,
+      `*FLIGHT BOOKING REQUEST*`,
       ``,
-      `🛫 *Route*`,
+      `*Route*`,
       `   ${td.from_city || td.from || td.origin || '—'} → ${td.to_city || td.to || td.destination || '—'}`,
       ``,
-      `📅 *Travel Details*`,
+      `*Travel Details*`,
       `   Departure : ${fmtDate(td.date || td.depart_date)}`,
       (td.return_date)
         ? `   Return    : ${fmtDate(td.return_date)}`
         : null,
-      `   Trip Type : ${(td.trip_type === 'round_trip' || td.trip_type === 'roundtrip') ? '🔄 Round Trip' : '➡️ One Way'}`,
+      `   Trip Type : ${(td.trip_type === 'round_trip' || td.trip_type === 'roundtrip') ? 'Round Trip' : 'One Way'}`,
       `   Cabin     : ${capitalize(td.class || td.cabin_class || 'Economy')}`,
       ``,
-      `👥 *Travellers*`,
+      `*Travellers*`,
       `   Adults   : ${b.num_adults || 1}`,
       b.num_children > 0 ? `   Children : ${b.num_children}` : null,
       b.num_infants  > 0 ? `   Infants  : ${b.num_infants}`  : null,
       ``,
-      `👤 *Lead Passenger*`,
+      `*Lead Passenger*`,
       `   Name  : ${b.customer_name}`,
       `   Phone : ${b.customer_phone}`,
       `   Email : ${b.customer_email}`,
       ``,
-      `💰 *Fare Summary*`,
+      `*Fare Summary*`,
       `   Base Fare : ₹${fmtAmt(b.base_amount)}`,
       `   Taxes     : ₹${fmtAmt(b.tax_amount)}`,
       b.discount_amount > 0
@@ -156,38 +156,38 @@ function customerBody(type, b) {
       `   ┌──────────────────────┐`,
       `   │ *TOTAL: ₹${fmtAmt(b.total_amount)}* │`,
       `   └──────────────────────┘`,
-      b.promo_code ? `   🎟️ Promo: ${b.promo_code}` : null,
+      b.promo_code ? `    Promo: ${b.promo_code}` : null,
       b.special_requests
-        ? `\n📝 *Special Request*\n   ${b.special_requests}`
+        ? `\n *Special Request*\n   ${b.special_requests}`
         : null,
     ].filter(v => v !== null).join('\n');
 
 
     // ── HOTEL ────────────────────────────────────────────────
     case 'hotel': return [
-      `🏨 *HOTEL BOOKING REQUEST*`,
+      `*HOTEL BOOKING REQUEST*`,
       ``,
-      `🏩 *Property*`,
+      `*Property*`,
       `   ${td.hotel_name || td.property_name || '—'}`,
-      `   📍 ${td.city || td.location || '—'}`,
+      `    ${td.city || td.location || '—'}`,
       ``,
-      `📅 *Stay Details*`,
+      `*Stay Details*`,
       `   Check-in  : ${fmtDate(td.check_in || td.checkin_date)}`,
       `   Check-out : ${fmtDate(td.check_out || td.checkout_date)}`,
       `   Nights    : ${td.nights || calcNights(td.check_in || td.checkin_date, td.check_out || td.checkout_date)}`,
       `   Room Type : ${td.room_type || 'Standard'}`,
       `   Rooms     : ${td.num_rooms || td.rooms || 1}`,
       ``,
-      `👥 *Guests*`,
+      `*Guests*`,
       `   Adults   : ${b.num_adults || 1}`,
       b.num_children > 0 ? `   Children : ${b.num_children}` : null,
       ``,
-      `👤 *Lead Guest*`,
+      `*Lead Guest*`,
       `   Name  : ${b.customer_name}`,
       `   Phone : ${b.customer_phone}`,
       `   Email : ${b.customer_email}`,
       ``,
-      `💰 *Price Summary*`,
+      `*Price Summary*`,
       `   Room Rate : ₹${fmtAmt(b.base_amount)}`,
       `   Taxes     : ₹${fmtAmt(b.tax_amount)}`,
       b.discount_amount > 0
@@ -197,38 +197,38 @@ function customerBody(type, b) {
       `   │ *TOTAL: ₹${fmtAmt(b.total_amount)}* │`,
       `   └──────────────────────┘`,
       b.special_requests
-        ? `\n📝 *Special Request*\n   ${b.special_requests}`
+        ? `\n *Special Request*\n   ${b.special_requests}`
         : null,
     ].filter(v => v !== null).join('\n');
 
 
     // ── PACKAGE ──────────────────────────────────────────────
     case 'package': return [
-      `🧳 *HOLIDAY PACKAGE REQUEST*`,
+      `*HOLIDAY PACKAGE REQUEST*`,
       ``,
-      `🌴 *Package*`,
+      `*Package*`,
       `   ${td.package_name || '—'}`,
-      `   📍 ${td.destination || '—'}`,
-      td.duration ? `   ⏱️ Duration : ${td.duration}` : null,
+      `    ${td.destination || '—'}`,
+      td.duration ? `    Duration : ${td.duration}` : null,
       ``,
-      `📅 *Travel Dates*`,
+      `*Travel Dates*`,
       `   Departure : ${fmtDate(td.start_date || td.travel_date)}`,
       td.end_date ? `   Return    : ${fmtDate(td.end_date)}` : null,
       ``,
-      `👥 *Travellers*`,
+      `*Travellers*`,
       `   Adults   : ${b.num_adults || 1}`,
       b.num_children > 0 ? `   Children : ${b.num_children}` : null,
       td.hotel_class ? `   Hotel    : ${td.hotel_class}` : null,
       td.inclusions?.length > 0
-        ? `\n✅ *Inclusions*\n${td.inclusions.map(i => `   • ${i}`).join('\n')}`
+        ? `\n *Inclusions*\n${td.inclusions.map(i => `   • ${i}`).join('\n')}`
         : null,
       ``,
-      `👤 *Lead Traveller*`,
+      `*Lead Traveller*`,
       `   Name  : ${b.customer_name}`,
       `   Phone : ${b.customer_phone}`,
       `   Email : ${b.customer_email}`,
       ``,
-      `💰 *Package Price*`,
+      `*Package Price*`,
       `   Package Cost : ₹${fmtAmt(b.base_amount)}`,
       `   Taxes        : ₹${fmtAmt(b.tax_amount)}`,
       b.discount_amount > 0
@@ -237,21 +237,21 @@ function customerBody(type, b) {
       `   ┌──────────────────────┐`,
       `   │ *TOTAL: ₹${fmtAmt(b.total_amount)}* │`,
       `   └──────────────────────┘`,
-      b.promo_code ? `   🎟️ Promo: ${b.promo_code}` : null,
+      b.promo_code ? `    Promo: ${b.promo_code}` : null,
       b.special_requests
-        ? `\n📝 *Special Request*\n   ${b.special_requests}`
+        ? `\n *Special Request*\n   ${b.special_requests}`
         : null,
     ].filter(v => v !== null).join('\n');
 
 
     // ── BUS ──────────────────────────────────────────────────
     case 'bus': return [
-      `🚌 *BUS BOOKING REQUEST*`,
+      `*BUS BOOKING REQUEST*`,
       ``,
-      `🛣️ *Route*`,
+      `*Route*`,
       `   ${td.from || td.from_city || '—'} → ${td.to || td.to_city || '—'}`,
       ``,
-      `📅 *Journey Details*`,
+      `*Journey Details*`,
       `   Date       : ${fmtDate(td.date || td.travel_date)}`,
       td.departure_time ? `   Departure  : ${td.departure_time}` : null,
       td.arrival_time   ? `   Arrival    : ${td.arrival_time}`   : null,
@@ -261,58 +261,58 @@ function customerBody(type, b) {
         ? `   Seats      : ${(td.seat_numbers || td.seats).join(', ')}`
         : null,
       ``,
-      `👥 *Passengers*`,
+      `*Passengers*`,
       `   Adults   : ${b.num_adults || 1}`,
       b.num_children > 0 ? `   Children : ${b.num_children}` : null,
       ``,
-      `👤 *Lead Passenger*`,
+      `*Lead Passenger*`,
       `   Name  : ${b.customer_name}`,
       `   Phone : ${b.customer_phone}`,
       `   Email : ${b.customer_email}`,
       ``,
-      `💰 *Fare Summary*`,
+      `*Fare Summary*`,
       `   Fare   : ₹${fmtAmt(b.base_amount)}`,
       `   Taxes  : ₹${fmtAmt(b.tax_amount)}`,
       `   ┌──────────────────────┐`,
       `   │ *TOTAL: ₹${fmtAmt(b.total_amount)}* │`,
       `   └──────────────────────┘`,
       b.special_requests
-        ? `\n📝 *Special Request*\n   ${b.special_requests}`
+        ? `\n *Special Request*\n   ${b.special_requests}`
         : null,
     ].filter(v => v !== null).join('\n');
 
 
     // ── CAB ──────────────────────────────────────────────────
     case 'cab': return [
-      `🚖 *CAB BOOKING REQUEST*`,
+      `*CAB BOOKING REQUEST*`,
       ``,
-      `📍 *Journey*`,
+      `*Journey*`,
       `   Pickup : ${td.from || td.pickup_location || '—'}`,
       `   Drop   : ${td.to   || td.drop_location   || '—'}`,
       ``,
-      `📅 *Pickup Details*`,
+      `*Pickup Details*`,
       `   Date     : ${fmtDate(td.pickup_date)}`,
       td.pickup_time
         ? `   Time     : ${td.pickup_time}`
         : null,
       `   Cab Type : ${td.cab_type || 'Sedan'}`,
-      `   Trip     : ${td.trip_type === 'round_trip' ? '🔄 Round Trip' : '➡️ One Way'}`,
+      `   Trip     : ${td.trip_type === 'round_trip' ? 'Round Trip' : 'One Way'}`,
       `   Pax      : ${td.passengers || b.num_adults || 1}`,
       td.luggage ? `   Luggage  : ${td.luggage}` : null,
       ``,
-      `👤 *Customer*`,
+      `*Customer*`,
       `   Name  : ${b.customer_name}`,
       `   Phone : ${b.customer_phone}`,
       `   Email : ${b.customer_email}`,
       ``,
-      `💰 *Fare*`,
+      `*Fare*`,
       `   Base Fare : ₹${fmtAmt(b.base_amount)}`,
       `   Taxes     : ₹${fmtAmt(b.tax_amount)}`,
       `   ┌──────────────────────┐`,
       `   │ *TOTAL: ₹${fmtAmt(b.total_amount)}* │`,
       `   └──────────────────────┘`,
       b.special_requests
-        ? `\n📝 *Special Request*\n   ${b.special_requests}`
+        ? `\n *Special Request*\n   ${b.special_requests}`
         : null,
     ].filter(v => v !== null).join('\n');
 
@@ -332,13 +332,13 @@ function buildAdminMessage(type, b) {
   const urgency = getUrgencyFlag(b);
 
   return [
-    `🔔 *NEW BOOKING — ZoomFly Admin*`,
+    `*NEW BOOKING — ZoomFly Admin*`,
     `━━━━━━━━━━━━━━━━━━━━━━`,
     `${urgency}`,
-    `📋 Ref   : *${b.booking_ref}*`,
-    `🗂️ Type  : ${typeLabel(type)}`,
+    `Ref   : *${b.booking_ref}*`,
+    `Type  : ${typeLabel(type)}`,
     ``,
-    `👤 *Customer*`,
+    `*Customer*`,
     `   Name  : ${b.customer_name}`,
     `   Phone : ${b.customer_phone}`,
     `   Email : ${b.customer_email}`,
@@ -346,11 +346,11 @@ function buildAdminMessage(type, b) {
       ? `   WA    : ${b.customer_whatsapp}`
       : null,
     ``,
-    `📦 *Service*`,
+    `*Service*`,
     `   ${b.service_name || '—'}`,
     ...buildAdminTravelSummary(type, td, b),
     ``,
-    `💰 *Financials*`,
+    `*Financials*`,
     `   Base     : ₹${fmtAmt(b.base_amount)}`,
     `   Tax      : ₹${fmtAmt(b.tax_amount)}`,
     b.discount_amount > 0
@@ -359,18 +359,18 @@ function buildAdminMessage(type, b) {
     `   *TOTAL   : ₹${fmtAmt(b.total_amount)}*`,
     b.promo_code ? `   Promo    : ${b.promo_code}` : null,
     ``,
-    `📊 *Status*`,
+    `*Status*`,
     `   Booking  : ${b.status || 'pending'}`,
     `   Payment  : ${b.payment_status || 'pending'}`,
     `   Source   : ${b.booking_source || 'website'}`,
     ``,
     b.special_requests
-      ? `📝 *Special Req*: ${b.special_requests}\n`
+      ? `*Special Req*: ${b.special_requests}\n`
       : null,
     `━━━━━━━━━━━━━━━━━━━━━━`,
-    `⏰ Submitted: ${fmtDateTime(b.created_at || new Date())}`,
+    `Submitted: ${fmtDateTime(b.created_at || new Date())}`,
     ``,
-    `👉 *Action Required:* Confirm with vendor and send customer update within 30 mins.`,
+    `*Action Required:* Confirm with vendor and send customer update within 30 mins.`,
   ].filter(v => v !== null).join('\n');
 }
 
@@ -414,12 +414,12 @@ function buildAdminTravelSummary(type, td, b) {
 function getUrgencyFlag(b) {
   const td = b.travel_details || {};
   const travelDate = td.date || td.depart_date || td.check_in || td.checkin_date || td.start_date || td.travel_date || td.pickup_date;
-  if (!travelDate) return `🟡 *Priority: Normal*`;
+  if (!travelDate) return `*Priority: Normal*`;
   const daysAway = Math.round((new Date(travelDate) - new Date()) / 86400000);
-  if (daysAway <= 1)  return `🔴 *Priority: URGENT — Travel in ${daysAway <= 0 ? 'Today!' : '1 day!'}*`;
-  if (daysAway <= 3)  return `🟠 *Priority: HIGH — Travel in ${daysAway} days*`;
-  if (daysAway <= 7)  return `🟡 *Priority: Medium — Travel in ${daysAway} days*`;
-  return `🟢 *Priority: Normal — Travel in ${daysAway} days*`;
+  if (daysAway <= 1)  return `*Priority: URGENT — Travel in ${daysAway <= 0 ? 'Today!' : '1 day!'}*`;
+  if (daysAway <= 3)  return `*Priority: HIGH — Travel in ${daysAway} days*`;
+  if (daysAway <= 7)  return `*Priority: Medium — Travel in ${daysAway} days*`;
+  return `*Priority: Normal — Travel in ${daysAway} days*`;
 }
 
 
@@ -429,29 +429,29 @@ function getUrgencyFlag(b) {
 
 function buildStatusUpdateMessage(booking, newStatus, note) {
   const statusMap = {
-    confirmed:  { emoji: '✅', label: 'CONFIRMED',  msg: 'Your booking is confirmed! Payment details will follow.' },
-    processing: { emoji: '⚙️', label: 'PROCESSING', msg: 'We are processing your booking with the service provider.' },
-    completed:  { emoji: '🎉', label: 'COMPLETED',  msg: 'Your journey is complete. Thank you for travelling with ZoomFly!' },
-    cancelled:  { emoji: '❌', label: 'CANCELLED',  msg: 'Your booking has been cancelled. Refund (if applicable) will be processed within 5–7 business days.' },
-    refunded:   { emoji: '💰', label: 'REFUNDED',   msg: 'Your refund has been processed and will reflect in your account within 3–5 business days.' },
+    confirmed:  { label: 'CONFIRMED',  msg: 'Your booking is confirmed! Payment details will follow.' },
+    processing: { label: 'PROCESSING', msg: 'We are processing your booking with the service provider.' },
+    completed:  { label: 'COMPLETED',  msg: 'Your journey is complete. Thank you for travelling with ZoomFly!' },
+    cancelled:  { label: 'CANCELLED',  msg: 'Your booking has been cancelled. Refund (if applicable) will be processed within 5–7 business days.' },
+    refunded:   { label: 'REFUNDED',   msg: 'Your refund has been processed and will reflect in your account within 3–5 business days.' },
   };
 
-  const s = statusMap[newStatus] || { emoji: 'ℹ️', label: (newStatus || 'UPDATED').toUpperCase(), msg: '' };
+  const s = statusMap[newStatus] || { label: (newStatus || 'UPDATED').toUpperCase(), msg: '' };
 
   return [
-    `${s.emoji} *ZoomFly Booking Update*`,
+    `*ZoomFly Booking Update*`,
     `━━━━━━━━━━━━━━━━━━━━━━`,
-    `📋 Ref: *${booking.booking_ref}*`,
-    `📦 Service: ${booking.service_name}`,
+    `Ref: *${booking.booking_ref}*`,
+    `Service: ${booking.service_name}`,
     ``,
-    `🔄 *Status: ${s.label}*`,
+    `*Status: ${s.label}*`,
     ``,
     s.msg,
-    note ? `\n📝 Note: ${note}` : null,
+    note ? `\n Note: ${note}` : null,
     ``,
     `━━━━━━━━━━━━━━━━━━━━━━`,
-    `❓ Questions? Reply to this message or call +91 80761 36300`,
-    `🌐 ${ZOOMFLY.website}`,
+    `Questions? Reply to this message or call +91 80761 36300`,
+    `${ZOOMFLY.website}`,
   ].filter(v => v !== null).join('\n');
 }
 
@@ -462,12 +462,12 @@ function buildStatusUpdateMessage(booking, newStatus, note) {
 
 function buildPaymentConfirmationMessage(booking) {
   return [
-    `💳 *Payment Received — ZoomFly*`,
+    `*Payment Received — ZoomFly*`,
     `━━━━━━━━━━━━━━━━━━━━━━`,
-    `📋 Booking Ref : *${booking.booking_ref}*`,
-    `📦 Service     : ${booking.service_name}`,
+    `Booking Ref : *${booking.booking_ref}*`,
+    `Service     : ${booking.service_name}`,
     ``,
-    `✅ *Payment of ₹${fmtAmt(booking.total_amount)} confirmed*`,
+    `*Payment of ₹${fmtAmt(booking.total_amount)} confirmed*`,
     booking.payment_method
       ? `   Method : ${paymentMethodLabel(booking.payment_method)}`
       : null,
@@ -476,12 +476,12 @@ function buildPaymentConfirmationMessage(booking) {
       : null,
     `   Paid At: ${fmtDateTime(booking.paid_at || new Date())}`,
     ``,
-    `📄 Your e-ticket / booking voucher will be sent within 2 hours.`,
+    `Your e-ticket / booking voucher will be sent within 2 hours.`,
     ``,
     `━━━━━━━━━━━━━━━━━━━━━━`,
-    `🙏 Thank you for choosing ZoomFly!`,
-    `📞 Support: +91 80761 36300`,
-    `🌐 ${ZOOMFLY.website}`,
+    `Thank you for choosing ZoomFly!`,
+    `Support: +91 80761 36300`,
+    `${ZOOMFLY.website}`,
   ].filter(v => v !== null).join('\n');
 }
 
@@ -492,23 +492,23 @@ function buildPaymentConfirmationMessage(booking) {
 
 function buildCancellationMessage(booking, refundAmount) {
   return [
-    `❌ *Booking Cancelled — ZoomFly*`,
+    `*Booking Cancelled — ZoomFly*`,
     `━━━━━━━━━━━━━━━━━━━━━━`,
-    `📋 Ref     : *${booking.booking_ref}*`,
-    `📦 Service : ${booking.service_name}`,
-    `👤 Name    : ${booking.customer_name}`,
+    `Ref     : *${booking.booking_ref}*`,
+    `Service : ${booking.service_name}`,
+    `Name    : ${booking.customer_name}`,
     ``,
     `Your booking has been successfully cancelled.`,
     ``,
     refundAmount > 0
-      ? `💰 *Refund Amount: ₹${fmtAmt(refundAmount)}*\n   Will be credited to your original payment method within *5–7 business days*.`
-      : `ℹ️ This booking is non-refundable as per our cancellation policy.`,
+      ? `*Refund Amount: ₹${fmtAmt(refundAmount)}*\n   Will be credited to your original payment method within *5–7 business days*.`
+      : `This booking is non-refundable as per our cancellation policy.`,
     ``,
-    `📋 Cancellation Policy: ${ZOOMFLY.website}/refund-policy.html`,
+    `Cancellation Policy: ${ZOOMFLY.website}/refund-policy.html`,
     ``,
     `━━━━━━━━━━━━━━━━━━━━━━`,
     `Need help? WhatsApp us: +91 80761 36300`,
-    `🌐 ${ZOOMFLY.website}`,
+    `${ZOOMFLY.website}`,
   ].filter(v => v !== null).join('\n');
 }
 
@@ -564,8 +564,8 @@ function capitalize(str) {
 
 function typeLabel(type) {
   const map = {
-    flight: '✈️ Flight', hotel: '🏨 Hotel', package: '🧳 Package',
-    bus: '🚌 Bus', cab: '🚖 Cab', destination: '🗺️ Destination'
+    flight: 'Flight', hotel: 'Hotel', package: 'Package',
+    bus: 'Bus', cab: 'Cab', destination: 'Destination'
   };
   return map[type] || type;
 }
@@ -601,7 +601,7 @@ export function renderTemplatePreview(serviceType, booking, containerId) {
       <div>
         <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;
           letter-spacing:1px;color:#64748b;margin-bottom:10px;">
-          📲 Customer Message
+           Customer Message
         </div>
         <div style="background:#075e54;border-radius:12px;padding:20px;
           font-family:monospace;font-size:0.82rem;color:#fff;
@@ -611,7 +611,7 @@ ${escHtml(customer)}
         <button onclick="copyText('customer-msg-${booking.booking_ref}')"
           style="margin-top:10px;padding:8px 16px;background:#1a73e8;color:#fff;
           border:none;border-radius:8px;cursor:pointer;font-size:0.82rem;font-weight:600;">
-          📋 Copy Customer Message
+           Copy Customer Message
         </button>
         <textarea id="customer-msg-${booking.booking_ref}"
           style="position:absolute;left:-9999px;">${escHtml(customer)}</textarea>
@@ -620,7 +620,7 @@ ${escHtml(customer)}
       <div>
         <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;
           letter-spacing:1px;color:#64748b;margin-bottom:10px;">
-          🔔 Admin Alert Message
+           Admin Alert Message
         </div>
         <div style="background:#1a2535;border-radius:12px;padding:20px;
           font-family:monospace;font-size:0.82rem;color:#e2e8f0;
@@ -630,7 +630,7 @@ ${escHtml(admin)}
         <button onclick="copyText('admin-msg-${booking.booking_ref}')"
           style="margin-top:10px;padding:8px 16px;background:#ff6b35;color:#fff;
           border:none;border-radius:8px;cursor:pointer;font-size:0.82rem;font-weight:600;">
-          📋 Copy Admin Alert
+           Copy Admin Alert
         </button>
         <textarea id="admin-msg-${booking.booking_ref}"
           style="position:absolute;left:-9999px;">${escHtml(admin)}</textarea>

@@ -42,18 +42,18 @@ export async function createBooking(serviceType, formData) {
 // ─── WHATSAPP MESSAGE ────────────────────────────────────────
 function _buildWAMessage(type, booking, f) {
   const lines = [
-    `✈️ *New Booking — ZoomFly*`,
-    `📋 Ref: *${booking.booking_ref}*`,
-    `🗂 Service: ${booking.service_name}`,
-    `👤 Name: ${booking.customer_name}`,
-    `📞 Phone: ${booking.customer_phone}`,
-    `💰 Amount: ₹${Number(booking.total_amount).toLocaleString('en-IN')}`,
+    `*New Booking — ZoomFly*`,
+    `Ref: *${booking.booking_ref}*`,
+    `Service: ${booking.service_name}`,
+    `Name: ${booking.customer_name}`,
+    `Phone: ${booking.customer_phone}`,
+    `Amount: ₹${Number(booking.total_amount).toLocaleString('en-IN')}`,
   ];
   const travelDate = f.travel_date || f.depart_date || f.start_date || f.check_in || f.date || f.pickup_date;
   if (travelDate) {
-    lines.push(`📅 Date: ${travelDate}`);
+    lines.push(`Date: ${travelDate}`);
   }
-  if (f.special_requests) lines.push(`📝 Notes: ${f.special_requests}`);
+  if (f.special_requests) lines.push(`Notes: ${f.special_requests}`);
   lines.push(`\nPlease confirm this booking.`);
   return lines.join('\n');
 }

@@ -2,12 +2,12 @@
 // Loads packages/testimonials from Supabase with static fallback
 
 const STATIC_PKGS = [
-  { id:'goa-beach',      title:'Goa Beach Escape',        emoji:'🏖️', bg_gradient:'linear-gradient(135deg,#667eea,#764ba2)', price:6999,  old_price:8999,  duration_days:4, nights:3, destination:'Goa' },
-  { id:'manali-snow',    title:'Manali Snow Adventure',    emoji:'🏔️', bg_gradient:'linear-gradient(135deg,#f093fb,#f5576c)', price:10499, old_price:13999, duration_days:6, nights:5, destination:'Manali' },
-  { id:'kerala-tour',    title:'Kerala Backwaters Tour',   emoji:'🌴', bg_gradient:'linear-gradient(135deg,#4facfe,#00f2fe)', price:9999,  old_price:12499, duration_days:5, nights:4, destination:'Kerala' },
-  { id:'rajasthan-royal',title:'Royal Rajasthan Circuit',  emoji:'🏰', bg_gradient:'linear-gradient(135deg,#fa709a,#fee140)', price:12999, old_price:16999, duration_days:7, nights:6, destination:'Rajasthan' },
-  { id:'bali-dream',     title:'Bali Dream Holiday',       emoji:'🌸', bg_gradient:'linear-gradient(135deg,#a1c4fd,#c2e9fb)', price:42999, old_price:54999, duration_days:7, nights:6, destination:'Bali' },
-  { id:'andaman-pearl',  title:'Andaman Pearl Islands',    emoji:'🐠', bg_gradient:'linear-gradient(135deg,#43e97b,#38f9d7)', price:14999, old_price:18999, duration_days:5, nights:4, destination:'Andaman' },
+  { id:'goa-beach',      title:'Goa Beach Escape',        bg_gradient:'linear-gradient(135deg,#667eea,#764ba2)', price:6999,  old_price:8999,  duration_days:4, nights:3, destination:'Goa' },
+  { id:'manali-snow',    title:'Manali Snow Adventure',    bg_gradient:'linear-gradient(135deg,#f093fb,#f5576c)', price:10499, old_price:13999, duration_days:6, nights:5, destination:'Manali' },
+  { id:'kerala-tour',    title:'Kerala Backwaters Tour',   bg_gradient:'linear-gradient(135deg,#4facfe,#00f2fe)', price:9999,  old_price:12499, duration_days:5, nights:4, destination:'Kerala' },
+  { id:'rajasthan-royal',title:'Royal Rajasthan Circuit',  bg_gradient:'linear-gradient(135deg,#fa709a,#fee140)', price:12999, old_price:16999, duration_days:7, nights:6, destination:'Rajasthan' },
+  { id:'bali-dream',     title:'Bali Dream Holiday',       bg_gradient:'linear-gradient(135deg,#a1c4fd,#c2e9fb)', price:42999, old_price:54999, duration_days:7, nights:6, destination:'Bali' },
+  { id:'andaman-pearl',  title:'Andaman Pearl Islands',    bg_gradient:'linear-gradient(135deg,#43e97b,#38f9d7)', price:14999, old_price:18999, duration_days:5, nights:4, destination:'Andaman' },
 ];
 
 // No static testimonials — only real, Supabase-sourced reviews are shown.
@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           name:     r.reviewer_name || 'Traveller',
           location: r.reviewer_location || 'India',
           package:  r.package_name || '',
-          avatar:   '⭐',
+          avatar:   '',
         }));
       }
     } catch(_) { /* keep static */ }
@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       const avatar = document.createElement('div');
       avatar.className = 'testi-avatar';
-      avatar.textContent = t.avatar || '⭐';
+      avatar.textContent = t.avatar || '';
 
       const nameEl = document.createElement('div');
       nameEl.className = 'testi-name';

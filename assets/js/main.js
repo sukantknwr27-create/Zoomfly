@@ -17,14 +17,14 @@ const ZF = {
   social: { instagram: '', facebook: '', twitter: '', youtube: '' },
   // destinations used only for homepage hero cards — NOT for packages page
   destinations: [
-    { name:'Goa',        tagline:'Sun, Sand & Sunsets',  emoji:'🏖️', bg:'linear-gradient(160deg,#667eea,#764ba2)', from:6999  },
-    { name:'Manali',     tagline:'Mountains & Snowfall', emoji:'🏔️', bg:'linear-gradient(160deg,#f093fb,#f5576c)', from:10499 },
-    { name:'Kerala',     tagline:"God's Own Country",    emoji:'🌴', bg:'linear-gradient(160deg,#4facfe,#00f2fe)', from:9999  },
-    { name:'Rajasthan',  tagline:'Royal Heritage',       emoji:'🏰', bg:'linear-gradient(160deg,#fa709a,#fee140)', from:12999 },
-    { name:'Andaman',    tagline:'Crystal Clear Waters', emoji:'🐠', bg:'linear-gradient(160deg,#a1c4fd,#c2e9fb)', from:14999 },
-    { name:'Darjeeling', tagline:'Tea Gardens & Peaks',  emoji:'🍵', bg:'linear-gradient(160deg,#43e97b,#38f9d7)', from:8499  },
-    { name:'Bangkok',    tagline:'Temples & Street Food',emoji:'🗼', bg:'linear-gradient(160deg,#f6d365,#fda085)', from:28999 },
-    { name:'Bali',       tagline:'Island of Gods',       emoji:'🌸', bg:'linear-gradient(160deg,#a18cd1,#fbc2eb)', from:42999 },
+    { name:'Goa',        tagline:'Sun, Sand & Sunsets',  emoji:'', bg:'linear-gradient(160deg,#667eea,#764ba2)', from:6999  },
+    { name:'Manali',     tagline:'Mountains & Snowfall', emoji:'', bg:'linear-gradient(160deg,#f093fb,#f5576c)', from:10499 },
+    { name:'Kerala',     tagline:"God's Own Country",    emoji:'', bg:'linear-gradient(160deg,#4facfe,#00f2fe)', from:9999  },
+    { name:'Rajasthan',  tagline:'Royal Heritage',       emoji:'', bg:'linear-gradient(160deg,#fa709a,#fee140)', from:12999 },
+    { name:'Andaman',    tagline:'Crystal Clear Waters', emoji:'', bg:'linear-gradient(160deg,#a1c4fd,#c2e9fb)', from:14999 },
+    { name:'Darjeeling', tagline:'Tea Gardens & Peaks',  emoji:'', bg:'linear-gradient(160deg,#43e97b,#38f9d7)', from:8499  },
+    { name:'Bangkok',    tagline:'Temples & Street Food',emoji:'', bg:'linear-gradient(160deg,#f6d365,#fda085)', from:28999 },
+    { name:'Bali',       tagline:'Island of Gods',       emoji:'', bg:'linear-gradient(160deg,#a18cd1,#fbc2eb)', from:42999 },
   ]
   // ✦ ZF.packages and ZF.testimonials removed.
   //   Packages  → loaded from Supabase via getPackages() in supabase.js
@@ -149,9 +149,9 @@ async function renderNav(activePage = '') {
         e.preventDefault();
         const number = btn.getAttribute('href').replace('tel:', '');
         navigator.clipboard?.writeText(number).then(() => {
-          _showPhoneToast(`📋 ${number} copied to clipboard`);
+          _showPhoneToast(`${number} copied to clipboard`);
         }).catch(() => {
-          _showPhoneToast(`📞 Call us: ${number}`);
+          _showPhoneToast(`Call us: ${number}`);
         });
       }
       // On mobile, let the tel: link work normally (don't preventDefault)
@@ -204,7 +204,7 @@ function _navFallbackHTML() {
       <a href="/pages/contact.html"     data-page="services"    style="padding:6px 9px;font-family:'Space Grotesk',system-ui;font-size:.8rem;font-weight:600;color:inherit;text-decoration:none;white-space:nowrap">Services</a>
     </nav>
     <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;min-width:fit-content">
-      <a href="tel:+918076136300" style="display:flex;align-items:center;gap:5px;font-family:'Space Grotesk',system-ui;font-size:.75rem;font-weight:600;color:rgba(255,255,255,.82);text-decoration:none;white-space:nowrap"><span aria-hidden="true">📞</span><span class="tel-text">+91 8076136300</span></a>
+      <a href="tel:+918076136300" style="display:flex;align-items:center;gap:5px;font-family:'Space Grotesk',system-ui;font-size:.75rem;font-weight:600;color:rgba(255,255,255,.82);text-decoration:none;white-space:nowrap"><span aria-hidden="true"></span><span class="tel-text">+91 8076136300</span></a>
       <div id="nav-auth-area" style="display:flex;align-items:center;gap:8px">
         <a href="/pages/login.html" id="nav-login-btn"
            style="display:flex;align-items:center;gap:5px;padding:7px 16px;border:1.5px solid rgba(255,255,255,0.32);border-radius:50px;font-family:'Space Grotesk',system-ui;font-size:.78rem;font-weight:600;color:rgba(255,255,255,.88);text-decoration:none;white-space:nowrap">
@@ -220,13 +220,13 @@ function _navFallbackHTML() {
           </button>
           <div id="nav-dropdown" role="menu"
                style="display:none;position:absolute;right:0;top:calc(100%+8px);background:white;border:1px solid #E4E8EF;border-radius:14px;box-shadow:0 12px 40px rgba(12,27,51,.18);min-width:200px;z-index:1000;padding:6px">
-            <a href="/pages/dashboard.html"          role="menuitem" style="display:flex;align-items:center;gap:9px;padding:10px 12px;font-size:.84rem;color:#1C2340;text-decoration:none;border-radius:8px">📊 My Dashboard</a>
-            <a href="/pages/my-bookings.html"        role="menuitem" style="display:flex;align-items:center;gap:9px;padding:10px 12px;font-size:.84rem;color:#1C2340;text-decoration:none;border-radius:8px">🎫 My Bookings</a>
-            <a href="/pages/loyalty.html"            role="menuitem" style="display:flex;align-items:center;gap:9px;padding:10px 12px;font-size:.84rem;color:#1C2340;text-decoration:none;border-radius:8px">⭐ My Rewards</a>
-            <a href="/pages/dashboard.html#section-profile" role="menuitem" style="display:flex;align-items:center;gap:9px;padding:10px 12px;font-size:.84rem;color:#1C2340;text-decoration:none;border-radius:8px">👤 Profile</a>
+            <a href="/pages/dashboard.html"          role="menuitem" style="display:flex;align-items:center;gap:9px;padding:10px 12px;font-size:.84rem;color:#1C2340;text-decoration:none;border-radius:8px">My Dashboard</a>
+            <a href="/pages/my-bookings.html"        role="menuitem" style="display:flex;align-items:center;gap:9px;padding:10px 12px;font-size:.84rem;color:#1C2340;text-decoration:none;border-radius:8px">My Bookings</a>
+            <a href="/pages/loyalty.html"            role="menuitem" style="display:flex;align-items:center;gap:9px;padding:10px 12px;font-size:.84rem;color:#1C2340;text-decoration:none;border-radius:8px">My Rewards</a>
+            <a href="/pages/dashboard.html#section-profile" role="menuitem" style="display:flex;align-items:center;gap:9px;padding:10px 12px;font-size:.84rem;color:#1C2340;text-decoration:none;border-radius:8px">Profile</a>
             <div style="border-top:1px solid #E4E8EF;margin:4px 0"></div>
             <button data-action="sign-out" role="menuitem"
-                    style="display:flex;align-items:center;gap:9px;padding:10px 12px;font-size:.84rem;color:#E53E3E;background:none;border:none;cursor:pointer;width:100%;text-align:left;border-radius:8px">🚪 Sign Out</button>
+                    style="display:flex;align-items:center;gap:9px;padding:10px 12px;font-size:.84rem;color:#E53E3E;background:none;border:none;cursor:pointer;width:100%;text-align:left;border-radius:8px">Sign Out</button>
           </div>
         </div>
       </div>
@@ -238,35 +238,35 @@ function _navFallbackHTML() {
     <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
   </div>
   <div class="mobile-menu" id="mobileMenu">
-    <a href="/"                          class="mm-link">🏠 Home</a>
-    <a href="/pages/packages.html"       class="mm-link" data-page="packages">🧳 Tour Packages</a>
-    <a href="/pages/destinations.html"   class="mm-link" data-page="destinations">🌍 Destinations</a>
-    <a href="/pages/flights.html"        class="mm-link" data-page="flights">✈️ Flights</a>
-    <a href="/pages/hotels.html"         class="mm-link" data-page="hotels">🏨 Hotels</a>
-    <a href="/pages/bus.html"            class="mm-link" data-page="bus">🚌 Buses</a>
-    <a href="/pages/cabs.html"           class="mm-link" data-page="cabs">🚗 Cabs</a>
-    <a href="/pages/trains.html"         class="mm-link" data-page="trains">🚂 Trains</a>
-    <a href="/pages/blog.html"           class="mm-link">📰 Blog</a>
-    <a href="/pages/customize.html"      class="mm-link">✨ Customize Trip</a>
-    <a href="/pages/group-booking.html"  class="mm-link">👥 Group Bookings</a>
-    <a href="/pages/referral.html"       class="mm-link">🎁 Refer &amp; Earn</a>
-    <a href="/pages/about.html"          class="mm-link">ℹ️ About Us</a>
-    <a href="/pages/contact.html"        class="mm-link mm-cta">📞 Book Now</a>
+    <a href="/"                          class="mm-link">Home</a>
+    <a href="/pages/packages.html"       class="mm-link" data-page="packages">Tour Packages</a>
+    <a href="/pages/destinations.html"   class="mm-link" data-page="destinations">Destinations</a>
+    <a href="/pages/flights.html"        class="mm-link" data-page="flights">Flights</a>
+    <a href="/pages/hotels.html"         class="mm-link" data-page="hotels">Hotels</a>
+    <a href="/pages/bus.html"            class="mm-link" data-page="bus">Buses</a>
+    <a href="/pages/cabs.html"           class="mm-link" data-page="cabs">Cabs</a>
+    <a href="/pages/trains.html"         class="mm-link" data-page="trains">Trains</a>
+    <a href="/pages/blog.html"           class="mm-link">Blog</a>
+    <a href="/pages/customize.html"      class="mm-link">Customize Trip</a>
+    <a href="/pages/group-booking.html"  class="mm-link">Group Bookings</a>
+    <a href="/pages/referral.html"       class="mm-link">Refer &amp; Earn</a>
+    <a href="/pages/about.html"          class="mm-link">About Us</a>
+    <a href="/pages/contact.html"        class="mm-link mm-cta">Book Now</a>
     <div style="border-top:1px solid rgba(255,255,255,.12);margin:12px 0;padding-top:12px">
-      <a href="/pages/dashboard.html"    class="mm-link" id="mm-dashboard" style="display:none">📊 Dashboard</a>
-      <a href="/pages/my-bookings.html"  class="mm-link" id="mm-bookings"  style="display:none">🎫 My Bookings</a>
-      <a href="/pages/trip-tracker.html" class="mm-link" id="mm-trips"     style="display:none">📍 Trip Tracker</a>
-      <a href="/pages/co-travellers.html" class="mm-link" id="mm-cotrav"   style="display:none">👥 Co-Travellers</a>
-      <a href="/pages/login.html"        class="mm-link" id="mm-login">👤 Sign In</a>
+      <a href="/pages/dashboard.html"    class="mm-link" id="mm-dashboard" style="display:none">Dashboard</a>
+      <a href="/pages/my-bookings.html"  class="mm-link" id="mm-bookings"  style="display:none">My Bookings</a>
+      <a href="/pages/trip-tracker.html" class="mm-link" id="mm-trips"     style="display:none">Trip Tracker</a>
+      <a href="/pages/co-travellers.html" class="mm-link" id="mm-cotrav"   style="display:none">Co-Travellers</a>
+      <a href="/pages/login.html"        class="mm-link" id="mm-login">Sign In</a>
       <button data-action="sign-out"     class="mm-link" id="mm-signout"
-              style="display:none;background:none;border:none;width:100%;text-align:left;color:inherit;cursor:pointer;font-size:inherit">🚪 Sign Out</button>
+              style="display:none;background:none;border:none;width:100%;text-align:left;color:inherit;cursor:pointer;font-size:inherit">Sign Out</button>
     </div>
     <div style="border-top:1px solid rgba(255,255,255,.1);margin:8px 0;padding-top:8px">
-      <a href="/pages/vendor-portal.html" class="mm-link" style="font-size:.82rem;opacity:.7">🏨 Vendor Portal</a>
-      <a href="/pages/agent-portal.html"  class="mm-link" style="font-size:.82rem;opacity:.7">🤝 Agent Portal</a>
+      <a href="/pages/vendor-portal.html" class="mm-link" style="font-size:.82rem;opacity:.7">Vendor Portal</a>
+      <a href="/pages/agent-portal.html"  class="mm-link" style="font-size:.82rem;opacity:.7">Agent Portal</a>
     </div>
     <div style="margin-top:16px;text-align:center">
-      <a href="tel:+918076136300" style="font-family:'Space Grotesk',system-ui;font-size:.85rem;font-weight:600;color:rgba(255,255,255,.75);text-decoration:none">📞 +91 8076136300</a>
+      <a href="tel:+918076136300" style="font-family:'Space Grotesk',system-ui;font-size:.85rem;font-weight:600;color:rgba(255,255,255,.75);text-decoration:none">+91 8076136300</a>
     </div>
   </div>`;
 }
@@ -349,25 +349,25 @@ function renderFooter() {
           <span style="color:#F59E0B">✦</span> <strong style="color:rgba(255,255,255,0.75)">Verified Payments</strong> Powered by Razorpay
         </div>
         <div style="display:flex;align-items:center;gap:8px;font-size:.75rem;color:rgba(255,255,255,0.55);">
-          <span>🕐</span> <strong style="color:rgba(255,255,255,0.75)">24/7 Support</strong> Always here to help
+          <span></span> <strong style="color:rgba(255,255,255,0.75)">24/7 Support</strong> Always here to help
         </div>
         <div style="display:flex;align-items:center;gap:8px;font-size:.75rem;color:rgba(255,255,255,0.55);">
-          <span>🗺️</span> <strong style="color:rgba(255,255,255,0.75)">200+ Tour Packages</strong> Handpicked experiences
+          <span></span> <strong style="color:rgba(255,255,255,0.75)">200+ Tour Packages</strong> Handpicked experiences
         </div>
         <div style="display:flex;align-items:center;gap:8px;font-size:.75rem;color:rgba(255,255,255,0.55);">
-          <span>🌍</span> <strong style="color:rgba(255,255,255,0.75)">50+ Destinations</strong> India &amp; International
+          <span></span> <strong style="color:rgba(255,255,255,0.75)">50+ Destinations</strong> India &amp; International
         </div>
         <div style="display:flex;align-items:center;gap:8px;font-size:.75rem;color:rgba(255,255,255,0.55);">
-          <span>📅</span> <strong style="color:rgba(255,255,255,0.75)">Launched 2026</strong> Built for the modern traveller
+          <span></span> <strong style="color:rgba(255,255,255,0.75)">Launched 2026</strong> Built for the modern traveller
         </div>
       </div>
       <!-- Social links -->
       <div style="margin-bottom:4px;font-family:'Space Grotesk',system-ui;font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.28);margin-bottom:10px;">Follow Us</div>
       <div style="display:flex;gap:8px;">
-        <a href="${ZF.social.instagram || '#'}" ${ZF.social.instagram ? 'target="_blank" rel="noopener"' : 'onclick="return false" style="opacity:.35;cursor:default"'} title="Instagram" style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:.95rem;transition:all .2s;text-decoration:none;" onmouseover="this.style.background='#C9922A';this.style.borderColor='#C9922A'" onmouseout="this.style.background='rgba(255,255,255,0.08)';this.style.borderColor='rgba(255,255,255,0.1)'">📸</a>
-        <a href="${ZF.social.facebook || '#'}" ${ZF.social.facebook ? 'target="_blank" rel="noopener"' : 'onclick="return false" style="opacity:.35;cursor:default"'} title="Facebook"  style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:.95rem;transition:all .2s;text-decoration:none;" onmouseover="this.style.background='#C9922A'" onmouseout="this.style.background='rgba(255,255,255,0.08)'">🔵</a>
-        <a href="https://wa.me/${ZF.whatsapp}" title="WhatsApp" style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:.95rem;transition:all .2s;text-decoration:none;" onmouseover="this.style.background='#25D366'" onmouseout="this.style.background='rgba(255,255,255,0.08)'">💬</a>
-        <a href="${ZF.social.youtube || '#'}" ${ZF.social.youtube ? 'target="_blank" rel="noopener"' : 'onclick="return false" style="opacity:.35;cursor:default"'} title="YouTube"   style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:.95rem;transition:all .2s;text-decoration:none;" onmouseover="this.style.background='#C9922A'" onmouseout="this.style.background='rgba(255,255,255,0.08)'">▶️</a>
+        <a href="${ZF.social.instagram || '#'}" ${ZF.social.instagram ? 'target="_blank" rel="noopener"' : 'onclick="return false" style="opacity:.35;cursor:default"'} title="Instagram" style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:.95rem;transition:all .2s;text-decoration:none;" onmouseover="this.style.background='#C9922A';this.style.borderColor='#C9922A'" onmouseout="this.style.background='rgba(255,255,255,0.08)';this.style.borderColor='rgba(255,255,255,0.1)'"></a>
+        <a href="${ZF.social.facebook || '#'}" ${ZF.social.facebook ? 'target="_blank" rel="noopener"' : 'onclick="return false" style="opacity:.35;cursor:default"'} title="Facebook"  style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:.95rem;transition:all .2s;text-decoration:none;" onmouseover="this.style.background='#C9922A'" onmouseout="this.style.background='rgba(255,255,255,0.08)'"></a>
+        <a href="https://wa.me/${ZF.whatsapp}" title="WhatsApp" style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:.95rem;transition:all .2s;text-decoration:none;" onmouseover="this.style.background='#25D366'" onmouseout="this.style.background='rgba(255,255,255,0.08)'"></a>
+        <a href="${ZF.social.youtube || '#'}" ${ZF.social.youtube ? 'target="_blank" rel="noopener"' : 'onclick="return false" style="opacity:.35;cursor:default"'} title="YouTube"   style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:.95rem;transition:all .2s;text-decoration:none;" onmouseover="this.style.background='#C9922A'" onmouseout="this.style.background='rgba(255,255,255,0.08)'"></a>
         <a href="${ZF.social.twitter || '#'}" ${ZF.social.twitter ? 'target="_blank" rel="noopener"' : 'onclick="return false" style="opacity:.35;cursor:default"'} title="Twitter/X" style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700;color:rgba(255,255,255,.65);transition:all .2s;text-decoration:none;" onmouseover="this.style.background='#C9922A'" onmouseout="this.style.background='rgba(255,255,255,0.08)'">𝕏</a>
       </div>
     </div>
@@ -375,38 +375,38 @@ function renderFooter() {
     <!-- COL 2: Travel -->
     <div class="zf-footer-col">
       <h4>TRAVEL</h4>
-      <a href="/pages/packages.html">🧳 Tour Packages</a>
-      <a href="/pages/flights.html">✈ Flights</a>
-      <a href="/pages/hotels.html">🏨 Hotels</a>
-      <a href="/pages/bus.html">🚌 Bus Booking</a>
-      <a href="/pages/packages.html?filter=honeymoon">💑 Honeymoon Packages</a>
-      <a href="/pages/packages.html?filter=group">👥 Group Tours</a>
-      <a href="/pages/destinations.html?filter=weekend">🌅 Weekend Getaways</a>
-      <a href="/pages/cabs.html">🚗 Visa Assistance</a>
+      <a href="/pages/packages.html">Tour Packages</a>
+      <a href="/pages/flights.html">Flights</a>
+      <a href="/pages/hotels.html">Hotels</a>
+      <a href="/pages/bus.html">Bus Booking</a>
+      <a href="/pages/packages.html?filter=honeymoon">Honeymoon Packages</a>
+      <a href="/pages/packages.html?filter=group">Group Tours</a>
+      <a href="/pages/destinations.html?filter=weekend">Weekend Getaways</a>
+      <a href="/pages/cabs.html">Visa Assistance</a>
     </div>
 
     <!-- COL 3: Company -->
     <div class="zf-footer-col">
       <h4>COMPANY</h4>
-      <a href="/pages/about.html">👋 About Us</a>
-      <a href="/pages/contact.html">📞 Contact Us</a>
-      <a href="/pages/vendor.html">🤝 Partner With Us</a>
-      <a href="/pages/about.html#careers">💼 Careers</a>
-      <a href="/pages/dashboard.html">👤 My Account</a>
-      <a href="/pages/terms.html">📄 Terms &amp; Conditions</a>
-      <a href="/pages/privacy-policy.html">🔒 Privacy Policy</a>
-      <a href="/pages/refund-policy.html">↩ Refund Policy</a>
+      <a href="/pages/about.html">About Us</a>
+      <a href="/pages/contact.html">Contact Us</a>
+      <a href="/pages/vendor.html">Partner With Us</a>
+      <a href="/pages/about.html#careers">Careers</a>
+      <a href="/pages/dashboard.html">My Account</a>
+      <a href="/pages/terms.html">Terms &amp; Conditions</a>
+      <a href="/pages/privacy-policy.html">Privacy Policy</a>
+      <a href="/pages/refund-policy.html">Refund Policy</a>
     </div>
 
     <!-- COL 4: Partner Zone -->
     <div class="zf-footer-col">
       <h4>PARTNER ZONE</h4>
-      <a href="/pages/vendor-portal.html">🏨 Vendor Login</a>
-      <a href="/pages/agent-portal.html">🧑‍💼 Agent Login</a>
-      <a href="/pages/login.html?tab=signup">📝 Create Account</a>
-      <a href="/pages/referral.html">🎁 Refer &amp; Earn</a>
+      <a href="/pages/vendor-portal.html">Vendor Login</a>
+      <a href="/pages/agent-portal.html">Agent Login</a>
+      <a href="/pages/login.html?tab=signup">Create Account</a>
+      <a href="/pages/referral.html">Refer &amp; Earn</a>
       <div style="margin-top:18px;padding:14px;background:rgba(201,146,42,0.12);border:1px solid rgba(201,146,42,0.22);border-radius:10px;">
-        <div style="font-family:'Space Grotesk',system-ui;font-size:.75rem;font-weight:700;color:var(--gold-light,#E8B84B);margin-bottom:6px;">⭐ Refer &amp; Earn</div>
+        <div style="font-family:'Space Grotesk',system-ui;font-size:.75rem;font-weight:700;color:var(--gold-light,#E8B84B);margin-bottom:6px;">Refer &amp; Earn</div>
         <div style="font-size:.72rem;color:rgba(255,255,255,0.52);line-height:1.6;">Invite friends &amp; earn exciting rewards. Get early access to best deals.</div>
         <a href="/pages/referral.html" style="display:inline-block;margin-top:10px;font-family:'Space Grotesk',system-ui;font-size:.72rem;font-weight:700;color:var(--gold-light,#E8B84B);">Learn More →</a>
       </div>
@@ -418,30 +418,30 @@ function renderFooter() {
       <div style="display:flex;flex-direction:column;gap:12px;">
         <div>
           <a href="tel:${ZF.phone.replace(/\s+/g,'')}" style="display:flex;align-items:center;gap:7px;color:rgba(255,255,255,0.7);font-size:.82rem;text-decoration:none;margin-bottom:3px;">
-            <span>📞</span> ${ZF.phone}
+            <span></span> ${ZF.phone}
           </a>
           <div style="font-size:.72rem;color:rgba(255,255,255,0.35);padding-left:22px;">Mon – Sat (9 AM – 8 PM)</div>
         </div>
         <div>
           <a href="mailto:${ZF.email}" style="display:flex;align-items:center;gap:7px;color:rgba(255,255,255,0.7);font-size:.82rem;text-decoration:none;margin-bottom:3px;">
-            <span>📧</span> ${ZF.email}
+            <span></span> ${ZF.email}
           </a>
           <div style="font-size:.72rem;color:rgba(255,255,255,0.35);padding-left:22px;">We reply within 30 mins</div>
         </div>
         <div style="display:flex;align-items:flex-start;gap:7px;font-size:.79rem;color:rgba(255,255,255,0.55);line-height:1.6;">
-          <span>📍</span>
+          <span></span>
           <span>${ZF.address}</span>
         </div>
         ${ZF.gstin ? `<div style="font-size:.72rem;color:rgba(255,255,255,0.35);">GSTIN: ${ZF.gstin}</div>` : ''}
         <div>
           <a href="https://wa.me/${ZF.whatsapp}" style="display:flex;align-items:center;gap:7px;color:rgba(255,255,255,0.7);font-size:.82rem;text-decoration:none;">
-            <span>💬</span> WhatsApp Chat
+            <span></span> WhatsApp Chat
           </a>
           <div style="font-size:.72rem;color:rgba(255,255,255,0.35);padding-left:22px;">Quick support on WhatsApp</div>
         </div>
         <!-- Newsletter mini -->
         <div style="margin-top:8px;">
-          <div style="font-family:'Space Grotesk',system-ui;font-size:.72rem;font-weight:600;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;">Stay Updated ✨</div>
+          <div style="font-family:'Space Grotesk',system-ui;font-size:.72rem;font-weight:600;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;">Stay Updated</div>
           <div style="font-size:.72rem;color:rgba(255,255,255,0.38);margin-bottom:8px;line-height:1.55;">Get exclusive travel deals, offers and new destination updates.</div>
           <form onsubmit="handleNewsletter(event)" style="display:flex;gap:6px;">
             <input type="email" placeholder="Enter your email" required
@@ -472,19 +472,19 @@ function renderFooter() {
     </div>
     <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
       <div style="text-align:center;">
-        <div style="font-size:1.1rem;margin-bottom:2px;">🔒</div>
+        <div style="font-size:1.1rem;margin-bottom:2px;"></div>
         <div style="font-family:'Space Grotesk',system-ui;font-size:.62rem;color:rgba(255,255,255,.35);font-weight:600;">SSL Secured<br>256-bit SSL</div>
       </div>
       <div style="text-align:center;">
-        <div style="font-size:1.1rem;margin-bottom:2px;">💳</div>
+        <div style="font-size:1.1rem;margin-bottom:2px;"></div>
         <div style="font-family:'Space Grotesk',system-ui;font-size:.62rem;color:rgba(255,255,255,.35);font-weight:600;">Payments by<br>Razorpay</div>
       </div>
       <div style="text-align:center;">
-        <div style="font-size:1.1rem;margin-bottom:2px;">🛡</div>
+        <div style="font-size:1.1rem;margin-bottom:2px;"></div>
         <div style="font-family:'Space Grotesk',system-ui;font-size:.62rem;color:rgba(255,255,255,.35);font-weight:600;">Data Protected<br>Privacy First</div>
       </div>
       <div style="text-align:center;">
-        <div style="font-size:1.1rem;margin-bottom:2px;">📞</div>
+        <div style="font-size:1.1rem;margin-bottom:2px;"></div>
         <div style="font-family:'Space Grotesk',system-ui;font-size:.62rem;color:rgba(255,255,255,.35);font-weight:600;">24/7<br>Customer Support</div>
       </div>
     </div>
@@ -496,9 +496,9 @@ function renderFooter() {
   <!-- BOTTOM BAR -->
   <div style="padding:16px 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
     <div style="display:flex;align-items:center;gap:6px;">
-      <span style="font-size:.78rem;color:rgba(255,255,255,0.28);">© ${yr} ${ZF.companyName || 'ZoomFly'}. All rights reserved.</span>
+      <span style="font-size:.78rem;color:rgba(255,255,255,0.28);">${yr} ${ZF.companyName || 'ZoomFly'}. All rights reserved.</span>
       <span style="color:rgba(255,255,255,0.15);margin:0 2px">·</span>
-      <span style="font-size:.75rem;color:rgba(255,255,255,0.22);">Made with ❤️ in India</span>
+      <span style="font-size:.75rem;color:rgba(255,255,255,0.22);">Made with  in India</span>
     </div>
     <div style="display:flex;align-items:center;gap:18px;">
       <a href="/pages/privacy-policy.html" style="font-size:.75rem;color:rgba(255,255,255,.28);text-decoration:none;transition:color .2s" onmouseover="this.style.color='rgba(255,255,255,.6)'" onmouseout="this.style.color='rgba(255,255,255,.28)'">Privacy Policy</a>
@@ -507,7 +507,7 @@ function renderFooter() {
       <a href="/pages/contact.html"        style="font-size:.75rem;color:rgba(255,255,255,.28);text-decoration:none;transition:color .2s" onmouseover="this.style.color='rgba(255,255,255,.6)'" onmouseout="this.style.color='rgba(255,255,255,.28)'">Cookies Policy</a>
       <a href="/sitemap.xml"               style="font-size:.75rem;color:rgba(255,255,255,.28);text-decoration:none;transition:color .2s" onmouseover="this.style.color='rgba(255,255,255,.6)'" onmouseout="this.style.color='rgba(255,255,255,.28)'">Sitemap</a>
     </div>
-    <div style="font-size:1.2rem;color:rgba(255,255,255,.12);">✈</div>
+    <div style="font-size:1.2rem;color:rgba(255,255,255,.12);"></div>
   </div>
 
 </div>`;
@@ -517,7 +517,7 @@ function renderFooter() {
 function renderWA() {
   document.body.insertAdjacentHTML('beforeend',
     `<a href="https://wa.me/${ZF.whatsapp}?text=Hi%20ZoomFly!%20I%20want%20to%20enquire%20about%20a%20trip."
-        class="wa-float" target="_blank" rel="noopener" title="Chat on WhatsApp">💬</a>`
+        class="wa-float" target="_blank" rel="noopener" title="Chat on WhatsApp"></a>`
   );
 }
 
@@ -545,18 +545,18 @@ async function handleNewsletter(e) {
   const btn   = e.target.querySelector('button');
   const email = input.value.trim();
   if (!email) return;
-  btn.textContent = '⏳ Subscribing...';
+  btn.textContent = 'Subscribing...';
   btn.disabled = true;
   try {
     const { supabase } = await import('./supabase.js');
     const { error } = await supabase
       .from('newsletter_subscribers')
       .insert({ email, source: 'website' });
-    btn.textContent  = (error?.code === '23505') ? '✅ Already subscribed!' : '✅ Subscribed!';
+    btn.textContent  = (error?.code === '23505') ? 'Already subscribed!' : 'Subscribed!';
     btn.style.background = '#16a34a';
     if (error && error.code !== '23505') throw error;
   } catch {
-    btn.textContent      = '✅ Subscribed!';
+    btn.textContent      = 'Subscribed!';
     btn.style.background = '#16a34a';
   }
   setTimeout(() => {
@@ -595,7 +595,7 @@ function tourCard(p, delay = 0) {
   const name        = p.title    || p.name;
   const dest        = p.destination || p.dest || '';
   const bg          = p.bg_gradient || p.bg   || 'linear-gradient(135deg,#4facfe,#00f2fe)';
-  const emoji       = p.emoji    || '🗺️';
+  const photo       = (p.photos && p.photos[0]) || p.image_url || '';
   const badge       = p.badge    || p.badge_label || '';
   const duration    = p.duration_days ? `${p.duration_days}D/${p.nights}N` : (p.duration || '');
   const people      = p.people   || '2+';
@@ -611,20 +611,20 @@ function tourCard(p, delay = 0) {
        style="transition-delay:${delay}ms;display:block;text-decoration:none;color:inherit;">
       <div class="tour-img"
            style="background:${bg};height:200px;display:flex;align-items:center;
-                  justify-content:center;position:relative;font-size:3.8rem;">
-        ${emoji}
+                  justify-content:center;position:relative;font-size:3.8rem;overflow:hidden;">
+        ${photo ? `<img src="${esc(photo)}" alt="${esc(name)}" style="width:100%;height:100%;object-fit:cover" onerror="this.remove()"/>` : ''}
         ${badge ? `<div class="badge badge-gold" style="position:absolute;top:14px;left:14px;">${esc(badge)}</div>` : ''}
         ${savings > 0 ? `<div class="badge badge-green" style="position:absolute;top:14px;right:14px;">Save ${fmt(savings)}</div>` : ''}
       </div>
       <div style="padding:20px 22px 24px;">
         <div style="display:flex;gap:12px;font-size:.75rem;color:var(--text-muted);margin-bottom:10px;flex-wrap:wrap;">
-          <span>🕐 ${esc(duration)}</span>
-          <span>👥 ${esc(people)} people</span>
+          <span>${esc(duration)}</span>
+          <span>${esc(people)} people</span>
           <span class="stars">${'★'.repeat(Math.floor(rating))}</span>
           <span style="color:var(--text-muted)">${rating} (${reviews})</span>
         </div>
         <div style="font-weight:700;font-size:1.05rem;margin-bottom:6px;">${esc(name)}</div>
-        <div style="font-size:.82rem;color:var(--text-muted);margin-bottom:4px;">📍 ${esc(dest)}</div>
+        <div style="font-size:.82rem;color:var(--text-muted);margin-bottom:4px;">${esc(dest)}</div>
         <div style="display:flex;align-items:center;justify-content:space-between;margin-top:16px;">
           <div>
             <div style="font-size:1.2rem;font-weight:700;color:var(--blue);">
@@ -639,12 +639,12 @@ function tourCard(p, delay = 0) {
 }
 
 // ─── ENQUIRY FORM HANDLER (simple inline forms) ───
-function handleEnquiry(formEl, successMsg = "✅ Enquiry sent! We'll call you within 2 hours.") {
+function handleEnquiry(formEl, successMsg = "Enquiry sent! We'll call you within 2 hours.") {
   formEl.addEventListener('submit', async e => {
     e.preventDefault();
     const btn  = formEl.querySelector('[type="submit"]');
     const orig = btn.textContent;
-    btn.textContent = '⏳ Sending...';
+    btn.textContent = 'Sending...';
     btn.disabled = true;
     try {
       const { submitEnquiry } = await import('./supabase.js');
@@ -690,7 +690,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.querySelectorAll('#mainNav a[href^="tel:"]').forEach(a => {
     a.href = 'tel:' + ZF.phone.replace(/\s+/g, '');
     const telText = a.querySelector('.tel-text');
-    if (telText) telText.textContent = ZF.phone; else a.textContent = '📞 ' + ZF.phone;
+    if (telText) telText.textContent = ZF.phone; else a.textContent = '' + ZF.phone;
   });
   // nav.html hardcodes a text/SVG logo mark too — swap it for the
   // admin-uploaded logo image if one has been set in Site Settings.

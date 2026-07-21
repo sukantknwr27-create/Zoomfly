@@ -67,7 +67,7 @@ export function showBookingSuccess(booking) {
   _modal('zf-booking-modal', `
     <div style="width:72px;height:72px;background:linear-gradient(135deg,#22c55e,#16a34a);
                 border-radius:50%;display:flex;align-items:center;justify-content:center;
-                margin:0 auto 20px;font-size:32px;box-shadow:0 8px 24px rgba(34,197,94,.35)">✅</div>
+                margin:0 auto 20px;font-size:32px;box-shadow:0 8px 24px rgba(34,197,94,.35)"></div>
 
     <h2 style="font-family:'Playfair Display',serif;font-size:1.5rem;color:#0f1923;margin-bottom:8px">
       Booking Request Sent!
@@ -109,7 +109,7 @@ export function showBookingSuccess(booking) {
               color:#fff;padding:13px 24px;border-radius:10px;text-decoration:none;
               font-weight:700;font-size:.92rem;margin-bottom:12px;
               box-shadow:0 4px 16px rgba(37,211,102,.35)">
-      💬 Chat with Us on WhatsApp
+       Chat with Us on WhatsApp
     </a>
     <button onclick="document.getElementById('zf-booking-modal').remove()"
             style="background:none;border:1.5px solid #e2e8f0;color:#64748b;
@@ -124,7 +124,7 @@ export function showBookingError(message) {
   _modal('zf-booking-modal', `
     <div style="width:72px;height:72px;background:linear-gradient(135deg,#ef4444,#dc2626);
                 border-radius:50%;display:flex;align-items:center;justify-content:center;
-                margin:0 auto 20px;font-size:32px">❌</div>
+                margin:0 auto 20px;font-size:32px"></div>
 
     <h2 style="font-family:'Playfair Display',serif;font-size:1.4rem;color:#0f1923;margin-bottom:8px">
       Booking Failed
@@ -137,7 +137,7 @@ export function showBookingError(message) {
        style="display:block;background:linear-gradient(135deg,#25d366,#128c7e);
               color:#fff;padding:13px 24px;border-radius:10px;text-decoration:none;
               font-weight:700;font-size:.9rem;margin-bottom:12px">
-      💬 Contact Us on WhatsApp
+       Contact Us on WhatsApp
     </a>
     <button onclick="document.getElementById('zf-booking-modal').remove()"
             style="background:none;border:1.5px solid #e2e8f0;color:#64748b;
@@ -148,7 +148,7 @@ export function showBookingError(message) {
 }
 
 // ─── LOADING STATE HELPER (used by form buttons) ─────────────
-export function setLoading(btn, isLoading, loadingText = '⏳ Processing...') {
+export function setLoading(btn, isLoading, loadingText = 'Processing...') {
   if (!btn) return;
   if (isLoading) {
     btn.dataset.originalText = btn.textContent;
