@@ -273,16 +273,16 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
 <div style="background:#fff;border-bottom:1px solid #E4E8EF;padding:14px 28px;">
   <div style="max-width:1240px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
     <div style="display:flex;align-items:center;gap:8px;font-family:'Space Grotesk',system-ui;font-size:.78rem;font-weight:600;color:#4A5568;">
-      <span style="font-size:1.1rem">💰</span> Best Price Guarantee — Find it cheaper? We match it.
+      <span style="font-size:1.1rem"></span> Best Price Guarantee — Find it cheaper? We match it.
     </div>
     <div style="display:flex;align-items:center;gap:8px;font-family:'Space Grotesk',system-ui;font-size:.78rem;font-weight:600;color:#4A5568;">
-      <span style="font-size:1.1rem">📞</span> 24/7 Support — We're always here for you
+      <span style="font-size:1.1rem"></span> 24/7 Support — We're always here for you
     </div>
     <div style="display:flex;align-items:center;gap:8px;font-family:'Space Grotesk',system-ui;font-size:.78rem;font-weight:600;color:#4A5568;">
-      <span style="font-size:1.1rem">🔒</span> Secure Payments — 100% safe &amp; trusted
+      <span style="font-size:1.1rem"></span> Secure Payments — 100% safe &amp; trusted
     </div>
     <div style="display:flex;align-items:center;gap:8px;font-family:'Space Grotesk',system-ui;font-size:.78rem;font-weight:600;color:#4A5568;">
-      <span style="font-size:1.1rem">📋</span> Flexible Booking — Easy changes &amp; refunds
+      <span style="font-size:1.1rem"></span> Flexible Booking — Easy changes &amp; refunds
     </div>
   </div>
 </div>
@@ -291,43 +291,43 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
 <div class="search-wrap">
   <div class="search-card">
     <div class="stabs">
-      <div class="stab active" onclick="switchSearch('tours',this)">🗺 Tours</div>
-      <div class="stab" onclick="switchSearch('flights',this)">✈ Flights</div>
-      <div class="stab" onclick="switchSearch('hotels',this)">🏨 Hotels</div>
-      <div class="stab" onclick="switchSearch('bus',this)">🚌 Bus</div>
-      <div class="stab" onclick="switchSearch('cabs',this)">🚗 Cabs</div>
+      <div class="stab active" onclick="switchSearch('tours',this)">Tours</div>
+      <div class="stab" onclick="switchSearch('flights',this)">Flights</div>
+      <div class="stab" onclick="switchSearch('hotels',this)">Hotels</div>
+      <div class="stab" onclick="switchSearch('bus',this)">Bus</div>
+      <div class="stab" onclick="switchSearch('cabs',this)">Cabs</div>
     </div>
     <div class="spanel active" id="sp-tours">
       <div class="sf" style="flex:2"><label>Destination</label><input type="text" id="tour-dest" placeholder="e.g. Manali, Goa, Bali..."/></div>
       <div class="sf"><label>Travel Date</label><input type="date" id="tour-date"/></div>
       <div class="sf"><label>Travellers</label><select><option>1 Person</option><option>2 People</option><option>3–5 People</option><option>6+ People</option></select></div>
-      <button class="btn-search" onclick="doSearch('tours')">Search 🔍</button>
+      <button class="btn-search" onclick="doSearch('tours')">Search</button>
     </div>
     <div class="spanel" id="sp-flights">
       <div class="sf"><label>From</label><input type="text" placeholder="Delhi (DEL)"/></div>
       <div class="sf"><label>To</label><input type="text" placeholder="Mumbai (BOM)"/></div>
       <div class="sf"><label>Departure</label><input type="date"/></div>
       <div class="sf"><label>Passengers</label><select><option>1 Adult</option><option>2 Adults</option><option>3+ Adults</option></select></div>
-      <button class="btn-search" onclick="doSearch('flights')">Search ✈</button>
+      <button class="btn-search" onclick="doSearch('flights')">Search</button>
     </div>
     <div class="spanel" id="sp-hotels">
       <div class="sf" style="flex:2"><label>City / Hotel</label><input type="text" placeholder="Goa, Jaipur, Kerala..."/></div>
       <div class="sf"><label>Check-in</label><input type="date"/></div>
       <div class="sf"><label>Check-out</label><input type="date"/></div>
       <div class="sf"><label>Guests</label><select><option>1 Guest</option><option>2 Guests</option><option>4 Guests</option></select></div>
-      <button class="btn-search" onclick="doSearch('hotels')">Search 🏨</button>
+      <button class="btn-search" onclick="doSearch('hotels')">Search</button>
     </div>
     <div class="spanel" id="sp-bus">
       <div class="sf" style="flex:2"><label>From</label><input type="text" placeholder="Delhi"/></div>
       <div class="sf" style="flex:2"><label>To</label><input type="text" placeholder="Manali"/></div>
       <div class="sf"><label>Travel Date</label><input type="date"/></div>
-      <button class="btn-search" onclick="doSearch('bus')">Search 🚌</button>
+      <button class="btn-search" onclick="doSearch('bus')">Search</button>
     </div>
     <div class="spanel" id="sp-cabs">
       <div class="sf" style="flex:2"><label>Pickup Location</label><input type="text" id="cab-from" placeholder="Delhi Airport / Hotel"/></div>
       <div class="sf" style="flex:2"><label>Drop Location</label><input type="text" id="cab-to" placeholder="Manali / Agra / City"/></div>
       <div class="sf"><label>Travel Date</label><input type="date" id="cab-date"/></div>
-      <button class="btn-search" onclick="doSearch('cabs')">Search 🚗</button>
+      <button class="btn-search" onclick="doSearch('cabs')">Search</button>
     </div>
   </div>
 </div>
@@ -339,11 +339,11 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
     <h2 class="stitle">All Travel Needs, <em>One Platform</em></h2>
   </div>
   <div class="svc-grid">
-    <a href="/pages/packages.html" class="svc-card"><div class="svc-icon">🗺️</div><h3>Tour Packages</h3><p>Handcrafted itineraries from weekend getaways to 14-day international holidays.</p><div class="svc-link">Browse Packages →</div></a>
-    <a href="/pages/flights.html" class="svc-card"><div class="svc-icon">✈️</div><h3>Flight Booking</h3><p>Best fares on domestic & international flights with instant e-ticket confirmation.</p><div class="svc-link">Book Flight →</div></a>
-    <a href="/pages/hotels.html" class="svc-card"><div class="svc-icon">🏨</div><h3>Hotel Booking</h3><p>Curated stays from budget homestays to 5-star resorts across 500+ cities.</p><div class="svc-link">Find Hotels →</div></a>
-    <a href="/pages/bus.html" class="svc-card"><div class="svc-icon">🚌</div><h3>Bus Booking</h3><p>AC & sleeper buses on all major routes at the best prices, guaranteed.</p><div class="svc-link">Book Bus →</div></a>
-    <a href="/pages/cabs.html" class="svc-card"><div class="svc-icon">🚗</div><h3>Cab & Transfers</h3><p>Airport pickups, outstation trips & hill station transfers at best rates.</p><div class="svc-link">Book Cab →</div></a>
+    <a href="/pages/packages.html" class="svc-card"><div class="svc-icon"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div><h3>Tour Packages</h3><p>Handcrafted itineraries from weekend getaways to 14-day international holidays.</p><div class="svc-link">Browse Packages →</div></a>
+    <a href="/pages/flights.html" class="svc-card"><div class="svc-icon"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><path d="M17.8 19.2 16 11l3.5-3.5c.6-.6.9-1.5.7-2.3-.2-.9-.9-1.5-1.7-1.7-.8-.2-1.7.1-2.3.7L13 7.5 4.8 5.7c-.5-.1-1 0-1.3.4l-.6.6c-.4.4-.3 1 .2 1.3L9 10.9l-3 3-2.3-.5c-.3-.1-.6 0-.8.2l-.4.4c-.3.3-.3.9.1 1.1l3.4 2 2 3.4c.2.4.8.4 1.1.1l.4-.4c.2-.2.3-.5.2-.8l-.5-2.3 3-3 2.9 6.8c.3.5.9.6 1.3.2l.6-.6c.4-.3.5-.8.4-1.3z"/></svg></div><h3>Flight Booking</h3><p>Best fares on domestic & international flights with instant e-ticket confirmation.</p><div class="svc-link">Book Flight →</div></a>
+    <a href="/pages/hotels.html" class="svc-card"><div class="svc-icon"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><path d="M3 21V7a2 2 0 0 1 2-2h4v16M15 21V9a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v12M3 21h18M9 8h.01M9 12h.01M9 16h.01"/></svg></div><h3>Hotel Booking</h3><p>Curated stays from budget homestays to 5-star resorts across 500+ cities.</p><div class="svc-link">Find Hotels →</div></a>
+    <a href="/pages/bus.html" class="svc-card"><div class="svc-icon"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M3 12h18M7 20v-3M17 20v-3"/></svg></div><h3>Bus Booking</h3><p>AC & sleeper buses on all major routes at the best prices, guaranteed.</p><div class="svc-link">Book Bus →</div></a>
+    <a href="/pages/cabs.html" class="svc-card"><div class="svc-icon"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><path d="M5 17h14M5 17a2 2 0 1 1-4 0 2 2 0 0 1 4 0zM19 17a2 2 0 1 0 4 0 2 2 0 0 0-4 0zM3 17V11l2-5h14l2 5v6"/></svg></div><h3>Cab & Transfers</h3><p>Airport pickups, outstation trips & hill station transfers at best rates.</p><div class="svc-link">Book Cab →</div></a>
   </div>
 </section>
 
@@ -368,27 +368,27 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
     </div>
     <div class="dest-grid">
       <div class="dest-card" onclick="location.href='pages/packages.html'" role="button" tabindex="0" aria-label="Manali & Spiti packages">
-        <div class="dest-bg" style="background:linear-gradient(145deg,#1a3a6b,#2d6bc4)">🏔️</div>
+        <div class="dest-bg" style="background:linear-gradient(145deg,#1a3a6b,#2d6bc4)"></div>
         <div class="dest-ov"></div>
         <div class="dest-content"><h3>Manali &amp; Spiti</h3><p>Snow, adventure &amp; mountain magic</p><span class="dest-from">From ₹12,499</span></div>
       </div>
       <div class="dest-card" onclick="location.href='pages/packages.html'" role="button" tabindex="0" aria-label="Goa packages">
-        <div class="dest-bg" style="background:linear-gradient(145deg,#1e6070,#2d9b8a)">🏖️</div>
+        <div class="dest-bg" style="background:linear-gradient(145deg,#1e6070,#2d9b8a)"></div>
         <div class="dest-ov"></div>
         <div class="dest-content"><h3>Goa</h3><p>Sun, beaches &amp; culture</p><span class="dest-from">From ₹8,999</span></div>
       </div>
       <div class="dest-card" onclick="location.href='pages/packages.html'" role="button" tabindex="0" aria-label="Kerala packages">
-        <div class="dest-bg" style="background:linear-gradient(145deg,#1a4a2e,#2d7a4f)">🌴</div>
+        <div class="dest-bg" style="background:linear-gradient(145deg,#1a4a2e,#2d7a4f)"></div>
         <div class="dest-ov"></div>
         <div class="dest-content"><h3>Kerala</h3><p>Backwaters &amp; tropical beauty</p><span class="dest-from">From ₹15,499</span></div>
       </div>
       <div class="dest-card" onclick="location.href='pages/packages.html'" role="button" tabindex="0" aria-label="Rajasthan packages">
-        <div class="dest-bg" style="background:linear-gradient(145deg,#4a2010,#8a3a1a)">🏰</div>
+        <div class="dest-bg" style="background:linear-gradient(145deg,#4a2010,#8a3a1a)"></div>
         <div class="dest-ov"></div>
         <div class="dest-content"><h3>Rajasthan</h3><p>Forts, palaces &amp; heritage</p><span class="dest-from">From ₹22,999</span></div>
       </div>
       <div class="dest-card" onclick="location.href='pages/packages.html'" role="button" tabindex="0" aria-label="Bali packages">
-        <div class="dest-bg" style="background:linear-gradient(145deg,#3a1a4a,#6a2d8a)">🌏</div>
+        <div class="dest-bg" style="background:linear-gradient(145deg,#3a1a4a,#6a2d8a)"></div>
         <div class="dest-ov"></div>
         <div class="dest-content"><h3>Bali</h3><p>Romantic international escape</p><span class="dest-from">From ₹54,999</span></div>
       </div>
@@ -404,11 +404,11 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
       <h2 class="why-title">Travel With <em>Confidence</em></h2>
       <p style="opacity:.7;margin-top:.75rem;font-size:.95rem;line-height:1.7">ZoomFly is crafting tomorrow’s travel experiences, today.</p>
       <div class="perks">
-        <div class="perk"><div class="perk-icon">💰</div><div><strong>Best Price Guarantee</strong><span>Found it cheaper? We'll match or beat any price.</span></div></div>
-        <div class="perk"><div class="perk-icon">📞</div><div><strong>24/7 WhatsApp Support</strong><span>Our team is available round-the-clock during your trip.</span></div></div>
-        <div class="perk"><div class="perk-icon">🎯</div><div><strong>Fully Customisable</strong><span>Every itinerary tailored to your preferences and budget.</span></div></div>
-        <div class="perk"><div class="perk-icon">⚡</div><div><strong>Instant Confirmation</strong><span>Book and receive e-tickets within minutes.</span></div></div>
-        <div class="perk"><div class="perk-icon">💳</div><div><strong>EMI Options</strong><span>Pay in easy monthly instalments on all packages.</span></div></div>
+        <div class="perk"><div class="perk-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M9 14V4a2 2 0 0 1 4 0v10M9 14a2 2 0 1 0 4 0M9 14H5a2 2 0 0 0-2 2v1a5 5 0 0 0 5 5h8a5 5 0 0 0 5-5v-1a2 2 0 0 0-2-2h-4"/></svg></div><div><strong>Best Price Guarantee</strong><span>Found it cheaper? We'll match or beat any price.</span></div></div>
+        <div class="perk"><div class="perk-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div><div><strong>24/7 WhatsApp Support</strong><span>Our team is available round-the-clock during your trip.</span></div></div>
+        <div class="perk"><div class="perk-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 3l9 4.5v9L12 21l-9-4.5v-9L12 3z"/><path d="M12 3v18M3 7.5l9 4.5 9-4.5"/></svg></div><div><strong>Fully Customisable</strong><span>Every itinerary tailored to your preferences and budget.</span></div></div>
+        <div class="perk"><div class="perk-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div><div><strong>Instant Confirmation</strong><span>Book and receive e-tickets within minutes.</span></div></div>
+        <div class="perk"><div class="perk-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18"/><path d="M7 15h3"/></svg></div><div><strong>EMI Options</strong><span>Pay in easy monthly instalments on all packages.</span></div></div>
       </div>
     </div>
     <div class="why-stats">
@@ -436,11 +436,11 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
 
 <!-- CTA -->
 <section class="cta-section">
-  <h2>Ready to Explore India & Beyond? 🌍</h2>
+  <h2>Ready to Explore India & Beyond?</h2>
   <p>Talk to our experts and get a custom itinerary — completely free.</p>
   <div class="cta-btns">
     <a href="/pages/contact.html" class="btn-cta-w">Plan My Dream Trip</a>
-    <a href="https://wa.me/918076136300" target="_blank" class="btn-cta-o">💬 WhatsApp Us</a>
+    <a href="https://wa.me/918076136300" target="_blank" class="btn-cta-o">WhatsApp Us</a>
   </div>
 </section>
 
@@ -525,7 +525,7 @@ window.doSearch = (type) => {
   let url=pages[type];
   if (type==='tours' && dest) url+=`?search=${encodeURIComponent(dest)}`;
   if (type==='cabs' && cabFrom && cabTo) {
-    const msg=`Hi ZoomFly! 🚗 I want a cab from ${cabFrom} to ${cabTo}. Please share pricing.`;
+    const msg=`Hi ZoomFly!  I want a cab from ${cabFrom} to ${cabTo}. Please share pricing.`;
     window.open('https://wa.me/918076136300?text='+encodeURIComponent(msg),'_blank'); return;
   }
   window.location.href=url;
@@ -535,12 +535,12 @@ window.doSearch = (type) => {
 let allPkgs = [];
 // ── Static packages shown immediately — no loading spinner ──
 const STATIC_PKGS = [
-  { id:'goa-beach',     title:'Goa Beach Escape',       emoji:'🏖️', bg_gradient:'linear-gradient(135deg,#667eea,#764ba2)', price:6999,  old_price:8999,  duration_days:4, nights:3, destination:'Goa', type:'domestic' },
-  { id:'manali-snow',   title:'Manali Snow Adventure',   emoji:'🏔️', bg_gradient:'linear-gradient(135deg,#f093fb,#f5576c)', price:10499, old_price:13999, duration_days:6, nights:5, destination:'Manali', type:'domestic' },
-  { id:'kerala-tour',   title:'Kerala Backwaters Tour',  emoji:'🌴', bg_gradient:'linear-gradient(135deg,#4facfe,#00f2fe)', price:9999,  old_price:12499, duration_days:5, nights:4, destination:'Kerala', type:'domestic' },
-  { id:'rajasthan-royal',title:'Royal Rajasthan Circuit',emoji:'🏰', bg_gradient:'linear-gradient(135deg,#fa709a,#fee140)', price:12999, old_price:16999, duration_days:7, nights:6, destination:'Rajasthan', type:'domestic' },
-  { id:'bali-dream',    title:'Bali Dream Holiday',      emoji:'🌸', bg_gradient:'linear-gradient(135deg,#a1c4fd,#c2e9fb)', price:42999, old_price:54999, duration_days:7, nights:6, destination:'Bali', type:'international' },
-  { id:'andaman-pearl', title:'Andaman Pearl Islands',   emoji:'🐠', bg_gradient:'linear-gradient(135deg,#43e97b,#38f9d7)', price:14999, old_price:18999, duration_days:5, nights:4, destination:'Andaman', type:'domestic' },
+  { id:'goa-beach',     title:'Goa Beach Escape',       emoji:'', bg_gradient:'linear-gradient(135deg,#667eea,#764ba2)', price:6999,  old_price:8999,  duration_days:4, nights:3, destination:'Goa', type:'domestic' },
+  { id:'manali-snow',   title:'Manali Snow Adventure',   emoji:'', bg_gradient:'linear-gradient(135deg,#f093fb,#f5576c)', price:10499, old_price:13999, duration_days:6, nights:5, destination:'Manali', type:'domestic' },
+  { id:'kerala-tour',   title:'Kerala Backwaters Tour',  emoji:'', bg_gradient:'linear-gradient(135deg,#4facfe,#00f2fe)', price:9999,  old_price:12499, duration_days:5, nights:4, destination:'Kerala', type:'domestic' },
+  { id:'rajasthan-royal',title:'Royal Rajasthan Circuit',emoji:'', bg_gradient:'linear-gradient(135deg,#fa709a,#fee140)', price:12999, old_price:16999, duration_days:7, nights:6, destination:'Rajasthan', type:'domestic' },
+  { id:'bali-dream',    title:'Bali Dream Holiday',      emoji:'', bg_gradient:'linear-gradient(135deg,#a1c4fd,#c2e9fb)', price:42999, old_price:54999, duration_days:7, nights:6, destination:'Bali', type:'international' },
+  { id:'andaman-pearl', title:'Andaman Pearl Islands',   emoji:'', bg_gradient:'linear-gradient(135deg,#43e97b,#38f9d7)', price:14999, old_price:18999, duration_days:5, nights:4, destination:'Andaman', type:'domestic' },
 ];
 
 async function loadHomePkgs() {
@@ -563,7 +563,7 @@ function renderPkgs(pkgs) {
   document.getElementById('home-pkgs').innerHTML = pkgs.map(p => `
     <div class="pkg-card" onclick="openModal('${p.id}')">
       <div class="pkg-thumb" style="background:${p.bg_gradient||'linear-gradient(135deg,#667eea,#764ba2)'}">
-        <span class="thumb-em">${p.emoji||'🗺️'}</span>
+        ${(p.photos&&p.photos[0])||p.image_url ? `<img src="${esc((p.photos&&p.photos[0])||p.image_url)}" alt="${esc(p.title||'')}" style="width:100%;height:100%;object-fit:cover" onerror="this.remove()"/>` : ''}
         ${p.badge?`<span class="pkg-badge badge-${p.badge.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'')}">${p.badge_label||p.badge}</span>`:''}
       </div>
       <div class="pkg-body">
@@ -583,16 +583,16 @@ function renderPkgs(pkgs) {
 window.openModal = (id) => {
   const p = allPkgs.find(x=>x.id===id); if(!p) return;
   document.getElementById('m-thumb').style.background=p.bg_gradient||'linear-gradient(135deg,#667eea,#764ba2)';
-  document.getElementById('m-thumb').innerHTML=`<button class="m-close" onclick="closeModal()">✕</button><span style="font-size:7rem">${p.emoji||'🗺️'}</span>`;
+  document.getElementById('m-thumb').innerHTML=`<button class="m-close" onclick="closeModal()">✕</button>${(p.photos&&p.photos[0])||p.image_url ? `<img src="${esc((p.photos&&p.photos[0])||p.image_url)}" alt="${esc(p.title||'')}" style="width:100%;height:100%;object-fit:cover;border-radius:inherit"/>` : ''}`;
   document.getElementById('m-body').innerHTML=`
     <h2>${p.title}</h2>
-    <div class="m-meta"><span>📅 ${p.duration_days} Days / ${p.nights} Nights</span>${p.rating ? `<span>⭐ ${p.rating} (${p.review_count||0} reviews)</span>` : ''}<span>${p.type==='international'?'🌍 International':'🇮🇳 Domestic'}</span></div>
+    <div class="m-meta"><span>${p.duration_days} Days / ${p.nights} Nights</span>${p.rating ? `<span>${p.rating} (${p.review_count||0} reviews)</span>` : ''}<span>${p.type==='international'?'International':'Domestic'}</span></div>
     <p class="m-desc">${p.description||''}</p>
     ${(p.inclusions||[]).length?`<div style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--light);margin-bottom:.75rem">What's Included</div><div class="m-inc-grid">${p.inclusions.map(i=>`<div class="m-inc">${i}</div>`).join('')}</div>`:''}`;
   document.getElementById('m-footer').innerHTML=`
     <div class="m-price"><div class="amt">₹${Number(p.price).toLocaleString('en-IN')}</div><div class="per">/person <s style="color:var(--light)">₹${Number(p.old_price||p.price).toLocaleString('en-IN')}</s></div></div>
     <div class="m-cta">
-      <button class="btn-wa-m" onclick="window.open('https://wa.me/918076136300?text=Hi!+Interested+in+${encodeURIComponent(p.title)}','_blank')">💬 WhatsApp</button>
+      <button class="btn-wa-m" onclick="window.open('https://wa.me/918076136300?text=Hi!+Interested+in+${encodeURIComponent(p.title)}','_blank')">WhatsApp</button>
       <button class="btn-book" onclick="window.location.href='pages/contact.html?pkg=${encodeURIComponent(p.title)}'">Book Now →</button>
     </div>`;
   document.getElementById('modal-ov').classList.add('open');
@@ -615,7 +615,7 @@ function renderTestimonials(data) {
       <p class="test-text">"${t.text}"</p>
       <div class="test-author">
         <div class="test-av" style="background:${t.avatar || '#0057FF'}">${t.initials || (t.name||'').split(' ').map(n=>n[0]).join('').substring(0,2)}</div>
-        <div><div class="test-name">${t.name}</div><div class="test-trip">📍 ${t.city || ''} · ${t.trip || ''}</div></div>
+        <div><div class="test-name">${t.name}</div><div class="test-trip">${t.city || ''} · ${t.trip || ''}</div></div>
       </div>
     </div>`).join('');
 }
@@ -744,7 +744,7 @@ window.exitPopupSubscribe = async (e) => {
     await subscribeNewsletter(email, 'exit_intent');
   } catch(_) {}
   const code = _exitPopupCode?.code || '';
-  msg.textContent = code ? `🎉 Deal unlocked! Code ${code} saved to your clipboard.` : '🎉 You\'re subscribed! Watch your inbox for deals.';
+  msg.textContent = code ? `Deal unlocked! Code ${code} saved to your clipboard.` : 'You\'re subscribed! Watch your inbox for deals.';
   if (code) navigator.clipboard.writeText(code).catch(()=>{});
   setTimeout(closeExitPopup, 3000);
 };
@@ -781,7 +781,7 @@ function showSocialProof() {
   if (!recentActivity.length) return; // nothing real to show — stay hidden
   const d   = recentActivity[spIndex % recentActivity.length];
   const el  = document.getElementById('social-proof');
-  document.getElementById('sp-avatar').textContent = '👤';
+  document.getElementById('sp-avatar').textContent = '';
   document.getElementById('sp-name').textContent   = d.display_name || 'A traveller';
   document.getElementById('sp-action').textContent = `${svcVerb(d.service_type)} ${d.service_name||''}`.trim();
   document.getElementById('sp-time').textContent   = d.time_ago;
@@ -807,7 +807,7 @@ loadRecentActivity().then(() => {
   <div style="background:#fff;border-radius:20px;max-width:480px;width:100%;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.4);position:relative">
     <button onclick="closeExitPopup()" style="position:absolute;top:12px;right:14px;background:none;border:none;font-size:1.2rem;cursor:pointer;color:#94a3b8;z-index:1">✕</button>
     <div style="background:linear-gradient(135deg,#1a73e8,#0d47a1);padding:32px;text-align:center;color:#fff">
-      <div style="font-size:2.5rem;margin-bottom:10px">✈️</div>
+      <div style="font-size:2.5rem;margin-bottom:10px"></div>
       <div style="font-size:1.2rem;font-weight:800;margin-bottom:6px">Wait! Don't Miss Out</div>
       <div style="font-size:.9rem;opacity:.8" id="exit-popup-deal">Get <strong>10% OFF</strong> your first booking</div>
     </div>
@@ -832,7 +832,7 @@ loadRecentActivity().then(() => {
 <!-- SOCIAL PROOF NOTIFICATION -->
 <div id="social-proof" style="display:none;position:fixed;bottom:80px;left:20px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:12px 16px;box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:800;max-width:280px;animation:slideInLeft .4s ease">
   <div style="display:flex;align-items:center;gap:10px">
-    <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#1a73e8,#ff6b35);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0" id="sp-avatar">👤</div>
+    <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#1a73e8,#ff6b35);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0" id="sp-avatar"></div>
     <div>
       <div style="font-weight:700;font-size:.82rem;color:#0f1923" id="sp-name"></div>
       <div style="font-size:.75rem;color:#64748b;margin-top:1px" id="sp-action"></div>
