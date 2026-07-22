@@ -7,7 +7,12 @@
 //  Imported by: booking.js (orchestrator)
 // ============================================================
 
-const WA = '918076136300';
+// Falls back to this literal only if main.js (which sets window.ZF
+// from the admin-configured site_settings.whatsapp_number) hasn't
+// loaded — keeps this working standalone, but prefers the live value.
+function _supportWA() {
+  return (typeof window !== 'undefined' && window.ZF && window.ZF.whatsapp) || '918076136300';
+}
 
 // ─── HELPERS ─────────────────────────────────────────────────
 function _fmt(n) {
@@ -104,7 +109,7 @@ export function showBookingSuccess(booking) {
       </div>
     </div>
 
-    <a href="https://wa.me/${WA}" target="_blank" rel="noopener"
+    <a href="https://wa.me/${_supportWA()}" target="_blank" rel="noopener"
        style="display:block;background:linear-gradient(135deg,#25d366,#128c7e);
               color:#fff;padding:13px 24px;border-radius:10px;text-decoration:none;
               font-weight:700;font-size:.92rem;margin-bottom:12px;
@@ -133,7 +138,7 @@ export function showBookingError(message) {
       ${_esc(message) || 'Something went wrong. Please try again or contact us on WhatsApp.'}
     </p>
 
-    <a href="https://wa.me/${WA}" target="_blank" rel="noopener"
+    <a href="https://wa.me/${_supportWA()}" target="_blank" rel="noopener"
        style="display:block;background:linear-gradient(135deg,#25d366,#128c7e);
               color:#fff;padding:13px 24px;border-radius:10px;text-decoration:none;
               font-weight:700;font-size:.9rem;margin-bottom:12px">

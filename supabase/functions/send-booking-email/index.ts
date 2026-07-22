@@ -203,7 +203,10 @@ serve(async (req) => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
     );
 
+    let handled = false;
+
     if (type === 'confirmation' && booking_id) {
+      handled = true;
       const { data: booking, error } = await supabase
         .from('bookings').select('*').eq('id', booking_id).single();
       if (error || !booking) throw new Error('Booking not found.');
@@ -231,6 +234,7 @@ serve(async (req) => {
     }
 
     if (type === 'enquiry' && enquiry_id) {
+      handled = true;
       const { data: enquiry, error } = await supabase
         .from('enquiries').select('*').eq('id', enquiry_id).single();
       if (error || !enquiry) throw new Error('Enquiry not found.');
@@ -249,6 +253,10 @@ serve(async (req) => {
           html: enquiryAckHtml(enquiry)
         })
       ]);
+    }
+
+    if (!handled) {
+      throw new Error(`Unrecognized request: type="${type}" with the required id missing or type unknown.`);
     }
 
     return new Response(JSON.stringify({ success: true }), {

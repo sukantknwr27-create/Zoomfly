@@ -31,6 +31,13 @@ const ZF = {
   //   Packages  → loaded from Supabase via getPackages() in supabase.js
   //   Testimonials → loaded from Supabase via getFeaturedReviews() in supabase.js
 };
+// Exposed on window so other modules (booking.js, booking-ui.js,
+// whatsapp-templates.js) can read the admin-configured WhatsApp
+// number instead of each keeping their own hardcoded copy.
+// _loadSiteSettingsIntoZF() below mutates this same object in place,
+// so anything holding a reference to window.ZF sees the live values
+// once that fetch resolves.
+window.ZF = ZF;
 
 // ─── LIVE SITE SETTINGS ───
 // Pulls admin-managed contact/social/branding info from site_settings
@@ -90,6 +97,14 @@ function _showPhoneToast(msg) {
   }, 2200);
 }
 
+// Guards the nav/document/window-level listeners below from being
+// attached more than once if renderNav() ever runs a second time on
+// the same page (e.g. a page that calls it again after some
+// page-specific state change) — #mainNav and document/window persist
+// across a renderNav() re-run (only nav.innerHTML gets replaced), so
+// without this each re-run would pile on another duplicate listener.
+let _navListenersBound = false;
+
 async function renderNav(activePage = '') {
   const nav = document.getElementById('mainNav');
   if (!nav) return;
@@ -130,56 +145,66 @@ async function renderNav(activePage = '') {
     );
   }
 
-  // Fix 1 & 2: Delegate data-action clicks from nav.html (dropdown toggle + sign-out)
-  nav.addEventListener('click', e => {
-    const btn = e.target.closest('[data-action]');
-    if (!btn) return;
-    const action = btn.dataset.action;
-    if (action === 'toggle-user-menu')     { e.stopPropagation(); toggleUserMenu(); }
-    if (action === 'sign-out')             { e.preventDefault();  doSignOut(); }
-    if (action === 'toggle-services-menu') {
-      e.stopPropagation();
-      const m = document.getElementById('services-menu');
-      if (m) m.style.display = m.style.display === 'block' ? 'none' : 'block';
-    }
-    if (action === 'call-phone') {
-      // On desktop browsers with no tel: handler registered, the OS shows an
-      // ugly "no app found" dialog. Detect that case and copy the number
-      // to clipboard instead, with a friendly toast.
-      const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-      if (!isMobile) {
-        e.preventDefault();
-        const number = btn.getAttribute('href').replace('tel:', '');
-        navigator.clipboard?.writeText(number).then(() => {
-          _showPhoneToast(`${number} copied to clipboard`);
-        }).catch(() => {
-          _showPhoneToast(`Call us: ${number}`);
-        });
+  if (!_navListenersBound) {
+    _navListenersBound = true;
+
+    // Fix 1 & 2: Delegate data-action clicks from nav.html (dropdown toggle + sign-out)
+    nav.addEventListener('click', e => {
+      const btn = e.target.closest('[data-action]');
+      if (!btn) return;
+      const action = btn.dataset.action;
+      if (action === 'toggle-user-menu')     { e.stopPropagation(); toggleUserMenu(); }
+      if (action === 'sign-out')             { e.preventDefault();  doSignOut(); }
+      if (action === 'toggle-services-menu') {
+        e.stopPropagation();
+        const m = document.getElementById('services-menu');
+        if (m) m.style.display = m.style.display === 'block' ? 'none' : 'block';
       }
-      // On mobile, let the tel: link work normally (don't preventDefault)
-    }
-  });
+      if (action === 'call-phone') {
+        // On desktop browsers with no tel: handler registered, the OS shows an
+        // ugly "no app found" dialog. Detect that case and copy the number
+        // to clipboard instead, with a friendly toast.
+        const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+        if (!isMobile) {
+          e.preventDefault();
+          const number = btn.getAttribute('href').replace('tel:', '');
+          navigator.clipboard?.writeText(number).then(() => {
+            _showPhoneToast(`${number} copied to clipboard`);
+          }).catch(() => {
+            _showPhoneToast(`Call us: ${number}`);
+          });
+        }
+        // On mobile, let the tel: link work normally (don't preventDefault)
+      }
+    });
 
-  // Close Services dropdown when clicking outside it
-  document.addEventListener('click', e => {
-    if (!e.target.closest('.nav-dropdown-wrap')) {
-      const m = document.getElementById('services-menu');
-      if (m) m.style.display = 'none';
-    }
-  });
+    // Close Services dropdown when clicking outside it
+    document.addEventListener('click', e => {
+      if (!e.target.closest('.nav-dropdown-wrap')) {
+        const m = document.getElementById('services-menu');
+        if (m) m.style.display = 'none';
+      }
+    });
 
-  // Close dropdown when clicking outside
-  document.addEventListener('click', e => {
-    if (!e.target.closest('#nav-user-menu')) {
-      const d = document.getElementById('nav-dropdown');
-      if (d) d.style.display = 'none';
-    }
-  });
+    // Close dropdown when clicking outside
+    document.addEventListener('click', e => {
+      if (!e.target.closest('#nav-user-menu')) {
+        const d = document.getElementById('nav-dropdown');
+        if (d) d.style.display = 'none';
+      }
+    });
 
-  // Scroll shadow
-  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 60);
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
+    // Scroll shadow — reads the *current* #mainNav each time since this
+    // listener now outlives any single renderNav() call.
+    window.addEventListener('scroll', () => {
+      document.getElementById('mainNav')?.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  } else {
+    // Listeners are already bound from a previous renderNav() call —
+    // still need the scroll-shadow class applied once for this run.
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  }
 
   // Auth state
   _updateNavAuth();

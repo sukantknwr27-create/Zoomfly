@@ -11,6 +11,7 @@
 
 import { bookFlight, bookHotel, bookPackage, bookBus, bookCab } from './booking.js';
 import { setLoading } from './booking-ui.js';
+import { CONFIG } from './booking-service.js';
 // ✦ setLoading previously duplicated in both booking.js and booking-forms.js.
 //   Single definition now lives in booking-ui.js.
 
@@ -38,10 +39,19 @@ function _validateDate(v, minToday = true) {
   if (!v) return false;
   const d = new Date(v);
   if (isNaN(d)) return false;
-  if (minToday && d < new Date(new Date().toDateString())) return false;
+  if (minToday) {
+    // v is a plain "YYYY-MM-DD" from <input type="date">, which the
+    // Date constructor parses as UTC midnight — comparing that
+    // directly against a local "today" midnight is off by the local
+    // UTC offset, and can wrongly reject today's date as "in the
+    // past" for users west of UTC. Compare calendar dates in local
+    // time on both sides instead.
+    const [y, m, day] = v.split('-').map(Number);
+    const localD = new Date(y, (m || 1) - 1, day || 1);
+    if (localD < new Date(new Date().toDateString())) return false;
+  }
   return true;
 }
-function _validateAmount(v) { return parseFloat(v) > 0; }
 
 /**
  * Run common checks on customer contact fields present in a form.
@@ -185,7 +195,7 @@ function initHotelBookingForm() {
     const pricePerNight = parseFloat(form.dataset.pricePerNight || 0);
     const rooms = parseInt(form.querySelector('[name="num_rooms"]')?.value || 1);
     const totalEl = form.querySelector('#price-total, .booking-total');
-    if (totalEl) totalEl.textContent = `₹${((pricePerNight * nights * rooms) * 1.18).toLocaleString('en-IN')}`;
+    if (totalEl) totalEl.textContent = `₹${((pricePerNight * nights * rooms) * (1 + CONFIG.gst_rate)).toLocaleString('en-IN')}`;
   }
 
   checkInEl?.addEventListener('change', updateNights);
@@ -259,7 +269,7 @@ function initPackageBookingForm() {
     const pricePerAdult = parseFloat(form.dataset.pricePerAdult || form.dataset.price || 0);
     const pricePerChild = parseFloat(form.dataset.pricePerChild || pricePerAdult * 0.7);
     const base  = (adults * pricePerAdult) + (children * pricePerChild);
-    const total = base * 1.18;
+    const total = base * (1 + CONFIG.gst_rate);
     if (totalEl) totalEl.textContent = `₹${Math.round(total).toLocaleString('en-IN')}`;
     form.dataset.baseAmount  = base.toFixed(2);
     form.dataset.totalAmount = total.toFixed(2);

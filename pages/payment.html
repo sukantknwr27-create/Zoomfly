@@ -157,12 +157,9 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
             <div class="method-badges"><span class="mbadge">Visa</span><span class="mbadge">MC</span></div>
           </div>
           <div class="method-body">
-            <div class="fg"><label>Card Number</label><input class="fc" id="card-num" placeholder="1234 5678 9012 3456" maxlength="19" oninput="fmtCard(this)"/></div>
-            <div class="card-row">
-              <div class="fg"><label>Expiry</label><input class="fc" id="card-exp" placeholder="MM / YY" maxlength="7" oninput="fmtExp(this)"/></div>
-              <div class="fg"><label>CVV</label><input class="fc" id="card-cvv" placeholder="123" maxlength="4" type="password"/></div>
-            </div>
-            <div class="fg"><label>Name on Card</label><input class="fc" id="card-name" placeholder="John Doe"/></div>
+            <p style="font-size:.82rem;color:var(--muted);line-height:1.5">
+              You'll enter your card details in Razorpay's secure payment window after clicking "Pay Securely Now" below — we never see or store your card number.
+            </p>
           </div>
         </div>
 
@@ -292,7 +289,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script src="/assets/js/main.js"></script>
 <script type="module">
-import { createBooking, getUser } from '../assets/js/supabase.js';
+import { insertBookingRow, getUser } from '../assets/js/supabase.js';
 
 // These come straight from the URL — an attacker can send a victim a
 // direct link with arbitrary values (e.g. ?bg="><img src=x onerror=...>),
@@ -563,16 +560,6 @@ window.selectMethod = (el, method) => {
   selectedMethod = method;
 };
 
-window.fmtCard = (el) => {
-  let v = el.value.replace(/\D/g,'').substring(0,16);
-  el.value = v.replace(/(.{4})/g,'$1 ').trim();
-};
-window.fmtExp = (el) => {
-  let v = el.value.replace(/\D/g,'').substring(0,4);
-  if (v.length > 2) v = v.slice(0,2) + ' / ' + v.slice(2);
-  el.value = v;
-};
-
 window.processPayment = async () => {
   const name = document.getElementById('g-name').value.trim();
   const email = document.getElementById('g-email').value.trim();
@@ -616,13 +603,13 @@ window.processPayment = async () => {
       // that would create a second, duplicate booking row for the same
       // attempt. Always `return` after this block, success or failure.
       try {
-        const { createBooking, supabase } = await import('../assets/js/supabase.js');
+        const { insertBookingRow, supabase } = await import('../assets/js/supabase.js');
 
         // Step 1: create the booking first. create-razorpay-order needs
         // a real booking row (with a server-trusted total_amount) to
         // mint a Razorpay order against — and verify-razorpay-payment
         // checks the eventual payment against this same booking_id.
-        const booking = await createBooking({
+        const booking = await insertBookingRow({
           service_type: bookingType, service_name: itemName,
           service_id: serviceId,
           package_id: bookingType === 'package' ? serviceId : null,
@@ -707,8 +694,8 @@ window.processPayment = async () => {
 
   // For NEFT/bank transfer or fallback
   try {
-    const { createBooking } = await import('../assets/js/supabase.js');
-    const booking = await createBooking({
+    const { insertBookingRow } = await import('../assets/js/supabase.js');
+    const booking = await insertBookingRow({
       service_type: bookingType, service_name: itemName,
       service_id: serviceId,
       package_id: bookingType === 'package' ? serviceId : null,

@@ -232,7 +232,12 @@ export async function getHotels({ stars, maxPrice, city, search } = {}) {
 }
 
 // ── BOOKINGS ─────────────────────────────────────────────
-export async function createBooking(bookingData) {
+// Named insertBookingRow (not createBooking) to avoid colliding with
+// booking.js's createBooking(serviceType, formData) orchestrator —
+// same name, different signature and behavior (that one also builds
+// travel_details/GST and sends the WhatsApp notification), so having
+// both called `createBooking` made it easy to import the wrong one.
+export async function insertBookingRow(bookingData) {
   const user = await getUser();
   const payload = { ...bookingData, user_id: user?.id || null };
   const { data, error } = await supabase.from('bookings').insert(payload).select().single();
@@ -625,7 +630,8 @@ export const admin = {
     return data;
   },
   async getSiteSettings() {
-    const { data } = await supabase.from('site_settings').select('*').eq('id', 1).single();
+    const { data, error } = await supabase.from('site_settings').select('*').eq('id', 1).single();
+    if (error) throw error;
     return data;
   },
   async saveSiteSettings(updates) {

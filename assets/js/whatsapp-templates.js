@@ -17,10 +17,18 @@
 const ZOOMFLY = {
   name:      'ZoomFly',
   website:   'zoomfly.in',
-  admin_wa:  '918076136300',
+  admin_wa:  '918076136300', // last-resort fallback only — see _adminWA()
   admin_email: 's.admin@zoomfly.in',
   support_hours: 'Mon–Sat · 9 AM – 9 PM IST',
 };
+
+// Prefers the admin-configured number (main.js sets window.ZF from
+// site_settings.whatsapp_number) over the hardcoded fallback above, so
+// changing the WhatsApp number in Admin → Site Settings actually takes
+// effect here instead of only in main.js's own nav/footer.
+function _adminWA() {
+  return (typeof window !== 'undefined' && window.ZF && window.ZF.whatsapp) || ZOOMFLY.admin_wa;
+}
 
 
 // ============================================================
@@ -33,7 +41,7 @@ const ZOOMFLY = {
  */
 export function sendCustomerConfirmation(serviceType, booking) {
   const message = buildCustomerMessage(serviceType, booking);
-  openWA(ZOOMFLY.admin_wa, message);
+  openWA(_adminWA(), message);
 }
 
 /**
@@ -524,7 +532,7 @@ function openWA(phone, message) {
 }
 
 function sanitizePhone(phone) {
-  if (!phone) return ZOOMFLY.admin_wa;
+  if (!phone) return _adminWA();
   let p = phone.replace(/\D/g, '');
   if (p.startsWith('0')) p = '91' + p.slice(1);
   if (p.length === 10)   p = '91' + p;
@@ -643,9 +651,22 @@ ${escHtml(admin)}
 function copyText(id) {
   const el = document.getElementById(id);
   if (!el) return;
+  if (navigator.clipboard?.writeText) {
+    navigator.clipboard.writeText(el.value)
+      .then(() => alert('Copied to clipboard!'))
+      .catch(() => _fallbackCopy(el));
+  } else {
+    _fallbackCopy(el);
+  }
+}
+
+// execCommand('copy') is deprecated and its success isn't guaranteed —
+// only used as a fallback when the Clipboard API is unavailable, and
+// its actual return value is checked instead of assuming success.
+function _fallbackCopy(el) {
   el.select();
-  document.execCommand('copy');
-  alert('Copied to clipboard!');
+  const ok = document.execCommand('copy');
+  alert(ok ? 'Copied to clipboard!' : 'Could not copy automatically — please copy the text manually.');
 }
 
 function escHtml(str) {

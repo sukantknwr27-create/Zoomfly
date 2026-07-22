@@ -1880,7 +1880,7 @@ async function loadHotels() {
     document.getElementById('htl-s-cities').textContent = cities;
     tbody.innerHTML = data.map(h => `<tr>
       <td>
-        ${h.image_url ? `<img src="${h.image_url}" style="width:48px;height:36px;object-fit:cover;border-radius:6px;margin-right:8px;vertical-align:middle" onerror="this.style.display='none'"/>` : ''}
+        ${h.image_url ? `<img alt="" src="${esc(h.image_url)}" style="width:48px;height:36px;object-fit:cover;border-radius:6px;margin-right:8px;vertical-align:middle" onerror="this.style.display='none'"/>` : ''}
         <strong>${esc(h.name)}</strong>
       </td>
       <td>${esc(h.location || h.city || '—')}</td>
@@ -2102,7 +2102,7 @@ async function loadDestinations() {
       <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px;position:relative;">
         ${d.is_featured ? `<span style="position:absolute;top:10px;right:10px;background:#C9922A;color:#fff;font-size:.65rem;font-weight:700;padding:2px 8px;border-radius:10px;z-index:1">★ Featured</span>` : ''}
         ${d.image_url
-          ? `<img src="${d.image_url}" style="width:100%;height:110px;object-fit:cover;border-radius:8px;margin-bottom:10px" onerror="this.style.display='none'"/>`
+          ? `<img alt="" src="${esc(d.image_url)}" style="width:100%;height:110px;object-fit:cover;border-radius:8px;margin-bottom:10px" onerror="this.style.display='none'"/>`
           : `<div style="width:100%;height:110px;background:${d.bg_gradient||'linear-gradient(135deg,#4facfe,#00f2fe)'};border-radius:8px;margin-bottom:10px"></div>`}
         <div style="font-weight:700;font-size:.9rem;margin-bottom:4px">${esc(d.name)}</div>
         <div style="font-size:.78rem;color:#64748b;margin-bottom:10px">${esc(d.tagline || d.country || d.dest_type || '')}${d.from_price ? ' · From ₹'+Number(d.from_price).toLocaleString('en-IN') : ''}</div>
@@ -2155,7 +2155,7 @@ window.editDestination = async (id) => {
   document.getElementById('dest-image').value = d.image_url || '';
   document.getElementById('dest-featured').checked = !!d.is_featured;
   document.getElementById('dest-img-preview').innerHTML = d.image_url
-    ? `<img src="${esc(d.image_url)}" style="width:100%;max-width:200px;height:110px;object-fit:cover;border-radius:8px;border:1.5px solid #e2e8f0"/>` : '';
+    ? `<img alt="" src="${esc(d.image_url)}" style="width:100%;max-width:200px;height:110px;object-fit:cover;border-radius:8px;border:1.5px solid #e2e8f0"/>` : '';
   document.getElementById('dest-img-status').textContent = '';
   document.getElementById('dest-modal-msg').textContent = '';
   document.getElementById('dest-modal').style.display = 'flex';
@@ -2414,7 +2414,7 @@ async function loadBlogPosts() {
     if (!data?.length) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:2rem;color:#94a3b8">No blog posts yet. Click "+ New Post" to add one.</td></tr>'; return; }
     tbody.innerHTML = data.map(p => `
       <tr>
-        <td>${p.cover_image_url ? `<img src="${esc(p.cover_image_url)}" style="width:44px;height:34px;object-fit:cover;border-radius:5px;vertical-align:middle;margin-right:8px"/>` : ''}<strong>${esc(p.title)}</strong><br/><span style="font-size:.72rem;color:#94a3b8;font-family:monospace;margin-left:${p.cover_image_url?'52px':'0'}">/${esc(p.slug)}</span></td>
+        <td>${p.cover_image_url ? `<img alt="" src="${esc(p.cover_image_url)}" style="width:44px;height:34px;object-fit:cover;border-radius:5px;vertical-align:middle;margin-right:8px"/>` : ''}<strong>${esc(p.title)}</strong><br/><span style="font-size:.72rem;color:#94a3b8;font-family:monospace;margin-left:${p.cover_image_url?'52px':'0'}">/${esc(p.slug)}</span></td>
         <td style="font-size:.78rem">${esc(p.category||'—')}</td>
         <td style="font-size:.78rem">${esc(p.author||'—')}</td>
         <td>${p.is_featured ? '✓' : '—'}</td>
@@ -2462,7 +2462,7 @@ window.editBlogPost = (id) => {
   document.getElementById('bp-published').checked = !!p.is_published;
   document.getElementById('bp-cover-image').value = p.cover_image_url || '';
   document.getElementById('bp-cover-preview').innerHTML = p.cover_image_url
-    ? `<img src="${esc(p.cover_image_url)}" style="width:100%;max-width:220px;height:120px;object-fit:cover;border-radius:8px;border:1.5px solid #e2e8f0"/>` : '';
+    ? `<img alt="" src="${esc(p.cover_image_url)}" style="width:100%;max-width:220px;height:120px;object-fit:cover;border-radius:8px;border:1.5px solid #e2e8f0"/>` : '';
   document.getElementById('bp-cover-status').textContent = '';
   document.getElementById('blog-modal').style.display = 'flex';
 };
@@ -2937,9 +2937,9 @@ window.loadSiteSettings = async () => {
       if (document.getElementById('ss-logo'))    document.getElementById('ss-logo').value    = data.logo_url        || '';
       if (document.getElementById('ss-favicon')) document.getElementById('ss-favicon').value = data.favicon_url     || '';
       if (data.logo_url && document.getElementById('ss-logo-preview'))
-        document.getElementById('ss-logo-preview').innerHTML = `<img src="${data.logo_url}" style="height:40px;border-radius:6px;border:1.5px solid #e2e8f0"/>`;
+        document.getElementById('ss-logo-preview').innerHTML = `<img alt="" src="${data.logo_url}" style="height:40px;border-radius:6px;border:1.5px solid #e2e8f0"/>`;
       if (data.favicon_url && document.getElementById('ss-favicon-preview'))
-        document.getElementById('ss-favicon-preview').innerHTML = `<img src="${data.favicon_url}" style="height:28px;width:28px;object-fit:contain;border-radius:6px;border:1.5px solid #e2e8f0"/>`;
+        document.getElementById('ss-favicon-preview').innerHTML = `<img alt="" src="${data.favicon_url}" style="height:28px;width:28px;object-fit:contain;border-radius:6px;border:1.5px solid #e2e8f0"/>`;
       if (document.getElementById('ss-hero-title'))    document.getElementById('ss-hero-title').value    = data.homepage_hero_title    || '';
       if (document.getElementById('ss-hero-subtitle')) document.getElementById('ss-hero-subtitle').value = data.homepage_hero_subtitle || '';
       if (Array.isArray(data.homepage_hero_images) && document.getElementById('ss-hero-images')) {
@@ -2948,7 +2948,7 @@ window.loadSiteSettings = async () => {
         if (prev) {
           prev.innerHTML = data.homepage_hero_images.map(url => `
             <div style="position:relative;flex-shrink:0">
-              <img src="${url}" style="width:80px;height:50px;object-fit:cover;border-radius:6px;border:1.5px solid #e2e8f0" onerror="this.parentElement.remove()"/>
+              <img alt="" src="${url}" style="width:80px;height:50px;object-fit:cover;border-radius:6px;border:1.5px solid #e2e8f0" onerror="this.parentElement.remove()"/>
               <button onclick="removeHeroImage('${url}',this.parentElement)"
                 style="position:absolute;top:-6px;right:-6px;width:18px;height:18px;background:#dc2626;color:#fff;border:none;border-radius:50%;font-size:.6rem;cursor:pointer;display:flex;align-items:center;justify-content:center">✕</button>
             </div>`).join('');
@@ -3412,7 +3412,7 @@ window.handleImgUpload = async (files) => {
       // Show preview
       const img = document.createElement('div');
       img.style.cssText = 'position:relative;flex-shrink:0';
-      img.innerHTML = `<img src="${publicUrl}" style="width:80px;height:60px;object-fit:cover;border-radius:6px;border:1.5px solid #e2e8f0"/>
+      img.innerHTML = `<img alt="" src="${publicUrl}" style="width:80px;height:60px;object-fit:cover;border-radius:6px;border:1.5px solid #e2e8f0"/>
         <button onclick="removeUploadedImg('${publicUrl}',this.parentElement)"
           style="position:absolute;top:-6px;right:-6px;width:18px;height:18px;background:#dc2626;color:#fff;border:none;border-radius:50%;font-size:.6rem;cursor:pointer;display:flex;align-items:center;justify-content:center">✕</button>`;
       preview.appendChild(img);
@@ -3465,7 +3465,7 @@ window.addHeroImage = () => {
   const preview = document.getElementById('ss-hero-img-preview');
   const div = document.createElement('div');
   div.style.cssText = 'position:relative;flex-shrink:0';
-  div.innerHTML = `<img src="${url}" style="width:80px;height:50px;object-fit:cover;border-radius:6px;border:1.5px solid #e2e8f0" onerror="this.parentElement.remove()"/>
+  div.innerHTML = `<img alt="" src="${url}" style="width:80px;height:50px;object-fit:cover;border-radius:6px;border:1.5px solid #e2e8f0" onerror="this.parentElement.remove()"/>
     <button onclick="removeHeroImage('${url}',this.parentElement)"
       style="position:absolute;top:-6px;right:-6px;width:18px;height:18px;background:#dc2626;color:#fff;border:none;border-radius:50%;font-size:.6rem;cursor:pointer;display:flex;align-items:center;justify-content:center">✕</button>`;
   preview.appendChild(div);
@@ -3485,7 +3485,7 @@ window.addImageByUrl = () => {
   const preview = document.getElementById('pm-img-preview');
   const img = document.createElement('div');
   img.style.cssText = 'position:relative;flex-shrink:0';
-  img.innerHTML = `<img src="${url}" style="width:80px;height:60px;object-fit:cover;border-radius:6px;border:1.5px solid #e2e8f0" onerror="this.parentElement.remove()"/>
+  img.innerHTML = `<img alt="" src="${url}" style="width:80px;height:60px;object-fit:cover;border-radius:6px;border:1.5px solid #e2e8f0" onerror="this.parentElement.remove()"/>
     <button onclick="removeUploadedImg('${url}',this.parentElement)"
       style="position:absolute;top:-6px;right:-6px;width:18px;height:18px;background:#dc2626;color:#fff;border:none;border-radius:50%;font-size:.6rem;cursor:pointer;display:flex;align-items:center;justify-content:center">✕</button>`;
   preview.appendChild(img);
@@ -3521,7 +3521,7 @@ async function uploadSingleImage(file, folder, cfg) {
     if (error) throw error;
     const { data: urlData } = supabase.storage.from('zoomfly-images').getPublicUrl(path);
     hidden.value = urlData.publicUrl;
-    if (preview) preview.innerHTML = `<img src="${urlData.publicUrl}" style="width:100%;max-width:220px;height:120px;object-fit:cover;border-radius:8px;border:1.5px solid #e2e8f0"/>`;
+    if (preview) preview.innerHTML = `<img alt="" src="${urlData.publicUrl}" style="width:100%;max-width:220px;height:120px;object-fit:cover;border-radius:8px;border:1.5px solid #e2e8f0"/>`;
     status.textContent = 'Photo uploaded';
     status.style.color = '#059669';
   } catch (e) {
@@ -4135,7 +4135,7 @@ window.editPackage = async (id) => {
     if (prev) {
       prev.innerHTML = photos.map(url =>
         `<div style="position:relative;flex-shrink:0">
-          <img src="${url}" style="width:80px;height:60px;object-fit:cover;border-radius:6px;border:1.5px solid #e2e8f0" onerror="this.parentElement.remove()"/>
+          <img alt="" src="${url}" style="width:80px;height:60px;object-fit:cover;border-radius:6px;border:1.5px solid #e2e8f0" onerror="this.parentElement.remove()"/>
           <button onclick="removeUploadedImg('${url}',this.parentElement)"
             style="position:absolute;top:-6px;right:-6px;width:18px;height:18px;background:#dc2626;color:#fff;border:none;border-radius:50%;font-size:.6rem;cursor:pointer">✕</button>
         </div>`

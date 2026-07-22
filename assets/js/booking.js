@@ -16,7 +16,12 @@ import { buildPayload, saveBooking, confirmPayment,
          getBookingByRef, getBookingsByEmail, cancelBooking } from './booking-service.js';
 import { showBookingSuccess, showBookingError } from './booking-ui.js';
 
-const WA = '918076136300';
+// Falls back to this literal only if main.js (which sets window.ZF
+// from the admin-configured site_settings.whatsapp_number) hasn't
+// loaded — keeps this working standalone, but prefers the live value.
+function _supportWA() {
+  return (typeof window !== 'undefined' && window.ZF && window.ZF.whatsapp) || '918076136300';
+}
 
 // ─── MAIN ENTRY POINT ────────────────────────────────────────
 export async function createBooking(serviceType, formData) {
@@ -72,7 +77,7 @@ function _buildWAMessage(type, booking, f) {
 }
 
 function _openWhatsApp(win, message) {
-  const url = `https://wa.me/${WA}?text=${encodeURIComponent(message)}`;
+  const url = `https://wa.me/${_supportWA()}?text=${encodeURIComponent(message)}`;
   if (win && !win.closed) {
     win.location.href = url;
   } else {

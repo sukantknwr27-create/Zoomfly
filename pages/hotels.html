@@ -244,7 +244,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
 
 <script src="/assets/js/main.js"></script>
 <script type="module">
-import { getHotels, createBooking, getUser } from '../assets/js/supabase.js';
+import { getHotels, insertBookingRow, getUser } from '../assets/js/supabase.js';
 
 // hotels.html didn't previously escape any hotel-supplied text before
 // rendering it into innerHTML. The `hotels` table is currently
@@ -490,7 +490,7 @@ window.confirmBooking = async () => {
     const user = await getUser().catch(()=>null);
     if (user) {
       try {
-        const booking = await createBooking({
+        const booking = await insertBookingRow({
           service_type:'hotel', service_id:selHotel.id, service_name:selHotel.name,
           customer_name: fn+' '+(document.getElementById('b-ln').value.trim()),
           customer_email:em, customer_phone:ph,

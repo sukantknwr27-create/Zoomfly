@@ -8,9 +8,10 @@
 //  Imported by:  booking.js (orchestrator)
 // ============================================================
 
-import { supabase } from './supabase.js';
+import { supabase, cancelBooking } from './supabase.js';
+export { cancelBooking };
 
-const CONFIG = {
+export const CONFIG = {
   gst_rate: 0.18,
 };
 
@@ -68,22 +69,6 @@ export async function getBookingsByEmail(email) {
     .order('created_at', { ascending: false });
   if (error) throw new Error(error.message);
   return data || [];
-}
-
-// ─── CANCEL BOOKING ──────────────────────────────────────────
-export async function cancelBooking(bookingId, reason = '') {
-  const { data, error } = await supabase
-    .from('bookings')
-    .update({
-      status:       'cancelled',
-      cancel_reason: reason,
-      cancelled_at:  new Date().toISOString(),
-    })
-    .eq('id', bookingId)
-    .select()
-    .single();
-  if (error) throw new Error(error.message);
-  return data;
 }
 
 // ─── CONFIRM PAYMENT ─────────────────────────────────────────

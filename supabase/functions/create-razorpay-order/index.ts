@@ -99,6 +99,22 @@ serve(async (req) => {
     const amount = Number(booking.total_amount);
     if (!amount || amount <= 0) throw new Error('Booking has no valid amount to charge.');
 
+    // Idempotency: if an order was already created for this booking
+    // (the user hit "Pay" twice, a retry after a network blip, etc),
+    // reuse it instead of minting a new Razorpay order — and a new
+    // `payments` row — on every call. Razorpay orders don't expire by
+    // default, and the amount is always derived from this same
+    // booking row, so the existing order is still valid to pay
+    // against as long as the booking itself is still unpaid (checked
+    // above).
+    if (booking.razorpay_order_id) {
+      return new Response(JSON.stringify({
+        razorpay_order_id: booking.razorpay_order_id,
+        amount: Math.round(amount * 100),
+        currency,
+      }), { headers: { ...corsHeaders(req), 'Content-Type': 'application/json' } });
+    }
+
     // Create Razorpay order
     const razorpayKeyId     = Deno.env.get('RAZORPAY_KEY_ID')!;
     const razorpayKeySecret = Deno.env.get('RAZORPAY_KEY_SECRET')!;
