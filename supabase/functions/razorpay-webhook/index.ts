@@ -76,6 +76,16 @@ serve(async (req) => {
       for (const b of candidates || []) {
         if (b.payment_status === 'paid') continue; // already confirmed — don't reprocess
 
+        // Same defense-in-depth as verify-razorpay-payment: the amount
+        // check below compares raw minor-unit subunits, which is only
+        // meaningful if the payment was actually captured in INR.
+        if (payment.currency !== 'INR') {
+          await supabase.from('bookings').update({
+            internal_notes: `⚠️ WEBHOOK CURRENCY MISMATCH: payment currency ${payment.currency} (expected INR). payment_id=${payment.id}`,
+          }).eq('id', b.id);
+          continue;
+        }
+
         const expectedPaise = Math.round(Number(b.total_amount) * 100);
         if (payment.amount !== expectedPaise) {
           await supabase.from('bookings').update({

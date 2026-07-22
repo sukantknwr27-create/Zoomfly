@@ -193,6 +193,17 @@ serve(async (req) => {
     if (razorpayPayment.status !== 'captured' && razorpayPayment.status !== 'authorized') {
       throw new Error(`Payment not completed (status: ${razorpayPayment.status}).`);
     }
+    // ── The amount check below compares raw minor-unit subunits, which
+    // is only meaningful if the payment was actually captured in INR —
+    // create-razorpay-order always requests INR, but this is
+    // defense-in-depth in case that ever changes or Razorpay returns
+    // something unexpected.
+    if (razorpayPayment.currency !== 'INR') {
+      await supabase.from('bookings').update({
+        internal_notes: `⚠️ CURRENCY MISMATCH: payment currency ${razorpayPayment.currency} (expected INR). payment_id=${razorpay_payment_id}`,
+      }).eq('id', booking_id);
+      throw new Error('Payment currency mismatch detected. Our team has been flagged to review this payment.');
+    }
     if (razorpayPayment.amount !== expectedPaise) {
       // Flag for manual review instead of silently confirming — do not
       // mark the booking paid on a mismatched amount.

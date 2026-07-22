@@ -599,7 +599,7 @@ export const admin = {
     return data;
   },
   async getAllVendors() {
-    const { data, error } = await supabase.from('vendors').select('*').order('created_at', { ascending: false });
+    const { data, error } = await supabase.rpc('get_vendors_admin');
     if (error) throw error;
     return data || [];
   },

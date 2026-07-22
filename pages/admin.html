@@ -1696,7 +1696,7 @@ const _ov = document.getElementById('auth-loading'); if (_ov) _ov.style.display=
 async function loadCommissionsPage() {
   try {
     const [vendorRes, agentRes, commRes] = await Promise.allSettled([
-      supabase.from('vendors').select('*').order('total_revenue', { ascending: false }),
+      supabase.rpc('get_vendors_admin').order('total_revenue', { ascending: false }),
       supabase.from('agents').select('*').order('total_commission_earned', { ascending: false }),
       supabase.from('agent_commissions').select('*'),
     ]);
@@ -4370,7 +4370,7 @@ async function loadVendors() {
   const load = document.getElementById('vendor-load');
   load.style.display = 'block';
   try {
-    const { data, error } = await supabase.from('vendors').select('*').order('created_at', { ascending: false });
+    const { data, error } = await supabase.rpc('get_vendors_admin');
     if (error) throw error;
     load.style.display = 'none';
     allVendorsFull = data || [];

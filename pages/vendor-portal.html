@@ -888,8 +888,8 @@ window.doLogout = async () => { await supabase.auth.signOut({ scope: 'global' })
 async function loadVendorProfile() {
   // maybeSingle(): a brand-new vendor may not have a row yet (see
   // self-heal below) — single() throws a 406 in that case.
-  let { data } = await supabase.from('vendors')
-    .select('*').eq('user_id', currentUser.id).maybeSingle();
+  let { data: ownVendorRows } = await supabase.rpc('get_own_vendor');
+  let data = ownVendorRows?.[0] || null;
 
   // Self-heal: the row is normally created right after sign-up, but
   // that insert runs BEFORE email confirmation (no session yet), so

@@ -49,13 +49,20 @@ serve(async (req) => {
   }
 
   try {
-    // NOTE: we intentionally do NOT accept `amount` from the client.
-    // Trusting a client-supplied amount would let anyone request an
-    // order for ₹1 instead of the real price. The price always comes
-    // from the booking row itself, which only the server (this
-    // function, with the service role) and Razorpay's webhook can
-    // set — never the browser.
-    const { booking_id, currency = 'INR' } = await req.json();
+    // NOTE: we intentionally do NOT accept `amount` OR `currency` from
+    // the client. Trusting a client-supplied amount would let anyone
+    // request an order for ₹1 instead of the real price. The price
+    // always comes from the booking row itself (always stored in
+    // INR), which only the server (this function, with the service
+    // role) and Razorpay's webhook can set — never the browser.
+    // Currency is hardcoded below for the same reason: if a client
+    // could pick e.g. a currency with a much weaker minor-unit value
+    // than INR, verify-razorpay-payment/razorpay-webhook's amount
+    // check (which compares raw subunits, not currency-aware value)
+    // could be satisfied by a real payment worth far less than the
+    // booking's actual INR price.
+    const { booking_id } = await req.json();
+    const currency = 'INR';
     if (!booking_id) throw new Error('booking_id is required');
 
     const supabase = createClient(
