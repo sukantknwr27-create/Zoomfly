@@ -20,6 +20,18 @@ const WA = '918076136300';
 
 // ─── MAIN ENTRY POINT ────────────────────────────────────────
 export async function createBooking(serviceType, formData) {
+  // Open the WhatsApp tab synchronously, *before* any await below —
+  // once the calling click handler has awaited something, some
+  // browsers (notably Safari) no longer treat window.open() as part
+  // of the original user gesture and silently block it, so the
+  // notification would never open even though the booking succeeded.
+  // We fill in the real wa.me URL once the booking is saved. Can't
+  // pass the `noopener` feature here (it makes window.open() return
+  // null instead of a handle), so sever `.opener` manually instead —
+  // same reverse-tabnabbing protection, without losing the reference.
+  const waWindow = window.open('', '_blank');
+  if (waWindow) { try { waWindow.opener = null; } catch (_) {} }
+
   try {
     const payload = buildPayload(serviceType, formData);
     const booking = await saveBooking(payload);
@@ -29,10 +41,11 @@ export async function createBooking(serviceType, formData) {
       sessionStorage.setItem('zf_last_booking', JSON.stringify(booking));
     } catch (_) {}
 
-    _openWhatsApp(_buildWAMessage(serviceType, booking, formData));
+    _openWhatsApp(waWindow, _buildWAMessage(serviceType, booking, formData));
     showBookingSuccess(booking);
     return { success: true, booking };
   } catch (err) {
+    if (waWindow && !waWindow.closed) waWindow.close();
     console.error('[ZoomFly Booking]', err);
     showBookingError(err.message);
     return { success: false, error: err.message };
@@ -58,9 +71,16 @@ function _buildWAMessage(type, booking, f) {
   return lines.join('\n');
 }
 
-function _openWhatsApp(message) {
+function _openWhatsApp(win, message) {
   const url = `https://wa.me/${WA}?text=${encodeURIComponent(message)}`;
-  window.open(url, '_blank', 'noopener,noreferrer');
+  if (win && !win.closed) {
+    win.location.href = url;
+  } else {
+    // Placeholder tab was blocked (or the user closed it) — fall back
+    // to a fresh attempt; if that's blocked too, there's nothing more
+    // we can do without the user re-initiating it themselves.
+    window.open(url, '_blank', 'noopener,noreferrer');
+  }
 }
 
 // ─── CONVENIENCE WRAPPERS ────────────────────────────────────

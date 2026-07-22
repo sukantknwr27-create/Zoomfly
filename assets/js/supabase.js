@@ -207,8 +207,9 @@ export async function getPackage(slug) {
 
 // ── AVAILABILITY ──────────────────────────────────────────
 export async function checkAvailability(packageId, date) {
-  const { data } = await supabase.from('package_availability')
-    .select('*').eq('package_id', packageId).eq('date', date).single();
+  const { data, error } = await supabase.from('package_availability')
+    .select('*').eq('package_id', packageId).eq('date', date).maybeSingle();
+  if (error) throw error;
   return data; // null = available
 }
 

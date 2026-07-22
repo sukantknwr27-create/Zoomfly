@@ -220,7 +220,14 @@ serve(async (req) => {
       status: 'captured',
     }).eq('razorpay_order_id', razorpay_order_id);
 
-    // Confirm booking
+    // Confirm booking — the `.eq('payment_status', 'pending')` guard
+    // makes this an atomic "claim" of the confirmation: the webhook
+    // does the same conditional update for the same booking, and
+    // whichever of the two runs second here will match zero rows
+    // (the other has already flipped payment_status away from
+    // 'pending'). Without this, both could pass the earlier
+    // `payment_status === 'paid'` check before either commits, and
+    // both would go on to award loyalty points / send the email.
     const { data: updatedBooking, error: updateError } = await supabase
       .from('bookings').update({
         status: 'confirmed',
@@ -232,9 +239,20 @@ serve(async (req) => {
         confirmed_at: new Date().toISOString(),
       })
       .eq('id', booking_id)
-      .select().single();
+      .eq('payment_status', 'pending')
+      .select().maybeSingle();
 
     if (updateError) throw updateError;
+
+    if (!updatedBooking) {
+      // Lost the race (webhook or a duplicate call already confirmed
+      // this booking) — return the same success response idempotently
+      // without re-awarding points or re-sending the email.
+      return new Response(JSON.stringify({
+        success: true, booking_ref: booking.booking_ref, status: 'confirmed',
+        message: 'Booking already confirmed.',
+      }), { headers: { ...corsHeaders(req), 'Content-Type': 'application/json' } });
+    }
 
     // Award loyalty points now that the booking is genuinely paid — non-fatal:
     // a points-award failure shouldn't fail an already-successful payment.

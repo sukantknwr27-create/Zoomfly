@@ -121,19 +121,26 @@ serve(async (req) => {
           continue;
         }
 
-        await supabase.from('bookings').update({
+        // The `.eq('payment_status', 'pending')` guard makes this an
+        // atomic "claim" of the confirmation — verify-razorpay-payment
+        // does the same conditional update for the same booking, so
+        // whichever of the two runs second here matches zero rows
+        // (the earlier `payment_status === 'paid'` check above this
+        // loop is not itself atomic with this update — two concurrent
+        // calls could both pass it before either commits — so the
+        // real race protection is this guard, not that check).
+        const { data: confirmed } = await supabase.from('bookings').update({
           payment_status: 'paid',
           status: 'confirmed',
           paid_at: new Date().toISOString(),
           razorpay_payment_id: payment.id,
-        }).eq('id', b.id);
+        }).eq('id', b.id).eq('payment_status', 'pending').select().maybeSingle();
+
+        if (!confirmed) continue; // lost the race — verify-razorpay-payment already confirmed it
 
         // Award loyalty points now that the booking is genuinely paid —
-        // non-fatal, and skipped if verify-razorpay-payment already did it
-        // for this booking (earn_booking_points has no idempotency guard
-        // of its own, but the client-side verify call and this webhook
-        // race for the same `payment_status==='paid'` transition above,
-        // so only one of them will ever reach this point per booking).
+        // non-fatal, and only reached by whichever of this webhook or
+        // verify-razorpay-payment actually won the update above.
         if (b.user_id) {
           const { error: loyaltyError } = await supabase.rpc('earn_booking_points', {
             p_user_id: b.user_id,
