@@ -189,10 +189,7 @@ function _navFallbackHTML() {
   return `<div class="nav-inner">
     <a href="/" class="logo" style="display:flex;align-items:center;gap:5px;text-decoration:none;color:inherit;flex-shrink:0">
       <span class="logo-zoom">Zoom</span><span class="logo-fly">Fly</span>
-      <svg viewBox="0 0 24 24" fill="none" style="width:17px;height:17px;margin-left:2px;color:#E8B84B" class="logo-plane">
-        <path d="M21 3L3 10.5L10 13.5L13 21L21 3Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-        <path d="M10 13.5L14 10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-      </svg>
+      <span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">✈️</span>
     </a>
     <nav class="nav-links" style="display:flex;align-items:center;gap:2px">
       <a href="/pages/packages.html"    data-page="packages"    style="padding:6px 9px;font-family:'Space Grotesk',system-ui;font-size:.8rem;font-weight:600;color:inherit;text-decoration:none;white-space:nowrap">Packages</a>
@@ -206,7 +203,7 @@ function _navFallbackHTML() {
       <a href="/pages/contact.html"     data-page="services"    style="padding:6px 9px;font-family:'Space Grotesk',system-ui;font-size:.8rem;font-weight:600;color:inherit;text-decoration:none;white-space:nowrap">Services</a>
     </nav>
     <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;min-width:fit-content">
-      <a href="tel:+918076136300" style="display:flex;align-items:center;gap:5px;font-family:'Space Grotesk',system-ui;font-size:.75rem;font-weight:600;color:rgba(255,255,255,.82);text-decoration:none;white-space:nowrap"><span aria-hidden="true"></span><span class="tel-text">+91 8076136300</span></a>
+      <a href="tel:+918076136300" style="display:flex;align-items:center;gap:5px;font-family:'Space Grotesk',system-ui;font-size:.75rem;font-weight:600;color:rgba(255,255,255,.82);text-decoration:none;white-space:nowrap"><span class="emoji-icon" aria-hidden="true" style="font-size:12px;line-height:1;display:inline-block">📞</span><span class="tel-text">+91 8076136300</span></a>
       <div id="nav-auth-area" style="display:flex;align-items:center;gap:8px">
         <a href="/pages/login.html" id="nav-login-btn"
            style="display:flex;align-items:center;gap:5px;padding:7px 16px;border:1.5px solid rgba(255,255,255,0.32);border-radius:50px;font-family:'Space Grotesk',system-ui;font-size:.78rem;font-weight:600;color:rgba(255,255,255,.88);text-decoration:none;white-space:nowrap">
@@ -337,10 +334,7 @@ function renderFooter() {
       <a href="/" class="logo" style="margin-bottom:14px;display:inline-flex">
         ${ZF.logoUrl ? `<img src="${ZF.logoUrl}" alt="${ZF.companyName||'ZoomFly'}" style="height:28px;width:auto;display:block">` : `
         <span class="logo-zoom">Zoom</span><span class="logo-fly">Fly</span>
-        <svg class="logo-plane" viewBox="0 0 24 24" fill="none" style="width:16px;height:16px;margin-left:4px;color:var(--gold-light,#E8B84B)">
-          <path d="M21 3L3 10.5L10 13.5L13 21L21 3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
-          <path d="M10 13.5L14 10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-        </svg>`}
+        <span class="emoji-icon" style="font-size:15px;line-height:1;display:inline-block;vertical-align:middle">✈️</span>`}
       </a>
       <p style="color:rgba(255,255,255,0.48);font-size:.82rem;line-height:1.75;max-width:220px;margin-bottom:18px;">
         India's newest travel platform, crafting unforgettable journeys tailored to how you want to explore.
@@ -351,16 +345,16 @@ function renderFooter() {
           <span style="color:#F59E0B">✦</span> <strong style="color:rgba(255,255,255,0.75)">Verified Payments</strong> Powered by Razorpay
         </div>
         <div style="display:flex;align-items:center;gap:8px;font-size:.75rem;color:rgba(255,255,255,0.55);">
-          <span style="display:flex"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="2"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></span> <strong style="color:rgba(255,255,255,0.75)">24/7 Support</strong> Always here to help
+          <span style="display:flex"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">🎧</span></span> <strong style="color:rgba(255,255,255,0.75)">24/7 Support</strong> Always here to help
         </div>
         <div style="display:flex;align-items:center;gap:8px;font-size:.75rem;color:rgba(255,255,255,0.55);">
-          <span style="display:flex"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="2"><path d="M21 8 12 3 3 8l9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/></svg></span> <strong style="color:rgba(255,255,255,0.75)">200+ Tour Packages</strong> Handpicked experiences
+          <span style="display:flex"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">✨</span></span> <strong style="color:rgba(255,255,255,0.75)">200+ Tour Packages</strong> Handpicked experiences
         </div>
         <div style="display:flex;align-items:center;gap:8px;font-size:.75rem;color:rgba(255,255,255,0.55);">
-          <span style="display:flex"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="2"><path d="M12 21s-7-6.5-7-11a7 7 0 0 1 14 0c0 4.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></span> <strong style="color:rgba(255,255,255,0.75)">50+ Destinations</strong> India &amp; International
+          <span style="display:flex"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">📍</span></span> <strong style="color:rgba(255,255,255,0.75)">50+ Destinations</strong> India &amp; International
         </div>
         <div style="display:flex;align-items:center;gap:8px;font-size:.75rem;color:rgba(255,255,255,0.55);">
-          <span style="display:flex"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="2"><path d="M12 2l1.6 5.5L19 9l-5.4 1.5L12 16l-1.6-5.5L5 9l5.4-1.5z"/></svg></span> <strong style="color:rgba(255,255,255,0.75)">Launched 2026</strong> Built for the modern traveller
+          <span style="display:flex"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">✨</span></span> <strong style="color:rgba(255,255,255,0.75)">Launched 2026</strong> Built for the modern traveller
         </div>
       </div>
       <!-- Social links -->
@@ -422,18 +416,18 @@ function renderFooter() {
       <div style="display:flex;flex-direction:column;gap:12px;">
         <div>
           <a href="tel:${ZF.phone.replace(/\s+/g,'')}" style="display:flex;align-items:center;gap:7px;color:rgba(255,255,255,0.7);font-size:.82rem;text-decoration:none;margin-bottom:3px;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="2" style="flex-shrink:0"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.5 2.1L8 9.7a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.7 2.1z"/></svg> ${ZF.phone}
+            <span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">📞</span> ${ZF.phone}
           </a>
           <div style="font-size:.72rem;color:rgba(255,255,255,0.35);padding-left:22px;">Mon – Sat (9 AM – 8 PM)</div>
         </div>
         <div>
           <a href="mailto:${ZF.email}" style="display:flex;align-items:center;gap:7px;color:rgba(255,255,255,0.7);font-size:.82rem;text-decoration:none;margin-bottom:3px;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="2" style="flex-shrink:0"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 6l10 7 10-7"/></svg> ${ZF.email}
+            <span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">📧</span> ${ZF.email}
           </a>
           <div style="font-size:.72rem;color:rgba(255,255,255,0.35);padding-left:22px;">We reply within 30 mins</div>
         </div>
         <div style="display:flex;align-items:flex-start;gap:7px;font-size:.79rem;color:rgba(255,255,255,0.55);line-height:1.6;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="2" style="flex-shrink:0;margin-top:2px"><path d="M12 21s-7-6.5-7-11a7 7 0 0 1 14 0c0 4.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+          <span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">📍</span>
           <span>${ZF.address}</span>
         </div>
         ${ZF.gstin ? `<div style="font-size:.72rem;color:rgba(255,255,255,0.35);">GSTIN: ${ZF.gstin}</div>` : ''}
