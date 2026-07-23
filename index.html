@@ -185,6 +185,7 @@
 .hero h1{font-size:2.2rem}.svc-grid{grid-template-columns:repeat(2,1fr)}.dest-grid{grid-template-columns:1fr}.dest-card:first-child{grid-column:span 1}.test-grid{grid-template-columns:1fr}.footer-inner{grid-template-columns:1fr;gap:2rem}.why-stats{grid-template-columns:1fr 1fr}}
   </style>
 <header class="nav" id="mainNav"></header>
+<div id="carousel-home"></div>
 <script>
 window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/);return m?m[1]:null;};
 </script>
@@ -372,27 +373,27 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
       <p class="ssub">India's most-loved getaways, curated by travellers who've been there.</p>
     </div>
     <div class="dest-grid">
-      <div class="dest-card" onclick="location.href='pages/packages.html'" role="button" tabindex="0" aria-label="Manali & Spiti packages">
+      <div class="dest-card" onclick="location.href='pages/packages.html?q=Manali'" role="button" tabindex="0" aria-label="Manali & Spiti packages">
         <div class="dest-bg" style="background:linear-gradient(145deg,#1a3a6b,#2d6bc4)"></div>
         <div class="dest-ov"></div>
         <div class="dest-content"><h3>Manali &amp; Spiti</h3><p>Snow, adventure &amp; mountain magic</p><span class="dest-from">From ₹12,499</span></div>
       </div>
-      <div class="dest-card" onclick="location.href='pages/packages.html'" role="button" tabindex="0" aria-label="Goa packages">
+      <div class="dest-card" onclick="location.href='pages/packages.html?q=Goa'" role="button" tabindex="0" aria-label="Goa packages">
         <div class="dest-bg" style="background:linear-gradient(145deg,#1e6070,#2d9b8a)"></div>
         <div class="dest-ov"></div>
         <div class="dest-content"><h3>Goa</h3><p>Sun, beaches &amp; culture</p><span class="dest-from">From ₹8,999</span></div>
       </div>
-      <div class="dest-card" onclick="location.href='pages/packages.html'" role="button" tabindex="0" aria-label="Kerala packages">
+      <div class="dest-card" onclick="location.href='pages/packages.html?q=Kerala'" role="button" tabindex="0" aria-label="Kerala packages">
         <div class="dest-bg" style="background:linear-gradient(145deg,#1a4a2e,#2d7a4f)"></div>
         <div class="dest-ov"></div>
         <div class="dest-content"><h3>Kerala</h3><p>Backwaters &amp; tropical beauty</p><span class="dest-from">From ₹15,499</span></div>
       </div>
-      <div class="dest-card" onclick="location.href='pages/packages.html'" role="button" tabindex="0" aria-label="Rajasthan packages">
+      <div class="dest-card" onclick="location.href='pages/packages.html?q=Rajasthan'" role="button" tabindex="0" aria-label="Rajasthan packages">
         <div class="dest-bg" style="background:linear-gradient(145deg,#4a2010,#8a3a1a)"></div>
         <div class="dest-ov"></div>
         <div class="dest-content"><h3>Rajasthan</h3><p>Forts, palaces &amp; heritage</p><span class="dest-from">From ₹22,999</span></div>
       </div>
-      <div class="dest-card" onclick="location.href='pages/packages.html'" role="button" tabindex="0" aria-label="Bali packages">
+      <div class="dest-card" onclick="location.href='pages/packages.html?q=Bali'" role="button" tabindex="0" aria-label="Bali packages">
         <div class="dest-bg" style="background:linear-gradient(145deg,#3a1a4a,#6a2d8a)"></div>
         <div class="dest-ov"></div>
         <div class="dest-content"><h3>Bali</h3><p>Romantic international escape</p><span class="dest-from">From ₹54,999</span></div>
@@ -852,5 +853,9 @@ loadRecentActivity().then(() => {
 
 
 <footer class="footer" id="mainFooter"></footer>
+<script type="module">
+import { initCarousel } from 'assets/js/carousel.js';
+initCarousel('home', 'carousel-home');
+</script>
 </body>
 </html>
