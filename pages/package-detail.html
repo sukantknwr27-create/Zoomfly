@@ -639,11 +639,11 @@ window.switchPhoto = (src, thumbEl) => {
 async function checkWishlist(id) {
   try {
     const user = await getUser();
-    if (!user) return;
+    if (!user) { updateWishlistBtn(); return; }
     const list = await getWishlist();
     isWishlisted = list.some(w => (w.package_id || w.packages?.id || w.packages?.slug) === id);
     updateWishlistBtn();
-  } catch(_) {}
+  } catch(_) { updateWishlistBtn(); }
 }
 
 window.toggleWishlist = async () => {

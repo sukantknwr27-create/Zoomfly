@@ -216,6 +216,10 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
 <script type="module">
 import { submitEnquiry, supabase } from '../assets/js/supabase.js';
 
+function esc(s) {
+  return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
 let step = 1, interests = [];
 
 // Interest buttons
@@ -265,7 +269,7 @@ function buildReview() {
     ['Travel Date', ge('tdate').value || 'Not specified'],
     ['Travellers', ge('trav').value], ['Budget', ge('budget').value || 'Not specified'],
     ['Destination', ge('dest').value]
-  ].map(([k,v]) => `<div style="display:flex;gap:.5rem"><span style="min-width:110px;color:var(--text-muted);font-size:.8rem">${k}</span><strong>${v||'—'}</strong></div>`).join('');
+  ].map(([k,v]) => `<div style="display:flex;gap:.5rem"><span style="min-width:110px;color:var(--text-muted);font-size:.8rem">${esc(k)}</span><strong>${esc(v)||'—'}</strong></div>`).join('');
 }
 
 ge('next1').addEventListener('click', () => goTo(2));
@@ -300,10 +304,10 @@ ge('sub-btn').addEventListener('click', async () => {
     ge(`p${step}`).classList.remove('active');
     ge('success').classList.add('v');
     ge('success-meta').innerHTML = `
-      <div><span style="color:var(--text-muted)">Name: </span><strong>${payload.name}</strong></div>
-      <div><span style="color:var(--text-muted)">Email: </span><strong>${payload.email}</strong></div>
-      <div><span style="color:var(--text-muted)">Interest: </span><strong>${payload.interest.join(', ')}</strong></div>
-      <div><span style="color:var(--text-muted)">Destination: </span><strong>${payload.destination}</strong></div>`;
+      <div><span style="color:var(--text-muted)">Name: </span><strong>${esc(payload.name)}</strong></div>
+      <div><span style="color:var(--text-muted)">Email: </span><strong>${esc(payload.email)}</strong></div>
+      <div><span style="color:var(--text-muted)">Interest: </span><strong>${esc(payload.interest.join(', '))}</strong></div>
+      <div><span style="color:var(--text-muted)">Destination: </span><strong>${esc(payload.destination)}</strong></div>`;
   } catch(err) {
     errEl.textContent = '' + (err.message || 'Failed to send. Please WhatsApp us directly.');
     errEl.classList.add('v');

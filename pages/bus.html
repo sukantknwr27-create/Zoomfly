@@ -51,6 +51,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
 </head>
 <body data-page="bus">
 <header class="nav" id="mainNav"></header>
+<div id="carousel-bus"></div>
 
 <section class="page-hero">
   <div class="container page-hero-inner">
@@ -172,5 +173,9 @@ document.querySelectorAll('.bus-route, .route-item').forEach(card => {
     window.open('https://wa.me/918076136300?text=' + encodeURIComponent(msg), '_blank');
   });
 });
+</script>
+<script type="module">
+import { initCarousel } from '../assets/js/carousel.js';
+initCarousel('bus', 'carousel-bus');
 </script>
 </body></html>

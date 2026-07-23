@@ -83,6 +83,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
 </head>
 <body data-page="cabs">
 <header class="nav" id="mainNav"></header>
+<div id="carousel-cabs"></div>
 
 <section class="cab-hero">
   <div class="breadcrumb" style="justify-content:center;margin-bottom:1rem"><a href="/index.html" style="color:rgba(255,255,255,.7)">Home</a><span style="color:rgba(255,255,255,.5)">›</span><span style="color:#fff">Cab & Transfers</span></div>
@@ -386,6 +387,10 @@ window.routeBook = function(from, to) {
 }
 
 document.querySelectorAll('input[type=date], input[type=datetime-local]').forEach(i => i.min = new Date().toISOString().split('.')[0]);
+</script>
+<script type="module">
+import { initCarousel } from '../assets/js/carousel.js';
+initCarousel('cabs', 'carousel-cabs');
 </script>
 </body>
 </html>

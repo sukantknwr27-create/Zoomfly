@@ -150,40 +150,41 @@ setTimeout(function() {
   <div class="sb-logo"><h1>Zoom<span>Fly</span></h1><p>Admin Dashboard</p></div>
   <nav class="sb-nav">
     <div class="sb-sec">Main</div>
-    <div class="nav-item active" onclick="show('overview',this)"><span class="icon"></span> Overview</div>
-    <div class="nav-item" onclick="show('enquiries',this)"><span class="icon"></span> Enquiries <span class="badge" id="enq-badge">0</span></div>
-    <div class="nav-item" onclick="show('bookings',this)"><span class="icon"></span> Bookings</div>
-    <div class="nav-item" onclick="show('workflow',this)"><span class="icon"></span> Workflow</div>
+    <div class="nav-item active" onclick="show('overview',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg></span> Overview</div>
+    <div class="nav-item" onclick="show('enquiries',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span> Enquiries <span class="badge" id="enq-badge">0</span></div>
+    <div class="nav-item" onclick="show('bookings',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18"/><path d="M8 3v4"/><path d="M16 3v4"/></svg></span> Bookings</div>
+    <div class="nav-item" onclick="show('workflow',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/><path d="M15 4v16"/></svg></span> Workflow</div>
     <div class="sb-sec" style="margin-top:.5rem">Manage</div>
-    <div class="nav-item" onclick="show('packages',this)"><span class="icon"></span> Packages</div>
-    <div class="nav-item" onclick="show('vendors',this)"><span class="icon"></span> Vendors</div>
-    <div class="nav-item" onclick="show('agents',this)"><span class="icon"></span> Agents</div>
-    <div class="nav-item" onclick="show('customers',this)"><span class="icon"></span> Customers</div>
-    <div class="nav-item" onclick="show('subscribers',this)"><span class="icon"></span> Email Subscribers</div>
-    <div class="nav-item" onclick="show('testimonials',this)"><span class="icon"></span> Testimonials</div>
-    <div class="nav-item" onclick="show('reviews',this)"><span class="icon"></span> Reviews <span class="badge" id="rev-badge">0</span></div>
-    <div class="nav-item" onclick="show('messages-inbox',this)"><span class="icon"></span> Messages <span class="badge" id="msg-badge">0</span></div>
+    <div class="nav-item" onclick="show('packages',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg></span> Packages</div>
+    <div class="nav-item" onclick="show('vendors',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><path d="M3 9l1-5h16l1 5"/><path d="M4 9v10h16V9"/><path d="M9 19v-6h6v6"/></svg></span> Vendors</div>
+    <div class="nav-item" onclick="show('agents',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M3 12h18"/></svg></span> Agents</div>
+    <div class="nav-item" onclick="show('customers',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.5"/><path d="M15 20c0-2.5 1.8-4.6 4.2-5.4"/></svg></span> Customers</div>
+    <div class="nav-item" onclick="show('subscribers',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span> Email Subscribers</div>
+    <div class="nav-item" onclick="show('testimonials',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform:scaleY(-1)"><path d="M7 8c-2.2 0-4 1.8-4 4v4h5v-8H7z"/><path d="M16 8c-2.2 0-4 1.8-4 4v4h5v-8h-1z"/></svg></span> Testimonials</div>
+    <div class="nav-item" onclick="show('reviews',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><path d="M12 3l2.6 5.6 6 .7-4.4 4.1 1.2 6-5.4-3-5.4 3 1.2-6-4.4-4.1 6-.7z"/></svg></span> Reviews <span class="badge" id="rev-badge">0</span></div>
+    <div class="nav-item" onclick="show('messages-inbox',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><path d="M4 4h16v12H8l-4 4V4z"/></svg></span> Messages <span class="badge" id="msg-badge">0</span></div>
     <div class="sb-sec" style="margin-top:.5rem">Travel Partners</div>
-    <div class="nav-item" onclick="show('commissions',this)"><span class="icon"></span> Commission Management</div>
-    <div class="nav-item" onclick="show('loyalty',this)"><span class="icon"></span> Loyalty Points</div>
+    <div class="nav-item" onclick="show('commissions',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><line x1="5" y1="19" x2="19" y2="5"/><circle cx="7" cy="7" r="2"/><circle cx="17" cy="17" r="2"/></svg></span> Commission Management</div>
+    <div class="nav-item" onclick="show('loyalty',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><rect x="3" y="8" width="18" height="13" rx="1"/><path d="M3 12h18"/><path d="M12 8v13"/><path d="M12 8C9 8 8 6.5 8 5.2 8 3.9 9 3 10.2 3 11.6 3 12 5 12 8z"/><path d="M12 8c3 0 4-1.5 4-2.8C16 3.9 15 3 13.8 3 12.4 3 12 5 12 8z"/></svg></span> Loyalty Points</div>
     <div class="sb-sec" style="margin-top:.5rem">Content</div>
-    <div class="nav-item" onclick="show('hotels',this)"><span class="icon"></span> Hotels</div>
-    <div class="nav-item" onclick="show('destinations',this)"><span class="icon"></span> Destinations</div>
-    <div class="nav-item" onclick="show('buses',this)"><span class="icon"></span> Bus Routes</div>
-    <div class="nav-item" onclick="show('cabs',this)"><span class="icon"></span> Cab Services</div>
-    <div class="nav-item" onclick="show('flights-mgmt',this)"><span class="icon"></span> Flights</div>
-    <div class="nav-item" onclick="show('trains',this)"><span class="icon"></span> Trains</div>
-    <div class="nav-item" onclick="show('offers',this)"><span class="icon"></span> Offers & Promos</div>
-    <div class="nav-item" onclick="show('wa-templates',this)"><span class="icon"></span> WhatsApp Templates</div>
-    <div class="nav-item" onclick="show('blog',this)"><span class="icon"></span> Blog</div>
-    <div class="nav-item" onclick="show('faq',this)"><span class="icon"></span> FAQ</div>
-    <div class="nav-item" onclick="show('careers',this)"><span class="icon"></span> Careers</div>
+    <div class="nav-item" onclick="show('hotels',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><rect x="4" y="3" width="16" height="18"/><path d="M9 8h1M14 8h1M9 12h1M14 12h1M9 16h1M14 16h1"/></svg></span> Hotels</div>
+    <div class="nav-item" onclick="show('destinations',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><path d="M12 21s7-6.5 7-12a7 7 0 10-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.3"/></svg></span> Destinations</div>
+    <div class="nav-item" onclick="show('buses',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M3 11h18"/><circle cx="7.5" cy="19" r="1.5"/><circle cx="16.5" cy="19" r="1.5"/></svg></span> Bus Routes</div>
+    <div class="nav-item" onclick="show('cabs',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><path d="M4 16l1.5-5.5A2 2 0 0 1 7.4 9h9.2a2 2 0 0 1 1.9 1.5L20 16"/><rect x="3" y="16" width="18" height="4" rx="1"/><circle cx="7.5" cy="20" r="1.4"/><circle cx="16.5" cy="20" r="1.4"/></svg></span> Cab Services</div>
+    <div class="nav-item" onclick="show('flights-mgmt',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><path d="M21 3L3 10.5l7 2 2 7L21 3z"/><path d="M12 12.5L21 3"/></svg></span> Flights</div>
+    <div class="nav-item" onclick="show('trains',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><rect x="5" y="3" width="14" height="13" rx="3"/><path d="M5 11h14"/><circle cx="8.5" cy="9" r="1.1"/><circle cx="15.5" cy="9" r="1.1"/><path d="M8 19l-2 3M16 19l2 3"/></svg></span> Trains</div>
+    <div class="nav-item" onclick="show('offers',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><path d="M20.6 12.6L12 21 3 12l8.6-8.6H20a1 1 0 0 1 1 1v7.6z"/><circle cx="15.5" cy="7.5" r="1.4"/></svg></span> Offers & Promos</div>
+    <div class="nav-item" onclick="show('carousels',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.5"/><path d="M21 15l-5-5-9 9"/></svg></span> Carousels</div>
+    <div class="nav-item" onclick="show('wa-templates',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><path d="M4 4h16v12H8l-4 4V4z"/></svg></span> WhatsApp Templates</div>
+    <div class="nav-item" onclick="show('blog',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><path d="M6 2h9l5 5v15H6z"/><path d="M15 2v5h5"/><path d="M9 13h6M9 17h6M9 9h2"/></svg></span> Blog</div>
+    <div class="nav-item" onclick="show('faq',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><circle cx="12" cy="12" r="9"/><path d="M9.3 9a2.7 2.7 0 0 1 5.2 1c0 1.7-2.5 2-2.5 3.7"/><circle cx="12" cy="17" r="0.2" fill="currentColor"/></svg></span> FAQ</div>
+    <div class="nav-item" onclick="show('careers',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M3 12h18"/></svg></span> Careers</div>
     <div class="sb-sec" style="margin-top:.5rem">Settings</div>
-    <div class="nav-item" onclick="show('reminders',this)"><span class="icon"></span> Reminders</div>
-    <div class="nav-item" onclick="show('site-settings',this)"><span class="icon"></span> Site Settings</div>
+    <div class="nav-item" onclick="show('reminders',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><path d="M6 10a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg></span> Reminders</div>
+    <div class="nav-item" onclick="show('site-settings',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1.1l2-1.6-2-3.4-2.4 1a7 7 0 0 0-1.9-1.1L14 3h-4l-.6 2.8a7 7 0 0 0-1.9 1.1l-2.4-1-2 3.4 2 1.6A7 7 0 0 0 5 12a7 7 0 0 0 .1 1.1l-2 1.6 2 3.4 2.4-1a7 7 0 0 0 1.9 1.1L10 21h4l.6-2.8a7 7 0 0 0 1.9-1.1l2.4 1 2-3.4-2-1.6c.07-.36.1-.73.1-1.1z"/></svg></span> Site Settings</div>
     <div class="sb-sec" style="margin-top:.5rem">Other</div>
-    <div class="nav-item" onclick="window.open('../index.html','_blank')"><span class="icon"></span> View Website</div>
-    <div class="nav-item" onclick="doLogout()"><span class="icon"></span> Log Out</div>
+    <div class="nav-item" onclick="window.open('../index.html','_blank')"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/></svg></span> View Website</div>
+    <div class="nav-item" onclick="doLogout()"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg></span> Log Out</div>
   </nav>
   <div class="sb-footer">
     <div class="admin-pill">
@@ -207,10 +208,10 @@ setTimeout(function() {
     <!-- OVERVIEW -->
     <div class="section active" id="section-overview">
       <div class="stats-grid">
-        <div class="stat-card"><div class="stat-hdr"><div class="stat-icon" style="background:rgba(201,146,42,0.12)"></div><span class="stat-chg up">↑ 18%</span></div><div class="stat-val" id="s-revenue">—</div><div class="stat-lbl">Revenue This Month</div></div>
-        <div class="stat-card"><div class="stat-hdr"><div class="stat-icon" style="background:rgba(14,159,110,0.10)"></div><span class="stat-chg up">↑ 12%</span></div><div class="stat-val" id="s-bookings">—</div><div class="stat-lbl">Total Bookings</div></div>
-        <div class="stat-card"><div class="stat-hdr"><div class="stat-icon" style="background:rgba(27,110,243,0.10)"></div><span class="stat-chg up">↑ 31%</span></div><div class="stat-val" id="s-enquiries">—</div><div class="stat-lbl">New Enquiries</div></div>
-        <div class="stat-card"><div class="stat-hdr"><div class="stat-icon" style="background:rgba(229,62,62,0.10)"></div><span class="stat-chg up">↑ 8%</span></div><div class="stat-val" id="s-customers">—</div><div class="stat-lbl">Total Customers</div></div>
+        <div class="stat-card"><div class="stat-hdr"><div class="stat-icon" style="background:rgba(201,146,42,0.12)"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#C9922A"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></div><span class="stat-chg up">↑ 18%</span></div><div class="stat-val" id="s-revenue">—</div><div class="stat-lbl">Revenue This Month</div></div>
+        <div class="stat-card"><div class="stat-hdr"><div class="stat-icon" style="background:rgba(14,159,110,0.10)"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#0e9f6e"><path d="M3 9a2 2 0 0 0 0 6v3h18v-3a2 2 0 0 1 0-6V6H3z"/><path d="M10 6v12" stroke-dasharray="2 2"/></svg></div><span class="stat-chg up">↑ 12%</span></div><div class="stat-val" id="s-bookings">—</div><div class="stat-lbl">Total Bookings</div></div>
+        <div class="stat-card"><div class="stat-hdr"><div class="stat-icon" style="background:rgba(27,110,243,0.10)"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#1b6ef3"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></div><span class="stat-chg up">↑ 31%</span></div><div class="stat-val" id="s-enquiries">—</div><div class="stat-lbl">New Enquiries</div></div>
+        <div class="stat-card"><div class="stat-hdr"><div class="stat-icon" style="background:rgba(229,62,62,0.10)"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#e53e3e"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.5"/><path d="M15 20c0-2.5 1.8-4.6 4.2-5.4"/></svg></div><span class="stat-chg up">↑ 8%</span></div><div class="stat-val" id="s-customers">—</div><div class="stat-lbl">Total Customers</div></div>
       </div>
       <div class="chart-row">
         <div class="chart-card"><h3>Monthly Revenue (₹ Lakhs)</h3><div class="bar-chart" id="rev-chart"></div></div>
@@ -836,7 +837,7 @@ setTimeout(function() {
                ondrop="handleImgDrop(event)">
             <div id="pm-img-preview" style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:8px"></div>
             <div style="font-size:.85rem;color:#94a3b8">
-              <span style="font-size:1.4rem;display:block;margin-bottom:4px"></span>
+              <span style="display:block;margin-bottom:4px;color:#94a3b8"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><path d="M4 8a2 2 0 0 1 2-2h1l1.5-2h7L17 6h1a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><circle cx="12" cy="13" r="3.4"/></svg></span>
               Click to upload photos or drag & drop<br/>
               <span style="font-size:.75rem">JPG, PNG, WebP — max 2MB each</span>
             </div>
@@ -1163,8 +1164,86 @@ setTimeout(function() {
       </div>
     </div>
 
+    <!-- CAROUSELS -->
+    <div class="section" id="section-carousels">
+      <div class="table-card">
+        <div class="table-hdr">
+          <h3>Carousels</h3>
+          <button class="btn-add" onclick="openAddSlide()">+ Add Slide</button>
+        </div>
+        <div style="margin:14px 0">
+          <label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Page</label>
+          <select id="car-page-sel" onchange="loadCarouselSlides()" style="width:100%;max-width:280px;padding:.6rem;border:1.5px solid #e2e8f0;border-radius:8px">
+            <option value="home">Home</option>
+            <option value="destinations">Destinations</option>
+            <option value="packages">Packages</option>
+            <option value="flights">Flights</option>
+            <option value="cabs">Cabs</option>
+            <option value="bus">Bus</option>
+            <option value="trains">Trains</option>
+            <option value="hotels">Hotels</option>
+            <option value="vendor">Vendor Landing (Partner With Us)</option>
+            <option value="vendor-portal">Vendor Portal (login screen)</option>
+            <option value="agent-portal">Agent Portal (login screen)</option>
+          </select>
+          <p style="font-size:.75rem;color:#94a3b8;margin-top:6px">Slides show on that page in the order below. Inactive slides are saved but hidden from the live site. If a page has no active slides, its existing banner shows as before — nothing breaks.</p>
+        </div>
+        <div class="loading" id="car-load"><div class="spinner"></div></div>
+        <div id="car-list" style="display:flex;flex-direction:column;gap:10px;margin-top:10px;"></div>
+      </div>
 
-    <!-- OFFERS & PROMOS -->
+      <!-- Add/Edit Slide Modal -->
+      <div id="car-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999;align-items:center;justify-content:center">
+        <div style="background:#fff;border-radius:16px;padding:2rem;max-width:480px;width:90%;max-height:90vh;overflow-y:auto">
+          <h3 style="margin-bottom:1.5rem" id="car-modal-title">Add Slide</h3>
+          <input type="hidden" id="car-id"/>
+          <div style="margin-bottom:1rem">
+            <label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Photo *</label>
+            <div style="border:2px dashed #e2e8f0;border-radius:10px;padding:12px;text-align:center;cursor:pointer;background:#fafafa"
+                 onclick="document.getElementById('car-img-upload').click()"
+                 ondragover="event.preventDefault();this.style.borderColor='#1a73e8'"
+                 ondragleave="this.style.borderColor='#e2e8f0'"
+                 ondrop="handleSingleImgDrop(event,'carousels',{statusId:'car-img-status',previewId:'car-img-preview',hiddenId:'car-image'})">
+              <div id="car-img-preview" style="margin-bottom:4px"></div>
+              <div style="font-size:.75rem;color:#94a3b8">Click or drag & drop a photo — max 2MB. Wide/landscape photos work best.</div>
+              <input type="file" id="car-img-upload" accept="image/*" style="display:none"
+                     onchange="handleSingleImgUpload(this.files,'carousels',{statusId:'car-img-status',previewId:'car-img-preview',hiddenId:'car-image'})"/>
+            </div>
+            <div id="car-img-status" style="font-size:.72rem;color:#94a3b8;margin-top:3px;margin-bottom:8px"></div>
+            <label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Or paste an Image URL</label>
+            <input id="car-image" placeholder="https://..." style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px"/>
+          </div>
+          <div style="margin-bottom:1rem">
+            <label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Title</label>
+            <input id="car-title" placeholder="Monsoon Magic in Kerala" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px"/>
+          </div>
+          <div style="margin-bottom:1rem">
+            <label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Subtitle</label>
+            <input id="car-subtitle" placeholder="Flat 20% off backwater packages, this week only" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px"/>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+            <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Button Text</label>
+              <input id="car-cta-text" placeholder="Explore Packages" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px"/></div>
+            <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Button Link</label>
+              <input id="car-cta-link" placeholder="/pages/packages.html?filter=beach" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px"/></div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;align-items:center">
+            <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Order</label>
+              <input id="car-order" type="number" value="0" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px"/></div>
+            <div style="display:flex;align-items:center;gap:8px;padding-top:1.4rem">
+              <input type="checkbox" id="car-active" checked style="width:16px;height:16px;cursor:pointer"/>
+              <label for="car-active" style="font-size:.82rem;cursor:pointer">Active (visible on site)</label>
+            </div>
+          </div>
+          <div id="car-modal-msg" style="font-size:.8rem;margin-bottom:1rem;color:#dc2626"></div>
+          <div style="display:flex;gap:.6rem;justify-content:flex-end">
+            <button onclick="closeSlideModal()" style="background:none;border:1.5px solid #e2e8f0;border-radius:8px;padding:.65rem 1.2rem;cursor:pointer">Cancel</button>
+            <button onclick="saveSlide()" style="background:#C9922A;color:#0C1B33;border:none;border-radius:8px;padding:.65rem 1.4rem;font-weight:700;cursor:pointer">Save Slide</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="section" id="section-offers">
       <div class="table-card">
         <div class="table-hdr">
@@ -2199,6 +2278,128 @@ window.deleteDestination = async (id) => {
   const { error } = await supabase.from('destinations').delete().eq('id', id);
   if (error) { toast('Error: ' + error.message, 'error'); return; }
   toast('Destination deleted'); loadDestinations();
+};
+
+// ── CAROUSELS ────────────────────────────────────────────────
+async function loadCarouselSlides() {
+  const load = document.getElementById('car-load');
+  const list = document.getElementById('car-list');
+  const page = document.getElementById('car-page-sel').value;
+  load.style.display = 'block';
+  try {
+    const { data, error } = await supabase.from('carousel_slides')
+      .select('*').eq('page_key', page).order('sort_order', { ascending: true });
+    load.style.display = 'none';
+    if (error) throw error;
+    if (!data?.length) {
+      list.innerHTML = '<p style="color:#94a3b8;padding:1rem">No slides yet for this page. Click + Add Slide — until then, this page keeps showing its existing banner.</p>';
+      return;
+    }
+    list.innerHTML = data.map((s, i) => `
+      <div style="display:flex;gap:14px;align-items:center;background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:12px;${s.is_active ? '' : 'opacity:.55'}">
+        <img src="${esc(s.image_url)}" style="width:96px;height:64px;object-fit:cover;border-radius:8px;flex-shrink:0" onerror="this.style.visibility='hidden'"/>
+        <div style="flex:1;min-width:0">
+          <div style="font-weight:700;font-size:.88rem">${esc(s.title || '(no title)')}</div>
+          <div style="font-size:.78rem;color:#64748b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(s.subtitle || '')}</div>
+          <div style="font-size:.72rem;color:#94a3b8;margin-top:2px">${s.is_active ? 'Active' : 'Inactive'} · Order ${s.sort_order}</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <button onclick="moveSlide('${s.id}',${i},'up')" ${i===0?'disabled':''} title="Move up" style="padding:4px 8px;border:1px solid #e2e8f0;border-radius:6px;background:#fff;cursor:pointer;font-size:.75rem">↑</button>
+          <button onclick="moveSlide('${s.id}',${i},'down')" ${i===data.length-1?'disabled':''} title="Move down" style="padding:4px 8px;border:1px solid #e2e8f0;border-radius:6px;background:#fff;cursor:pointer;font-size:.75rem">↓</button>
+        </div>
+        <div style="display:flex;gap:6px">
+          <button onclick="editSlide('${s.id}')" style="padding:6px 12px;border:1px solid #e2e8f0;border-radius:6px;font-size:.75rem;cursor:pointer;background:#fff">Edit</button>
+          <button onclick="deleteSlide('${s.id}')" style="padding:6px 12px;border:1px solid #fecaca;border-radius:6px;font-size:.75rem;cursor:pointer;color:#dc2626;background:#fff">Delete</button>
+        </div>
+      </div>`).join('');
+  } catch(e) { load.style.display='none'; toast('Failed to load slides: ' + e.message, 'error'); }
+}
+
+window.openAddSlide = () => {
+  document.getElementById('car-modal-title').textContent = 'Add Slide';
+  document.getElementById('car-id').value = '';
+  document.getElementById('car-image').value = '';
+  document.getElementById('car-title').value = '';
+  document.getElementById('car-subtitle').value = '';
+  document.getElementById('car-cta-text').value = '';
+  document.getElementById('car-cta-link').value = '';
+  document.getElementById('car-order').value = '0';
+  document.getElementById('car-active').checked = true;
+  document.getElementById('car-img-preview').innerHTML = '';
+  document.getElementById('car-img-status').textContent = '';
+  document.getElementById('car-modal-msg').textContent = '';
+  document.getElementById('car-modal').style.display = 'flex';
+};
+
+window.closeSlideModal = () => { document.getElementById('car-modal').style.display = 'none'; };
+
+window.editSlide = async (id) => {
+  const { data: s, error } = await supabase.from('carousel_slides').select('*').eq('id', id).maybeSingle();
+  if (error || !s) { toast('Could not load slide: ' + (error?.message || 'not found'), 'error'); return; }
+  document.getElementById('car-modal-title').textContent = 'Edit Slide';
+  document.getElementById('car-id').value = s.id;
+  document.getElementById('car-image').value = s.image_url || '';
+  document.getElementById('car-title').value = s.title || '';
+  document.getElementById('car-subtitle').value = s.subtitle || '';
+  document.getElementById('car-cta-text').value = s.cta_text || '';
+  document.getElementById('car-cta-link').value = s.cta_link || '';
+  document.getElementById('car-order').value = s.sort_order ?? 0;
+  document.getElementById('car-active').checked = !!s.is_active;
+  document.getElementById('car-img-preview').innerHTML = s.image_url
+    ? `<img src="${esc(s.image_url)}" style="width:100%;max-width:200px;height:110px;object-fit:cover;border-radius:8px;border:1.5px solid #e2e8f0"/>` : '';
+  document.getElementById('car-img-status').textContent = '';
+  document.getElementById('car-modal-msg').textContent = '';
+  document.getElementById('car-modal').style.display = 'flex';
+};
+
+window.saveSlide = async () => {
+  const id       = document.getElementById('car-id').value;
+  const page     = document.getElementById('car-page-sel').value;
+  const imageUrl = document.getElementById('car-image').value.trim();
+  const title    = document.getElementById('car-title').value.trim() || null;
+  const subtitle = document.getElementById('car-subtitle').value.trim() || null;
+  const ctaText  = document.getElementById('car-cta-text').value.trim() || null;
+  const ctaLink  = document.getElementById('car-cta-link').value.trim() || null;
+  const order    = parseInt(document.getElementById('car-order').value) || 0;
+  const active   = document.getElementById('car-active').checked;
+  const msg      = document.getElementById('car-modal-msg');
+  if (!imageUrl) { msg.textContent = 'A photo is required.'; return; }
+
+  const payload = {
+    page_key: page, image_url: imageUrl, title, subtitle,
+    cta_text: ctaText, cta_link: ctaLink, sort_order: order, is_active: active,
+  };
+  const { error } = id
+    ? await supabase.from('carousel_slides').update(payload).eq('id', id)
+    : await supabase.from('carousel_slides').insert(payload);
+
+  if (error) { msg.textContent = 'Error: ' + error.message; return; }
+  closeSlideModal();
+  toast(id ? 'Slide updated' : 'Slide added');
+  loadCarouselSlides();
+};
+
+window.deleteSlide = async (id) => {
+  if (!confirm('Delete this slide?')) return;
+  const { error } = await supabase.from('carousel_slides').delete().eq('id', id);
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
+  toast('Slide deleted'); loadCarouselSlides();
+};
+
+// Swaps sort_order with the neighboring slide — simple and safe for
+// the small number of slides a banner carousel realistically has.
+window.moveSlide = async (id, index, dir) => {
+  const page = document.getElementById('car-page-sel').value;
+  const { data } = await supabase.from('carousel_slides').select('id, sort_order').eq('page_key', page).order('sort_order', { ascending: true });
+  if (!data) return;
+  const otherIndex = dir === 'up' ? index - 1 : index + 1;
+  if (otherIndex < 0 || otherIndex >= data.length) return;
+  const a = data[index], b = data[otherIndex];
+  await Promise.all([
+    supabase.from('carousel_slides').update({ sort_order: b.sort_order }).eq('id', a.id),
+    supabase.from('carousel_slides').update({ sort_order: a.sort_order }).eq('id', b.id),
+  ]);
+  loadCarouselSlides();
 };
 
 // ── PROMO CODES ──────────────────────────────────────────────
@@ -3566,6 +3767,7 @@ window.show = (id, el) => {
     commissions:'Commission Management', loyalty:'Loyalty Points',
     hotels:'Hotels', destinations:'Destinations',
     offers:'Offers & Promos', 'wa-templates':'WhatsApp Templates', blog:'Blog', faq:'FAQ', careers:'Careers',
+    carousels:'Carousels',
     'site-settings':'Site Settings', reminders:'Reminders'
   };
   document.getElementById('page-title').textContent = titles[id] || id;
@@ -3595,6 +3797,7 @@ window.show = (id, el) => {
   if(id==='blog')            loadBlogPosts();
   if(id==='faq')             loadFaqs();
   if(id==='careers')         loadJobs();
+  if(id==='carousels')      loadCarouselSlides();
 };
 
 // HTML-escape helper — prevents XSS when injecting DB values into innerHTML
@@ -3681,7 +3884,7 @@ async function loadOverviewEnquiries() {
         <td>${pill(e.status)}</td>
         <td><div class="ab">
           <button class="bs bd" onclick="resolveEnq('${e.id}')">✓ Done</button>
-          <button class="bs bv" onclick="window.open('https://wa.me/${esc(e.phone?.replace(/\D/g,''))}','_blank')"></button>
+          <button class="bs bv" onclick="window.open('https://wa.me/${esc(e.phone?.replace(/\D/g,''))}','_blank')">WhatsApp</button>
         </div></td>
       </tr>`).join('');
   } catch(e) { document.getElementById('ov-enq-load').style.display='none'; }
@@ -3707,7 +3910,7 @@ async function loadEnquiries() {
         <td>${pill(e.status)}</td>
         <td><div class="ab">
           <button class="bs bd" onclick="resolveEnq('${e.id}')">✓ Done</button>
-          <button class="bs bv" onclick="window.open('https://wa.me/${esc((e.phone||'').replace(/\D/g,''))}','_blank')"></button>
+          <button class="bs bv" onclick="window.open('https://wa.me/${esc((e.phone||'').replace(/\D/g,''))}','_blank')">WhatsApp</button>
         </div></td>
       </tr>`).join('');
   } catch(e) { load.style.display='none'; toast('Failed to load enquiries','error'); }
@@ -3811,9 +4014,9 @@ function renderBookingsTable() {
       <td>${pill(b.payment_status||'pending')}</td>
       <td>${pill(b.status)}</td>
       <td><div class="ab">
-        <button class="bs bv" onclick="openBkDrawer('${b.id}')"></button>
-        <button class="bs" onclick="whatsappBkCustomer('${esc((b.customer_whatsapp||b.customer_phone||'').toString())}','${esc(b.booking_ref)}','${esc(b.customer_name||'')}')"></button>
-        <button class="bs" onclick="openBkStatusModal('${b.id}')"></button>
+        <button class="bs bv" onclick="openBkDrawer('${b.id}')">View</button>
+        <button class="bs" onclick="whatsappBkCustomer('${esc((b.customer_whatsapp||b.customer_phone||'').toString())}','${esc(b.booking_ref)}','${esc(b.customer_name||'')}')">WhatsApp</button>
+        <button class="bs" onclick="openBkStatusModal('${b.id}')">Status</button>
         ${b.status!=='cancelled' && b.status!=='completed' ? `<button class="bs" style="color:#dc2626" onclick="quickCancelBk('${b.id}')">✕</button>` : ''}
       </div></td>
     </tr>`).join('');
@@ -4064,7 +4267,7 @@ function renderWorkflowCard(b, col) {
         <span style="color:#94a3b8">${wfTimeAgo(b.created_at)}</span>
       </div>
       <div style="display:flex;gap:4px" onclick="event.stopPropagation()">
-        <button class="bs" onclick="whatsappBkCustomer('${esc((b.customer_whatsapp||b.customer_phone||'').toString())}','${esc(b.booking_ref)}','${esc(b.customer_name||'')}')"></button>
+        <button class="bs" onclick="whatsappBkCustomer('${esc((b.customer_whatsapp||b.customer_phone||'').toString())}','${esc(b.booking_ref)}','${esc(b.customer_name||'')}')">WhatsApp</button>
         ${next ? `<button class="bs" style="flex:1" onclick="wfMoveCard('${b.id}','${next}')">→ ${capitalize(next)}</button>` : ''}
       </div>
     </div>`;
@@ -4291,9 +4494,9 @@ function renderPackagesGrid(data) {
                 <input type="checkbox" ${p.is_active ? 'checked' : ''} onchange="togglePkg('${p.id}',this.checked)">
                 <span class="slider"></span>
               </label>
-              <button class="bs" title="Availability" onclick="openAvailModal('${p.id}')"></button>
-              <button class="bs be" onclick="editPackage('${p.id}')"></button>
-              <button class="bs" style="color:#DC2626;border-color:#fecaca;background:#fff5f5" onclick="deletePackage('${p.id}','${(p.title||'').replace(/'/g,"\\'")}')"></button>
+              <button class="bs" title="Availability" onclick="openAvailModal('${p.id}')">Availability</button>
+              <button class="bs be" onclick="editPackage('${p.id}')">Edit</button>
+              <button class="bs" style="color:#DC2626;border-color:#fecaca;background:#fff5f5" onclick="deletePackage('${p.id}','${(p.title||'').replace(/'/g,"\\'")}')">Delete</button>
             </div>
           </div>
         </div>
@@ -4417,10 +4620,10 @@ window.renderVendorTable = () => {
       <td>${pill(v.status)}</td>
       <td style="font-size:.78rem;color:#94a3b8">${fmtDate(v.created_at)}</td>
       <td><div class="ab">
-        <button class="bs bv" onclick="openVDrawer('${v.id}')"></button>
-        ${v.status==='pending'?`<button class="bs" style="color:#16a34a" onclick="approveVendor('${v.id}')"></button>`:''}
-        <button class="bs" onclick="waVendorContact('${esc(v.phone||'')}','${esc(v.business_name||'')}')"></button>
-        ${v.status==='active'?`<button class="bs" style="color:#f59e0b" onclick="suspendVendor('${v.id}')"></button>`:''}
+        <button class="bs bv" onclick="openVDrawer('${v.id}')">View</button>
+        ${v.status==='pending'?`<button class="bs" style="color:#16a34a" onclick="approveVendor('${v.id}')">Approve</button>`:''}
+        <button class="bs" onclick="waVendorContact('${esc(v.phone||'')}','${esc(v.business_name||'')}')">WhatsApp</button>
+        ${v.status==='active'?`<button class="bs" style="color:#f59e0b" onclick="suspendVendor('${v.id}')">Suspend</button>`:''}
         ${v.status==='pending'?`<button class="bs" style="color:#dc2626" onclick="rejectVendor('${v.id}')">✕</button>`:''}
       </div></td>
     </tr>`).join('');
@@ -4701,8 +4904,8 @@ function renderVendorPayouts() {
       ${vPayoutStatusPill(p.payout_status)}
       <div style="display:flex;gap:6px">
         ${p.payout_status!=='paid' ? `<button class="bs" style="color:#16a34a" onclick="markPayoutPaid('${p.id}')">Mark Paid</button>` : ''}
-        <button class="bs" onclick="editPayout('${p.id}')"></button>
-        <button class="bs" style="color:#dc2626" onclick="deletePayout('${p.id}')"></button>
+        <button class="bs" onclick="editPayout('${p.id}')">Edit</button>
+        <button class="bs" style="color:#dc2626" onclick="deletePayout('${p.id}')">Delete</button>
       </div>
     </div>`).join('');
 }
@@ -4866,10 +5069,10 @@ window.renderAgentsTable = () => {
       <td style="font-weight:700;color:${pend>0?'#f59e0b':'#94a3b8'}">₹${fmtAmt(pend)}</td>
       <td>${pill(a.status)}</td>
       <td><div class="ab">
-        <button class="bs bv" onclick="openAgDrawer('${a.id}')"></button>
-        <button class="bs" style="color:#16a34a" onclick="processAgentPayout('${a.id}')"></button>
-        <button class="bs" onclick="waAgentContact('${esc(a.phone||'')}','${esc(a.full_name||'')}')"></button>
-        ${a.status==='active'?`<button class="bs" style="color:#f59e0b" onclick="suspendAgent('${a.id}')"></button>`:''}
+        <button class="bs bv" onclick="openAgDrawer('${a.id}')">View</button>
+        <button class="bs" style="color:#16a34a" onclick="processAgentPayout('${a.id}')">Pay Out</button>
+        <button class="bs" onclick="waAgentContact('${esc(a.phone||'')}','${esc(a.full_name||'')}')">WhatsApp</button>
+        ${a.status==='active'?`<button class="bs" style="color:#f59e0b" onclick="suspendAgent('${a.id}')">Suspend</button>`:''}
       </div></td>
     </tr>`;
   }).join('');
@@ -4985,8 +5188,8 @@ window.openAgDrawer = (id) => {
   `;
   document.getElementById('ag-drawer-foot').innerHTML = `
     ${pendAmt>=500?`<button class="btn-add" style="background:#16a34a;color:#fff" onclick="processAgentPayout('${a.id}',true)">Process Payout ₹${fmtAmt(pendAmt-tds)}</button>`:''}
-    <button class="btn-add" style="background:#25D366;color:#fff" onclick="waAgentContact('${esc(a.phone||'')}','${esc(a.full_name||'')}')"></button>
-    ${a.status==='active'?`<button class="btn-add" style="background:#f59e0b" onclick="suspendAgent('${a.id}')"></button>`:''}
+    <button class="btn-add" style="background:#25D366;color:#fff" onclick="waAgentContact('${esc(a.phone||'')}','${esc(a.full_name||'')}')">WhatsApp</button>
+    ${a.status==='active'?`<button class="btn-add" style="background:#f59e0b" onclick="suspendAgent('${a.id}')">Suspend</button>`:''}
   `;
 };
 window.closeAgDrawer = () => {

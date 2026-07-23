@@ -88,6 +88,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
 </head>
 <body data-page="flights">
 <header class="nav" id="mainNav"></header>
+<div id="carousel-flights"></div>
 
 <section class="flight-hero" style="background:linear-gradient(145deg,#0C1B33 0%,#1a2d4a 40%,#1e3a6e 100%);padding:110px 2rem 60px;text-align:center;position:relative;overflow:hidden;">
   <!-- dot grid -->
@@ -502,6 +503,10 @@ window.quickRoute = (from, to) => {
 document.getElementById('depDate').min = new Date().toISOString().split('T')[0];
 document.getElementById('retDate').min = new Date().toISOString().split('T')[0];
 initMC();
+</script>
+<script type="module">
+import { initCarousel } from '../assets/js/carousel.js';
+initCarousel('flights', 'carousel-flights');
 </script>
 </body>
 </html>

@@ -122,6 +122,7 @@
 }
   </style>
 <header class="nav" id="mainNav"></header>
+<div id="carousel-hotels"></div>
 <section style="background:linear-gradient(145deg,#0C1B33 0%,#1a2d4a 45%,#1e3a6e 100%);padding:110px 2rem 60px;text-align:center;position:relative;overflow:hidden;">
   <div style="position:absolute;inset:0;background-image:radial-gradient(circle at 1px 1px,rgba(255,255,255,.04) 1px,transparent 0);background-size:38px 38px;pointer-events:none;"></div>
   <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 60% 40%,rgba(201,146,42,.09),transparent 60%);pointer-events:none;"></div>
@@ -229,7 +230,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
     </div>
     <div class="ms" id="ms4">
       <div class="bsuccess">
-        <div class="bi"></div>
+        <div class="bi"><svg viewBox="0 0 24 24" width="42" height="42" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div>
         <h3>Booking Confirmed!</h3>
         <p>Our team will confirm within <strong>2 hours</strong> and send details to your email.</p>
         <div class="bref" id="b-ref">ZF-XXXXXX</div>
@@ -527,5 +528,9 @@ loadHotels();
 
 <section class="newsletter" id="newsletter"></section>
 <footer class="footer" id="mainFooter"></footer>
+<script type="module">
+import { initCarousel } from '../assets/js/carousel.js';
+initCarousel('hotels', 'carousel-hotels');
+</script>
 </body>
 </html>

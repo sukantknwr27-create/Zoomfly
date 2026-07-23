@@ -150,12 +150,12 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
       <div class="user-since" id="profile-since"></div>
     </div>
     <div class="dash-nav">
-      <div class="dash-nav-item active" onclick="showSection('overview',this)"><span class="icon"></span> Overview</div>
-      <div class="dash-nav-item" onclick="showSection('bookings',this)"><span class="icon"></span> My Bookings <span class="count" id="booking-count">0</span></div>
-      <div class="dash-nav-item" onclick="showSection('wishlist',this)"><span class="icon"></span> Wishlist</div>
-      <div class="dash-nav-item" onclick="showSection('profile',this)"><span class="icon"></span> Profile</div>
-      <div class="dash-nav-item" onclick="window.location.href='packages.html'"><span class="icon"></span> Browse Packages</div>
-      <div class="dash-nav-item" onclick="window.location.href='contact.html'"><span class="icon"></span> Get a Quote</div>
+      <div class="dash-nav-item active" onclick="showSection('overview',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg></span> Overview</div>
+      <div class="dash-nav-item" onclick="showSection('bookings',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><path d="M3 9a2 2 0 0 0 0 6v3h18v-3a2 2 0 0 1 0-6V6H3z"/><path d="M10 6v12" stroke-dasharray="2 2"/></svg></span> My Bookings <span class="count" id="booking-count">0</span></div>
+      <div class="dash-nav-item" onclick="showSection('wishlist',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><path d="M12 20s-7-4.4-9.5-9C1 8 2 4 6 4c2.2 0 3.6 1.2 4.5 2.4C11.4 5.2 12.8 4 15 4c4 0 5 4 3.5 7-2.5 4.6-9.5 9-9.5 9z"/></svg></span> Wishlist</div>
+      <div class="dash-nav-item" onclick="showSection('profile',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg></span> Profile</div>
+      <div class="dash-nav-item" onclick="window.location.href='packages.html'"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg></span> Browse Packages</div>
+      <div class="dash-nav-item" onclick="window.location.href='contact.html'"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><path d="M4 4h16v12H8l-4 4V4z"/></svg></span> Get a Quote</div>
     </div>
   </aside>
 
@@ -529,6 +529,20 @@ function toast(msg, type = 'success') {
 }
 
 init();
+
+// Deep-link support: the account dropdown links here with
+// /pages/dashboard.html#section-profile, but sections are shown/hidden
+// via a .active class (display:none by default), so the browser's
+// native hash-scroll can't do anything on its own — nothing read
+// location.hash before, so that link always silently landed on Overview.
+(function openSectionFromHash() {
+  const hash = location.hash.replace('#section-', '').replace('#', '');
+  if (!hash) return;
+  const target = document.getElementById('section-' + hash);
+  if (!target) return;
+  const navEl = document.querySelector(`.dash-nav-item[onclick*="'${hash}'"]`);
+  window.showSection(hash, navEl);
+})();
 </script>
 
 <section class="newsletter" id="newsletter"></section>

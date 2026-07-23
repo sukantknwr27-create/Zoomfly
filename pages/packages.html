@@ -110,6 +110,7 @@
 }
   </style>
 <header class="nav" id="mainNav"></header>
+<div id="carousel-packages"></div>
 <script>
 window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/);return m?m[1]:null;};
 </script>
@@ -133,7 +134,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
 <div class="page-hero">
   <h1>Our <em>Tour Packages</em></h1>
   <p>200+ handcrafted itineraries — from quick weekend escapes to 14-day international holidays</p>
-  <div class="search-wrap"><input type="text" id="search-inp" placeholder="Search destinations, packages..."/><span class="si"></span></div>
+  <div class="search-wrap"><input type="text" id="search-inp" placeholder="Search destinations, packages..."/><span class="si"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></span></div>
 </div>
 
 <div class="layout">
@@ -379,6 +380,43 @@ document.getElementById('reset-btn').addEventListener('click', () => {
   applyFilters();
 });
 
+// ── Apply filter/search from the URL (links from the footer,
+// tour-category.html, and elsewhere point here with ?filter=X or
+// ?q=X) — this used to be read nowhere, so every one of those links
+// silently landed on the same unfiltered full list.
+(function applyUrlParams() {
+  const params = new URLSearchParams(location.search);
+  const filterVal = params.get('filter');
+  const qVal = params.get('q') || params.get('search');
+
+  const KNOWN_CAT  = ['beach','adventure','nature','heritage','honeymoon','spiritual','wildlife'];
+  const KNOWN_TYPE = ['domestic','international'];
+
+  if (filterVal) {
+    const v = filterVal.toLowerCase();
+    if (KNOWN_TYPE.includes(v)) {
+      filters.type = v;
+      document.querySelectorAll('#f-type .pill').forEach(p => p.classList.toggle('active', p.dataset.v === v));
+    } else if (KNOWN_CAT.includes(v)) {
+      filters.cat = v;
+      document.querySelectorAll('#f-cat .pill').forEach(p => p.classList.toggle('active', p.dataset.v === v));
+    } else {
+      // Not a category this page's filter pills support (e.g. "group",
+      // "mountains", "family", "pilgrimage", "cruise", "weekend") — fall
+      // back to the search box, which also matches against tags, so the
+      // link still narrows results instead of doing nothing.
+      searchTerm = v;
+      const inp = document.getElementById('search-inp');
+      if (inp) inp.value = filterVal;
+    }
+  }
+  if (qVal) {
+    searchTerm = qVal.toLowerCase();
+    const inp = document.getElementById('search-inp');
+    if (inp) inp.value = qVal;
+  }
+})();
+
 loadPackages();
 
 // ── PACKAGE COMPARISON ────────────────────────────────────
@@ -551,5 +589,9 @@ window.pickDest = (dest) => {
 
 <section class="newsletter" id="newsletter"></section>
 <footer class="footer" id="mainFooter"></footer>
+<script type="module">
+import { initCarousel } from '../assets/js/carousel.js';
+initCarousel('packages', 'carousel-packages');
+</script>
 </body>
 </html>

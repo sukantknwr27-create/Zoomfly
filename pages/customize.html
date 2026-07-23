@@ -57,43 +57,44 @@
     <div class="step">
       <div class="step-header"><div class="step-num">1</div><div class="step-title">Where do you want to go?</div></div>
       <div class="form-row">
-        <div class="form-group"><label>Destination</label><input type="text" placeholder="e.g. Bali, Manali, Rajasthan"/></div>
-        <div class="form-group"><label>Travel Date</label><input type="date"/></div>
+        <div class="form-group"><label>Destination</label><input type="text" id="c-dest" placeholder="e.g. Bali, Manali, Rajasthan"/></div>
+        <div class="form-group"><label>Travel Date</label><input type="date" id="c-date"/></div>
       </div>
       <div class="form-row">
-        <div class="form-group"><label>Duration</label><select><option>3 Days / 2 Nights</option><option>5 Days / 4 Nights</option><option>7 Days / 6 Nights</option><option>10 Days / 9 Nights</option><option>14 Days / 13 Nights</option></select></div>
-        <div class="form-group"><label>No. of Travellers</label><input type="number" placeholder="2" min="1"/></div>
+        <div class="form-group"><label>Duration</label><select id="c-duration"><option>3 Days / 2 Nights</option><option selected>5 Days / 4 Nights</option><option>7 Days / 6 Nights</option><option>10 Days / 9 Nights</option><option>14 Days / 13 Nights</option></select></div>
+        <div class="form-group"><label>No. of Travellers</label><input type="number" id="c-pax" placeholder="2" min="1" value="2"/></div>
       </div>
     </div>
     <div class="step">
       <div class="step-header"><div class="step-num">2</div><div class="step-title">Travel Style</div></div>
-      <div class="option-grid">
-        <div class="opt active" onclick="toggleOpt(this)"><div class="opt-icon"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div><div class="opt-label">Beach & Relax</div></div>
-        <div class="opt" onclick="toggleOpt(this)"><div class="opt-icon"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div><div class="opt-label">Adventure</div></div>
-        <div class="opt" onclick="toggleOpt(this)"><div class="opt-icon"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div><div class="opt-label">Culture & Heritage</div></div>
-        <div class="opt" onclick="toggleOpt(this)"><div class="opt-icon"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div><div class="opt-label">Romantic</div></div>
-        <div class="opt" onclick="toggleOpt(this)"><div class="opt-icon"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div class="opt-label">Family</div></div>
-        <div class="opt" onclick="toggleOpt(this)"><div class="opt-icon"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div><div class="opt-label">Food & Culinary</div></div>
+      <div class="option-grid" id="c-style-grid">
+        <div class="opt active" onclick="selectOpt(this,'c-style-grid')" data-v="Beach &amp; Relax"><div class="opt-icon"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div><div class="opt-label">Beach & Relax</div></div>
+        <div class="opt" onclick="selectOpt(this,'c-style-grid')" data-v="Adventure"><div class="opt-icon"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div><div class="opt-label">Adventure</div></div>
+        <div class="opt" onclick="selectOpt(this,'c-style-grid')" data-v="Culture &amp; Heritage"><div class="opt-icon"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div><div class="opt-label">Culture & Heritage</div></div>
+        <div class="opt" onclick="selectOpt(this,'c-style-grid')" data-v="Romantic"><div class="opt-icon"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div><div class="opt-label">Romantic</div></div>
+        <div class="opt" onclick="selectOpt(this,'c-style-grid')" data-v="Family"><div class="opt-icon"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div class="opt-label">Family</div></div>
+        <div class="opt" onclick="selectOpt(this,'c-style-grid')" data-v="Food &amp; Culinary"><div class="opt-icon"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div><div class="opt-label">Food & Culinary</div></div>
       </div>
     </div>
     <div class="step">
       <div class="step-header"><div class="step-num">3</div><div class="step-title">Your Budget</div></div>
-      <div class="option-grid" style="grid-template-columns:repeat(3,1fr)">
-        <div class="opt" onclick="toggleOpt(this)"><div class="opt-icon"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div><div class="opt-label">Budget<br><small style="color:#8896AB">Under ₹15k</small></div></div>
-        <div class="opt active" onclick="toggleOpt(this)"><div class="opt-icon"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div><div class="opt-label">Mid-range<br><small style="color:#8896AB">₹15k–₹50k</small></div></div>
-        <div class="opt" onclick="toggleOpt(this)"><div class="opt-icon"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div><div class="opt-label">Luxury<br><small style="color:#8896AB">₹50k+</small></div></div>
+      <div class="option-grid" id="c-budget-grid" style="grid-template-columns:repeat(3,1fr)">
+        <div class="opt" onclick="selectOpt(this,'c-budget-grid')" data-v="Budget (Under ₹15k)"><div class="opt-icon"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div><div class="opt-label">Budget<br><small style="color:#8896AB">Under ₹15k</small></div></div>
+        <div class="opt active" onclick="selectOpt(this,'c-budget-grid')" data-v="Mid-range (₹15k–₹50k)"><div class="opt-icon"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div><div class="opt-label">Mid-range<br><small style="color:#8896AB">₹15k–₹50k</small></div></div>
+        <div class="opt" onclick="selectOpt(this,'c-budget-grid')" data-v="Luxury (₹50k+)"><div class="opt-icon"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div><div class="opt-label">Luxury<br><small style="color:#8896AB">₹50k+</small></div></div>
       </div>
     </div>
     <div class="step">
       <div class="step-header"><div class="step-num">4</div><div class="step-title">Your Contact Details</div></div>
       <div class="form-row">
-        <div class="form-group"><label>Full Name</label><input type="text" placeholder="Rahul Kapoor"/></div>
-        <div class="form-group"><label>Mobile Number</label><input type="tel" placeholder="+91 98765 43210"/></div>
+        <div class="form-group"><label>Full Name</label><input type="text" id="c-name" placeholder="Rahul Kapoor"/></div>
+        <div class="form-group"><label>Mobile Number</label><input type="tel" id="c-phone" placeholder="+91 98765 43210"/></div>
       </div>
-      <div class="form-group"><label>Email Address</label><input type="email" placeholder="rahul@example.com"/></div>
-      <div class="form-group"><label>Special Requests</label><textarea rows="3" placeholder="Any specific requirements, dietary needs, accessibility needs..."></textarea></div>
+      <div class="form-group"><label>Email Address</label><input type="email" id="c-email" placeholder="rahul@example.com"/></div>
+      <div class="form-group"><label>Special Requests</label><textarea rows="3" id="c-special" placeholder="Any specific requirements, dietary needs, accessibility needs..."></textarea></div>
     </div>
-    <button class="btn-submit" onclick="submitCustom()">Get My Custom Quote — Free</button>
+    <div class="err-msg" id="c-err" style="display:none;color:#DC2626;font-size:.82rem;margin-bottom:14px;text-align:center"></div>
+    <button class="btn-submit" id="c-submit-btn" onclick="submitCustom()">Get My Custom Quote — Free</button>
     <p style="text-align:center;font-size:.75rem;color:#8896AB;margin-top:12px;">Our expert will call you within 2 hours · No commitment required</p>
   </div>
   <div class="cust-summary">
@@ -102,9 +103,8 @@
     <div class="sum-item"><span>Travel Date</span><strong id="sum-date">Not selected</strong></div>
     <div class="sum-item"><span>Duration</span><strong id="sum-dur">5 Days / 4 Nights</strong></div>
     <div class="sum-item"><span>Travellers</span><strong id="sum-pax">2 Adults</strong></div>
-    <div class="sum-item"><span>Style</span><strong>Beach & Relax</strong></div>
-    <div class="sum-item"><span>Budget</span><strong>Mid-range</strong></div>
-    <div class="sum-total"><span class="lbl">Estimated Price</span><span class="val">₹32,000–</span></div>
+    <div class="sum-item"><span>Style</span><strong id="sum-style">Beach & Relax</strong></div>
+    <div class="sum-item"><span>Budget</span><strong id="sum-budget">Mid-range</strong></div>
     <p style="font-size:.72rem;color:rgba(255,255,255,.38);margin-top:12px;line-height:1.6;">Final price will be confirmed by our travel expert based on your preferences.</p>
     <div style="margin-top:20px;padding:14px;background:rgba(201,146,42,.12);border:1px solid rgba(201,146,42,.22);border-radius:10px;">
       <div style="font-family:'Space Grotesk',system-ui;font-size:.75rem;font-weight:700;color:#E8B84B;margin-bottom:6px;">Need Help?</div>
@@ -115,9 +115,85 @@
 </div>
 <section class="newsletter" id="newsletter"></section>
 <footer class="footer" id="mainFooter"></footer>
-<script>
-function toggleOpt(el){el.classList.toggle('active');}
-function submitCustom(){alert('Thank you! Our travel expert will call you within 2 hours.');}
+<script type="module">
+import { submitEnquiry, supabase } from '../assets/js/supabase.js';
+
+window.selectOpt = (el, gridId) => {
+  document.querySelectorAll(`#${gridId} .opt`).forEach(o => o.classList.remove('active'));
+  el.classList.add('active');
+  updateSummary();
+};
+
+function updateSummary() {
+  const dest = document.getElementById('c-dest').value.trim();
+  const date = document.getElementById('c-date').value;
+  const pax  = document.getElementById('c-pax').value;
+  document.getElementById('sum-dest').textContent  = dest || 'Not selected';
+  document.getElementById('sum-date').textContent  = date ? new Date(date).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}) : 'Not selected';
+  document.getElementById('sum-dur').textContent   = document.getElementById('c-duration').value;
+  document.getElementById('sum-pax').textContent   = `${pax || '—'} Traveller${pax==='1'?'':'s'}`;
+  document.getElementById('sum-style').textContent  = document.querySelector('#c-style-grid .opt.active')?.dataset.v || '—';
+  document.getElementById('sum-budget').textContent = (document.querySelector('#c-budget-grid .opt.active')?.dataset.v || '—').split(' (')[0];
+}
+['c-dest','c-date','c-pax','c-duration'].forEach(id => {
+  document.getElementById(id).addEventListener('input', updateSummary);
+});
+updateSummary();
+
+window.submitCustom = async () => {
+  const dest  = document.getElementById('c-dest').value.trim();
+  const date  = document.getElementById('c-date').value;
+  const pax   = document.getElementById('c-pax').value;
+  const name  = document.getElementById('c-name').value.trim();
+  const phone = document.getElementById('c-phone').value.trim();
+  const email = document.getElementById('c-email').value.trim();
+  const errEl = document.getElementById('c-err');
+  errEl.style.display = 'none';
+
+  if (!dest || !name || !phone || !email) {
+    errEl.textContent = 'Please fill in destination, name, mobile number and email.';
+    errEl.style.display = 'block';
+    return;
+  }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    errEl.textContent = 'Please enter a valid email address.';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  const btn = document.getElementById('c-submit-btn');
+  btn.disabled = true; btn.textContent = 'Submitting…';
+
+  try {
+    const inserted = await submitEnquiry({
+      name, email, phone,
+      interest: ['Custom Trip'],
+      destination: dest,
+      travel_date: date || null,
+      travellers: pax || null,
+      budget: document.querySelector('#c-budget-grid .opt.active')?.dataset.v || null,
+      message: [
+        `Duration: ${document.getElementById('c-duration').value}`,
+        `Style: ${document.querySelector('#c-style-grid .opt.active')?.dataset.v || 'Not specified'}`,
+        document.getElementById('c-special').value.trim() ? `Special requests: ${document.getElementById('c-special').value.trim()}` : null,
+      ].filter(Boolean).join(' | '),
+    });
+    await supabase.functions.invoke('send-booking-email', { body: { type: 'enquiry', enquiry_id: inserted.id } }).catch(() => {});
+    btn.textContent = 'Request Sent ✓';
+    document.querySelector('.cust-form').innerHTML = `
+      <div style="text-align:center;padding:40px 10px">
+        <div style="width:64px;height:64px;border-radius:50%;background:#dcfce7;display:flex;align-items:center;justify-content:center;margin:0 auto 20px">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 12.5l4 4 8-9"/></svg>
+        </div>
+        <h2 style="font-family:'Space Grotesk',system-ui;font-size:1.3rem;margin-bottom:8px">Request Received!</h2>
+        <p style="color:#8896AB;font-size:.9rem">Our travel expert will call you within 2 hours with a custom itinerary and quote.</p>
+      </div>`;
+  } catch (e) {
+    errEl.textContent = e.message || 'Could not submit your request. Please try WhatsApp instead.';
+    errEl.style.display = 'block';
+    btn.disabled = false; btn.textContent = 'Get My Custom Quote — Free';
+  }
+};
 </script>
 <script type="module" src="/assets/js/main.js"></script>
 </body>

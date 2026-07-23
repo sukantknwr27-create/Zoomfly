@@ -134,6 +134,7 @@
 </head>
 <body data-page="trains">
 <header class="nav nav-dark" id="mainNav"></header>
+<div id="carousel-trains"></div>
 
 <!-- HERO -->
 <section class="hero">
@@ -953,6 +954,10 @@ function showToast(msg) {
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 3500);
 }
+</script>
+<script type="module">
+import { initCarousel } from '../assets/js/carousel.js';
+initCarousel('trains', 'carousel-trains');
 </script>
 </body>
 </html>
