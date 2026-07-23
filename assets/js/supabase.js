@@ -186,6 +186,15 @@ export async function requireAdmin() {
 }
 
 // ── PACKAGES ─────────────────────────────────────────────
+// ── CAROUSEL SLIDES ──────────────────────────────────────
+export async function getCarouselSlides(pageKey) {
+  const { data, error } = await supabase.from('carousel_slides')
+    .select('*').eq('page_key', pageKey).eq('is_active', true)
+    .order('sort_order', { ascending: true });
+  if (error) throw error;
+  return data || [];
+}
+
 export async function getPackages({ type, category, maxPrice, minRating, search, limit } = {}) {
   let q = supabase.from('packages').select('*').eq('is_active', true);
   if (type && type !== 'all')         q = q.eq('type', type);

@@ -378,13 +378,14 @@ function renderFooter() {
     <div class="zf-footer-col">
       <h4>TRAVEL</h4>
       <a href="/pages/packages.html">Tour Packages</a>
+      <a href="/pages/tour-category.html">Browse by Category</a>
       <a href="/pages/flights.html">Flights</a>
       <a href="/pages/hotels.html">Hotels</a>
       <a href="/pages/bus.html">Bus Booking</a>
       <a href="/pages/packages.html?filter=honeymoon">Honeymoon Packages</a>
       <a href="/pages/packages.html?filter=group">Group Tours</a>
       <a href="/pages/destinations.html?filter=weekend">Weekend Getaways</a>
-      <a href="/pages/cabs.html">Visa Assistance</a>
+      <a href="/pages/contact.html">Visa Assistance</a>
     </div>
 
     <!-- COL 3: Company -->
@@ -392,8 +393,9 @@ function renderFooter() {
       <h4>COMPANY</h4>
       <a href="/pages/about.html">About Us</a>
       <a href="/pages/contact.html">Contact Us</a>
+      <a href="/pages/faq.html">FAQs</a>
       <a href="/pages/vendor.html">Partner With Us</a>
-      <a href="/pages/about.html#careers">Careers</a>
+      <a href="/pages/careers.html">Careers</a>
       <a href="/pages/dashboard.html">My Account</a>
       <a href="/pages/terms.html">Terms &amp; Conditions</a>
       <a href="/pages/privacy-policy.html">Privacy Policy</a>
