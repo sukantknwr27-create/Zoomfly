@@ -4,12 +4,12 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Booking Confirmed — ZoomFly</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'></text></svg>"/>
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"/>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,600&family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <style>
     :root {
-      --primary: #1a73e8;
-      --accent:  #ff6b35;
+      --primary: #C9922A;
+      --accent:  #E8B84B;
       --dark:    #0f1923;
       --text:    #2d3748;
       --light:   #64748b;
@@ -156,7 +156,7 @@
     }
     .btn-outline:hover { background:var(--bg); border-color:var(--primary); color:var(--primary); }
     .btn-primary {
-      background:linear-gradient(135deg,var(--primary),#1557b0);
+      background:linear-gradient(135deg,var(--primary),#A37220);
       color:#fff;
       box-shadow:0 4px 16px rgba(26,115,232,0.3);
     }
@@ -202,7 +202,7 @@
       border:none; cursor:pointer; font-weight:600;
       font-size:0.88rem; white-space:nowrap; transition:all 0.2s;
     }
-    .track-btn:hover { background:var(--primary-dark,#1557b0); }
+    .track-btn:hover { background:var(--primary-dark,#A37220); }
 
     .track-result {
       margin-top:16px; padding:16px;
@@ -236,7 +236,7 @@
 
 <nav>
   <a href="/index.html" class="logo">
-    <div class="logo-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div>
+    <div class="logo-icon"><span class="emoji-icon" style="font-size:13px;line-height:1;display:inline-block;vertical-align:middle">✅</span></div>
     <div class="logo-text">Zoom<span>Fly</span></div>
   </a>
 </nav>
@@ -248,7 +248,7 @@
 
     <!-- Header -->
     <div class="status-header">
-      <div class="status-icon" id="status-icon"><svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 12.5l4 4 8-9"/></svg></div>
+      <div class="status-icon" id="status-icon"><span class="emoji-icon" style="font-size:27px;line-height:1;display:inline-block;vertical-align:middle">✅</span></div>
       <h1 id="status-heading">Booking Request Received!</h1>
       <p id="status-subtext">Your booking has been submitted successfully.<br/>Our team will confirm within <strong style="color:#fff;">30 minutes</strong>.</p>
     </div>
@@ -319,7 +319,7 @@
 
   <!-- HELP STRIP -->
   <div class="help-strip">
-    <div class="help-icon"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></div>
+    <div class="help-icon"><span class="emoji-icon" style="font-size:17px;line-height:1;display:inline-block;vertical-align:middle">🎧</span></div>
     <div class="help-text">
       <div class="ht-title">Need help with your booking?</div>
       <div class="ht-sub">
@@ -484,7 +484,7 @@
             </div>
             <div style="display:flex;justify-content:space-between;">
               <span style="color:#64748b;">Amount</span>
-              <span style="font-weight:700;color:#ff6b35;">₹${parseFloat(b.total_amount||0).toLocaleString('en-IN')}</span>
+              <span style="font-weight:700;color:#C9922A;">₹${parseFloat(b.total_amount||0).toLocaleString('en-IN')}</span>
             </div>
             <div style="display:flex;justify-content:space-between;align-items:center;">
               <span style="color:#64748b;">Status</span>
@@ -498,7 +498,7 @@
         <div style="color:#991b1b;font-size:0.85rem;">
            Booking not found. Please check the reference number or
           <a href="https://wa.me/${WA_NUMBER}" target="_blank"
-            style="color:#1a73e8;">contact us on WhatsApp</a>.
+            style="color:#25D366;">contact us on WhatsApp</a>.
         </div>
       `;
     }

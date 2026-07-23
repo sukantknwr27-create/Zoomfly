@@ -150,41 +150,42 @@ setTimeout(function() {
   <div class="sb-logo"><h1>Zoom<span>Fly</span></h1><p>Admin Dashboard</p></div>
   <nav class="sb-nav">
     <div class="sb-sec">Main</div>
-    <div class="nav-item active" onclick="show('overview',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg></span> Overview</div>
-    <div class="nav-item" onclick="show('enquiries',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span> Enquiries <span class="badge" id="enq-badge">0</span></div>
-    <div class="nav-item" onclick="show('bookings',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18"/><path d="M8 3v4"/><path d="M16 3v4"/></svg></span> Bookings</div>
-    <div class="nav-item" onclick="show('workflow',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/><path d="M15 4v16"/></svg></span> Workflow</div>
+    <div class="nav-item active" onclick="show('overview',this)"><span class="icon"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">🏠</span></span> Overview</div>
+    <div class="nav-item" onclick="show('enquiries',this)"><span class="icon"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">📩</span></span> Enquiries <span class="badge" id="enq-badge">0</span></div>
+    <div class="nav-item" onclick="show('bookings',this)"><span class="icon"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">📅</span></span> Bookings</div>
+    <div class="nav-item" onclick="show('workflow',this)"><span class="icon"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">🔄</span></span> Workflow</div>
     <div class="sb-sec" style="margin-top:.5rem">Manage</div>
-    <div class="nav-item" onclick="show('packages',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg></span> Packages</div>
-    <div class="nav-item" onclick="show('vendors',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><path d="M3 9l1-5h16l1 5"/><path d="M4 9v10h16V9"/><path d="M9 19v-6h6v6"/></svg></span> Vendors</div>
-    <div class="nav-item" onclick="show('agents',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M3 12h18"/></svg></span> Agents</div>
-    <div class="nav-item" onclick="show('customers',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.5"/><path d="M15 20c0-2.5 1.8-4.6 4.2-5.4"/></svg></span> Customers</div>
-    <div class="nav-item" onclick="show('subscribers',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span> Email Subscribers</div>
-    <div class="nav-item" onclick="show('testimonials',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform:scaleY(-1)"><path d="M7 8c-2.2 0-4 1.8-4 4v4h5v-8H7z"/><path d="M16 8c-2.2 0-4 1.8-4 4v4h5v-8h-1z"/></svg></span> Testimonials</div>
-    <div class="nav-item" onclick="show('reviews',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><path d="M12 3l2.6 5.6 6 .7-4.4 4.1 1.2 6-5.4-3-5.4 3 1.2-6-4.4-4.1 6-.7z"/></svg></span> Reviews <span class="badge" id="rev-badge">0</span></div>
-    <div class="nav-item" onclick="show('messages-inbox',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><path d="M4 4h16v12H8l-4 4V4z"/></svg></span> Messages <span class="badge" id="msg-badge">0</span></div>
+    <div class="nav-item" onclick="show('packages',this)"><span class="icon"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">📦</span></span> Packages</div>
+    <div class="nav-item" onclick="show('vendors',this)"><span class="icon"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">🏠</span></span> Vendors</div>
+    <div class="nav-item" onclick="show('agents',this)"><span class="icon"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">💼</span></span> Agents</div>
+    <div class="nav-item" onclick="show('customers',this)"><span class="icon"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">👥</span></span> Customers</div>
+    <div class="nav-item" onclick="show('subscribers',this)"><span class="icon"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">📩</span></span> Email Subscribers</div>
+    <div class="nav-item" onclick="show('testimonials',this)"><span class="icon"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">🗨️</span></span> Testimonials</div>
+    <div class="nav-item" onclick="show('reviews',this)"><span class="icon"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">⭐</span></span> Reviews <span class="badge" id="rev-badge">0</span></div>
+    <div class="nav-item" onclick="show('messages-inbox',this)"><span class="icon"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">💬</span></span> Messages <span class="badge" id="msg-badge">0</span></div>
     <div class="sb-sec" style="margin-top:.5rem">Travel Partners</div>
     <div class="nav-item" onclick="show('commissions',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><line x1="5" y1="19" x2="19" y2="5"/><circle cx="7" cy="7" r="2"/><circle cx="17" cy="17" r="2"/></svg></span> Commission Management</div>
-    <div class="nav-item" onclick="show('loyalty',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><rect x="3" y="8" width="18" height="13" rx="1"/><path d="M3 12h18"/><path d="M12 8v13"/><path d="M12 8C9 8 8 6.5 8 5.2 8 3.9 9 3 10.2 3 11.6 3 12 5 12 8z"/><path d="M12 8c3 0 4-1.5 4-2.8C16 3.9 15 3 13.8 3 12.4 3 12 5 12 8z"/></svg></span> Loyalty Points</div>
+    <div class="nav-item" onclick="show('loyalty',this)"><span class="icon"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">👑</span></span> Loyalty Points</div>
     <div class="sb-sec" style="margin-top:.5rem">Content</div>
-    <div class="nav-item" onclick="show('hotels',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><rect x="4" y="3" width="16" height="18"/><path d="M9 8h1M14 8h1M9 12h1M14 12h1M9 16h1M14 16h1"/></svg></span> Hotels</div>
-    <div class="nav-item" onclick="show('destinations',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><path d="M12 21s7-6.5 7-12a7 7 0 10-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.3"/></svg></span> Destinations</div>
-    <div class="nav-item" onclick="show('buses',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M3 11h18"/><circle cx="7.5" cy="19" r="1.5"/><circle cx="16.5" cy="19" r="1.5"/></svg></span> Bus Routes</div>
-    <div class="nav-item" onclick="show('cabs',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><path d="M4 16l1.5-5.5A2 2 0 0 1 7.4 9h9.2a2 2 0 0 1 1.9 1.5L20 16"/><rect x="3" y="16" width="18" height="4" rx="1"/><circle cx="7.5" cy="20" r="1.4"/><circle cx="16.5" cy="20" r="1.4"/></svg></span> Cab Services</div>
-    <div class="nav-item" onclick="show('flights-mgmt',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><path d="M21 3L3 10.5l7 2 2 7L21 3z"/><path d="M12 12.5L21 3"/></svg></span> Flights</div>
-    <div class="nav-item" onclick="show('trains',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><rect x="5" y="3" width="14" height="13" rx="3"/><path d="M5 11h14"/><circle cx="8.5" cy="9" r="1.1"/><circle cx="15.5" cy="9" r="1.1"/><path d="M8 19l-2 3M16 19l2 3"/></svg></span> Trains</div>
-    <div class="nav-item" onclick="show('offers',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><path d="M20.6 12.6L12 21 3 12l8.6-8.6H20a1 1 0 0 1 1 1v7.6z"/><circle cx="15.5" cy="7.5" r="1.4"/></svg></span> Offers & Promos</div>
-    <div class="nav-item" onclick="show('carousels',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.5"/><path d="M21 15l-5-5-9 9"/></svg></span> Carousels</div>
-    <div class="nav-item" onclick="show('wa-templates',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><path d="M4 4h16v12H8l-4 4V4z"/></svg></span> WhatsApp Templates</div>
-    <div class="nav-item" onclick="show('blog',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><path d="M6 2h9l5 5v15H6z"/><path d="M15 2v5h5"/><path d="M9 13h6M9 17h6M9 9h2"/></svg></span> Blog</div>
-    <div class="nav-item" onclick="show('faq',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><circle cx="12" cy="12" r="9"/><path d="M9.3 9a2.7 2.7 0 0 1 5.2 1c0 1.7-2.5 2-2.5 3.7"/><circle cx="12" cy="17" r="0.2" fill="currentColor"/></svg></span> FAQ</div>
-    <div class="nav-item" onclick="show('careers',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M3 12h18"/></svg></span> Careers</div>
+    <div class="nav-item" onclick="show('hotels',this)"><span class="icon"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">🏢</span></span> Hotels</div>
+    <div class="nav-item" onclick="show('destinations',this)"><span class="icon"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">📍</span></span> Destinations</div>
+    <div class="nav-item" onclick="show('buses',this)"><span class="icon"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">🚌</span></span> Bus Routes</div>
+    <div class="nav-item" onclick="show('cabs',this)"><span class="icon"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">🚕</span></span> Cab Services</div>
+    <div class="nav-item" onclick="show('flights-mgmt',this)"><span class="icon"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">✈️</span></span> Flights</div>
+    <div class="nav-item" onclick="show('trains',this)"><span class="icon"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">🚆</span></span> Trains</div>
+    <div class="nav-item" onclick="show('offers',this)"><span class="icon"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">🏷️</span></span> Offers & Promos</div>
+    <div class="nav-item" onclick="show('carousels',this)"><span class="icon"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">🖼️</span></span> Carousels</div>
+    <div class="nav-item" onclick="show('wa-templates',this)"><span class="icon"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">💬</span></span> WhatsApp Templates</div>
+    <div class="nav-item" onclick="show('blog',this)"><span class="icon"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">📄</span></span> Blog</div>
+    <div class="nav-item" onclick="show('faq',this)"><span class="icon"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">❓</span></span> FAQ</div>
+    <div class="nav-item" onclick="show('careers',this)"><span class="icon"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">💼</span></span> Careers</div>
+    <div class="nav-item" onclick="show('content-cards',this)"><span class="icon"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">🗂️</span></span> Page Content Cards</div>
     <div class="sb-sec" style="margin-top:.5rem">Settings</div>
-    <div class="nav-item" onclick="show('reminders',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><path d="M6 10a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg></span> Reminders</div>
-    <div class="nav-item" onclick="show('site-settings',this)"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1.1l2-1.6-2-3.4-2.4 1a7 7 0 0 0-1.9-1.1L14 3h-4l-.6 2.8a7 7 0 0 0-1.9 1.1l-2.4-1-2 3.4 2 1.6A7 7 0 0 0 5 12a7 7 0 0 0 .1 1.1l-2 1.6 2 3.4 2.4-1a7 7 0 0 0 1.9 1.1L10 21h4l.6-2.8a7 7 0 0 0 1.9-1.1l2.4 1 2-3.4-2-1.6c.07-.36.1-.73.1-1.1z"/></svg></span> Site Settings</div>
+    <div class="nav-item" onclick="show('reminders',this)"><span class="icon"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">🔔</span></span> Reminders</div>
+    <div class="nav-item" onclick="show('site-settings',this)"><span class="icon"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">⚙️</span></span> Site Settings</div>
     <div class="sb-sec" style="margin-top:.5rem">Other</div>
-    <div class="nav-item" onclick="window.open('../index.html','_blank')"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/></svg></span> View Website</div>
-    <div class="nav-item" onclick="doLogout()"><span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg></span> Log Out</div>
+    <div class="nav-item" onclick="window.open('../index.html','_blank')"><span class="icon"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">🔗</span></span> View Website</div>
+    <div class="nav-item" onclick="doLogout()"><span class="icon"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">🚪</span></span> Log Out</div>
   </nav>
   <div class="sb-footer">
     <div class="admin-pill">
@@ -208,10 +209,10 @@ setTimeout(function() {
     <!-- OVERVIEW -->
     <div class="section active" id="section-overview">
       <div class="stats-grid">
-        <div class="stat-card"><div class="stat-hdr"><div class="stat-icon" style="background:rgba(201,146,42,0.12)"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#C9922A"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></div><span class="stat-chg up">↑ 18%</span></div><div class="stat-val" id="s-revenue">—</div><div class="stat-lbl">Revenue This Month</div></div>
-        <div class="stat-card"><div class="stat-hdr"><div class="stat-icon" style="background:rgba(14,159,110,0.10)"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#0e9f6e"><path d="M3 9a2 2 0 0 0 0 6v3h18v-3a2 2 0 0 1 0-6V6H3z"/><path d="M10 6v12" stroke-dasharray="2 2"/></svg></div><span class="stat-chg up">↑ 12%</span></div><div class="stat-val" id="s-bookings">—</div><div class="stat-lbl">Total Bookings</div></div>
-        <div class="stat-card"><div class="stat-hdr"><div class="stat-icon" style="background:rgba(27,110,243,0.10)"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#1b6ef3"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></div><span class="stat-chg up">↑ 31%</span></div><div class="stat-val" id="s-enquiries">—</div><div class="stat-lbl">New Enquiries</div></div>
-        <div class="stat-card"><div class="stat-hdr"><div class="stat-icon" style="background:rgba(229,62,62,0.10)"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#e53e3e"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.5"/><path d="M15 20c0-2.5 1.8-4.6 4.2-5.4"/></svg></div><span class="stat-chg up">↑ 8%</span></div><div class="stat-val" id="s-customers">—</div><div class="stat-lbl">Total Customers</div></div>
+        <div class="stat-card"><div class="stat-hdr"><div class="stat-icon" style="background:rgba(201,146,42,0.12)"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">📈</span></div><span class="stat-chg up">↑ 18%</span></div><div class="stat-val" id="s-revenue">—</div><div class="stat-lbl">Revenue This Month</div></div>
+        <div class="stat-card"><div class="stat-hdr"><div class="stat-icon" style="background:rgba(14,159,110,0.10)"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">🎫</span></div><span class="stat-chg up">↑ 12%</span></div><div class="stat-val" id="s-bookings">—</div><div class="stat-lbl">Total Bookings</div></div>
+        <div class="stat-card"><div class="stat-hdr"><div class="stat-icon" style="background:rgba(27,110,243,0.10)"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">📩</span></div><span class="stat-chg up">↑ 31%</span></div><div class="stat-val" id="s-enquiries">—</div><div class="stat-lbl">New Enquiries</div></div>
+        <div class="stat-card"><div class="stat-hdr"><div class="stat-icon" style="background:rgba(229,62,62,0.10)"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">👥</span></div><span class="stat-chg up">↑ 8%</span></div><div class="stat-val" id="s-customers">—</div><div class="stat-lbl">Total Customers</div></div>
       </div>
       <div class="chart-row">
         <div class="chart-card"><h3>Monthly Revenue (₹ Lakhs)</h3><div class="bar-chart" id="rev-chart"></div></div>
@@ -837,7 +838,7 @@ setTimeout(function() {
                ondrop="handleImgDrop(event)">
             <div id="pm-img-preview" style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:8px"></div>
             <div style="font-size:.85rem;color:#94a3b8">
-              <span style="display:block;margin-bottom:4px;color:#94a3b8"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=""><path d="M4 8a2 2 0 0 1 2-2h1l1.5-2h7L17 6h1a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><circle cx="12" cy="13" r="3.4"/></svg></span>
+              <span style="display:block;margin-bottom:4px;color:#94a3b8"><span class="emoji-icon" style="font-size:16px;line-height:1;display:inline-block;vertical-align:middle">📷</span></span>
               Click to upload photos or drag & drop<br/>
               <span style="font-size:.75rem">JPG, PNG, WebP — max 2MB each</span>
             </div>
@@ -1470,6 +1471,57 @@ setTimeout(function() {
       </div>
     </div>
 
+    <!-- CONTENT CARDS (careers perks, group-booking cards, about values) -->
+    <div class="section" id="section-content-cards">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+        <h3 style="font-size:1rem;font-weight:700">Page Content Cards</h3>
+        <button class="btn-add" onclick="openAddContentCard()">+ New Card</button>
+      </div>
+      <p style="font-size:.82rem;color:#64748b;margin-bottom:1rem">Manages the small icon/title/description cards on Careers (perks), Group Bookings (benefits &amp; services), and About Us (our values) — pick a group below to filter.</p>
+      <div style="margin-bottom:1rem">
+        <select id="cc-filter" onchange="loadContentCards()" style="padding:.6rem .8rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit">
+          <option value="careers_perks">Careers — Perks</option>
+          <option value="group_booking_benefits">Group Booking — Benefits</option>
+          <option value="group_booking_services">Group Booking — Services</option>
+          <option value="about_values">About Us — Our Values</option>
+        </select>
+      </div>
+      <div class="loading" id="cc-load"><div class="spinner"></div></div>
+      <div class="table-card">
+        <table><thead><tr><th>Icon</th><th>Title</th><th>Description</th><th>Order</th><th>Published</th><th>Actions</th></tr></thead><tbody id="cc-tbody"></tbody></table>
+      </div>
+    </div>
+
+    <!-- Content Card Modal -->
+    <div id="cc-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999;align-items:center;justify-content:center">
+      <div style="background:#fff;border-radius:16px;padding:2rem;max-width:560px;width:92%;max-height:90vh;overflow-y:auto">
+        <h3 style="margin-bottom:1.5rem">Add / Edit Content Card</h3>
+        <input type="hidden" id="cc-id"/>
+        <div style="margin-bottom:1rem"><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Group *</label>
+          <select id="cc-page-key" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit">
+            <option value="careers_perks">Careers — Perks</option>
+            <option value="group_booking_benefits">Group Booking — Benefits</option>
+            <option value="group_booking_services">Group Booking — Services</option>
+            <option value="about_values">About Us — Our Values</option>
+          </select>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 2fr;gap:1rem;margin-bottom:1rem">
+          <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Icon (emoji)</label><input id="cc-icon" placeholder="✅" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit"/></div>
+          <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Title *</label><input id="cc-title" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px"/></div>
+        </div>
+        <div style="margin-bottom:1rem"><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Description</label><textarea id="cc-desc" rows="3" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;resize:vertical"></textarea></div>
+        <div style="margin-bottom:1rem"><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Badge (Group Booking — Services only, e.g. "Up to 20% off")</label><input id="cc-badge" placeholder="" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px"/></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+          <div><label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Sort Order</label><input id="cc-order" type="number" value="0" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px"/></div>
+          <div style="display:flex;align-items:flex-end"><label style="display:flex;align-items:center;gap:.5rem;font-size:.85rem;cursor:pointer;padding-bottom:.65rem"><input type="checkbox" id="cc-published" checked/> Published</label></div>
+        </div>
+        <div style="display:flex;gap:.75rem;justify-content:flex-end">
+          <button onclick="document.getElementById('cc-modal').style.display='none'" style="padding:.65rem 1.25rem;border:1.5px solid #e2e8f0;border-radius:8px;cursor:pointer;background:none">Cancel</button>
+          <button onclick="saveContentCard()" style="padding:.65rem 1.25rem;background:#C9922A;color:#0C1B33;border:none;border-radius:8px;font-weight:700;cursor:pointer">Save Card</button>
+        </div>
+      </div>
+    </div>
+
     <!-- REMINDERS -->
     <div class="section" id="section-reminders">
       <h3 style="font-size:1rem;font-weight:700;margin-bottom:.25rem">Reminders & Follow-ups</h3>
@@ -1612,6 +1664,10 @@ Book now: https://www.zoomfly.in/pages/packages.html — ZoomFly Team</textarea>
 
     <!-- SITE SETTINGS -->
     <div class="section" id="section-site-settings">
+      <div style="position:sticky;top:0;z-index:50;background:#fff;padding:10px 14px;border:1.5px solid #e2e8f0;border-radius:10px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 2px 10px rgba(12,27,51,.06)">
+        <span style="font-size:.82rem;color:#64748b">Company Info, Homepage Hero, Hero Photos, SEO Defaults, and Social Links all save together with one button.</span>
+        <button onclick="saveSettings()" style="padding:.6rem 1.3rem;background:#C9922A;color:#0C1B33;border:none;border-radius:8px;font-weight:700;cursor:pointer;white-space:nowrap">Save All Settings</button>
+      </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
 
         <div class="table-card">
@@ -1663,10 +1719,9 @@ Book now: https://www.zoomfly.in/pages/packages.html — ZoomFly Team</textarea>
               <option value="privacy-policy">Privacy Policy</option>
               <option value="terms">Terms & Conditions</option>
               <option value="refund-policy">Refund Policy</option>
-              <option value="about">About Us</option>
-              <option value="contact">Contact</option>
             </select>
             <div style="font-size:.78rem;color:#64748b;margin-bottom:8px">Edit the content below, then click Save. Changes reflect instantly on the live page.</div>
+            <div style="font-size:.72rem;color:#94a3b8;margin-bottom:8px">Note: About Us and Contact were removed from this list — those pages are built from styled cards/sections, not a single block of text, so pasting raw HTML here would replace their whole layout. They'd need dedicated structured fields (like the cards on this Site Settings page) to be safely admin-editable.</div>
             <textarea id="page-content-editor" rows="10" style="width:100%;padding:.75rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:monospace;font-size:.82rem;resize:vertical;box-sizing:border-box" placeholder="Loading page content..."></textarea>
             <div style="display:flex;gap:8px;margin-top:8px">
               <button onclick="savePageContent()" style="flex:1;padding:.75rem;background:#C9922A;color:#0C1B33;border:none;border-radius:8px;font-weight:700;cursor:pointer">Save Page Content</button>
@@ -2798,6 +2853,99 @@ window.deleteFaq = async (id) => {
   loadFaqs();
 };
 
+// ── CONTENT CARDS (careers perks / group-booking cards / about values) ──
+let allContentCards = [];
+
+async function loadContentCards() {
+  document.getElementById('cc-load').style.display = 'block';
+  const tbody = document.getElementById('cc-tbody');
+  const pageKey = document.getElementById('cc-filter').value;
+  try {
+    const { data, error } = await supabase.from('content_cards')
+      .select('*').eq('page_key', pageKey).order('sort_order');
+    if (error) throw error;
+    allContentCards = data || [];
+    document.getElementById('cc-load').style.display = 'none';
+    if (!data?.length) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:2rem;color:#94a3b8">No cards yet for this group. Click "+ New Card" to add one.</td></tr>'; return; }
+    tbody.innerHTML = data.map(c => `
+      <tr>
+        <td style="font-size:1.1rem">${esc(c.icon||'✅')}</td>
+        <td><strong style="font-size:.85rem">${esc(c.title)}</strong></td>
+        <td style="font-size:.78rem;color:#64748b;max-width:280px">${esc((c.description||'').slice(0,90))}${(c.description||'').length>90?'…':''}</td>
+        <td>${c.sort_order}</td>
+        <td>${pill(c.is_published ? 'active' : 'inactive')}</td>
+        <td style="display:flex;gap:6px">
+          <button onclick="editContentCard('${c.id}')" style="padding:4px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:.75rem;cursor:pointer;background:#fff">Edit</button>
+          <button onclick="toggleContentCardPublish('${c.id}',${c.is_published})" style="padding:4px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:.75rem;cursor:pointer;background:#fff">${c.is_published?'Hide':'Show'}</button>
+          <button onclick="deleteContentCard('${c.id}')" style="padding:4px 10px;border:1px solid #fee2e2;border-radius:6px;font-size:.75rem;cursor:pointer;color:#991b1b;background:#fff">Delete</button>
+        </td>
+      </tr>`).join('');
+  } catch(e) { document.getElementById('cc-load').style.display='none'; toast('Failed to load content cards: ' + e.message, 'error'); }
+}
+
+window.openAddContentCard = () => {
+  document.getElementById('cc-id').value = '';
+  document.getElementById('cc-page-key').value = document.getElementById('cc-filter').value;
+  ['cc-icon','cc-title','cc-desc','cc-badge'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('cc-order').value = 0;
+  document.getElementById('cc-published').checked = true;
+  document.getElementById('cc-modal').style.display = 'flex';
+};
+
+window.editContentCard = (id) => {
+  const c = allContentCards.find(x=>x.id===id);
+  if (!c) return;
+  document.getElementById('cc-id').value = c.id;
+  document.getElementById('cc-page-key').value = c.page_key;
+  document.getElementById('cc-icon').value = c.icon || '';
+  document.getElementById('cc-title').value = c.title || '';
+  document.getElementById('cc-desc').value = c.description || '';
+  document.getElementById('cc-badge').value = c.badge || '';
+  document.getElementById('cc-order').value = c.sort_order || 0;
+  document.getElementById('cc-published').checked = !!c.is_published;
+  document.getElementById('cc-modal').style.display = 'flex';
+};
+
+window.saveContentCard = async () => {
+  const id = document.getElementById('cc-id').value;
+  const pageKey = document.getElementById('cc-page-key').value;
+  const title = document.getElementById('cc-title').value.trim();
+  if (!title) { toast('Title is required', 'error'); return; }
+  const payload = {
+    page_key: pageKey,
+    icon: document.getElementById('cc-icon').value.trim() || '✅',
+    title,
+    description: document.getElementById('cc-desc').value.trim(),
+    badge: document.getElementById('cc-badge').value.trim() || null,
+    sort_order: parseInt(document.getElementById('cc-order').value)||0,
+    is_published: document.getElementById('cc-published').checked,
+    updated_at: new Date().toISOString()
+  };
+  const { error } = id
+    ? await supabase.from('content_cards').update(payload).eq('id', id)
+    : await supabase.from('content_cards').insert(payload);
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
+  document.getElementById('cc-modal').style.display = 'none';
+  toast(id ? 'Card updated' : 'Card added');
+  document.getElementById('cc-filter').value = pageKey;
+  loadContentCards();
+};
+
+window.toggleContentCardPublish = async (id, current) => {
+  const { error } = await supabase.from('content_cards').update({ is_published: !current }).eq('id', id);
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
+  toast(current ? 'Card hidden' : 'Card shown');
+  loadContentCards();
+};
+
+window.deleteContentCard = async (id) => {
+  if (!confirm('Delete this card?')) return;
+  const { error } = await supabase.from('content_cards').delete().eq('id', id);
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
+  toast('Card deleted');
+  loadContentCards();
+};
+
 // ── CAREERS / JOB OPENINGS ────────────────────────────────────
 let allJobs = [];
 
@@ -2893,8 +3041,8 @@ window.deleteJob = async (id) => {
 // ── SITE SETTINGS ────────────────────────────────────────────
 
 window.saveSettings = async () => {
-  const btn = document.querySelector('button[onclick="saveSettings()"]');
-  if (btn) { btn.textContent = 'Saving...'; btn.disabled = true; }
+  const btns = document.querySelectorAll('button[onclick="saveSettings()"]');
+  btns.forEach(b => { b.textContent = 'Saving...'; b.disabled = true; });
   // NOTE: these column names must match public.site_settings exactly
   // (see 03_zoomfly_site_settings_fix.sql) — a previous version of this
   // function used company_name/support_phone/support_email before those
@@ -2930,7 +3078,7 @@ window.saveSettings = async () => {
     localStorage.setItem('zf_site_settings', JSON.stringify(settings));
     toast('Save failed — run 03_zoomfly_site_settings_fix.sql first. Error: ' + e.message, 'error');
   } finally {
-    if (btn) { btn.textContent = 'Save All Settings'; btn.disabled = false; }
+    btns.forEach(b => { b.textContent = 'Save All Settings'; b.disabled = false; });
   }
 };
 
@@ -3767,7 +3915,7 @@ window.show = (id, el) => {
     commissions:'Commission Management', loyalty:'Loyalty Points',
     hotels:'Hotels', destinations:'Destinations',
     offers:'Offers & Promos', 'wa-templates':'WhatsApp Templates', blog:'Blog', faq:'FAQ', careers:'Careers',
-    carousels:'Carousels',
+    carousels:'Carousels', 'content-cards':'Page Content Cards',
     'site-settings':'Site Settings', reminders:'Reminders'
   };
   document.getElementById('page-title').textContent = titles[id] || id;
@@ -3798,6 +3946,7 @@ window.show = (id, el) => {
   if(id==='faq')             loadFaqs();
   if(id==='careers')         loadJobs();
   if(id==='carousels')      loadCarouselSlides();
+  if(id==='content-cards')  loadContentCards();
 };
 
 // HTML-escape helper — prevents XSS when injecting DB values into innerHTML

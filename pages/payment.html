@@ -126,7 +126,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
       <div class="section-divider">Protect Your Trip (Optional)</div>
       <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px">
         <label style="display:flex;align-items:center;gap:12px;padding:13px 15px;border:1.5px solid var(--border);border-radius:var(--r2);cursor:pointer;transition:border .15s" onmouseover="this.style.borderColor='var(--primary)'" onmouseout="if(!document.getElementById('add-insurance').checked)this.style.borderColor='var(--border)'">
-          <input type="checkbox" id="add-insurance" onchange="toggleAddon('insurance',this,499)" style="width:16px;height:16px;accent-color:#1a73e8;flex-shrink:0"/>
+          <input type="checkbox" id="add-insurance" onchange="toggleAddon('insurance',this,499)" style="width:16px;height:16px;accent-color:#C9922A;flex-shrink:0"/>
           <div style="font-size:1.1rem;flex-shrink:0"></div>
           <div style="flex:1">
             <div style="font-weight:700;font-size:.85rem">Travel Insurance</div>
@@ -135,7 +135,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
           <div style="font-weight:700;color:var(--primary);font-size:.88rem;flex-shrink:0">+₹499/person</div>
         </label>
         <label id="visa-upsell" style="display:flex;align-items:center;gap:12px;padding:13px 15px;border:1.5px solid var(--border);border-radius:var(--r2);cursor:pointer;transition:border .15s" onmouseover="this.style.borderColor='var(--primary)'" onmouseout="if(!document.getElementById('add-visa').checked)this.style.borderColor='var(--border)'">
-          <input type="checkbox" id="add-visa" onchange="toggleAddon('visa',this,2999)" style="width:16px;height:16px;accent-color:#1a73e8;flex-shrink:0"/>
+          <input type="checkbox" id="add-visa" onchange="toggleAddon('visa',this,2999)" style="width:16px;height:16px;accent-color:#C9922A;flex-shrink:0"/>
           <div style="font-size:1.1rem;flex-shrink:0"></div>
           <div style="flex:1">
             <div style="font-weight:700;font-size:.85rem">Visa Assistance</div>
@@ -152,7 +152,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
         <div class="method-opt selected" onclick="selectMethod(this,'razorpay')">
           <div class="method-head">
             <div class="method-radio"></div>
-            <div class="method-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><path d="M5 17h14M5 17a2 2 0 1 1-4 0 2 2 0 0 1 4 0zM19 17a2 2 0 1 0 4 0 2 2 0 0 0-4 0zM3 17V11l2-5h14l2 5v6"/></svg></div>
+            <div class="method-icon"><span class="emoji-icon" style="font-size:13px;line-height:1;display:inline-block;vertical-align:middle">🚕</span></div>
             <div class="method-label"><strong>Credit / Debit Card</strong><span>Visa, Mastercard, Rupay, Amex</span></div>
             <div class="method-badges"><span class="mbadge">Visa</span><span class="mbadge">MC</span></div>
           </div>
@@ -170,7 +170,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
         <div class="method-opt" onclick="selectMethod(this,'upi')">
           <div class="method-head">
             <div class="method-radio"></div>
-            <div class="method-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18"/><path d="M7 15h3"/></svg></div>
+            <div class="method-icon"><span class="emoji-icon" style="font-size:13px;line-height:1;display:inline-block;vertical-align:middle">🔒</span></div>
             <div class="method-label"><strong>UPI</strong><span>GPay, PhonePe, Paytm, BHIM</span></div>
             <div class="method-badges"><span class="mbadge">Instant</span></div>
           </div>
@@ -184,7 +184,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
         <div class="method-opt" onclick="selectMethod(this,'netbanking')">
           <div class="method-head">
             <div class="method-radio"></div>
-            <div class="method-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div>
+            <div class="method-icon"><span class="emoji-icon" style="font-size:13px;line-height:1;display:inline-block;vertical-align:middle">✅</span></div>
             <div class="method-label"><strong>Net Banking</strong><span>All major Indian banks</span></div>
           </div>
           <div class="method-body">
@@ -203,7 +203,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
         <div class="method-opt" onclick="selectMethod(this,'neft')">
           <div class="method-head">
             <div class="method-radio"></div>
-            <div class="method-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div>
+            <div class="method-icon"><span class="emoji-icon" style="font-size:13px;line-height:1;display:inline-block;vertical-align:middle">✅</span></div>
             <div class="method-label"><strong>NEFT / RTGS / Bank Transfer</strong><span>Transfer directly to our account</span></div>
           </div>
           <div class="method-body">
@@ -222,7 +222,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
         <div class="method-opt" onclick="selectMethod(this,'emi');renderEMIBreakdown()">
           <div class="method-head">
             <div class="method-radio"></div>
-            <div class="method-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><path d="M9 14V4a2 2 0 0 1 4 0v10M9 14a2 2 0 1 0 4 0M9 14H5a2 2 0 0 0-2 2v1a5 5 0 0 0 5 5h8a5 5 0 0 0 5-5v-1a2 2 0 0 0-2-2h-4"/></svg></div>
+            <div class="method-icon"><span class="emoji-icon" style="font-size:13px;line-height:1;display:inline-block;vertical-align:middle">💰</span></div>
             <div class="method-label"><strong>EMI (No Cost)</strong><span>3, 6 or 12-month 0% EMI on orders ₹10,000+</span></div>
             <div class="method-badges"><span class="mbadge">0% Interest</span></div>
           </div>
@@ -280,7 +280,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
 <!-- Success overlay -->
 <div class="success-overlay" id="success-overlay">
   <div class="success-card">
-    <div class="success-icon"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#C9922A" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></div>
+    <div class="success-icon"><span class="emoji-icon" style="font-size:25px;line-height:1;display:inline-block;vertical-align:middle">✅</span></div>
     <h2>Booking Confirmed!</h2>
     <p>Your booking has been received. Our team will contact you within 2 hours to confirm all details.</p>
     <div class="booking-ref" id="booking-ref">Booking Ref: ZF-XXXXXX</div>

@@ -165,14 +165,14 @@ import { supabase, requireAuth, getCotravellers, saveCotraveller, deleteCotravel
 await requireAuth();
 
 const DOC_TYPES = [
-  {type:'passport',   icon:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0C1B33" stroke-width="1.5"><rect x="4" y="2" width="16" height="20" rx="2"/><circle cx="12" cy="10" r="3"/><path d="M8 17h8"/></svg>', label:'Passport',          sub:'International travel essential'},
-  {type:'aadhaar',    icon:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0C1B33" stroke-width="1.5"><rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="8" cy="12" r="2"/><path d="M13 10h6M13 14h4"/></svg>', label:'Aadhaar Card',       sub:'India domestic ID'},
+  {type:'passport',   icon:'<span class="emoji-icon" style="font-size:18px;line-height:1;display:inline-block;vertical-align:middle">📘</span>', label:'Passport',          sub:'International travel essential'},
+  {type:'aadhaar',    icon:'<span class="emoji-icon" style="font-size:18px;line-height:1;display:inline-block;vertical-align:middle">🪪</span>', label:'Aadhaar Card',       sub:'India domestic ID'},
   {type:'pan',        icon:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0C1B33" stroke-width="1.5"><rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="8" cy="12" r="2"/><path d="M13 9h6M13 12h6M13 15h4"/></svg>', label:'PAN Card',           sub:'For international transactions'},
-  {type:'visa',       icon:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0C1B33" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h10M7 12h6"/><circle cx="16" cy="16" r="2.5"/></svg>', label:'Visa / Permit',      sub:'Required for international trips'},
-  {type:'insurance',  icon:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0C1B33" stroke-width="1.5"><path d="M12 2 4 5v6c0 5 3.4 8.7 8 10 4.6-1.3 8-5 8-10V5l-8-3z"/></svg>', label:'Travel Insurance',   sub:'Your safety net abroad'},
-  {type:'ticket',     icon:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0C1B33" stroke-width="1.5"><path d="M17.8 19.2 16 11l3.5-3.5c.6-.6.9-1.5.7-2.3-.2-.9-.9-1.5-1.7-1.7-.8-.2-1.7.1-2.3.7L13 7.5 4.8 5.7c-.5-.1-1 0-1.3.4l-.6.6c-.4.4-.3 1 .2 1.3L9 10.9l-3 3-2.3-.5c-.3-.1-.6 0-.8.2l-.4.4c-.3.3-.3.9.1 1.1l3.4 2 2 3.4c.2.4.8.4 1.1.1l.4-.4c.2-.2.3-.5.2-.8l-.5-2.3 3-3 2.9 6.8c.3.5.9.6 1.3.2l.6-.6c.4-.3.5-.8.4-1.3z"/></svg>', label:'Flight Tickets',     sub:'E-ticket copies'},
-  {type:'hotel',      icon:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0C1B33" stroke-width="1.5"><path d="M3 21V7a2 2 0 0 1 2-2h4v16M15 21V9a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v12M3 21h18M9 8h.01M9 12h.01M9 16h.01"/></svg>', label:'Hotel Vouchers',     sub:'Booking confirmations'},
-  {type:'vaccination',icon:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0C1B33" stroke-width="1.5"><path d="M13 2 3 12l4 4 10-10zM13 2l4 4M15 6l4 4M9 12l4 4M11 14l-3 3-2-2 3-3"/></svg>', label:'Vaccination Cert',   sub:'COVID & other vaccines'},
+  {type:'visa',       icon:'<span class="emoji-icon" style="font-size:18px;line-height:1;display:inline-block;vertical-align:middle">🛂</span>', label:'Visa / Permit',      sub:'Required for international trips'},
+  {type:'insurance',  icon:'<span class="emoji-icon" style="font-size:18px;line-height:1;display:inline-block;vertical-align:middle">🛡️</span>', label:'Travel Insurance',   sub:'Your safety net abroad'},
+  {type:'ticket',     icon:'<span class="emoji-icon" style="font-size:18px;line-height:1;display:inline-block;vertical-align:middle">✈️</span>', label:'Flight Tickets',     sub:'E-ticket copies'},
+  {type:'hotel',      icon:'<span class="emoji-icon" style="font-size:18px;line-height:1;display:inline-block;vertical-align:middle">🏨</span>', label:'Hotel Vouchers',     sub:'Booking confirmations'},
+  {type:'vaccination',icon:'<span class="emoji-icon" style="font-size:18px;line-height:1;display:inline-block;vertical-align:middle">💉</span>', label:'Vaccination Cert',   sub:'COVID & other vaccines'},
 ];
 
 let travellers = [];
