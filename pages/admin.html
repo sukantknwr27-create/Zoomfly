@@ -1730,6 +1730,63 @@ Book now: https://www.zoomfly.in/pages/packages.html — ZoomFly Team</textarea>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
 
+        <div class="table-card" style="grid-column:1 / -1">
+          <h3 style="margin-bottom:.35rem">Theme &amp; Colors</h3>
+          <p style="font-size:.78rem;color:#64748b;margin-bottom:1rem;max-width:640px">
+            Changes the button, link, background and text colors across the entire live site — no code changes needed, live within seconds of saving.
+            The admin panel itself always keeps its own fixed colors, so you can get back in here to fix a combination even if it turns out hard to read on the public site.
+          </p>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:14px">
+            <div>
+              <label style="font-size:.72rem;font-weight:700;display:block;margin-bottom:.4rem">Brand / Primary</label>
+              <div style="display:flex;gap:6px;align-items:center">
+                <input type="color" id="ss-theme-primary" value="#C9922A" oninput="syncThemeFromPicker('ss-theme-primary','ss-theme-primary-hex')" style="width:38px;height:38px;border:1.5px solid #e2e8f0;border-radius:6px;padding:2px;cursor:pointer;flex-shrink:0"/>
+                <input type="text" id="ss-theme-primary-hex" value="#C9922A" oninput="syncThemeFromHex('ss-theme-primary','ss-theme-primary-hex')" style="width:100%;padding:.5rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:monospace;font-size:.78rem"/>
+              </div>
+              <div style="font-size:.68rem;color:#94a3b8;margin-top:3px">Buttons, links, highlights</div>
+            </div>
+            <div>
+              <label style="font-size:.72rem;font-weight:700;display:block;margin-bottom:.4rem">Accent</label>
+              <div style="display:flex;gap:6px;align-items:center">
+                <input type="color" id="ss-theme-accent" value="#E8B84B" oninput="syncThemeFromPicker('ss-theme-accent','ss-theme-accent-hex')" style="width:38px;height:38px;border:1.5px solid #e2e8f0;border-radius:6px;padding:2px;cursor:pointer;flex-shrink:0"/>
+                <input type="text" id="ss-theme-accent-hex" value="#E8B84B" oninput="syncThemeFromHex('ss-theme-accent','ss-theme-accent-hex')" style="width:100%;padding:.5rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:monospace;font-size:.78rem"/>
+              </div>
+              <div style="font-size:.68rem;color:#94a3b8;margin-top:3px">Secondary highlights, badges</div>
+            </div>
+            <div>
+              <label style="font-size:.72rem;font-weight:700;display:block;margin-bottom:.4rem">Background</label>
+              <div style="display:flex;gap:6px;align-items:center">
+                <input type="color" id="ss-theme-bg" value="#F3F2EE" oninput="syncThemeFromPicker('ss-theme-bg','ss-theme-bg-hex')" style="width:38px;height:38px;border:1.5px solid #e2e8f0;border-radius:6px;padding:2px;cursor:pointer;flex-shrink:0"/>
+                <input type="text" id="ss-theme-bg-hex" value="#F3F2EE" oninput="syncThemeFromHex('ss-theme-bg','ss-theme-bg-hex')" style="width:100%;padding:.5rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:monospace;font-size:.78rem"/>
+              </div>
+              <div style="font-size:.68rem;color:#94a3b8;margin-top:3px">Page background</div>
+            </div>
+            <div>
+              <label style="font-size:.72rem;font-weight:700;display:block;margin-bottom:.4rem">Text</label>
+              <div style="display:flex;gap:6px;align-items:center">
+                <input type="color" id="ss-theme-text" value="#1C2340" oninput="syncThemeFromPicker('ss-theme-text','ss-theme-text-hex')" style="width:38px;height:38px;border:1.5px solid #e2e8f0;border-radius:6px;padding:2px;cursor:pointer;flex-shrink:0"/>
+                <input type="text" id="ss-theme-text-hex" value="#1C2340" oninput="syncThemeFromHex('ss-theme-text','ss-theme-text-hex')" style="width:100%;padding:.5rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:monospace;font-size:.78rem"/>
+              </div>
+              <div style="font-size:.68rem;color:#94a3b8;margin-top:3px">Body text, headings</div>
+            </div>
+          </div>
+
+          <div id="theme-contrast-warning" style="display:none;background:#fef3c7;color:#92400e;border-radius:8px;padding:10px 12px;font-size:.78rem;margin-bottom:14px"></div>
+
+          <div style="font-size:.72rem;font-weight:700;color:#64748b;margin-bottom:6px">LIVE PREVIEW</div>
+          <div id="theme-preview" style="border:1.5px solid #e2e8f0;border-radius:10px;padding:18px;margin-bottom:14px;transition:background-color .15s,color .15s">
+            <div id="theme-preview-heading" style="font-weight:800;font-size:1.05rem;margin-bottom:4px">Where will you wander next?</div>
+            <div id="theme-preview-muted" style="font-size:.82rem;margin-bottom:12px">Curated tours, seamless flights, handpicked hotels.</div>
+            <button id="theme-preview-btn" style="border:none;border-radius:8px;padding:.6rem 1.2rem;font-weight:700;font-size:.82rem;cursor:default">Book Now</button>
+            <span id="theme-preview-badge" style="margin-left:10px;padding:.3rem .7rem;border-radius:20px;font-size:.72rem;font-weight:700">Best Seller</span>
+          </div>
+
+          <div style="display:flex;gap:8px">
+            <button onclick="resetThemeDefaults()" style="background:none;border:1.5px solid #e2e8f0;border-radius:8px;padding:.6rem 1.2rem;cursor:pointer;font-size:.82rem">Reset to Default</button>
+            <span style="font-size:.72rem;color:#94a3b8;align-self:center">Saved together with "Save All Settings" below — takes a few seconds to reach every page after saving.</span>
+          </div>
+        </div>
+
         <div class="table-card">
           <h3 style="margin-bottom:1.25rem">Company Info</h3>
           <div style="display:flex;flex-direction:column;gap:12px;">
@@ -3130,6 +3187,10 @@ window.saveSettings = async () => {
     social_facebook:  document.getElementById('ss-facebook')?.value   || '',
     social_twitter:   document.getElementById('ss-twitter')?.value    || '',
     social_youtube:   document.getElementById('ss-youtube')?.value    || '',
+    theme_primary:    document.getElementById('ss-theme-primary-hex')?.value || '#C9922A',
+    theme_accent:     document.getElementById('ss-theme-accent-hex')?.value  || '#E8B84B',
+    theme_bg:         document.getElementById('ss-theme-bg-hex')?.value      || '#F3F2EE',
+    theme_text:       document.getElementById('ss-theme-text-hex')?.value    || '#1C2340',
     updated_at:      new Date().toISOString(),
   };
   try {
@@ -3372,6 +3433,12 @@ window.loadSiteSettings = async () => {
       if (document.getElementById('ss-facebook'))  document.getElementById('ss-facebook').value  = data.social_facebook  || '';
       if (document.getElementById('ss-twitter'))   document.getElementById('ss-twitter').value   = data.social_twitter   || '';
       if (document.getElementById('ss-youtube'))   document.getElementById('ss-youtube').value   = data.social_youtube   || '';
+      setThemeFields({
+        primary: data.theme_primary || '#C9922A',
+        accent:  data.theme_accent  || '#E8B84B',
+        bg:      data.theme_bg      || '#F3F2EE',
+        text:    data.theme_text    || '#1C2340',
+      });
     }
   } catch(_) {
     // Try localStorage fallback
@@ -6329,6 +6396,116 @@ window.submitBulkUpload = async () => {
     btn.disabled = false; btn.style.opacity = '1';
   }, failed ? 0 : 1200);
 };
+
+// ═══════════════════════════════════════════════════════════════
+// THEME & COLORS (Site Settings admin controls)
+// The actual live-site application of these colors happens in
+// assets/js/theme.js, included on every public page — this block
+// only handles the admin-side picker UI, live preview and a basic
+// contrast warning.
+// ═══════════════════════════════════════════════════════════════
+const THEME_DEFAULTS = { primary:'#C9922A', accent:'#E8B84B', bg:'#F3F2EE', text:'#1C2340' };
+
+function themeHexToRgb(hex) {
+  const h = (hex || '').trim().replace('#', '');
+  const full = h.length === 3 ? h.split('').map(c => c + c).join('') : h;
+  if (!/^[0-9a-fA-F]{6}$/.test(full)) return null;
+  const n = parseInt(full, 16);
+  return { r: (n >> 16) & 255, g: (n >> 8) & 255, b: n & 255 };
+}
+
+function themeRelLuminance(hex) {
+  const c = themeHexToRgb(hex);
+  if (!c) return 1;
+  const [r, g, b] = [c.r, c.g, c.b].map(v => {
+    v /= 255;
+    return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+  });
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+}
+
+function themeContrastRatio(hex1, hex2) {
+  const l1 = themeRelLuminance(hex1), l2 = themeRelLuminance(hex2);
+  const [a, b] = l1 > l2 ? [l1, l2] : [l2, l1];
+  return (a + 0.05) / (b + 0.05);
+}
+
+function getThemeFields() {
+  return {
+    primary: document.getElementById('ss-theme-primary-hex')?.value || THEME_DEFAULTS.primary,
+    accent:  document.getElementById('ss-theme-accent-hex')?.value  || THEME_DEFAULTS.accent,
+    bg:      document.getElementById('ss-theme-bg-hex')?.value      || THEME_DEFAULTS.bg,
+    text:    document.getElementById('ss-theme-text-hex')?.value    || THEME_DEFAULTS.text,
+  };
+}
+
+function setThemeFields(v) {
+  const pairs = [['primary','ss-theme-primary'],['accent','ss-theme-accent'],['bg','ss-theme-bg'],['text','ss-theme-text']];
+  pairs.forEach(([key, id]) => {
+    const val = v[key] || THEME_DEFAULTS[key];
+    const colorEl = document.getElementById(id);
+    const hexEl   = document.getElementById(id + '-hex');
+    if (colorEl) colorEl.value = val;
+    if (hexEl)   hexEl.value   = val;
+  });
+  updateThemePreview();
+}
+
+window.syncThemeFromPicker = (colorId, hexId) => {
+  document.getElementById(hexId).value = document.getElementById(colorId).value;
+  updateThemePreview();
+};
+
+window.syncThemeFromHex = (colorId, hexId) => {
+  const v = document.getElementById(hexId).value.trim();
+  if (/^#[0-9a-fA-F]{6}$/.test(v)) document.getElementById(colorId).value = v;
+  updateThemePreview();
+};
+
+window.resetThemeDefaults = () => { setThemeFields(THEME_DEFAULTS); };
+
+function updateThemePreview() {
+  const t = getThemeFields();
+  const preview = document.getElementById('theme-preview');
+  const heading = document.getElementById('theme-preview-heading');
+  const muted   = document.getElementById('theme-preview-muted');
+  const btn     = document.getElementById('theme-preview-btn');
+  const badge   = document.getElementById('theme-preview-badge');
+  const warnBox = document.getElementById('theme-contrast-warning');
+  if (!preview) return;
+
+  preview.style.background = t.bg;
+  heading.style.color = t.text;
+  muted.style.color   = t.text;
+  muted.style.opacity = '.62';
+  btn.style.background = t.primary;
+  btn.style.color = themeContrastRatio(t.primary, '#000000') > themeContrastRatio(t.primary, '#ffffff') ? '#000' : '#fff';
+  badge.style.background = t.accent;
+  badge.style.color = themeContrastRatio(t.accent, '#000000') > themeContrastRatio(t.accent, '#ffffff') ? '#000' : '#fff';
+
+  const bgTextRatio = themeContrastRatio(t.bg, t.text);
+  if (bgTextRatio < 4.5) {
+    warnBox.style.display = 'block';
+    warnBox.textContent = `⚠ Low contrast: background and text are too close in tone (ratio ${bgTextRatio.toFixed(1)}:1, WCAG recommends at least 4.5:1). Text across the site may be hard to read with this combination.`;
+  } else {
+    warnBox.style.display = 'none';
+  }
+}
+
+// Recompute the live theme preview using the default swatch values on load.
+if (document.getElementById('theme-preview')) updateThemePreview();
+
+// Expose functions referenced directly from inline HTML on*="" attributes.
+// Functions declared inside <script type="module"> are module-scoped, not
+// global — inline handlers (which run in global scope) can't see them
+// unless explicitly attached to window. These six were missed, which threw
+// "X is not defined" the moment their button/select was used.
+window.loadContentCards   = loadContentCards;
+window.autoSlug           = autoSlug;
+window.loadAgents         = loadAgents;
+window.loadBookings       = loadBookings;
+window.loadCarouselSlides = loadCarouselSlides;
+window.loadWorkflow       = loadWorkflow;
 
 // Init
 loadStats();
