@@ -79,6 +79,13 @@ export async function signUp({ email, password, fullName, phone }) {
     options: { data: { full_name: fullName, phone } }
   });
   if (error) throw error;
+  // Supabase's anti-enumeration behavior: signing up with an email that
+  // ALREADY has an account returns success with no error and an empty
+  // identities[] array (no new identity/user actually created). Surface
+  // this as a real error instead of a false "check your email" success.
+  if (data.user && Array.isArray(data.user.identities) && data.user.identities.length === 0) {
+    throw new Error('This email already has an account. Please sign in instead, or use "Forgot password" if you don\'t remember your password.');
+  }
   // Link the referral if present — this only records who referred whom
   // (loyalty_accounts.referred_by). The actual 500/250-point bonus is
   // awarded later, at the referee's first qualifying (>= ₹5,000)
@@ -499,6 +506,23 @@ const _VENDOR_TYPE_MAP = { hotel: 'hotel', bus: 'bus', tour: 'tour_operator', ca
 
 export async function registerVendor(vendorData) {
   const user = await getUser();
+  // This form has no password field — the visitor is almost always
+  // anonymous, so the row gets inserted with user_id = null (no login
+  // account attached). If this same email already has a vendors row
+  // (from this form or from a self-service vendor-portal.html signup),
+  // don't silently create a second, duplicate entry — tell the caller
+  // instead so the UI can show a clear message.
+  const { data: existing } = await supabase.from('vendors')
+    .select('id, status').eq('email', vendorData.email).maybeSingle();
+  if (existing) {
+    const err = new Error(
+      existing.status === 'active'
+        ? 'This email is already registered as an approved partner. Please use the Vendor Portal to sign in.'
+        : 'An application with this email is already under review. Our team will be in touch soon.'
+    );
+    err.code = 'DUPLICATE_VENDOR';
+    throw err;
+  }
   const { business_type, owner_name, ...rest } = vendorData;
   const { data, error } = await supabase.from('vendors').insert({
     ...rest,
