@@ -767,22 +767,42 @@ window.doRegister = async () => {
       ? error.message
       : 'Registration failed on our server. Please try again in a moment, or contact support if this continues.';
     showMsg(msg,readable,'error');
+    btn.disabled=false; btn.textContent='Register as Travel Partner';
+    return;
   }
-  else{
-    if(data.user){
-      const code='ZFA'+Math.random().toString(36).slice(2,8).toUpperCase();
-      try {
-        await supabase.from('agents').insert([{
-          user_id:data.user.id, full_name:name, phone, email, city,
-          experience:exp, agent_code:code, tier:'associate', status:'active'
-        }]);
-      } catch(dbErr){
-        console.warn('Profile table error (non-fatal):', dbErr.message);
-        // Auth succeeded even if profile save failed
-      }
+
+  // Supabase's anti-enumeration behavior: signing up with an email that
+  // ALREADY has an account returns success with no error and an empty
+  // identities[] array (no new identity/user actually created). Catch
+  // this explicitly instead of silently colliding on the agents insert.
+  if (data.user && Array.isArray(data.user.identities) && data.user.identities.length === 0) {
+    showMsg(msg, 'This email already has an account. Please sign in instead, or use "Forgot password" if you don\'t remember your password.', 'error');
+    btn.disabled=false; btn.textContent='Register as Travel Partner';
+    return;
+  }
+
+  if(data.user){
+    const code='ZFA'+Math.random().toString(36).slice(2,8).toUpperCase();
+    // NOTE: agents_insert_own RLS requires auth.uid() = user_id. If this
+    // project has email confirmation ON, there is NO session yet at this
+    // point, so this insert is EXPECTED to be rejected by RLS every time
+    // (42501 insufficient_privilege) — that's normal, not a bug. The row
+    // gets created by the self-heal block in loadAgentProfile() once the
+    // agent verifies their email and logs in. We use upsert+ignoreDuplicates
+    // so a retry/double-click can't throw an unhandled 409 either way, and
+    // we only surface an error to the user if it's NOT the expected RLS case.
+    const { error: aErr } = await supabase.from('agents').upsert([{
+      user_id:data.user.id, full_name:name, phone, email, city,
+      experience:exp, agent_code:code, tier:'associate', status:'active'
+    }], { onConflict:'user_id', ignoreDuplicates:true });
+    if (aErr && aErr.code !== '42501') {
+      console.error('Agent profile creation failed:', aErr.message);
+      showMsg(msg, 'Your account was created but we could not save your partner profile (' + aErr.message + '). Please contact support so we can fix this manually.', 'error');
+      btn.disabled=false; btn.textContent='Register as Travel Partner';
+      return;
     }
-    showMsg(msg,'Account created! Please check your email to verify.','success');
   }
+  showMsg(msg,'Account created! Please check your email to verify, then log in — that first login sets up your Travel Partner profile.','success');
   btn.disabled=false; btn.textContent='Register as Travel Partner';
 };
 
