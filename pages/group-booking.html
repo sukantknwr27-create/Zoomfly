@@ -795,6 +795,11 @@ window.submitGroupEnquiry = async () => {
     booking_source:  'website',
     special_requests: document.getElementById('special-req').value,
   }]);
+  // The WhatsApp message below is the real fallback channel for this
+  // enquiry, so we still show it to the customer either way — but if the
+  // DB write failed, the booking_ref shown won't exist in Admin, so log
+  // it clearly for follow-up instead of pretending it saved.
+  if (error) console.error('[group-booking] bookings insert failed — ref ' + ref + ' will NOT appear in Admin:', error.message);
 
   // Build WhatsApp message
   const msg = [
