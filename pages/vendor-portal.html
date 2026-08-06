@@ -863,20 +863,36 @@ window.doRegister = async () => {
     options:{ data:{ full_name:name, business_name:bname, vendor_type:vtype, phone, city, gstin, role:'vendor' } }
   });
 
-  if (error) { showMsg(msg, error.message,'error'); }
-  else {
-    // Create vendor profile
-    if (data.user) {
-      try {
-        await supabase.from('vendors').insert([{
-          user_id: data.user.id, business_name:bname,
-          contact_name:name, phone, email, vendor_type:vtype, city, gstin,
-          status:'pending'
-        }]);
-      } catch(dbErr){ console.warn('Vendor profile error (non-fatal):', dbErr.message); }
-    }
-    showMsg(msg,'Account created! Check your email to verify. Our team will approve your vendor account within 24 hours.','success');
+  if (error) { showMsg(msg, error.message,'error'); btn.disabled=false; btn.textContent='Register as Vendor'; return; }
+
+  // Supabase's anti-enumeration behavior: signing up with an email that
+  // ALREADY has an account returns success with no error and an empty
+  // identities[] array (no new identity/user actually created). Catch
+  // this explicitly instead of silently colliding on the vendors insert.
+  if (data.user && Array.isArray(data.user.identities) && data.user.identities.length === 0) {
+    showMsg(msg, 'This email already has an account. Please sign in instead, or use "Forgot password" if you don\'t remember your password.', 'error');
+    btn.disabled=false; btn.textContent='Register as Vendor';
+    return;
   }
+
+  // Create vendor profile. Use upsert with ignoreDuplicates so a retry
+  // (e.g. user double-clicks, or the row was already self-healed by a
+  // prior session) can't throw a silent 409 — and we check the error
+  // for real instead of swallowing it.
+  if (data.user) {
+    const { error: vErr } = await supabase.from('vendors').upsert([{
+      user_id: data.user.id, business_name:bname,
+      contact_name:name, phone, email, vendor_type:vtype, city, gstin,
+      status:'pending'
+    }], { onConflict:'user_id', ignoreDuplicates:true });
+    if (vErr) {
+      console.error('Vendor profile creation failed:', vErr.message);
+      showMsg(msg, 'Your account was created but we could not save your business profile (' + vErr.message + '). Please contact support so we can fix this manually.', 'error');
+      btn.disabled=false; btn.textContent='Register as Vendor';
+      return;
+    }
+  }
+  showMsg(msg,'Account created! Check your email to verify. Our team will approve your vendor account within 24 hours.','success');
   btn.disabled=false; btn.textContent='Register as Vendor';
 };
 
