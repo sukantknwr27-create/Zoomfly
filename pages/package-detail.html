@@ -825,7 +825,7 @@ window.bookNow = () => {
     travel_date:    date,
     num_adults:     parseInt(trav) || 2,
     source:         'package-detail',
-  }).then(() => {}).catch(() => {});
+  }).then(() => {}).catch((e) => console.error('[package-detail] enquiry insert failed:', e.message));
 
   updateWALink(date, phone, trav);
   setTimeout(() => {
