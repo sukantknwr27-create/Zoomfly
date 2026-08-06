@@ -573,23 +573,27 @@ async function handleNewsletter(e) {
   if (!email) return;
   btn.textContent = 'Subscribing...';
   btn.disabled = true;
+  let succeeded = true;
   try {
     const { supabase } = await import('./supabase.js');
     const { error } = await supabase
       .from('newsletter_subscribers')
       .insert({ email, source: 'website' });
+    if (error && error.code !== '23505') throw error;
     btn.textContent  = (error?.code === '23505') ? 'Already subscribed!' : 'Subscribed!';
     btn.style.background = '#16a34a';
-    if (error && error.code !== '23505') throw error;
   } catch {
-    btn.textContent      = 'Subscribed!';
-    btn.style.background = '#16a34a';
+    // Genuine failure (network, RLS, etc.) — don't claim success for a
+    // subscription that was never actually saved.
+    succeeded = false;
+    btn.textContent      = 'Something went wrong — try again';
+    btn.style.background = '#dc2626';
   }
   setTimeout(() => {
     btn.textContent = 'Subscribe';
     btn.style.background = '';
     btn.disabled = false;
-    e.target.reset();
+    if (succeeded) e.target.reset();
   }, 3500);
 }
 
