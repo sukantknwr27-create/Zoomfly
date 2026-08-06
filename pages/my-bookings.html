@@ -471,12 +471,17 @@ window.handleRegister = async () => {
 
   btn.disabled = true; btn.textContent = 'Creating account...';
 
-  const { error } = await supabase.auth.signUp({
+  const { data, error } = await supabase.auth.signUp({
     email, password:pass,
     options: { data:{ full_name:name, phone } }
   });
 
   if (error) { showMsg(msg, error.message,'error'); }
+  else if (data.user && Array.isArray(data.user.identities) && data.user.identities.length === 0) {
+    // Supabase's anti-enumeration behavior: this email already has an
+    // account — no new user was actually created, no email was sent.
+    showMsg(msg, 'This email already has an account. Please sign in instead, or use "Forgot password" if you don\'t remember your password.', 'error');
+  }
   else { showMsg(msg,'Account created! Please check your email to verify.','success'); }
 
   btn.disabled = false; btn.textContent = 'Create Account';
