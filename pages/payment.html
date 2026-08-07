@@ -316,11 +316,34 @@ const itemBg = params.get('bg') || 'linear-gradient(135deg,#667eea,#764ba2)';
     document.getElementById('g-name').value = user.user_metadata?.full_name || '';
     document.getElementById('g-phone').value = user.user_metadata?.phone || '';
   }
+  if (existingBookingId) {
+    // Passenger/contact details were already collected on flights.html;
+    // don't make the customer re-type them here.
+    const nameVal = params.get('name'), emailVal = params.get('email'), phoneVal = params.get('phone');
+    if (nameVal && !document.getElementById('g-name').value) document.getElementById('g-name').value = nameVal;
+    if (emailVal && !document.getElementById('g-email').value) document.getElementById('g-email').value = emailVal;
+    if (phoneVal && !document.getElementById('g-phone').value) document.getElementById('g-phone').value = phoneVal;
+  }
 })();
 const nights = params.get('nights') || '5N';
 const serviceId = params.get('id') || null;
 const roomName  = params.get('room') || null;
 const paymentLinkRef = params.get('ref') || null;
+
+// ── FLIGHT FLOW: booking already exists ──────────────────────
+// flight-create-booking (see supabase/functions/flight-create-booking)
+// creates the bookings row server-side, with total_amount taken only
+// from the server-verified fare hold — never from anything the
+// browser sends. flights.html hands this page the resulting
+// booking_id instead of a service_id, so this page must skip package/
+// hotel price derivation entirely and use that booking as-is. The
+// amount/name/etc. URL params below are still only used for the
+// FIRST PAINT of the summary (same "placeholder, not trusted"
+// principle as basePerPerson elsewhere on this page) — the real
+// charge amount is re-read server-side from the booking row by
+// create-razorpay-order regardless of what's in this URL.
+const existingBookingId = params.get('booking_id') || null;
+const existingBookingRef = params.get('booking_ref') || null;
 
 // `amount` from the URL is only a placeholder for the first paint.
 // If we have a service_id, the real price is fetched from the DB
@@ -476,6 +499,12 @@ window.selectEMIPlan = (months) => {
 };
 
 function calcAmounts() {
+  if (bookingUnit === 'flight') {
+    // The fare hold's total already includes taxes (see
+    // flight-select-fare) — nothing to re-derive or re-tax here.
+    tax = 0;
+    return { rawBase: basePerPerson, finalTotal: basePerPerson };
+  }
   const rawBase = bookingUnit === 'room' ? basePerPerson : basePerPerson * numPersons;
   tax = Math.round(rawBase * 0.05);
   return { rawBase, finalTotal: rawBase - discount + tax + (addonTotal || 0) };
@@ -483,7 +512,9 @@ function calcAmounts() {
 
 function renderSummary() {
   const { rawBase, finalTotal } = calcAmounts();
-  const unitLabel = bookingUnit === 'room'
+  const unitLabel = bookingUnit === 'flight'
+    ? `Flight Booking${existingBookingRef ? ' · ' + existingBookingRef : ''}`
+    : bookingUnit === 'room'
     ? `Hotel Stay · ${numPersons} Guest${numPersons > 1 ? 's' : ''}`
     : `Tour · ${nights} · ${numPersons} Person${numPersons > 1 ? 's' : ''}`;
 
@@ -494,11 +525,14 @@ function renderSummary() {
       <div class="oi-price">₹${rawBase.toLocaleString('en-IN')}</div>
     </div>`;
 
-  document.getElementById('price-breakdown').innerHTML = `
-    <div class="price-row"><span>${bookingUnit === 'room' ? 'Room per Night' : `₹${basePerPerson.toLocaleString('en-IN')} × ${numPersons} person${numPersons > 1 ? 's' : ''}`}</span><span>₹${rawBase.toLocaleString('en-IN')}</span></div>
+  document.getElementById('price-breakdown').innerHTML = bookingUnit === 'flight'
+    ? `<div class="price-row"><span>Fare (incl. taxes &amp; fees)</span><span>₹${rawBase.toLocaleString('en-IN')}</span></div>
+       <div class="price-row total"><span>Total Payable</span><span>₹${finalTotal.toLocaleString('en-IN')}</span></div>`
+    : `<div class="price-row"><span>${bookingUnit === 'room' ? 'Room per Night' : `₹${basePerPerson.toLocaleString('en-IN')} × ${numPersons} person${numPersons > 1 ? 's' : ''}`}</span><span>₹${rawBase.toLocaleString('en-IN')}</span></div>
     ${discount ? `<div class="price-row"><span>Promo Discount</span><span class="discount">−₹${discount.toLocaleString('en-IN')}</span></div>` : ''}
     <div class="price-row"><span>GST (5%)</span><span>₹${tax.toLocaleString('en-IN')}</span></div>
     <div class="price-row total"><span>Total Payable</span><span>₹${finalTotal.toLocaleString('en-IN')}</span></div>`;
+
 
   document.getElementById('pay-amount').textContent = `₹${finalTotal.toLocaleString('en-IN')}`;
   total = finalTotal;
@@ -618,24 +652,32 @@ window.processPayment = async () => {
       try {
         const { createBooking, supabase } = await import('../assets/js/supabase.js');
 
-        // Step 1: create the booking first. create-razorpay-order needs
-        // a real booking row (with a server-trusted total_amount) to
-        // mint a Razorpay order against — and verify-razorpay-payment
-        // checks the eventual payment against this same booking_id.
-        const booking = await createBooking({
-          service_type: bookingType, service_name: itemName,
-          service_id: serviceId,
-          package_id: bookingType === 'package' ? serviceId : null,
-          hotel_id:   bookingType === 'hotel'   ? serviceId : null,
-          customer_name: name, customer_email: email,
-          customer_phone: phone.replace(/\D/g,''),
-          num_adults: parseInt(document.getElementById('g-pax').value) || 2,
-          special_requests: document.getElementById('g-note').value,
-          base_amount: basePerPerson * numPersons, discount_amount: discount,
-          tax_amount: tax, total_amount: total,
-          currency: 'INR', payment_method: 'razorpay', status: 'pending',
-          payment_status: 'pending',
-        });
+        // Step 1: use the existing booking if the flight flow already
+        // created one server-side (see flight-create-booking); its
+        // total_amount was locked to a server-verified fare and must
+        // not be re-derived here. Otherwise (packages/hotels), create
+        // the booking now the same way this page always has.
+        //
+        // create-razorpay-order needs a real booking row (with a
+        // server-trusted total_amount) to mint a Razorpay order
+        // against — and verify-razorpay-payment checks the eventual
+        // payment against this same booking_id.
+        const booking = existingBookingId
+          ? { id: existingBookingId, booking_ref: existingBookingRef }
+          : await createBooking({
+              service_type: bookingType, service_name: itemName,
+              service_id: serviceId,
+              package_id: bookingType === 'package' ? serviceId : null,
+              hotel_id:   bookingType === 'hotel'   ? serviceId : null,
+              customer_name: name, customer_email: email,
+              customer_phone: phone.replace(/\D/g,''),
+              num_adults: parseInt(document.getElementById('g-pax').value) || 2,
+              special_requests: document.getElementById('g-note').value,
+              base_amount: basePerPerson * numPersons, discount_amount: discount,
+              tax_amount: tax, total_amount: total,
+              currency: 'INR', payment_method: 'razorpay', status: 'pending',
+              payment_status: 'pending',
+            });
 
         // Step 2: mint a real Razorpay order for this exact booking — its
         // amount comes from the booking row server-side, never from this
@@ -707,22 +749,31 @@ window.processPayment = async () => {
 
   // For NEFT/bank transfer or fallback
   try {
-    const { createBooking } = await import('../assets/js/supabase.js');
-    const booking = await createBooking({
-      service_type: bookingType, service_name: itemName,
-      service_id: serviceId,
-      package_id: bookingType === 'package' ? serviceId : null,
-      hotel_id:   bookingType === 'hotel'   ? serviceId : null,
-      customer_name: name, customer_email: email,
-      customer_phone: phone.replace(/\D/g,''),
-      num_adults: parseInt(document.getElementById('g-pax').value) || 2,
-      special_requests: document.getElementById('g-note').value,
-      base_amount: basePerPerson * numPersons, discount_amount: discount,
-      tax_amount: tax, total_amount: total,
-      currency: 'INR', payment_method: selectedMethod, status: 'pending', payment_status: 'pending',
-    });
-    if (!booking?.booking_ref) throw new Error('No booking reference returned from server.');
-    document.getElementById('booking-ref').textContent = `Booking Ref: ${booking.booking_ref}`;
+    if (existingBookingId) {
+      // Booking already exists (flight flow) — nothing to create.
+      // Online payment is how flight tickets actually get issued
+      // (see flight-ticket-processor), so this fallback just confirms
+      // the booking request was received; our team follows up to
+      // complete payment and ticketing.
+      document.getElementById('booking-ref').textContent = `Booking Ref: ${existingBookingRef || existingBookingId}`;
+    } else {
+      const { createBooking } = await import('../assets/js/supabase.js');
+      const booking = await createBooking({
+        service_type: bookingType, service_name: itemName,
+        service_id: serviceId,
+        package_id: bookingType === 'package' ? serviceId : null,
+        hotel_id:   bookingType === 'hotel'   ? serviceId : null,
+        customer_name: name, customer_email: email,
+        customer_phone: phone.replace(/\D/g,''),
+        num_adults: parseInt(document.getElementById('g-pax').value) || 2,
+        special_requests: document.getElementById('g-note').value,
+        base_amount: basePerPerson * numPersons, discount_amount: discount,
+        tax_amount: tax, total_amount: total,
+        currency: 'INR', payment_method: selectedMethod, status: 'pending', payment_status: 'pending',
+      });
+      if (!booking?.booking_ref) throw new Error('No booking reference returned from server.');
+      document.getElementById('booking-ref').textContent = `Booking Ref: ${booking.booking_ref}`;
+    }
   } catch(e) {
     console.error('[ZoomFly Booking]', e);
     document.getElementById('booking-ref').textContent =
