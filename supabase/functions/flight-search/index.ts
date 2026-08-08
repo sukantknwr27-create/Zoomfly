@@ -121,7 +121,7 @@ serve(async (req) => {
       });
     }
 
-    const provider = getFlightProvider();
+    const provider = await getFlightProvider(supabase);
     const results = await provider.search(params);
 
     // Fire-and-forget cache write — a failed cache write should never
@@ -140,7 +140,7 @@ serve(async (req) => {
     });
 
   } catch (err) {
-    return new Response(JSON.stringify({ error: err.message }), {
+    return new Response(JSON.stringify({ error: err instanceof Error ? err.message : String(err) }), {
       status: 400,
       headers: { ...corsHeaders(req), 'Content-Type': 'application/json' },
     });
