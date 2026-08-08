@@ -51,7 +51,7 @@ async function refundPayment(bookingId: string, razorpayPaymentId: string, amoun
   return res.json();
 }
 
-async function processBooking(bookingId: string, supabase: any, provider: ReturnType<typeof getFlightProvider>) {
+async function processBooking(bookingId: string, supabase: any, provider: Awaited<ReturnType<typeof getFlightProvider>>) {
   const { data: booking } = await supabase.from('bookings').select('*').eq('id', bookingId).single();
   if (!booking) throw new Error(`Booking ${bookingId} not found`);
   if (booking.service_type !== 'flight') return { skipped: 'not a flight booking' };
@@ -154,7 +154,7 @@ serve(async (req) => {
       Deno.env.get('SUPABASE_URL')!,
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
     );
-    const provider = getFlightProvider();
+    const provider = await getFlightProvider(supabase);
 
     if (body.bookingId) {
       const result = await processBooking(body.bookingId, supabase, provider);
@@ -181,7 +181,7 @@ serve(async (req) => {
     });
 
   } catch (err) {
-    return new Response(JSON.stringify({ error: err.message }), {
+    return new Response(JSON.stringify({ error: err instanceof Error ? err.message : String(err) }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
     });
