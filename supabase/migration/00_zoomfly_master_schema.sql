@@ -1984,6 +1984,17 @@ ON CONFLICT (slug) DO NOTHING;
 -- EDIT THE EMAIL BELOW to the exact address you signed up with at
 -- /pages/login.html, then run just this block whenever you need to
 -- (re-)grant admin to an account.
+--
+-- ⚠️ PRODUCTION / REPO-HYGIENE NOTE: the email list below currently
+-- includes a personal address, not just the business one
+-- (s.admin@zoomfly.in, which is already published site-wide as the
+-- support contact — that one's fine here). If this file is ever
+-- committed to a public GitHub repo, a personal email sitting in
+-- plain text is a needless phishing/targeting signal — it tells
+-- anyone reading the repo exactly which real account holds admin
+-- access. Recommend removing the personal address from this file
+-- and running it as a one-off ad-hoc UPDATE in the Supabase SQL
+-- Editor instead (same effect, doesn't get committed anywhere).
 -- ================================================================
 UPDATE public.profiles SET role = 'customer' WHERE role = 'admin';
 
@@ -1991,7 +2002,7 @@ UPDATE public.profiles p
 SET role = 'admin'
 FROM auth.users u
 WHERE p.id = u.id
-  AND u.email IN ('s.admin@zoomfly.in', 'casukant0711@gmail.com'); -- ← edit this list
+  AND u.email IN ('s.admin@zoomfly.in', 'casukant0711@gmail.com'); -- ← edit this list; see repo-hygiene note above
 
 SELECT p.id, u.email, p.role, p.full_name
 FROM public.profiles p JOIN auth.users u ON u.id = p.id
