@@ -70,7 +70,7 @@ serve(async (req) => {
       // are flagged for manual review instead of silently confirmed.
       const { data: candidates } = await supabase
         .from('bookings')
-        .select('id, user_id, booking_ref, total_amount, base_amount, num_adults, package_id, hotel_id, payment_status')
+        .select('id, user_id, booking_ref, total_amount, base_amount, num_adults, package_id, hotel_id, payment_status, service_type, flight_hold_id')
         .eq('razorpay_order_id', payment.order_id);
 
       for (const b of candidates || []) {
@@ -111,12 +111,41 @@ serve(async (req) => {
           continue;
         }
 
+        // Flight bookings: check against the locked fare_hold instead
+        // of a catalog table — see verify-razorpay-payment/index.ts
+        // for the matching check and why an exact match (not a 50%
+        // tolerance) is correct here.
+        if (b.service_type === 'flight' && b.flight_hold_id) {
+          const { data: hold } = await supabase.from('flight_fare_holds')
+            .select('fare').eq('id', b.flight_hold_id).maybeSingle();
+          if (hold && Number(b.total_amount) !== Number(hold.fare?.total)) {
+            await supabase.from('bookings').update({
+              internal_notes: `⚠️ WEBHOOK FLIGHT PRICE MISMATCH: booking total ₹${b.total_amount} vs locked fare ₹${hold.fare?.total}. payment_id=${payment.id}`,
+            }).eq('id', b.id);
+            continue;
+          }
+        }
+
         await supabase.from('bookings').update({
           payment_status: 'paid',
           status: 'confirmed',
           paid_at: new Date().toISOString(),
           razorpay_payment_id: payment.id,
         }).eq('id', b.id);
+
+        // Flight bookings: enqueue for ticketing rather than calling
+        // flight-ticket-processor inline — this webhook handler
+        // already does several other things per event and shouldn't
+        // grow a hard dependency on a third-party consolidator call
+        // succeeding within its own execution window. The queue (plus
+        // the cron poll — see 16_zoomfly_flight_booking.sql) is the
+        // reliable path here; verify-razorpay-payment's inline call is
+        // what gives most customers a near-instant PNR, this is the
+        // backstop for the rest.
+        if (b.service_type === 'flight') {
+          await supabase.from('flight_ticketing_queue')
+            .upsert({ booking_id: b.id, status: 'pending', next_attempt_at: new Date().toISOString() }, { onConflict: 'booking_id' });
+        }
 
         // Award loyalty points now that the booking is genuinely paid —
         // non-fatal, and skipped if verify-razorpay-payment already did it
