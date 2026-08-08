@@ -331,8 +331,12 @@
     <button class="submit-book" onclick="confirmTrainBooking()" id="confirm-btn">
       Proceed to Payment
     </button>
+    <button type="button" onclick="confirmTrainBookingViaWhatsApp()" id="confirm-btn-whatsapp"
+      style="width:100%;margin-top:8px;padding:11px;background:#fff;color:#25D366;border:1.5px solid #25D366;border-radius:10px;font-weight:700;font-size:.88rem;cursor:pointer;font-family:inherit">
+      Or Book via WhatsApp Instead
+    </button>
     <p style="font-size:.72rem;color:#94a3b8;text-align:center;margin-top:8px">
-       Secure booking · PNR generated within 2 mins · E-ticket on WhatsApp
+       Secure payment · Your PNR is booked by our team and shared with you as soon as it's confirmed
     </p>
   </div>
 </div>
@@ -343,7 +347,7 @@
 <script src="/assets/js/main.js"></script>
 
 <script type="module">
-import { supabase, bookTrain, getUser, getCotravellers  } from '../assets/js/supabase.js';
+import { supabase, getUser, getCotravellers  } from '../assets/js/supabase.js';
 
 const WA = '918076136300';
 const DAYS = ['M','T','W','T','F','S','S'];
@@ -433,43 +437,38 @@ const STATIONS = [
   { code:'DBRG', name:'Dibrugarh', city:'Dibrugarh' },
 ];
 
-// ── TRAIN DATA (Indicative) ───────────────────────────
-const TRAIN_DB = [
-  { num:'12301', name:'Howrah Rajdhani', from:'NDLS', to:'HWH', dep:'16:55', arr:'10:00+1', dur:'17h 05m', days:[1,1,1,1,1,1,1], type:'Rajdhani', classes:['1A','2A','3A'] },
-  { num:'12302', name:'New Delhi Rajdhani', from:'HWH', to:'NDLS', dep:'13:45', arr:'08:15+1', dur:'18h 30m', days:[1,1,1,1,1,1,1], type:'Rajdhani', classes:['1A','2A','3A'] },
-  { num:'12951', name:'Mumbai Rajdhani', from:'NDLS', to:'MMCT', dep:'16:00', arr:'08:15+1', dur:'16h 15m', days:[1,1,1,1,1,1,1], type:'Rajdhani', classes:['1A','2A','3A'] },
-  { num:'12259', name:'Sealdah Duronto', from:'NDLS', to:'SDAH', dep:'12:35', arr:'06:30+1', dur:'17h 55m', days:[0,1,0,1,0,1,0], type:'Duronto', classes:['1A','2A','3A'] },
-  { num:'12001', name:'Bhopal Shatabdi', from:'NDLS', to:'BPL', dep:'06:00', arr:'13:40', dur:'7h 40m', days:[1,1,1,1,1,1,0], type:'Shatabdi', classes:['CC','EC'] },
-  { num:'12003', name:'Lucknow Shatabdi', from:'NDLS', to:'LKO', dep:'06:10', arr:'12:30', dur:'6h 20m', days:[1,1,1,1,1,1,0], type:'Shatabdi', classes:['CC','EC'] },
-  { num:'12561', name:'Swatantrata Senani SF', from:'NDLS', to:'PNBE', dep:'19:35', arr:'10:35+1', dur:'15h 00m', days:[1,1,1,1,1,1,1], type:'Superfast', classes:['1A','2A','3A','SL'] },
-  { num:'12229', name:'Lucknow Mail', from:'NDLS', to:'LKO', dep:'22:10', arr:'05:15+1', dur:'7h 05m', days:[1,1,1,1,1,1,1], type:'Mail', classes:['2A','3A','SL','2S'] },
-  { num:'12471', name:'Swaraj Express', from:'JAT', to:'MMCT', dep:'22:30', arr:'05:10+2', dur:'30h 40m', days:[0,0,0,1,0,0,0], type:'Express', classes:['1A','2A','3A','SL'] },
-  { num:'12649', name:'Karnataka Sampark Kranti', from:'NDLS', to:'SBC', dep:'21:00', arr:'07:20+2', dur:'34h 20m', days:[0,0,1,0,0,1,0], type:'Superfast', classes:['1A','2A','3A','SL'] },
-  { num:'12015', name:'Ajmer Shatabdi', from:'NDLS', to:'JP', dep:'06:05', arr:'10:40', dur:'4h 35m', days:[1,1,1,1,1,1,1], type:'Shatabdi', classes:['CC','EC'] },
-  { num:'12463', name:'Jodhpur Intercity', from:'JP', to:'JU', dep:'14:30', arr:'19:15', dur:'4h 45m', days:[1,1,1,1,1,1,1], type:'Intercity', classes:['CC','2S'] },
-  { num:'12623', name:'Chennai Mail', from:'MAS', to:'NDLS', dep:'10:05', arr:'10:15+1', dur:'24h 10m', days:[1,1,1,1,1,1,1], type:'Mail', classes:['1A','2A','3A','SL'] },
-  { num:'22691', name:'Rajdhani Express', from:'SBC', to:'NDLS', dep:'20:00', arr:'06:25+2', dur:'34h 25m', days:[0,1,0,1,0,1,0], type:'Rajdhani', classes:['1A','2A','3A'] },
-];
-
-// ── FARE CALCULATION ──────────────────────────────────
-const BASE_FARE = { '1A':2500, '2A':1500, '3A':900, 'SL':300, 'CC':600, 'EC':1200, '2S':150 };
-const TYPE_MUL  = { 'Rajdhani':1.6, 'Duronto':1.5, 'Shatabdi':1.4, 'Superfast':1.2, 'Mail':1.0, 'Express':1.0, 'Intercity':0.9 };
-const QUOTA_MUL = { 'GN':1, 'TQ':1.3, 'PT':1.5, 'LD':1, 'SS':0.7 };
-
-function calcFare(train, cls, pax, quota) {
-  const base = (BASE_FARE[cls] || 500) * (TYPE_MUL[train.type] || 1) * (QUOTA_MUL[quota] || 1);
-  const perPerson = Math.round(base / 50) * 50;
-  const tax = Math.round(perPerson * 0.05);
-  const total = (perPerson + tax) * pax;
-  return { perPerson, tax, total, pax };
+// ── TRAIN SEARCH ───────────────────────────────────────
+// Previously this held a hardcoded TRAIN_DB (14 fixed trains) plus
+// a client-side fare multiplier and Math.random() seat availability
+// — none of it real. Search now goes through the rail-search edge
+// function (supabase/functions/rail-search), which itself calls a
+// pluggable RailProvider (see _shared/rail-provider.ts) — today that's
+// MockRailProvider, returning clearly-labelled indicative data,
+// swappable for a real IRCTC B2B provider (Tripjack Rail, TBO, etc.)
+// from the admin panel's API Providers tab with no code change here.
+async function callRailSearch(body) {
+  const { data, error } = await supabase.functions.invoke('rail-search', { body });
+  if (error) throw new Error(error.message || 'Search failed');
+  if (data?.error) throw new Error(data.error);
+  return data;
 }
 
-// ── SEAT AVAILABILITY ─────────────────────────────────
-function mockAvail(cls) {
-  const r = Math.random();
-  if (r > 0.6) return { status: 'AVAILABLE', seats: Math.floor(Math.random()*40)+1, label: 'Available' };
-  if (r > 0.3) return { status: 'WL',        seats: Math.floor(Math.random()*30)+1, label: `WL${Math.floor(Math.random()*30)+1}` };
-  return          { status: 'AVAILABLE', seats: Math.floor(Math.random()*10)+1, label: 'Available' };
+// Multiplies a single-passenger fare (as returned per class by
+// rail-search) by the passenger count — the server is always the
+// source of truth for the per-person amount; this is just display
+// arithmetic, and rail-create-booking independently recomputes the
+// authoritative total server-side rather than trusting this.
+function scaleFare(fare, pax) {
+  return {
+    perPerson: fare.perPerson,
+    tax: fare.tax * pax,
+    total: fare.total * pax,
+  };
+}
+
+function formatDuration(mins) {
+  const h = Math.floor(mins / 60), m = mins % 60;
+  return `${h}h ${String(m).padStart(2,'0')}m`;
 }
 
 // ── STATE ────────────────────────────────────────────
@@ -578,12 +577,17 @@ window.searchTrains = async () => {
     showToast('Please enter departure and destination stations');
     return;
   }
+  if (!fromCode || !toCode) {
+    showToast('Please select a station from the suggestions list');
+    return;
+  }
 
   const btn = document.querySelector('.search-btn');
   btn.textContent = 'Searching...';
   btn.disabled    = true;
 
-  // Save enquiry to Supabase
+  // Save enquiry to Supabase (kept — lets the admin panel's Train
+  // Enquiries tab see search intent even if the customer doesn't book)
   try {
     await supabase.from('train_enquiries').insert({
       from_station: fromCode || fromEl.value,
@@ -594,78 +598,80 @@ window.searchTrains = async () => {
     });
   } catch(_) {}
 
-  setTimeout(() => {
-    btn.textContent = 'Search Trains';
-    btn.disabled    = false;
+  try {
+    const data = await callRailSearch({ from: fromCode, to: toCode, date, quota });
+    currentTrains = data.results || [];
+    lastSearchProvider = data.provider;
 
-    // Filter trains or generate results
-    let results = TRAIN_DB.filter(t => {
-      const matchRoute = (!fromCode || t.from === fromCode || t.to === toCode) ||
-                         TRAIN_DB.length > 0; // show all if no code match
-      const classFilter = selectedClasses.size === 0 || t.classes.some(c => selectedClasses.has(c));
-      return classFilter;
-    });
-
-    if (!results.length) results = TRAIN_DB.slice(0, 6);
-    currentTrains = results;
-
-    renderResults(results, fromEl.value, toEl.value, date, quota);
+    renderResults(currentTrains, fromEl.value, toEl.value, date, quota);
     document.getElementById('results-section').style.display = 'block';
     document.getElementById('results-section').scrollIntoView({ behavior:'smooth', block:'start' });
-  }, 1200);
+  } catch (e) {
+    showToast('Search failed: ' + e.message);
+  } finally {
+    btn.textContent = 'Search Trains';
+    btn.disabled    = false;
+  }
 };
+
+let lastSearchProvider = 'mock';
 
 function renderResults(trains, from, to, date, quota) {
   const d = date ? new Date(date).toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short'}) : date;
   document.getElementById('results-title').textContent = `${from.split(',')[0]} → ${to.split(',')[0]}`;
-  document.getElementById('results-sub').textContent   = `${d} · ${passengers} passenger${passengers>1?'s':''} · ${STATIONS.find(s=>s.code===document.getElementById('t-quota').value)?.name||quota} quota · ${trains.length} trains found`;
+  document.getElementById('results-sub').textContent   = `${d} · ${passengers} passenger${passengers>1?'s':''} · ${quota} quota · ${trains.length} trains found`;
+
+  if (!trains.length) {
+    document.getElementById('train-results').innerHTML = `<div style="text-align:center;padding:40px;color:#94a3b8">No trains found for this route on this date. Try a different date, or check <a href="https://www.irctc.co.in" target="_blank" style="color:var(--blue)">IRCTC.co.in</a> directly.</div>`;
+    return;
+  }
 
   document.getElementById('train-results').innerHTML = trains.map(t => {
-    const classes = t.classes.filter(c => selectedClasses.size===0 || selectedClasses.has(c));
-    const dayDots = DAYS.map((d,i) => `<div class="day-pill ${t.days[i]?'runs':'off'}" title="${['Mon','Tue','Wed','Thu','Fri','Sat','Sun'][i]}">${d}</div>`).join('');
-    const classRows = (classes.length ? classes : t.classes.slice(0,3)).map(cls => {
-      const avail = mockAvail(cls);
-      const fare  = calcFare(t, cls, passengers, quota);
-      return `<div class="avail-row" onclick="selectClass(this,'${t.num}','${cls}',${fare.total},'${avail.status}')">
+    const classes = t.classes.filter(c => selectedClasses.size===0 || selectedClasses.has(c.classCode));
+    const dayDots = DAYS.map((d,i) => `<div class="day-pill ${t.runsOn[i]?'runs':'off'}" title="${['Mon','Tue','Wed','Thu','Fri','Sat','Sun'][i]}">${d}</div>`).join('');
+    const classRows = (classes.length ? classes : t.classes.slice(0,3)).map(c => {
+      const fare = scaleFare(c.fare, passengers);
+      const availClass = c.status === 'AVAILABLE' ? 'avail-available' : 'avail-wl';
+      return `<div class="avail-row" onclick="selectClass(this,'${t.trainNumber}','${c.classCode}')">
         <div>
-          <div class="avail-class">${cls}</div>
-          <div class="avail-seats">${avail.label}</div>
+          <div class="avail-class">${c.classCode}</div>
+          <div class="avail-seats">${c.label}</div>
         </div>
         <div style="text-align:right">
           <div class="avail-price">₹${fare.total.toLocaleString('en-IN')}</div>
-          <div class="avail-status ${avail.status==='AVAILABLE'?'avail-available':'avail-wl'}">${avail.status}</div>
+          <div class="avail-status ${availClass}">${c.status.replace('_',' ')}</div>
         </div>
       </div>`;
     }).join('');
 
-    return `<div class="train-card" id="card-${t.num}">
+    return `<div class="train-card" id="card-${t.trainNumber}">
       <div>
-        <div class="train-name">${t.name}</div>
-        <div class="train-num">#${t.num} · ${t.type}</div>
+        <div class="train-name">${t.trainName}${t.isMock ? ' <span style="font-size:.68rem;font-weight:700;color:#f59e0b;background:#fffbeb;padding:1px 6px;border-radius:5px;vertical-align:middle">Indicative</span>' : ''}</div>
+        <div class="train-num">#${t.trainNumber} · ${t.trainType}</div>
         <div class="train-days">${dayDots}</div>
       </div>
       <div style="display:flex;align-items:center;gap:4px">
-        <div class="timing"><div class="time-big">${t.dep}</div><div class="station-small">${t.from}</div></div>
+        <div class="timing"><div class="time-big">${t.departTime}</div><div class="station-small">${t.from}</div></div>
         <div class="duration-line" style="flex:1">
           <div class="dur-line"></div>
           <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
-            <div class="dur-label">${t.dur}</div>
+            <div class="dur-label">${formatDuration(t.durationMinutes)}</div>
           </div>
         </div>
-        <div class="timing"><div class="time-big">${t.arr}</div><div class="station-small">${t.to}</div></div>
+        <div class="timing"><div class="time-big">${t.arriveTime}</div><div class="station-small">${t.to}</div></div>
       </div>
       <div>
         <div class="class-avail">${classRows}</div>
-        <button class="book-train-btn" onclick="openBookingModal('${t.num}')">Book Now →</button>
+        <button class="book-train-btn" onclick="openBookingModal('${t.trainNumber}')">Book Now →</button>
       </div>
     </div>`;
   }).join('');
 }
 
-window.selectClass = (el, trainNum, cls, total, status) => {
+window.selectClass = (el, trainNum, cls) => {
   document.querySelectorAll(`#card-${trainNum} .avail-row`).forEach(r => r.classList.remove('selected'));
   el.classList.add('selected');
-  selectedTrain = TRAIN_DB.find(t => t.num === trainNum);
+  selectedTrain = currentTrains.find(t => t.trainNumber === trainNum);
   selectedClass = cls;
 };
 
@@ -674,45 +680,44 @@ window.filterTrains = (filter, btn) => {
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   let results = [...currentTrains];
-  if (filter === 'morning') results = results.filter(t => parseInt(t.dep) < 12);
-  if (filter === 'evening') results = results.filter(t => { const h=parseInt(t.dep); return h>=12&&h<18; });
-  if (filter === 'night')   results = results.filter(t => parseInt(t.dep) >= 18);
-  if (filter === 'ac')      results = results.filter(t => t.classes.some(c=>['1A','2A','3A'].includes(c)));
+  if (filter === 'morning') results = results.filter(t => parseInt(t.departTime) < 12);
+  if (filter === 'evening') results = results.filter(t => { const h=parseInt(t.departTime); return h>=12&&h<18; });
+  if (filter === 'night')   results = results.filter(t => parseInt(t.departTime) >= 18);
+  if (filter === 'ac')      results = results.filter(t => t.classes.some(c=>['1A','2A','3A'].includes(c.classCode)));
   renderResults(results, document.getElementById('t-from').value, document.getElementById('t-to').value,
     document.getElementById('t-date').value, document.getElementById('t-quota').value);
 };
 
 window.sortTrains = (by) => {
   let results = [...currentTrains];
-  if (by === 'duration') results.sort((a,b) => {
-    const toMins = s => { const [h,m] = s.split('h').map(x=>parseInt(x)); return h*60+m; };
-    return toMins(a.dur) - toMins(b.dur);
-  });
+  if (by === 'duration') results.sort((a,b) => a.durationMinutes - b.durationMinutes);
   if (by === 'price') results.sort((a,b) => {
-    const minFare = t => Math.min(...t.classes.map(c => BASE_FARE[c]||999));
+    const minFare = t => Math.min(...t.classes.map(c => c.fare.total));
     return minFare(a) - minFare(b);
   });
   renderResults(results, document.getElementById('t-from').value, document.getElementById('t-to').value,
     document.getElementById('t-date').value, document.getElementById('t-quota').value);
 };
 
+
 // ── BOOKING MODAL ─────────────────────────────────────
 let passengerCount = 1;
 let cotravellers   = [];
 
 window.openBookingModal = async (trainNum) => {
-  if (!selectedTrain || selectedTrain.num !== trainNum) {
-    selectedTrain = TRAIN_DB.find(t => t.num === trainNum);
-    selectedClass = selectedTrain.classes[0];
+  if (!selectedTrain || selectedTrain.trainNumber !== trainNum) {
+    selectedTrain = currentTrains.find(t => t.trainNumber === trainNum);
+    selectedClass = selectedTrain.classes[0].classCode;
   }
   passengerCount = passengers;
-  const fare = calcFare(selectedTrain, selectedClass, passengers, document.getElementById('t-quota').value);
+  const clsData = selectedTrain.classes.find(c => c.classCode === selectedClass) || selectedTrain.classes[0];
+  const fare = scaleFare(clsData.fare, passengers);
 
   document.getElementById('modal-train-summary').innerHTML = `
     <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
       <div>
-        <div style="font-weight:700">${selectedTrain.name} <span style="color:#94a3b8;font-size:.8rem">#${selectedTrain.num}</span></div>
-        <div style="font-size:.82rem;color:#64748b;margin-top:2px">${selectedTrain.from} → ${selectedTrain.to} · ${selectedTrain.dep} → ${selectedTrain.arr} · ${selectedTrain.dur}</div>
+        <div style="font-weight:700">${selectedTrain.trainName} <span style="color:#94a3b8;font-size:.8rem">#${selectedTrain.trainNumber}</span></div>
+        <div style="font-size:.82rem;color:#64748b;margin-top:2px">${selectedTrain.from} → ${selectedTrain.to} · ${selectedTrain.departTime} → ${selectedTrain.arriveTime} · ${formatDuration(selectedTrain.durationMinutes)}</div>
         <div style="margin-top:4px"><span style="background:#eff6ff;color:var(--blue);padding:2px 8px;border-radius:6px;font-size:.72rem;font-weight:700">${selectedClass}</span>
         <span style="background:#dcfce7;color:#15803d;padding:2px 8px;border-radius:6px;font-size:.72rem;font-weight:700;margin-left:4px">${document.getElementById('t-quota').value} Quota</span></div>
       </div>
@@ -798,14 +803,16 @@ window.fillFromCotraveller = (sel, i) => {
 };
 
 function updateFareSummary() {
-  const quota = document.getElementById('t-quota').value;
-  const fare  = calcFare(selectedTrain || TRAIN_DB[0], selectedClass || 'SL', passengerCount, quota);
+  if (!selectedTrain) return;
+  const clsData = selectedTrain.classes.find(c => c.classCode === selectedClass) || selectedTrain.classes[0];
+  const fare  = scaleFare(clsData.fare, passengerCount);
   const el    = document.getElementById('fare-summary');
   el.style.display = 'block';
   el.innerHTML = `
-    <div style="display:flex;justify-content:space-between;margin-bottom:4px;color:#374151"><span>Base fare (${passengerCount} × ₹${fare.perPerson.toLocaleString('en-IN')})</span><span>₹${(fare.perPerson*passengerCount).toLocaleString('en-IN')}</span></div>
-    <div style="display:flex;justify-content:space-between;margin-bottom:4px;color:#64748b"><span>Service charge + GST</span><span>₹${(fare.tax*passengerCount).toLocaleString('en-IN')}</span></div>
-    <div style="display:flex;justify-content:space-between;font-weight:800;color:var(--blue);border-top:1px solid #e2e8f0;padding-top:6px;margin-top:4px"><span>Total Payable</span><span>₹${fare.total.toLocaleString('en-IN')}</span></div>`;
+    <div style="display:flex;justify-content:space-between;margin-bottom:4px;color:#374151"><span>Base fare (${passengerCount} × ₹${clsData.fare.perPerson.toLocaleString('en-IN')})</span><span>₹${(clsData.fare.perPerson*passengerCount).toLocaleString('en-IN')}</span></div>
+    <div style="display:flex;justify-content:space-between;margin-bottom:4px;color:#64748b"><span>Service charge + GST</span><span>₹${fare.tax.toLocaleString('en-IN')}</span></div>
+    <div style="display:flex;justify-content:space-between;font-weight:800;color:var(--blue);border-top:1px solid #e2e8f0;padding-top:6px;margin-top:4px"><span>Total Payable</span><span>₹${fare.total.toLocaleString('en-IN')}</span></div>
+    <div style="font-size:.7rem;color:#94a3b8;margin-top:8px">This total is re-verified server-side before payment — the amount charged always matches what our system computes, never a client-side estimate.</div>`;
 }
 
 window.confirmTrainBooking = async () => {
@@ -829,47 +836,86 @@ window.confirmTrainBooking = async () => {
   const phone = document.getElementById('contact-phone').value.trim();
   const email = document.getElementById('contact-email').value.trim();
   if (!phone) { errEl.textContent='Please enter mobile number'; errEl.style.display='block'; return; }
+  if (!email) { errEl.textContent='Please enter email address'; errEl.style.display='block'; return; }
 
   btn.textContent = 'Processing...';
   btn.disabled    = true;
 
   const quota   = document.getElementById('t-quota').value;
-  const fare    = calcFare(selectedTrain, selectedClass, passengerCount, quota);
   const date    = document.getElementById('t-date').value;
-  const berth   = document.getElementById('berth-pref').value;
 
   try {
-    const bookingData = {
-      train_name: selectedTrain.name, train_number: selectedTrain.num,
-      from: selectedTrain.from, to: selectedTrain.to,
-      departure: selectedTrain.dep, arrival: selectedTrain.arr,
-      travel_date: date, travel_class: selectedClass,
-      quota, berth_preference: berth,
-      passengers: paxList, passenger_name: paxList[0].name,
-      phone, email, fare: fare.total,
-    };
-    await bookTrain(bookingData);
-
-    // Send WhatsApp confirmation
-    const msg = `*Train Booking Request — ZoomFly*\n\n` +
-      `Train: *${selectedTrain.name}* (#${selectedTrain.num})\n` +
-      `Route: ${selectedTrain.from} → ${selectedTrain.to}\n` +
-      `Date: ${new Date(date).toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'long'})}\n` +
-      `Departure: ${selectedTrain.dep} | Arrival: ${selectedTrain.arr}\n` +
-      `Class: ${selectedClass} | Quota: ${quota}\n` +
-      `Passengers: ${paxList.length}\n` +
-      `Total: ₹${fare.total.toLocaleString('en-IN')}\n` +
-      `Contact: ${phone}\n\nPlease confirm and share PNR.`;
-    window.open(`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`, '_blank');
+    // Real booking: creates a bookings row with a server-recomputed
+    // fare (rail-create-booking never trusts a client-supplied
+    // amount), then hands off to payment.html exactly like the
+    // flight flow. Actual PNR issuance is always a manual admin step
+    // afterward (see rail_ticketing_queue) — IRCTC has no open
+    // consolidator API — so the customer is told that honestly
+    // rather than shown an instant fake PNR.
+    const { data, error } = await supabase.functions.invoke('rail-create-booking', {
+      body: {
+        trainNumber: selectedTrain.trainNumber, trainName: selectedTrain.trainName, trainType: selectedTrain.trainType,
+        from: selectedTrain.from, to: selectedTrain.to, travelDate: date,
+        classCode: selectedClass, quota,
+        passengers: paxList, contactEmail: email, contactPhone: phone,
+      }
+    });
+    if (error) throw new Error(error.message || 'Could not create booking');
+    if (data?.error) throw new Error(data.error);
 
     closeModal();
-    showToast('Booking request sent! Our team will confirm PNR within 30 mins on WhatsApp.');
+    // Hand off to the same payment page flights use, with the exact
+    // same param contract (see flights.html's redirect for
+    // flight-create-booking) so payment.html's booking_id / unit
+    // handling works unchanged: booking_id (not bookingId), unit=train.
+    const params = new URLSearchParams({
+      type: 'train', unit: 'train',
+      booking_id: data.bookingId, booking_ref: data.bookingRef,
+      amount: String(data.totalAmount),
+      name: `${selectedTrain.from} → ${selectedTrain.to}`,
+      email, phone,
+    });
+    window.location.href = `/pages/payment.html?${params.toString()}`;
   } catch(e) {
     errEl.textContent = 'Booking failed: ' + e.message;
     errEl.style.display = 'block';
     btn.textContent = 'Proceed to Payment';
     btn.disabled    = false;
   }
+};
+
+// Kept as an explicit alternative to online payment — some customers
+// prefer to arrange train bookings over WhatsApp, and this option is
+// deliberately not removed. Unlike the payment flow above, this does
+// NOT create a real bookings/payment row; it's a request our team
+// follows up on manually, same as it always has been.
+window.confirmTrainBookingViaWhatsApp = () => {
+  const paxList = [];
+  for (let i = 1; i <= passengerCount; i++) {
+    const name = document.getElementById(`pax-name-${i}`)?.value?.trim();
+    if (name) paxList.push(name);
+  }
+  const phone = document.getElementById('contact-phone').value.trim();
+  if (!phone) { showToast('Please enter your mobile number first'); return; }
+  if (!selectedTrain) return;
+
+  const clsData = selectedTrain.classes.find(c => c.classCode === selectedClass) || selectedTrain.classes[0];
+  const fare = scaleFare(clsData.fare, passengerCount);
+  const date = document.getElementById('t-date').value;
+  const quota = document.getElementById('t-quota').value;
+
+  const msg = `*Train Booking Request — ZoomFly*\n\n` +
+    `Train: *${selectedTrain.trainName}* (#${selectedTrain.trainNumber})\n` +
+    `Route: ${selectedTrain.from} → ${selectedTrain.to}\n` +
+    `Date: ${new Date(date).toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'long'})}\n` +
+    `Departure: ${selectedTrain.departTime} | Arrival: ${selectedTrain.arriveTime}\n` +
+    `Class: ${selectedClass} | Quota: ${quota}\n` +
+    `Passengers: ${paxList.join(', ') || passengerCount}\n` +
+    `Indicative Total: ₹${fare.total.toLocaleString('en-IN')}\n` +
+    `Contact: ${phone}\n\nPlease confirm availability and share the real PNR once booked.`;
+  window.open(`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`, '_blank');
+  closeModal();
+  showToast('WhatsApp opened — our team will confirm your PNR there.');
 };
 
 window.closeModal = () => {
@@ -881,54 +927,63 @@ document.getElementById('booking-modal').addEventListener('click', e => {
 });
 
 // ── PNR STATUS ────────────────────────────────────────
+// Previously generated a random CNF/WL/RAC status — pure fabrication.
+// Real-time PNR status requires a provider that actually offers it
+// (see RailProvider.checkPnrStatus in _shared/rail-provider.ts);
+// MockRailProvider deliberately does not implement it. So this now
+// only ever shows two honest things: (1) whether we have a record of
+// this PNR from a booking we ticketed ourselves, and (2) a direct
+// link to IRCTC for the real, authoritative status — never a
+// fabricated CNF/WL number.
 window.checkPNR = async () => {
   const pnr = document.getElementById('pnr-input').value.trim();
   const res = document.getElementById('pnr-result');
   if (!pnr || pnr.length !== 10) { showToast('Please enter a valid 10-digit PNR number'); return; }
 
-  res.innerHTML = '<div style="text-align:center;padding:12px;color:#64748b">Checking PNR status...</div>';
+  res.innerHTML = '<div style="text-align:center;padding:12px;color:#64748b">Checking our records...</div>';
   res.classList.add('show');
 
-  // Check our DB first
   const { data } = await supabase.from('bookings')
-    .select('*').eq('service_type','train').ilike('travel_details->>pnr', pnr)
-    .single().catch(() => ({ data: null }));
+    .select('booking_ref, service_name, rail_ticketing_status, travel_details')
+    .eq('service_type', 'train').eq('rail_pnr', pnr)
+    .maybeSingle().catch(() => ({ data: null }));
 
-  setTimeout(() => {
-    const statuses = ['CNF/B4/30','CNF/B2/45','RAC 12/RAC 8','WL#23/WL#15','CNF/H1/21'];
-    const status   = statuses[Math.floor(Math.random() * statuses.length)];
-    const isConfirmed = status.startsWith('CNF');
+  if (data) {
     res.innerHTML = `
       <div style="margin-bottom:10px;display:flex;justify-content:space-between;align-items:center">
         <div style="font-weight:700;font-size:.95rem">PNR: ${pnr}</div>
-        <span style="padding:3px 10px;border-radius:20px;font-size:.75rem;font-weight:700;
-          background:${isConfirmed?'#dcfce7':'#fef3c7'};color:${isConfirmed?'#15803d':'#92400e'}">
-          ${isConfirmed?'Confirmed':'Waitlisted'}
-        </span>
+        <span style="padding:3px 10px;border-radius:20px;font-size:.75rem;font-weight:700;background:#dcfce7;color:#15803d">Ticketed via ZoomFly</span>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:.83rem">
-        <div><span style="color:#94a3b8">Current Status:</span><br/><strong>${status}</strong></div>
-        <div><span style="color:#94a3b8">Chart Status:</span><br/><strong>${isConfirmed?'Chart Prepared':'Chart Not Prepared'}</strong></div>
-      </div>
-      ${data ? `<div style="margin-top:8px;font-size:.78rem;color:#64748b">Booking found in ZoomFly records — ${data.service_name}</div>` : ''}
-      <div style="margin-top:10px;font-size:.72rem;color:#94a3b8">Status is indicative. For real-time PNR, check <a href="https://www.irctc.co.in" target="_blank" style="color:var(--blue)">IRCTC.co.in</a></div>`;
-  }, 1500);
+      <div style="font-size:.83rem;color:#374151">Booking ${esc?esc(data.booking_ref):data.booking_ref} · ${data.service_name||''}</div>
+      <div style="margin-top:10px;font-size:.72rem;color:#94a3b8">For live seat/chart status, check <a href="https://www.irctc.co.in" target="_blank" style="color:var(--blue)">IRCTC.co.in</a> directly — we don't have a real-time feed yet.</div>`;
+  } else {
+    res.innerHTML = `
+      <div style="text-align:center;padding:8px 0">
+        <div style="font-size:.88rem;color:#374151;margin-bottom:6px">We don't have a live PNR-status feed yet, and this PNR isn't in our records.</div>
+        <a href="https://www.irctc.co.in" target="_blank" style="display:inline-block;margin-top:4px;color:var(--blue);font-weight:600;font-size:.85rem">Check on IRCTC.co.in →</a>
+      </div>`;
+  }
 };
 
 // ── POPULAR ROUTES ────────────────────────────────────
+// Previously showed a fabricated "N trains daily" count and a
+// fabricated "from ₹X" price for each route — neither was ever
+// queried from anything real. These are quick-search shortcuts only
+// now; real counts/fares only ever come from an actual rail-search
+// call once a route+date is chosen.
 const POPULAR_ROUTES = [
-  { from:'New Delhi', to:'Mumbai', trains:42, from_price:380 },
-  { from:'Delhi', to:'Kolkata', trains:38, from_price:350 },
-  { from:'Mumbai', to:'Goa', trains:15, from_price:220 },
-  { from:'Delhi', to:'Jaipur', trains:28, from_price:145 },
-  { from:'Bangalore', to:'Chennai', trains:22, from_price:165 },
-  { from:'Delhi', to:'Agra', trains:34, from_price:105 },
-  { from:'Mumbai', to:'Pune', trains:55, from_price:80 },
-  { from:'Delhi', to:'Varanasi', trains:18, from_price:280 },
-  { from:'Hyderabad', to:'Bangalore', trains:20, from_price:210 },
-  { from:'Delhi', to:'Shimla', trains:8, from_price:195 },
-  { from:'Chennai', to:'Kochi', trains:12, from_price:250 },
-  { from:'Delhi', to:'Guwahati', trains:6, from_price:450 },
+  { from:'New Delhi', to:'Mumbai' },
+  { from:'Delhi', to:'Kolkata' },
+  { from:'Mumbai', to:'Goa' },
+  { from:'Delhi', to:'Jaipur' },
+  { from:'Bangalore', to:'Chennai' },
+  { from:'Delhi', to:'Agra' },
+  { from:'Mumbai', to:'Pune' },
+  { from:'Delhi', to:'Varanasi' },
+  { from:'Hyderabad', to:'Bangalore' },
+  { from:'Delhi', to:'Shimla' },
+  { from:'Chennai', to:'Kochi' },
+  { from:'Delhi', to:'Guwahati' },
 ];
 
 function renderPopularRoutes() {
@@ -936,15 +991,24 @@ function renderPopularRoutes() {
     <div class="route-card" onclick="quickSearch('${r.from}','${r.to}')">
       <div>
         <div class="route-name">${r.from} → ${r.to}</div>
-        <div class="route-sub">${r.trains} trains daily</div>
-        <div class="route-price">From ₹${r.from_price}</div>
+        <div class="route-sub">Tap to search real availability</div>
       </div>
     </div>`).join('');
 }
 
 window.quickSearch = (from, to) => {
-  document.getElementById('t-from').value = from;
-  document.getElementById('t-to').value   = to;
+  // Resolve city names to real station codes (STATIONS is the same
+  // list used by the autocomplete) so searchTrains()'s dataset.code
+  // requirement is satisfied — previously this just set display text
+  // and relied on TRAIN_DB's loose "show something anyway" fallback.
+  const fromStation = STATIONS.find(s => s.city === from || s.name === from);
+  const toStation   = STATIONS.find(s => s.city === to   || s.name === to);
+  const fromEl = document.getElementById('t-from');
+  const toEl   = document.getElementById('t-to');
+  fromEl.value = fromStation ? `${fromStation.name} · ${fromStation.code}` : from;
+  toEl.value   = toStation   ? `${toStation.name} · ${toStation.code}`     : to;
+  fromEl.dataset.code = fromStation?.code || '';
+  toEl.dataset.code   = toStation?.code   || '';
   document.querySelector('.hero').scrollIntoView({ behavior:'smooth' });
   setTimeout(() => searchTrains(), 300);
 };

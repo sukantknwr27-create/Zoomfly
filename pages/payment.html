@@ -350,7 +350,13 @@ const existingBookingRef = params.get('booking_ref') || null;
 // below and OVERWRITES this — the URL amount is never trusted for
 // what gets charged or saved.
 let basePerPerson = parseInt(params.get('amount') || '12499');
-const bookingUnit = params.get('unit') || 'person'; // 'person' or 'room'
+const bookingUnit = params.get('unit') || 'person'; // 'person', 'room', 'flight', or 'train'
+// Flight and train bookings are both created server-side BEFORE this
+// page loads (flight-create-booking / rail-create-booking), with
+// total_amount taken only from a server-verified source — never from
+// this page's own price derivation. Both skip the package/hotel
+// pricing path below the same way.
+const isPreCreatedBooking = bookingUnit === 'flight' || bookingUnit === 'train';
 let numPersons = 1;
 let discount = 0;
 let tax = 0;
@@ -499,9 +505,10 @@ window.selectEMIPlan = (months) => {
 };
 
 function calcAmounts() {
-  if (bookingUnit === 'flight') {
-    // The fare hold's total already includes taxes (see
-    // flight-select-fare) — nothing to re-derive or re-tax here.
+  if (isPreCreatedBooking) {
+    // The fare/hold total already includes taxes (see
+    // flight-select-fare for flights, rail-create-booking for
+    // trains) — nothing to re-derive or re-tax here.
     tax = 0;
     return { rawBase: basePerPerson, finalTotal: basePerPerson };
   }
@@ -514,6 +521,8 @@ function renderSummary() {
   const { rawBase, finalTotal } = calcAmounts();
   const unitLabel = bookingUnit === 'flight'
     ? `Flight Booking${existingBookingRef ? ' · ' + existingBookingRef : ''}`
+    : bookingUnit === 'train'
+    ? `Train Booking${existingBookingRef ? ' · ' + existingBookingRef : ''}`
     : bookingUnit === 'room'
     ? `Hotel Stay · ${numPersons} Guest${numPersons > 1 ? 's' : ''}`
     : `Tour · ${nights} · ${numPersons} Person${numPersons > 1 ? 's' : ''}`;
@@ -525,7 +534,7 @@ function renderSummary() {
       <div class="oi-price">₹${rawBase.toLocaleString('en-IN')}</div>
     </div>`;
 
-  document.getElementById('price-breakdown').innerHTML = bookingUnit === 'flight'
+  document.getElementById('price-breakdown').innerHTML = isPreCreatedBooking
     ? `<div class="price-row"><span>Fare (incl. taxes &amp; fees)</span><span>₹${rawBase.toLocaleString('en-IN')}</span></div>
        <div class="price-row total"><span>Total Payable</span><span>₹${finalTotal.toLocaleString('en-IN')}</span></div>`
     : `<div class="price-row"><span>${bookingUnit === 'room' ? 'Room per Night' : `₹${basePerPerson.toLocaleString('en-IN')} × ${numPersons} person${numPersons > 1 ? 's' : ''}`}</span><span>₹${rawBase.toLocaleString('en-IN')}</span></div>

@@ -174,6 +174,8 @@ setTimeout(function() {
     <div class="nav-item" onclick="show('cabs',this)"><span class="icon"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">🚕</span></span> Cab Services</div>
     <div class="nav-item" onclick="show('flights-mgmt',this)"><span class="icon"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">✈️</span></span> Flights</div>
     <div class="nav-item" onclick="show('trains',this)"><span class="icon"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">🚆</span></span> Trains</div>
+    <div class="nav-item" onclick="show('rail-queue',this)"><span class="icon"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">🎫</span></span> Rail Ticketing Queue <span class="badge" id="rail-queue-badge">0</span></div>
+    <div class="nav-item" onclick="show('api-providers',this)"><span class="icon"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">🔌</span></span> API Providers</div>
     <div class="nav-item" onclick="show('offers',this)"><span class="icon"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">🏷️</span></span> Offers & Promos</div>
     <div class="nav-item" onclick="show('carousels',this)"><span class="icon"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">🖼️</span></span> Carousels</div>
     <div class="nav-item" onclick="show('wa-templates',this)"><span class="icon"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">💬</span></span> WhatsApp Templates</div>
@@ -1015,6 +1017,50 @@ setTimeout(function() {
         <div class="loading" id="train-load"><div class="spinner"></div></div>
         <table><thead><tr><th>From</th><th>To</th><th>Travel Date</th><th>Quota</th><th>Passengers</th><th>Status</th><th>Actions</th></tr></thead>
         <tbody id="train-tbody"></tbody></table>
+      </div>
+    </div>
+
+    <!-- RAIL TICKETING QUEUE -->
+    <div class="section" id="section-rail-queue">
+      <div class="table-card" style="margin-bottom:16px">
+        <div class="table-hdr">
+          <h3>Rail Ticketing Queue</h3>
+          <div style="font-size:.82rem;color:#64748b;font-weight:400">
+            IRCTC has no open consolidator API — every train booking below needs a real PNR entered manually once you've booked it through your live agent channel.
+          </div>
+        </div>
+        <div class="loading" id="rail-queue-load"><div class="spinner"></div></div>
+        <table><thead><tr><th>Booking Ref</th><th>Train</th><th>Route</th><th>Date</th><th>Class / Quota</th><th>Passengers</th><th>SLA</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody id="rail-queue-tbody"></tbody></table>
+      </div>
+    </div>
+
+    <!-- API PROVIDERS -->
+    <div class="section" id="section-api-providers">
+      <div class="table-card" style="margin-bottom:16px">
+        <div class="table-hdr">
+          <h3>Flight Providers</h3>
+          <div style="display:flex;gap:8px;align-items:center">
+            <div style="font-size:.82rem;color:#64748b;font-weight:400">Only one should be active at a time (lowest priority number wins).</div>
+            <button class="btn-add" onclick="openAddProvider('flight')">+ Add Provider</button>
+          </div>
+        </div>
+        <div class="loading" id="api-providers-flight-load"><div class="spinner"></div></div>
+        <table><thead><tr><th>Provider</th><th>Priority</th><th>Active</th><th>Last Test</th><th>Notes</th><th>Actions</th></tr></thead>
+        <tbody id="api-providers-flight-tbody"></tbody></table>
+      </div>
+
+      <div class="table-card">
+        <div class="table-hdr">
+          <h3>Rail Providers</h3>
+          <div style="display:flex;gap:8px;align-items:center">
+            <div style="font-size:.82rem;color:#64748b;font-weight:400">Search/availability only — actual ticketing always goes through the queue above.</div>
+            <button class="btn-add" onclick="openAddProvider('rail')">+ Add Provider</button>
+          </div>
+        </div>
+        <div class="loading" id="api-providers-rail-load"><div class="spinner"></div></div>
+        <table><thead><tr><th>Provider</th><th>Priority</th><th>Active</th><th>Last Test</th><th>Notes</th><th>Actions</th></tr></thead>
+        <tbody id="api-providers-rail-tbody"></tbody></table>
       </div>
     </div>
 
@@ -3714,6 +3760,304 @@ window.markTrainDone = async (id) => {
   toast('Marked as done'); loadTrainEnquiries();
 };
 
+// ── RAIL TICKETING QUEUE ────────────────────────────────────────
+// Manual-ticketing work queue. IRCTC has no open consolidator API,
+// so every row here needs a real admin to actually book the ticket
+// through whatever agent channel is live, then enter the resulting
+// PNR below — that's what notifies the customer (see the sync
+// trigger in 18_zoomfly_rail_booking.sql).
+async function loadRailQueue() {
+  document.getElementById('rail-queue-load').style.display = 'block';
+  const tbody = document.getElementById('rail-queue-tbody');
+  try {
+    const { data, error } = await supabase
+      .from('rail_ticketing_queue')
+      .select('*, bookings(booking_ref)')
+      .order('created_at', { ascending: true }); // oldest-first — work the queue in order
+    if (error) throw error;
+    document.getElementById('rail-queue-load').style.display = 'none';
+
+    const openCount = (data || []).filter(r => r.status === 'queued' || r.status === 'in_progress').length;
+    const badge = document.getElementById('rail-queue-badge');
+    if (badge) badge.textContent = openCount;
+
+    if (!data?.length) { tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;color:#94a3b8;padding:2rem">No rail bookings in the queue yet.</td></tr>'; return; }
+
+    tbody.innerHTML = data.map(r => {
+      const overdue = r.sla_due_at && new Date(r.sla_due_at) < new Date() && !['ticketed','cancelled'].includes(r.status);
+      const pax = Array.isArray(r.passengers) ? r.passengers.length : 0;
+      return `<tr style="${overdue ? 'background:#fef2f2' : ''}">
+        <td><strong>${esc(r.bookings?.booking_ref || '—')}</strong></td>
+        <td>${esc(r.train_number||'—')}<br><span style="font-size:.72rem;color:#94a3b8">${esc(r.train_name||'')}</span></td>
+        <td>${esc(r.from_code||'—')} → ${esc(r.to_code||'—')}</td>
+        <td>${r.travel_date ? new Date(r.travel_date).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}) : '—'}</td>
+        <td>${esc(r.class_code||'—')} / ${esc(r.quota||'GN')}</td>
+        <td>${pax}</td>
+        <td>${r.sla_due_at ? (overdue ? `<span style="color:#dc2626;font-weight:700">Overdue</span>` : new Date(r.sla_due_at).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'})) : '—'}</td>
+        <td>${pill(r.status)}${r.pnr ? `<br><span style="font-size:.72rem;color:#64748b">PNR: ${esc(r.pnr)}</span>` : ''}</td>
+        <td style="display:flex;gap:6px;flex-wrap:wrap">
+          <button onclick="openRailQueueRow('${r.id}')" style="padding:4px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:.75rem;cursor:pointer;background:#fff">Manage</button>
+        </td>
+      </tr>`;
+    }).join('');
+  } catch(e) { document.getElementById('rail-queue-load').style.display='none'; toast('Failed to load rail ticketing queue: ' + e.message,'error'); }
+}
+
+window.openRailQueueRow = async (id) => {
+  const { data: row, error } = await supabase.from('rail_ticketing_queue').select('*, bookings(booking_ref, customer_name, customer_email, customer_phone)').eq('id', id).single();
+  if (error || !row) { toast('Could not load booking: ' + (error?.message||''), 'error'); return; }
+
+  const pax = Array.isArray(row.passengers) ? row.passengers : [];
+  const paxList = pax.map(p => `${esc(p.name||'')} (${esc(p.age||'?')}${p.gender?', '+esc(p.gender):''})`).join(', ') || '—';
+
+  const html = `
+    <div style="display:grid;gap:10px">
+      <div><strong>${esc(row.bookings?.booking_ref||'—')}</strong> — ${esc(row.bookings?.customer_name||'')}</div>
+      <div style="font-size:.85rem;color:#64748b">${esc(row.bookings?.customer_email||'')} · ${esc(row.bookings?.customer_phone||'')}</div>
+      <div style="font-size:.85rem">Train ${esc(row.train_number||'')} ${esc(row.train_name||'')} · ${esc(row.from_code)} → ${esc(row.to_code)} · ${row.travel_date?new Date(row.travel_date).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}):''} · ${esc(row.class_code)}/${esc(row.quota)}</div>
+      <div style="font-size:.85rem"><strong>Passengers:</strong> ${paxList}</div>
+      <label style="font-size:.78rem;font-weight:600;color:#475569">Status</label>
+      <select id="rq-status" class="fc" style="padding:8px;border:1.5px solid #e2e8f0;border-radius:8px">
+        <option value="queued" ${row.status==='queued'?'selected':''}>Queued</option>
+        <option value="in_progress" ${row.status==='in_progress'?'selected':''}>In Progress</option>
+        <option value="ticketed" ${row.status==='ticketed'?'selected':''}>Ticketed</option>
+        <option value="failed" ${row.status==='failed'?'selected':''}>Failed</option>
+        <option value="cancelled" ${row.status==='cancelled'?'selected':''}>Cancelled</option>
+      </select>
+      <label style="font-size:.78rem;font-weight:600;color:#475569">Real IRCTC PNR (required once "Ticketed")</label>
+      <input id="rq-pnr" class="fc" style="padding:8px;border:1.5px solid #e2e8f0;border-radius:8px" value="${esc(row.pnr||'')}" placeholder="10-digit PNR from the real IRCTC booking" maxlength="10"/>
+      <label style="font-size:.78rem;font-weight:600;color:#475569">Admin Notes</label>
+      <textarea id="rq-notes" class="fc" style="padding:8px;border:1.5px solid #e2e8f0;border-radius:8px;min-height:60px">${esc(row.admin_notes||'')}</textarea>
+      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px">
+        <button onclick="closeGenericModal()" style="padding:8px 16px;border:1.5px solid #e2e8f0;border-radius:8px;background:#fff;cursor:pointer">Cancel</button>
+        <button onclick="saveRailQueueRow('${row.id}')" style="padding:8px 16px;border:none;border-radius:8px;background:#C9922A;color:#fff;font-weight:700;cursor:pointer">Save</button>
+      </div>
+    </div>`;
+  openGenericModal('Manage Rail Ticket — ' + esc(row.bookings?.booking_ref||''), html);
+};
+
+window.saveRailQueueRow = async (id) => {
+  const status = document.getElementById('rq-status').value;
+  const pnr = document.getElementById('rq-pnr').value.trim();
+  const admin_notes = document.getElementById('rq-notes').value.trim();
+
+  // Honesty guard: never let "ticketed" be saved without a real PNR —
+  // that would show the customer a confirmed ticket that doesn't exist.
+  if (status === 'ticketed' && !/^\d{10}$/.test(pnr)) {
+    toast('A valid 10-digit PNR is required before marking as Ticketed.', 'error');
+    return;
+  }
+
+  const { error } = await supabase.from('rail_ticketing_queue')
+    .update({ status, pnr: pnr || null, admin_notes })
+    .eq('id', id);
+  if (error) { toast('Failed to save: ' + error.message, 'error'); return; }
+
+  // Ticketed → send the confirmation email now that a real PNR
+  // exists — reuses the existing generic confirmation template
+  // (send-booking-email expects {type, booking_id}, not a rail-
+  // specific type — the template already renders booking_ref,
+  // travel_date, and total_amount generically for any booking_type).
+  if (status === 'ticketed') {
+    try {
+      const { data: row } = await supabase.from('rail_ticketing_queue').select('booking_id').eq('id', id).single();
+      if (row?.booking_id) {
+        await supabase.functions.invoke('send-booking-email', { body: { type: 'confirmation', booking_id: row.booking_id } });
+      }
+    } catch (e) { console.error('Rail ticketed email failed (non-fatal):', e); }
+  }
+
+  toast('Saved'); closeGenericModal(); loadRailQueue();
+};
+
+// ── API PROVIDERS ────────────────────────────────────────────────
+// Pluggable, admin-editable credential store (see 17_zoomfly_api_
+// providers.sql). Activating/deactivating a row here takes effect
+// for new searches within ~30s — no redeploy needed.
+async function loadApiProviders() {
+  for (const svc of ['flight', 'rail']) {
+    const loadEl = document.getElementById(`api-providers-${svc}-load`);
+    const tbody = document.getElementById(`api-providers-${svc}-tbody`);
+    if (loadEl) loadEl.style.display = 'block';
+    try {
+      const { data, error } = await supabase
+        .from('api_providers')
+        .select('*')
+        .eq('service_type', svc)
+        .order('priority', { ascending: true });
+      if (error) throw error;
+      if (loadEl) loadEl.style.display = 'none';
+      if (!data?.length) { tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:#94a3b8;padding:2rem">No ${svc} providers configured yet.</td></tr>`; continue; }
+
+      tbody.innerHTML = data.map(p => {
+        const testBadge = p.last_test_status === 'success'
+          ? `<span style="color:#15803d;font-weight:600">✓ Passed</span>`
+          : p.last_test_status === 'failed'
+            ? `<span style="color:#dc2626;font-weight:600">✗ Failed</span>`
+            : `<span style="color:#94a3b8">Not tested</span>`;
+        const testTime = p.last_tested_at ? `<br><span style="font-size:.7rem;color:#94a3b8">${new Date(p.last_tested_at).toLocaleString('en-IN')}</span>` : '';
+        return `<tr>
+          <td><strong>${esc(p.display_name)}</strong><br><span style="font-size:.72rem;color:#94a3b8">${esc(p.provider_key)}</span></td>
+          <td>${p.priority}</td>
+          <td>
+            <label style="display:inline-flex;align-items:center;gap:6px;cursor:pointer">
+              <input type="checkbox" ${p.is_active?'checked':''} onchange="toggleProviderActive('${p.id}', this.checked)"/>
+              ${p.is_active ? '<span style="color:#15803d;font-weight:600">Active</span>' : '<span style="color:#94a3b8">Inactive</span>'}
+            </label>
+          </td>
+          <td>${testBadge}${testTime}</td>
+          <td style="font-size:.78rem;color:#64748b;max-width:220px">${esc(p.notes||'—')}</td>
+          <td style="display:flex;gap:6px;flex-wrap:wrap">
+            <button onclick="openEditProvider('${p.id}')" style="padding:4px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:.75rem;cursor:pointer;background:#fff">Edit</button>
+            <button onclick="testProviderConnection('${p.id}')" style="padding:4px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:.75rem;cursor:pointer;background:#fff">Test Connection</button>
+            ${p.provider_key !== 'mock' ? `<button onclick="deleteProvider('${p.id}')" style="padding:4px 10px;border:1px solid #fee2e2;border-radius:6px;font-size:.75rem;cursor:pointer;color:#dc2626;background:#fff">Delete</button>` : ''}
+          </td>
+        </tr>`;
+      }).join('');
+    } catch(e) { if (loadEl) loadEl.style.display='none'; toast(`Failed to load ${svc} providers: ` + e.message, 'error'); }
+  }
+}
+
+function providerCredentialFields(serviceType, providerKey) {
+  // Field sets are informational only (helps the admin know what to
+  // paste in) — the actual JSONB shape is whatever a provider's class
+  // in supabase/functions/_shared/providers/ reads from `credentials`.
+  const common = [
+    { key: 'base_url', label: 'API Base URL' },
+    { key: 'username', label: 'Username / Client ID' },
+    { key: 'password', label: 'Password / Client Secret' },
+    { key: 'api_key', label: 'API Key (if separate from above)' },
+  ];
+  return common;
+}
+
+window.openAddProvider = (serviceType) => {
+  openEditProvider(null, serviceType);
+};
+
+window.openEditProvider = async (id, serviceTypeForNew) => {
+  let p = { service_type: serviceTypeForNew, provider_key: '', display_name: '', credentials: {}, config: {}, is_active: false, priority: 100, notes: '' };
+  if (id) {
+    const { data, error } = await supabase.from('api_providers').select('*').eq('id', id).single();
+    if (error || !data) { toast('Could not load provider: ' + (error?.message||''), 'error'); return; }
+    p = data;
+  }
+  const creds = p.credentials || {};
+  const fields = providerCredentialFields(p.service_type, p.provider_key);
+
+  const html = `
+    <div style="display:grid;gap:10px">
+      <input type="hidden" id="ap-id" value="${id||''}"/>
+      <input type="hidden" id="ap-service-type" value="${esc(p.service_type)}"/>
+      <label style="font-size:.78rem;font-weight:600;color:#475569">Provider Key (lowercase, e.g. tbo, tripjack, railyatri, custom)</label>
+      <input id="ap-provider-key" class="fc" style="padding:8px;border:1.5px solid #e2e8f0;border-radius:8px" value="${esc(p.provider_key)}" ${id?'readonly':''} placeholder="tbo"/>
+      <label style="font-size:.78rem;font-weight:600;color:#475569">Display Name</label>
+      <input id="ap-display-name" class="fc" style="padding:8px;border:1.5px solid #e2e8f0;border-radius:8px" value="${esc(p.display_name)}" placeholder="TBO Tek (Live)"/>
+      <div style="font-size:.78rem;font-weight:700;color:#475569;margin-top:6px">Credentials (stored server-side only, never sent to the browser)</div>
+      ${fields.map(f => `
+        <label style="font-size:.75rem;color:#64748b">${f.label}</label>
+        <input id="ap-cred-${f.key}" class="fc" style="padding:8px;border:1.5px solid #e2e8f0;border-radius:8px" value="${esc(creds[f.key]||'')}" ${f.key==='password'?'type="password"':''}/>
+      `).join('')}
+      <label style="font-size:.78rem;font-weight:600;color:#475569">Priority (lower = tried first)</label>
+      <input id="ap-priority" type="number" class="fc" style="padding:8px;border:1.5px solid #e2e8f0;border-radius:8px" value="${p.priority}"/>
+      <label style="font-size:.78rem;font-weight:600;color:#475569">Notes</label>
+      <textarea id="ap-notes" class="fc" style="padding:8px;border:1.5px solid #e2e8f0;border-radius:8px;min-height:50px">${esc(p.notes||'')}</textarea>
+      <label style="display:flex;align-items:center;gap:8px;font-size:.85rem">
+        <input type="checkbox" id="ap-is-active" ${p.is_active?'checked':''}/> Active (used for live searches immediately after saving)
+      </label>
+      <div style="font-size:.72rem;color:#94a3b8">
+        Note: a provider only actually works once its class in <code>supabase/functions/_shared/providers/</code> is implemented against its real API — activating an unimplemented provider will make searches fail with a clear "not implemented" error instead of showing fake data as real.
+      </div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px">
+        <button onclick="closeGenericModal()" style="padding:8px 16px;border:1.5px solid #e2e8f0;border-radius:8px;background:#fff;cursor:pointer">Cancel</button>
+        <button onclick="saveProvider()" style="padding:8px 16px;border:none;border-radius:8px;background:#C9922A;color:#fff;font-weight:700;cursor:pointer">Save</button>
+      </div>
+    </div>`;
+  openGenericModal((id ? 'Edit' : 'Add') + ' Provider', html);
+};
+
+window.saveProvider = async () => {
+  const id = document.getElementById('ap-id').value;
+  const service_type = document.getElementById('ap-service-type').value;
+  const provider_key = document.getElementById('ap-provider-key').value.trim().toLowerCase();
+  const display_name = document.getElementById('ap-display-name').value.trim();
+  if (!provider_key || !display_name) { toast('Provider key and display name are required.', 'error'); return; }
+
+  const credentials = {};
+  providerCredentialFields(service_type, provider_key).forEach(f => {
+    const el = document.getElementById(`ap-cred-${f.key}`);
+    if (el && el.value.trim()) credentials[f.key] = el.value.trim();
+  });
+
+  const payload = {
+    service_type, provider_key, display_name, credentials,
+    priority: parseInt(document.getElementById('ap-priority').value) || 100,
+    notes: document.getElementById('ap-notes').value.trim(),
+    is_active: document.getElementById('ap-is-active').checked,
+  };
+
+  const { error } = id
+    ? await supabase.from('api_providers').update(payload).eq('id', id)
+    : await supabase.from('api_providers').insert(payload);
+
+  if (error) { toast('Failed to save provider: ' + error.message, 'error'); return; }
+  toast('Provider saved'); closeGenericModal(); loadApiProviders();
+};
+
+window.toggleProviderActive = async (id, isActive) => {
+  const { error } = await supabase.from('api_providers').update({ is_active: isActive }).eq('id', id);
+  if (error) { toast('Failed to update: ' + error.message, 'error'); loadApiProviders(); return; }
+  toast(isActive ? 'Provider activated' : 'Provider deactivated');
+  loadApiProviders();
+};
+
+window.deleteProvider = async (id) => {
+  if (!confirm('Delete this provider configuration? This cannot be undone.')) return;
+  const { error } = await supabase.from('api_providers').delete().eq('id', id);
+  if (error) { toast('Failed to delete: ' + error.message, 'error'); return; }
+  toast('Provider deleted'); loadApiProviders();
+};
+
+window.testProviderConnection = async (id) => {
+  toast('Testing connection...');
+  try {
+    const { data, error } = await supabase.functions.invoke('test-api-provider', { body: { providerId: id } });
+    if (error) throw error;
+    toast(data?.success ? 'Connection test passed' : ('Test failed: ' + (data?.message||'Unknown error')), data?.success ? 'success' : 'error');
+  } catch (e) {
+    toast('Test failed: ' + e.message, 'error');
+  }
+  loadApiProviders();
+};
+
+// Minimal generic modal used by the two panels above — reuses the
+// project's existing modal-overlay CSS class if one exists, else
+// falls back to a simple fixed-position box so this doesn't depend
+// on markup elsewhere in this file.
+window.openGenericModal = (title, bodyHtml) => {
+  let overlay = document.getElementById('generic-modal-overlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'generic-modal-overlay';
+    overlay.style.cssText = 'position:fixed;inset:0;background:rgba(15,23,42,.5);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px';
+    overlay.innerHTML = `<div id="generic-modal-box" style="background:#fff;border-radius:14px;max-width:520px;width:100%;max-height:88vh;overflow-y:auto;padding:22px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <h3 id="generic-modal-title" style="margin:0;font-size:1.05rem"></h3>
+        <button onclick="closeGenericModal()" style="background:none;border:none;font-size:1.3rem;cursor:pointer;color:#94a3b8">&times;</button>
+      </div>
+      <div id="generic-modal-body"></div>
+    </div>`;
+    document.body.appendChild(overlay);
+  }
+  document.getElementById('generic-modal-title').textContent = title;
+  document.getElementById('generic-modal-body').innerHTML = bodyHtml;
+  overlay.style.display = 'flex';
+};
+window.closeGenericModal = () => {
+  const overlay = document.getElementById('generic-modal-overlay');
+  if (overlay) overlay.style.display = 'none';
+};
+
 // ── REVIEWS (moderation) ───────────────────────────────────────
 // Separate from `testimonials` (which are hand-curated marketing
 // quotes) — `reviews` are customer-submitted ratings tied to a
@@ -4042,6 +4386,7 @@ window.show = (id, el) => {
     packages:'Packages', vendors:'Vendors', customers:'Customers', agents:'Agents', workflow:'Workflow',
     subscribers:'Email Subscribers', testimonials:'Testimonials', reviews:'Reviews', 'messages-inbox':'Messages',
     buses:'Bus Routes', cabs:'Cab Services', 'flights-mgmt':'Flights', trains:'Trains',
+    'rail-queue':'Rail Ticketing Queue', 'api-providers':'API Providers',
     commissions:'Commission Management', loyalty:'Loyalty Points',
     hotels:'Hotels', destinations:'Destinations',
     offers:'Offers & Promos', 'wa-templates':'WhatsApp Templates', blog:'Blog', faq:'FAQ', careers:'Careers',
@@ -4064,6 +4409,8 @@ window.show = (id, el) => {
   if(id==='cabs')            loadCabs();
   if(id==='flights-mgmt')    loadFlightEnquiries();
   if(id==='trains')          loadTrainEnquiries();
+  if(id==='rail-queue')      loadRailQueue();
+  if(id==='api-providers')   loadApiProviders();
   if(id==='site-settings')   {window.loadSiteSettings(); loadPageContent(); }
   if(id==='commissions')     loadCommissionsPage();
   if(id==='reminders')       initReminders();
