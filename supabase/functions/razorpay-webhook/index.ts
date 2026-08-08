@@ -147,6 +147,35 @@ serve(async (req) => {
             .upsert({ booking_id: b.id, status: 'pending', next_attempt_at: new Date().toISOString() }, { onConflict: 'booking_id' });
         }
 
+        // Train bookings: enqueue for MANUAL ticketing — unlike
+        // flights there is no auto-ticket-processor to invoke here.
+        // IRCTC has no open consolidator API, so every rail PNR is
+        // issued by an admin working rail_ticketing_queue (see
+        // 18_zoomfly_rail_booking.sql and the "Rail Ticketing Queue"
+        // admin tab). sla_due_at gives the admin panel something to
+        // flag as overdue.
+        if (b.service_type === 'train') {
+          const { data: fullBooking } = await supabase
+            .from('bookings').select('travel_details, travellers, total_amount, rail_provider')
+            .eq('id', b.id).maybeSingle();
+          const td = fullBooking?.travel_details || {};
+          await supabase.from('rail_ticketing_queue').upsert({
+            booking_id: b.id,
+            provider: fullBooking?.rail_provider || 'mock',
+            train_number: td.trainNumber,
+            train_name: td.trainName,
+            from_code: td.from,
+            to_code: td.to,
+            travel_date: td.travelDate,
+            class_code: td.classCode,
+            quota: td.quota || 'GN',
+            passengers: fullBooking?.travellers || [],
+            fare: { total: fullBooking?.total_amount },
+            status: 'queued',
+            sla_due_at: new Date(Date.now() + 4 * 3600 * 1000).toISOString(), // 4hr SLA, adjustable per admin_notes/process
+          }, { onConflict: 'booking_id' });
+        }
+
         // Award loyalty points now that the booking is genuinely paid —
         // non-fatal, and skipped if verify-razorpay-payment already did it
         // for this booking (earn_booking_points has no idempotency guard
@@ -194,6 +223,6 @@ serve(async (req) => {
     });
 
   } catch (err) {
-    return new Response(JSON.stringify({ error: err.message }), { status: 500 });
+    return new Response(JSON.stringify({ error: err instanceof Error ? err.message : String(err) }), { status: 500 });
   }
 });
