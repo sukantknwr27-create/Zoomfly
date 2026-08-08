@@ -1,0 +1,22 @@
+# Environment variables — real secrets go in Vercel / Supabase project
+# settings, never in this repo. See .env.example for the template.
+.env
+.env.local
+.env.*.local
+
+# Editor / OS cruft
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Dependency directories (in case local tooling is added later)
+node_modules/
+
+# Vercel / Supabase local CLI artifacts
+.vercel/
+.supabase/
+
+# Logs
+*.log
+npm-debug.log*

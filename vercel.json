@@ -122,20 +122,8 @@
       "dest": "/pages/co-travellers.html"
     },
     {
-      "src": "^/admin-packages$",
-      "dest": "/pages/admin-packages.html"
-    },
-    {
-      "src": "^/admin-customers$",
-      "dest": "/pages/admin-customers.html"
-    },
-    {
       "src": "^/messages$",
       "dest": "/pages/messages.html"
-    },
-    {
-      "src": "^/admin-reminders$",
-      "dest": "/pages/admin-reminders.html"
     },
     {
       "src": "^/loyalty$",
@@ -232,30 +220,6 @@
     {
       "src": "^/admin$",
       "dest": "/pages/admin.html"
-    },
-    {
-      "src": "^/admin-bookings$",
-      "dest": "/pages/admin-bookings.html"
-    },
-    {
-      "src": "^/admin-vendors$",
-      "dest": "/pages/admin-vendors.html"
-    },
-    {
-      "src": "^/admin-agents$",
-      "dest": "/pages/admin-agents.html"
-    },
-    {
-      "src": "^/admin-workflow$",
-      "dest": "/pages/admin-workflow.html"
-    },
-    {
-      "src": "^/admin-whatsapp-templates$",
-      "dest": "/pages/admin-whatsapp-templates.html"
-    },
-    {
-      "src": "^/admin-hotels$",
-      "dest": "/pages/admin-hotels.html"
     },
     {
       "src": "^/vendor-portal$",
