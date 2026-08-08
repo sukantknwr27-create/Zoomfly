@@ -148,7 +148,10 @@ serve(async (req) => {
       .select('id, booking_ref, total_amount')
       .single();
 
-    if (bookingError) throw new Error('Could not create booking: ' + bookingError.message);
+    if (bookingError) {
+      console.error('[flight-create-booking] insert failed:', bookingError.message);
+      throw new Error('Could not create booking. Please try again.');
+    }
 
     await supabase.from('flight_fare_holds')
       .update({ status: 'consumed', consumed_by_booking_id: booking.id })

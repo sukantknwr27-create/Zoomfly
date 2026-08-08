@@ -37,6 +37,22 @@ function corsHeaders(req: Request) {
   };
 }
 
+// ── RATE LIMITER ─────────────────────────────────────────────
+// This function triggers a real outbound call to a paid/rate-limited
+// third-party provider API per invocation — needs the same protection
+// as create-razorpay-order.
+const _rateWindows = new Map<string, number[]>();
+const RATE_LIMIT_MAX    = 10;      // 10 test attempts per window per IP
+const RATE_LIMIT_WINDOW = 60_000;  // 60 seconds
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const calls = (_rateWindows.get(ip) || []).filter(t => now - t < RATE_LIMIT_WINDOW);
+  calls.push(now);
+  _rateWindows.set(ip, calls);
+  return calls.length > RATE_LIMIT_MAX;
+}
+
 // Canned, always-valid test queries — a route/date that should
 // return *something* from a working provider regardless of which
 // consolidator is being tested.
@@ -55,6 +71,14 @@ const TEST_RAIL_PARAMS = {
 serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: corsHeaders(req) });
 
+  const ip = req.headers.get('x-forwarded-for')?.split(',')[0].trim() || 'unknown';
+  if (isRateLimited(ip)) {
+    return new Response(JSON.stringify({ success: false, message: 'Too many requests. Please try again later.' }), {
+      status: 429,
+      headers: { ...corsHeaders(req), 'Content-Type': 'application/json', 'Retry-After': '60' },
+    });
+  }
+
   try {
     const { providerId } = await req.json();
     if (!providerId) throw new Error('providerId is required.');
@@ -64,16 +88,17 @@ serve(async (req) => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
     );
 
-    // Caller must be an admin — this function is only ever invoked
-    // from admin.html with the admin's own JWT forwarded, and
-    // service-role bypasses this check entirely (used by nothing
-    // else today, but kept for defense-in-depth).
+    // Caller must be an authenticated admin — this function triggers a
+    // real outbound call against stored provider credentials, so a
+    // missing/invalid token must be rejected outright, not silently
+    // treated as "no user to check."
     const authHeader = req.headers.get('Authorization');
-    const { data: { user } } = await supabase.auth.getUser(authHeader?.replace('Bearer ', '') || '');
-    if (user) {
-      const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).maybeSingle();
-      if (profile?.role !== 'admin') throw new Error('Admin access required.');
-    }
+    const { data: { user } } = await supabase.auth
+      .getUser(authHeader?.replace('Bearer ', '') || '')
+      .catch(() => ({ data: { user: null } }));
+    if (!user) throw new Error('Admin access required.');
+    const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).maybeSingle();
+    if (profile?.role !== 'admin') throw new Error('Admin access required.');
 
     const { data: row, error: rowError } = await supabase
       .from('api_providers').select('*').eq('id', providerId).single();

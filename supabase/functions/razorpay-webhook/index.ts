@@ -31,7 +31,31 @@ async function verifyWebhookSignature(body: string, signature: string, secret: s
   return timingSafeEqual(expected, signature);
 }
 
+// ── RATE LIMITER ─────────────────────────────────────────────
+// Defense-in-depth: signature verification already rejects forged
+// payloads before any DB work happens, but a coarse limiter still
+// caps how much HMAC/DB work a flood of garbage requests can force.
+const _rateWindows = new Map<string, number[]>();
+const RATE_LIMIT_MAX    = 30;      // generous — legitimate retries from Razorpay must never be dropped
+const RATE_LIMIT_WINDOW = 60_000;  // 60 seconds
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const calls = (_rateWindows.get(ip) || []).filter(t => now - t < RATE_LIMIT_WINDOW);
+  calls.push(now);
+  _rateWindows.set(ip, calls);
+  return calls.length > RATE_LIMIT_MAX;
+}
+
 serve(async (req) => {
+  const ip = req.headers.get('x-forwarded-for')?.split(',')[0].trim() || 'unknown';
+  if (isRateLimited(ip)) {
+    return new Response(JSON.stringify({ error: 'Too many requests.' }), {
+      status: 429,
+      headers: { 'Content-Type': 'application/json', 'Retry-After': '60' },
+    });
+  }
+
   try {
     const body = await req.text();
     const signature = req.headers.get('x-razorpay-signature') || '';

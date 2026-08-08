@@ -152,7 +152,10 @@ serve(async (req) => {
       .select('id, booking_ref, total_amount')
       .single();
 
-    if (bookingError) throw new Error('Could not create booking: ' + bookingError.message);
+    if (bookingError) {
+      console.error('[rail-create-booking] insert failed:', bookingError.message);
+      throw new Error('Could not create booking. Please try again.');
+    }
 
     return new Response(JSON.stringify({
       bookingId: booking.id,

@@ -242,7 +242,10 @@ serve(async (req) => {
       .eq('id', booking_id)
       .select().single();
 
-    if (updateError) throw updateError;
+    if (updateError) {
+      console.error('[verify-razorpay-payment] booking update failed:', updateError.message);
+      throw new Error('Payment was captured but confirming the booking failed. Contact support with your payment reference.');
+    }
 
     // Award loyalty points now that the booking is genuinely paid — non-fatal:
     // a points-award failure shouldn't fail an already-successful payment.
