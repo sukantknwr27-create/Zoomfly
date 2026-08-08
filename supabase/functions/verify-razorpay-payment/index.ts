@@ -173,6 +173,25 @@ serve(async (req) => {
       }
     }
 
+    // ── Flight bookings have no catalog row to check total_amount
+    // against (unlike packages/hotels above) — their price-integrity
+    // check is instead against the flight_fare_holds row that
+    // flight-create-booking locked total_amount to at creation time.
+    // That row can never be edited by the client (service-role only),
+    // so an exact match — not a 50% tolerance — is the correct check
+    // here; there's no legitimate discount path that would cause a
+    // real mismatch.
+    if (booking.service_type === 'flight' && booking.flight_hold_id) {
+      const { data: hold } = await supabase.from('flight_fare_holds')
+        .select('fare').eq('id', booking.flight_hold_id).maybeSingle();
+      if (hold && Number(booking.total_amount) !== Number(hold.fare?.total)) {
+        await supabase.from('bookings').update({
+          internal_notes: `⚠️ FLIGHT PRICE MISMATCH: booking total ₹${booking.total_amount} does not match locked fare ₹${hold.fare?.total}. payment_id=${razorpay_payment_id}`,
+        }).eq('id', booking_id);
+        throw new Error("This booking's price does not match its locked fare. Our team has been flagged to review this payment.");
+      }
+    }
+
     // ── CRITICAL: confirm the amount actually captured by Razorpay
     // matches the booking's real price. A valid signature only proves
     // the order/payment IDs are genuine — it does NOT prove the
@@ -239,6 +258,31 @@ serve(async (req) => {
       } catch (loyaltyErr) {
         console.error('[verify-razorpay] Loyalty award threw:', loyaltyErr);
       }
+    }
+
+    // Flight bookings: kick off ticketing with the consolidator now
+    // that payment is genuinely confirmed, instead of the generic
+    // confirmation email below (flight-ticket-processor sends its own
+    // email once a PNR exists, or a refund notice if ticketing fails).
+    // Non-fatal here by design — flight_ticketing_queue plus the cron
+    // poll is the reliable backstop if this inline call times out or
+    // fails outright; see razorpay-webhook/index.ts for the same
+    // safety net on the webhook path.
+    if (updatedBooking.service_type === 'flight') {
+      try {
+        const { error: ticketError } = await supabase.functions.invoke('flight-ticket-processor', {
+          body: { bookingId: updatedBooking.id }
+        });
+        if (ticketError) console.error('[verify-razorpay] Flight ticketing invoke failed:', ticketError.message);
+      } catch (ticketErr) {
+        console.error('[verify-razorpay] Flight ticketing invoke threw:', ticketErr);
+      }
+      return new Response(JSON.stringify({
+        success: true,
+        booking_ref: updatedBooking.booking_ref,
+        status: 'confirmed',
+        message: 'Payment verified! Issuing your e-ticket now.'
+      }), { headers: { ...corsHeaders(req), 'Content-Type': 'application/json' } });
     }
 
     // Send confirmation email — non-fatal: log failure but don't fail the payment
