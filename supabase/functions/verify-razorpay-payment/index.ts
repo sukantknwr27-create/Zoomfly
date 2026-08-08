@@ -285,6 +285,43 @@ serve(async (req) => {
       }), { headers: { ...corsHeaders(req), 'Content-Type': 'application/json' } });
     }
 
+    // Train bookings: enqueue for MANUAL ticketing, same as the
+    // razorpay-webhook path (this is the fast, inline path most
+    // customers hit; the webhook is the backstop). No auto-ticket
+    // call — IRCTC has no open consolidator API, so a real admin
+    // always books the actual PNR. The customer sees an honest
+    // "booking confirmed, PNR being issued" message rather than an
+    // instant fake PNR.
+    if (updatedBooking.service_type === 'train') {
+      try {
+        const td = updatedBooking.travel_details || {};
+        const { error: queueError } = await supabase.from('rail_ticketing_queue').upsert({
+          booking_id: updatedBooking.id,
+          provider: updatedBooking.rail_provider || 'mock',
+          train_number: td.trainNumber,
+          train_name: td.trainName,
+          from_code: td.from,
+          to_code: td.to,
+          travel_date: td.travelDate,
+          class_code: td.classCode,
+          quota: td.quota || 'GN',
+          passengers: updatedBooking.travellers || [],
+          fare: { total: updatedBooking.total_amount },
+          status: 'queued',
+          sla_due_at: new Date(Date.now() + 4 * 3600 * 1000).toISOString(),
+        }, { onConflict: 'booking_id' });
+        if (queueError) console.error('[verify-razorpay] Rail queue insert failed:', queueError.message);
+      } catch (queueErr) {
+        console.error('[verify-razorpay] Rail queue insert threw:', queueErr);
+      }
+      return new Response(JSON.stringify({
+        success: true,
+        booking_ref: updatedBooking.booking_ref,
+        status: 'confirmed',
+        message: 'Payment verified! Your PNR will be booked and shared shortly — usually within a few hours.'
+      }), { headers: { ...corsHeaders(req), 'Content-Type': 'application/json' } });
+    }
+
     // Send confirmation email — non-fatal: log failure but don't fail the payment
     try {
       const { error: emailError } = await supabase.functions.invoke('send-booking-email', {
@@ -303,7 +340,7 @@ serve(async (req) => {
     }), { headers: { ...corsHeaders(req), 'Content-Type': 'application/json' } });
 
   } catch (err) {
-    return new Response(JSON.stringify({ error: err.message }), {
+    return new Response(JSON.stringify({ error: err instanceof Error ? err.message : String(err) }), {
       status: 400,
       headers: { ...corsHeaders(req), 'Content-Type': 'application/json' }
     });
