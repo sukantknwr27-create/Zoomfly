@@ -28,7 +28,10 @@
   <meta property="og:locale"       content="en_IN"/>
   <meta name="twitter:card"        content="summary_large_image"/>
   <meta name="twitter:image"       content="https://www.zoomfly.in/assets/og-image.jpg"/>
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TravelAgency","name":"ZoomFly","url":"https://www.zoomfly.in/","telephone":"+91-80761-36300","email":"hello@zoomfly.in","address":{"@type":"PostalAddress","streetAddress":"Connaught Place","addressLocality":"New Delhi","postalCode":"110001","addressCountry":"IN"},"aggregateRating":{"@type":"AggregateRating","ratingValue":"4.9","reviewCount":"5000"}}</script>
+  <!-- aggregateRating is intentionally omitted here — it's populated below,
+       only from real published reviews, never hardcoded. See the
+       "real aggregate rating" block further down this file. -->
+  <script type="application/ld+json" id="structured-data-travelagency">{"@context":"https://schema.org","@type":"TravelAgency","name":"ZoomFly","url":"https://www.zoomfly.in/","telephone":"+91-80761-36300","email":"hello@zoomfly.in","address":{"@type":"PostalAddress","streetAddress":"Connaught Place","addressLocality":"New Delhi","postalCode":"110001","addressCountry":"IN"}}</script>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     :root{--primary:#0057FF;--primary-dark:#0041CC;--primary-light:#EEF3FF;--accent:#C9922A;--accent-dark:#B37F1C;--text:#111827;--muted:#6B7280;--light:#9CA3AF;--bg:#fff;--bg2:#F9FAFB;--border:#E5E7EB;--success:#059669;--shadow-sm:0 1px 3px rgba(0,0,0,.06);--shadow:0 4px 16px rgba(0,0,0,.08);--shadow-lg:0 16px 48px rgba(0,0,0,.12);--r:16px;--r2:10px;--font:'Segoe UI',system-ui,sans-serif}
@@ -496,6 +499,36 @@ import { getPackages, addToWishlist, removeFromWishlist, getWishlist, supabase }
 // NOT a substitute for real SEO, since most search engine indexing reads
 // the raw static HTML. If Google indexing of the homepage title/description
 // matters, edit the static <title>/<meta> tags in index.html directly too.
+// ── Real aggregate rating for structured data (replaces a previously
+// hardcoded "4.9 / 5000 reviews" that had no real reviews behind it —
+// see docs/CHANGES_EMOJI_REMOVAL_AND_ICON_FIXES.md #8. Only ever pulled
+// from real, published reviews; if there aren't enough yet, the
+// aggregateRating property is left off the page entirely rather than
+// showing a number that isn't real. Google's own guidance is also that
+// a rating snippet backed by a handful of reviews isn't meaningful, so
+// MIN_REVIEWS_FOR_SNIPPET below is a deliberate floor, not just a
+// missing-data check.
+const MIN_REVIEWS_FOR_SNIPPET = 5;
+(async () => {
+  try {
+    const { data: reviews, error } = await supabase.from('reviews').select('rating').eq('is_published', true);
+    if (error || !reviews || reviews.length < MIN_REVIEWS_FOR_SNIPPET) return;
+    const avg = reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length;
+    const script = document.getElementById('structured-data-travelagency');
+    if (!script) return;
+    const json = JSON.parse(script.textContent);
+    json.aggregateRating = {
+      '@type': 'AggregateRating',
+      ratingValue: avg.toFixed(1),
+      reviewCount: String(reviews.length),
+    };
+    script.textContent = JSON.stringify(json);
+  } catch (e) {
+    // Fails safe: no rating shown rather than a broken/fake one.
+    console.error('[index] aggregate rating fetch failed:', e);
+  }
+})();
+
 (async () => {
   try {
     const { data } = await supabase.from('site_settings').select('homepage_hero_title,homepage_hero_subtitle,meta_title,meta_description').eq('id', 1).single();

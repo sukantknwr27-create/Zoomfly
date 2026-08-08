@@ -1,25 +1,55 @@
 # ZoomFly — Delivery
 
-## Files included
-- `admin.html` → replace `pages/admin.html`
-- `supabase/migration/09_zoomfly_round5_rls_auth_users_regression_fix.sql` → **run on your live DB now**
-- `supabase/migration/00_zoomfly_master_schema.sql` → updated reference copy (only needed if you ever rebuild a database from scratch)
-- `CHANGES_ROUND5.md` → full write-up of the 8 issues from your PDF and what fixed each one
+## Documentation
+All project documentation (setup guides + full changelog history) lives
+in [`docs/`](docs/INDEX.md) instead of being scattered across the repo
+root. **Start there** — `docs/INDEX.md` is the map, and its changelog
+table is in chronological order (oldest → newest) so you can see what
+shipped, when.
+
+## What to actually run right now
+This file intentionally does **not** list specific migrations or
+action items — those change every round, and a static list here goes
+stale the moment the next round ships (which already happened once —
+this file used to say "that's it, no other changes needed" after
+Round 5, which stopped being true as soon as Round 6 shipped).
+
+For the current "what do I need to run/deploy" list:
+1. Open `docs/INDEX.md` → find the **last row** in the Changelogs
+   table — that's the most recent round.
+2. Open that file's own "Before you deploy" / "Files changed" section
+   — each changelog is self-contained and lists exactly what's new for
+   that round.
+3. If you're not sure whether an earlier migration was ever run
+   against your live DB, migrations are idempotent (`IF NOT EXISTS` /
+   `ON CONFLICT DO NOTHING` throughout) — safe to re-run in order if
+   in doubt, staging first. All 19 migrations (`00` through `18`) are
+   present in `supabase/migration/`, no gaps.
 
 ## Note on image uploads
-Image uploads stay on **Supabase Storage** as they were before — the
-GitHub-based upload approach discussed earlier was reverted at your
-request. No setup changes needed here; uploads work the same way they
-always did.
+Image uploads stay on **Supabase Storage**. No separate setup needed —
+uploads work the same way across every round covered in `docs/`.
 
-## Action items, in order
+## Reading order for a new contributor
+See `docs/INDEX.md` → "Reading order for a new contributor." Note that
+`SETUP_GUIDE.md` and `FILE_PLACEMENT_GUIDE.md` in `docs/` describe the
+**original, earliest** version of the project (single migration file,
+4 edge functions, `js/` instead of `assets/js/`) and are kept only as
+historical background — see the notice at the top of each for what's
+actually current.
 
-1. **Run the SQL migration** — Supabase Dashboard → SQL Editor → paste and
-   run `09_zoomfly_round5_rls_auth_users_regression_fix.sql`. This is what
-   fixes Enquiries, Bookings, Workflow, Messages, and Flight Enquiries all
-   failing to load.
-2. **Replace `pages/admin.html`** with the one in this delivery and redeploy.
-   This includes: the destination-form scroll fix, the sidebar cleanup
-   (Travel Partners removed), and the new Commission Management page.
-
-That's it — no other code changes needed.
+## Known open items (not blockers, tracked deliberately)
+- `pages/destination.html` (singular) still runs on hardcoded
+  `DEST_DATA`, not the live `destinations` table — flagged in
+  `CHANGES_EMOJI_REMOVAL_AND_ICON_FIXES.md` as needing a scoping
+  decision before rebuilding.
+- The site's icon system uses styled emoji (`<span class="emoji-icon">`),
+  not SVG, despite an earlier changelog claiming an SVG pass — see the
+  correction note at the top of `CHANGES_EMOJI_REMOVAL_AND_ICON_FIXES.md`.
+  It works and is visually consistent; whether to redo it as SVG is a
+  design call, not a bug.
+- No real flight/rail consolidator (TBO/Tripjack/Riya/railYatri) is
+  wired in yet — everything runs on `MockFlightProvider`/`MockRailProvider`,
+  clearly labelled `isMock:true`. Activating a real provider from
+  Admin → API Providers before it's implemented fails loudly by design
+  rather than silently serving mock data as real.
