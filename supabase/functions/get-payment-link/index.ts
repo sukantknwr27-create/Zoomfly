@@ -91,7 +91,7 @@ serve(async (req) => {
       customer_name: link.customer_name || null,
     }), { headers: { ...corsHeaders(req), 'Content-Type': 'application/json' } });
   } catch (err) {
-    return new Response(JSON.stringify({ error: err.message }), {
+    return new Response(JSON.stringify({ error: err instanceof Error ? err.message : String(err) }), {
       status: 400,
       headers: { ...corsHeaders(req), 'Content-Type': 'application/json' },
     });
