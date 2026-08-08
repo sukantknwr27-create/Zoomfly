@@ -4,25 +4,40 @@
 //
 // Every flight consolidator (TBO, Tripjack, Riya Travel, Akbar B2B,
 // ...) has its own request/response shape and auth scheme. Nothing
-// in flight-search / flight-select-fare / flight-ticket-processor
+// in flight-search / flight-create-booking / flight-ticket-processor
 // should know which one is in use — they only talk to the
 // `FlightProvider` interface below. Swapping or adding a
 // consolidator later means writing one new file that implements
-// this interface and adding one line to getFlightProvider(); it
-// does NOT mean touching the edge functions or the frontend.
+// this interface, registering it in FLIGHT_PROVIDER_FACTORIES below,
+// and then activating it from the admin panel's "API Providers" tab
+// — it does NOT mean touching the edge functions or the frontend,
+// and (once the factory is registered) it does NOT mean redeploying
+// either; which provider is live is a row in the `api_providers`
+// table (see 17_zoomfly_api_providers.sql), editable by an admin at
+// any time.
 //
 // STATUS: no consolidator is wired up yet (no TBO/Tripjack/etc.
 // credentials exist in this project as of this migration). The
-// only implementation right now is MockFlightProvider, which
-// returns clearly-labelled placeholder data so the full booking
-// pipeline (search → lock → pay → ticket → confirm) can be built,
-// tested, and deployed end-to-end before a real consolidator
+// only working implementation right now is MockFlightProvider,
+// which returns clearly-labelled placeholder data so the full
+// booking pipeline (search → lock → pay → ticket → confirm) can be
+// built, tested, and deployed end-to-end before a real consolidator
 // contract is signed. Every mock result is tagged isMock:true and
 // every mock airline/flight number is obviously fake (see below) so
 // it can never be confused with a real fare — do not remove those
-// tags when wiring in a real provider; instead, delete
-// MockFlightProvider's usage from getFlightProvider() entirely.
+// tags when wiring in a real provider.
+//
+// The other provider classes in ./providers/ (tbo-flight.ts,
+// tripjack-flight.ts, riya-flight.ts) are STUBS: every method throws
+// a clear "not implemented" error. This is deliberate — if an admin
+// activates one of them in the admin panel before it's actually
+// implemented, search should fail loudly with an honest error, never
+// silently fall back to mock fares that could be mistaken for real
+// ones. Fill in a stub's methods once that consolidator's API docs +
+// sandbox credentials are in hand.
 // ============================================================
+
+import { getActiveProviderConfigs } from './provider-config.ts';
 
 export interface FlightSearchParams {
   origin: string;        // IATA code, e.g. "DEL"
@@ -184,21 +199,53 @@ export class MockFlightProvider implements FlightProvider {
 }
 
 // ────────────────────────────────────────────────────────────
-// FACTORY — swap in a real provider here once consolidator
-// credentials exist. Example for later:
-//
-//   if (Deno.env.get('FLIGHT_PROVIDER') === 'tbo') {
-//     const { TboFlightProvider } = await import('./providers/tbo.ts');
-//     return new TboFlightProvider(Deno.env.get('TBO_USERNAME')!, Deno.env.get('TBO_PASSWORD')!);
-//   }
+// FACTORY — DB-driven. Reads the active provider for service_type
+// 'flight' from api_providers (via provider-config.ts) and
+// instantiates the matching class. Register a new consolidator by
+// adding one entry to this map; nothing else in this file changes.
 // ────────────────────────────────────────────────────────────
-export function getFlightProvider(): FlightProvider {
-  const configured = Deno.env.get('FLIGHT_PROVIDER');
-  if (configured && configured !== 'mock') {
+type FlightProviderFactory = (
+  credentials: Record<string, string>,
+  config: Record<string, unknown>
+) => Promise<FlightProvider>;
+
+const FLIGHT_PROVIDER_FACTORIES: Record<string, FlightProviderFactory> = {
+  tbo: async (credentials, config) => {
+    const { TboFlightProvider } = await import('./providers/tbo-flight.ts');
+    return new TboFlightProvider(credentials, config);
+  },
+  tripjack: async (credentials, config) => {
+    const { TripjackFlightProvider } = await import('./providers/tripjack-flight.ts');
+    return new TripjackFlightProvider(credentials, config);
+  },
+  riya: async (credentials, config) => {
+    const { RiyaFlightProvider } = await import('./providers/riya-flight.ts');
+    return new RiyaFlightProvider(credentials, config);
+  },
+};
+
+// deno-lint-ignore no-explicit-any
+export async function getFlightProvider(supabase: any): Promise<FlightProvider> {
+  const configs = await getActiveProviderConfigs(supabase, 'flight');
+  const primary = configs[0];
+
+  if (!primary || primary.provider_key === 'mock') {
+    return new MockFlightProvider();
+  }
+
+  const factory = FLIGHT_PROVIDER_FACTORIES[primary.provider_key];
+  if (!factory) {
     throw new Error(
-      `FLIGHT_PROVIDER is set to "${configured}" but no real provider implementation exists yet. ` +
-      `Implement it in supabase/functions/_shared/providers/${configured}.ts and wire it into getFlightProvider().`
+      `Flight provider "${primary.provider_key}" is active in the admin panel but has no ` +
+      `implementation registered. Add supabase/functions/_shared/providers/${primary.provider_key}-flight.ts ` +
+      `and register it in FLIGHT_PROVIDER_FACTORIES (flight-provider.ts).`
     );
   }
-  return new MockFlightProvider();
+
+  // Intentionally not wrapped in a try/catch that falls back to
+  // MockFlightProvider: if the admin activated a real provider, a
+  // failure to initialize it (bad credentials, stub not yet filled
+  // in) must surface as a visible search error, not silently show
+  // customers mock fares as if they were real.
+  return factory(primary.credentials, primary.config);
 }
