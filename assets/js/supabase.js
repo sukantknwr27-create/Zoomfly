@@ -202,13 +202,23 @@ export async function getCarouselSlides(pageKey) {
   return data || [];
 }
 
+// PostgREST's `.or()` filter syntax treats `,` as a clause separator and
+// `()` as grouping — a raw search term containing either can inject extra
+// filter clauses instead of being matched as plain text. Strip them.
+function sanitizeSearchTerm(s) {
+  return String(s).replace(/[,()]/g, '').trim();
+}
+
 export async function getPackages({ type, category, maxPrice, minRating, search, limit } = {}) {
   let q = supabase.from('packages').select('*').eq('is_active', true);
   if (type && type !== 'all')         q = q.eq('type', type);
   if (category && category !== 'all') q = q.eq('category', category);
   if (maxPrice)                       q = q.lte('price', maxPrice);
   if (minRating)                      q = q.gte('rating', minRating);
-  if (search)                         q = q.or(`title.ilike.%${search}%,description.ilike.%${search}%`);
+  if (search) {
+    const term = sanitizeSearchTerm(search);
+    if (term) q = q.or(`title.ilike.%${term}%,description.ilike.%${term}%`);
+  }
   if (limit)                          q = q.limit(limit);
   const { data, error } = await q.order('review_count', { ascending: false });
   if (error) throw error;
@@ -239,8 +249,11 @@ export async function getHotels({ stars, maxPrice, city, search } = {}) {
   let q = supabase.from('hotels').select('*').eq('is_active', true);
   if (stars && stars !== 'all') q = q.gte('stars', parseInt(stars));
   if (maxPrice)   q = q.lte('price_per_night', maxPrice);
-  if (city)       q = q.ilike('city', `%${city}%`);
-  if (search)     q = q.or(`name.ilike.%${search}%,city.ilike.%${search}%`);
+  if (city)       q = q.ilike('city', `%${sanitizeSearchTerm(city)}%`);
+  if (search) {
+    const term = sanitizeSearchTerm(search);
+    if (term) q = q.or(`name.ilike.%${term}%,city.ilike.%${term}%`);
+  }
   const { data, error } = await q.order('stars', { ascending: false });
   if (error) throw error;
   return data;

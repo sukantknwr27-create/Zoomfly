@@ -332,7 +332,7 @@ function renderFooter() {
     <!-- COL 1: Brand -->
     <div class="zf-footer-brand">
       <a href="/" class="logo" style="margin-bottom:14px;display:inline-flex">
-        ${ZF.logoUrl ? `<img src="${ZF.logoUrl}" alt="${ZF.companyName||'ZoomFly'}" style="height:28px;width:auto;display:block">` : `
+        ${ZF.logoUrl ? `<img src="${esc(ZF.logoUrl)}" alt="${esc(ZF.companyName||'ZoomFly')}" style="height:28px;width:auto;display:block">` : `
         <span class="logo-zoom">Zoom</span><span class="logo-fly">Fly</span>
         <span class="emoji-icon" style="font-size:15px;line-height:1;display:inline-block;vertical-align:middle">✈️</span>`}
       </a>
@@ -360,11 +360,11 @@ function renderFooter() {
       <!-- Social links -->
       <div style="margin-bottom:4px;font-family:'Space Grotesk',system-ui;font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.28);margin-bottom:10px;">Follow Us</div>
       <div style="display:flex;gap:8px;">
-        <a href="${ZF.social.instagram || '#'}" ${ZF.social.instagram ? 'target="_blank" rel="noopener"' : 'onclick="return false" style="opacity:.35;cursor:default"'} title="Instagram" style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;transition:all .2s;text-decoration:none;" onmouseover="this.style.background='#C9922A';this.style.borderColor='#C9922A'" onmouseout="this.style.background='rgba(255,255,255,0.08)';this.style.borderColor='rgba(255,255,255,0.1)'"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
-        <a href="${ZF.social.facebook || '#'}" ${ZF.social.facebook ? 'target="_blank" rel="noopener"' : 'onclick="return false" style="opacity:.35;cursor:default"'} title="Facebook"  style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;transition:all .2s;text-decoration:none;" onmouseover="this.style.background='#C9922A'" onmouseout="this.style.background='rgba(255,255,255,0.08)'"><svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M13.5 21v-8h2.7l.4-3.1h-3.1V8c0-.9.25-1.5 1.55-1.5H17V3.7C16.7 3.66 15.7 3.57 14.5 3.57c-2.4 0-4 1.46-4 4.15V10H7.8v3.1h2.7V21z"/></svg></a>
-        <a href="https://wa.me/${ZF.whatsapp}" title="WhatsApp" style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;transition:all .2s;text-decoration:none;" onmouseover="this.style.background='#25D366'" onmouseout="this.style.background='rgba(255,255,255,0.08)'"><svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 0 0-8.5 15.2L2 22l4.9-1.5A10 10 0 1 0 12 2zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-2.9.9.9-2.8-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2.2-.7.8-.8.9-.2.2-.3.2-.5.1-.2-.1-1-.4-1.9-1.2-.7-.6-1.2-1.4-1.3-1.6-.1-.2 0-.4.1-.5l.4-.4c.1-.2.2-.3.2-.5.1-.2 0-.4 0-.5-.1-.1-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.2-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.7 4.3 3.8.6.3 1.1.4 1.4.5.6.2 1.2.2 1.6.1.5-.1 1.4-.6 1.6-1.1.2-.5.2-1 .1-1.1-.1-.1-.2-.2-.4-.3z"/></svg></a>
-        <a href="${ZF.social.youtube || '#'}" ${ZF.social.youtube ? 'target="_blank" rel="noopener"' : 'onclick="return false" style="opacity:.35;cursor:default"'} title="YouTube"   style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;transition:all .2s;text-decoration:none;" onmouseover="this.style.background='#C9922A'" onmouseout="this.style.background='rgba(255,255,255,0.08)'"><svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M23 12s0-3.6-.5-5.2c-.3-1-1-1.7-2-2C18.5 4.3 12 4.3 12 4.3s-6.5 0-8.5.5c-1 .3-1.7 1-2 2C1 8.4 1 12 1 12s0 3.6.5 5.2c.3 1 1 1.7 2 2 2 .5 8.5.5 8.5.5s6.5 0 8.5-.5c1-.3 1.7-1 2-2 .5-1.6.5-5.2.5-5.2z"/><path d="M9.8 15.3 15.8 12 9.8 8.7z" fill="#0f172a"/></svg></a>
-        <a href="${ZF.social.twitter || '#'}" ${ZF.social.twitter ? 'target="_blank" rel="noopener"' : 'onclick="return false" style="opacity:.35;cursor:default"'} title="Twitter/X" style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700;color:rgba(255,255,255,.65);transition:all .2s;text-decoration:none;" onmouseover="this.style.background='#C9922A'" onmouseout="this.style.background='rgba(255,255,255,0.08)'">𝕏</a>
+        <a href="${esc(ZF.social.instagram) || '#'}" ${ZF.social.instagram ? 'target="_blank" rel="noopener"' : 'onclick="return false" style="opacity:.35;cursor:default"'} title="Instagram" style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;transition:all .2s;text-decoration:none;" onmouseover="this.style.background='#C9922A';this.style.borderColor='#C9922A'" onmouseout="this.style.background='rgba(255,255,255,0.08)';this.style.borderColor='rgba(255,255,255,0.1)'"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+        <a href="${esc(ZF.social.facebook) || '#'}" ${ZF.social.facebook ? 'target="_blank" rel="noopener"' : 'onclick="return false" style="opacity:.35;cursor:default"'} title="Facebook" style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;transition:all .2s;text-decoration:none;" onmouseover="this.style.background='#C9922A'" onmouseout="this.style.background='rgba(255,255,255,0.08)'"><svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M13.5 21v-8h2.7l.4-3.1h-3.1V8c0-.9.25-1.5 1.55-1.5H17V3.7C16.7 3.66 15.7 3.57 14.5 3.57c-2.4 0-4 1.46-4 4.15V10H7.8v3.1h2.7V21z"/></svg></a>
+        <a href="https://wa.me/${esc(ZF.whatsapp)}" title="WhatsApp" style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;transition:all .2s;text-decoration:none;" onmouseover="this.style.background='#25D366'" onmouseout="this.style.background='rgba(255,255,255,0.08)'"><svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 0 0-8.5 15.2L2 22l4.9-1.5A10 10 0 1 0 12 2zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-2.9.9.9-2.8-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2.2-.7.8-.8.9-.2.2-.3.2-.5.1-.2-.1-1-.4-1.9-1.2-.7-.6-1.2-1.4-1.3-1.6-.1-.2 0-.4.1-.5l.4-.4c.1-.2.2-.3.2-.5.1-.2 0-.4 0-.5-.1-.1-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.2-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.7 4.3 3.8.6.3 1.1.4 1.4.5.6.2 1.2.2 1.6.1.5-.1 1.4-.6 1.6-1.1.2-.5.2-1 .1-1.1-.1-.1-.2-.2-.4-.3z"/></svg></a>
+        <a href="${esc(ZF.social.youtube) || '#'}" ${ZF.social.youtube ? 'target="_blank" rel="noopener"' : 'onclick="return false" style="opacity:.35;cursor:default"'} title="YouTube" style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;transition:all .2s;text-decoration:none;" onmouseover="this.style.background='#C9922A'" onmouseout="this.style.background='rgba(255,255,255,0.08)'"><svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M23 12s0-3.6-.5-5.2c-.3-1-1-1.7-2-2C18.5 4.3 12 4.3 12 4.3s-6.5 0-8.5.5c-1 .3-1.7 1-2 2C1 8.4 1 12 1 12s0 3.6.5 5.2c.3 1 1 1.7 2 2 2 .5 8.5.5 8.5.5s6.5 0 8.5-.5c1-.3 1.7-1 2-2 .5-1.6.5-5.2.5-5.2z"/><path d="M9.8 15.3 15.8 12 9.8 8.7z" fill="#0f172a"/></svg></a>
+        <a href="${esc(ZF.social.twitter) || '#'}" ${ZF.social.twitter ? 'target="_blank" rel="noopener"' : 'onclick="return false" style="opacity:.35;cursor:default"'} title="Twitter/X" style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700;color:rgba(255,255,255,.65);transition:all .2s;text-decoration:none;" onmouseover="this.style.background='#C9922A'" onmouseout="this.style.background='rgba(255,255,255,0.08)'">𝕏</a>
       </div>
     </div>
 
@@ -415,24 +415,24 @@ function renderFooter() {
       <h4>CONTACT US</h4>
       <div style="display:flex;flex-direction:column;gap:12px;">
         <div>
-          <a href="tel:${ZF.phone.replace(/\s+/g,'')}" style="display:flex;align-items:center;gap:7px;color:rgba(255,255,255,0.7);font-size:.82rem;text-decoration:none;margin-bottom:3px;">
-            <span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">📞</span> ${ZF.phone}
+          <a href="tel:${esc(ZF.phone.replace(/\s+/g,''))}" style="display:flex;align-items:center;gap:7px;color:rgba(255,255,255,0.7);font-size:.82rem;text-decoration:none;margin-bottom:3px;">
+            <span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">📞</span> ${esc(ZF.phone)}
           </a>
           <div style="font-size:.72rem;color:rgba(255,255,255,0.35);padding-left:22px;">Mon – Sat (9 AM – 8 PM)</div>
         </div>
         <div>
-          <a href="mailto:${ZF.email}" style="display:flex;align-items:center;gap:7px;color:rgba(255,255,255,0.7);font-size:.82rem;text-decoration:none;margin-bottom:3px;">
-            <span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">📧</span> ${ZF.email}
+          <a href="mailto:${esc(ZF.email)}" style="display:flex;align-items:center;gap:7px;color:rgba(255,255,255,0.7);font-size:.82rem;text-decoration:none;margin-bottom:3px;">
+            <span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">📧</span> ${esc(ZF.email)}
           </a>
           <div style="font-size:.72rem;color:rgba(255,255,255,0.35);padding-left:22px;">We reply within 30 mins</div>
         </div>
         <div style="display:flex;align-items:flex-start;gap:7px;font-size:.79rem;color:rgba(255,255,255,0.55);line-height:1.6;">
           <span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">📍</span>
-          <span>${ZF.address}</span>
+          <span>${esc(ZF.address)}</span>
         </div>
-        ${ZF.gstin ? `<div style="font-size:.72rem;color:rgba(255,255,255,0.35);">GSTIN: ${ZF.gstin}</div>` : ''}
+        ${ZF.gstin ? `<div style="font-size:.72rem;color:rgba(255,255,255,0.35);">GSTIN: ${esc(ZF.gstin)}</div>` : ''}
         <div>
-          <a href="https://wa.me/${ZF.whatsapp}" style="display:flex;align-items:center;gap:7px;color:rgba(255,255,255,0.7);font-size:.82rem;text-decoration:none;">
+          <a href="https://wa.me/${esc(ZF.whatsapp)}" style="display:flex;align-items:center;gap:7px;color:rgba(255,255,255,0.7);font-size:.82rem;text-decoration:none;">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="#25D366" style="flex-shrink:0"><path d="M12 2a10 10 0 0 0-8.5 15.2L2 22l4.9-1.5A10 10 0 1 0 12 2zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-2.9.9.9-2.8-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2.2-.7.8-.8.9-.2.2-.3.2-.5.1-.2-.1-1-.4-1.9-1.2-.7-.6-1.2-1.4-1.3-1.6-.1-.2 0-.4.1-.5l.4-.4c.1-.2.2-.3.2-.5.1-.2 0-.4 0-.5-.1-.1-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.2-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.7 4.3 3.8.6.3 1.1.4 1.4.5.6.2 1.2.2 1.6.1.5-.1 1.4-.6 1.6-1.1.2-.5.2-1 .1-1.1-.1-.1-.2-.2-.4-.3z"/></svg> WhatsApp Chat
           </a>
           <div style="font-size:.72rem;color:rgba(255,255,255,0.35);padding-left:22px;">Quick support on WhatsApp</div>
@@ -494,7 +494,7 @@ function renderFooter() {
   <!-- BOTTOM BAR -->
   <div style="padding:16px 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
     <div style="display:flex;align-items:center;gap:6px;">
-      <span style="font-size:.78rem;color:rgba(255,255,255,0.28);">${yr} ${ZF.companyName || 'ZoomFly'}. All rights reserved.</span>
+      <span style="font-size:.78rem;color:rgba(255,255,255,0.28);">${yr} ${esc(ZF.companyName || 'ZoomFly')}. All rights reserved.</span>
       <span style="color:rgba(255,255,255,0.15);margin:0 2px">·</span>
       <span style="font-size:.75rem;color:rgba(255,255,255,0.22);">Made with  in India</span>
     </div>
@@ -520,7 +520,7 @@ function initHeroCarousel() {
   if (!el || !ZF.heroImages || !ZF.heroImages.length) return;
 
   el.innerHTML = ZF.heroImages.map((src, i) => `
-    <img src="${src}" alt="" style="position:absolute;inset:0;width:100%;height:100%;
+    <img src="${esc(src)}" alt="" style="position:absolute;inset:0;width:100%;height:100%;
          object-fit:cover;opacity:${i===0?1:0};transition:opacity 1.6s ease;"
          onerror="this.style.display='none'"/>
   `).join('') + `
@@ -542,7 +542,7 @@ function initHeroCarousel() {
 
 function renderWA() {
   document.body.insertAdjacentHTML('beforeend',
-    `<a href="https://wa.me/${ZF.whatsapp}?text=Hi%20ZoomFly!%20I%20want%20to%20enquire%20about%20a%20trip."
+    `<a href="https://wa.me/${esc(ZF.whatsapp)}?text=Hi%20ZoomFly!%20I%20want%20to%20enquire%20about%20a%20trip."
         class="wa-float" target="_blank" rel="noopener" title="Chat on WhatsApp"><svg width="30" height="30" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 0 0-8.5 15.2L2 22l4.9-1.5A10 10 0 1 0 12 2zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-2.9.9.9-2.8-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2.2-.7.8-.8.9-.2.2-.3.2-.5.1-.2-.1-1-.4-1.9-1.2-.7-.6-1.2-1.4-1.3-1.6-.1-.2 0-.4.1-.5l.4-.4c.1-.2.2-.3.2-.5.1-.2 0-.4 0-.5-.1-.1-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.2-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.7 4.3 3.8.6.3 1.1.4 1.4.5.6.2 1.2.2 1.6.1.5-.1 1.4-.6 1.6-1.1.2-.5.2-1 .1-1.1-.1-.1-.2-.2-.4-.3z"/></svg></a>`
   );
 }
@@ -636,7 +636,7 @@ function tourCard(p, delay = 0) {
   const savings     = oldPrice > price ? oldPrice - price : 0;
 
   return `
-    <a href="/pages/package-detail.html?id=${id}"
+    <a href="/pages/package-detail.html?id=${esc(id)}"
        class="tour-card card reveal"
        style="transition-delay:${delay}ms;display:block;text-decoration:none;color:inherit;">
       <div class="tour-img"
