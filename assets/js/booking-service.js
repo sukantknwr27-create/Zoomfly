@@ -8,7 +8,7 @@
 //  Imported by:  booking.js (orchestrator)
 // ============================================================
 
-import { supabase } from './supabase.js';
+import { supabase, extractFunctionError } from './supabase.js';
 
 const CONFIG = {
   gst_rate: 0.18,
@@ -55,7 +55,7 @@ export async function getBookingByRef(ref, guestEmail = null) {
   const { data, error } = await supabase.functions.invoke('get-guest-booking', {
     body: { booking_ref: ref.trim().toUpperCase(), email: guestEmail.trim() },
   });
-  if (error || !data?.booking) throw new Error(data?.error || error?.message || 'Booking not found.');
+  if (error || !data?.booking) throw new Error(data?.error || await extractFunctionError(error, 'Booking not found.'));
   return data.booking;
 }
 
@@ -102,7 +102,7 @@ export async function confirmPayment(bookingId, razorpayResponse, method = 'upi'
       razorpay_signature:  razorpayResponse.razorpay_signature,
     },
   });
-  if (error || !data?.success) throw new Error(data?.error || error?.message || 'Payment verification failed');
+  if (error || !data?.success) throw new Error(data?.error || await extractFunctionError(error, 'Payment verification failed'));
   return data;
 }
 

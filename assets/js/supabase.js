@@ -49,8 +49,12 @@ async function safeGetUser() {
 let _razorpayKeyId = '';
 export function getRazorpayKeyId() { return _razorpayKeyId; }
 
-// Fetch the publishable key from the server (Vercel edge config / env var)
-(async () => {
+// Fetch the publishable key from the server (Vercel edge config / env var).
+// Exported as a promise so callers can `await razorpayConfigReady` before
+// reading getRazorpayKeyId() — without this, a caller that reads the key
+// immediately on import (before this fetch resolves) always gets '',
+// indistinguishable from "no key configured" even when one genuinely is.
+export const razorpayConfigReady = (async () => {
   try {
     const res = await fetch('/api/config');
     if (res.ok) {
@@ -63,7 +67,12 @@ export function getRazorpayKeyId() { return _razorpayKeyId; }
 })();
 
 // Legacy export kept for backward-compat — always returns '' until fetch resolves.
-// Prefer getRazorpayKeyId() after awaiting the module init.
+// Prefer getRazorpayKeyId() (after awaiting razorpayConfigReady) instead —
+// this one can never reflect the real key since a `const` export can't be
+// live-updated the way the getter above can. payment.html previously
+// imported this by mistake, which meant online Razorpay payment was
+// silently disabled regardless of what key was configured in Vercel; see
+// docs/CHANGES_RAZORPAY_KEY_WIRING.md.
 export const RAZORPAY_KEY_ID = '';
 
 function siteUrl() {
@@ -548,6 +557,36 @@ export async function subscribeNewsletter(email, source = 'website') {
     .insert({ email, source, subscribed_at: new Date().toISOString() });
   if (error && error.code !== '23505') throw error;
   return { alreadySubscribed: error?.code === '23505' };
+}
+
+// ── EDGE FUNCTION ERROR EXTRACTION ───────────────────────
+// supabase.functions.invoke() puts the actual error body a function
+// sent back (e.g. {"error": "adult fare requires age 12+"}, or
+// {"error": "...", "soldOut": true}) on error.context — a raw
+// Response object — NOT on `data`, which is always null whenever
+// error is set. Every call site across the site that did
+// `data?.error || error?.message || 'fallback'` (or checked
+// `data?.soldOut`) was silently showing Supabase's generic "Edge
+// Function returned a non-2xx status code" instead of the specific,
+// actionable message the function actually sent — including
+// validation errors a customer could immediately act on getting
+// swallowed into a useless generic popup, and special-case flags
+// like soldOut never being detected at all.
+export async function extractFunctionErrorBody(error) {
+  if (!error) return null;
+  try {
+    if (error.context && typeof error.context.json === 'function') {
+      return await error.context.json();
+    }
+  } catch (_) {
+    // context wasn't valid JSON, or already consumed
+  }
+  return null;
+}
+
+export async function extractFunctionError(error, fallback) {
+  const body = await extractFunctionErrorBody(error);
+  return body?.error || error?.message || fallback;
 }
 
 // ── LIVE INVENTORY STATS ─────────────────────────────────
