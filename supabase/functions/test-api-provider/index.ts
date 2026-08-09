@@ -68,12 +68,19 @@ serve(async (req) => {
     // from admin.html with the admin's own JWT forwarded, and
     // service-role bypasses this check entirely (used by nothing
     // else today, but kept for defense-in-depth).
+    //
+    // FIXED: this used to be `if (user) { ...check role... }` — when
+    // there was no valid user at all (missing/invalid Authorization
+    // header), the admin check was skipped entirely rather than
+    // failing closed, letting an unauthenticated caller trigger a
+    // live test call against any configured supplier's stored
+    // credentials and read back success/failure + error text. Both
+    // "no user" and "user isn't an admin" must now reject.
     const authHeader = req.headers.get('Authorization');
     const { data: { user } } = await supabase.auth.getUser(authHeader?.replace('Bearer ', '') || '');
-    if (user) {
-      const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).maybeSingle();
-      if (profile?.role !== 'admin') throw new Error('Admin access required.');
-    }
+    if (!user) throw new Error('Authentication required.');
+    const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).maybeSingle();
+    if (profile?.role !== 'admin') throw new Error('Admin access required.');
 
     const { data: row, error: rowError } = await supabase
       .from('api_providers').select('*').eq('id', providerId).single();
