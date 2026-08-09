@@ -118,6 +118,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
               <option selected>1 Person</option><option>2 Persons</option><option>3 Persons</option>
               <option>4 Persons</option><option>5 Persons</option><option>6+ Persons</option>
             </select>
+            <div id="g-pax-note" style="display:none;font-size:.75rem;color:var(--muted);margin-top:.4rem">Traveling as a larger group? <a href="/pages/group-booking.html" style="color:var(--primary)">Use Group Booking</a> for the best rates.</div>
           </div>
         </div>
         <div class="fg"><label>Special Requests (optional)</label><input class="fc" id="g-note" placeholder="Dietary needs, room preferences, anniversary, etc."/></div>
@@ -364,6 +365,21 @@ let tax = 0;
 let total = 0;
 let selectedMethod = 'whatsapp'; // shared across the page; updated when user picks a payment method
 
+// A real hotel room has real capacity limits — nothing was stopping a
+// customer from selecting "6+ Persons" for a single room before,
+// which no actual room can hold. Cap the dropdown at a realistic
+// single-room occupancy for hotel bookings and point anyone who
+// needs more toward the Group Booking page instead of silently
+// letting them book a room that can't fit their party.
+if (bookingUnit === 'room') {
+  const paxSelect = document.getElementById('g-pax');
+  if (paxSelect) {
+    [...paxSelect.options].forEach(opt => { if (parseInt(opt.value || opt.textContent) > 4) opt.remove(); });
+  }
+  const paxNote = document.getElementById('g-pax-note');
+  if (paxNote) paxNote.style.display = 'block';
+}
+
 // ── SERVER-SIDE PRICE VERIFICATION ───────────────────────────
 // Prices used to travel to this page as a URL query param, which
 // anyone could edit before the page loaded. If we have a service_id
@@ -513,13 +529,26 @@ function calcAmounts() {
     tax = 0;
     return { rawBase: basePerPerson, finalTotal: basePerPerson };
   }
-  const rawBase = bookingUnit === 'room' ? basePerPerson : basePerPerson * numPersons;
+  // Hotel rooms include BASE_OCCUPANCY guests in the listed rate —
+  // matches how the base rate is priced/quoted in the first place.
+  // Extra guests cost EXTRA_GUEST_RATE (a % of the room rate, not a
+  // flat rupee amount) per additional guest, since hotel prices here
+  // range from ₹4,500 to ₹45,000/night — a flat surcharge would be
+  // trivial at the high end and punitive at the low end. Shown as
+  // its own line in the price breakdown below rather than folded
+  // silently into "Room per Night", so the customer can see exactly
+  // why the total went up.
+  const BASE_OCCUPANCY = 2;
+  const EXTRA_GUEST_RATE = 0.15;
+  const extraGuests = bookingUnit === 'room' ? Math.max(0, numPersons - BASE_OCCUPANCY) : 0;
+  const extraGuestCharge = bookingUnit === 'room' ? Math.round(basePerPerson * EXTRA_GUEST_RATE * extraGuests) : 0;
+  const rawBase = bookingUnit === 'room' ? basePerPerson + extraGuestCharge : basePerPerson * numPersons;
   tax = Math.round(rawBase * 0.05);
-  return { rawBase, finalTotal: rawBase - discount + tax + (addonTotal || 0) };
+  return { rawBase, finalTotal: rawBase - discount + tax + (addonTotal || 0), extraGuests, extraGuestCharge };
 }
 
 function renderSummary() {
-  const { rawBase, finalTotal } = calcAmounts();
+  const { rawBase, finalTotal, extraGuests, extraGuestCharge } = calcAmounts();
   const unitLabel = bookingUnit === 'flight'
     ? `Flight Booking${existingBookingRef ? ' · ' + existingBookingRef : ''}`
     : bookingUnit === 'train'
@@ -538,7 +567,8 @@ function renderSummary() {
   document.getElementById('price-breakdown').innerHTML = isPreCreatedBooking
     ? `<div class="price-row"><span>Fare (incl. taxes &amp; fees)</span><span>₹${rawBase.toLocaleString('en-IN')}</span></div>
        <div class="price-row total"><span>Total Payable</span><span>₹${finalTotal.toLocaleString('en-IN')}</span></div>`
-    : `<div class="price-row"><span>${bookingUnit === 'room' ? 'Room per Night' : `₹${basePerPerson.toLocaleString('en-IN')} × ${numPersons} person${numPersons > 1 ? 's' : ''}`}</span><span>₹${rawBase.toLocaleString('en-IN')}</span></div>
+    : `<div class="price-row"><span>${bookingUnit === 'room' ? 'Room per Night' : `₹${basePerPerson.toLocaleString('en-IN')} × ${numPersons} person${numPersons > 1 ? 's' : ''}`}</span><span>₹${basePerPerson.toLocaleString('en-IN')}</span></div>
+    ${extraGuestCharge > 0 ? `<div class="price-row"><span>Extra Guest Charge (${extraGuests} guest${extraGuests > 1 ? 's' : ''} beyond 2)</span><span>₹${extraGuestCharge.toLocaleString('en-IN')}</span></div>` : ''}
     ${discount ? `<div class="price-row"><span>Promo Discount</span><span class="discount">−₹${discount.toLocaleString('en-IN')}</span></div>` : ''}
     <div class="price-row"><span>GST (5%)</span><span>₹${tax.toLocaleString('en-IN')}</span></div>
     <div class="price-row total"><span>Total Payable</span><span>₹${finalTotal.toLocaleString('en-IN')}</span></div>`;
