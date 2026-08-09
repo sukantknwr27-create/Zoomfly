@@ -1,5 +1,20 @@
 name: Deploy Supabase Edge Functions
 
+# Runs automatically whenever anything under supabase/functions/ changes
+# on main, and can also be triggered manually from the Actions tab
+# (Actions → Deploy Supabase Edge Functions → Run workflow) — use the
+# manual trigger the first time, since committing this workflow file
+# itself won't match the path filter below.
+#
+# All functions deploy with --no-verify-jwt: every function here needs
+# it for CORS preflight requests to succeed, and razorpay-webhook needs
+# it permanently since Razorpay never sends a Supabase JWT.
+#
+# Requires one repo secret: SUPABASE_ACCESS_TOKEN
+# (GitHub repo → Settings → Secrets and variables → Actions → New
+# repository secret). Get the token from the Supabase dashboard →
+# account icon (top right) → Access Tokens → Generate new token.
+
 on:
   push:
     branches: [main]
