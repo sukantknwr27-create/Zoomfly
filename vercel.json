@@ -43,7 +43,7 @@
   "routes": [
     {
       "src": "^/sitemap-packages\\.xml$",
-      "dest": "https://YOUR-PROJECT-REF.supabase.co/functions/v1/generate-sitemap"
+      "dest": "https://ndaurluolurdljrjbxii.supabase.co/functions/v1/generate-sitemap"
     },
     {
       "src": "^/$",
