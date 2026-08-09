@@ -661,11 +661,20 @@ function openPassengerModal(holdId, fare, result) {
       if (error || data?.error) throw new Error(data?.error || await extractFunctionError(error, 'Could not create booking.'));
 
       const seg = result.segments[0];
+      const leadPax = passengers[0];
       const params = new URLSearchParams({
         type: 'flight', unit: 'flight',
         booking_id: data.bookingId, booking_ref: data.bookingRef,
         amount: String(data.totalAmount),
         name: `${seg.from} → ${seg.to}`,
+        // `name` above is the flight route, used to label the item in
+        // the Order Summary — payment.html's guest-name pre-fill
+        // logic previously also read this SAME param, so the flight
+        // route ("DEL → BOM") ended up stuffed into the "Full Name"
+        // field instead of the actual passenger's name, which also
+        // was never being sent at all. guest_name is a distinct param
+        // carrying the real lead passenger's name collected just above.
+        guest_name: `${leadPax.firstName} ${leadPax.lastName}`.trim(),
         email: contactEmail, phone: contactPhone,
       });
       window.location.href = `/pages/payment.html?${params.toString()}`;
