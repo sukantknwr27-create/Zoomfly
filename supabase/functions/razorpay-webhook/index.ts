@@ -3,7 +3,7 @@
 // File: supabase/functions/razorpay-webhook/index.ts
 // Deploy: npx supabase functions deploy razorpay-webhook
 // Register webhook URL in Razorpay Dashboard:
-//   https://YOUR_PROJECT_ID.supabase.co/functions/v1/razorpay-webhook
+//   https://ndaurluolurdljrjbxii.supabase.co/functions/v1/razorpay-webhook
 // ============================================================
 
 import { serve } from 'https://deno.land/std@0.224.0/http/server.ts';
