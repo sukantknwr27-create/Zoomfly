@@ -115,7 +115,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
           <div class="fg"><label>Mobile *</label><input class="fc" id="g-phone" type="tel" placeholder="+91 80761 36300"/></div>
           <div class="fg"><label>No. of Travellers</label>
             <select class="fc" id="g-pax">
-              <option>1 Person</option><option selected>2 Persons</option><option>3 Persons</option>
+              <option selected>1 Person</option><option>2 Persons</option><option>3 Persons</option>
               <option>4 Persons</option><option>5 Persons</option><option>6+ Persons</option>
             </select>
           </div>
@@ -150,7 +150,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
 
       <div class="methods" id="methods">
         <!-- Razorpay -->
-        <div class="method-opt selected" onclick="selectMethod(this,'razorpay')">
+        <div class="method-opt" onclick="selectMethod(this,'razorpay')">
           <div class="method-head">
             <div class="method-radio"></div>
             <div class="method-icon"><span class="emoji-icon" style="font-size:13px;line-height:1;display:inline-block;vertical-align:middle">🚕</span></div>
@@ -201,7 +201,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
         </div>
 
         <!-- Bank Transfer / NEFT -->
-        <div class="method-opt" onclick="selectMethod(this,'neft')">
+        <div class="method-opt selected" data-method="neft" onclick="selectMethod(this,'neft')">
           <div class="method-head">
             <div class="method-radio"></div>
             <div class="method-icon"><span class="emoji-icon" style="font-size:13px;line-height:1;display:inline-block;vertical-align:middle">✅</span></div>
@@ -209,12 +209,13 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
           </div>
           <div class="method-body">
             <div class="bank-details">
-              <div class="bd-row"><span>Account Name</span><strong>ZoomFly Travel Pvt Ltd</strong></div>
-              <div class="bd-row"><span>Bank</span><strong>HDFC Bank</strong></div>
-              <div class="bd-row"><span>Account No.</span><strong>50200012345678</strong></div>
-              <div class="bd-row"><span>IFSC Code</span><strong>HDFC0001234</strong></div>
-              <div class="bd-row"><span>Branch</span><strong>Connaught Place, New Delhi</strong></div>
+              <div class="bd-row"><span>Account Name</span><strong>Sukant Kunwar</strong></div>
+              <div class="bd-row"><span>Bank</span><strong>State Bank of India</strong></div>
+              <div class="bd-row"><span>Account No.</span><strong>20535517476</strong></div>
+              <div class="bd-row"><span>IFSC Code</span><strong>SBIN0065136</strong></div>
+              <div class="bd-row"><span>Branch</span><strong>MG Road, Gurugram</strong></div>
             </div>
+            <p style="font-size:.8rem;color:var(--muted);margin-top:.6rem"><strong>UPI:</strong> zoomfly@axl</p>
             <p style="font-size:.78rem;color:var(--muted);margin-top:.75rem">After transfer, WhatsApp the UTR number to <strong>+91 80761 36300</strong> to confirm your booking instantly.</p>
           </div>
         </div>
@@ -650,8 +651,9 @@ window.processPayment = async () => {
         : 'Still verifying the price for this booking — please try again in a moment.');
       return;
     }
-    const { RAZORPAY_KEY_ID } = await import('../assets/js/supabase.js');
-    const razorKey = RAZORPAY_KEY_ID || 'rzp_test_YOUR_KEY_HERE';
+    const { getRazorpayKeyId, razorpayConfigReady } = await import('../assets/js/supabase.js');
+    await razorpayConfigReady; // guarantees /api/config has resolved before we read the key
+    const razorKey = getRazorpayKeyId() || 'rzp_test_YOUR_KEY_HERE';
 
     if (razorKey && !razorKey.includes('YOUR_KEY') && window.Razorpay) {
       // This branch creates its own booking below, so on any failure it
@@ -753,7 +755,7 @@ window.processPayment = async () => {
     // Razorpay key not configured / script not loaded — no booking has
     // been created yet in this branch, so it's safe to fall through to
     // the manual-booking flow below.
-    console.warn('[ZoomFly] Razorpay key not configured. Update RAZORPAY_KEY_ID in supabase.js. Falling back to WhatsApp booking.');
+    console.warn('[ZoomFly] Razorpay key not configured. Set RAZORPAY_KEY_ID in Vercel → Environment Variables. Falling back to WhatsApp booking.');
   }
 
   // For NEFT/bank transfer or fallback
