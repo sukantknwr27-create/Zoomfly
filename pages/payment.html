@@ -634,7 +634,7 @@ window.processPayment = async () => {
   if (!phone) formErrors.push('Phone number is required');
   if (formErrors.length) {
     btn.disabled  = false;
-    btn.innerHTML = `Pay Securely Now — ₹${total.toLocaleString('en-IN')}`;
+    btn.innerHTML = `Pay Securely Now — <span id="pay-amount">₹${total.toLocaleString('en-IN')}</span>`;
     alert('Please fill in:\n' + formErrors.join('\n'));
     return;
   }
@@ -645,7 +645,7 @@ window.processPayment = async () => {
   if (['razorpay','upi','netbanking','emi'].includes(selectedMethod)) {
     if (!priceVerified) {
       btn.disabled  = false;
-      btn.innerHTML = `Pay Securely Now — ₹${total.toLocaleString('en-IN')}`;
+      btn.innerHTML = `Pay Securely Now — <span id="pay-amount">₹${total.toLocaleString('en-IN')}</span>`;
       alert(priceCheckFailed
         ? 'We could not verify the current price for this booking. Please go back and click "Book Now" again, or use Bank Transfer / WhatsApp to book — our team will confirm pricing manually.'
         : 'Still verifying the price for this booking — please try again in a moment.');
@@ -741,13 +741,13 @@ window.processPayment = async () => {
             }
             document.getElementById('success-overlay').classList.add('show');
           },
-          modal: { ondismiss: () => { btn.disabled = false; btn.innerHTML = `Pay Securely Now — ₹${total.toLocaleString('en-IN')}`; } }
+          modal: { ondismiss: () => { btn.disabled = false; btn.innerHTML = `Pay Securely Now — <span id="pay-amount">₹${total.toLocaleString('en-IN')}</span>`; } }
         };
         new window.Razorpay(options).open();
       } catch(e) {
         console.error('[ZoomFly Payment] Could not start Razorpay checkout:', e);
         btn.disabled  = false;
-        btn.innerHTML = `Pay Securely Now — ₹${total.toLocaleString('en-IN')}`;
+        btn.innerHTML = `Pay Securely Now — <span id="pay-amount">₹${total.toLocaleString('en-IN')}</span>`;
         alert('We could not start secure payment (' + e.message + '). Your booking request has been saved — please contact us on WhatsApp and our team will confirm payment manually.');
       }
       return;
@@ -791,12 +791,12 @@ window.processPayment = async () => {
       'Booking could not be saved. Please contact us on WhatsApp so we can confirm manually.';
     document.getElementById('success-overlay').classList.add('show');
     btn.disabled = false;
-    btn.innerHTML = `Pay Securely Now — ₹${total.toLocaleString('en-IN')}`;
+    btn.innerHTML = `Pay Securely Now — <span id="pay-amount">₹${total.toLocaleString('en-IN')}</span>`;
     return;
   }
   document.getElementById('success-overlay').classList.add('show');
   btn.disabled = false;
-  btn.innerHTML = `Pay Securely Now — ₹${total.toLocaleString('en-IN')}`;
+  btn.innerHTML = `Pay Securely Now — <span id="pay-amount">₹${total.toLocaleString('en-IN')}</span>`;
 };
 </script>
 
