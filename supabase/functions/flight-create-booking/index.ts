@@ -87,18 +87,45 @@ serve(async (req) => {
       .getUser(authHeader?.replace('Bearer ', '') || '')
       .catch(() => ({ data: { user: null } }));
 
-    // Lock the hold: fetch, check ownership/expiry/status, then mark
-    // consumed. Not a DB-level transaction, but the 'active' → status
-    // update below is a compare-and-set-style guard against the same
-    // hold being consumed twice (e.g. a double-submitted form).
-    const { data: hold, error: holdFetchError } = await supabase
+    // Lock the hold FIRST, atomically, before creating any booking row.
+    // A plain SELECT-then-INSERT-then-UPDATE (the previous version of
+    // this function) has a race: two concurrent requests for the same
+    // holdId (e.g. a double-submitted form, or two browser tabs) can
+    // both pass a `status === 'active'` check read before either has
+    // written anything, and both go on to insert a booking row — by
+    // the time the final "mark consumed" update runs and only one of
+    // them wins that compare-and-set, both bookings already exist.
+    // This claims the hold with a single atomic UPDATE ... WHERE
+    // status = 'active' RETURNING *, so only the request that actually
+    // flips the row can ever reach the insert below.
+    const { data: claimedHolds, error: claimError } = await supabase
       .from('flight_fare_holds')
-      .select('*')
+      .update({ status: 'consumed' })
       .eq('id', holdId)
-      .single();
-    if (holdFetchError || !hold) throw new Error('Fare hold not found.');
-    if (hold.user_id && hold.user_id !== user?.id) throw new Error('This fare hold does not belong to you.');
-    if (hold.status !== 'active') throw new Error('This fare hold has already been used or has expired. Please search again.');
+      .eq('status', 'active')
+      .select('*');
+    if (claimError) throw new Error('Could not lock this fare hold: ' + claimError.message);
+
+    const hold = Array.isArray(claimedHolds) ? claimedHolds[0] : claimedHolds;
+    if (!hold) {
+      // Either the hold never existed, or it was already claimed
+      // (consumed/expired) by a prior or concurrent request — fetch it
+      // read-only just to give an accurate, specific error message.
+      const { data: existing } = await supabase
+        .from('flight_fare_holds').select('status, expires_at').eq('id', holdId).maybeSingle();
+      if (!existing) throw new Error('Fare hold not found.');
+      throw new Error(
+        existing.status === 'expired' || new Date(existing.expires_at).getTime() < Date.now()
+          ? 'This fare has expired. Please search again to get the current price.'
+          : 'This fare hold has already been used. Please search again.'
+      );
+    }
+    if (hold.user_id && hold.user_id !== user?.id) {
+      // Claimed but doesn't belong to this caller — put it back so the
+      // rightful owner isn't locked out by this rejected attempt.
+      await supabase.from('flight_fare_holds').update({ status: 'active' }).eq('id', holdId);
+      throw new Error('This fare hold does not belong to you.');
+    }
     if (new Date(hold.expires_at).getTime() < Date.now()) {
       await supabase.from('flight_fare_holds').update({ status: 'expired' }).eq('id', holdId);
       throw new Error('This fare has expired. Please search again to get the current price.');
@@ -107,6 +134,9 @@ serve(async (req) => {
     const counts = hold.passenger_counts || { adults: 1, children: 0, infants: 0 };
     const expectedPax = (counts.adults || 0) + (counts.children || 0) + (counts.infants || 0);
     if (passengers.length !== expectedPax) {
+      // Reject after claiming — put the hold back rather than stranding
+      // it as permanently 'consumed' with no booking ever created.
+      await supabase.from('flight_fare_holds').update({ status: 'active' }).eq('id', holdId);
       throw new Error(`This fare was locked for ${expectedPax} passenger(s), but ${passengers.length} were submitted.`);
     }
 
@@ -148,12 +178,17 @@ serve(async (req) => {
       .select('id, booking_ref, total_amount')
       .single();
 
-    if (bookingError) throw new Error('Could not create booking: ' + bookingError.message);
+    if (bookingError) {
+      // Insert failed after the hold was already claimed — put it back
+      // rather than stranding a valid, still-unexpired hold as
+      // permanently 'consumed' with no booking to show for it.
+      await supabase.from('flight_fare_holds').update({ status: 'active' }).eq('id', holdId);
+      throw new Error('Could not create booking: ' + bookingError.message);
+    }
 
     await supabase.from('flight_fare_holds')
-      .update({ status: 'consumed', consumed_by_booking_id: booking.id })
-      .eq('id', holdId)
-      .eq('status', 'active'); // guard: only transitions if still active (see comment above)
+      .update({ consumed_by_booking_id: booking.id })
+      .eq('id', holdId);
 
     return new Response(JSON.stringify({
       bookingId: booking.id,
