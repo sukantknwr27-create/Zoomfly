@@ -544,7 +544,22 @@ function renderSummary() {
     <div class="price-row total"><span>Total Payable</span><span>₹${finalTotal.toLocaleString('en-IN')}</span></div>`;
 
 
-  document.getElementById('pay-amount').textContent = `₹${finalTotal.toLocaleString('en-IN')}`;
+  // Rebuild the button's full content here rather than updating a
+  // child span's textContent — several loading/error states earlier
+  // in this file (verifyPriceFromServer's "Verifying current price…"
+  // spinner, verifyPaymentLinkFromServer's equivalent, and every
+  // Razorpay error/cancel path) replace the button's innerHTML
+  // wholesale, which destroys any child span permanently. That
+  // previously crashed renderSummary() with "Cannot set properties of
+  // null" the moment it ran after any of those states — including on
+  // the very first page load, before a customer ever touched
+  // anything. Owning the button's full content here instead makes
+  // this self-healing regardless of what state the button was in a
+  // moment ago.
+  const payBtnEl = document.getElementById('pay-btn');
+  if (payBtnEl && !payBtnEl.disabled) {
+    payBtnEl.innerHTML = `Pay Securely Now — <span id="pay-amount">₹${finalTotal.toLocaleString('en-IN')}</span>`;
+  }
   total = finalTotal;
   // Refresh EMI if that panel is currently selected
   if (selectedMethod === 'emi') renderEMIBreakdown();
