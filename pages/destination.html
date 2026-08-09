@@ -8,6 +8,16 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title id="pageTitle">Destination — ZoomFly</title>
   <meta name="description" id="metaDesc" content="Explore tour packages and travel guides for top destinations in India and abroad."/>
+  <link rel="canonical" id="canonicalLink" href="https://www.zoomfly.in/destinations"/>
+  <meta property="og:type"        content="website"/>
+  <meta property="og:title"       id="ogTitle" content="Destination — ZoomFly"/>
+  <meta property="og:description" id="ogDesc" content="Explore tour packages and travel guides for top destinations in India and abroad."/>
+  <meta property="og:url"         id="ogUrl" content="https://www.zoomfly.in/destinations"/>
+  <meta property="og:image"       id="ogImage" content="https://www.zoomfly.in/assets/og-image.jpg"/>
+  <meta property="og:site_name"   content="ZoomFly"/>
+  <meta property="og:locale"      content="en_IN"/>
+  <meta name="twitter:card"       content="summary_large_image"/>
+  <meta name="twitter:image"      id="twitterImage" content="https://www.zoomfly.in/assets/og-image.jpg"/>
   <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"/>
   <link rel="stylesheet" href="/assets/css/main.css"/>
 <link rel="stylesheet" href="/assets/css/premium.css"/>
@@ -309,7 +319,7 @@ const DEFAULT_DEST = {
   name:'Destination', tagline:'Explore with ZoomFly',
   desc:'Discover amazing travel experiences with ZoomFly — India\'s trusted travel partner. Browse our curated packages for the best prices and hassle-free booking.',
   heroImg:'https://images.unsplash.com/photo-1488085061851-e0efdae7d6e3?w=1400&h=600&fit=crop&auto=format',
-  pill:'Popular Destination', stats:[{n:'100+',l:'Packages'},{n:'24/7',l:'Support'}],
+  pill:'Popular Destination', stats:[{n:'24/7',l:'Support'},{n:'Best',l:'Price Guarantee'}],
   info:['Contact us for travel info'], faqs:[],
   itinerary:[], bestTime:null, tips:[],
 };
@@ -325,6 +335,17 @@ document.title = `${d.name} Tour Packages — Best Deals | ZoomFly`;
 document.getElementById('pageTitle').textContent = document.title;
 document.getElementById('metaDesc').content =
   `Book ${d.name} tour packages from ₹${d.stats?.find(s=>s.l.includes('from'))?.n||'7,999'} per person. ${d.tagline}. Best prices, 24/7 support. Book with ZoomFly.`;
+// This page previously had NO canonical tag and NO og:/twitter: tags
+// at all — every destination shared the same generic page identity
+// with nothing telling Google (or WhatsApp/Facebook link previews)
+// which destination this actually was. Matches the URL the JSON-LD
+// schema below already declares.
+const destUrl = `https://www.zoomfly.in/destination?d=${slug}`;
+document.getElementById('canonicalLink').href = destUrl;
+document.getElementById('ogUrl').content = destUrl;
+document.getElementById('ogTitle').content = document.title;
+document.getElementById('ogDesc').content = document.getElementById('metaDesc').content;
+if (d.heroImg) { document.getElementById('ogImage').content = d.heroImg; document.getElementById('twitterImage').content = d.heroImg; }
 
 // JSON-LD TouristDestination schema
 const schema = {

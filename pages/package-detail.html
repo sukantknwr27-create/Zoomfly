@@ -120,12 +120,12 @@
     @media(max-width:900px){.related-grid{grid-template-columns:repeat(2,1fr);}}
     @media(max-width:600px){.related-grid{grid-template-columns:1fr;}.tab-btn{padding:12px 14px;}.emi-plans{grid-template-columns:repeat(2,1fr);}}
   </style>
-    <link rel="canonical" href="https://www.zoomfly.in/packages"/>
+    <link rel="canonical" id="canonicalLink" href="https://www.zoomfly.in/packages"/>
   <meta property="og:type"        content="website"/>
-  <meta property="og:title"       content="Tour Package Details | ZoomFly"/>
-  <meta property="og:description" content="View detailed itinerary, inclusions, photos and pricing for this ZoomFly tour package. Book online or request a callback."/>
-  <meta property="og:url"         content="https://www.zoomfly.in/packages"/>
-  <meta property="og:image"       content="https://www.zoomfly.in/assets/og-image.jpg"/>
+  <meta property="og:title"       id="ogTitle" content="Tour Package Details | ZoomFly"/>
+  <meta property="og:description" id="ogDesc" content="View detailed itinerary, inclusions, photos and pricing for this ZoomFly tour package. Book online or request a callback."/>
+  <meta property="og:url"         id="ogUrl" content="https://www.zoomfly.in/packages"/>
+  <meta property="og:image"       id="ogImage" content="https://www.zoomfly.in/assets/og-image.jpg"/>
   <meta property="og:site_name"   content="ZoomFly"/>
   <meta property="og:locale"      content="en_IN"/>
   <meta name="twitter:card"       content="summary_large_image"/>
@@ -443,6 +443,18 @@ function renderPage(p) {
   document.title = `${name} — ZoomFly`;
   document.getElementById('pageTitle').textContent = `${name} — ZoomFly`;
   document.getElementById('metaDesc').content = `Book ${name} from ₹${price.toLocaleString('en-IN')} per person. ${duration} trip to ${dest}. ZoomFly — India's trusted travel partner.`;
+  // Each package previously shared one hardcoded canonical/og:url
+  // (https://www.zoomfly.in/packages) across every single package —
+  // telling Google every package page was a duplicate of the generic
+  // listing page. That silently kept individual packages out of
+  // search results entirely, which is the opposite of what a
+  // long-tail SEO strategy needs. Now each package gets its own.
+  const canonicalUrl = `https://www.zoomfly.in/pages/package-detail.html?id=${p.id || pkgId}`;
+  document.getElementById('canonicalLink').href = canonicalUrl;
+  document.getElementById('ogUrl').content = canonicalUrl;
+  document.getElementById('ogTitle').content = `${name} — ZoomFly`;
+  document.getElementById('ogDesc').content = `Book ${name} from ₹${price.toLocaleString('en-IN')} per person. ${duration} trip to ${dest}.`;
+  if (photos[0]) document.getElementById('ogImage').content = photos[0];
   document.getElementById('breadcrumbName').textContent = name;
   document.getElementById('detailName').textContent     = name;
   document.getElementById('detailDest').textContent     = `${dest}`;
