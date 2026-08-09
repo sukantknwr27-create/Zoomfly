@@ -347,7 +347,7 @@
 <script src="/assets/js/main.js"></script>
 
 <script type="module">
-import { supabase, getUser, getCotravellers  } from '../assets/js/supabase.js';
+import { supabase, getUser, getCotravellers, extractFunctionError } from '../assets/js/supabase.js';
 
 const WA = '918076136300';
 const DAYS = ['M','T','W','T','F','S','S'];
@@ -860,8 +860,7 @@ window.confirmTrainBooking = async () => {
         passengers: paxList, contactEmail: email, contactPhone: phone,
       }
     });
-    if (error) throw new Error(error.message || 'Could not create booking');
-    if (data?.error) throw new Error(data.error);
+    if (error || data?.error) throw new Error(data?.error || await extractFunctionError(error, 'Could not create booking'));
 
     closeModal();
     // Hand off to the same payment page flights use, with the exact
@@ -873,6 +872,13 @@ window.confirmTrainBooking = async () => {
       booking_id: data.bookingId, booking_ref: data.bookingRef,
       amount: String(data.totalAmount),
       name: `${selectedTrain.from} → ${selectedTrain.to}`,
+      // `name` above is the route, used to label the item in the
+      // Order Summary — payment.html's guest-name pre-fill logic
+      // previously also read this SAME param, so the route ("Delhi →
+      // Mumbai") ended up stuffed into the "Full Name" field instead
+      // of the actual lead passenger's name. guest_name is a
+      // distinct param carrying the real name from paxList above.
+      guest_name: paxList[0]?.name || '',
       email, phone,
     });
     window.location.href = `/pages/payment.html?${params.toString()}`;
