@@ -96,7 +96,7 @@ function bookingConfirmationHtml(booking: any) {
       </div>
       <!-- Footer -->
       <div style="padding:16px;background:#0f172a;text-align:center">
-        <p style="margin:0;font-size:12px;color:#94a3b8">© 2025 ZoomFly · Connaught Place, New Delhi · <a href="https://zoomfly-virid.vercel.app" style="color:#60a5fa">zoomfly.in</a></p>
+        <p style="margin:0;font-size:12px;color:#94a3b8">© 2025 ZoomFly · Connaught Place, New Delhi · <a href="https://www.zoomfly.in" style="color:#60a5fa">zoomfly.in</a></p>
       </div>
     </div>
   </body>
@@ -125,7 +125,7 @@ function enquiryAlertHtml(enquiry: any) {
       </table>
     </div>
     <div style="padding:16px 24px;background:#F9FAFB;border-top:1px solid #E5E7EB;text-align:center">
-      <a href="https://zoomfly-virid.vercel.app/pages/admin.html" style="display:inline-block;padding:10px 24px;background:#0057FF;color:white;border-radius:8px;font-weight:700;font-size:13px;text-decoration:none">Open Admin Dashboard →</a>
+      <a href="https://www.zoomfly.in/admin" style="display:inline-block;padding:10px 24px;background:#0057FF;color:white;border-radius:8px;font-weight:700;font-size:13px;text-decoration:none">Open Admin Dashboard →</a>
     </div>
   </div>
   </body></html>`;
