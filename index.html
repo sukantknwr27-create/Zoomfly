@@ -19,7 +19,7 @@
   <link rel="canonical" href="https://www.zoomfly.in/"/>
   <meta property="og:type" content="website"/>
   <meta property="og:title" content="ZoomFly — Tour Packages, Flights, Hotels & Bus Booking"/>
-  <meta property="og:description" content="India's trusted travel partner. 200+ curated packages, best prices, 24/7 support."/>
+  <meta property="og:description" content="India's trusted travel partner. Curated tour packages, best prices, 24/7 support."/>
   <meta property="og:url" content="https://www.zoomfly.in/"/>
   <meta property="og:image"        content="https://www.zoomfly.in/assets/og-image.jpg"/>
   <meta property="og:image:width"  content="1200"/>
@@ -271,8 +271,8 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
     </div>
 
     <div class="hero-stats">
-      <div class="hstat"><strong>200+</strong><span>Tour Packages</span></div>
-      <div class="hstat"><strong>50+</strong><span>Destinations</span></div>
+      <div class="hstat"><strong id="stat-packages">200+</strong><span>Tour Packages</span></div>
+      <div class="hstat"><strong id="stat-destinations">50+</strong><span>Destinations</span></div>
       <div class="hstat"><strong>100%</strong><span>Secure Payments</span></div>
       <div class="hstat"><strong>24/7</strong><span>Customer Support</span></div>
     </div>
@@ -351,7 +351,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
   <div class="svc-grid">
     <a href="/pages/packages.html" class="svc-card"><div class="svc-icon"><span class="emoji-icon" style="font-size:25px;line-height:1;display:inline-block;vertical-align:middle">✅</span></div><h3>Tour Packages</h3><p>Handcrafted itineraries from weekend getaways to 14-day international holidays.</p><div class="svc-link">Browse Packages →</div></a>
     <a href="/pages/flights.html" class="svc-card"><div class="svc-icon"><span class="emoji-icon" style="font-size:25px;line-height:1;display:inline-block;vertical-align:middle">✈️</span></div><h3>Flight Booking</h3><p>Best fares on domestic & international flights with instant e-ticket confirmation.</p><div class="svc-link">Book Flight →</div></a>
-    <a href="/pages/hotels.html" class="svc-card"><div class="svc-icon"><span class="emoji-icon" style="font-size:25px;line-height:1;display:inline-block;vertical-align:middle">🏨</span></div><h3>Hotel Booking</h3><p>Curated stays from budget homestays to 5-star resorts across 500+ cities.</p><div class="svc-link">Find Hotels →</div></a>
+    <a href="/pages/hotels.html" class="svc-card"><div class="svc-icon"><span class="emoji-icon" style="font-size:25px;line-height:1;display:inline-block;vertical-align:middle">🏨</span></div><h3>Hotel Booking</h3><p>Curated stays from budget homestays to 5-star resorts, handpicked across India.</p><div class="svc-link">Find Hotels →</div></a>
     <a href="/pages/bus.html" class="svc-card"><div class="svc-icon"><span class="emoji-icon" style="font-size:25px;line-height:1;display:inline-block;vertical-align:middle">🚌</span></div><h3>Bus Booking</h3><p>AC & sleeper buses on all major routes at the best prices, guaranteed.</p><div class="svc-link">Book Bus →</div></a>
     <a href="/pages/cabs.html" class="svc-card"><div class="svc-icon"><span class="emoji-icon" style="font-size:25px;line-height:1;display:inline-block;vertical-align:middle">🚕</span></div><h3>Cab & Transfers</h3><p>Airport pickups, outstation trips & hill station transfers at best rates.</p><div class="svc-link">Book Cab →</div></a>
   </div>
@@ -364,7 +364,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
     <div class="pkg-grid" id="home-pkgs">
       <div class="pkg-loading"><div class="spinner"></div><p>Loading packages...</p></div>
     </div>
-    <div class="view-all"><a href="/pages/packages.html" class="btn-view-all">View All 200+ Packages →</a></div>
+    <div class="view-all"><a href="/pages/packages.html" class="btn-view-all" id="view-all-packages-link">View All Packages →</a></div>
   </div>
 </section>
 
@@ -422,7 +422,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
       </div>
     </div>
     <div class="why-stats">
-      <div class="wstat"><strong>200+</strong><span>Tour Packages</span></div>
+      <div class="wstat"><strong id="stat-packages-2">200+</strong><span>Tour Packages</span></div>
       <div class="wstat"><strong>100%</strong><span>Secure & Verified Payments</span></div>
       <div class="wstat"><strong>24/7</strong><span>Customer Support</span></div>
       <div class="wstat"><strong>Instant</strong><span>E-Ticket Confirmation</span></div>
@@ -485,7 +485,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
 
 <script src="/assets/js/main.js"></script>
 <script type="module">
-import { getPackages, addToWishlist, removeFromWishlist, getWishlist, supabase } from '/assets/js/supabase.js';
+import { getPackages, addToWishlist, removeFromWishlist, getWishlist, supabase, getLiveStats } from '/assets/js/supabase.js';
 
 // Note: auth-aware nav (login/signup vs user menu) is already handled
 // globally by main.js's renderNav()/_updateNavAuth() using nav.html's ids.
@@ -526,6 +526,39 @@ const MIN_REVIEWS_FOR_SNIPPET = 5;
   } catch (e) {
     // Fails safe: no rating shown rather than a broken/fake one.
     console.error('[index] aggregate rating fetch failed:', e);
+  }
+})();
+
+// ── Real inventory numbers, not hardcoded ones ────────────
+// These stat blocks used to say "200+ Tour Packages" / "50+
+// Destinations" regardless of how many packages/destinations
+// actually exist — see docs/CHANGES_SEO_IMPROVEMENTS.md. Replaced
+// with the real, current count. If the count is 0 (fetch failed, or
+// genuinely nothing active yet) the element is left showing its
+// static fallback text rather than displaying "0", since a
+// zero-looking homepage reads as broken, not honest.
+(async () => {
+  try {
+    const stats = await getLiveStats();
+    if (stats.packages > 0) {
+      const suffix = stats.packages >= 10 ? '+' : '';
+      const label = stats.packages >= 10 ? Math.floor(stats.packages / 10) * 10 : stats.packages;
+      const text = `${label}${suffix}`;
+      const p1 = document.getElementById('stat-packages');
+      const p2 = document.getElementById('stat-packages-2');
+      const linkEl = document.getElementById('view-all-packages-link');
+      if (p1) p1.textContent = text;
+      if (p2) p2.textContent = text;
+      if (linkEl) linkEl.textContent = `View All ${stats.packages} Packages →`;
+    }
+    if (stats.destinations > 0) {
+      const suffix = stats.destinations >= 10 ? '+' : '';
+      const label = stats.destinations >= 10 ? Math.floor(stats.destinations / 10) * 10 : stats.destinations;
+      const destEl = document.getElementById('stat-destinations');
+      if (destEl) destEl.textContent = `${label}${suffix}`;
+    }
+  } catch (e) {
+    console.error('[index] live stats fetch failed:', e);
   }
 })();
 
@@ -734,7 +767,7 @@ async function _loadExitPopupCode() {
   try {
     const { data } = await supabase.from('promo_codes').select('code,discount_type,discount_value')
       .eq('is_active', true)
-      .or(`valid_until.is.null,valid_until.gte.${new Date().toISOString().slice(0,10)}`)
+      .or(`expires_at.is.null,expires_at.gte.${new Date().toISOString().slice(0,10)}`)
       .order('discount_value', { ascending: false })
       .limit(1);
     if (data && data[0]) _exitPopupCode = data[0];
@@ -772,6 +805,34 @@ if (!exitDismissed) {
 window.closeExitPopup = () => {
   document.getElementById('exit-popup').style.display = 'none';
   sessionStorage.setItem('zf_exit_dismissed', '1');
+};
+
+// Footer newsletter form. Previously referenced onsubmit="handleNewsletter(event)"
+// with no such function ever defined — every submit threw a ReferenceError,
+// which (since preventDefault() never ran) fell through to the browser's
+// default GET submission, reloading the page with the email in the URL and
+// never actually subscribing anyone.
+window.handleNewsletter = async (e) => {
+  e.preventDefault();
+  const form = e.target;
+  const input = form.querySelector('input[type="email"]');
+  const btn = form.querySelector('button[type="submit"]');
+  const email = input?.value.trim();
+  if (!email) return;
+  const originalLabel = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = 'Subscribing…';
+  try {
+    const { subscribeNewsletter } = await import('/assets/js/supabase.js');
+    await subscribeNewsletter(email, 'footer');
+    btn.textContent = 'Subscribed!';
+    input.value = '';
+  } catch (err) {
+    btn.textContent = 'Try again';
+    console.error('Newsletter subscribe failed:', err);
+  } finally {
+    setTimeout(() => { btn.disabled = false; btn.textContent = originalLabel; }, 3000);
+  }
 };
 
 window.exitPopupSubscribe = async (e) => {
@@ -888,7 +949,7 @@ loadRecentActivity().then(() => {
 
 <footer class="footer" id="mainFooter"></footer>
 <script type="module">
-import { initCarousel } from 'assets/js/carousel.js';
+import { initCarousel } from '/assets/js/carousel.js';
 initCarousel('home', 'carousel-home');
 </script>
 </body>

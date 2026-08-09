@@ -42,6 +42,10 @@
   ],
   "routes": [
     {
+      "src": "^/sitemap-packages\\.xml$",
+      "dest": "https://YOUR-PROJECT-REF.supabase.co/functions/v1/generate-sitemap"
+    },
+    {
       "src": "^/$",
       "has": [
         {
@@ -123,11 +127,13 @@
     },
     {
       "src": "^/admin-packages$",
-      "dest": "/pages/admin-packages.html"
+      "status": 301,
+      "headers": { "Location": "/pages/admin.html" }
     },
     {
       "src": "^/admin-customers$",
-      "dest": "/pages/admin-customers.html"
+      "status": 301,
+      "headers": { "Location": "/pages/admin.html" }
     },
     {
       "src": "^/messages$",
@@ -135,7 +141,8 @@
     },
     {
       "src": "^/admin-reminders$",
-      "dest": "/pages/admin-reminders.html"
+      "status": 301,
+      "headers": { "Location": "/pages/admin.html" }
     },
     {
       "src": "^/loyalty$",
@@ -235,27 +242,33 @@
     },
     {
       "src": "^/admin-bookings$",
-      "dest": "/pages/admin-bookings.html"
+      "status": 301,
+      "headers": { "Location": "/pages/admin.html" }
     },
     {
       "src": "^/admin-vendors$",
-      "dest": "/pages/admin-vendors.html"
+      "status": 301,
+      "headers": { "Location": "/pages/admin.html" }
     },
     {
       "src": "^/admin-agents$",
-      "dest": "/pages/admin-agents.html"
+      "status": 301,
+      "headers": { "Location": "/pages/admin.html" }
     },
     {
       "src": "^/admin-workflow$",
-      "dest": "/pages/admin-workflow.html"
+      "status": 301,
+      "headers": { "Location": "/pages/admin.html" }
     },
     {
       "src": "^/admin-whatsapp-templates$",
-      "dest": "/pages/admin-whatsapp-templates.html"
+      "status": 301,
+      "headers": { "Location": "/pages/admin.html" }
     },
     {
       "src": "^/admin-hotels$",
-      "dest": "/pages/admin-hotels.html"
+      "status": 301,
+      "headers": { "Location": "/pages/admin.html" }
     },
     {
       "src": "^/vendor-portal$",
@@ -304,6 +317,19 @@
     {
       "src": "^/vendor$",
       "dest": "/pages/vendor.html"
+    },
+    {
+      "src": "^/pages/admin\\.html$",
+      "headers": {
+        "Location": "/admin-login?reason=direct_access_blocked"
+      },
+      "status": 302,
+      "missing": [
+        {
+          "type": "host",
+          "value": "admin.zoomfly.in"
+        }
+      ]
     },
     {
       "src": "^/pages/admin-(?!login)(.*)$",
