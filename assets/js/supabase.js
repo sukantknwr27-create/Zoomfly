@@ -550,6 +550,29 @@ export async function subscribeNewsletter(email, source = 'website') {
   return { alreadySubscribed: error?.code === '23505' };
 }
 
+// ── LIVE INVENTORY STATS ─────────────────────────────────
+// Marketing copy across the site used to hardcode "200+ Tour
+// Packages", "500+ Hotels/Cities", "100+ Destinations" — numbers with
+// no real inventory behind them (the actual seed data is a fraction
+// of that). This pulls the real, current count of each so any page
+// showing an inventory number is always telling the truth, and never
+// needs manual updating as the catalog grows. Returns 0 (not a fake
+// fallback number) on any query failure — callers should hide the
+// stat entirely rather than show 0, same "no real data, no display"
+// principle as the homepage's aggregateRating.
+export async function getLiveStats() {
+  const [pkgRes, hotelRes, destRes] = await Promise.allSettled([
+    supabase.from('packages').select('*', { count: 'exact', head: true }).eq('is_active', true),
+    supabase.from('hotels').select('*', { count: 'exact', head: true }).eq('is_active', true),
+    supabase.from('destinations').select('*', { count: 'exact', head: true }).eq('is_active', true),
+  ]);
+  return {
+    packages: pkgRes.status === 'fulfilled' ? (pkgRes.value.count || 0) : 0,
+    hotels: hotelRes.status === 'fulfilled' ? (hotelRes.value.count || 0) : 0,
+    destinations: destRes.status === 'fulfilled' ? (destRes.value.count || 0) : 0,
+  };
+}
+
 // ── ADMIN ─────────────────────────────────────────────────
 export const admin = {
   async getStats() {
