@@ -182,7 +182,7 @@ async function loadThreads() {
   allThreads = bookings.map(b => {
     const threadMsgs = (msgs||[]).filter(m => m.booking_id === b.id);
     const last = threadMsgs[0];
-    const unread = threadMsgs.filter(m => m.sender_role === 'admin' && !m.read).length;
+    const unread = threadMsgs.filter(m => m.sender_type === 'admin' && !m.is_read).length;
     return { ...b, lastMsg: last, unread };
   });
 
@@ -197,7 +197,7 @@ function renderThreads(threads) {
       <div class="thread-avatar">${(t.service_name||'T')[0]}</div>
       <div class="thread-info">
         <div class="thread-name">${t.booking_ref||'Booking'}</div>
-        <div class="thread-preview">${t.lastMsg ? escHtml(t.lastMsg.content.slice(0,50))+(t.lastMsg.content.length>50?'…':'') : escHtml(t.service_name||'No messages yet')}</div>
+        <div class="thread-preview">${t.lastMsg ? escHtml(t.lastMsg.body.slice(0,50))+(t.lastMsg.body.length>50?'…':'') : escHtml(t.service_name||'No messages yet')}</div>
       </div>
       <div class="thread-meta">
         <div class="thread-time">${t.lastMsg ? fmtTime(t.lastMsg.created_at) : fmtDate(t.travel_date)}</div>
@@ -223,9 +223,9 @@ window.openThread = async (bookingId) => {
 
   // Mark admin messages as read
   await supabase.from('messages')
-    .update({ read: true })
+    .update({ is_read: true })
     .eq('booking_id', bookingId)
-    .eq('sender_role', 'admin');
+    .eq('sender_type', 'admin');
 
   // Re-render threads to clear unread badge
   if (thread) thread.unread = 0;
@@ -247,8 +247,8 @@ window.openThread = async (bookingId) => {
       filter: `booking_id=eq.${bookingId}`
     }, (payload) => {
       appendMessage(payload.new);
-      if (payload.new.sender_role === 'admin') {
-        supabase.from('messages').update({ read: true }).eq('id', payload.new.id);
+      if (payload.new.sender_type === 'admin') {
+        supabase.from('messages').update({ is_read: true }).eq('id', payload.new.id);
       }
     })
     .subscribe();
@@ -300,7 +300,7 @@ function renderMessages(msgs) {
       <div class="msg-bubble-wrap ${isMe?'mine':''}" id="msg-${m.id}">
         ${!isMe?`<div class="msg-avatar">ZF</div>`:''}
         <div>
-          <div class="msg-bubble ${isMe?'mine':'theirs'}">${escHtml(m.content)}</div>
+          <div class="msg-bubble ${isMe?'mine':'theirs'}">${escHtml(m.body)}</div>
           <div class="msg-time ${isMe?'':'theirs'}">${fmtTime(m.created_at)}${isMe?' ✓✓':''}</div>
         </div>
       </div>`;
@@ -322,7 +322,7 @@ function appendMessage(msg) {
   wrap.innerHTML = `
     ${!isMe?`<div class="msg-avatar">ZF</div>`:''}
     <div>
-      <div class="msg-bubble ${isMe?'mine':'theirs'}">${escHtml(msg.content)}</div>
+      <div class="msg-bubble ${isMe?'mine':'theirs'}">${escHtml(msg.body)}</div>
       <div class="msg-time ${isMe?'':'theirs'}">${fmtTime(msg.created_at)}${isMe?' ✓✓':''}</div>
     </div>`;
   body.appendChild(wrap);
@@ -348,8 +348,8 @@ window.sendMessage = async () => {
   const { error } = await supabase.from('messages').insert({
     booking_id: activeBookingId,
     sender_id: currentUser.id,
-    sender_role: 'user',
-    content
+    sender_type: 'customer',
+    body: content
   });
 
   if (error) { showToast('Failed to send message'); input.value = content; }
