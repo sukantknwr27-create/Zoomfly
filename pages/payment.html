@@ -113,7 +113,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
         </div>
         <div class="form-row">
           <div class="fg"><label>Mobile *</label><input class="fc" id="g-phone" type="tel" placeholder="+91 80761 36300"/></div>
-          <div class="fg"><label>No. of Travellers</label>
+          <div class="fg" id="pax-field-wrap"><label>No. of Travellers</label>
             <select class="fc" id="g-pax">
               <option selected>1 Person</option><option>2 Persons</option><option>3 Persons</option>
               <option>4 Persons</option><option>5 Persons</option><option>6+ Persons</option>
@@ -319,9 +319,14 @@ const itemBg = params.get('bg') || 'linear-gradient(135deg,#667eea,#764ba2)';
     document.getElementById('g-phone').value = user.user_metadata?.phone || '';
   }
   if (existingBookingId) {
-    // Passenger/contact details were already collected on flights.html;
-    // don't make the customer re-type them here.
-    const nameVal = params.get('name'), emailVal = params.get('email'), phoneVal = params.get('phone');
+    // Passenger/contact details were already collected on
+    // flights.html/trains.html; don't make the customer re-type them
+    // here. guest_name is deliberately a separate param from `name`
+    // — `name` is the flight/train route (e.g. "DEL → BOM"), used to
+    // label the item in the Order Summary; reading it here too used
+    // to stuff the route into the "Full Name" field instead of the
+    // actual passenger's name.
+    const nameVal = params.get('guest_name'), emailVal = params.get('email'), phoneVal = params.get('phone');
     if (nameVal && !document.getElementById('g-name').value) document.getElementById('g-name').value = nameVal;
     if (emailVal && !document.getElementById('g-email').value) document.getElementById('g-email').value = emailVal;
     if (phoneVal && !document.getElementById('g-phone').value) document.getElementById('g-phone').value = phoneVal;
@@ -359,6 +364,16 @@ const bookingUnit = params.get('unit') || 'person'; // 'person', 'room', 'flight
 // this page's own price derivation. Both skip the package/hotel
 // pricing path below the same way.
 const isPreCreatedBooking = bookingUnit === 'flight' || bookingUnit === 'train';
+// Flight/train bookings already have their exact passenger count and
+// fare locked in from the passenger-details form on flights.html /
+// trains.html — this dropdown doesn't feed into their price at all
+// (see calcAmounts() below), so showing it as an editable field here
+// is actively misleading: it looks like changing it should do
+// something, and it silently doesn't.
+if (isPreCreatedBooking) {
+  const paxWrap = document.getElementById('pax-field-wrap');
+  if (paxWrap) paxWrap.style.display = 'none';
+}
 let numPersons = 1;
 let discount = 0;
 let tax = 0;
