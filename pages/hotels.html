@@ -223,6 +223,11 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
             <div class="fg"><label>Check-in</label><input type="date" class="fci" id="b-ci"/></div>
             <div class="fg"><label>Check-out</label><input type="date" class="fci" id="b-co"/></div>
           </div>
+          <div class="fg"><label>No. of Guests</label>
+            <select class="fci" id="b-guests">
+              <option selected>1</option><option>2</option><option>3</option><option>4</option>
+            </select>
+          </div>
           <div class="fg"><label>Special Requests</label><input class="fci" id="b-sr" placeholder="Early check-in, high floor..."/></div>
         </div>
         <div class="bsum" id="b-sum"></div>
@@ -465,14 +470,27 @@ function buildSum() {
   const ci = document.getElementById('b-ci').value, co = document.getElementById('b-co').value;
   let nights = 1;
   if (ci && co) { const d = (new Date(co) - new Date(ci)) / 86400000; if (d > 0) nights = d; }
-  const total = Number(room.price) * nights;
+  const baseTotal = Number(room.price) * nights;
+  // Same base-occupancy + extra-guest surcharge as payment.html's
+  // guest checkout — this modal previously hardcoded num_adults:1 and
+  // had no guest field at all, so a logged-in user booking here for
+  // 4 guests was charged identically to 1 guest, while the exact same
+  // hotel booked as a guest (via payment.html) correctly billed the
+  // surcharge. Keeping both paths' math identical matters: whichever
+  // path a customer happens to take shouldn't change what they pay.
+  const guests = parseInt(document.getElementById('b-guests')?.value || '1');
+  const BASE_OCCUPANCY = 2, EXTRA_GUEST_RATE = 0.15;
+  const extraGuests = Math.max(0, guests - BASE_OCCUPANCY);
+  const extraGuestCharge = Math.round(baseTotal * EXTRA_GUEST_RATE * extraGuests);
+  const total = baseTotal + extraGuestCharge;
   document.getElementById('b-sum').innerHTML = `
     <p><span>Hotel</span><strong>${esc(selHotel.name)}</strong></p>
     <p><span>Room</span><strong>${esc(room.name)}</strong></p>
     <p><span>Nights</span><strong>${nights}</strong></p>
     <p><span>Rate</span><strong>₹${Number(room.price).toLocaleString('en-IN')}/night</strong></p>
+    ${extraGuestCharge > 0 ? `<p><span>Extra Guest Charge (${extraGuests} beyond 2)</span><strong>₹${extraGuestCharge.toLocaleString('en-IN')}</strong></p>` : ''}
     <p class="total"><span>Total</span><strong>₹${total.toLocaleString('en-IN')}</strong></p>`;
-  window._bookingTotal = total; window._bookingNights = nights; window._selRoom = room;
+  window._bookingTotal = total; window._bookingNights = nights; window._selRoom = room; window._bookingGuests = guests;
 }
 
 window.confirmBooking = async () => {
@@ -497,7 +515,7 @@ window.confirmBooking = async () => {
           customer_name: fn+' '+(document.getElementById('b-ln').value.trim()),
           customer_email:em, customer_phone:ph,
           travel_details: { checkin_date: ci||null, checkout_date: co||null, nights, room_type: room?.name || 'Room', num_rooms: 1 },
-          num_adults:1,
+          num_adults: window._bookingGuests || 1,
           special_requests:document.getElementById('b-sr').value,
           base_amount:amount, total_amount:amount, tax_amount:0, discount_amount:0
         });
@@ -511,7 +529,8 @@ window.confirmBooking = async () => {
       room: room?.name || 'Standard Room',
       photo: selHotel.image_url||'',
       bg: encodeURIComponent(selHotel.bg_gradient||''),
-      amount: amount, nights: nights+'N', unit:'room'
+      amount: amount, nights: nights+'N', unit:'room',
+      guests: String(window._bookingGuests || 1),
     });
     window.location.href = '/pages/payment.html?' + params.toString();
   } catch(e){alert('Booking failed: '+e.message);}

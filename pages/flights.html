@@ -36,6 +36,24 @@
     .ac-item{padding:.65rem 1rem;cursor:pointer;font-size:.84rem;border-bottom:1px solid #f1f5f9;display:flex;align-items:baseline;gap:.5rem}
     .ac-item:hover{background:#F5E6C4}.ac-item:last-child{border-bottom:none}
     .ac-code{font-weight:800;color:#1b4f8a;font-size:.78rem;min-width:36px}
+    .pax-field{position:relative}
+    .pax-btn{width:100%;padding:.65rem .85rem;border:1.5px solid #e2e8f0;border-radius:8px;background:#fff;text-align:left;font-size:.84rem;cursor:pointer;color:#0f1923;font-family:inherit}
+    .pax-btn:focus{outline:none;border-color:#1b4f8a}
+    .pax-popover{position:absolute;top:calc(100% + 4px);left:0;min-width:290px;background:#fff;border:1.5px solid #e2e8f0;border-radius:10px;box-shadow:0 8px 32px rgba(0,0,0,.16);z-index:250;padding:14px;display:none}
+    .pax-popover.show{display:block}
+    .pax-row{display:flex;justify-content:space-between;align-items:center;padding:.55rem 0;border-bottom:1px solid #f1f5f9}
+    .pax-row:last-of-type{border-bottom:none}
+    .pax-row-label strong{display:block;font-size:.85rem;color:#0f1923}
+    .pax-row-label span{font-size:.72rem;color:#64748b}
+    .pax-stepper{display:flex;align-items:center;gap:10px}
+    .pax-stepper button{width:28px;height:28px;border-radius:50%;border:1.5px solid #e2e8f0;background:#fff;font-weight:700;cursor:pointer;color:#0f1923;font-size:1rem;line-height:1}
+    .pax-stepper button:disabled{opacity:.35;cursor:not-allowed}
+    .pax-stepper button:not(:disabled):hover{border-color:#1b4f8a;color:#1b4f8a}
+    .pax-stepper span{min-width:16px;text-align:center;font-weight:700;font-size:.9rem}
+    .pax-class-row{display:flex;gap:6px;margin-top:8px}
+    .pax-class-opt{flex:1;padding:.4rem;text-align:center;border:1.5px solid #e2e8f0;border-radius:8px;font-size:.74rem;cursor:pointer}
+    .pax-class-opt.active{border-color:#1b4f8a;background:#eaf1fb;color:#1b4f8a;font-weight:700}
+    .pax-done{width:100%;margin-top:10px;padding:.55rem;background:#1b4f8a;color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:.8rem}
     .ac-city{font-weight:600;color:#1e293b}
     .ac-name{color:#94a3b8;font-size:.72rem;margin-left:.25rem}
     .mc-rows{display:flex;flex-direction:column;gap:.75rem;margin-bottom:1rem}
@@ -132,12 +150,9 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
           </div>
           <div class="fg"><label>Departure</label><input type="date" class="fc" id="depDate"/></div>
           <div class="fg" id="ret-field" style="display:none"><label>Return Date</label><input type="date" class="fc" id="retDate"/></div>
-          <div class="fg"><label>Travellers & Class</label>
-            <select class="fc" id="classSelect">
-              <option>1 Adult · Economy</option><option>2 Adults · Economy</option><option>3 Adults · Economy</option>
-              <option>4 Adults · Economy</option><option>1 Adult · Business</option><option>2 Adults · Business</option>
-              <option>1 Adult · First Class</option><option>Family (2+2) · Economy</option>
-            </select>
+          <div class="fg pax-field"><label>Travellers & Class</label>
+            <button type="button" class="fc pax-btn" id="pax-btn-classSelect" onclick="togglePaxPopover('classSelect')">1 Adult · Economy</button>
+            <div class="pax-popover" id="pax-pop-classSelect"></div>
           </div>
           <button class="btn-search" onclick="searchFlights()">Search</button>
         </div>
@@ -148,11 +163,9 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
         <div class="mc-rows" id="mc-rows"></div>
         <button class="btn-add-city" onclick="addMCRow()">+ Add Another City</button>
         <div style="display:flex;align-items:flex-end;gap:1rem;flex-wrap:wrap">
-          <div class="fg" style="min-width:200px"><label>Travellers & Class</label>
-            <select class="fc" id="mc-class">
-              <option>1 Adult · Economy</option><option>2 Adults · Economy</option><option>3 Adults · Economy</option>
-              <option>1 Adult · Business</option><option>2 Adults · Business</option>
-            </select>
+          <div class="fg pax-field" style="min-width:200px"><label>Travellers & Class</label>
+            <button type="button" class="fc pax-btn" id="pax-btn-mc-class" onclick="togglePaxPopover('mc-class')">1 Adult · Economy</button>
+            <div class="pax-popover" id="pax-pop-mc-class"></div>
           </div>
           <button class="btn-search" onclick="searchMultiCity()">Search Multi-City</button>
         </div>
@@ -219,7 +232,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
 <script src="/assets/js/main.js"></script>
 <script type="module">
 import { AIRPORTS } from '/assets/js/data.js';
-import { supabase } from '/assets/js/supabase.js';
+import { supabase, extractFunctionError, extractFunctionErrorBody } from '/assets/js/supabase.js';
 let tripType = 'one-way';
 let mcRowCount = 0;
 const acTimers = {};
@@ -318,19 +331,98 @@ window.addMCRow = (fromVal = '', toVal = '') => {
   document.getElementById('mc-rows').appendChild(row);
 };
 
-// ── CABIN CLASS + PAX PARSING FROM THE SELECT ─────────────
-function parseClassSelect(cls) {
-  const adults = parseInt(cls.match(/^(\d)/)?.[1] || '1');
-  const cabinClass = cls.includes('Business') ? 'business' : cls.includes('First') ? 'first' : 'economy';
-  // "Family (2+2)" style options aren't broken into adults/children by
-  // this select yet — treated as all-adult pax for now. A dedicated
-  // adults/children/infants stepper is a worthwhile follow-up; the
-  // passenger-details form below still asks for each traveller's type
-  // individually; so a mis-parsed count here will surface as a
-  // "expected fare for a mismatched number of passengers" 400 from
-  // flight-select-fare rather than silently booking the wrong fare.
-  return { adults, children: 0, infants: 0, cabinClass };
+// ── TRAVELLER + CLASS SELECTOR (adults / children / infants) ─
+// Previously a plain <select> with preset text options like "1 Adult
+// · Economy" — children/infants were silently ALWAYS forced to 0
+// regardless of what was picked, so it was impossible to actually
+// search for or book a child/infant fare — even though the
+// passenger-details form below, and flight-create-booking's age
+// validation, already fully support all three passenger types. This
+// replaces it with a real stepper so those counts are genuine.
+const paxState = {
+  classSelect: { adults: 1, children: 0, infants: 0, cabinClass: 'economy' },
+  'mc-class':  { adults: 1, children: 0, infants: 0, cabinClass: 'economy' },
+};
+
+function paxLabel(state) {
+  const parts = [`${state.adults} Adult${state.adults > 1 ? 's' : ''}`];
+  if (state.children) parts.push(`${state.children} Child${state.children > 1 ? 'ren' : ''}`);
+  if (state.infants) parts.push(`${state.infants} Infant${state.infants > 1 ? 's' : ''}`);
+  const classLabel = state.cabinClass === 'business' ? 'Business' : state.cabinClass === 'first' ? 'First Class' : 'Economy';
+  return `${parts.join(', ')} · ${classLabel}`;
 }
+
+function renderPaxPopover(key) {
+  const state = paxState[key];
+  const pop = document.getElementById(`pax-pop-${key}`);
+  if (!pop) return;
+  pop.innerHTML = `
+    <div class="pax-row">
+      <div class="pax-row-label"><strong>Adults</strong><span>12 yrs and above</span></div>
+      <div class="pax-stepper">
+        <button type="button" onclick="adjustPax('${key}','adults',-1)" ${state.adults <= 1 ? 'disabled' : ''}>−</button>
+        <span>${state.adults}</span>
+        <button type="button" onclick="adjustPax('${key}','adults',1)" ${state.adults >= 9 ? 'disabled' : ''}>+</button>
+      </div>
+    </div>
+    <div class="pax-row">
+      <div class="pax-row-label"><strong>Children</strong><span>2–11 yrs</span></div>
+      <div class="pax-stepper">
+        <button type="button" onclick="adjustPax('${key}','children',-1)" ${state.children <= 0 ? 'disabled' : ''}>−</button>
+        <span>${state.children}</span>
+        <button type="button" onclick="adjustPax('${key}','children',1)" ${state.children >= 8 ? 'disabled' : ''}>+</button>
+      </div>
+    </div>
+    <div class="pax-row">
+      <div class="pax-row-label"><strong>Infants</strong><span>Under 2 yrs, on lap</span></div>
+      <div class="pax-stepper">
+        <button type="button" onclick="adjustPax('${key}','infants',-1)" ${state.infants <= 0 ? 'disabled' : ''}>−</button>
+        <span>${state.infants}</span>
+        <button type="button" onclick="adjustPax('${key}','infants',1)" ${state.infants >= state.adults ? 'disabled' : ''}>+</button>
+      </div>
+    </div>
+    <div class="pax-class-row">
+      <div class="pax-class-opt ${state.cabinClass === 'economy' ? 'active' : ''}" onclick="setPaxClass('${key}','economy')">Economy</div>
+      <div class="pax-class-opt ${state.cabinClass === 'business' ? 'active' : ''}" onclick="setPaxClass('${key}','business')">Business</div>
+      <div class="pax-class-opt ${state.cabinClass === 'first' ? 'active' : ''}" onclick="setPaxClass('${key}','first')">First</div>
+    </div>
+    <button type="button" class="pax-done" onclick="togglePaxPopover('${key}')">Done</button>`;
+}
+
+window.togglePaxPopover = (key) => {
+  const pop = document.getElementById(`pax-pop-${key}`);
+  if (!pop) return;
+  const isOpen = pop.classList.contains('show');
+  document.querySelectorAll('.pax-popover').forEach(p => p.classList.remove('show'));
+  if (!isOpen) { renderPaxPopover(key); pop.classList.add('show'); }
+};
+
+window.adjustPax = (key, field, delta) => {
+  const state = paxState[key];
+  const next = state[field] + delta;
+  if (field === 'adults' && (next < 1 || next > 9)) return;
+  if (field === 'children' && (next < 0 || next > 8)) return;
+  // Each infant travels on an adult's lap — can never exceed the adult count.
+  if (field === 'infants' && (next < 0 || next > state.adults)) return;
+  state[field] = next;
+  if (field === 'adults' && state.infants > state.adults) state.infants = state.adults;
+  renderPaxPopover(key);
+  const btn = document.getElementById(`pax-btn-${key}`);
+  if (btn) btn.textContent = paxLabel(state);
+};
+
+window.setPaxClass = (key, cls) => {
+  paxState[key].cabinClass = cls;
+  renderPaxPopover(key);
+  const btn = document.getElementById(`pax-btn-${key}`);
+  if (btn) btn.textContent = paxLabel(paxState[key]);
+};
+
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.pax-field')) {
+    document.querySelectorAll('.pax-popover').forEach(p => p.classList.remove('show'));
+  }
+});
 
 function fmtTime(iso) {
   return new Date(iso).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'UTC' });
@@ -346,7 +438,6 @@ window.searchFlights = async () => {
   const to   = document.getElementById('toCity').value.trim();
   const dep  = document.getElementById('depDate').value;
   const ret  = document.getElementById('retDate').value;
-  const cls  = document.getElementById('classSelect').value;
 
   if (!from) { document.getElementById('fromCity').focus(); return; }
   if (!to)   { document.getElementById('toCity').focus();   return; }
@@ -357,7 +448,7 @@ window.searchFlights = async () => {
   if (!fromCode) { alert('Please pick a departure city from the dropdown.'); return; }
   if (!toCode)   { alert('Please pick a destination city from the dropdown.'); return; }
 
-  const { adults, children, infants, cabinClass } = parseClassSelect(cls);
+  const { adults, children, infants, cabinClass } = paxState.classSelect;
   const searchParams = {
     origin: fromCode, destination: toCode, departDate: dep,
     returnDate: tripType === 'round' ? ret : undefined,
@@ -370,7 +461,7 @@ window.searchFlights = async () => {
 
   try {
     const { data, error } = await supabase.functions.invoke('flight-search', { body: searchParams });
-    if (error || data?.error) throw new Error(data?.error || error?.message || 'Search failed');
+    if (error || data?.error) throw new Error(data?.error || await extractFunctionError(error, 'Search failed'));
 
     lastSearchContext = { params: searchParams, results: data.results, provider: data.provider };
     renderFlightResults(data.results, from, to, dep, adults + children + infants, cabinClass, data.provider);
@@ -487,8 +578,9 @@ window.selectFlight = async (resultIndex) => {
       },
     });
     if (error || data?.error) {
-      if (data?.soldOut) { alert('Sorry, this fare just sold out. Please search again.'); window.searchFlights(); return; }
-      throw new Error(data?.error || error?.message || 'Could not lock this fare.');
+      const errBody = await extractFunctionErrorBody(error);
+      if (errBody?.soldOut) { alert('Sorry, this fare just sold out. Please search again.'); window.searchFlights(); return; }
+      throw new Error(data?.error || errBody?.error || error?.message || 'Could not lock this fare.');
     }
     openPassengerModal(data.holdId, data.fare, result);
   } catch (e) {
@@ -522,7 +614,7 @@ function openPassengerModal(holdId, fare, result) {
             <div style="display:grid;grid-template-columns:90px 1fr 1fr;gap:8px;margin-bottom:8px;">
               <select required class="fc" name="title-${i}">
                 <option value="Mr">Mr</option><option value="Mrs">Mrs</option><option value="Ms">Ms</option>
-                <option value="Master" ${type!=='adult'?'':''}>Master</option><option value="Miss">Miss</option>
+                <option value="Master" ${type!=='adult'?'selected':''}>Master</option><option value="Miss">Miss</option>
               </select>
               <input required class="fc" name="first-${i}" placeholder="First name"/>
               <input required class="fc" name="last-${i}" placeholder="Last name"/>
@@ -566,7 +658,7 @@ function openPassengerModal(holdId, fare, result) {
       const { data, error } = await supabase.functions.invoke('flight-create-booking', {
         body: { holdId, passengers, contactEmail, contactPhone },
       });
-      if (error || data?.error) throw new Error(data?.error || error?.message || 'Could not create booking.');
+      if (error || data?.error) throw new Error(data?.error || await extractFunctionError(error, 'Could not create booking.'));
 
       const seg = result.segments[0];
       const params = new URLSearchParams({
@@ -607,7 +699,7 @@ window.searchMultiCity = () => {
     if (from && to) legs.push(`Leg ${legs.length+1}: ${from} → ${to}${date ? ' on ' + date : ''}`);
   });
   if (!legs.length) { alert('Please fill in at least one route'); return; }
-  const cls = document.getElementById('mc-class').value;
+  const cls = paxLabel(paxState['mc-class']);
   const msg = `Hi ZoomFly! Multi-City Flight Quote Request\n${legs.join('\n')}\nClass: ${cls}\nPlease share available fares.`;
   window.open('https://wa.me/918076136300?text=' + encodeURIComponent(msg), '_blank');
 };

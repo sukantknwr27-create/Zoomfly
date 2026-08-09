@@ -294,7 +294,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script type="module">
-import { createBooking, getUser } from '../assets/js/supabase.js';
+import { createBooking, getUser, extractFunctionError } from '../assets/js/supabase.js';
 
 // These come straight from the URL — an attacker can send a victim a
 // direct link with arbitrary values (e.g. ?bg="><img src=x onerror=...>),
@@ -371,11 +371,23 @@ let selectedMethod = 'whatsapp'; // shared across the page; updated when user pi
 // single-room occupancy for hotel bookings and point anyone who
 // needs more toward the Group Booking page instead of silently
 // letting them book a room that can't fit their party.
+//
+// Also apply the guest count the customer already chose on
+// hotels.html's booking modal, carried through via the `guests` URL
+// param — without this, that selection was silently dropped and
+// this page's own dropdown always reset to 1, meaning a 4-guest
+// booking arriving here would get charged as if it were for 1.
 if (bookingUnit === 'room') {
   const paxSelect = document.getElementById('g-pax');
+  const incomingGuests = Math.min(4, Math.max(1, parseInt(params.get('guests') || '1')));
   if (paxSelect) {
-    [...paxSelect.options].forEach(opt => { if (parseInt(opt.value || opt.textContent) > 4) opt.remove(); });
+    [...paxSelect.options].forEach(opt => {
+      const optVal = parseInt(opt.value || opt.textContent);
+      if (optVal > 4) { opt.remove(); return; }
+      opt.selected = optVal === incomingGuests;
+    });
   }
+  numPersons = incomingGuests;
   const paxNote = document.getElementById('g-pax-note');
   if (paxNote) paxNote.style.display = 'block';
 }
@@ -406,7 +418,7 @@ async function verifyPriceFromServer() {
       body: { service_type: bookingType, service_id: serviceId, room_name: roomName },
     });
     if (error || data?.error || !data?.base_per_unit) {
-      throw new Error(data?.error || error?.message || 'Price verification failed');
+      throw new Error(data?.error || await extractFunctionError(error, 'Price verification failed'));
     }
     basePerPerson = bookingUnit === 'room'
       ? data.base_per_unit * (parseInt(nights) || 1)
@@ -431,7 +443,7 @@ async function verifyPaymentLinkFromServer() {
       body: { id: paymentLinkRef },
     });
     if (error || data?.error || !data?.amount) {
-      throw new Error(data?.error || error?.message || 'This payment link could not be verified.');
+      throw new Error(data?.error || await extractFunctionError(error, 'This payment link could not be verified.'));
     }
     basePerPerson = data.amount; // link amount is a fixed total — numPersons stays at its default of 1
     priceVerified = true;
