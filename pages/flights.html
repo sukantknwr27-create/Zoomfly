@@ -620,7 +620,11 @@ function openPassengerModal(holdId, fare, result) {
               <input required class="fc" name="last-${i}" placeholder="Last name"/>
             </div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-              <input required type="date" class="fc" name="dob-${i}"/>
+              <div>
+                <label for="dob-${i}" style="display:block;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:#94a3b8;margin-bottom:3px;">Date of Birth</label>
+                <input required type="date" class="fc" id="dob-${i}" name="dob-${i}"
+                       max="${new Date().toISOString().split('T')[0]}"/>
+              </div>
               <select required class="fc" name="gender-${i}">
                 <option value="">Gender</option><option value="M">Male</option><option value="F">Female</option>
               </select>
