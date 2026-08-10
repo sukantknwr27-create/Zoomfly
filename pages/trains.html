@@ -353,89 +353,25 @@ const WA = '918076136300';
 const DAYS = ['M','T','W','T','F','S','S'];
 
 // ── STATION DATA ────────────────────────────────────────
-const STATIONS = [
-  { code:'NDLS', name:'New Delhi', city:'New Delhi' },
-  { code:'DLI',  name:'Delhi Junction', city:'Delhi' },
-  { code:'NZM',  name:'Hazrat Nizamuddin', city:'New Delhi' },
-  { code:'ANVT', name:'Anand Vihar Terminal', city:'Delhi' },
-  { code:'MMCT', name:'Mumbai Central', city:'Mumbai' },
-  { code:'CSTM', name:'Chhatrapati Shivaji Terminus', city:'Mumbai' },
-  { code:'BCT',  name:'Mumbai Borivali', city:'Mumbai' },
-  { code:'LTT',  name:'Lokmanya Tilak Terminus', city:'Mumbai' },
-  { code:'MAS',  name:'Chennai Central', city:'Chennai' },
-  { code:'MSC',  name:'Chennai Egmore', city:'Chennai' },
-  { code:'SBC',  name:'Bangalore City Junction', city:'Bangalore' },
-  { code:'YPR',  name:'Yesvantpur Junction', city:'Bangalore' },
-  { code:'KJM',  name:'Krishnarajapuram', city:'Bangalore' },
-  { code:'HWH',  name:'Howrah Junction', city:'Kolkata' },
-  { code:'SDAH', name:'Sealdah', city:'Kolkata' },
-  { code:'KOAA', name:'Kolkata', city:'Kolkata' },
-  { code:'SC',   name:'Secunderabad Junction', city:'Hyderabad' },
-  { code:'HYB',  name:'Hyderabad Deccan', city:'Hyderabad' },
-  { code:'KCG',  name:'Kacheguda', city:'Hyderabad' },
-  { code:'JP',   name:'Jaipur Junction', city:'Jaipur' },
-  { code:'ADI',  name:'Ahmedabad Junction', city:'Ahmedabad' },
-  { code:'ST',   name:'Surat', city:'Surat' },
-  { code:'BRC',  name:'Vadodara Junction', city:'Vadodara' },
-  { code:'LKO',  name:'Lucknow NR', city:'Lucknow' },
-  { code:'LJN',  name:'Lucknow Junction', city:'Lucknow' },
-  { code:'CNB',  name:'Kanpur Central', city:'Kanpur' },
-  { code:'PNBE', name:'Patna Junction', city:'Patna' },
-  { code:'RJPB', name:'Rajendranagar Terminal', city:'Patna' },
-  { code:'BBS',  name:'Bhubaneswar', city:'Bhubaneswar' },
-  { code:'PURI', name:'Puri', city:'Puri' },
-  { code:'GHY',  name:'Guwahati', city:'Guwahati' },
-  { code:'JAT',  name:'Jammu Tawi', city:'Jammu' },
-  { code:'UHP',  name:'Udhampur', city:'Udhampur' },
-  { code:'CDG',  name:'Chandigarh', city:'Chandigarh' },
-  { code:'ASR',  name:'Amritsar Junction', city:'Amritsar' },
-  { code:'LDH',  name:'Ludhiana Junction', city:'Ludhiana' },
-  { code:'KOTA', name:'Kota Junction', city:'Kota' },
-  { code:'AGC',  name:'Agra Cantt', city:'Agra' },
-  { code:'AF',   name:'Agra Fort', city:'Agra' },
-  { code:'BSB',  name:'Varanasi Junction', city:'Varanasi' },
-  { code:'MGS',  name:'Mughal Sarai (DDU)', city:'Varanasi' },
-  { code:'HW',   name:'Haridwar Junction', city:'Haridwar' },
-  { code:'DDN',  name:'Dehradun', city:'Dehradun' },
-  { code:'SLN',  name:'Sultanpur', city:'Sultanpur' },
-  { code:'PUNE', name:'Pune Junction', city:'Pune' },
-  { code:'NGP',  name:'Nagpur Junction', city:'Nagpur' },
-  { code:'ERS',  name:'Ernakulam Junction', city:'Kochi' },
-  { code:'TVC',  name:'Thiruvananthapuram Central', city:'Trivandrum' },
-  { code:'CBE',  name:'Coimbatore Junction', city:'Coimbatore' },
-  { code:'MDU',  name:'Madurai Junction', city:'Madurai' },
-  { code:'TPJ',  name:'Tiruchchirappalli Junction', city:'Trichy' },
-  { code:'BPL',  name:'Bhopal Junction', city:'Bhopal' },
-  { code:'INDB', name:'Indore Junction', city:'Indore' },
-  { code:'JBP',  name:'Jabalpur', city:'Jabalpur' },
-  { code:'JU',   name:'Jodhpur Junction', city:'Jodhpur' },
-  { code:'UDZ',  name:'Udaipur City', city:'Udaipur' },
-  { code:'BKN',  name:'Bikaner Junction', city:'Bikaner' },
-  { code:'AII',  name:'Ajmer Junction', city:'Ajmer' },
-  { code:'GWL',  name:'Gwalior Junction', city:'Gwalior' },
-  { code:'RNC',  name:'Ranchi Junction', city:'Ranchi' },
-  { code:'DHN',  name:'Dhanbad Junction', city:'Dhanbad' },
-  { code:'CDG',  name:'Chandigarh', city:'Chandigarh' },
-  { code:'VSKP', name:'Visakhapatnam', city:'Visakhapatnam' },
-  { code:'BZA',  name:'Vijayawada Junction', city:'Vijayawada' },
-  { code:'NLR',  name:'Nellore', city:'Nellore' },
-  { code:'TPTY', name:'Tirupati', city:'Tirupati' },
-  { code:'MYS',  name:'Mysuru Junction', city:'Mysore' },
-  { code:'UBL',  name:'Hubballi Junction', city:'Hubli' },
-  { code:'MAO',  name:'Madgaon', city:'Goa' },
-  { code:'KRMI', name:'Karmali', city:'Goa' },
-  { code:'RTM',  name:'Ratlam Junction', city:'Ratlam' },
-  { code:'UJN',  name:'Ujjain Junction', city:'Ujjain' },
-  { code:'RPR',  name:'Raipur Junction', city:'Raipur' },
-  { code:'BSP',  name:'Bilaspur Junction', city:'Bilaspur' },
-  { code:'ALD',  name:'Prayagraj Junction', city:'Prayagraj' },
-  { code:'GKP',  name:'Gorakhpur Junction', city:'Gorakhpur' },
-  { code:'BE',   name:'Bareilly', city:'Bareilly' },
-  { code:'MB',   name:'Moradabad', city:'Moradabad' },
-  { code:'ASN',  name:'Asansol Junction', city:'Asansol' },
-  { code:'NJP',  name:'New Jalpaiguri', city:'Siliguri' },
-  { code:'DBRG', name:'Dibrugarh', city:'Dibrugarh' },
-];
+// Previously a separate 78-entry hardcoded array here, which had
+// drifted out of sync with the server's own station list in
+// _shared/rail-provider.ts (which validates search requests and also
+// exposes a mode:'stations' lookup that this file wasn't even
+// calling). Both are now the same ~80-station canonical list, server
+// side only — this file fetches it via callRailSearch below instead
+// of hardcoding its own copy, so autocomplete and search validation
+// can never disagree with each other again.
+let STATIONS_CACHE = [];
+let stationsCachePromise = null;
+async function getStations() {
+  if (STATIONS_CACHE.length) return STATIONS_CACHE;
+  if (!stationsCachePromise) {
+    stationsCachePromise = callRailSearch({ mode: 'stations', query: '' })
+      .then(data => { STATIONS_CACHE = data.stations || []; return STATIONS_CACHE; })
+      .catch(() => []);
+  }
+  return stationsCachePromise;
+}
 
 // ── TRAIN SEARCH ───────────────────────────────────────
 // Previously this held a hardcoded TRAIN_DB (14 fixed trains) plus
@@ -486,6 +422,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('t-date').min   = tomorrow.toISOString().split('T')[0];
   document.getElementById('t-date').value = tomorrow.toISOString().split('T')[0];
   renderPopularRoutes();
+  getStations(); // warm the cache so the first keystroke isn't empty
   // Close ACs on outside click
   document.addEventListener('click', e => {
     if (!e.target.closest('.fg')) {
@@ -495,12 +432,17 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ── AUTOCOMPLETE ─────────────────────────────────────
-window.showStationAC = function(input, acId) {
+window.showStationAC = async function(input, acId) {
   const q = input.value.toLowerCase().trim();
   const ac = document.getElementById(acId);
   if (!q) { ac.classList.remove('show'); return; }
 
-  const scored = STATIONS
+  const stations = STATIONS_CACHE.length ? STATIONS_CACHE : await getStations();
+  // Bail if the input changed while we were waiting on the fetch —
+  // avoids showing stale results for an earlier keystroke.
+  if (input.value.toLowerCase().trim() !== q) return;
+
+  const scored = stations
     .map(s => {
       const code = s.code.toLowerCase(), name = s.name.toLowerCase(), city = s.city.toLowerCase();
       let score = -1;
