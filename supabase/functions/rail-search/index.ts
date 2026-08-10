@@ -90,7 +90,16 @@ serve(async (req) => {
     // function — avoids a second edge function just to list stations.
     if (body.mode === 'stations') {
       const q = String(body.query || '').toLowerCase().trim();
-      const results = !q ? [] : STATIONS
+      // Empty query = full canonical list, meant to be fetched once
+      // and cached client-side (see trains.html getStations()), not
+      // re-fetched per keystroke. Small enough (~80 entries) to send
+      // whole rather than paginate.
+      if (!q) {
+        return new Response(JSON.stringify({ stations: STATIONS }), {
+          headers: { ...corsHeaders(req), 'Content-Type': 'application/json' },
+        });
+      }
+      const results = STATIONS
         .map(s => {
           const code = s.code.toLowerCase(), name = s.name.toLowerCase(), city = s.city.toLowerCase();
           let score = -1;
