@@ -3713,6 +3713,7 @@ async function loadFlightEnquiries() {
         <td style="display:flex;gap:6px">
           <button onclick="window.open('https://wa.me/${esc((f.phone||'').replace(/\D/g,''))}','_blank')" style="padding:4px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:.75rem;cursor:pointer;background:#fff">Call</button>
           <button onclick="markFlightDone('${f.id}')" style="padding:4px 10px;border:1px solid #dcfce7;border-radius:6px;font-size:.75rem;cursor:pointer;color:#15803d;background:#fff">✓ Done</button>
+          <button onclick="deleteFlightEnquiry('${f.id}')" style="padding:4px 10px;border:1px solid #fee2e2;border-radius:6px;font-size:.75rem;cursor:pointer;color:#991b1b;background:#fff">Delete</button>
         </td>
       </tr>`;
     }).join('');
@@ -3724,6 +3725,13 @@ window.markFlightDone = async (id) => {
   // constraint only allows new/contacted/confirmed/closed.
   await supabase.from('enquiries').update({status:'closed'}).eq('id',id);
   toast('Marked as done'); loadFlightEnquiries();
+};
+
+window.deleteFlightEnquiry = async (id) => {
+  if (!confirm('Delete this flight enquiry permanently? This cannot be undone.')) return;
+  const { error } = await supabase.from('enquiries').delete().eq('id', id);
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
+  toast('Flight enquiry deleted'); loadFlightEnquiries();
 };
 
 // ── TRAIN ENQUIRIES ────────────────────────────────────────────
@@ -3750,6 +3758,7 @@ async function loadTrainEnquiries() {
         <td>${pill(t.status||'new')}</td>
         <td style="display:flex;gap:6px">
           <button onclick="markTrainDone('${t.id}')" style="padding:4px 10px;border:1px solid #dcfce7;border-radius:6px;font-size:.75rem;cursor:pointer;color:#15803d;background:#fff">✓ Done</button>
+          <button onclick="deleteTrainEnquiry('${t.id}')" style="padding:4px 10px;border:1px solid #fee2e2;border-radius:6px;font-size:.75rem;cursor:pointer;color:#991b1b;background:#fff">Delete</button>
         </td>
       </tr>`).join('');
   } catch(e) { document.getElementById('train-load').style.display='none'; toast('Failed to load train enquiries: ' + e.message,'error'); }
@@ -3758,6 +3767,13 @@ async function loadTrainEnquiries() {
 window.markTrainDone = async (id) => {
   await supabase.from('train_enquiries').update({status:'closed'}).eq('id',id);
   toast('Marked as done'); loadTrainEnquiries();
+};
+
+window.deleteTrainEnquiry = async (id) => {
+  if (!confirm('Delete this train enquiry permanently? This cannot be undone.')) return;
+  const { error } = await supabase.from('train_enquiries').delete().eq('id', id);
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
+  toast('Train enquiry deleted'); loadTrainEnquiries();
 };
 
 // ── RAIL TICKETING QUEUE ────────────────────────────────────────
@@ -4537,10 +4553,18 @@ async function loadEnquiries() {
         <td><div class="ab">
           <button class="bs bd" onclick="resolveEnq('${e.id}')">✓ Done</button>
           <button class="bs bv" onclick="window.open('https://wa.me/${esc((e.phone||'').replace(/\D/g,''))}','_blank')">WhatsApp</button>
+          <button class="bs" style="color:#dc2626" onclick="deleteEnquiry('${e.id}')">Delete</button>
         </div></td>
       </tr>`).join('');
   } catch(e) { load.style.display='none'; toast('Failed to load enquiries','error'); }
 }
+
+window.deleteEnquiry = async (id) => {
+  if (!confirm('Delete this enquiry permanently? This cannot be undone.')) return;
+  const { error } = await supabase.from('enquiries').delete().eq('id', id);
+  if (error) { toast('Error: ' + error.message, 'error'); return; }
+  toast('Enquiry deleted'); loadOverviewEnquiries(); loadEnquiries();
+};
 
 // Load bookings
 // ── BOOKINGS ─────────────────────────────────────────────────
@@ -6257,9 +6281,9 @@ async function loadTestimonials() {
     if (!data?.length) { document.getElementById('testi-tbody').innerHTML = '<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--muted)">No testimonials yet. Add one!</td></tr>'; return; }
     document.getElementById('testi-tbody').innerHTML = data.map(t => `
       <tr>
-        <td><strong>${t.name}</strong></td>
-        <td style="font-size:.78rem">${t.city || '—'}</td>
-        <td style="font-size:.78rem">${t.trip || '—'}</td>
+        <td><strong>${esc(t.name)}</strong></td>
+        <td style="font-size:.78rem">${esc(t.city) || '—'}</td>
+        <td style="font-size:.78rem">${esc(t.trip) || '—'}</td>
         <td>${'★'.repeat(t.stars || 5)}</td>
         <td>${pill(t.is_active ? 'active' : 'inactive')}</td>
         <td>
@@ -6361,9 +6385,9 @@ async function loadSubscribers() {
     }
     document.getElementById('sub-tbody').innerHTML = data.map(s => `
       <tr>
-        <td><strong>${s.email}</strong></td>
+        <td><strong>${esc(s.email)}</strong></td>
         <td style="font-size:.78rem;color:var(--muted)">${new Date(s.created_at).toLocaleString('en-IN',{day:'numeric',month:'short',year:'numeric'})}</td>
-        <td>${s.source || 'Website'}</td>
+        <td>${esc(s.source || 'Website')}</td>
         <td>${pill(s.status || 'active')}</td>
       </tr>`).join('');
   } catch(e) {
