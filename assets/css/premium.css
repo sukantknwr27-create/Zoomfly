@@ -1495,7 +1495,15 @@ footer input[type="email"]:focus {
 }
 
 /* ─── HERO SCENIC OVERRIDES ──────────────────────────────────── */
-.hero { min-height: 100vh !important; }
+/* Scoped to the homepage only — .hero is reused as a generic section
+   class on trains.html, vendor.html, about.html, etc, and an
+   unscoped !important 100vh forced every one of those into a full
+   viewport-height section too, which broke badly the moment an admin
+   added a "Carousels" banner above them (page needed 2 scrolls to see
+   any hero content, banner CTA duplicated the hero's own CTA). Only
+   index.html carries data-page="home" and is designed around a
+   full-bleed 100vh hero with a photo-carousel background layer. */
+body[data-page="home"] .hero { min-height: 100vh !important; }
 
 /* Trust bar below hero */
 @media (max-width: 768px) {
