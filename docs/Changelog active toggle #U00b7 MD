@@ -1,0 +1,69 @@
+# Active/Inactive toggle — Destinations, Hotels, Cabs, Buses
+
+## Root cause
+`packages` had a working Active/Inactive switch (`togglePkg`) wired to a
+toggle-switch UI control. `destinations`, `hotels`, `cab_services`, and
+`bus_routes` all already had an `is_active` column and — for hotels/buses/cabs
+— even *displayed* an Active/Inactive badge, but nothing in the admin UI
+could change it. Destinations didn't even display the status. To flip any of
+these, you'd have needed to run SQL by hand.
+
+## Fix
+Added the same toggle-switch pattern used on Packages to all four sections.
+Each toggle fires an immediate `UPDATE ... SET is_active = <bool>` and then
+reloads the section's data.
+
+**File changed:** `pages/admin.html`
+
+1. **Hotels** (`pages/admin.html`, hotels table)
+   - Replaced the read-only Active/Inactive `<span>` badge in `loadHotels()`
+     with a toggle switch.
+   - Added `window.toggleHotel(id, active)`.
+
+2. **Buses** (`pages/admin.html`, buses table)
+   - Replaced the read-only badge in `loadBuses()` with a toggle switch.
+   - Added `window.toggleBus(id, active)`.
+
+3. **Cabs** (`pages/admin.html`, cabs table)
+   - Replaced the read-only badge in `loadCabs()` with a toggle switch.
+   - Added `window.toggleCab(id, active)`.
+
+4. **Destinations** (`pages/admin.html`, destination cards)
+   - Destination cards previously showed no active/inactive status at all.
+     Added a status badge + toggle switch to each card in `loadDestinations()`.
+   - Added `window.toggleDestination(id, active)`.
+
+All four toggles reuse the existing global `.toggle` / `.slider` CSS (same
+switch already used for Packages), so no new styles were needed.
+
+## Verification
+- Extracted all inline `<script>` blocks from `admin.html` and ran
+  `node --check` — no syntax errors.
+- No schema/migration changes needed — `is_active` already existed on all
+  four tables (`hotels`, `destinations`, `bus_routes`, `cab_services`).
+- Existing RLS policies for these tables already permit admin `UPDATE`
+  (same policies package toggling already relies on), so no RLS changes
+  needed — but worth a quick live click-test per table since I couldn't
+  hit your Supabase project from this environment.
+
+## Follow-up: Destination modal now has an Active checkbox too
+
+Added an "Active (live and bookable on the site)" checkbox to the
+Add/Edit Destination modal, right above the existing "Featured" checkbox.
+
+- **Add Destination**: checkbox defaults **unchecked** — new destinations
+  now insert as `is_active: false`, matching your "seed everything, flip
+  Active only when real inventory exists" convention. Previously every new
+  destination silently inserted as `is_active: true`.
+- **Edit Destination**: checkbox now reflects the destination's current
+  `is_active` value when you open the modal, and saving writes it back.
+- The card-grid toggle switch (from the first round of changes) still
+  works independently for quick flips — the modal checkbox and the grid
+  toggle both read/write the same `is_active` column, so they always
+  stay in sync.
+
+**File changed:** `pages/admin.html` (`dest-modal` HTML, `openAddDestination`,
+`editDestination`, `saveDestination`).
+
+Re-verified with `node --check` on all extracted inline scripts — no syntax
+errors.
