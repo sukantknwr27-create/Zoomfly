@@ -132,10 +132,13 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
 <body>
 
 <div class="page-hero">
-  <div class="breadcrumb" style="justify-content:center;margin-bottom:1rem"><a href="../index.html">Home</a> › Tour Packages</div>
-  <h1>Our <em>Tour Packages</em></h1>
-  <p>Handcrafted itineraries — from quick weekend escapes to 14-day international holidays</p>
-  <div class="search-wrap"><input type="text" id="search-inp" placeholder="Search destinations, packages..."/><span class="si"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">🔍</span></span></div>
+  <div id="heroBg" aria-hidden="true" style="position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none"></div>
+  <div style="position:relative;z-index:2">
+    <div class="breadcrumb" style="justify-content:center;margin-bottom:1rem"><a href="../index.html">Home</a> › Tour Packages</div>
+    <h1>Our <em>Tour Packages</em></h1>
+    <p>Handcrafted itineraries — from quick weekend escapes to 14-day international holidays</p>
+    <div class="search-wrap"><input type="text" id="search-inp" placeholder="Search destinations, packages..."/><span class="si"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">🔍</span></span></div>
+  </div>
 </div>
 
 <div class="layout">
@@ -591,8 +594,9 @@ window.pickDest = (dest) => {
 <section class="newsletter" id="newsletter"></section>
 <footer class="footer" id="mainFooter"></footer>
 <script type="module">
-import { initCarousel } from '../assets/js/carousel.js';
+import { initCarousel, initHeroBackground } from '../assets/js/carousel.js';
 initCarousel('packages', 'carousel-packages');
+initHeroBackground('packages', 'heroBg');
 </script>
 </body>
 </html>

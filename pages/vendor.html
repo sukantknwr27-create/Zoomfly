@@ -119,18 +119,21 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
 
 
 <section class="hero">
-  <div class="hero-badge">Partner Programme — Now Open</div>
-  <h1>Grow Your Business<br>with <em>ZoomFly</em></h1>
-  <p>List your hotel, transport, tour, or activity and reach travellers actively planning their next trip across India.</p>
-  <div class="hero-btns">
-    <a href="#register-form" class="btn-hp">Register Free →</a>
-    <a href="/pages/vendor-portal.html" class="btn-hs">Already Applied? Sign In →</a>
-  </div>
-  <div class="hero-stats">
-    <div class="hs"><strong>8–20%</strong><span>Commission Rates</span></div>
-    <div class="hs"><strong>Weekly</strong><span>Payouts</span></div>
-    <div class="hs"><strong>7 Days</strong><span>Onboarding Time</span></div>
-    <div class="hs"><strong>24/7</strong><span>Partner Support</span></div>
+  <div id="heroBg" aria-hidden="true" style="position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none"></div>
+  <div style="position:relative;z-index:2">
+    <div class="hero-badge">Partner Programme — Now Open</div>
+    <h1>Grow Your Business<br>with <em>ZoomFly</em></h1>
+    <p>List your hotel, transport, tour, or activity and reach travellers actively planning their next trip across India.</p>
+    <div class="hero-btns">
+      <a href="#register-form" class="btn-hp">Register Free →</a>
+      <a href="/pages/vendor-portal.html" class="btn-hs">Already Applied? Sign In →</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hs"><strong>8–20%</strong><span>Commission Rates</span></div>
+      <div class="hs"><strong>Weekly</strong><span>Payouts</span></div>
+      <div class="hs"><strong>7 Days</strong><span>Onboarding Time</span></div>
+      <div class="hs"><strong>24/7</strong><span>Partner Support</span></div>
+    </div>
   </div>
 </section>
 
@@ -462,8 +465,9 @@ window.toggleFaq = (i) => {
 <section class="newsletter" id="newsletter"></section>
 <footer class="footer" id="mainFooter"></footer>
 <script type="module">
-import { initCarousel } from '../assets/js/carousel.js';
+import { initCarousel, initHeroBackground } from '../assets/js/carousel.js';
 initCarousel('vendor', 'carousel-vendor');
+initHeroBackground('vendor', 'heroBg');
 </script>
 </body>
 </html>

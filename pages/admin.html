@@ -178,6 +178,7 @@ setTimeout(function() {
     <div class="nav-item" onclick="show('api-providers',this)"><span class="icon"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">🔌</span></span> API Providers</div>
     <div class="nav-item" onclick="show('offers',this)"><span class="icon"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">🏷️</span></span> Offers & Promos</div>
     <div class="nav-item" onclick="show('carousels',this)"><span class="icon"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">🖼️</span></span> Carousels</div>
+    <div class="nav-item" onclick="show('hero-bg',this)"><span class="icon"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">🌄</span></span> Hero Backgrounds</div>
     <div class="nav-item" onclick="show('wa-templates',this)"><span class="icon"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">💬</span></span> WhatsApp Templates</div>
     <div class="nav-item" onclick="show('blog',this)"><span class="icon"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">📄</span></span> Blog</div>
     <div class="nav-item" onclick="show('faq',this)"><span class="icon"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">❓</span></span> FAQ</div>
@@ -1285,7 +1286,7 @@ setTimeout(function() {
         <div style="margin:14px 0">
           <label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Page</label>
           <select id="car-page-sel" onchange="loadCarouselSlides()" style="width:100%;max-width:280px;padding:.6rem;border:1.5px solid #e2e8f0;border-radius:8px">
-            <option value="home">Home (promo banner — appears ABOVE the hero, not the hero photo. For the hero background, use Site Settings → Hero Background Photos instead)</option>
+            <option value="home">Home (promo banner — appears ABOVE the hero, not the hero photo. For the hero background, use the Hero Backgrounds tab instead)</option>
             <option value="destinations">Destinations</option>
             <option value="packages">Packages</option>
             <option value="flights">Flights</option>
@@ -1299,7 +1300,7 @@ setTimeout(function() {
           </select>
           <p style="font-size:.75rem;color:#94a3b8;margin-top:6px">Slides show on that page in the order below. Inactive slides are saved but hidden from the live site. If a page has no active slides, its existing banner shows as before — nothing breaks.</p>
           <p id="car-home-warning" style="display:none;font-size:.75rem;color:#b45309;background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:8px 10px;margin-top:8px">
-            ⚠️ On Home, this adds a separate promo strip <em>above</em> the existing full-screen hero — it does not change the hero's photo. To rotate photos behind "Where will you wander next?" use <strong>Site Settings → Hero Background Photos</strong> instead.
+            ⚠️ On Home, this adds a separate promo strip <em>above</em> the existing full-screen hero — it does not change the hero's photo. To rotate photos behind "Where will you wander next?" use the <strong>Hero Backgrounds</strong> tab instead — and every other page (Packages, Destinations, Flights, etc.) can now have its own rotating hero photos there too.
           </p>
         </div>
         <div class="loading" id="car-load"><div class="spinner"></div></div>
@@ -1355,6 +1356,40 @@ setTimeout(function() {
             <button onclick="saveSlide()" style="background:#C9922A;color:#0C1B33;border:none;border-radius:8px;padding:.65rem 1.4rem;font-weight:700;cursor:pointer">Save Slide</button>
           </div>
         </div>
+      </div>
+    </div>
+
+    <!-- HERO BACKGROUNDS (rotating photos behind each page's own headline) -->
+    <div class="section" id="section-hero-bg">
+      <div class="table-card">
+        <h3 style="margin-bottom:.4rem">Hero Backgrounds</h3>
+        <div style="font-size:.78rem;color:#64748b;margin-bottom:1rem">Rotating photos behind each page's own headline (e.g. "Where will you wander next?", "Our Tour Packages"). Not a banner and has no title/button of its own, so it can never duplicate what's already on the page. Add 2+ photos per page to rotate; 1 photo shows static; 0 photos keeps the default gradient background.</div>
+        <div style="margin:14px 0">
+          <label style="font-size:.78rem;font-weight:700;display:block;margin-bottom:.4rem">Page</label>
+          <select id="hb-page-sel" onchange="loadHeroBgPhotos()" style="width:100%;max-width:280px;padding:.6rem;border:1.5px solid #e2e8f0;border-radius:8px">
+            <option value="home">Home</option>
+            <option value="destinations">Destinations</option>
+            <option value="packages">Packages</option>
+            <option value="flights">Flights</option>
+            <option value="cabs">Cabs</option>
+            <option value="bus">Bus</option>
+            <option value="trains">Trains</option>
+            <option value="hotels">Hotels</option>
+            <option value="vendor">Vendor Landing (Partner With Us)</option>
+          </select>
+          <p style="font-size:.75rem;color:#94a3b8;margin-top:6px">Each page has its own separate set of photos — adding photos here does not affect any other page.</p>
+          <p id="hb-banner-warning" style="display:none;font-size:.75rem;color:#b45309;background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:8px 10px;margin-top:8px">
+            ⚠️ This page currently has an active slide in <strong>Carousels</strong> — these hero background photos will stay hidden while that's active, so the two don't stack and look cluttered. Deactivate/remove the Carousels slide if you want these photos to show instead.
+          </p>
+        </div>
+        <div class="loading" id="hb-load"><div class="spinner"></div></div>
+        <div id="hb-preview" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px"></div>
+        <div style="display:flex;gap:8px;margin-bottom:14px">
+          <input type="url" id="hb-img-url" placeholder="Paste photo URL (https://...)" style="flex:1;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;font-size:.85rem"
+                 onkeydown="if(event.key==='Enter'){event.preventDefault();addHeroBgPhoto();}"/>
+          <button type="button" onclick="addHeroBgPhoto()" style="padding:.65rem 1.1rem;background:#0C1B33;color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit;font-size:.8rem;white-space:nowrap">Add URL</button>
+        </div>
+        <button id="hb-save-btn" onclick="saveHeroBgPhotos()" style="background:#C9922A;color:#0C1B33;border:none;border-radius:8px;padding:.7rem 1.6rem;font-weight:700;cursor:pointer;font-family:inherit">Save Photos for This Page</button>
       </div>
     </div>
 
@@ -1912,16 +1947,9 @@ Book now: https://www.zoomfly.in/pages/packages.html — ZoomFly Team</textarea>
           </div>
         </div>
 
-        <div class="table-card" style="margin-top:16px">
-          <h3 style="margin-bottom:.4rem">Hero Background Photos</h3>
-          <div style="font-size:.78rem;color:#64748b;margin-bottom:1rem">Add 2 or more photos to show a rotating carousel behind the homepage headline. Leave empty to keep the default gradient background.</div>
-          <div id="ss-hero-img-preview" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px"></div>
-          <div style="display:flex;gap:8px">
-            <input type="url" id="ss-hero-img-url" placeholder="Paste photo URL (https://...)" style="flex:1;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;font-size:.85rem"
-                   onkeydown="if(event.key==='Enter'){event.preventDefault();addHeroImage();}"/>
-            <button type="button" onclick="addHeroImage()" style="padding:.65rem 1.1rem;background:#0C1B33;color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit;font-size:.8rem;white-space:nowrap">Add URL</button>
-          </div>
-          <input type="hidden" id="ss-hero-images"/>
+        <div class="table-card" style="margin-top:16px;background:#f8fafc">
+          <h3 style="margin-bottom:.4rem">Hero Background Photos moved</h3>
+          <div style="font-size:.82rem;color:#64748b">Rotating hero background photos now have their own tab — <strong>Hero Backgrounds</strong> in the sidebar — with a separate set of photos for every page (Home, Packages, Destinations, Flights, Cabs, Bus, Hotels, Trains, Vendor), not just Home.</div>
         </div>
 
         <div class="table-card" style="margin-top:16px">
@@ -3268,7 +3296,6 @@ window.saveSettings = async () => {
     favicon_url:     document.getElementById('ss-favicon')?.value || '',
     homepage_hero_title:    document.getElementById('ss-hero-title')?.value    || '',
     homepage_hero_subtitle: document.getElementById('ss-hero-subtitle')?.value || '',
-    homepage_hero_images:   (document.getElementById('ss-hero-images')?.value || '').split(',').map(s=>s.trim()).filter(Boolean),
     meta_title:       document.getElementById('ss-meta-title')?.value || '',
     meta_description: document.getElementById('ss-meta-desc')?.value  || '',
     social_instagram: document.getElementById('ss-instagram')?.value  || '',
@@ -3503,18 +3530,6 @@ window.loadSiteSettings = async () => {
         document.getElementById('ss-favicon-preview').innerHTML = `<img src="${data.favicon_url}" style="height:28px;width:28px;object-fit:contain;border-radius:6px;border:1.5px solid #e2e8f0"/>`;
       if (document.getElementById('ss-hero-title'))    document.getElementById('ss-hero-title').value    = data.homepage_hero_title    || '';
       if (document.getElementById('ss-hero-subtitle')) document.getElementById('ss-hero-subtitle').value = data.homepage_hero_subtitle || '';
-      if (Array.isArray(data.homepage_hero_images) && document.getElementById('ss-hero-images')) {
-        document.getElementById('ss-hero-images').value = data.homepage_hero_images.join(',');
-        const prev = document.getElementById('ss-hero-img-preview');
-        if (prev) {
-          prev.innerHTML = data.homepage_hero_images.map(url => `
-            <div style="position:relative;flex-shrink:0">
-              <img src="${url}" style="width:80px;height:50px;object-fit:cover;border-radius:6px;border:1.5px solid #e2e8f0" onerror="this.parentElement.remove()"/>
-              <button onclick="removeHeroImage('${url}',this.parentElement)"
-                style="position:absolute;top:-6px;right:-6px;width:18px;height:18px;background:#dc2626;color:#fff;border:none;border-radius:50%;font-size:.6rem;cursor:pointer;display:flex;align-items:center;justify-content:center">✕</button>
-            </div>`).join('');
-        }
-      }
       if (document.getElementById('ss-meta-title')) document.getElementById('ss-meta-title').value = data.meta_title || '';
       if (document.getElementById('ss-meta-desc'))  document.getElementById('ss-meta-desc').value  = data.meta_description || '';
       if (document.getElementById('ss-instagram')) document.getElementById('ss-instagram').value = data.social_instagram || '';
@@ -4353,32 +4368,85 @@ window.removeUploadedImg = (url, container) => {
   if (status) status.textContent = uploadedImageUrls.length ? `${uploadedImageUrls.length} photo(s) uploaded` : '';
 };
 
-window.removeHeroImage = (url, container) => {
-  const hidden = document.getElementById('ss-hero-images');
-  const urls = hidden.value.split(',').map(s=>s.trim()).filter(u => u && u !== url);
-  hidden.value = urls.join(',');
-  container.remove();
+// ─── HERO BACKGROUNDS (per-page rotating photos) ───
+let heroBgPhotos = []; // in-memory list for the currently selected page, saved as a batch
+
+window.loadHeroBgPhotos = async function() {
+  const page = document.getElementById('hb-page-sel').value;
+  const load = document.getElementById('hb-load');
+  load.style.display = 'block';
+  try {
+    const { data, error } = await supabase.from('hero_background_photos')
+      .select('*').eq('page_key', page).order('sort_order', { ascending: true });
+    if (error) throw error;
+    heroBgPhotos = (data || []).map(r => r.image_url);
+    renderHeroBgPreview();
+
+    // Warn if this page also has an active Carousels banner — the two
+    // are mutually exclusive on the live site (banner wins), so these
+    // photos would stay hidden even after saving.
+    const warning = document.getElementById('hb-banner-warning');
+    if (warning) {
+      const { data: bannerRows } = await supabase.from('carousel_slides')
+        .select('id').eq('page_key', page).eq('is_active', true).limit(1);
+      warning.style.display = (bannerRows && bannerRows.length) ? 'block' : 'none';
+    }
+  } catch (e) {
+    toast('Could not load photos: ' + e.message, 'error');
+  } finally {
+    load.style.display = 'none';
+  }
 };
 
-window.addHeroImage = () => {
-  const input = document.getElementById('ss-hero-img-url');
+function renderHeroBgPreview() {
+  const prev = document.getElementById('hb-preview');
+  if (!prev) return;
+  if (!heroBgPhotos.length) {
+    prev.innerHTML = `<div style="font-size:.8rem;color:#94a3b8">No photos yet — default gradient background shows on the live site.</div>`;
+    return;
+  }
+  prev.innerHTML = heroBgPhotos.map((url, i) => `
+    <div style="position:relative;flex-shrink:0">
+      <img src="${url}" style="width:110px;height:68px;object-fit:cover;border-radius:6px;border:1.5px solid #e2e8f0" onerror="this.parentElement.style.opacity='.4'"/>
+      <button onclick="removeHeroBgPhoto(${i})"
+        style="position:absolute;top:-6px;right:-6px;width:18px;height:18px;background:#dc2626;color:#fff;border:none;border-radius:50%;font-size:.6rem;cursor:pointer;display:flex;align-items:center;justify-content:center">✕</button>
+    </div>`).join('');
+}
+
+window.removeHeroBgPhoto = (i) => {
+  heroBgPhotos.splice(i, 1);
+  renderHeroBgPreview();
+};
+
+window.addHeroBgPhoto = () => {
+  const input = document.getElementById('hb-img-url');
   const url = (input.value || '').trim();
   if (!url) return;
   try { new URL(url); } catch { toast('Enter a valid image URL', 'error'); return; }
-  const hidden = document.getElementById('ss-hero-images');
-  const urls = hidden.value.split(',').map(s=>s.trim()).filter(Boolean);
-  if (urls.includes(url)) { toast('That photo URL is already added', 'error'); input.value=''; return; }
-  urls.push(url);
-  hidden.value = urls.join(',');
-
-  const preview = document.getElementById('ss-hero-img-preview');
-  const div = document.createElement('div');
-  div.style.cssText = 'position:relative;flex-shrink:0';
-  div.innerHTML = `<img src="${url}" style="width:80px;height:50px;object-fit:cover;border-radius:6px;border:1.5px solid #e2e8f0" onerror="this.parentElement.remove()"/>
-    <button onclick="removeHeroImage('${url}',this.parentElement)"
-      style="position:absolute;top:-6px;right:-6px;width:18px;height:18px;background:#dc2626;color:#fff;border:none;border-radius:50%;font-size:.6rem;cursor:pointer;display:flex;align-items:center;justify-content:center">✕</button>`;
-  preview.appendChild(div);
+  if (heroBgPhotos.includes(url)) { toast('That photo URL is already added', 'error'); input.value=''; return; }
+  heroBgPhotos.push(url);
+  renderHeroBgPreview();
   input.value = '';
+};
+
+window.saveHeroBgPhotos = async function() {
+  const page = document.getElementById('hb-page-sel').value;
+  const btn = document.getElementById('hb-save-btn');
+  btn.disabled = true; btn.textContent = 'Saving…';
+  try {
+    const { error: delErr } = await supabase.from('hero_background_photos').delete().eq('page_key', page);
+    if (delErr) throw delErr;
+    if (heroBgPhotos.length) {
+      const rows = heroBgPhotos.map((image_url, i) => ({ page_key: page, image_url, sort_order: i, is_active: true }));
+      const { error: insErr } = await supabase.from('hero_background_photos').insert(rows);
+      if (insErr) throw insErr;
+    }
+    toast('Hero background photos saved', 'success');
+  } catch (e) {
+    toast('Save failed — run 16_zoomfly_hero_background_photos.sql first. Error: ' + e.message, 'error');
+  } finally {
+    btn.disabled = false; btn.textContent = 'Save Photos for This Page';
+  }
 };
 
 window.addImageByUrl = () => {
@@ -4476,7 +4544,7 @@ window.show = (id, el) => {
     commissions:'Commission Management', loyalty:'Loyalty Points',
     hotels:'Hotels', destinations:'Destinations',
     offers:'Offers & Promos', 'wa-templates':'WhatsApp Templates', blog:'Blog', faq:'FAQ', careers:'Careers',
-    carousels:'Carousels', 'content-cards':'Page Content Cards',
+    carousels:'Carousels', 'hero-bg':'Hero Backgrounds', 'content-cards':'Page Content Cards',
     'site-settings':'Site Settings', reminders:'Reminders'
   };
   document.getElementById('page-title').textContent = titles[id] || id;
@@ -4509,6 +4577,7 @@ window.show = (id, el) => {
   if(id==='faq')             loadFaqs();
   if(id==='careers')         loadJobs();
   if(id==='carousels')      loadCarouselSlides();
+  if(id==='hero-bg')        loadHeroBgPhotos();
   if(id==='content-cards')  loadContentCards();
 };
 

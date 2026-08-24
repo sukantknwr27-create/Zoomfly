@@ -110,6 +110,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
 <div id="carousel-flights"></div>
 
 <section class="flight-hero" style="background:linear-gradient(145deg,#0C1B33 0%,#1a2d4a 40%,#1e3a6e 100%);padding:110px 2rem 60px;text-align:center;position:relative;overflow:hidden;">
+  <div id="heroBg" aria-hidden="true" style="position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none"></div>
   <!-- dot grid -->
   <div style="position:absolute;inset:0;background-image:radial-gradient(circle at 1px 1px,rgba(255,255,255,.04) 1px,transparent 0);background-size:38px 38px;pointer-events:none;"></div>
   <!-- gold glow -->
@@ -730,8 +731,9 @@ document.getElementById('retDate').min = new Date().toISOString().split('T')[0];
 initMC();
 </script>
 <script type="module">
-import { initCarousel } from '../assets/js/carousel.js';
+import { initCarousel, initHeroBackground } from '../assets/js/carousel.js';
 initCarousel('flights', 'carousel-flights');
+initHeroBackground('flights', 'heroBg');
 </script>
 </body>
 </html>

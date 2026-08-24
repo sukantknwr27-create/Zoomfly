@@ -55,6 +55,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
 <div id="carousel-bus"></div>
 
 <section class="page-hero">
+  <div id="heroBg" aria-hidden="true" style="position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none"></div>
   <div class="container page-hero-inner">
     <div class="breadcrumb"><a href="/index.html">Home</a><span>›</span><span>Bus</span></div>
     <h1>Book <em>Bus Tickets</em></h1>
@@ -176,7 +177,8 @@ document.querySelectorAll('.bus-route, .route-item').forEach(card => {
 });
 </script>
 <script type="module">
-import { initCarousel } from '../assets/js/carousel.js';
+import { initCarousel, initHeroBackground } from '../assets/js/carousel.js';
 initCarousel('bus', 'carousel-bus');
+initHeroBackground('bus', 'heroBg');
 </script>
 </body></html>

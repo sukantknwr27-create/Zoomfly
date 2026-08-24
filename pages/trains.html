@@ -139,6 +139,7 @@
 
 <!-- HERO -->
 <section class="hero">
+  <div id="heroBg" aria-hidden="true" style="position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none"></div>
   <div class="hero-inner">
     <div class="hero-pill">Train Booking</div>
     <h1>Book Train Tickets<br/>Across <em>India</em></h1>
@@ -969,8 +970,9 @@ function showToast(msg) {
 }
 </script>
 <script type="module">
-import { initCarousel } from '../assets/js/carousel.js';
+import { initCarousel, initHeroBackground } from '../assets/js/carousel.js';
 initCarousel('trains', 'carousel-trains');
+initHeroBackground('trains', 'heroBg');
 </script>
 </body>
 </html>

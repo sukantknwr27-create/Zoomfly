@@ -86,10 +86,13 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
 <header class="nav" id="mainNav"></header>
 <div id="carousel-cabs"></div>
 
-<section class="cab-hero">
-  <div class="breadcrumb" style="justify-content:center;margin-bottom:1rem"><a href="/index.html" style="color:rgba(255,255,255,.7)">Home</a><span style="color:rgba(255,255,255,.5)">›</span><span style="color:#fff">Cab & Transfers</span></div>
-  <h1>Book <em>Cabs & Transfers</em></h1>
-  <p>Airport pickups, outstation trips, local sightseeing & hill station transfers — all at the best rates.</p>
+<section class="cab-hero" style="position:relative;overflow:hidden">
+  <div id="heroBg" aria-hidden="true" style="position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none"></div>
+  <div style="position:relative;z-index:2">
+    <div class="breadcrumb" style="justify-content:center;margin-bottom:1rem"><a href="/index.html" style="color:rgba(255,255,255,.7)">Home</a><span style="color:rgba(255,255,255,.5)">›</span><span style="color:#fff">Cab & Transfers</span></div>
+    <h1>Book <em>Cabs & Transfers</em></h1>
+    <p>Airport pickups, outstation trips, local sightseeing & hill station transfers — all at the best rates.</p>
+  </div>
 </section>
 
 <div class="container">
@@ -390,8 +393,9 @@ window.routeBook = function(from, to) {
 document.querySelectorAll('input[type=date], input[type=datetime-local]').forEach(i => i.min = new Date().toISOString().split('.')[0]);
 </script>
 <script type="module">
-import { initCarousel } from '../assets/js/carousel.js';
+import { initCarousel, initHeroBackground } from '../assets/js/carousel.js';
 initCarousel('cabs', 'carousel-cabs');
+initHeroBackground('cabs', 'heroBg');
 </script>
 </body>
 </html>
