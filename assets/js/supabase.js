@@ -211,6 +211,17 @@ export async function getCarouselSlides(pageKey) {
   return data || [];
 }
 
+// Per-page hero BACKGROUND photos (rotates behind the existing headline —
+// not a separate banner). Distinct from carousel_slides/getCarouselSlides
+// above, which renders a standalone promo strip with its own title/CTA.
+export async function getHeroBackgroundPhotos(pageKey) {
+  const { data, error } = await supabase.from('hero_background_photos')
+    .select('image_url').eq('page_key', pageKey).eq('is_active', true)
+    .order('sort_order', { ascending: true });
+  if (error) throw error;
+  return (data || []).map(r => r.image_url).filter(Boolean);
+}
+
 export async function getPackages({ type, category, maxPrice, minRating, search, limit } = {}) {
   let q = supabase.from('packages').select('*').eq('is_active', true);
   if (type && type !== 'all')         q = q.eq('type', type);

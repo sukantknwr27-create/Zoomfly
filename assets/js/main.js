@@ -15,7 +15,6 @@ const ZF = {
   logoUrl: '',
   gstin: '',
   social: { instagram: '', facebook: '', twitter: '', youtube: '' },
-  heroImages: [],
   // destinations used only for homepage hero cards — NOT for packages page
   destinations: [
     { name:'Goa',        tagline:'Sun, Sand & Sunsets',  emoji:'', bg:'linear-gradient(160deg,#667eea,#764ba2)', from:6999  },
@@ -50,7 +49,6 @@ async function _loadSiteSettingsIntoZF() {
     if (data.company_name)    ZF.companyName = data.company_name;
     if (data.logo_url)        ZF.logoUrl = data.logo_url;
     if (data.gstin)           ZF.gstin = data.gstin;
-    if (Array.isArray(data.homepage_hero_images)) ZF.heroImages = data.homepage_hero_images.filter(Boolean);
     ZF.social = {
       instagram: data.social_instagram || '',
       facebook:  data.social_facebook  || '',
@@ -512,32 +510,12 @@ function renderFooter() {
 }
 
 // ─── HOMEPAGE HERO PHOTO CAROUSEL ───
-// Only does anything on index.html (the only page with #heroCarousel), and
-// only if Admin → Site Settings → Hero Background Photos has photos set.
-// Otherwise the existing gradient/mountain background shows through untouched.
-function initHeroCarousel() {
-  const el = document.getElementById('heroCarousel');
-  if (!el || !ZF.heroImages || !ZF.heroImages.length) return;
-
-  el.innerHTML = ZF.heroImages.map((src, i) => `
-    <img src="${src}" alt="" style="position:absolute;inset:0;width:100%;height:100%;
-         object-fit:cover;opacity:${i===0?1:0};transition:opacity 1.6s ease;"
-         onerror="this.style.display='none'"/>
-  `).join('') + `
-    <div style="position:absolute;inset:0;background:linear-gradient(160deg,rgba(6,21,37,.72) 0%,rgba(13,37,69,.55) 40%,rgba(45,100,148,.35) 70%,rgba(196,122,43,.4) 100%);"></div>
-  `;
-
-  const imgs = el.querySelectorAll('img');
-  if (imgs.length < 2) return; // nothing to rotate with just one photo
-
-  let current = 0;
-  setInterval(() => {
-    const next = (current + 1) % imgs.length;
-    imgs[current].style.opacity = 0;
-    imgs[next].style.opacity = 1;
-    current = next;
-  }, 6000);
-}
+// Superseded by initHeroBackground('home','heroCarousel') in carousel.js,
+// which every page now uses (Admin → Hero Backgrounds, one photo set per
+// page). Kept as a no-op stub only so nothing breaks if some cached page
+// still calls initHeroCarousel() before a hard refresh picks up the new
+// bottom-of-page module script.
+function initHeroCarousel() {}
 
 
 function renderWA() {

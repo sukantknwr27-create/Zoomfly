@@ -6,8 +6,15 @@
 // Call initCarousel('home', 'carousel-home') etc. — if there are no
 // active slides for that page_key, this does nothing and the page's
 // existing static hero/banner shows through untouched.
+//
+// This file also exports initHeroBackground() further down — a
+// separate, simpler rotator for per-page hero BACKGROUND photos
+// (Admin → Hero Backgrounds). Don't confuse the two: initCarousel()
+// renders its own standalone banner with a title/subtitle/CTA above
+// the hero; initHeroBackground() only crossfades photos behind a
+// page's existing headline, with no text of its own.
 // ============================================================
-import { getCarouselSlides } from './supabase.js';
+import { getCarouselSlides, getHeroBackgroundPhotos } from './supabase.js';
 
 function esc(s) {
   return String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
@@ -116,4 +123,69 @@ export async function initCarousel(pageKey, containerId) {
   el.addEventListener('mouseenter', () => clearInterval(autoplayTimer));
   el.addEventListener('mouseleave', startAutoplay);
   startAutoplay();
+}
+
+// ============================================================
+// Per-page HERO BACKGROUND photo rotator — crossfades photos behind
+// a page's existing hero headline/search bar. No title/subtitle/CTA/
+// arrows/dots of its own (unlike initCarousel above), so it can never
+// duplicate content the hero already has.
+//
+// Call initHeroBackground('packages', 'heroBg') etc., with containerId
+// pointing to an element positioned absolute/inset:0 with a lower
+// z-index than the hero's text content — see each page's hero markup.
+// If there are no active photos for that page_key, this does nothing
+// and the page's existing gradient background shows through untouched.
+//
+// Mutually exclusive with the Carousels banner (initCarousel above) on
+// the SAME page: if that page currently has an active promo banner, this
+// stays off, even if photos are also saved here. Running a promo banner
+// (its own photo + CTA) directly above a second, different rotating
+// photo behind the same headline reads as cluttered/unprofessional —
+// so the deliberate, campaign-style banner wins automatically and this
+// resumes on its own the moment that banner is deactivated/removed.
+// ============================================================
+export async function initHeroBackground(pageKey, containerId) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+
+  try {
+    const bannerSlides = await getCarouselSlides(pageKey);
+    if (bannerSlides.length) {
+      console.info('[hero-bg] skipped for', pageKey, '— an active Carousels banner is already showing on this page');
+      return;
+    }
+  } catch (e) {
+    // If we can't tell, don't risk stacking both — stay off.
+    console.warn('[hero-bg] could not check for an active banner on', pageKey, e.message);
+    return;
+  }
+
+  let images = [];
+  try {
+    images = await getHeroBackgroundPhotos(pageKey);
+  } catch (e) {
+    console.warn('[hero-bg] could not load photos for', pageKey, e.message);
+    return; // leave the static gradient background alone
+  }
+  if (!images.length) return;
+
+  el.innerHTML = images.map((src, i) => `
+    <img src="${esc(src)}" alt="" style="position:absolute;inset:0;width:100%;height:100%;
+         object-fit:cover;opacity:${i === 0 ? 1 : 0};transition:opacity 1.6s ease;"
+         onerror="this.style.display='none'"/>
+  `).join('') + `
+    <div style="position:absolute;inset:0;background:linear-gradient(160deg,rgba(6,21,37,.72) 0%,rgba(13,37,69,.55) 40%,rgba(45,100,148,.35) 70%,rgba(196,122,43,.4) 100%);"></div>
+  `;
+
+  const imgs = el.querySelectorAll('img');
+  if (imgs.length < 2) return; // nothing to rotate with just one photo
+
+  let current = 0;
+  setInterval(() => {
+    const next = (current + 1) % imgs.length;
+    imgs[current].style.opacity = 0;
+    imgs[next].style.opacity = 1;
+    current = next;
+  }, 6000);
 }
