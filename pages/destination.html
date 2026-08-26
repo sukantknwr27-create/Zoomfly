@@ -327,8 +327,47 @@ const DEFAULT_DEST = {
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
 // ── INIT ─────────────────────────────────────────────────────
+// Only Goa/Manali/Kerala have hand-authored guides (itinerary, FAQs,
+// tips) in DEST_DATA above. Every other destination — the 150+ seeded
+// in the admin `destinations` table — used to fall through to the
+// fully generic DEFAULT_DEST (stock photo, no name-specific stats).
+// Instead, look that row up by id and build a real (not fabricated)
+// hero/info from whatever fields are actually seeded for it. Itinerary/
+// FAQs/tips stay empty rather than invented — same "no fake trust
+// signals" rule as everywhere else on the site.
 const slug = new URLSearchParams(location.search).get('d')?.toLowerCase() || '';
-const d    = DEST_DATA[slug] || DEFAULT_DEST;
+
+async function resolveDestination(id) {
+  if (DEST_DATA[id]) return DEST_DATA[id];
+  if (!id) return DEFAULT_DEST;
+  try {
+    const { data, error } = await supabase
+      .from('destinations').select('*').eq('id', id).eq('is_active', true).single();
+    if (error || !data) return DEFAULT_DEST;
+    const stats = [];
+    if (data.best_time) stats.push({ n: data.best_time, l: 'Best Season' });
+    if (data.from_price) stats.push({ n: `₹${Number(data.from_price).toLocaleString('en-IN')}`, l: 'Starting from' });
+    const info = [];
+    if (data.best_time) info.push(`Best Time: ${data.best_time}`);
+    if (data.state) info.push(`Region: ${data.state}`);
+    if (data.country && data.country !== 'India') info.push(`Country: ${data.country}`);
+    return {
+      name: data.name,
+      tagline: data.tagline || DEFAULT_DEST.tagline,
+      desc: data.description || DEFAULT_DEST.desc,
+      heroImg: data.image_url || DEFAULT_DEST.heroImg,
+      pill: data.tagline || DEFAULT_DEST.pill,
+      country: data.country, state: data.state,
+      stats: stats.length ? stats : DEFAULT_DEST.stats,
+      info: info.length ? info : DEFAULT_DEST.info,
+      faqs: [], itinerary: [], bestTime: null, tips: [],
+    };
+  } catch (_) {
+    return DEFAULT_DEST;
+  }
+}
+
+const d = await resolveDestination(slug);
 
 // SEO
 document.title = `${d.name} Tour Packages — Best Deals | ZoomFly`;
