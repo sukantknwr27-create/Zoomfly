@@ -13,10 +13,10 @@
 <link rel="stylesheet" href="/assets/css/premium.css"/>
 <link rel="stylesheet" href="/assets/css/pages.css"/>
   <style>
-    .dest-hero{background:linear-gradient(145deg,#1b4f8a,#0f2d4e);color:#fff;padding:4rem 2rem 3rem;text-align:center}
-    .dest-hero h1{font-size:2.5rem;font-weight:900;margin-bottom:.75rem}
-    .dest-hero h1 em{font-style:normal;color:#FFD700}
-    .dest-hero p{opacity:.82;max-width:540px;margin:0 auto 1.5rem}
+    .dlist-hero{background:linear-gradient(145deg,#1b4f8a,#0f2d4e);color:#fff;padding:4rem 2rem 3rem;text-align:center}
+    .dlist-hero h1{font-size:2.5rem;font-weight:900;margin-bottom:.75rem}
+    .dlist-hero h1 em{font-style:normal;color:#FFD700}
+    .dlist-hero p{opacity:.82;max-width:540px;margin:0 auto 1.5rem}
     .search-bar{max-width:500px;margin:0 auto;position:relative}
     .search-bar input{width:100%;padding:.9rem 1.25rem .9rem 3rem;border:none;border-radius:50px;font-size:1rem;font-family:inherit;outline:none}
     .search-bar::before{content:'';position:absolute;left:1.1rem;top:50%;transform:translateY(-50%);font-size:1rem}
@@ -25,29 +25,29 @@
     .fchip:hover,.fchip.active{border-color:var(--blue);background:var(--blue);color:#fff}
     .container{max-width:1200px;margin:0 auto;padding:0 1.5rem}
     .section-pad{padding:3rem 0}
-    .dest-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;padding:2.5rem 0}
-    .dest-card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;overflow:hidden;cursor:pointer;transition:all .25s;box-shadow:0 2px 8px rgba(0,0,0,.06)}
-    .dest-card:hover{transform:translateY(-4px);box-shadow:0 12px 36px rgba(0,0,0,.12);border-color:transparent}
-    .dest-thumb{height:180px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
-    .dest-thumb .emoji{font-size:5rem;position:relative;z-index:1}
-    .dest-badge{position:absolute;top:.75rem;left:.75rem;background:rgba(0,0,0,.5);color:#fff;font-size:.7rem;font-weight:700;padding:.25rem .65rem;border-radius:50px;text-transform:uppercase;letter-spacing:.05em}
-    .dest-body{padding:1.25rem}
-    .dest-name{font-size:1.1rem;font-weight:800;margin-bottom:.2rem}
-    .dest-tagline{font-size:.82rem;color:#64748b;margin-bottom:.75rem}
-    .dest-meta{display:flex;justify-content:space-between;align-items:center}
-    .dest-from{font-size:.78rem;color:#94a3b8}
-    .dest-price{font-size:1rem;font-weight:800;color:var(--blue)}
-    .dest-tags{display:flex;gap:.35rem;flex-wrap:wrap;margin-bottom:.75rem}
+    .dlist-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;padding:2.5rem 0}
+    .dlist-card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;overflow:hidden;cursor:pointer;transition:all .25s;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+    .dlist-card:hover{transform:translateY(-4px);box-shadow:0 12px 36px rgba(0,0,0,.12);border-color:transparent}
+    .dlist-thumb{height:180px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+    .dlist-thumb .emoji{font-size:5rem;position:relative;z-index:1}
+    .dlist-badge{position:absolute;top:.75rem;left:.75rem;background:rgba(0,0,0,.5);color:#fff;font-size:.7rem;font-weight:700;padding:.25rem .65rem;border-radius:50px;text-transform:uppercase;letter-spacing:.05em}
+    .dlist-body{padding:1.25rem}
+    .dlist-name{font-size:1.1rem;font-weight:800;margin-bottom:.2rem}
+    .dlist-tagline{font-size:.82rem;color:#64748b;margin-bottom:.75rem}
+    .dlist-meta{display:flex;justify-content:space-between;align-items:center}
+    .dlist-from{font-size:.78rem;color:#94a3b8}
+    .dlist-price{font-size:1rem;font-weight:800;color:var(--blue)}
+    .dlist-tags{display:flex;gap:.35rem;flex-wrap:wrap;margin-bottom:.75rem}
     .dtag{font-size:.7rem;font-weight:600;padding:.2rem .55rem;border-radius:50px;background:#f1f5f9;color:#475569}
-    .dest-cta{display:flex;gap:.5rem;margin-top:.85rem;flex-wrap:wrap}
+    .dlist-cta{display:flex;gap:.5rem;margin-top:.85rem;flex-wrap:wrap}
     .btn-view{flex:1;padding:.5rem;background:var(--blue);color:#fff;border:none;border-radius:8px;font-size:.8rem;font-weight:700;cursor:pointer}
     .btn-wa{flex:1;padding:.5rem;background:#25D366;color:#fff;border:none;border-radius:8px;font-size:.8rem;font-weight:700;cursor:pointer}
     .no-results{text-align:center;padding:4rem 1rem;color:#94a3b8}
     .no-results .icon{font-size:4rem;margin-bottom:1rem}
     .count-bar{padding:1rem 0;color:#64748b;font-size:.875rem}
-    @media(max-width:1100px){.dest-grid{grid-template-columns:repeat(3,1fr)}}
-    @media(max-width:768px){.dest-grid{grid-template-columns:repeat(2,1fr)}}
-    @media(max-width:480px){.dest-grid{grid-template-columns:1fr}}
+    @media(max-width:1100px){.dlist-grid{grid-template-columns:repeat(3,1fr)}}
+    @media(max-width:768px){.dlist-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:480px){.dlist-grid{grid-template-columns:1fr}}
   </style>
 <script>
 window.SUPABASE_URL="https://ndaurluolurdljrjbxii.supabase.co";
@@ -70,7 +70,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
 <header class="nav" id="mainNav"></header>
 <div id="carousel-destinations"></div>
 
-<section class="dest-hero" style="position:relative;overflow:hidden">
+<section class="dlist-hero" style="position:relative;overflow:hidden">
   <div id="heroBg" aria-hidden="true" style="position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none"></div>
   <div style="position:relative;z-index:2">
     <div class="breadcrumb" style="justify-content:center;margin-bottom:1rem"><a href="/index.html" style="color:rgba(255,255,255,.7)">Home</a><span style="color:rgba(255,255,255,.5)">›</span><span style="color:#fff">Destinations</span></div>
@@ -98,7 +98,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
 
 <div class="container section-pad">
   <div class="count-bar" id="count-bar">Showing all destinations</div>
-  <div class="dest-grid" id="dest-grid"></div>
+  <div class="dlist-grid" id="dlist-grid"></div>
   <div class="no-results" id="no-results" style="display:none">
     <div class="icon"><span class="emoji-icon" style="font-size:21px;line-height:1;display:inline-block;vertical-align:middle">📍</span></div>
     <h3>No destinations found</h3>
@@ -164,28 +164,28 @@ function render() {
   });
 
   document.getElementById('count-bar').textContent = `Showing ${data.length} destination${data.length !== 1 ? 's' : ''}`;
-  const grid = document.getElementById('dest-grid');
+  const grid = document.getElementById('dlist-grid');
   const noRes = document.getElementById('no-results');
 
   if (!data.length) { grid.innerHTML = ''; noRes.style.display = 'block'; return; }
   noRes.style.display = 'none';
 
   grid.innerHTML = data.map((d, i) => `
-    <div class="dest-card reveal" style="transition-delay:${(i % 4) * 60}ms">
-      <div class="dest-thumb" style="background:${d.bg}">
+    <div class="dlist-card reveal" style="transition-delay:${(i % 4) * 60}ms">
+      <div class="dlist-thumb" style="background:${d.bg}">
         ${d.image ? `<img src="${d.image}" alt="${d.name||''}" style="width:100%;height:100%;object-fit:cover" onerror="this.remove()"/>` : ''}
-        <span class="dest-badge">${d.type === 'international' ? 'International' : 'Domestic'}</span>
+        <span class="dlist-badge">${d.type === 'international' ? 'International' : 'Domestic'}</span>
       </div>
-      <div class="dest-body">
-        <div class="dest-name">${d.name}${d.country !== 'India' ? ` <span style="font-size:.75rem;color:#94a3b8">${d.country}</span>` : ''}</div>
-        <div class="dest-tagline">${d.tagline}</div>
-        <div class="dest-tags">${d.tags.slice(0,3).map(t => `<span class="dtag">${t}</span>`).join('')}</div>
+      <div class="dlist-body">
+        <div class="dlist-name">${d.name}${d.country !== 'India' ? ` <span style="font-size:.75rem;color:#94a3b8">${d.country}</span>` : ''}</div>
+        <div class="dlist-tagline">${d.tagline}</div>
+        <div class="dlist-tags">${d.tags.slice(0,3).map(t => `<span class="dtag">${t}</span>`).join('')}</div>
         <div style="font-size:.8rem;color:#64748b;margin-bottom:.75rem;line-height:1.5">${d.desc.substring(0,100)}…</div>
-        <div class="dest-meta">
-          <span class="dest-from">Best: ${d.best}</span>
-          <span class="dest-price">From ₹${d.from.toLocaleString('en-IN')}</span>
+        <div class="dlist-meta">
+          <span class="dlist-from">Best: ${d.best}</span>
+          <span class="dlist-price">From ₹${d.from.toLocaleString('en-IN')}</span>
         </div>
-        <div class="dest-cta">
+        <div class="dlist-cta">
           ${['goa','manali','kerala'].includes(d.id) ? `<a class="btn-view" href="/pages/destination.html?d=${d.id}" style="text-decoration:none;text-align:center;display:inline-block">View Guide</a>` : ''}
           <button class="btn-view" onclick="viewPackages('${d.name}')">View Packages</button>
           <button class="btn-wa" onclick="waEnquire('${d.name}')">WhatsApp</button>
@@ -195,7 +195,7 @@ function render() {
   `).join('');
 
   // Re-trigger reveal animations
-  setTimeout(() => document.querySelectorAll('.dest-card.reveal').forEach(el => el.classList.add('visible')), 50);
+  setTimeout(() => document.querySelectorAll('.dlist-card.reveal').forEach(el => el.classList.add('visible')), 50);
 }
 
 function viewPackages(name) {
