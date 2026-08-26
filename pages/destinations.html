@@ -186,8 +186,7 @@ function render() {
           <span class="dlist-price">From ₹${d.from.toLocaleString('en-IN')}</span>
         </div>
         <div class="dlist-cta">
-          ${['goa','manali','kerala'].includes(d.id) ? `<a class="btn-view" href="/pages/destination.html?d=${d.id}" style="text-decoration:none;text-align:center;display:inline-block">View Guide</a>` : ''}
-          <button class="btn-view" onclick="viewPackages('${d.name}')">View Packages</button>
+          <a class="btn-view" href="/pages/destination.html?d=${d.id}" style="text-decoration:none;text-align:center;display:inline-block">View Packages</a>
           <button class="btn-wa" onclick="waEnquire('${d.name}')">WhatsApp</button>
         </div>
       </div>
