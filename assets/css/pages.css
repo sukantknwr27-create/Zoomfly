@@ -78,7 +78,17 @@
 .page-hero-inner { position: relative; z-index: 2; }
 
 /* ── BREADCRUMB ────────────────────────────────────────────── */
-.breadcrumb { 
+/* Hidden site-wide per request — was rendering as a low-contrast
+   "Home > X" trail under the header on every hero (bus, packages,
+   flights, destinations, etc.) and wasn't wanted. This is the single
+   shared stylesheet loaded last (after main.css and premium.css) on
+   all 11 pages that use .breadcrumb, so one rule here removes it
+   everywhere without editing each page. To bring it back later,
+   delete this rule (or the "display: none !important" line) — the
+   markup itself is untouched on every page.
+*/
+.breadcrumb {
+  display: none !important;
   color: rgba(255,255,255,0.45) !important;
   font-size: 0.78rem !important;
 }
