@@ -79,8 +79,12 @@
   const SPECULATIVE = ['pilgrimage','cruise','weekend','group'];
 
   try {
+    // Must match getPackages()'s is_active filter in supabase.js exactly —
+    // otherwise this page counts draft/inactive packages that customers
+    // can never actually see on packages.html, which is precisely the
+    // fake-inventory problem the site's Active=no discipline exists to prevent.
     const { data: packages, error } = await supabase
-      .from('packages').select('category,type,title,description,tags');
+      .from('packages').select('category,type,title,description,tags').eq('is_active', true);
     if (error) throw error;
     const all = packages || [];
 
