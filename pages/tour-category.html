@@ -41,12 +41,18 @@
   <div class="cat-card" onclick="location.href='/pages/packages.html?filter=honeymoon'"><div class="cat-icon"><span class="emoji-icon" style="font-size:21px;line-height:1;display:inline-block;vertical-align:middle">💑</span></div><div class="cat-name">Honeymoon</div><div class="cat-count" id="cnt-honeymoon">— Packages</div><div class="cat-link">Explore →</div></div>
   <div class="cat-card" onclick="location.href='/pages/packages.html?filter=family'"><div class="cat-icon"><span class="emoji-icon" style="font-size:21px;line-height:1;display:inline-block;vertical-align:middle">👨‍👩‍👧‍👦</span></div><div class="cat-name">Family Tours</div><div class="cat-count" id="cnt-family">— Packages</div><div class="cat-link">Explore →</div></div>
   <div class="cat-card" onclick="location.href='/pages/packages.html?filter=adventure'"><div class="cat-icon"><span class="emoji-icon" style="font-size:21px;line-height:1;display:inline-block;vertical-align:middle">🧗</span></div><div class="cat-name">Adventure</div><div class="cat-count" id="cnt-adventure">— Packages</div><div class="cat-link">Explore →</div></div>
-  <div class="cat-card" onclick="location.href='/pages/packages.html?filter=wildlife'"><div class="cat-icon"><span class="emoji-icon" style="font-size:21px;line-height:1;display:inline-block;vertical-align:middle">🦁</span></div><div class="cat-name">Wildlife & Safari</div><div class="cat-count" id="cnt-wildlife">— Packages</div><div class="cat-link">Explore →</div></div>
-  <div class="cat-card" onclick="location.href='/pages/packages.html?filter=pilgrimage'"><div class="cat-icon"><span class="emoji-icon" style="font-size:21px;line-height:1;display:inline-block;vertical-align:middle">🛕</span></div><div class="cat-name">Pilgrimage</div><div class="cat-count" id="cnt-pilgrimage">— Packages</div><div class="cat-link">Explore →</div></div>
-  <div class="cat-card" onclick="location.href='/pages/packages.html?filter=cruise'"><div class="cat-icon"><span class="emoji-icon" style="font-size:21px;line-height:1;display:inline-block;vertical-align:middle">🚢</span></div><div class="cat-name">Cruise</div><div class="cat-count" id="cnt-cruise">— Packages</div><div class="cat-link">Explore →</div></div>
-  <div class="cat-card" onclick="location.href='/pages/packages.html?filter=weekend'"><div class="cat-icon"><span class="emoji-icon" style="font-size:21px;line-height:1;display:inline-block;vertical-align:middle">🎒</span></div><div class="cat-name">Weekend Getaways</div><div class="cat-count" id="cnt-weekend">— Packages</div><div class="cat-link">Explore →</div></div>
+  <div class="cat-card" onclick="location.href='/pages/packages.html?filter=nature'"><div class="cat-icon"><span class="emoji-icon" style="font-size:21px;line-height:1;display:inline-block;vertical-align:middle">🌴</span></div><div class="cat-name">Nature & Wildlife</div><div class="cat-count" id="cnt-nature">— Packages</div><div class="cat-link">Explore →</div></div>
   <div class="cat-card" onclick="location.href='/pages/packages.html?filter=heritage'"><div class="cat-icon"><span class="emoji-icon" style="font-size:21px;line-height:1;display:inline-block;vertical-align:middle">🏛️</span></div><div class="cat-name">Heritage & Culture</div><div class="cat-count" id="cnt-heritage">— Packages</div><div class="cat-link">Explore →</div></div>
-  <div class="cat-card" onclick="location.href='/pages/packages.html?filter=group'"><div class="cat-icon"><span class="emoji-icon" style="font-size:21px;line-height:1;display:inline-block;vertical-align:middle">👥</span></div><div class="cat-name">Group Tours</div><div class="cat-count" id="cnt-group">— Packages</div><div class="cat-link">Explore →</div></div>
+  <!-- These categories have no real packages tagged against them yet.
+       They stay in the DOM (data-speculative) so they reappear automatically
+       once real inventory/tags exist, but the script below hides any
+       speculative card whose live count comes back 0 — per the
+       no-fake-inventory principle, we never advertise a category with
+       nothing real behind it. -->
+  <div class="cat-card" data-speculative onclick="location.href='/pages/packages.html?filter=pilgrimage'"><div class="cat-icon"><span class="emoji-icon" style="font-size:21px;line-height:1;display:inline-block;vertical-align:middle">🛕</span></div><div class="cat-name">Pilgrimage</div><div class="cat-count" id="cnt-pilgrimage">— Packages</div><div class="cat-link">Explore →</div></div>
+  <div class="cat-card" data-speculative onclick="location.href='/pages/packages.html?filter=cruise'"><div class="cat-icon"><span class="emoji-icon" style="font-size:21px;line-height:1;display:inline-block;vertical-align:middle">🚢</span></div><div class="cat-name">Cruise</div><div class="cat-count" id="cnt-cruise">— Packages</div><div class="cat-link">Explore →</div></div>
+  <div class="cat-card" data-speculative onclick="location.href='/pages/packages.html?filter=weekend'"><div class="cat-icon"><span class="emoji-icon" style="font-size:21px;line-height:1;display:inline-block;vertical-align:middle">🎒</span></div><div class="cat-name">Weekend Getaways</div><div class="cat-count" id="cnt-weekend">— Packages</div><div class="cat-link">Explore →</div></div>
+  <div class="cat-card" data-speculative onclick="location.href='/pages/packages.html?filter=group'"><div class="cat-icon"><span class="emoji-icon" style="font-size:21px;line-height:1;display:inline-block;vertical-align:middle">👥</span></div><div class="cat-name">Group Tours</div><div class="cat-count" id="cnt-group">— Packages</div><div class="cat-link">Explore →</div></div>
 </div>
 <section class="newsletter" id="newsletter"></section>
 <footer class="footer" id="mainFooter"></footer>
@@ -58,13 +64,19 @@
   // category/type/tag matching logic packages.html itself uses.
   import { supabase } from '/assets/js/supabase.js';
 
-  const KNOWN_CAT  = ['beach','adventure','honeymoon','wildlife','heritage','family'];
+  // Kept in sync with the #f-cat pill values on packages.html — these are
+  // the only values that actually exist in packages.category today.
+  const KNOWN_CAT  = ['beach','adventure','nature','heritage','honeymoon','family'];
   const KNOWN_TYPE = ['international'];
-  // Everything else (mountains, pilgrimage, cruise, weekend, group)
-  // isn't a real `category` column value — packages.html falls back to a
-  // text search against title/description/tags for these, so we match the
-  // same way here for an accurate count.
-  const TEXT_FALLBACK = ['mountains','pilgrimage','cruise','weekend','group'];
+  // "mountains" isn't a real category column value — packages.html falls
+  // back to a text search against title/description/tags for it, so we
+  // match the same way here for an accurate count.
+  const TEXT_FALLBACK = ['mountains'];
+  // Pilgrimage/Cruise/Weekend/Group have no real category or matching
+  // tags in the catalog yet. We still check their live count (so a card
+  // reactivates the moment real inventory/tags exist) but hide the card
+  // rather than advertise a category with 0 packages behind it.
+  const SPECULATIVE = ['pilgrimage','cruise','weekend','group'];
 
   try {
     const { data: packages, error } = await supabase
@@ -83,12 +95,22 @@
       ).length;
     };
 
-    [...KNOWN_CAT, ...KNOWN_TYPE, ...TEXT_FALLBACK].forEach(key => {
+    [...KNOWN_CAT, ...KNOWN_TYPE, ...TEXT_FALLBACK, ...SPECULATIVE].forEach(key => {
       const el = document.getElementById('cnt-' + key);
-      if (el) { const n = countFor(key); el.textContent = `${n} Package${n === 1 ? '' : 's'}`; }
+      if (!el) return;
+      const n = countFor(key);
+      if (SPECULATIVE.includes(key) && n === 0) {
+        el.closest('.cat-card').style.display = 'none';
+        return;
+      }
+      el.textContent = `${n} Package${n === 1 ? '' : 's'}`;
     });
   } catch (e) {
     console.warn('[tour-category] falling back to "View Packages" — could not load live counts:', e.message);
+    // Can't verify real counts, so err toward hiding unverified speculative
+    // cards rather than risk showing a fake-looking "View Packages" on a
+    // category that doesn't exist.
+    document.querySelectorAll('[data-speculative]').forEach(el => el.style.display = 'none');
     document.querySelectorAll('.cat-count').forEach(el => el.textContent = 'View Packages');
   }
 </script>
