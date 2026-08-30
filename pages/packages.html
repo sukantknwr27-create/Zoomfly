@@ -253,6 +253,13 @@ async function loadPackages() {
   }
 }
 
+// Categories may have been entered inconsistently across 800+ packages
+// (extra whitespace, mixed case — "Beach ", "BEACH", "beach" all meaning
+// the same thing). Every place that compares a category value goes
+// through this so they're all treated as the same category rather than
+// silently splitting into separate, half-populated buckets.
+const normCat = (s) => (s || '').trim().toLowerCase();
+
 // Category pills are static markup, but not every listed category has a
 // real package behind it yet (e.g. "Wildlife"/"Spiritual" were never
 // actually assigned to any package — clicking them silently returned zero
@@ -264,7 +271,7 @@ function syncCategoryPills() {
   document.querySelectorAll('#f-cat .pill[data-v]').forEach(pill => {
     const v = pill.dataset.v;
     if (v === 'all') return;
-    const hasAny = allPkgs.some(p => p.category === v);
+    const hasAny = allPkgs.some(p => normCat(p.category) === v);
     pill.style.display = hasAny ? '' : 'none';
   });
 }
@@ -272,7 +279,7 @@ function syncCategoryPills() {
 function applyFilters() {
   let res = allPkgs.filter(p => {
     if (filters.type !== 'all' && p.type !== filters.type) return false;
-    if (filters.cat !== 'all' && p.category !== filters.cat) return false;
+    if (filters.cat !== 'all' && normCat(p.category) !== filters.cat) return false;
     if (filters.dur === 'short' && p.duration_days > 4) return false;
     if (filters.dur === 'medium' && (p.duration_days < 5 || p.duration_days > 7)) return false;
     if (filters.dur === 'long' && p.duration_days < 8) return false;
@@ -406,30 +413,31 @@ document.getElementById('reset-btn').addEventListener('click', () => {
 // tour-category.html, and elsewhere point here with ?filter=X or
 // ?q=X) — this used to be read nowhere, so every one of those links
 // silently landed on the same unfiltered full list.
+//
+// Previously this only recognized a hardcoded list of category names
+// (beach, adventure, ...) and silently fell back to a fuzzy search for
+// anything else — which meant any real category outside that fixed list
+// (and at 800+ packages there are plenty) never got an exact filter
+// applied. There's nowhere in the codebase that links here with a
+// non-category, non-type ?filter= value, so we now just apply it as a
+// category filter directly and let applyFilters() match it against the
+// real data — a category with 0 matches simply shows "no results",
+// which is honest, instead of quietly substituting a search.
 (function applyUrlParams() {
   const params = new URLSearchParams(location.search);
   const filterVal = params.get('filter');
   const qVal = params.get('q') || params.get('search');
 
-  const KNOWN_CAT  = ['beach','adventure','nature','heritage','honeymoon','spiritual','wildlife','family'];
   const KNOWN_TYPE = ['domestic','international'];
 
   if (filterVal) {
-    const v = filterVal.toLowerCase();
+    const v = filterVal.trim().toLowerCase();
     if (KNOWN_TYPE.includes(v)) {
       filters.type = v;
       document.querySelectorAll('#f-type .pill').forEach(p => p.classList.toggle('active', p.dataset.v === v));
-    } else if (KNOWN_CAT.includes(v)) {
+    } else {
       filters.cat = v;
       document.querySelectorAll('#f-cat .pill').forEach(p => p.classList.toggle('active', p.dataset.v === v));
-    } else {
-      // Not a category this page's filter pills support (e.g. "group",
-      // "mountains", "family", "pilgrimage", "cruise", "weekend") — fall
-      // back to the search box, which also matches against tags, so the
-      // link still narrows results instead of doing nothing.
-      searchTerm = v;
-      const inp = document.getElementById('search-inp');
-      if (inp) inp.value = filterVal;
     }
   }
   if (qVal) {
@@ -495,7 +503,7 @@ window.runCompare = () => {
     { label:'Rating',       fn: p => `${'★'.repeat(Math.floor(p.rating||0))} ${p.rating||'—'}` },
     { label:'Reviews',      fn: p => `${p.review_count || 0} reviews` },
     { label:'Type',         fn: p => p.type === 'international' ? 'International' : 'Domestic' },
-    { label:'Category',     fn: p => (p.category||'—').charAt(0).toUpperCase() + (p.category||'').slice(1) },
+    { label:'Category',     fn: p => normCat(p.category) ? normCat(p.category).replace(/[-_]+/g,' ').replace(/\b\w/g, c => c.toUpperCase()) : '—' },
     { label:'Inclusions',   fn: p => (p.inclusions||[]).slice(0,4).map(i=>`<li style="font-size:.78rem">${i}</li>`).join('') },
     { label:'Best For',     fn: p => (p.tags||[]).join(', ') || '—' },
   ];
