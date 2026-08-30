@@ -34,88 +34,98 @@
     <p style="color:rgba(255,255,255,.65);font-size:1rem;max-width:500px;margin:0 auto;">Browse by travel style, interest or destination type.</p>
   </div>
 </section>
-<div class="cat-grid">
-  <div class="cat-card" onclick="location.href='/pages/packages.html?filter=beach'"><div class="cat-icon"><span class="emoji-icon" style="font-size:21px;line-height:1;display:inline-block;vertical-align:middle">🏖️</span></div><div class="cat-name">Beach Holidays</div><div class="cat-count" id="cnt-beach">— Packages</div><div class="cat-link">Explore →</div></div>
-  <div class="cat-card" onclick="location.href='/pages/packages.html?filter=mountains'"><div class="cat-icon"><span class="emoji-icon" style="font-size:21px;line-height:1;display:inline-block;vertical-align:middle">🏔️</span></div><div class="cat-name">Hill Stations</div><div class="cat-count" id="cnt-mountains">— Packages</div><div class="cat-link">Explore →</div></div>
-  <div class="cat-card" onclick="location.href='/pages/packages.html?filter=international'"><div class="cat-icon"><span class="emoji-icon" style="font-size:21px;line-height:1;display:inline-block;vertical-align:middle">🌍</span></div><div class="cat-name">International</div><div class="cat-count" id="cnt-international">— Packages</div><div class="cat-link">Explore →</div></div>
-  <div class="cat-card" onclick="location.href='/pages/packages.html?filter=honeymoon'"><div class="cat-icon"><span class="emoji-icon" style="font-size:21px;line-height:1;display:inline-block;vertical-align:middle">💑</span></div><div class="cat-name">Honeymoon</div><div class="cat-count" id="cnt-honeymoon">— Packages</div><div class="cat-link">Explore →</div></div>
-  <div class="cat-card" onclick="location.href='/pages/packages.html?filter=family'"><div class="cat-icon"><span class="emoji-icon" style="font-size:21px;line-height:1;display:inline-block;vertical-align:middle">👨‍👩‍👧‍👦</span></div><div class="cat-name">Family Tours</div><div class="cat-count" id="cnt-family">— Packages</div><div class="cat-link">Explore →</div></div>
-  <div class="cat-card" onclick="location.href='/pages/packages.html?filter=adventure'"><div class="cat-icon"><span class="emoji-icon" style="font-size:21px;line-height:1;display:inline-block;vertical-align:middle">🧗</span></div><div class="cat-name">Adventure</div><div class="cat-count" id="cnt-adventure">— Packages</div><div class="cat-link">Explore →</div></div>
-  <div class="cat-card" onclick="location.href='/pages/packages.html?filter=nature'"><div class="cat-icon"><span class="emoji-icon" style="font-size:21px;line-height:1;display:inline-block;vertical-align:middle">🌴</span></div><div class="cat-name">Nature & Wildlife</div><div class="cat-count" id="cnt-nature">— Packages</div><div class="cat-link">Explore →</div></div>
-  <div class="cat-card" onclick="location.href='/pages/packages.html?filter=heritage'"><div class="cat-icon"><span class="emoji-icon" style="font-size:21px;line-height:1;display:inline-block;vertical-align:middle">🏛️</span></div><div class="cat-name">Heritage & Culture</div><div class="cat-count" id="cnt-heritage">— Packages</div><div class="cat-link">Explore →</div></div>
-  <!-- These categories have no real packages tagged against them yet.
-       They stay in the DOM (data-speculative) so they reappear automatically
-       once real inventory/tags exist, but the script below hides any
-       speculative card whose live count comes back 0 — per the
-       no-fake-inventory principle, we never advertise a category with
-       nothing real behind it. -->
-  <div class="cat-card" data-speculative onclick="location.href='/pages/packages.html?filter=pilgrimage'"><div class="cat-icon"><span class="emoji-icon" style="font-size:21px;line-height:1;display:inline-block;vertical-align:middle">🛕</span></div><div class="cat-name">Pilgrimage</div><div class="cat-count" id="cnt-pilgrimage">— Packages</div><div class="cat-link">Explore →</div></div>
-  <div class="cat-card" data-speculative onclick="location.href='/pages/packages.html?filter=cruise'"><div class="cat-icon"><span class="emoji-icon" style="font-size:21px;line-height:1;display:inline-block;vertical-align:middle">🚢</span></div><div class="cat-name">Cruise</div><div class="cat-count" id="cnt-cruise">— Packages</div><div class="cat-link">Explore →</div></div>
-  <div class="cat-card" data-speculative onclick="location.href='/pages/packages.html?filter=weekend'"><div class="cat-icon"><span class="emoji-icon" style="font-size:21px;line-height:1;display:inline-block;vertical-align:middle">🎒</span></div><div class="cat-name">Weekend Getaways</div><div class="cat-count" id="cnt-weekend">— Packages</div><div class="cat-link">Explore →</div></div>
-  <div class="cat-card" data-speculative onclick="location.href='/pages/packages.html?filter=group'"><div class="cat-icon"><span class="emoji-icon" style="font-size:21px;line-height:1;display:inline-block;vertical-align:middle">👥</span></div><div class="cat-name">Group Tours</div><div class="cat-count" id="cnt-group">— Packages</div><div class="cat-link">Explore →</div></div>
+<div class="cat-grid" id="cat-grid">
+  <div style="grid-column:1/-1;text-align:center;color:#8896AB;padding:40px 0">Loading categories…</div>
 </div>
 <section class="newsletter" id="newsletter"></section>
 <footer class="footer" id="mainFooter"></footer>
 <script type="module" src="/assets/js/main.js"></script>
 <script type="module">
-  // These counts used to be hand-typed guesses (42, 38, 55...) that never
-  // matched the real package catalog and would silently go stale as
-  // packages were added/removed. Now computed live from the same
-  // category/type/tag matching logic packages.html itself uses.
+  // This page used to hardcode a fixed list of ~10 guessed category slugs
+  // (beach, adventure, honeymoon...). That worked when the catalog had 10
+  // packages. At 800+ packages there are almost certainly categories in
+  // the real data this list never anticipated — those packages had no
+  // card to appear under at all, no matter how many of them existed.
+  // Fix: don't guess categories. Read whatever `category` values actually
+  // exist on active packages, count them for real, and render one card
+  // per real category. A category with 0 active packages simply won't
+  // appear — there is no fixed list left to drift out of sync.
   import { supabase } from '/assets/js/supabase.js';
 
-  // Kept in sync with the #f-cat pill values on packages.html — these are
-  // the only values that actually exist in packages.category today.
-  const KNOWN_CAT  = ['beach','adventure','nature','heritage','honeymoon','family'];
-  const KNOWN_TYPE = ['international'];
-  // "mountains" isn't a real category column value — packages.html falls
-  // back to a text search against title/description/tags for it, so we
-  // match the same way here for an accurate count.
-  const TEXT_FALLBACK = ['mountains'];
-  // Pilgrimage/Cruise/Weekend/Group have no real category or matching
-  // tags in the catalog yet. We still check their live count (so a card
-  // reactivates the moment real inventory/tags exist) but hide the card
-  // rather than advertise a category with 0 packages behind it.
-  const SPECULATIVE = ['pilgrimage','cruise','weekend','group'];
+  const grid = document.getElementById('cat-grid');
+
+  // Known categories get a curated icon + display label. Anything else
+  // (which, at 800+ packages, is likely most of them) still gets a card —
+  // just with a generic icon and a title-cased version of the slug —
+  // rather than being silently dropped.
+  const META = {
+    beach:      { icon: '🏖️', label: 'Beach Holidays' },
+    adventure:  { icon: '🧗', label: 'Adventure' },
+    nature:     { icon: '🌴', label: 'Nature & Wildlife' },
+    wildlife:   { icon: '🦁', label: 'Wildlife & Safari' },
+    heritage:   { icon: '🏛️', label: 'Heritage & Culture' },
+    honeymoon:  { icon: '💑', label: 'Honeymoon' },
+    family:     { icon: '👨\u200d👩\u200d👧\u200d👦', label: 'Family Tours' },
+    spiritual:  { icon: '🛕', label: 'Spiritual & Pilgrimage' },
+    cruise:     { icon: '🚢', label: 'Cruise' },
+    group:      { icon: '👥', label: 'Group Tours' },
+  };
+  const DEFAULT_ICON = '🗺️';
+  const titleCase = (s) => s.replace(/[-_]+/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+
+  const cardHtml = (key, count, { icon, label }, href) => `
+    <div class="cat-card" onclick="location.href='${href}'">
+      <div class="cat-icon"><span class="emoji-icon" style="font-size:21px;line-height:1;display:inline-block;vertical-align:middle">${icon}</span></div>
+      <div class="cat-name">${label}</div>
+      <div class="cat-count">${count} Package${count === 1 ? '' : 's'}</div>
+      <div class="cat-link">Explore →</div>
+    </div>`;
 
   try {
     // Must match getPackages()'s is_active filter in supabase.js exactly —
     // otherwise this page counts draft/inactive packages that customers
     // can never actually see on packages.html, which is precisely the
     // fake-inventory problem the site's Active=no discipline exists to prevent.
+    // .limit(5000) is a safety net well above current volume — PostgREST's
+    // default cap is 1000 rows, which 800+ packages would already brush against.
     const { data: packages, error } = await supabase
-      .from('packages').select('category,type,title,description,tags').eq('is_active', true);
+      .from('packages').select('category,type').eq('is_active', true).limit(5000);
     if (error) throw error;
     const all = packages || [];
 
-    const countFor = (key) => {
-      if (KNOWN_CAT.includes(key)) return all.filter(p => p.category === key).length;
-      if (KNOWN_TYPE.includes(key)) return all.filter(p => p.type === key).length;
-      const term = key.toLowerCase();
-      return all.filter(p =>
-        p.title?.toLowerCase().includes(term) ||
-        p.description?.toLowerCase().includes(term) ||
-        p.tags?.some(t => t.toLowerCase().includes(term))
-      ).length;
-    };
+    // Normalize so "Beach", "BEACH ", and "beach" all count as the same
+    // category instead of splitting into separate, half-populated cards —
+    // a real risk across 800+ packages entered over time.
+    const counts = new Map();
+    for (const p of all) {
+      const cat = (p.category || '').trim().toLowerCase();
+      if (!cat) continue;
+      counts.set(cat, (counts.get(cat) || 0) + 1);
+    }
+    const intlCount = all.filter(p => p.type === 'international').length;
 
-    [...KNOWN_CAT, ...KNOWN_TYPE, ...TEXT_FALLBACK, ...SPECULATIVE].forEach(key => {
-      const el = document.getElementById('cnt-' + key);
-      if (!el) return;
-      const n = countFor(key);
-      if (SPECULATIVE.includes(key) && n === 0) {
-        el.closest('.cat-card').style.display = 'none';
-        return;
-      }
-      el.textContent = `${n} Package${n === 1 ? '' : 's'}`;
-    });
+    const cards = [];
+    if (intlCount > 0) {
+      cards.push({ key: 'international', count: intlCount, meta: { icon: '🌍', label: 'International' },
+        href: '/pages/packages.html?filter=international' });
+    }
+    [...counts.entries()]
+      .sort((a, b) => b[1] - a[1]) // most-stocked categories first
+      .forEach(([cat, count]) => {
+        cards.push({
+          key: cat, count,
+          meta: META[cat] || { icon: DEFAULT_ICON, label: titleCase(cat) },
+          href: `/pages/packages.html?filter=${encodeURIComponent(cat)}`
+        });
+      });
+
+    grid.innerHTML = cards.length
+      ? cards.map(c => cardHtml(c.key, c.count, c.meta, c.href)).join('')
+      : '<div style="grid-column:1/-1;text-align:center;color:#8896AB;padding:40px 0">No active packages yet — check back soon.</div>';
   } catch (e) {
-    console.warn('[tour-category] falling back to "View Packages" — could not load live counts:', e.message);
-    // Can't verify real counts, so err toward hiding unverified speculative
-    // cards rather than risk showing a fake-looking "View Packages" on a
-    // category that doesn't exist.
-    document.querySelectorAll('[data-speculative]').forEach(el => el.style.display = 'none');
-    document.querySelectorAll('.cat-count').forEach(el => el.textContent = 'View Packages');
+    console.warn('[tour-category] could not load categories:', e.message);
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:#8896AB;padding:40px 0">
+      Couldn't load categories right now. <a href="/pages/packages.html" style="color:#C9922A;font-weight:700">Browse all packages →</a></div>`;
   }
 </script>
 </body>
