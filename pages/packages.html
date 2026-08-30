@@ -244,11 +244,29 @@ async function loadPackages() {
       const wl = await getWishlist();
       wl.forEach(p => wishlistIds.add(p.id));
     }
+    syncCategoryPills();
     applyFilters();
   } catch(e) {
     allPkgs = STATIC_PACKAGES;
+    syncCategoryPills();
     applyFilters();
   }
+}
+
+// Category pills are static markup, but not every listed category has a
+// real package behind it yet (e.g. "Wildlife"/"Spiritual" were never
+// actually assigned to any package — clicking them silently returned zero
+// results). Rather than hardcode which pills exist, hide any non-"all"
+// pill whose category has 0 matching packages right now, so the filter
+// list always reflects real inventory and a pill reappears on its own
+// the moment a package is tagged into that category.
+function syncCategoryPills() {
+  document.querySelectorAll('#f-cat .pill[data-v]').forEach(pill => {
+    const v = pill.dataset.v;
+    if (v === 'all') return;
+    const hasAny = allPkgs.some(p => p.category === v);
+    pill.style.display = hasAny ? '' : 'none';
+  });
 }
 
 function applyFilters() {
