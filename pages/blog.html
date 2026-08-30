@@ -65,6 +65,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
 <header class="nav" id="mainNav"></header>
 
 <section class="page-hero">
+  <div id="heroBg" aria-hidden="true" style="position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none"></div>
   <div class="container page-hero-inner">
     <div class="breadcrumb"><a href="/index.html">Home</a><span>›</span><span>Blog</span></div>
     <h1>Travel <em>Blog</em></h1>
@@ -142,6 +143,8 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
 <script src="/assets/js/main.js"></script>
 <script type="module">
 import { supabase } from '/assets/js/supabase.js';
+import { initHeroBackground } from '/assets/js/carousel.js';
+initHeroBackground('blog', 'heroBg');
 
 function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 function fmtDate(d) { try { return new Date(d).toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'}); } catch(_) { return ''; } }

@@ -127,6 +127,7 @@
 
 <!-- HERO -->
 <section class="ref-hero">
+  <div id="heroBg" aria-hidden="true" style="position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none"></div>
   <div class="ref-hero-inner">
     <div class="hero-pill">Referral Program</div>
     <h1>Refer Friends,<br/>Earn <em>Travel Credits</em></h1>
@@ -329,6 +330,8 @@
 
 <script type="module">
 import { supabase, getUser, getProfile } from '../assets/js/supabase.js';
+import { initHeroBackground } from '../assets/js/carousel.js';
+initHeroBackground('referral', 'heroBg');
 
 let userRef  = null;
 let userData = null;

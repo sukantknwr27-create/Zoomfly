@@ -30,7 +30,7 @@
     .av{width:36px;height:36px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:700;color:white;flex-shrink:0}
     .av-info strong{display:block;font-size:.8rem;color:white}
     .av-info span{font-size:.7rem;color:var(--sb-text)}
-    .main{flex:1;margin-left:240px;display:flex;flex-direction:column;min-height:100vh}
+    .main{flex:1;min-width:0;margin-left:240px;display:flex;flex-direction:column;min-height:100vh}
     .topbar{background:white;border-bottom:1px solid var(--border);padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;box-shadow:var(--shadow-sm)}
     .topbar h2{font-size:1.1rem;font-weight:700}
     .topbar-right{display:flex;align-items:center;gap:1rem}
@@ -40,7 +40,7 @@
     .live-dot{width:6px;height:6px;border-radius:50%;background:var(--success);animation:pulse 2s infinite}
     @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
     .btn-add{padding:.5rem 1rem;background:var(--primary);color:#0C1B33;border:none;border-radius:50px;font-family:'Space Grotesk',system-ui;font-size:.8rem;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(201,146,42,.28)}
-    .content{padding:1.75rem 2rem;flex:1}
+    .content{padding:1.75rem 2rem;flex:1;min-width:0}
     .section{display:none}.section.active{display:block;animation:fi .25s ease}
     @keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
     .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;margin-bottom:1.75rem}
@@ -188,7 +188,7 @@ setTimeout(function() {
     <div class="nav-item" onclick="show('reminders',this)"><span class="icon"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">🔔</span></span> Reminders</div>
     <div class="nav-item" onclick="show('site-settings',this)"><span class="icon"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">⚙️</span></span> Site Settings</div>
     <div class="sb-sec" style="margin-top:.5rem">Other</div>
-    <div class="nav-item" onclick="window.open('/index.html','_blank')"><span class="icon"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">🔗</span></span> View Website</div>
+    <div class="nav-item" onclick="window.open('https://www.zoomfly.in/','_blank')"><span class="icon"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">🔗</span></span> View Website</div>
     <div class="nav-item" onclick="doLogout()"><span class="icon"><span class="emoji-icon" style="font-size:12px;line-height:1;display:inline-block;vertical-align:middle">🚪</span></span> Log Out</div>
   </nav>
   <div class="sb-footer">
@@ -821,7 +821,7 @@ setTimeout(function() {
           <div><label style="font-size:.75rem;font-weight:700;display:block;margin-bottom:.35rem">Category</label>
             <select id="pm-cat" style="width:100%;padding:.65rem;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit">
               <option>adventure</option><option>beach</option><option>nature</option><option>heritage</option>
-              <option>honeymoon</option><option>family</option><option>spiritual</option><option>wildlife</option><option>international</option>
+              <option>honeymoon</option><option>family</option><option>spiritual</option><option>wildlife</option>
             </select>
           </div>
         </div>
@@ -959,7 +959,7 @@ setTimeout(function() {
           </div>
         </div>
         <div class="loading" id="sub-load"><div class="spinner"></div></div>
-        <table><thead><tr><th>Email</th><th>Subscribed On</th><th>Source</th><th>Status</th></tr></thead><tbody id="sub-tbody"></tbody></table>
+        <table><thead><tr><th>Email</th><th>Subscribed On</th><th>Source</th><th>Status</th><th>Actions</th></tr></thead><tbody id="sub-tbody"></tbody></table>
       </div>
     </div>
 
@@ -1376,6 +1376,16 @@ setTimeout(function() {
             <option value="trains">Trains</option>
             <option value="hotels">Hotels</option>
             <option value="vendor">Vendor Landing (Partner With Us)</option>
+            <option value="about">About</option>
+            <option value="blog">Blog</option>
+            <option value="faq">FAQ</option>
+            <option value="contact">Contact</option>
+            <option value="careers">Careers</option>
+            <option value="loyalty">Loyalty / Rewards</option>
+            <option value="referral">Referral</option>
+            <option value="group-booking">Group Booking</option>
+            <option value="co-travellers">Co-Travellers (My Account)</option>
+            <option value="trip-tracker">Trip Tracker (My Account)</option>
           </select>
           <p style="font-size:.75rem;color:#94a3b8;margin-top:6px">Each page has its own separate set of photos — adding photos here does not affect any other page.</p>
           <p id="hb-banner-warning" style="display:none;font-size:.75rem;color:#b45309;background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:8px 10px;margin-top:8px">
@@ -4807,6 +4817,7 @@ function renderBookingsTable() {
         <button class="bs" onclick="whatsappBkCustomer('${esc((b.customer_whatsapp||b.customer_phone||'').toString())}','${esc(b.booking_ref)}','${esc(b.customer_name||'')}')">WhatsApp</button>
         <button class="bs" onclick="openBkStatusModal('${b.id}')">Status</button>
         ${b.status!=='cancelled' && b.status!=='completed' ? `<button class="bs" style="color:#dc2626" onclick="quickCancelBk('${b.id}')">✕</button>` : ''}
+        <button class="bs" style="color:#dc2626" onclick="deleteBooking('${b.id}','${esc(b.booking_ref)}')" title="Permanently delete">Delete</button>
       </div></td>
     </tr>`).join('');
   renderBkPagination(total);
@@ -4874,6 +4885,7 @@ window.openBkDrawer = (bookingId) => {
     <button class="btn-add" style="background:#25D366;color:#fff" onclick="whatsappBkCustomer('${esc((b.customer_whatsapp||b.customer_phone||'').toString())}','${esc(b.booking_ref)}','${esc(b.customer_name||'')}')">WhatsApp</button>
     <button class="btn-add" onclick="openBkStatusModal('${b.id}')">Update Status</button>
     <button class="btn-add" style="background:#dc2626;color:#fff" onclick="quickCancelBk('${b.id}')">Cancel</button>
+    <button class="btn-add" style="background:#fff;color:#dc2626;border:1.5px solid #dc2626" onclick="deleteBooking('${b.id}','${esc(b.booking_ref)}')">Delete</button>
   `;
 };
 window.closeBkDrawer = () => {
@@ -4941,6 +4953,30 @@ window.quickCancelBk = async (bookingId) => {
   const b = allBookingsFull.find(x => x.id === bookingId);
   if (!confirm(`Cancel booking ${b?.booking_ref}? This cannot be undone.`)) return;
   await updateBkStatus(bookingId, 'cancelled', 'Cancelled by admin');
+};
+
+// Hard-deletes the booking row itself — NOT the same as Cancel. Use this
+// only for junk/test/duplicate entries. Real customer bookings should
+// normally be Cancelled (keeps the record for accounting/audit) rather
+// than deleted. The database will refuse (and this will show an error)
+// if the booking already has an agent commission or loyalty points
+// recorded against it — that protects payout/loyalty history from
+// silently going out of sync. Flight/rail ticketing-queue rows attached
+// to this booking ARE removed along with it, so don't delete a booking
+// that already has a real ticket issued through the rail queue.
+window.deleteBooking = async (bookingId, ref) => {
+  if (!confirm(`Permanently delete booking ${ref}?\n\nThis removes the booking record entirely — use "Cancel" instead if you just want to mark it as not going ahead. This cannot be undone.`)) return;
+  try {
+    const { error } = await supabase.from('bookings').delete().eq('id', bookingId);
+    if (error) throw error;
+    allBookingsFull = allBookingsFull.filter(b => b.id !== bookingId);
+    filteredBookingsFull = filteredBookingsFull.filter(b => b.id !== bookingId);
+    renderBookingStats(); renderBookingsTable(); closeBkDrawer();
+    if (typeof wfFiltered !== 'undefined') { wfFiltered = wfFiltered.filter(b => b.id !== bookingId); renderWorkflowBoard(); }
+    toast('Booking deleted');
+  } catch(e) {
+    toast('Could not delete — ' + e.message, 'error');
+  }
 };
 
 window.whatsappBkCustomer = (phone, ref, name) => {
@@ -5058,6 +5094,7 @@ function renderWorkflowCard(b, col) {
       <div style="display:flex;gap:4px" onclick="event.stopPropagation()">
         <button class="bs" onclick="whatsappBkCustomer('${esc((b.customer_whatsapp||b.customer_phone||'').toString())}','${esc(b.booking_ref)}','${esc(b.customer_name||'')}')">WhatsApp</button>
         ${next ? `<button class="bs" style="flex:1" onclick="wfMoveCard('${b.id}','${next}')">→ ${capitalize(next)}</button>` : ''}
+        <button class="bs" style="color:#dc2626" onclick="deleteBooking('${b.id}','${esc(b.booking_ref)}')" title="Delete">✕</button>
       </div>
     </div>`;
 }
@@ -5092,6 +5129,7 @@ function wfTimeAgo(d) {
 window.openAddPackage = () => {
   document.getElementById('pkg-modal-title').textContent = 'Add New Package';
   _origClearFields();
+  document.getElementById('pm-cat').querySelector('option[data-legacy]')?.remove();
   document.getElementById('pm-type').value = 'domestic';
   document.getElementById('pm-cat').value = 'adventure';
   document.getElementById('pm-price').value = '';
@@ -5111,7 +5149,21 @@ window.editPackage = async (id) => {
   document.getElementById('pm-title').value = p.title || '';
   document.getElementById('pm-slug').value = p.slug || '';
   document.getElementById('pm-type').value = p.type || 'domestic';
-  document.getElementById('pm-cat').value = p.category || 'adventure';
+  // 'international' used to be a selectable Category here too (removed —
+  // Type already covers it, and having it in both was how a package could
+  // end up correctly typed but invisibly mis-categorized). Older packages
+  // may still have that value stored. Rather than silently falling back
+  // to 'adventure' — which would overwrite it the moment this form is
+  // saved without the admin noticing — inject it as a one-off option so
+  // it's visibly preserved until a real category is consciously chosen.
+  const catSel = document.getElementById('pm-cat');
+  catSel.querySelector('option[data-legacy]')?.remove();
+  if (p.category && ![...catSel.options].some(o => o.value === p.category)) {
+    const legacyOpt = new Option(`${p.category} (legacy — pick a real category)`, p.category);
+    legacyOpt.setAttribute('data-legacy', '1');
+    catSel.add(legacyOpt);
+  }
+  catSel.value = p.category || 'adventure';
   document.getElementById('pm-price').value = p.price || '';
   document.getElementById('pm-old-price').value = p.old_price || '';
   document.getElementById('pm-days').value = p.duration_days || '';
@@ -5414,6 +5466,7 @@ window.renderVendorTable = () => {
         <button class="bs" onclick="waVendorContact('${esc(v.phone||'')}','${esc(v.business_name||'')}')">WhatsApp</button>
         ${v.status==='active'?`<button class="bs" style="color:#f59e0b" onclick="suspendVendor('${v.id}')">Suspend</button>`:''}
         ${v.status==='pending'?`<button class="bs" style="color:#dc2626" onclick="rejectVendor('${v.id}')">✕</button>`:''}
+        <button class="bs" style="color:#dc2626" onclick="deleteVendor('${v.id}','${esc(v.business_name||'')}')" title="Permanently delete">Delete</button>
       </div></td>
     </tr>`).join('');
 };
@@ -5467,7 +5520,7 @@ window.openVDrawer = (id) => {
       </div>`).join('') : ''}
     <textarea id="v-admin-note" placeholder="Add admin note (for approval/rejection reason)..." style="width:100%;padding:9px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-family:inherit;box-sizing:border-box;margin-top:12px" rows="2"></textarea>
   `;
-  document.getElementById('v-drawer-foot').innerHTML = v.status==='pending' ? `
+  document.getElementById('v-drawer-foot').innerHTML = (v.status==='pending' ? `
       <button class="btn-add" style="background:#16a34a;color:#fff" onclick="approveVendor('${v.id}')">Approve Vendor</button>
       <button class="btn-add" style="background:#dc2626;color:#fff" onclick="rejectVendor('${v.id}')">Reject</button>`
     : v.status==='active' ? `
@@ -5475,7 +5528,8 @@ window.openVDrawer = (id) => {
       <button class="btn-add" style="background:#f59e0b" onclick="suspendVendor('${v.id}')">Suspend</button>`
     : `
       <button class="btn-add" style="background:#16a34a;color:#fff" onclick="approveVendor('${v.id}')">Re-Activate</button>
-      <button class="btn-add" style="background:#25D366;color:#fff" onclick="waVendorContact('${esc(v.phone||'')}','${esc(v.business_name||'')}')">WhatsApp</button>`;
+      <button class="btn-add" style="background:#25D366;color:#fff" onclick="waVendorContact('${esc(v.phone||'')}','${esc(v.business_name||'')}')">WhatsApp</button>`)
+    + `<button class="btn-add" style="background:#fff;color:#dc2626;border:1.5px solid #dc2626" onclick="deleteVendor('${v.id}','${esc(v.business_name||'')}')">Delete</button>`;
 };
 window.closeVDrawer = () => {
   document.getElementById('v-drawer-overlay').style.display = 'none';
@@ -5590,6 +5644,30 @@ window.waVendorContact = (phone, name) => {
   const ph = sanitizeVPhone(phone);
   const msg = `Hi ${name}! This is the ZoomFly team. We wanted to get in touch regarding your vendor account.`;
   window.open(`https://wa.me/${ph}?text=${encodeURIComponent(msg)}`, '_blank');
+};
+
+// Hard-deletes the vendor. Unlike Suspend (which keeps the record and
+// can be undone), this is permanent — use Suspend for vendors you might
+// re-activate later. Vendor payout records are linked with ON DELETE
+// CASCADE in the DB, so deleting a vendor with payout history deletes
+// that history too; this checks first and says so plainly before you
+// confirm, rather than losing it silently.
+window.deleteVendor = async (id, name) => {
+  let warn = '';
+  try {
+    const { count } = await supabase.from('vendor_payouts').select('id', { count: 'exact', head: true }).eq('vendor_id', id);
+    if (count > 0) warn = `\n\n⚠️ This vendor has ${count} payout record${count!==1?'s':''} — deleting the vendor will also permanently delete that payout history.`;
+  } catch(_) { /* vendor_payouts table check is best-effort */ }
+  if (!confirm(`Permanently delete vendor "${name}"?${warn}\n\nThis cannot be undone. Use Suspend instead if you might re-activate them later.`)) return;
+  try {
+    const { error } = await supabase.from('vendors').delete().eq('id', id);
+    if (error) throw error;
+    allVendorsFull = allVendorsFull.filter(v => v.id !== id);
+    renderVendorStats(); renderVendorTable(); closeVDrawer();
+    toast('Vendor deleted');
+  } catch(e) {
+    toast('Could not delete — ' + e.message, 'error');
+  }
 };
 
 window.exportVendorsCSV = () => {
@@ -5862,6 +5940,7 @@ window.renderAgentsTable = () => {
         <button class="bs" style="color:#16a34a" onclick="processAgentPayout('${a.id}')">Pay Out</button>
         <button class="bs" onclick="waAgentContact('${esc(a.phone||'')}','${esc(a.full_name||'')}')">WhatsApp</button>
         ${a.status==='active'?`<button class="bs" style="color:#f59e0b" onclick="suspendAgent('${a.id}')">Suspend</button>`:''}
+        <button class="bs" style="color:#dc2626" onclick="deleteAgent('${a.id}','${esc(a.full_name||'')}')" title="Permanently delete">Delete</button>
       </div></td>
     </tr>`;
   }).join('');
@@ -5979,6 +6058,7 @@ window.openAgDrawer = (id) => {
     ${pendAmt>=500?`<button class="btn-add" style="background:#16a34a;color:#fff" onclick="processAgentPayout('${a.id}',true)">Process Payout ₹${fmtAmt(pendAmt-tds)}</button>`:''}
     <button class="btn-add" style="background:#25D366;color:#fff" onclick="waAgentContact('${esc(a.phone||'')}','${esc(a.full_name||'')}')">WhatsApp</button>
     ${a.status==='active'?`<button class="btn-add" style="background:#f59e0b" onclick="suspendAgent('${a.id}')">Suspend</button>`:''}
+    <button class="btn-add" style="background:#fff;color:#dc2626;border:1.5px solid #dc2626" onclick="deleteAgent('${a.id}','${esc(a.full_name||'')}')">Delete</button>
   `;
 };
 window.closeAgDrawer = () => {
@@ -6049,6 +6129,24 @@ window.waAgentContact = (phone, name) => {
   const ph = sanitizeAgPhone(phone);
   const msg = `Hi ${name}! This is ZoomFly regarding your agent account. How can we help?`;
   window.open(`https://wa.me/${ph}?text=${encodeURIComponent(msg)}`, '_blank');
+};
+
+// Hard-deletes the agent. The database will refuse (error shown below)
+// if this agent already has commission or payout records — that's a
+// safety net, not a bug: it stops a paid/earning agent's financial
+// trail from disappearing. Use Suspend for agents you're deactivating;
+// Delete is really for duplicate/test entries with no history.
+window.deleteAgent = async (id, name) => {
+  if (!confirm(`Permanently delete agent "${name}"?\n\nThis cannot be undone. Use Suspend instead if you might reactivate them, or if they have any commission/payout history.`)) return;
+  try {
+    const { error } = await supabase.from('agents').delete().eq('id', id);
+    if (error) throw error;
+    allAgentsFull = allAgentsFull.filter(a => a.id !== id);
+    renderAgentStats(); renderAgentsTable(); closeAgDrawer();
+    toast('Agent deleted');
+  } catch(e) {
+    toast('Could not delete — likely has commission/payout history. ' + e.message, 'error');
+  }
 };
 
 window.exportAgentsCSV = () => {
@@ -6130,6 +6228,7 @@ function renderCustomerTable(customers) {
           <button class="bs bv" onclick="openCustPanel('${c.id}')">View</button>
           <button class="bs" onclick="window.open('https://wa.me/${(c.phone||'').replace(/\\D/g,'')}')" ${!c.phone?'disabled':''}>WA</button>
           <button class="bs" onclick="openManualBooking('${c.id}','${esc(c.full_name||'')}','${esc(c.phone||'')}','${esc(c.email||'')}')" style="color:#C9922A">+ Book</button>
+          <button class="bs" style="color:#dc2626" onclick="deleteCustomer('${c.id}','${esc(c.full_name||c.email||'this customer')}')" title="Permanently delete">Delete</button>
         </div>
       </td>
     </tr>`).join('');
@@ -6161,6 +6260,53 @@ window.closeCustPanel = () => {
   document.getElementById('cust-overlay').style.display = 'none';
 };
 
+// Two delete options, since they mean different things:
+//
+// 1. "Delete Profile" — removes the `profiles` row only (client-side,
+//    anon key). The customer's Supabase Auth login (email/password or
+//    OTP identity) stays intact — they could still technically log
+//    in, just with no profile data. Bookings are kept (user_id set to
+//    NULL, not deleted). This is the fast, low-stakes option for
+//    cleaning up a stale/duplicate profile row.
+//
+// 2. "Delete Account (Full)" — true right-to-erasure via the
+//    `delete-customer-account` Edge Function, which uses the
+//    service_role key (never exposed here) to delete the actual
+//    auth.users row. That cascades the profile and everything else
+//    tied to it automatically; bookings are still kept, same as
+//    above. Use this one for real erasure requests.
+window.deleteCustomer = async (id, name) => {
+  const full = confirm(
+    `Delete "${name}"?\n\n` +
+    `OK = Full account deletion (removes their login too — true right-to-erasure). Recommended for real deletion requests.\n` +
+    `Cancel = choose "Delete Profile Only" instead if you just want to tidy up a stale profile row without touching their login.\n\n` +
+    `Either way, their past bookings are kept for accounting records. This cannot be undone.`
+  );
+  if (!full) {
+    if (!confirm(`Delete PROFILE ONLY for "${name}"? Their login account will remain active. This cannot be undone.`)) return;
+    try {
+      const { error } = await supabase.from('profiles').delete().eq('id', id);
+      if (error) throw error;
+      allCustomersFull = allCustomersFull.filter(c => c.id !== id);
+      renderCustomerStats(); renderCustomerTable(allCustomersFull); closeCustPanel();
+      toast('Customer profile deleted (login account still active)');
+    } catch(e) {
+      toast('Could not delete — ' + e.message, 'error');
+    }
+    return;
+  }
+  try {
+    const { data, error } = await supabase.functions.invoke('delete-customer-account', { body: { userId: id } });
+    if (error) throw error;
+    if (!data?.success) throw new Error(data?.message || 'Unknown error');
+    allCustomersFull = allCustomersFull.filter(c => c.id !== id);
+    renderCustomerStats(); renderCustomerTable(allCustomersFull); closeCustPanel();
+    toast('Customer account fully deleted');
+  } catch(e) {
+    toast('Could not delete account — ' + e.message, 'error');
+  }
+};
+
 function renderCustPanelBody(c) {
   const bks = c._bookings || [];
   return `
@@ -6184,6 +6330,7 @@ function renderCustPanelBody(c) {
       ${c.email?`<a href="mailto:${esc(c.email)}" class="bs" style="text-decoration:none">Email</a>`:''}
       <button class="bs" onclick="openManualBooking('${c.id}','${esc(c.full_name||'')}','${esc(c.phone||'')}','${esc(c.email||'')}')" style="color:#C9922A">+ New Booking</button>
       <button class="bs" onclick="generatePaymentLink('${c.id}','${esc(c.full_name||'')}','${esc(c.phone||'')}','${esc(c.email||'')}')">Payment Link</button>
+      <button class="bs" style="color:#dc2626" onclick="deleteCustomer('${c.id}','${esc(c.full_name||c.email||'this customer')}')">Delete Customer</button>
     </div>
     <div style="font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#94a3b8;margin-bottom:10px">Booking History (${bks.length})</div>
     ${bks.length ? bks.map(b => `
@@ -6505,7 +6652,7 @@ async function loadSubscribers() {
     load.style.display = 'none';
 
     if (error?.code === '42P01') {
-      document.getElementById('sub-tbody').innerHTML = `<tr><td colspan="4" style="text-align:center;padding:2rem">
+      document.getElementById('sub-tbody').innerHTML = `<tr><td colspan="5" style="text-align:center;padding:2rem">
         <div style="font-size:.88rem;color:#92400e;background:#fef3c7;border-radius:10px;padding:14px 16px;display:inline-block">
            newsletter_subscribers table missing.<br/>
           <strong>Run in Supabase SQL Editor:</strong><br/>
@@ -6519,7 +6666,7 @@ async function loadSubscribers() {
       return;
     }
     if (!data?.length) {
-      document.getElementById('sub-tbody').innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--muted);padding:2rem">No subscribers yet — they appear here after signing up on the homepage.</td></tr>';
+      document.getElementById('sub-tbody').innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:2rem">No subscribers yet — they appear here after signing up on the homepage.</td></tr>';
       return;
     }
     document.getElementById('sub-tbody').innerHTML = data.map(s => `
@@ -6528,10 +6675,11 @@ async function loadSubscribers() {
         <td style="font-size:.78rem;color:var(--muted)">${new Date(s.created_at).toLocaleString('en-IN',{day:'numeric',month:'short',year:'numeric'})}</td>
         <td>${esc(s.source || 'Website')}</td>
         <td>${pill(s.status || 'active')}</td>
+        <td><button class="bs" style="color:#dc2626" onclick="deleteSubscriber('${s.id}','${esc(s.email)}')">Delete</button></td>
       </tr>`).join('');
   } catch(e) {
     load.style.display = 'none';
-    document.getElementById('sub-tbody').innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--muted);padding:2rem">No newsletter_subscribers table yet. Run the schema SQL in Supabase.</td></tr>';
+    document.getElementById('sub-tbody').innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:2rem">No newsletter_subscribers table yet. Run the schema SQL in Supabase.</td></tr>';
   }
 }
 
@@ -6545,6 +6693,16 @@ window.exportSubscribers = async () => {
     const a = document.createElement('a'); a.href = url; a.download = 'zoomfly-subscribers.csv'; a.click();
     toast('Subscribers exported!');
   } catch(e) { toast('Export failed: ' + e.message, 'error'); }
+};
+
+window.deleteSubscriber = async (id, email) => {
+  if (!confirm(`Remove "${email}" from the subscriber list? This cannot be undone.`)) return;
+  try {
+    const { error } = await supabase.from('newsletter_subscribers').delete().eq('id', id);
+    if (error) throw error;
+    toast('Subscriber removed');
+    loadSubscribers();
+  } catch(e) { toast('Could not delete — ' + e.message, 'error'); }
 };
 
 // Actions

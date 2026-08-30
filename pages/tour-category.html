@@ -58,13 +58,13 @@
   // category/type/tag matching logic packages.html itself uses.
   import { supabase } from '/assets/js/supabase.js';
 
-  const KNOWN_CAT  = ['beach','adventure','honeymoon','wildlife','heritage'];
+  const KNOWN_CAT  = ['beach','adventure','honeymoon','wildlife','heritage','family'];
   const KNOWN_TYPE = ['international'];
-  // Everything else (mountains, family, pilgrimage, cruise, weekend, group)
+  // Everything else (mountains, pilgrimage, cruise, weekend, group)
   // isn't a real `category` column value — packages.html falls back to a
   // text search against title/description/tags for these, so we match the
   // same way here for an accurate count.
-  const TEXT_FALLBACK = ['mountains','family','pilgrimage','cruise','weekend','group'];
+  const TEXT_FALLBACK = ['mountains','pilgrimage','cruise','weekend','group'];
 
   try {
     const { data: packages, error } = await supabase

@@ -120,8 +120,6 @@ const redirect = params.get('redirect') || params.get('next') || '/pages/dashboa
 // Already signed in? Don't show the login form — go straight where they were headed.
 getUser().then(user => { if (user) window.location.replace(redirect); }).catch(() => {});
 
-if (params.get('tab') === 'signup') switchTab('signup');
-
 function showMsg(el, text, type) {
   el.textContent = text;
   el.className = 'auth-msg ' + type;
@@ -136,6 +134,13 @@ window.switchTab = (tab) => {
     ? `Don't have an account? <a href="#" onclick="switchTab('signup');return false">Create one</a>`
     : `Already have an account? <a href="#" onclick="switchTab('login');return false">Sign in</a>`;
 };
+
+// Runs AFTER window.switchTab is defined above — calling this any earlier
+// threw a ReferenceError (switchTab is an assignment, not a hoisted
+// function declaration) that silently killed the rest of this module
+// script, so arriving via ?tab=signup meant handleLogin/handleSignup/
+// handleGoogle never got attached to window at all.
+if (params.get('tab') === 'signup') switchTab('signup');
 
 window.handleLogin = async () => {
   const email = document.getElementById('login-email').value.trim();

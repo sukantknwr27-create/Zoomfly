@@ -14,7 +14,8 @@
 <link rel="stylesheet" href="/assets/css/pages.css"/>
   <style>
     body{background:#f8fafc}
-    .hero{background:linear-gradient(135deg,#0f1923,#1a2535);padding:40px 5% 36px;color:#fff}
+    .hero{background:linear-gradient(135deg,#0f1923,#1a2535);padding:40px 5% 36px;color:#fff;position:relative;overflow:hidden}
+    .hero .container{position:relative;z-index:2}
     .hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.4rem,3vw,2rem);font-weight:800;margin-bottom:6px}
     .hero p{color:rgba(255,255,255,.55);font-size:.9rem}
     .container{max-width:900px;margin:0 auto;padding:0 5%}
@@ -62,6 +63,7 @@
 <header class="nav nav-dark" id="mainNav"></header>
 
 <section class="hero">
+  <div id="heroBg" aria-hidden="true" style="position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none"></div>
   <div class="container">
     <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.4);margin-bottom:8px">My Account</div>
     <h1>Co-Travellers & Documents</h1>
@@ -162,6 +164,8 @@
 <script type="module">
 import { supabase, requireAuth, getCotravellers, saveCotraveller, deleteCotraveller,
          getTravelDocuments, saveTravelDocument, getPriceAlerts } from '../assets/js/supabase.js';
+import { initHeroBackground } from '../assets/js/carousel.js';
+initHeroBackground('co-travellers', 'heroBg');
 
 await requireAuth();
 

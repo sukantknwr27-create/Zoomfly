@@ -146,7 +146,7 @@ window.getAgentCode=function(){const m=document.cookie.match(/zf_agent=([^;]+)/)
     <div class="filter-card">
       <div class="fhdr"><h3>Filters</h3><button class="freset" id="reset-btn">Reset All</button></div>
       <div class="fsec"><h4>Trip Type</h4><div class="pill-g" id="f-type"><span class="pill active" data-v="all">All</span><span class="pill" data-v="domestic">Domestic</span><span class="pill" data-v="international">International</span></div></div>
-      <div class="fsec"><h4>Category</h4><div class="pill-g" id="f-cat"><span class="pill active" data-v="all">All</span><span class="pill" data-v="beach">Beach</span><span class="pill" data-v="adventure">Adventure</span><span class="pill" data-v="nature">Nature</span><span class="pill" data-v="heritage">Heritage</span><span class="pill" data-v="honeymoon">Honeymoon</span><span class="pill" data-v="wildlife">Wildlife</span><span class="pill" data-v="spiritual">Spiritual</span></div></div>
+      <div class="fsec"><h4>Category</h4><div class="pill-g" id="f-cat"><span class="pill active" data-v="all">All</span><span class="pill" data-v="beach">Beach</span><span class="pill" data-v="adventure">Adventure</span><span class="pill" data-v="nature">Nature</span><span class="pill" data-v="heritage">Heritage</span><span class="pill" data-v="honeymoon">Honeymoon</span><span class="pill" data-v="family">Family</span><span class="pill" data-v="wildlife">Wildlife</span><span class="pill" data-v="spiritual">Spiritual</span></div></div>
       <div class="fsec"><h4>Duration</h4><div class="pill-g" id="f-dur"><span class="pill active" data-v="all">All</span><span class="pill" data-v="short">Upto 4 Days</span><span class="pill" data-v="medium">5–7 Days</span><span class="pill" data-v="long">8+ Days</span></div></div>
       <div class="fsec"><h4>Max Budget (per person)</h4><div class="range-labels"><span>₹5,000</span><span>₹75,000+</span></div><input type="range" id="budget-r" min="5000" max="75000" step="1000" value="75000"/><div class="range-val" id="budget-lbl">No limit</div></div>
       <div class="fsec"><h4>Rating</h4><div class="pill-g" id="f-rating"><span class="pill active" data-v="all">All</span><span class="pill" data-v="4.5">4.5★+</span><span class="pill" data-v="4.8">4.8★+</span></div></div>
@@ -393,7 +393,7 @@ document.getElementById('reset-btn').addEventListener('click', () => {
   const filterVal = params.get('filter');
   const qVal = params.get('q') || params.get('search');
 
-  const KNOWN_CAT  = ['beach','adventure','nature','heritage','honeymoon','spiritual','wildlife'];
+  const KNOWN_CAT  = ['beach','adventure','nature','heritage','honeymoon','spiritual','wildlife','family'];
   const KNOWN_TYPE = ['domestic','international'];
 
   if (filterVal) {

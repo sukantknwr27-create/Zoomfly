@@ -225,6 +225,7 @@
 <!-- HERO -->
 <section class="hero">
   <div class="hero-bg"></div>
+  <div id="heroBg" aria-hidden="true" style="position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none"></div>
   <div class="hero-grid"></div>
   <div class="hero-content">
     <div class="hero-badge">About ZoomFly</div>
@@ -650,6 +651,8 @@
 
 <script type="module">
 import { supabase } from '/assets/js/supabase.js';
+import { initHeroBackground } from '/assets/js/carousel.js';
+initHeroBackground('about', 'heroBg');
 function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
 // Values grid used to be hand-typed with no admin hook — now pulled from

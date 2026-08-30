@@ -261,6 +261,7 @@
 
 <!-- HERO -->
 <section class="hero">
+  <div id="heroBg" aria-hidden="true" style="position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none"></div>
   <div class="hero-inner">
     <div class="hero-badge">Group Travel Specialists</div>
     <h1>Travel Together,<br/><span>Save More.</span></h1>
@@ -683,6 +684,8 @@
 <script src="/assets/js/main.js"></script>
 <script type="module">
 import { supabase } from '../assets/js/supabase.js';
+import { initHeroBackground } from '../assets/js/carousel.js';
+initHeroBackground('group-booking', 'heroBg');
 const WA_NUMBER    = '918076136300';
 
 function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }

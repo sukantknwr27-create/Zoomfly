@@ -26,7 +26,7 @@
       padding:80px 5% 72px;position:relative;overflow:hidden;}
     .hero::before{content:'✦';position:absolute;font-size:400px;right:-60px;top:-60px;
       color:rgba(245,158,11,0.04);line-height:1;}
-    .hero-inner{max-width:1100px;margin:0 auto;display:grid;
+    .hero-inner{max-width:1100px;margin:0 auto;display:grid;position:relative;z-index:2;
       grid-template-columns:1fr 380px;gap:48px;align-items:center;}
     .hero-badge{display:inline-flex;align-items:center;gap:8px;
       background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.3);
@@ -228,6 +228,7 @@
 
 <!-- HERO -->
 <section class="hero">
+  <div id="heroBg" aria-hidden="true" style="position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none"></div>
   <div class="hero-inner">
     <div>
       <div class="hero-badge">ZoomFly Rewards</div>
@@ -455,6 +456,8 @@
 <script src="/assets/js/main.js"></script>
 <script type="module">
 import { supabase } from '../assets/js/supabase.js';
+import { initHeroBackground } from '../assets/js/carousel.js';
+initHeroBackground('loyalty', 'heroBg');
 const WA_NUMBER    = '918076136300';
 
 const TIER_CONFIG = {
