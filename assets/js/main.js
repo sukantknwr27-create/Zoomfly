@@ -375,7 +375,7 @@ function renderFooter() {
       <a href="/pages/hotels.html">Hotels</a>
       <a href="/pages/bus.html">Bus Booking</a>
       <a href="/pages/packages.html?filter=honeymoon">Honeymoon Packages</a>
-      <a href="/pages/packages.html?filter=group">Group Tours</a>
+      <a href="/pages/group-booking.html">Group Tours</a>
       <a href="/pages/destinations.html?filter=weekend">Weekend Getaways</a>
       <a href="/pages/contact.html">Visa Assistance</a>
     </div>
